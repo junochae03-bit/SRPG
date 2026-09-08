@@ -1,0 +1,2 @@
+# Keep runtime hashes and imported source bytes stable on every platform.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

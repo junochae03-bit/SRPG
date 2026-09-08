@@ -1,0 +1,966 @@
+{
+  "version": 5,
+  "roll_mode": "independent_per_entry",
+  "note": "Independent personal-game drop tables for every monster; all listed chances roll independently, not a shared weighted pool.",
+  "monsters": {
+    "shade": [
+      {
+        "key": "seed",
+        "chance": 0.6,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.05,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "sword",
+        "chance": 0.04,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 0
+      },
+      {
+        "key": "staff",
+        "chance": 0.03,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "head",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 0
+      },
+      {
+        "key": "feet",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "feet",
+        "rarity": 0
+      },
+      {
+        "key": "accessory",
+        "chance": 0.01,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 1
+      },
+      {
+        "key": "rare_staff",
+        "chance": 0.008,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      }
+    ],
+    "imp": [
+      {
+        "key": "seed",
+        "chance": 0.5,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "ore",
+        "chance": 0.2,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.06,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "axe",
+        "chance": 0.04,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 0
+      },
+      {
+        "key": "bow",
+        "chance": 0.04,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "chest",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 0
+      },
+      {
+        "key": "hands",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "hands",
+        "rarity": 0
+      },
+      {
+        "key": "legs",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "legs",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.008,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "warden": [
+      {
+        "key": "rare_weapon",
+        "chance": 1.0,
+        "kind": "weapon",
+        "weapons": [
+          "sword",
+          "axe",
+          "bow",
+          "staff"
+        ],
+        "rarity": 2
+      },
+      {
+        "key": "ore",
+        "chance": 1.0,
+        "kind": "material",
+        "material": "ore",
+        "amount": 3
+      },
+      {
+        "key": "potion",
+        "chance": 0.75,
+        "kind": "consumable",
+        "amount": 2
+      },
+      {
+        "key": "essence",
+        "chance": 0.5,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "rare_head",
+        "chance": 0.1,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 2
+      },
+      {
+        "key": "rare_chest",
+        "chance": 0.15,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 2
+      },
+      {
+        "key": "rare_accessory",
+        "chance": 0.1,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 2
+      }
+    ],
+    "fairy": [
+      {
+        "key": "seed",
+        "chance": 0.48,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.057,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "bow",
+        "chance": 0.055,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "hands",
+        "chance": 0.035,
+        "kind": "armor",
+        "slot": "hands",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.006,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "beetle": [
+      {
+        "key": "ore",
+        "chance": 0.62,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.053,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "axe",
+        "chance": 0.045,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 1
+      },
+      {
+        "key": "chest",
+        "chance": 0.05,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 0
+      },
+      {
+        "key": "rare_axe",
+        "chance": 0.008,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 2
+      }
+    ],
+    "bat": [
+      {
+        "key": "seed",
+        "chance": 0.38,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.055,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "sword",
+        "chance": 0.05,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 1
+      },
+      {
+        "key": "feet",
+        "chance": 0.04,
+        "kind": "armor",
+        "slot": "feet",
+        "rarity": 0
+      },
+      {
+        "key": "rare_sword",
+        "chance": 0.009,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 2
+      }
+    ],
+    "mole": [
+      {
+        "key": "ore",
+        "chance": 0.45,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.065,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "axe",
+        "chance": 0.075,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 1
+      },
+      {
+        "key": "hands",
+        "chance": 0.045,
+        "kind": "armor",
+        "slot": "hands",
+        "rarity": 0
+      },
+      {
+        "key": "rare_axe",
+        "chance": 0.01,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 2
+      }
+    ],
+    "clockwork": [
+      {
+        "key": "ore",
+        "chance": 0.68,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.063,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "sword",
+        "chance": 0.07,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 1
+      },
+      {
+        "key": "head",
+        "chance": 0.055,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 0
+      },
+      {
+        "key": "rare_sword",
+        "chance": 0.012,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 2
+      }
+    ],
+    "spellbook": [
+      {
+        "key": "essence",
+        "chance": 0.17,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.061,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "staff",
+        "chance": 0.065,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "accessory",
+        "chance": 0.035,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 0
+      },
+      {
+        "key": "rare_staff",
+        "chance": 0.012,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      }
+    ],
+    "fox": [
+      {
+        "key": "seed",
+        "chance": 0.46,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.063,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "bow",
+        "chance": 0.07,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "legs",
+        "chance": 0.055,
+        "kind": "armor",
+        "slot": "legs",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.01,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "ember_slime": [
+      {
+        "key": "ore",
+        "chance": 0.36,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.053,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "staff",
+        "chance": 0.045,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "chest",
+        "chance": 0.025,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 0
+      },
+      {
+        "key": "rare_staff",
+        "chance": 0.009,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      }
+    ],
+    "frost_slime": [
+      {
+        "key": "essence",
+        "chance": 0.15,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.059,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "staff",
+        "chance": 0.06,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "head",
+        "chance": 0.03,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 0
+      },
+      {
+        "key": "rare_staff",
+        "chance": 0.011,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      }
+    ],
+    "cave_bat": [
+      {
+        "key": "seed",
+        "chance": 0.3,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.051,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "bow",
+        "chance": 0.04,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "feet",
+        "chance": 0.035,
+        "kind": "armor",
+        "slot": "feet",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.006,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "rat": [
+      {
+        "key": "seed",
+        "chance": 0.32,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.045,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "sword",
+        "chance": 0.025,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 1
+      },
+      {
+        "key": "feet",
+        "chance": 0.02,
+        "kind": "armor",
+        "slot": "feet",
+        "rarity": 0
+      },
+      {
+        "key": "rare_sword",
+        "chance": 0.004,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 2
+      }
+    ],
+    "spider": [
+      {
+        "key": "ore",
+        "chance": 0.33,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.057,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "bow",
+        "chance": 0.055,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "hands",
+        "chance": 0.035,
+        "kind": "armor",
+        "slot": "hands",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.008,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "goblin_archer": [
+      {
+        "key": "seed",
+        "chance": 0.44,
+        "kind": "material",
+        "material": "seed",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.061,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "bow",
+        "chance": 0.065,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 1
+      },
+      {
+        "key": "legs",
+        "chance": 0.035,
+        "kind": "armor",
+        "slot": "legs",
+        "rarity": 0
+      },
+      {
+        "key": "rare_bow",
+        "chance": 0.007,
+        "kind": "weapon",
+        "weapon": "bow",
+        "rarity": 2
+      }
+    ],
+    "goblin_shaman": [
+      {
+        "key": "essence",
+        "chance": 0.24,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.067,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "staff",
+        "chance": 0.08,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "accessory",
+        "chance": 0.05,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 0
+      },
+      {
+        "key": "rare_staff",
+        "chance": 0.015,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      }
+    ],
+    "orc_axeman": [
+      {
+        "key": "ore",
+        "chance": 0.55,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.071,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "axe",
+        "chance": 0.09,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 1
+      },
+      {
+        "key": "chest",
+        "chance": 0.055,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 0
+      },
+      {
+        "key": "rare_axe",
+        "chance": 0.016,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 2
+      }
+    ],
+    "skeleton": [
+      {
+        "key": "ore",
+        "chance": 0.4,
+        "kind": "material",
+        "material": "ore",
+        "amount": 1
+      },
+      {
+        "key": "potion",
+        "chance": 0.067,
+        "kind": "consumable",
+        "amount": 1
+      },
+      {
+        "key": "sword",
+        "chance": 0.08,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 1
+      },
+      {
+        "key": "head",
+        "chance": 0.06,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 0
+      },
+      {
+        "key": "rare_sword",
+        "chance": 0.013,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 2
+      }
+    ],
+    "goblin_captain": [
+      {
+        "key": "veteran_weapon",
+        "chance": 1,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 1
+      },
+      {
+        "key": "ore",
+        "chance": 1,
+        "kind": "material",
+        "material": "ore",
+        "amount": 2
+      },
+      {
+        "key": "essence",
+        "chance": 0.22,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "rare_armor",
+        "chance": 0.12,
+        "kind": "armor",
+        "slot": "head",
+        "rarity": 2
+      },
+      {
+        "key": "rare_weapon",
+        "chance": 0.06,
+        "kind": "weapon",
+        "weapon": "sword",
+        "rarity": 2
+      },
+      {
+        "key": "potion",
+        "chance": 0.6,
+        "kind": "consumable",
+        "amount": 2
+      }
+    ],
+    "orc_champion": [
+      {
+        "key": "veteran_weapon",
+        "chance": 1,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 1
+      },
+      {
+        "key": "ore",
+        "chance": 1,
+        "kind": "material",
+        "material": "ore",
+        "amount": 3
+      },
+      {
+        "key": "essence",
+        "chance": 0.35,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "rare_armor",
+        "chance": 0.12,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 2
+      },
+      {
+        "key": "rare_weapon",
+        "chance": 0.06,
+        "kind": "weapon",
+        "weapon": "axe",
+        "rarity": 2
+      },
+      {
+        "key": "potion",
+        "chance": 0.6,
+        "kind": "consumable",
+        "amount": 2
+      }
+    ],
+    "centurion": [
+      {
+        "key": "veteran_weapon",
+        "chance": 1,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 1
+      },
+      {
+        "key": "ore",
+        "chance": 1,
+        "kind": "material",
+        "material": "ore",
+        "amount": 4
+      },
+      {
+        "key": "essence",
+        "chance": 0.5,
+        "kind": "material",
+        "material": "essence",
+        "amount": 1
+      },
+      {
+        "key": "rare_armor",
+        "chance": 0.12,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 2
+      },
+      {
+        "key": "rare_weapon",
+        "chance": 0.06,
+        "kind": "weapon",
+        "weapon": "staff",
+        "rarity": 2
+      },
+      {
+        "key": "potion",
+        "chance": 0.6,
+        "kind": "consumable",
+        "amount": 2
+      }
+    ],
+    "golem": [
+      {
+        "key": "rare_weapon",
+        "chance": 1,
+        "kind": "weapon",
+        "weapons": [
+          "axe",
+          "staff"
+        ],
+        "rarity": 2
+      },
+      {
+        "key": "ore",
+        "chance": 1,
+        "kind": "material",
+        "material": "ore",
+        "amount": 5
+      },
+      {
+        "key": "essence",
+        "chance": 0.7,
+        "kind": "material",
+        "material": "essence",
+        "amount": 2
+      },
+      {
+        "key": "rare_armor",
+        "chance": 0.25,
+        "kind": "armor",
+        "slot": "chest",
+        "rarity": 2
+      },
+      {
+        "key": "potion",
+        "chance": 0.85,
+        "kind": "consumable",
+        "amount": 3
+      }
+    ],
+    "sentinel": [
+      {
+        "key": "rare_weapon",
+        "chance": 1,
+        "kind": "weapon",
+        "weapons": [
+          "sword",
+          "bow"
+        ],
+        "rarity": 2
+      },
+      {
+        "key": "ore",
+        "chance": 1,
+        "kind": "material",
+        "material": "ore",
+        "amount": 6
+      },
+      {
+        "key": "essence",
+        "chance": 0.85,
+        "kind": "material",
+        "material": "essence",
+        "amount": 2
+      },
+      {
+        "key": "rare_armor",
+        "chance": 0.25,
+        "kind": "accessory",
+        "slot": "accessory",
+        "rarity": 2
+      },
+      {
+        "key": "potion",
+        "chance": 0.85,
+        "kind": "consumable",
+        "amount": 3
+      }
+    ]
+  }
+}

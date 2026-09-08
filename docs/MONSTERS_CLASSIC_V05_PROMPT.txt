@@ -1,0 +1,18 @@
+Use case: stylized-concept. Asset type: production ordinary-monster sprite atlas.
+REFERENCE IMAGE is the game's ACCEPTED boss sprite atlas. Use it ONLY as the exact art-style reference: rounded chunky fantasy proportions, clear dark-brown contours, clean cel shading with warm highlights, rich daylight colors, simplified material surfaces. Draw the SAME art style as that reference, with less detail and ornament for weaker ordinary monsters. Do NOT draw bosses or plant-animal hybrids.
+The user explicitly requests FAMILIAR CLASSIC RPG monster species: animals, insects, machines, slime, goblin, orc. No strange invented creatures. They should fit a bright Korean fantasy RPG with anime adventurers and the supplied boss art. Moderately stylized/cartoon, mildly hostile and combat-ready, not overly adorable smiling plush mascots and not grotesque frightening realistic predators. Small simple eyes, no blush, no baby eyes, modest short fangs/claws only, friendly-world colors and rounded silhouettes.
+Create exactly NINE complete sprites in a strict THREE COLUMN by THREE ROW grid, one creature centered in each identical cell. Isometric three-quarter down-right viewing angle. Generous empty margins around all figures so wings/weapons/feet never touch neighbors. No text or labels.
+Exact row-major order:
+Row1:
+1 Classic green SLIME: low rounded translucent jelly body, simple two small dark eyes, gentle glossy highlights, no smiling mouth, no horns, no leaf costume, unmistakable low-level slime.
+2 Classic green GOBLIN: short wiry but compact green-skinned humanoid with pointed ears and a broad short nose, simple leather vest and brown shorts, small wooden buckler and short blunt dagger; neutral mischievous expression, no grotesque face, no giant teeth.
+3 Giant striped BEE/WASP: ochre and dark-brown striped compact abdomen, two small ivory translucent wings, short insect legs, small stinger, alert eyes. Clear insect enemy, no cartoon grin or giant eyeballs.
+Row2:
+4 Armored BEETLE: round slate-blue beetle shell with modest facets, six stout short legs and short mandibles; natural insect silhouette, no huge crystal spikes or horror anatomy.
+5 Wild BOAR: stocky brown boar with broad head, short sturdy legs, round snout and two small ivory tusks; broad warm fur planes, closed mouth, alert guarded stance; no armor or invented mutations.
+6 Classic green ORC: broad stocky green humanoid larger than goblin, short lower tusks, simple leather-and-iron shoulder guard, belt and boots, carrying a modest wooden club; grounded relaxed idle combat stance. Recognizable orc, not a boss, no huge spikes.
+Row3:
+7 MECHANICAL GUARD: squat brass and steel clockwork automaton, enclosed rounded helmet with a blue eye slit, short arms and legs, modest round shield and short spear; simple worn armor panels like the accepted knight boss, no royal halo.
+8 SCOUT DRONE: small hovering spherical brass mechanical construct, one blue lens, two small side rotors, short lower stabilizer, rounded pale-steel armor plates; fantasy clockwork technology, not sci-fi spaceship.
+9 WOLF: sturdy gray-tan wolf with natural four-legged canine silhouette, broad paws, short modest muzzle, rounded fur tufts and relaxed lowered tail; alert closed mouth, no bared teeth, no dagger-shaped mane, not a fluffy pet mascot.
+TECHNICAL BACKGROUND: completely uniform solid PURE MAGENTA #FF00FF outside the characters, for game chroma key. No transparency checkerboard, gradients, landscape, ground shadows, UI, watermark, numbers or additional subjects. Exactly 9 sprites. Each complete body fits its own cell. Keep the accepted boss's CARTOON rendering style consistently across all species.

@@ -1,0 +1,19 @@
+Use case: stylized-concept. Create a NEW companion monster sprite atlas to the attached ACCEPTED reference atlas. Exact same cartoon drawing style, proportions, outline weight, clean cel shading, colors and moderate threat level. The user approved this reference as fitting their RPG perfectly. Do not change style toward realism or adorable plush mascots. This must look like the same artist's next sheet.
+Output exactly 12 complete creatures in THREE COLUMNS by FOUR ROWS, equal cells, generous magenta margins, isometric three-quarter view facing down-right. One isolated character per cell. No scenery, shadows on background, text, labels or numbers. Background is perfectly uniform PURE MAGENTA #FF00FF, no checkerboard.
+Row 1 ordinary slimes and bat:
+1 ember slime: classic low orange-red jelly slime, tiny simple eyes, two small warm glowing embers inside, a few subtle flame-shaped jelly lobes; same size and clean silhouette as reference green slime, no face grin.
+2 frost slime: low pale icy-blue jelly slime, small simple eyes, two tiny frosty crystal knobs and snowflake-like inner glint; clearly a slime variant, not a crystal boss.
+3 cave bat: compact charcoal-purple bat, broad small curved wings, amber eyes, closed mouth, small short claws, rounded body. Classic RPG bat with same cartoon rendering as reference wolf and bee.
+Row 2 ordinary rat, spider and goblin archer:
+4 sewer rat: sturdy brown-gray wild rat with long curved tail, short legs, pointed but not exaggerated snout, guarded expression; no armor or grotesque details.
+5 cave spider: round purple-brown abdomen, eight clearly countable short thick legs, small grouped amber eyes and modest mandibles, classic cartoon monster insect scale, not horror.
+6 goblin archer: same green goblin species and scale as reference, simple leather cap and brown vest, short curved wooden bow held ready and small arrow quiver, distinct ranged posture.
+Row 3 ordinary shaman, orc warrior and skeleton:
+7 goblin shaman: same green goblin species, muted teal hood and simple robe, wooden staff with a pale blue crystal and small charm; modest ordinary minion, no grand boss ornaments.
+8 orc axeman: same reference stocky green orc species, leather harness, small iron shoulder plate and two-handed single-bit axe, stronger ordinary warrior silhouette but not elite scale.
+9 skeleton swordsman: clean ivory stylized animated skeleton, simple rusty helmet and leather belt, short sword and wooden buckler, dark eye sockets with tiny blue glow, no blood, gore or horror textures, same approachable threat level as reference mechanical guard.
+Row 4 ELITES, each visibly one rank above ordinary monsters and below bosses:
+10 goblin captain: larger sturdier reference goblin with red-brown cloak, iron shoulder guard and better short saber, reinforced wooden shield, scar-free stern face, practical veteran armor; no crown, halo or oversized spikes.
+11 orc champion: broad reference orc with dark steel chest harness, blue cloth belt, reinforced gauntlets, large but believable two-handed axe, veteran stance; restrained elite decoration.
+12 clockwork centurion: larger stronger version of reference mechanical guard, ivory/brass layered armor with dark blue cloth tabard, broad rectangular shield and short heavy lance, blue eye slit, modest brass crest; no boss halo, no giant wings.
+KEEP precisely the same rendering style as reference. All complete bodies and equipment fit their own cells. Consistent feet baseline within each row. Ordinary monsters occupy about 75% cell height; elites about 85% cell height. Exactly 12 sprites, 3 columns x4 rows.

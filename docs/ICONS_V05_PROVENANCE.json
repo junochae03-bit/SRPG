@@ -1,0 +1,16 @@
+[
+  {
+    "asset": "active-v05.png",
+    "generated_source": "exec-7dd670cc-acad-4c68-a96a-28f1be432020.png",
+    "sha256": "550aa1e1afec05a71909f0c4a7d743b505b5956078ef41d01b838cc7d87f782b",
+    "frames": 36,
+    "pixels": "unchanged; original alpha retained"
+  },
+  {
+    "asset": "support-v05.png",
+    "generated_source": "exec-8cbd8f3d-d696-4ff2-89d4-d3196bfa142e.png",
+    "sha256": "1f102623875fb74e3c85c052dbd200319588e4a685bb5a83f0210af063e93b60",
+    "frames": 36,
+    "pixels": "unchanged; original alpha retained"
+  }
+]

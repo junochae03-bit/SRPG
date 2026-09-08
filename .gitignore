@@ -1,0 +1,15 @@
+game/.godot/
+runtime/
+artifacts/
+tmp/
+tools/python_deps/
+tools/godot/
+extracted/
+extracted_koongya/
+extracted_sephiria/
+*.pdf
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

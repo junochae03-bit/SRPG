@@ -1,0 +1,56 @@
+{
+  "player": {
+    "health": 120,
+    "damage": 18,
+    "speed": 3.8,
+    "attack_cooldown": 0.48,
+    "attack_range": 1.8,
+    "nova_cooldown": 4.0,
+    "nova_radius": 3.0,
+    "nova_multiplier": 1.7
+  },
+  "enemies": {
+    "shade": {
+      "name": "솜사탕 유령",
+      "health": 52,
+      "damage": 9,
+      "speed": 1.65,
+      "range": 1.1,
+      "xp": 22,
+      "gold": 8,
+      "respawn": 32
+    },
+    "imp": {
+      "name": "장난꾸러기 새싹",
+      "health": 80,
+      "damage": 14,
+      "speed": 1.35,
+      "range": 1.3,
+      "xp": 30,
+      "gold": 12,
+      "respawn": 38
+    },
+    "warden": {
+      "name": "토끼 정원지기",
+      "health": 420,
+      "damage": 28,
+      "speed": 1.05,
+      "range": 2.0,
+      "xp": 130,
+      "gold": 65,
+      "respawn": 75
+    }
+  },
+  "loot": {
+    "bonus_min": [
+      2,
+      6,
+      11
+    ],
+    "bonus_max": [
+      5,
+      10,
+      18
+    ]
+  }
+}

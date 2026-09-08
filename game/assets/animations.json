@@ -1,0 +1,20 @@
+{
+  "hero": {
+    "move": [
+      "res://assets/hero_2294.png",
+      "res://assets/hero_1215.png",
+      "res://assets/hero_1347.png",
+      "res://assets/hero_1141.png"
+    ],
+    "idle": [
+      "res://assets/hero_1238.png",
+      "res://assets/hero_1350.png",
+      "res://assets/hero_1317.png"
+    ],
+    "attack": [
+      "res://assets/hero_1335.png",
+      "res://assets/hero_2326.png",
+      "res://assets/hero_1921.png"
+    ]
+  }
+}

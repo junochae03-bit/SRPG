@@ -1,0 +1,155 @@
+{
+  "gate": {
+    "status": "PASS",
+    "checks": 2510,
+    "results": [
+      {
+        "test": "forest_stability",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "FOREST_STABILITY_PASS fixed_changes=0 smooth_fade=PASS"
+        ]
+      },
+      {
+        "test": "rules",
+        "status": "PASS",
+        "checks": 90,
+        "markers": [
+          "RULE_TESTS checks=90 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_grid",
+        "status": "PASS",
+        "checks": 83,
+        "markers": [
+          "INVENTORY_GRID_TESTS checks=83 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_ui",
+        "status": "PASS",
+        "checks": 17,
+        "markers": [
+          "INVENTORY_UI_TESTS checks=17 failures=0"
+        ]
+      },
+      {
+        "test": "combat",
+        "status": "PASS",
+        "checks": 45,
+        "markers": [
+          "COMBAT_TESTS checks=45 failures=0"
+        ]
+      },
+      {
+        "test": "skills_v04",
+        "status": "PASS",
+        "checks": 204,
+        "markers": [
+          "SKILLS_V04_TESTS checks=204 failures=0"
+        ]
+      },
+      {
+        "test": "loot_v04",
+        "status": "PASS",
+        "checks": 302,
+        "markers": [
+          "LOOT_V04_TESTS checks=302 failures=0"
+        ]
+      },
+      {
+        "test": "single_player",
+        "status": "PASS",
+        "checks": 30,
+        "markers": [
+          "SINGLE_PLAYER_TESTS checks=30 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_ui",
+        "status": "PASS",
+        "checks": 43,
+        "markers": [
+          "EXPANSION_UI_TESTS checks=43 failures=0"
+        ]
+      },
+      {
+        "test": "appearance_v041",
+        "status": "PASS",
+        "checks": 138,
+        "markers": [
+          "APPEARANCE_V041_TESTS checks=138 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_v05",
+        "status": "PASS",
+        "checks": 877,
+        "markers": [
+          "V05_TESTS checks=877 failures=0"
+        ]
+      },
+      {
+        "test": "polish_v05",
+        "status": "PASS",
+        "checks": 271,
+        "markers": [
+          "POLISH_V05_TESTS checks=271 failures=0"
+        ]
+      },
+      {
+        "test": "monsters_v05",
+        "status": "PASS",
+        "checks": 410,
+        "markers": [
+          "MONSTERS_V05_TESTS checks=410 failures=0"
+        ]
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "LEGACY_SAVE_PASS; migration and restart verified"
+        ]
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "LEGACY_SAVE_PASS; migration and restart verified"
+        ]
+      },
+      {
+        "test": "visual_v05",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V05_PASS"
+        ]
+      }
+    ],
+    "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
+    "runtime_files": 162,
+    "runtime_mib": 145.15,
+    "verified_at": "2026-09-09 03:52:00"
+  },
+  "process": {
+    "status": "PASS",
+    "mode": "single-player; no server process",
+    "kills": 6,
+    "distance": 48.6400730758905,
+    "items": 0,
+    "materials": {
+      "seed": 2
+    },
+    "updates": 1385,
+    "restart_persistence": "PASS",
+    "elite_fixture": "A weakened elite is defeated through the attack action; guaranteed gear is picked up and compared after a separate process restart.",
+    "elite_items": 1,
+    "elite_persistence": "PASS"
+  }
+}

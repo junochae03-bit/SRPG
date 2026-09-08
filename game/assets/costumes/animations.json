@@ -1,0 +1,57 @@
+{
+  "witch": {
+    "move": [
+      "res://assets/costumes/witch_1226.png",
+      "res://assets/costumes/witch_1610.png",
+      "res://assets/costumes/witch_1571.png",
+      "res://assets/costumes/witch_2086.png"
+    ],
+    "idle": [
+      "res://assets/costumes/witch_1449.png",
+      "res://assets/costumes/witch_1270.png",
+      "res://assets/costumes/witch_2325.png"
+    ],
+    "attack": [
+      "res://assets/costumes/witch_1299.png",
+      "res://assets/costumes/witch_2022.png",
+      "res://assets/costumes/witch_1529.png",
+      "res://assets/costumes/witch_1419.png"
+    ]
+  },
+  "starlight": {
+    "attack": [
+      "res://assets/costumes/starlight_1183.png",
+      "res://assets/costumes/starlight_1146.png",
+      "res://assets/costumes/starlight_1621.png"
+    ],
+    "move": [
+      "res://assets/costumes/starlight_2321.png",
+      "res://assets/costumes/starlight_2074.png",
+      "res://assets/costumes/starlight_1397.png",
+      "res://assets/costumes/starlight_2411.png"
+    ],
+    "idle": [
+      "res://assets/costumes/starlight_1682.png",
+      "res://assets/costumes/starlight_1430.png",
+      "res://assets/costumes/starlight_2182.png"
+    ]
+  },
+  "celestial": {
+    "move": [
+      "res://assets/costumes/celestial_1338.png",
+      "res://assets/costumes/celestial_1473.png",
+      "res://assets/costumes/celestial_1458.png",
+      "res://assets/costumes/celestial_1945.png"
+    ],
+    "idle": [
+      "res://assets/costumes/celestial_2385.png",
+      "res://assets/costumes/celestial_2200.png",
+      "res://assets/costumes/celestial_1616.png"
+    ],
+    "attack": [
+      "res://assets/costumes/celestial_1914.png",
+      "res://assets/costumes/celestial_1932.png",
+      "res://assets/costumes/celestial_1638.png"
+    ]
+  }
+}

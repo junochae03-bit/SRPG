@@ -1,0 +1,16 @@
+[
+  {
+    "asset": "enemies-classic-v05.png",
+    "source_file": "exec-9dac91bc-b12a-4b30-8600-186f0a8077de.png",
+    "sha256": "05984e46afd046f7da08e796e847e1da2f5af68a19289d55ac86eb5ee8932886",
+    "frames": 9,
+    "pixels": "unchanged; runtime magenta key"
+  },
+  {
+    "asset": "reinforcements-classic-v05.png",
+    "source_file": "exec-67993480-5a38-422f-a21a-55a08794d7d9.png",
+    "sha256": "d0e6a96758a43eb791a945ab11272dd3a017aa8309ec04fd0f4775f7bbd55b74",
+    "frames": 12,
+    "pixels": "unchanged; runtime magenta key"
+  }
+]

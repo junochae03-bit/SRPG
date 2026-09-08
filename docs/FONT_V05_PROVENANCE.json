@@ -1,0 +1,14 @@
+[
+  {
+    "archive": "DNFBitBitv2.zip",
+    "entry": "DNFBitBitv2.ttf",
+    "target": "game/assets/fonts/dnf_bitbit_v2.ttf",
+    "sha256": "eebf8c20fea14a927e74216f972d6484d8a2398efdea356f6d0c5adcae531743"
+  },
+  {
+    "archive": "DNFForgedBlade.zip",
+    "entry": "DNFForgedBlade-Medium.ttf",
+    "target": "game/assets/fonts/dnf_forged_blade_medium.ttf",
+    "sha256": "364ea508e7f58114052406369bc9c6e5c7dfdc09e3693bd20f14ce35aef66af9"
+  }
+]

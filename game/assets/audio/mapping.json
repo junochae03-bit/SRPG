@@ -1,0 +1,87 @@
+{
+  "sword": [
+    "res://assets/audio/sword_0.wav",
+    "res://assets/audio/sword_1.wav",
+    "res://assets/audio/sword_2.wav"
+  ],
+  "axe": [
+    "res://assets/audio/axe_0.wav",
+    "res://assets/audio/axe_1.wav"
+  ],
+  "bow": [
+    "res://assets/audio/bow_0.wav",
+    "res://assets/audio/bow_1.wav"
+  ],
+  "staff": [
+    "res://assets/audio/staff_0.wav",
+    "res://assets/audio/staff_1.wav"
+  ],
+  "heavy": [
+    "res://assets/audio/heavy_0.wav"
+  ],
+  "dodge": [
+    "res://assets/audio/dodge_0.wav",
+    "res://assets/audio/dodge_1.wav",
+    "res://assets/audio/dodge_2.wav"
+  ],
+  "hit_sword": [
+    "res://assets/audio/hit_sword_0.wav",
+    "res://assets/audio/hit_sword_1.wav"
+  ],
+  "hit_axe": [
+    "res://assets/audio/hit_axe_0.wav",
+    "res://assets/audio/hit_axe_1.wav"
+  ],
+  "hit_bow": [
+    "res://assets/audio/hit_bow_0.wav",
+    "res://assets/audio/hit_bow_1.wav"
+  ],
+  "hit_staff": [
+    "res://assets/audio/hit_staff_0.wav",
+    "res://assets/audio/hit_staff_1.wav"
+  ],
+  "hurt": [
+    "res://assets/audio/hurt_0.wav"
+  ],
+  "nova": [
+    "res://assets/audio/nova_0.wav"
+  ],
+  "potion": [
+    "res://assets/audio/potion_0.wav"
+  ],
+  "pickup": [
+    "res://assets/audio/pickup_0.wav"
+  ],
+  "equip": [
+    "res://assets/audio/equip_0.wav"
+  ],
+  "move_item": [
+    "res://assets/audio/move_item_0.wav"
+  ],
+  "inventory": [
+    "res://assets/audio/inventory_0.wav"
+  ],
+  "invest": [
+    "res://assets/audio/invest_0.wav"
+  ],
+  "levelup": [
+    "res://assets/audio/levelup_0.wav"
+  ],
+  "return": [
+    "res://assets/audio/return_0.wav"
+  ],
+  "step": [
+    "res://assets/audio/step_0.wav",
+    "res://assets/audio/step_1.wav",
+    "res://assets/audio/step_2.wav"
+  ],
+  "title": [
+    "res://assets/audio/title_0.wav"
+  ],
+  "town": [
+    "res://assets/audio/town_0.wav"
+  ],
+  "field": [
+    "res://assets/audio/field_0.wav"
+  ]
+}
