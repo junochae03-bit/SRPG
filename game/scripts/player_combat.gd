@@ -2,6 +2,7 @@ extends RefCounted
 const Content=preload("res://scripts/content.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
+const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
 var sim_ref:WeakRef
 var sim:
 	get:return sim_ref.get_ref()
@@ -138,8 +139,7 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	else:
 		if heavy:radius+=0.8
 		for e in sim.enemies.values():
-			var delta:Vector2=e.pos-p.pos
-			if delta.length()>radius or (delta.length()>0.7 and p.aim.dot(delta.normalized())<(-0.45 if type=="axe" or heavy else -0.05)):continue
+			if not HitGeometry.arc(e,p.pos,p.aim,radius,-0.45 if type=="axe" or heavy else -0.05,.7):continue
 			hit(p,e,amount)
 			if not heavy:jobs.basic_hit(p,e)
 	if heavy:jobs.after_heavy(p)
@@ -174,7 +174,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="star_impact",attribution:Variant=null):
 	sim.events.append({"type":"nova","fx":fx_kind,"pos":center,"dir":p.aim,"owner":p.id,"duration":0.6,"radius":radius})
 	for e in sim.enemies.values():
-		if e.pos.distance_to(center)<=radius and sim.map.line_clear(center,e.pos):hit(p,e,amount,center,attribution)
+		if HitGeometry.circle(e,center,radius) and sim.map.line_clear(center,e.pos):hit(p,e,amount,center,attribution)
 
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
@@ -193,7 +193,7 @@ func tick_projectiles(delta:float):
 		targets.sort_custom(func(a,b):return origin.distance_squared_to(a.pos)<origin.distance_squared_to(b.pos))
 		for e in targets:
 			if e.hp<=0 or shot.hit.has(e.id):continue
-			if e.pos.distance_to(Geometry2D.get_closest_point_to_segment(e.pos,origin,next))>shot.get("width",.42):continue
+			if not HitGeometry.forward_segment(e,origin,next,shot.get("width",.42)):continue
 			var p=sim.players[shot.owner]
 			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}))
 			else:hit(p,e,shot.amount,origin,shot.get("stagger",{}))

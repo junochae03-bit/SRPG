@@ -56,10 +56,13 @@ var class_portrait:TextureRect
 var class_commit:Button
 var class_choice=""
 var pending_search=0.
+var applied_search_text=""
 var branch_picker:OptionButton
 var filter_picker:OptionButton
 var overview_button:Button
 var mode_buttons={}
+var content_refreshes=0
+var search_applications=0
 const DETAIL_WIDTH=360
 
 func setup(owner_game):
@@ -70,13 +73,13 @@ func setup(owner_game):
 	role_label=game.label(self,"",Vector2(36,88),Vector2(650,38),20)
 	for i in range(3):
 		var key=["skills","stats","class"][i];mode_buttons[key]=game.button(self,["스킬 지도","능력치","직업"][i],Vector2(974+i*182,87),Vector2(171,43),func():change_mode(key));Library.attach(mode_buttons[key],["skills","stat_points","class_warrior"][i],22)
-	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(_v):pending_search=.16);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
+	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(value):pending_search=.16 if value!=applied_search_text else 0.);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
 	view_controls.append(Library.picture(self,"search",Vector2(40,159),Vector2(21,21)));search.get_theme_stylebox("normal").content_margin_left=39
 	filter_picker=picker(self,Vector2(342,148),Vector2(162,42))
 	for caption in ["전체 기술","사용 기술","배울 수 있음"]:filter_picker.add_item(caption)
-	filter_picker.item_selected.connect(func(i):filter_index=i;refresh(true);focus_match());view_controls.append(filter_picker)
+	filter_picker.item_selected.connect(func(i):filter_index=i;focus_match());view_controls.append(filter_picker)
 	branch_picker=picker(self,Vector2(515,148),Vector2(279,42));branch_picker.item_selected.connect(func(i):show_branch(i-1));view_controls.append(branch_picker)
-	tag_picker=picker(self,Vector2(805,148),Vector2(265,42));tag_picker.item_selected.connect(func(i):tag_filter=str(tag_picker.get_item_metadata(i));refresh(true);focus_match());view_controls.append(tag_picker)
+	tag_picker=picker(self,Vector2(805,148),Vector2(265,42));tag_picker.item_selected.connect(func(i):tag_filter=str(tag_picker.get_item_metadata(i));focus_match());view_controls.append(tag_picker)
 	view_controls.append(Art.panel(self,Vector2(26,202),Vector2(1054,578),"paper",21))
 	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(37,214);graph.size=Vector2(1030,510);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
 	overview_button=game.button(self,"전체 지도",Vector2(46,736),Vector2(122,37),func():show_branch(-1 if graph.scope_cluster>=0 else int(Rules.definition(choice).get("cluster",0))));view_controls.append(overview_button)
@@ -100,7 +103,7 @@ func setup(owner_game):
 	path_button=game.button(details,"경로 보기",Vector2(23,583),Vector2(184,36),show_path)
 	refund_button=game.button(details,"선택 회수",Vector2(216,583),Vector2(193,36),preview_refund)
 	for i in range(6):
-		var action=Content.ACTIONS[i];var b=game.button(details,"QFVCZX"[i]+" 배치",Vector2(23+(i%3)*130,628+int(i/3)*29),Vector2(126,27),func():game.session.act("bind_skill",action+":"+choice);refresh(true));b.add_theme_font_size_override("font_size",15);bind_buttons.append(b)
+		var action=Content.ACTIONS[i];var b=game.button(details,key_label(action)+" 배치",Vector2(23+(i%3)*130,628+int(i/3)*29),Vector2(126,27),func():game.session.act("bind_skill",action+":"+choice);refresh(true));b.add_theme_font_size_override("font_size",15);bind_buttons.append(b)
 	stats_panel=Art.panel(self,Vector2(29,149),Vector2(1054,685),"paper",24);stats_text=game.label(stats_panel,"",Vector2(54,48),Vector2(966,74),25)
 	var index=0
 	for key in Progression.NAMES:
@@ -117,6 +120,18 @@ func setup(owner_game):
 		if game.session.act("class",class_choice):choice="";search.text="";tag_filter="";change_mode("skills"))
 	hide()
 
+func key_label(action:String)->String:
+	return game.keybindings.label(action) if game.get("keybindings")!=null else preload("res://scripts/key_bindings.gd").key_name(preload("res://scripts/key_bindings.gd").DEFAULTS[action])
+
+func refresh_key_labels():
+	signature=""
+	if visible:refresh(true)
+
+func fit_bind_label(button:Button):
+	var pixels=15;var available=button.size.x-20;var font=button.get_theme_font("font")
+	while pixels>11 and font.get_string_size(button.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x>available:pixels-=1
+	button.add_theme_font_size_override("font_size",pixels);button.tooltip_text=button.text
+
 func picker(parent:Node,at:Vector2,dimensions:Vector2)->OptionButton:
 	var p=OptionButton.new();p.position=at;p.size=dimensions;p.fit_to_longest_item=false;p.clip_text=true;p.add_theme_font_override("font",game.fonts);p.add_theme_font_size_override("font_size",16);p.add_theme_color_override("font_color",game.PALE)
 	for key in ["normal","hover","pressed","focus"]:
@@ -128,6 +143,7 @@ func _process(delta):
 	if pending_search>0:
 		pending_search-=delta
 		if pending_search<=0:apply_search()
+		return
 	refresh()
 func change_mode(next:String):mode=next;comparison_context="";notice.text="";refund_mode=false;refresh(true)
 func node_width()->float:return 79.
@@ -150,10 +166,19 @@ func refresh_branch_picker():
 	branch_picker.select(graph.scope_cluster+1);overview_button.text="전체 지도" if graph.scope_cluster>=0 else "가지 보기"
 func focus_choice():graph.focus_node(choice)
 func focus_match():
-	for node in node_list:
-		if matches(node,player()):select_node(node.id);focus_choice();return
-	notice.text="조건에 맞는 기술이 없습니다."
-func apply_search():pending_search=0;refresh(true);focus_match()
+	apply_search()
+func apply_search():
+	pending_search=0;applied_search_text=search.text;search_applications+=1
+	var p=player();var found=""
+	if p.is_empty():return
+	for node in Rules.nodes_for(p.class_id):
+		if matches(node,p):found=node.id;break
+	if not found.is_empty():
+		choice=found;refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text=""
+	else:notice.text="조건에 맞는 기술이 없습니다."
+	# Select before rebuilding so a burst of typing updates content only once.
+	refresh(true)
+	if not found.is_empty():focus_choice()
 func clear(control:Node):
 	for child in control.get_children():control.remove_child(child);child.queue_free()
 func invest_selected():
@@ -172,7 +197,7 @@ func refresh(force=false):
 	if p.is_empty():return
 	var next=JSON.stringify([p.class_id,p.skill_ranks,p.get("constellation_allocations",{}),p.level,p.stats,p.skill_loadout,p.equipment,p.inventory,game.dungeon.in_town(p.pos),choice,mode,search.text,filter_index,tag_filter,refund_mode])
 	if next==signature and not force:return
-	signature=next;Content.initialize_jobs();node_list=Rules.nodes_for(p.class_id)
+	content_refreshes+=1;signature=next;Content.initialize_jobs();node_list=Rules.nodes_for(p.class_id)
 	points.text="LV.%d · 스킬 %d SP · 능력치 %d"%[p.level,Rules.available_points(p),Progression.available(p)]
 	role_label.text=Content.CLASSES[p.class_id].name+" · "+Balance.role(p.class_id)[0];role_label.tooltip_text=Balance.role(p.class_id)[1]
 	for control in view_controls:control.visible=mode=="skills"
@@ -197,7 +222,8 @@ func refresh(force=false):
 		var b=game.button(loadout_strip,"",Vector2(i*175,0),Vector2(166,43),func():
 			if trained:select_node(equipped.id);focus_choice())
 		if trained:Art.picture(b,Icons.skill(equipped),Vector2(7,7),Vector2(30,30))
-		game.label(b,"QFVCZX"[i]+" · "+(equipped.get("name","") if trained else "미장착"),Vector2(42,5),Vector2(118,35),14).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		var caption=game.label(b,key_label(Content.ACTIONS[i])+" · "+(equipped.get("name","") if trained else "미장착"),Vector2(42,5),Vector2(118,35),14)
+		caption.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;caption.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;caption.tooltip_text=caption.text;caption.clip_text=true
 		b.tooltip_text=equipped.get("name","") if trained else "배운 사용 기술을 선택해 배치할 수 있습니다."
 	reset_button.disabled=game.dungeon.zone!="town";reset_button.text="스킬 초기화" if mode=="skills" else "능력치 초기화";reset_button.tooltip_text="마을에서 사용할 수 있습니다." if reset_button.disabled else "현재 배분을 되돌립니다."
 	if mode=="stats":show_stats(p)
@@ -264,7 +290,7 @@ func show_details(skill:Dictionary,p:Dictionary):
 	detail_body.text=text;detail_body.size.x=DETAIL_WIDTH;comparison.custom_minimum_size.y=maxf(239,detail_body.get_content_height()+12)
 	for i in range(bind_buttons.size()):
 		var action=Content.ACTIONS[i];var assigned=Content.active_node(p,action).get("id","")==skill.id
-		bind_buttons[i].disabled=skill.effect!="active" or rank<=0 or not game.dungeon.in_town(p.pos);bind_buttons[i].text="QFVCZX"[i]+(" 사용 중" if assigned and rank>0 else " 배치")
+		bind_buttons[i].disabled=skill.effect!="active" or rank<=0 or not game.dungeon.in_town(p.pos);bind_buttons[i].text=key_label(Content.ACTIONS[i])+(" 사용 중" if assigned and rank>0 else " 배치");fit_bind_label(bind_buttons[i])
 
 func show_stats(p:Dictionary):
 	stats_text.text="사용 가능한 능력치 %d\n힘 %d · 내구 %d · 기술 %d · 민첩 %d · 마력 %d"%[Progression.available(p),Progression.bonus(p,"strength"),Progression.bonus(p,"endurance"),Progression.bonus(p,"technique"),Progression.bonus(p,"agility"),Progression.bonus(p,"magic")]

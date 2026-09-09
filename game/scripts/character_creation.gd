@@ -17,8 +17,7 @@ static func reason(sheet:Dictionary)->String:
 	for index in range(name.length()):
 		if name.unicode_at(index)<32 or name.unicode_at(index)==127:return "이름에 줄바꿈이나 제어 문자를 사용할 수 없습니다."
 	if sheet.get("class_id","") not in CLASSES:return "기본 직업을 선택해 주세요."
-	if sheet.get("avatar","")!="auto" and sheet.get("avatar","") not in Content.AVATARS:return "외형을 선택해 주세요."
-	if sheet.get("costume","none")!="none" and not preload("res://scripts/costume_art_v04.gd").recognizes(str(sheet.costume)):return "외형을 선택해 주세요."
+	if sheet.get("avatar","")!="auto" or sheet.get("costume","none")!="none":return "새 모험가는 직업 기본 외형으로 시작합니다."
 	if not Content.appearance_allowed(sheet.class_id,sheet.avatar,sheet.get("costume","none")):return "선택한 직업에 맞는 외형을 골라 주세요."
 	if not sheet.get("stats") is Dictionary:return "초기 능력치를 배분해 주세요."
 	var spent=0
@@ -36,4 +35,4 @@ static func player_data(sheet:Dictionary)->Dictionary:
 	for type in ["sword","head","chest","feet"]:
 		var item=preload("res://scripts/equipment_catalog.gd").make(type,0,0,"starter-"+type,"none",sheet.class_id)
 		inventory.append(item);equipment[item.slot]=item.id
-	return {"schema_version":7,"skill_build_version":2,"constellation_allocations":{},"creation_points":POINTS,"name":sheet.name.strip_edges(),"class_id":sheet.class_id,"avatar":sheet.avatar,"costume":sheet.get("costume","none"),"stats":stats,"tutorial_done":false,"inventory":inventory,"equipment":equipment,"equipped":equipment.weapon,"training_given":true}
+	return {"schema_version":7,"skill_build_version":2,"constellation_allocations":{},"creation_points":POINTS,"name":sheet.name.strip_edges(),"class_id":sheet.class_id,"avatar":"auto","costume":"none","owned_appearances":[],"stats":stats,"tutorial_done":false,"inventory":inventory,"equipment":equipment,"equipped":equipment.weapon,"training_given":true}

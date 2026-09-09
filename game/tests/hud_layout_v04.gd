@@ -2,7 +2,8 @@ extends SceneTree
 const C=preload("res://scripts/content.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,message:String):
 	checks+=1
 	if not ok:failures.append(message);push_error(message)
@@ -18,6 +19,8 @@ func check_resource_interior(resource,job:String):
 	check(not resource.content_draw_rects.is_empty(),"resource draw geometry recorded "+job)
 	for rect in resource.content_draw_rects:check(inner.encloses(rect),"actual text/icon fits decorative interior "+job+" "+str(rect))
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/hud-layout-v04/"+str(Time.get_ticks_usec()))
 	game.join_game();local.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false)

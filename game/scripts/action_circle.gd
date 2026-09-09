@@ -25,18 +25,27 @@ func caption_text()->String:
 	if game.fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,15).x<=width:return value
 	while value.length()>1 and game.fonts.get_string_size(value+"…",HORIZONTAL_ALIGNMENT_LEFT,-1,15).x>width:value=value.left(value.length()-1)
 	return value+"…"
+func picture_rect()->Rect2:
+	if picture==null:return Rect2()
+	var dimensions=picture.get_size();dimensions*=minf((size.x-8)/dimensions.x,(size.y-8)/dimensions.y)
+	return Rect2((size-dimensions)*.5,dimensions)
+func hotkey_layout()->Dictionary:
+	var pixels=19
+	while pixels>11 and game.bold_font.get_string_size(hotkey,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x>size.x-12:pixels-=1
+	var dimensions=game.bold_font.get_string_size(hotkey,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels)
+	var baseline=Vector2(maxf(13,dimensions.x*.5+6),maxf(20,game.bold_font.get_ascent(pixels)+4))
+	return {"at":baseline,"pixels":pixels,"rect":Rect2(baseline-Vector2(dimensions.x*.5+2,game.bold_font.get_ascent(pixels)+2),Vector2(dimensions.x+4,game.bold_font.get_height(pixels)+4))}
 func _draw():
 	var center=size*0.5;var radius=size.x*0.5-5
 	if picture:
-		var dims=picture.get_size();dims*=minf(size.x/dims.x,size.y/dims.y)
-		draw_texture_rect(picture,Rect2(center-dims*0.5,dims),false,Color(.65,.65,.62,.78) if locked else Color(.80,.80,.76) if is_pressed() else Color.WHITE)
+		draw_texture_rect(picture,picture_rect(),false,Color(.65,.65,.62,.78) if locked else Color(.80,.80,.76) if is_pressed() else Color.WHITE)
 	if is_hovered():draw_arc(center,radius+1,0,TAU,64,Color("ffedb8"),2,true)
 	if cooldown>0:
 		draw_circle(center,radius-2,Color("34251dcc"))
 		draw_arc(center,radius,-PI*0.5,-PI*0.5+TAU*clampf(cooldown/maxf(max_cooldown,0.01),0,1),64,Color("ffe7b9"),4,true)
 		write_text(center+Vector2(0,10),cooldown_text(),30 if size.x>=90 else 24,true)
 	if not count.is_empty():write_text(Vector2(size.x-15,size.y-5),count,19,true)
-	write_text(Vector2(13,20),hotkey,19,true)
+	var key=hotkey_layout();write_text(key.at,hotkey,key.pixels,true)
 	write_text(Vector2(size.x*0.5,size.y+21),caption_text(),15)
 	if not rank_text.is_empty() and cooldown<=0:write_text(Vector2(20,size.y-3),rank_text,12)
 func write_text(at:Vector2,value:String,font_size:int,bold=false):

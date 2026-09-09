@@ -138,6 +138,8 @@ func capture_case(game, entry: Array) -> void:
 
 
 func run() -> void:
+	root.borderless = true
+	root.size = Vector2i(1920, 1080)
 	Content.initialize_jobs()
 	check(DisplayServer.get_name() != "headless", "combat captures require a real renderer")
 	if not failures.is_empty():

@@ -1,6 +1,7 @@
 extends RefCounted
 const Content=preload("res://scripts/content.gd")
 const Scaling=preload("res://scripts/skill_scaling.gd")
+const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
 var combat_ref:WeakRef
 var combat:
 	get:return combat_ref.get_ref()
@@ -51,7 +52,7 @@ func _cast(p:Dictionary,action:String,profile:Dictionary)->bool:
 				for i in range(ceili(s.distance/.12)):
 					p.pos=combat.sim.map.move(p.pos,p.aim*minf(.12,s.distance-i*.12))
 					for enemy in combat.sim.enemies.values():
-						if enemy.pos.distance_to(p.pos)<s.radius and not hit_ids.has(enemy.id):combat.hit(p,enemy,roundi(power));hit_ids.append(enemy.id)
+						if HitGeometry.circle(enemy,p.pos,s.radius) and not hit_ids.has(enemy.id):combat.hit(p,enemy,roundi(power));hit_ids.append(enemy.id)
 				p.motion="dash";p.invulnerable=maxf(p.invulnerable,.20);fx(p,"rush",start,.45,s.radius,p.pos)
 			"piercing":
 				combat.launch(p,"piercing",p.aim,roundi(power),s.range,18,0);combat.projectiles.back().pierce=6+rank-1;p.motion="shoot";fx(p,"piercing",p.pos,.5,s.radius)
@@ -93,13 +94,13 @@ func cast_extended(p:Dictionary,node:Dictionary,power:float,s:Dictionary):
 			for i in range(s.count):
 				var best={};var distance=s.range
 				for e in combat.sim.enemies.values():
-					if e.hp>0 and e.id not in used and previous.distance_to(e.pos)<distance and combat.sim.map.line_clear(previous,e.pos):best=e;distance=previous.distance_to(e.pos)
+					if e.hp>0 and e.id not in used and HitGeometry.edge_distance(e,previous)<distance and combat.sim.map.line_clear(previous,e.pos):best=e;distance=HitGeometry.edge_distance(e,previous)
 				if best.is_empty():break
 				fx(p,node.fx,previous,.6,1,best.pos,{"origin":previous});combat.hit(p,best,roundi(power),previous);used.append(best.id);previous=best.pos
 			return
 		"pull":
 			for e in combat.sim.enemies.values():
-				if e.hp<=0 or e.pos.distance_to(center)>radius or not combat.sim.map.line_clear(e.pos,center):continue
+				if e.hp<=0 or not HitGeometry.circle(e,center,radius) or not combat.sim.map.line_clear(e.pos,center):continue
 				for i in range(12+4*(s.rank-1)):e.pos=combat.sim.map.move(e.pos,e.pos.direction_to(center)*.12)
 				combat.hit(p,e,roundi(power),center)
 		"heal":p.hp=mini(p.max_hp,p.hp+roundi(p.max_hp*s.heal));center=p.pos
@@ -129,7 +130,7 @@ func tick(delta:float):
 		while not zone.pulses.is_empty() and zone.elapsed>=zone.pulses[0]:
 			zone.pulses.pop_front();var p=combat.sim.players[zone.owner]
 			for e in combat.sim.enemies.values():
-				if e.hp<=0 or e.pos.distance_to(zone.pos)>zone.radius or not combat.sim.map.line_clear(zone.pos,e.pos):continue
+				if e.hp<=0 or not HitGeometry.circle(e,zone.pos,zone.radius) or not combat.sim.map.line_clear(zone.pos,e.pos):continue
 				combat.hit(p,e,zone.amount,zone.pos,zone.get("stagger",{}))
 				if not zone.get("hit_any",false) and zone.has("job_node"):
 					zone.hit_any=true

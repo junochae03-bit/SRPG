@@ -89,10 +89,27 @@ func collect(db:Dictionary):
 	use(title_id,"runtime","title","game/scripts/title_screen.gd:setup")
 	floor_tiles(db)
 	available_catalog()
+	render_cache_metadata()
 	var applied={}
 	for u in uses.values():
 		if u.usage_kind=="runtime_mapping":applied[u.art_id]=true
 	for a in assets.values():a["status"]="applied" if applied.has(a.id) else "available_catalog"
+
+func render_cache_metadata():
+	# Management-only descriptors. Do not decompress or create any texture here.
+	var prepared=preload("res://scripts/prepared_art_v05.gd")
+	for a in assets.values():
+		var chroma=""
+		if a.metadata.has("equipment_key"):chroma="magenta"
+		elif a.id.begins_with("art:character:costume:"):
+			var costume_id=str(a.id).split(":")[3]
+			var e=Costumes.catalog()[costume_id]
+			var f=e.frames[a.frame if a.frame>=0 else 15]
+			chroma=str(f.get("chroma_key",e.chroma_key))
+		if chroma.is_empty():continue
+		var entry=prepared.descriptor(a.path,chroma)
+		assert(not entry.is_empty(),"Missing prepared art metadata: "+a.id)
+		if not entry.is_empty():a.metadata["render_cache"]={"catalog":prepared.CATALOG,"path":entry.path,"source":a.path,"key":chroma}
 
 func icon(key:String,table:String,target:String,consumer:String):
 	assert(Library.entries.has(key),"Unmapped semantic icon: "+key)

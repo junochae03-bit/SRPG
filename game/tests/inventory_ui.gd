@@ -3,11 +3,14 @@ const Inventory=preload("res://scripts/inventory_model.gd")
 var checks=0
 var failures=[]
 var surface:SubViewport
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,name:String):
 	checks+=1
 	if not ok:failures.append(name);push_error(name)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	surface=SubViewport.new();surface.size=Vector2i(1920,1080);surface.size_2d_override=Vector2i(1600,900);surface.size_2d_override_stretch=true;surface.render_target_update_mode=SubViewport.UPDATE_ALWAYS;surface.gui_embed_subwindows=true;root.add_child(surface)
 	var game=load("res://main.tscn").instantiate();surface.add_child(game)
 	await process_frame
@@ -80,7 +83,10 @@ func run():
 	var content=preload("res://scripts/content.gd")
 	for class_id in ["warrior","ranger","mage","rogue","fighter"]:
 		p.class_id=class_id;session.refresh();bag.refresh(true)
-		check(bag.avatar_keys==content.avatar_options(class_id) and bag.costume_keys==content.costume_options(class_id),"picker indexes match allowed appearances "+class_id)
+		var wardrobe=preload("res://scripts/wardrobe.gd")
+		check(bag.avatar_keys==wardrobe.owned_avatars(p) and bag.costume_keys==wardrobe.owned_costumes(p),"picker indexes match owned class-compatible appearances "+class_id)
+		check(bag.avatar_keys==["auto"] and bag.costume_keys==["none"],"unbought appearances absent from inventory "+class_id)
+		check(bag.avatar_picker.get_item_text(0)==wardrobe.label("base:"+class_id),"class change refreshes default appearance name "+class_id)
 		var blocked=content.COSTUMES.keys().filter(func(id):return not bag.costume_keys.has(id))
 		if not blocked.is_empty():
 			var before_costume=p.costume

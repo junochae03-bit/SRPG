@@ -20,13 +20,18 @@ func run():
 	game.hud.growth_button.pressed.emit();var escape=InputEventKey.new();escape.physical_keycode=KEY_ESCAPE;escape.pressed=true;game._unhandled_input(escape)
 	check(game.help_panel.visible and session.paused,"Esc retains menu access");game.continue_game();game.toggle_bag()
 	for class_id in Content.CLASSES:
+		# Rendering/eligibility fixture owns the registered appearances. Store purchase rules have their own test.
+		p.owned_appearances=[]
+		for key in Content.AVATARS:p.owned_appearances.append("avatar:"+key)
+		for key in Content.COSTUMES:
+			if key!="none":p.owned_appearances.append("costume:"+key)
 		p.class_id=class_id;Content.normalize_appearance(p);session.sim.recalculate(p);session.refresh();game.bag.refresh(true)
 		check(game.bag.avatar_keys==Content.avatar_options(class_id) and game.bag.costume_keys==Content.costume_options(class_id),"class-filtered indexes agree "+class_id)
 		for key in game.bag.avatar_keys:
 			p.motion_time=0
 			game.bag.avatar_picker.item_selected.emit(game.bag.avatar_keys.find(key))
 			check(p.avatar==key and p.costume=="none","allowed base selector applies "+class_id+":"+key)
-			check(game.bag.portrait.texture==GatArt.frame(p,0).texture and game.hud.portrait==GatArt.portrait(p),"base previews agree "+class_id+":"+key)
+			check(game.bag.portrait.texture==GatArt.frame(p,0).texture and game.hud.portrait.atlas==GatArt.frame(p,0).texture.atlas and Rect2(36,37,72,72).encloses(game.hud.portrait_rect()),"base previews share authored sheet and HUD fits full head %s:%s bag=%s source=%s rect=%s"%[class_id,key,game.bag.portrait.texture==GatArt.frame(p,0).texture,game.hud.portrait.atlas==GatArt.frame(p,0).texture.atlas,game.hud.portrait_rect()])
 			if key!="auto":
 				p.motion_time=.25;p.motion_duration=.5
 				check(GatArt.frame(p,0).index==(6 if preload("res://scripts/combat_sprite_art.gd").AVATARS.has(key) else 3),"attack pose selected "+key)

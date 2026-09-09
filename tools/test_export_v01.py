@@ -34,7 +34,7 @@ def screenshot_evidence(path):
     assert path.is_file(),('Missing exported framebuffer capture',str(path))
     with Image.open(path) as source:
         rgb=source.convert('RGB')
-    assert rgb.size==(1920,1080),('Default Full HD capture size',rgb.size)
+    assert rgb.size==(1920,1080),('Explicit Full HD capture client area',rgb.size)
     assert any(lo!=hi for lo,hi in rgb.getextrema()),'Blank framebuffer'
     chroma={}
     for name,color in [('blue',(0,0,255)),('magenta',(255,0,255))]:
@@ -83,6 +83,7 @@ def source_sheets(value):
 
 equipment_catalog=json.loads((ROOT/'game/assets/equipment/items.json').read_text('utf8'))
 equipment_sources={row['sheet']:row for row in equipment_catalog['sheets'].values()}
+render_cache=json.loads((ROOT/'game/assets/render_cache_v05/catalog.json').read_text('utf8'))['entries']
 ground_catalog=json.loads((ROOT/'game/assets/floor_tiles_v04/catalog.json').read_text('utf8'))
 ground_source=ROOT/'game'/ground_catalog['atlas'].removeprefix('res://')
 assert hashlib.sha256(ground_source.read_bytes()).hexdigest()==ground_catalog['sha256'],'Ground atlas differs from approved original'
@@ -101,7 +102,10 @@ def equipment_evidence(report,required_sources=()):
     for path,row in sheets.items():
         assert path in equipment_sources,('Unexpected equipment source',row)
         expected=equipment_sources[path]
-        assert row['load_mode']=='imported_texture' and not row['source_png_available'] and row['imported_available'],('Expected real PCK imported-only load',row)
+        assert row['load_mode']=='prepared_rgba' and row['prepared_available'],('Expected prepared RGBA data in PCK',row)
+        assert not row['source_png_available'] and not row['imported_available'],('Unused original equipment textures must be excluded from PCK',row)
+        expected_cache=render_cache[path+'|magenta']
+        assert row['prepared_path']==expected_cache['path'],('Wrong prepared source',row,expected_cache)
         assert [row['width'],row['height']]==[expected['width']+1,expected['height']+1],('Memory RGBA padding absent',row)
     return used
 
@@ -127,6 +131,11 @@ assert json.loads((RUN/'title.json').read_text('utf8'))['ui']['title'] and not s
 run('creator',['--show-creation','--duration=2','--capture-at=1','--capture='+str(ROOT/'artifacts/export-creator.png'),'--report='+str(RUN/'creator.json')],True)
 creator=json.loads((RUN/'creator.json').read_text('utf8'))
 assert creator['ui']['creator'] and not creator['connected'] and not save.exists(),'Opening creator must not create a character'
+assert creator['ui']['creator_appearance']['avatar']=='auto' and creator['ui']['creator_appearance']['costume']=='none','Exported creator uses only class default'
+run('keyboard-title',['--show-keys','--duration=2','--capture-at=1','--capture='+str(ROOT/'artifacts/export-keyboard.png'),'--report='+str(RUN/'keyboard-title.json')],True)
+keyboard=json.loads((RUN/'keyboard-title.json').read_text('utf8'))
+assert keyboard['ui']['keyboard'] and keyboard['ui']['title'] and not keyboard['connected'] and not save.exists(),'Keyboard opens on title without creating save'
+screenshot_evidence(ROOT/'artifacts/export-keyboard.png')
 run('play',['--bot','--duration=40','--name=출시본 검사','--report='+str(RUN/'play.json')])
 played=json.loads((RUN/'play.json').read_text('utf8'))
 assert played['connected'] and played['kills']>=3 and played['distance']>=10 and save.is_file(),played
@@ -156,11 +165,15 @@ for tab,minimum in [('equipment',2500),('monsters',34),('drops',1),('skills',151
     assert codex['visible'] and codex['tab']==tab and codex['total']>=minimum,codex
     icon_checks.append({'screen':'codex-'+tab,'icons':icon_evidence(codex_report),'capture':screenshot_evidence(ROOT/'artifacts'/('export-codex-'+tab+'.png'))})
     if tab=='equipment':
-        codex_equipment_reader=equipment_evidence(codex_report,equipment_sources.keys())
         consumers=codex_report['art_usage']['equipment_consumers']
         assert consumers['codex_visible'] and consumers['codex_rows'],'Exported equipment codex has no actual thumbnails'
         codex_equipment_thumbnails=[equipment_thumbnail(value) for value in consumers['codex_rows']]
         codex_equipment_detail=equipment_thumbnail(consumers['codex_detail'])
+        visible_sources={value['source_path'] for value in codex_equipment_thumbnails+[codex_equipment_detail]}
+        codex_equipment_reader=equipment_evidence(codex_report,visible_sources)
+        assert len(codex_equipment_reader['sheets'])<len(equipment_sources),'Opening the first codex page must not eagerly load every equipment atlas'
+        # The six-item inventory fixture below separately requires all six PCK
+        # atlases; metadata-only codex construction now loads visible rows only.
     codex_screens.append(tab)
 
 # Six real inventory items cover the three weapon atlases, two armor atlases and
@@ -191,7 +204,7 @@ for field in ['stats','gold']:
     assert equipment_report['player'][field]==saved_before[field],('Artwork changed existing property',field)
 equipment_checks={'representative_items':6,'source_atlases':6,'reader':equipment_reader,'bag_thumbnails':bag_thumbnails,
                   'codex_reader':codex_equipment_reader,'codex_thumbnails':codex_equipment_thumbnails,'codex_detail':codex_equipment_detail,
-                  'capture':equipment_capture,'scope':'One actual portable save with six items, plus existing codex render; original PNGs absent and imported PCK fallback used. Source gate covers all 115 crops and all 2,500 definitions.'}
+                  'capture':equipment_capture,'scope':'One actual portable save with six items, plus visible codex rows; original PNG/imported textures absent and prepared RGBA PCK files used. Source gate covers all 115 crops and all 2,500 definitions.'}
 catalog=json.loads((ROOT/'game/data/jobs/catalog.json').read_text('utf8'))
 tested_jobs=[]
 for job,definition in catalog['classes'].items():
@@ -223,13 +236,16 @@ for costume_id,definition in sorted(costume_catalog.items()):
     if eligibility['runtime_role']=='town_npc':continue
     job=eligibility['allowed_base_classes'][0]
     restored,capture=fixture_capture('costume-'+costume_id,
-        {'costume':costume_id,'class_id':job,'avatar':'auto','inventory':[],'equipment':{},'equipped':'','bag_positions':{},'skill_ranks':{},'skill_loadout':{},'constellation_allocations':{},'tutorial_done':True,'quest_done':True},[],art_captures/('costume-'+costume_id+'.png'))
+        {'costume':costume_id,'owned_appearances':['costume:'+costume_id],'class_id':job,'avatar':'auto','inventory':[],'equipment':{},'equipped':'','bag_positions':{},'skill_ranks':{},'skill_loadout':{},'constellation_allocations':{},'tutorial_done':True,'quest_done':True},[],art_captures/('costume-'+costume_id+'.png'))
     assert restored['player']['costume']==costume_id,('Costume save not restored',costume_id)
     used=restored['art_usage']['costume']
     assert used['id']==costume_id and used['draws']>0 and not used['fallback'],('Costume did not reach draw branch',costume_id,used)
     assert 15 in used['frame_indices'],('Idle frame not submitted to renderer',costume_id,used)
     actual_sheets=set(used['source_sheets'])
     assert actual_sheets and actual_sheets<=source_sheets(definition),('Wrong costume sheet consumed',costume_id,used)
+    for source in actual_sheets:
+        matches=[key for key in restored['art_usage']['prepared'] if key.startswith(source+'|')]
+        assert matches and all(restored['art_usage']['prepared'][key]==render_cache[key]['path'] for key in matches),('Costume used legacy pixel processing in exported process',costume_id,source)
     costume_checks.append({'id':costume_id,'restored':True,'draw_calls':used['draws'],
         'frame_indices':sorted(set(used['frame_indices'])),'source_sheets':sorted(actual_sheets),
         'fallback':False,'icons':icon_evidence(restored),'capture':capture})

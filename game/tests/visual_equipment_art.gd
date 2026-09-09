@@ -94,6 +94,8 @@ func actual_screens(game):
 	await capture("drops")
 
 func run():
+	root.borderless = true
+	root.size = Vector2i(1920, 1080)
 	root.gui_disable_input = true
 	C.initialize_jobs()
 	check(DisplayServer.get_name() != "headless", "equipment captures use real renderer")

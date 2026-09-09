@@ -96,7 +96,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","claim_starters","potion","stat","reset_stats","bind_skill","facility"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
@@ -266,6 +266,12 @@ func parse_save(path: String) -> Variant:
 		for key in value.constellation_allocations:value.constellation_allocations[key]=int(value.constellation_allocations[key])
 	else:
 		value["skill_build_version"]=2;value["constellation_allocations"]={};value["creation_points"]=0
+	if value.has("owned_appearances"):
+		if not value.owned_appearances is Array or value.owned_appearances.size()>500:return null
+		var seen_appearances=[]
+		for id in value.owned_appearances:
+			if not id is String or not preload("res://scripts/wardrobe.gd").valid_id(id) or id in seen_appearances:return null
+			seen_appearances.append(id)
 	return value
 
 func load_slot() -> Dictionary:

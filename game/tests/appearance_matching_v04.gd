@@ -18,6 +18,11 @@ func run():
 	for cls in Content.CLASSES:
 		p.class_id=cls;Content.normalize_appearance(p);sim.recalculate(p)
 		var avatars=Content.avatar_options(cls);var costumes=Content.costume_options(cls)
+		# This test isolates class eligibility. Purchase/ownership is exercised by wardrobe_v05.
+		p.owned_appearances=[]
+		for avatar in Content.AVATARS:p.owned_appearances.append("avatar:"+avatar)
+		for costume in Content.COSTUMES:
+			if costume!="none":p.owned_appearances.append("costume:"+costume)
 		check(avatars[0]=="auto" and costumes[0]=="none","every job retains its own default "+cls)
 		for avatar in Content.AVATARS:
 			var before=sim.persistent(1).duplicate(true)
@@ -40,7 +45,7 @@ func run():
 			player_count+=1;check(not rule.allowed_base_classes.is_empty(),"player costume has an explicit job match")
 		for cls in Creation.CLASSES:
 			var sheet={"name":"외형", "class_id":cls,"avatar":"auto","costume":id,"stats":Creation.suggested(cls)}
-			check(Creation.reason(sheet).is_empty()==(id in Content.costume_options(cls)),"creator and game share eligibility "+cls+":"+id)
+			check(not Creation.reason(sheet).is_empty(),"creation keeps default; matching costume is purchased later "+cls+":"+id)
 	check(player_count==30 and npc_count==3,"all 33 sprites have a supported runtime role")
 	var save={"schema_version":7,"class_id":"warrior","avatar":"gat_role_aoe_1","costume":"witch","gold":777,"level":30,"materials":{"ore":8}}
 	var restored=sim.add_player(2,"복원",save)

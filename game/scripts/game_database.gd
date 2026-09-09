@@ -2,6 +2,7 @@ extends RefCounted
 # Read-only encyclopedia and export share live gameplay catalogues. No saved state.
 const Content=preload("res://scripts/content.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
+const EquipmentArt=preload("res://scripts/equipment_art.gd")
 const World=preload("res://scripts/world_catalog.gd")
 const WorldArt=preload("res://scripts/world_art.gd")
 const Abyss=preload("res://scripts/abyss_catalog.gd")
@@ -70,7 +71,7 @@ static func snapshot(include_art:bool=false)->Dictionary:
 			var d=entry.duplicate(true);var item={"category":d.kind,"slot":d.get("slot","weapon"),"weapon_type":d.get("weapon",d.get("weapons",["sword"])[0])}
 			if d.kind=="material":item.material=d.material
 			var name=Content.MATERIALS[d.material] if d.kind=="material" else "회복 물약" if d.kind=="consumable" else Equipment.GRADES[int(d.get("rarity",0))]+" "+("현재 직업 무기" if d.kind=="weapon" else Content.SLOT_NAMES[d.slot])
-			d.merge({"id":"drop:"+kind+":"+d.key,"monster_id":kind,"monster_name":World.ENEMIES[kind].name,"name":name,"rarity":int(d.get("rarity",0)),"amount":int(d.get("amount",1)),"roll_mode":"independent_per_entry","slot":"weapon" if d.kind=="weapon" else d.get("slot",""),"asset":_texture_ref(Content.icon_texture(item)),"description":"항목별 독립 판정입니다. 장비 부위·등급은 이 행을 따르고, 무기 형태는 처치한 캐릭터의 전용 무기로 변환됩니다. 던전 장비 단계는 해당 층에 따릅니다." if d.kind in ["weapon","armor","accessory"] else "항목별 독립 판정입니다. 다른 항목과 동시에 드랍될 수 있습니다.","subtitle":World.ENEMIES[kind].name+" · 독립 "+Scaling.number(float(d.chance)*100)+"%"},true)
+			d.merge({"id":"drop:"+kind+":"+d.key,"monster_id":kind,"monster_name":World.ENEMIES[kind].name,"name":name,"rarity":int(d.get("rarity",0)),"amount":int(d.get("amount",1)),"roll_mode":"independent_per_entry","slot":"weapon" if d.kind=="weapon" else d.get("slot",""),"asset":_item_asset(item),"description":"항목별 독립 판정입니다. 장비 부위·등급은 이 행을 따르고, 무기 형태는 처치한 캐릭터의 전용 무기로 변환됩니다. 던전 장비 단계는 해당 층에 따릅니다." if d.kind in ["weapon","armor","accessory"] else "항목별 독립 판정입니다. 다른 항목과 동시에 드랍될 수 있습니다.","subtitle":World.ENEMIES[kind].name+" · 독립 "+Scaling.number(float(d.chance)*100)+"%"},true)
 			db.drops.append(d)
 	for class_id in class_ids:
 		for node in Content.SKILLS[class_id]:
@@ -115,8 +116,25 @@ static func _with_art()->Dictionary:
 static func _equipment(slot:String,owner:String,tier:int,grade:int)->Dictionary:
 	var id="eq:%s:%s:%02d:%d"%[owner,"weapon" if slot=="sword" else slot,tier,grade]
 	var e=Equipment.make(slot,tier,grade,id,"focus",owner)
-	e.merge({"grade_name":Equipment.GRADES[grade],"grade_color":Equipment.COLORS[grade].to_html(),"slot_name":Content.SLOT_NAMES[e.slot],"restriction":Equipment.restriction_text(e),"option_unlock":Equipment.UNLOCK[grade],"option_summary":_option_summary(e),"subtitle":Equipment.GRADES[grade]+" · "+Equipment.restriction_text(e),"description":"기본 강화 +0 기준. 도감은 부위·착용 직업/계열·단계·등급의 조합이며 실제 전리품의 추가 옵션은 별도 결정됩니다.","asset":_texture_ref(Content.icon_texture(e))},true)
+	e.merge({"grade_name":Equipment.GRADES[grade],"grade_color":Equipment.COLORS[grade].to_html(),"slot_name":Content.SLOT_NAMES[e.slot],"restriction":Equipment.restriction_text(e),"option_unlock":Equipment.UNLOCK[grade],"option_summary":_option_summary(e),"subtitle":Equipment.GRADES[grade]+" · "+Equipment.restriction_text(e),"description":"기본 강화 +0 기준. 도감은 부위·착용 직업/계열·단계·등급의 조합이며 실제 전리품의 추가 옵션은 별도 결정됩니다.","asset":_item_asset(e)},true)
 	return e
+
+static func _item_asset(item:Dictionary)->Dictionary:
+	# Database rows need source coordinates, not decoded/keyed atlas pixels.
+	# Visible cards still resolve their texture lazily through asset_texture().
+	if item.get("category","") in ["weapon","armor","accessory"]:
+		var key=EquipmentArt.key(item)
+		if not key.is_empty():
+			EquipmentArt.initialize()
+			var entry=EquipmentArt.catalog.get(key,{})
+			if entry is Dictionary:
+				var rect=entry.get("rect",[]);var path=str(entry.get("sheet",""))
+				# Source PNGs may be replaced by prepared RGBA in exported PCKs.
+				# Catalog validation owns source existence; querying owns no pixels.
+				if rect is Array and rect.size()==4 and not path.is_empty():
+					return {"path":path,"rect":[float(rect[0]),float(rect[1]),float(rect[2]),float(rect[3])]}
+	# Preserve legacy equipment, consumables and material presentation fallback.
+	return _texture_ref(Content.icon_texture(item))
 
 static func _option_summary(item:Dictionary)->String:
 	if item.rarity==0:return "일반 · 추가 옵션 없음"

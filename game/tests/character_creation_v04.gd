@@ -16,7 +16,7 @@ func run():
 	var folder=ProjectSettings.globalize_path("res://../runtime/creation-v04/"+str(Time.get_ticks_usec()))
 	for cls in Creation.CLASSES:
 		var local=Local.new();root.add_child(local);local.set_physics_process(false);local.save_directory=folder.path_join(cls)
-		var sheet={"name":"  별빛 모험가  ","class_id":cls,"avatar":Content.avatar_options(cls).back(),"stats":Creation.suggested(cls)}
+		var sheet={"name":"  별빛 모험가  ","class_id":cls,"avatar":"auto","costume":"none","stats":Creation.suggested(cls)}
 		check(Creation.reason(sheet).is_empty(),cls+" suggested valid")
 		check(local.slot_state(1)=="empty" and not FileAccess.file_exists(local.save_directory.path_join("slot-1.json")),"new slot inspection never writes")
 		check(local.create_character(sheet,1),cls+" create")

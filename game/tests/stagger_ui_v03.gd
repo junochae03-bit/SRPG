@@ -2,7 +2,8 @@ extends SceneTree
 const S=preload("res://scripts/boss_stagger.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,message:String):
 	checks+=1
 	if not ok:failures.append(message);push_error(message)
@@ -10,6 +11,8 @@ func capture(name:String):
 	await create_timer(.15).timeout;await process_frame;await RenderingServer.frame_post_draw
 	check(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/v03-stagger-"+name+".png"))==OK,"capture "+name)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/stagger-ui-v03/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.level=100;p.tutorial_done=true;p.highest_floor=100;p.cleared_floor=99

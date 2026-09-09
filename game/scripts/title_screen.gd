@@ -16,13 +16,14 @@ func setup(owner_game):
 	for i in range(3):
 		game.slot_picker.add_item("모험 기록 %d"%(i+1))
 		var index=i
-		var b=wood_button("기록 %d"%(i+1),Vector2(845+i*146,411),Vector2(140,61),func():game.slot_picker.select(index);game.refresh_slot_summary())
+		var b=wood_button("빈 기록",Vector2(845+i*146,408),Vector2(140,68),func():game.slot_picker.select(index);game.refresh_slot_summary(),15)
 		records.append(b)
 	game.slot_picker.item_selected.connect(func(_i):game.refresh_slot_summary())
-	game.slot_summary=game.label(self,"",Vector2(843,491),Vector2(452,40),21,Color("fff3d6"));game.slot_summary.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	game.slot_summary=game.label(self,"",Vector2(820,713),Vector2(490,36),19,Color("fff3d6"));game.slot_summary.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	game.slot_summary.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;game.slot_summary.clip_text=true
 	game.slot_summary.add_theme_color_override("font_shadow_color",Color("402616"));game.slot_summary.add_theme_constant_override("shadow_offset_y",2)
-	game.start_button=wood_button("모험 시작",Vector2(836,551),Vector2(467,62),game.begin_adventure,27)
+	game.start_button=wood_button("모험 시작",Vector2(836,483),Vector2(467,62),game.begin_adventure,27)
+	wood_button("키 설정",Vector2(836,551),Vector2(467,62),game.toggle_help,23)
 	wood_button("종료",Vector2(836,619),Vector2(467,59),game.finish_run,23)
 	game.menu_status=game.label(self,"",Vector2(760,761),Vector2(579,54),17,Color("fff1d4"));game.menu_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	game.menu_status.add_theme_color_override("font_outline_color",Color("284538"));game.menu_status.add_theme_constant_override("outline_size",4)
@@ -35,4 +36,19 @@ func wood_button(caption:String,at:Vector2,dimensions:Vector2,callback:Callable,
 	var focus=StyleBoxFlat.new();focus.bg_color=Color.TRANSPARENT;focus.border_color=Color("f6d88790");focus.set_border_width_all(1);focus.set_corner_radius_all(6);focus.content_margin_left=7;focus.content_margin_right=7
 	b.add_theme_stylebox_override("focus",focus);b.pressed.connect(callback);add_child(b);return b
 func refresh_records():
-	for i in range(records.size()):records[i].text=("◆  " if game.slot_picker.selected==i else "")+"기록 %d"%(i+1)
+	for i in range(records.size()):
+		var path=game.session.save_directory.path_join("slot-%d.json"%(i+1))
+		var saved=game.session.parse_save(path)
+		if saved==null:saved=game.session.parse_save(path+".bak")
+		var prefix="◆ " if game.slot_picker.selected==i else ""
+		if saved!=null:
+			var name=str(saved.name);var wrapped=name if name.length()<=8 else name.substr(0,8)+"\n"+name.substr(8)
+			records[i].text=prefix+"Lv.%d\n"%int(saved.level)+wrapped
+			records[i].tooltip_text="Lv.%d · %s"%[int(saved.level),name]
+		else:
+			records[i].text=prefix+("읽을 수 없는 기록" if game.session.slot_state(i+1)=="damaged" else "빈 기록")
+			records[i].tooltip_text=""
+		var pixels=17;var font=records[i].get_theme_font("font");var lines=Array(records[i].text.split("\n"))
+		while pixels>12 and (font.get_height(pixels)*lines.size()>records[i].size.y-4 or lines.any(func(line):return font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x>records[i].size.x-8)):
+			pixels-=1
+		records[i].add_theme_font_size_override("font_size",pixels)

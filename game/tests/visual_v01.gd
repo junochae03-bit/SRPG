@@ -2,11 +2,14 @@ extends SceneTree
 const World=preload("res://scripts/world_catalog.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func capture(name:String):
 	await create_timer(.25).timeout;await process_frame;await RenderingServer.frame_post_draw
 	assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/"+name+".png"))==OK);print("CAPTURE ",name)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/visual-v01/"+str(Time.get_ticks_usec()));game.join_game();session.sim.players[1].tutorial_done=true;session.travel("town");session.set_physics_process(false);game.set_physics_process(false)
 	var p=session.sim.players[1];p.level=30;p.gold=1765;p.materials={"seed":32,"ore":16,"essence":4};session.act("claim_starters")

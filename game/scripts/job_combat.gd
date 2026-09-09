@@ -2,6 +2,7 @@ extends RefCounted
 # Runtime for the level-30 jobs. Cast snapshots prevent resource reuse on cancellation.
 const Content=preload("res://scripts/content.gd")
 const Balance=preload("res://scripts/job_balance.gd")
+const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
 var owner_ref:WeakRef
 var combat:
 	get:return owner_ref.get_ref()
@@ -165,7 +166,7 @@ func spend_grit(p:Dictionary,limit:float)->float:
 func target(p:Dictionary,distance:float=8.,marked:bool=false)->Dictionary:
 	var best={};var score=INF
 	for e in sim.enemies.values():
-		if e.hp<=0 or e.pos.distance_to(p.pos)>distance or not sim.map.line_clear(p.pos,e.pos):continue
+		if e.hp<=0 or not HitGeometry.circle(e,p.pos,distance) or not sim.map.line_clear(p.pos,e.pos):continue
 		if marked and not p.job_state.marks.has(str(e.id)):continue
 		var angle=p.aim.dot(p.pos.direction_to(e.pos))
 		if angle<.1:continue
@@ -421,7 +422,7 @@ func _execute(p:Dictionary,cast:Dictionary):
 	if combat.constellation.delivery(p,cast):return
 	var any_hit=false
 	for e in sim.enemies.values():
-		if e.hp<=0 or e.pos.distance_to(center)>n.radius or not sim.map.line_clear(center,e.pos):continue
+		if e.hp<=0 or not HitGeometry.circle(e,center,n.radius) or not sim.map.line_clear(center,e.pos):continue
 		if center==p.pos and p.aim.dot(p.pos.direction_to(e.pos))<0:continue
 		var amount=damage
 		# This job's chain uses the existing close-range hit loop, so its beam
@@ -492,11 +493,11 @@ func tick(p:Dictionary,delta:float):
 		if pet.source!="hound" and pet.source!="test" and pet.source not in p.skill_loadout.values():pet.hp=0;continue
 		var t=target(p,7.)
 		var ordered=sim.enemies.get(s.get("pet_target",-1),{})
-		if not ordered.is_empty() and ordered.hp>0 and ordered.pos.distance_to(p.pos)<9+passive(p,5)*.5 and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
+		if not ordered.is_empty() and ordered.hp>0 and HitGeometry.circle(ordered,p.pos,9+passive(p,5)*.5) and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
 		if t.is_empty():pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(p.pos)*minf(delta*4,pet.pos.distance_to(p.pos)))
 		else:
 			pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(t.pos)*delta*4)
-			if pet.cd<=0 and pet.pos.distance_to(t.pos)<(5. if pet.kind==1 else 1.6):
+			if pet.cd<=0 and HitGeometry.circle(t,pet.pos,5. if pet.kind==1 else 1.6):
 				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos,pet.get("stagger",{}));pet.cd=.8/(1+value(p,"pet_haste"))
 	if p.class_id=="hunter" and s.pets.any(func(pet):return pet.hp<=0):s.hound_respawn=8.
 	s.pets=s.pets.filter(func(pet):return pet.hp>0)

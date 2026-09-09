@@ -26,6 +26,15 @@ var quest_emblem:TextureRect
 var quest_panel:Control
 var quest_toggle:Button
 var quest_collapsed=false
+var slot_context:Array=[]
+var slot_metadata:Dictionary={}
+var portrait_context:Array=[]
+var portrait_source_rect=Rect2()
+var portrait_frame_size=Vector2.ZERO
+var metadata_rebuilds=0
+var profile_evaluations=0
+var chrome:Control
+var chrome_hidden=false
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
 	material=preload("res://scripts/gat_art.gd").material()
@@ -83,6 +92,55 @@ func setup(owner_game):
 	game.connection_label=white_label("",Vector2(44,874),Vector2(660,20),12,Color("e6f0dc"))
 	game.connection_label.hide()
 	boss_hud=preload("res://scripts/boss_hud.gd").new();boss_hud.setup(game);add_child(boss_hud)
+	# Main attaches full-screen panels after setup. Keep only HUD controls in
+	# this layer so modal edges never expose half a caption or a resource bar.
+	chrome=Control.new();chrome.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(chrome)
+	for child in get_children():
+		if child!=chrome and child is CanvasItem:child.reparent(chrome)
+	refresh_key_labels()
+
+func refresh_chrome():
+	var hidden=false
+	for property in ["bag","skill_tree","town_panel","codex","help_panel","character_sheet"]:
+		var panel=game.get(property)
+		if panel!=null and panel.visible:hidden=true;break
+	if hidden==chrome_hidden:return
+	chrome_hidden=hidden;chrome.visible=not hidden;queue_redraw()
+
+func _process(_delta):refresh_chrome()
+
+func key_label(action:String)->String:
+	return game.keybindings.label(action) if game.get("keybindings")!=null else preload("res://scripts/key_bindings.gd").key_name(preload("res://scripts/key_bindings.gd").DEFAULTS[action])
+
+func refresh_key_labels():
+	for action in circles:
+		circles[action].hotkey=key_label(action);circles[action].queue_redraw()
+	for pair in [[bag_button,"bag"],[growth_button,"skills"],[codex_button,"codex"]]:
+		if pair[0]!=null:pair[0].hotkey=key_label(pair[1]);pair[0].tooltip_text=pair[0].caption+" ("+pair[0].hotkey+")";pair[0].queue_redraw()
+
+func refresh_portrait():
+	var source:Texture2D
+	if Content.gat_appearance(p):
+		var still={"class_id":p.class_id,"avatar":p.get("avatar","auto"),"costume":p.costume,"legacy_costume":p.get("legacy_costume","")}
+		source=preload("res://scripts/gat_art.gd").frame(still,0.).texture
+	else:source=game.textures[Content.costume_role(p)].idle[0]
+	portrait_frame_size=source.get_size()
+	var bounds=Rect2(source.get_image().get_used_rect())
+	if not bounds.has_area():bounds=Rect2(Vector2.ZERO,portrait_frame_size)
+	# Retain the entire authored width and top: wide hats/ears cannot be cut by
+	# the old fixed square around the foot. Only the lower body is cropped.
+	portrait_source_rect=Rect2(bounds.position,Vector2(bounds.size.x,ceilf(bounds.size.y*.62)))
+	var cropped=AtlasTexture.new();cropped.filter_clip=true
+	if source is AtlasTexture:
+		cropped.atlas=source.atlas;cropped.region=Rect2(source.region.position+portrait_source_rect.position,portrait_source_rect.size)
+	else:cropped.atlas=source;cropped.region=portrait_source_rect
+	portrait=cropped
+
+func portrait_rect()->Rect2:
+	if portrait==null:return Rect2()
+	var dimensions=portrait.get_size();dimensions*=minf(72./dimensions.x,72./dimensions.y)
+	dimensions.x=minf(72.,dimensions.x);dimensions.y=minf(72.,dimensions.y)
+	return Rect2(Vector2(72,73)-dimensions*.5,dimensions)
 
 func toggle_quest():
 	quest_collapsed=not quest_collapsed
@@ -96,7 +154,28 @@ func white_label(value:String,at:Vector2,dimensions:Vector2,font_size:int,color:
 	label.add_theme_color_override("font_outline_color",Color("203e45b0"));label.add_theme_constant_override("outline_size",4)
 	return label
 
+func refresh_slot_metadata():
+	# Only presentation metadata is retained. Combat still resolves every cast,
+	# including temporary resource, movement, follow-up and support effects.
+	var weapon=game.session.sim.combat.weapon_type(p)
+	var context=[p.class_id,p.skill_ranks,p.skill_loadout,p.stats,p.get("gear_stats",{}),p.equipment,p.get("equipped",""),p.inventory,p.level,p.max_hp,p.get("constellation_allocations",{}),weapon]
+	if context==slot_context and not slot_metadata.is_empty():return
+	slot_context=context.duplicate(true);slot_metadata.clear();metadata_rebuilds+=1
+	var advanced=Content.job(p)
+	var damage=game.session.sim.damage_for(p) if advanced else 0
+	var bonuses={} if advanced else preload("res://scripts/active_skills.gd").bonuses(p)
+	for key in circles:
+		var node=Content.active_node(p,key) if key in Content.ACTIONS else {}
+		var rank=int(p.skill_ranks.get(node.get("id",""),0));var trained=rank>0
+		var maximum={"nova":4.0,"dodge":0.8,"potion":2.0,"return":8.0}.get(key,0.8)
+		if key in Content.ACTIONS and trained:
+			var profile=preload("res://scripts/job_balance.gd").profile(p,node,rank,damage,p.max_hp,p.skill_ranks.get(node.id+"_upgrade",0)>0) if advanced else preload("res://scripts/skill_scaling.gd").profile(node,rank,bonuses)
+			maximum=profile.cooldown;profile_evaluations+=1
+		var picture=Icons.texture("skill_empty" if node.is_empty() else "skill_locked") if key in Content.ACTIONS and not trained else preload("res://scripts/icon_art.gd").action(p,key,weapon)
+		slot_metadata[key]={"node":node,"rank":rank,"trained":trained,"max_cooldown":maximum,"picture":picture}
+
 func refresh():
+	refresh_chrome()
 	p=game.session.state.players.get(game.session.local_id,{})
 	if p.is_empty():return
 	name_label.text=p.name;name_label.tooltip_text=p.name
@@ -117,25 +196,26 @@ func refresh():
 	game.connection_label.text=""
 	quest_title.tooltip_text=quest_title.text
 	quest_emblem.texture=Icons.texture(quest_icon)
-	portrait=preload("res://scripts/gat_art.gd").portrait(p) if Content.gat_appearance(p) else game.textures[Content.costume_role(p)].idle[0]
+	var appearance=[p.class_id,p.get("avatar","auto"),p.costume,p.get("legacy_costume","")]
+	if appearance!=portrait_context:
+		portrait_context=appearance
+		refresh_portrait()
+	refresh_slot_metadata()
 	for key in circles:
-		var control=circles[key];control.cooldown=p.get(key+"_cd",0.0);control.max_cooldown={"nova":4.0,"dodge":0.8,"potion":2.0,"return":8.0}.get(key,0.8)
+		var control=circles[key];var metadata=slot_metadata[key]
+		control.cooldown=p.get(key+"_cd",0.0);control.max_cooldown=metadata.max_cooldown
 		if key=="heavy":control.cooldown=p.attack_cd
 		if key=="potion":control.count=str(p.potions)
 		if key=="nova":control.caption=Content.CLASSES[p.class_id].skill
 		if key in Content.ACTIONS:
-			var node=Content.active_node(p,key);var trained=Content.action_rank(p,key)>0
+			var node=metadata.node;var trained=metadata.trained
 			control.caption=node.get("name","미장착") if trained else "미장착" if node.is_empty() else "미습득"
 			control.locked=not trained
-			if trained:
-				control.max_cooldown=preload("res://scripts/job_balance.gd").profile(p,node,Content.action_rank(p,key),game.session.sim.damage_for(p),p.max_hp,p.skill_ranks.get(node.id+"_upgrade",0)>0).cooldown if Content.job(p) else preload("res://scripts/skill_scaling.gd").profile(node,Content.action_rank(p,key),preload("res://scripts/active_skills.gd").bonuses(p)).cooldown
 			control.cooldown=p.skill_cooldowns.get(node.get("id",""),0.)
-			control.rank_text=str(Content.action_rank(p,key))+"/"+str(Content.max_rank(node)) if trained else ""
-		if key in Content.ACTIONS and Content.action_rank(p,key)<=0:
-			control.picture=Icons.texture("skill_empty" if Content.active_node(p,key).is_empty() else "skill_locked")
-		else:control.picture=preload("res://scripts/icon_art.gd").action(p,key,game.session.sim.combat.weapon_type(p))
+			control.rank_text=str(metadata.rank)+"/"+str(Content.max_rank(node)) if trained else ""
+		control.picture=metadata.picture
 		control.tooltip_text=control.caption+" ("+control.hotkey+")"
-		if key in Content.ACTIONS and control.locked:control.tooltip_text="K · 성장에서 기술을 배우고 배치하세요." if Content.active_node(p,key).is_empty() else Content.active_node(p,key).name+" · 아직 배우지 않은 기술"
+		if key in Content.ACTIONS and control.locked:control.tooltip_text=key_label("skills")+" · 성장에서 기술을 배우고 배치하세요." if metadata.node.is_empty() else metadata.node.name+" · 아직 배우지 않은 기술"
 		control.queue_redraw()
 		game.action_badges[key].text="%.1fs" % control.cooldown if control.cooldown>0 else ""
 	var interact=circles.interact;interact.caption="상호작용"
@@ -144,22 +224,18 @@ func refresh():
 	elif game.session.state.drops.values().any(func(drop):return drop.owner==p.id and drop.pos.distance_to(p.pos)<=1.8):interact.caption="줍기"
 	elif game.dungeon.floor_number>0 and p.pos.distance_to(game.dungeon.exit_position)<2.8:interact.caption="출구"
 	elif game.dungeon.in_town(p.pos):interact.caption="회복 · 보급"
-	interact.tooltip_text=interact.caption+" (E)"
+	interact.tooltip_text=interact.caption+" ("+interact.hotkey+")"
 	charge_label.text="강공격 충전  %d%%" % clampi(p.charge_time/0.9*100,0,100) if p.charge_time>=0 else ""
 	charge_label.visible=p.charge_time>=0
 	job_resource.refresh(p)
 	queue_redraw()
 
 func _draw():
-	if p.is_empty():return
+	if p.is_empty() or chrome_hidden:return
 	Icons.draw(self,"gold",Rect2(126,136,22,22))
 	var center=Vector2(72,73)
 	draw_texture_rect(Art.texture("medallion"),Rect2(center-Vector2(53,53),Vector2(106,106)),false)
-	if portrait:
-		if Content.gat_appearance(p):draw_texture_rect(portrait,Rect2(center-Vector2(32,32),Vector2(64,64)),false)
-		else:
-			var height=portrait.get_height()*0.53;var width=portrait.get_width()
-			draw_texture_rect_region(portrait,Rect2(center-Vector2(29,33),Vector2(58,64)),Rect2(0,0,width,height))
+	if portrait:draw_texture_rect(portrait,portrait_rect(),false)
 	draw_string_outline(game.bold_font,Vector2(46,139),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,16,4,Color("263b35"))
 	draw_string(game.bold_font,Vector2(46,139),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,16,Color("fff0b9"))
 	bar(Rect2(130,95,278,23),float(p.hp)/p.max_hp,Color("5ad18c"),0)

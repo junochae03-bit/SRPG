@@ -5,7 +5,8 @@ const E=preload("res://scripts/equipment_catalog.gd")
 const I=preload("res://scripts/inventory_model.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);push_error(label)
@@ -13,6 +14,8 @@ func capture(name:String):
 	await create_timer(.15).timeout;await process_frame;await RenderingServer.frame_post_draw
 	var path=ProjectSettings.globalize_path("res://../artifacts/v02-"+name+".png");check(root.get_texture().get_image().save_png(path)==OK,"capture "+name)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v02/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;p.highest_floor=100;p.cleared_floor=99;local.travel("town");p=local.sim.players[1]

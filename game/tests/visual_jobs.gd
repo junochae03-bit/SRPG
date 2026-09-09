@@ -1,11 +1,14 @@
 extends SceneTree
 const Dungeon=preload("res://scripts/dungeon.gd")
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func capture(name:String):
 	await create_timer(.3).timeout;await process_frame;await RenderingServer.frame_post_draw
 	var path=ProjectSettings.globalize_path("res://../artifacts/jobs-"+name+".png")
 	assert(root.get_texture().get_image().save_png(path)==OK);print("CAPTURE ",path)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	game.session.save_directory=ProjectSettings.globalize_path("res://../runtime/visual-jobs/"+str(Time.get_ticks_usec()));game.join_game();game.session.set_physics_process(false);game.set_physics_process(false)
 	var p=game.session.sim.players[1];p.level=100;p.class_id="breaker";game.session.sim.combat.jobs.reset(p)
