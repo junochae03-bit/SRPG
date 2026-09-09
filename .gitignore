@@ -4,6 +4,8 @@ artifacts/
 tmp/
 tools/python_deps/
 tools/godot/
+tools/godot-templates/
+releases/
 extracted/
 extracted_koongya/
 extracted_sephiria/

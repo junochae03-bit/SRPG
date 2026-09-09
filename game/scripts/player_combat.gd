@@ -28,7 +28,7 @@ func tick_player(p:Dictionary,delta:float):
 		if p.regen_fraction>=1:p.hp=mini(p.max_hp,p.hp+int(p.regen_fraction));p.regen_fraction=fposmod(p.regen_fraction,1)
 	if p.charge_time>=0:p.charge_time=minf(0.9,p.charge_time+delta)
 	var speed=sim.balance.player.speed+Content.skill_bonus(p,"speed")
-	if p.haste_time>0:speed*=1.25
+	if p.haste_time>0:speed*=1+p.get("haste_speed",.25)
 	if p.enemy_slow_time>0:speed*=.65
 	if p.dodge_time>0:
 		p.pos=sim.map.move(p.pos,p.dodge_dir*11.5*delta)
@@ -85,7 +85,7 @@ func act(p:Dictionary,kind:String)->bool:
 func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	var type=weapon_type(p);var config=Content.WEAPONS[type]
 	p.attack_cd=maxf(0.15,config.cooldown-Content.skill_bonus(p,"attack_haste"))*(1.5 if heavy else 1.0);p.swing=0.32
-	if p.haste_time>0:p.attack_cd*=.7
+	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
 	p.motion_time=0.5 if heavy else 0.32;p.motion_duration=p.motion_time
@@ -141,7 +141,7 @@ func tick_projectiles(delta:float):
 		targets.sort_custom(func(a,b):return origin.distance_squared_to(a.pos)<origin.distance_squared_to(b.pos))
 		for e in targets:
 			if e.hp<=0 or shot.hit.has(e.id):continue
-			if e.pos.distance_to(Geometry2D.get_closest_point_to_segment(e.pos,origin,next))>0.42:continue
+			if e.pos.distance_to(Geometry2D.get_closest_point_to_segment(e.pos,origin,next))>shot.get("width",.42):continue
 			var p=sim.players[shot.owner]
 			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount)
 			else:hit(p,e,shot.amount,origin)

@@ -575,6 +575,21 @@
     "sha256": "3c8ecc94b75db03da79a0b71e1c9f468dbea5563cc88e2e82ff395e394b6384a"
   },
   {
+    "path": "game/assets/ui/atelier-kit-v01.png",
+    "bytes": 2335381,
+    "sha256": "1a2deee8761564a8bf4bfe7a3fd8247d73e6ceaba4b2373ab91ebb4b6f8825e7"
+  },
+  {
+    "path": "game/assets/ui/catalog.json",
+    "bytes": 448,
+    "sha256": "9913adebcf13df81c6c045667595192b0b3e612dedbd8ae82c4920fd7f4fb120"
+  },
+  {
+    "path": "game/assets/ui/facility-counters-v01.png",
+    "bytes": 2926039,
+    "sha256": "46bff77e67fdafe42e0d0bbf93c454bad6a83508095d4101887dac983d7ac9f9"
+  },
+  {
     "path": "game/assets/world/boss_bars-v05.png",
     "bytes": 1667775,
     "sha256": "07a94018659340586ea8f53a07957057880761ec6b66f3c82aa02da19094f746"
@@ -621,8 +636,8 @@
   },
   {
     "path": "game/project.godot",
-    "bytes": 732,
-    "sha256": "69ae9c0dcc4973c2317a7a23790d3fe15ae3e00b9e3fd87d2c864d37d7c74ea3"
+    "bytes": 752,
+    "sha256": "c527b9540daed53ae7bc55418c35924bd43c9cacd26a1c8136f3f78e8a50db11"
   },
   {
     "path": "game/scripts/action_circle.gd",
@@ -631,8 +646,8 @@
   },
   {
     "path": "game/scripts/active_skills.gd",
-    "bytes": 6445,
-    "sha256": "82f23831c9096a3ebfcf8d89baedb5674728ab0ab5edbfc651d00e49feb89bea"
+    "bytes": 6700,
+    "sha256": "02df656afb08f78e2621e2185da52d96c2b7d0c802bf953007f71327d7226933"
   },
   {
     "path": "game/scripts/audio_director.gd",
@@ -701,13 +716,13 @@
   },
   {
     "path": "game/scripts/inventory_grid_ui.gd",
-    "bytes": 2396,
-    "sha256": "a8ae98b69ead52a517c21787ad2b6c4d0f02a43cbe017c82349a1450bfecf6ea"
+    "bytes": 2336,
+    "sha256": "b1cbaca676e3815e1f9a7424a8483a9b151d58d08f9a9a4a9ab1962a267b4807"
   },
   {
     "path": "game/scripts/inventory_item_ui.gd",
-    "bytes": 3100,
-    "sha256": "4e26faecca702d2b02fd2e7abf8202be777ba5f08617c59a1cc411d0a00c0c49"
+    "bytes": 3136,
+    "sha256": "30a54f2ed4fc1d8a997b2295e1fe56afa85aad267b5c404372899842661ca21e"
   },
   {
     "path": "game/scripts/inventory_model.gd",
@@ -716,8 +731,8 @@
   },
   {
     "path": "game/scripts/inventory_panel.gd",
-    "bytes": 8884,
-    "sha256": "2e85274761cb7765a57edd37aecfb5feb5c8186e834417283c12f248a846cf60"
+    "bytes": 10630,
+    "sha256": "18ec77eca2acf2025ffc4ebcd423cfa9752af4302f3a43b60112c4870e084ed3"
   },
   {
     "path": "game/scripts/item_art.gd",
@@ -726,8 +741,8 @@
   },
   {
     "path": "game/scripts/local_session.gd",
-    "bytes": 10023,
-    "sha256": "80e3ec7bf9f86040211f2468141f354c78d620e4417552183b21f0b4c0f7dba0"
+    "bytes": 10114,
+    "sha256": "52ae0a1a247981773fbeced9c1135290b0295b89463ac2879c6934bde53122bf"
   },
   {
     "path": "game/scripts/loot_tables.gd",
@@ -736,13 +751,13 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 34355,
-    "sha256": "f6a42a6e7e387730a7a6635ca6198c076b53dfba5e8b22cf6e12a74a9c3b7da0"
+    "bytes": 35011,
+    "sha256": "7e167a81e89fe14999058d4ac2e68cd31460f82da2bd17b25f211624db14a2ee"
   },
   {
     "path": "game/scripts/minimap.gd",
-    "bytes": 1109,
-    "sha256": "4f25428d4328b38ecc2f7fb4bef0448cdfad76c2af78432b432d10cf3d8b8fa2"
+    "bytes": 1135,
+    "sha256": "551ca63951b421d06d6dabffc97e35ddb62ca2aa1da65df7b521a43f9b77ac84"
   },
   {
     "path": "game/scripts/monster_attacks.gd",
@@ -751,13 +766,18 @@
   },
   {
     "path": "game/scripts/player_combat.gd",
-    "bytes": 8673,
-    "sha256": "76c19a767c9352cdeb043fd38c9e31ea77d6c7ec0a95ef615d391a6dc19eb53c"
+    "bytes": 8733,
+    "sha256": "661a4baf9dc1424dda4f7531ac5bbc962d001c0c4db39f684a1291adb5c1243d"
   },
   {
     "path": "game/scripts/progression.gd",
     "bytes": 1030,
     "sha256": "720ee5316cf4318fb14ff41f0a784f0064f922196d01bec055a2cd0daa4a218b"
+  },
+  {
+    "path": "game/scripts/service_quote.gd",
+    "bytes": 4585,
+    "sha256": "dcf2c3b270ead19e0ddfeb16855868eaf1293d5b3d27fd4bc2b7e4875022f8d3"
   },
   {
     "path": "game/scripts/simulation.gd",
@@ -766,28 +786,38 @@
   },
   {
     "path": "game/scripts/skill_catalog.gd",
-    "bytes": 48266,
-    "sha256": "5685b441f3cb68a72c09c39327a415a855d44e5cd3afa39fea755f3377c27a34"
+    "bytes": 48858,
+    "sha256": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b"
   },
   {
     "path": "game/scripts/skill_effects.gd",
-    "bytes": 7130,
-    "sha256": "7927be033735b14dcca3168483ca1a52b034b1fb967323a8863916c8cfb712ce"
+    "bytes": 7425,
+    "sha256": "e4d03cdd266f925ca5c3f529f18d895b67c37c7132b134cdc57507de992514ca"
+  },
+  {
+    "path": "game/scripts/skill_scaling.gd",
+    "bytes": 5367,
+    "sha256": "480b05f34048112461b76e74313255a9abc1fb75be2c0c0fa0611dd117ee443d"
   },
   {
     "path": "game/scripts/skill_tree_ui.gd",
-    "bytes": 7869,
-    "sha256": "98298f88dbac606a7bf74504d356f515533b85560ae0dd9474d7b8c1ca367fef"
+    "bytes": 12837,
+    "sha256": "8f67a890e0203159134b3b7a0895ee2a1f6d72cb50fa709e2a8d96360c85710d"
   },
   {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 6892,
-    "sha256": "f6966b9557573d7ef4753bb50ded340f168528a1e4237afcfea1364bc44fd760"
+    "bytes": 14697,
+    "sha256": "54cc0b7adcd31fe4d25ae84276559916027023635c58e688280eb651e692610e"
   },
   {
     "path": "game/scripts/town_services.gd",
     "bytes": 4461,
     "sha256": "75954dffeb397bc1d041e3f1da21fdb07554d7c2aee5a5c461caf169e018f2f4"
+  },
+  {
+    "path": "game/scripts/ui_art.gd",
+    "bytes": 1993,
+    "sha256": "0b315b2a05929499678e27a9d56b331936b424ab850c1f2691b9bd0e6b7dc291"
   },
   {
     "path": "game/scripts/world_art.gd",

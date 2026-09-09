@@ -1,0 +1,19 @@
+{
+  "tool": "Codex built-in image_gen",
+  "files": [
+    {
+      "file": "game/assets/ui/atelier-kit-v01.png",
+      "source_output": "exec-4130a6d0-ec7f-40d8-b36a-7821ef919421.png",
+      "prompt": "UI_KIT_V01_PROMPT.txt",
+      "sha256": "1a2deee8761564a8bf4bfe7a3fd8247d73e6ceaba4b2373ab91ebb4b6f8825e7",
+      "handling": "Original generated RGBA PNG copied unchanged; AtlasTexture region metadata and NinePatchRect at runtime."
+    },
+    {
+      "file": "game/assets/ui/facility-counters-v01.png",
+      "source_output": "exec-42915e46-e201-4722-a0dd-e325a0ef4ad2.png",
+      "prompt": "FACILITIES_V01_PROMPT.txt",
+      "sha256": "46bff77e67fdafe42e0d0bbf93c454bad6a83508095d4101887dac983d7ac9f9",
+      "handling": "Original generated RGBA PNG copied unchanged; AtlasTexture region metadata and NinePatchRect at runtime."
+    }
+  ]
+}

@@ -23,3 +23,10 @@
 | 스킬·패시브·기능 아이콘 72개 | ICONS_ACTIVE_V05_PROMPT.txt, ICONS_SUPPORT_V05_PROMPT.txt |
 
 실사·식물 혼합 몬스터 등 반려된 시안은 현재 게임과 저장소에서 사용하지 않는다. 에셋 제공자의 별도 권리를 이 저장소의 코드 공개만으로 새로 부여하지 않는다.
+
+## V0.1 UI 원화
+
+- `game/assets/ui/atelier-kit-v01.png`: 양피지 프레임, 가죽 슬롯, 등급별 금속 테두리, 초상 받침대, 두루마리, 문장 등 9개 구성 요소. [최종 프롬프트](UI_KIT_V01_PROMPT.txt)
+- `game/assets/ui/facility-counters-v01.png`: 대장간·상점·연금술·길드·여관·원정의 문 작업 공간 6개. [최종 프롬프트](FACILITIES_V01_PROMPT.txt)
+- 내장 image_gen이 만든 RGBA 원본을 변경 없이 복사했다. 이미지 재가공 없이 AtlasTexture 영역과 NinePatchRect로 소비한다. [원본 식별자·해시·적용 기록](UI_V01_PROVENANCE.json)
+- Windows 패키지의 Godot 4.6 엔진은 [MIT 라이선스](GODOT_LICENSE.txt)와 [제3자 저작권 고지](GODOT_COPYRIGHT.txt)를 함께 제공한다. 공식 출처는 [Godot 4.6 소스](https://github.com/godotengine/godot/tree/4.6-stable)다.

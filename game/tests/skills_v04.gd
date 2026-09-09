@@ -45,7 +45,7 @@ func run():
 			if action=="skill_v" and class_id!="warrior":enemy.pos=sim.combat.skills.target(p,3.5 if class_id=="ranger" else 4.0)
 			sim.combat.projectiles.clear();sim.action(1,action)
 			for step in range(45):sim.combat.tick_projectiles(.03);sim.combat.skills.tick(.03)
-			check(absf((99999-enemy.hp)-rank_one_damage*1.4)<=5,"active rank three increases real damage by forty percent "+class_id+action)
+			check(99999-enemy.hp>=rank_one_damage*2.1,"rank three damage exceeds twice rank one with stronger pulse/projectile profiles "+class_id+action)
 			p.pos=sim.map.spawn;p[action+"_cd"]=0;p.stamina=p.max_stamina
 			check(not sim.action(1,action),"camp blocks offensive skill "+class_id+action)
 		var saved=sim.persistent(1);var restored=Simulation.new().add_player(1,"복원",saved)
