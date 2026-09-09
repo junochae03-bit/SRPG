@@ -20,6 +20,11 @@ static func render(game,e:Dictionary):
 	var gold=Color(1,.84,.38,alpha)
 	var blue=Color(.5,.86,1,alpha)
 	var angle=Dungeon.iso(e.get("dir",Vector2.RIGHT)).angle()
+	var rank=int(e.get("rank",1))
+	if rank>1:
+		for i in range(rank*6):
+			var spark=at+Vector2.from_angle(i*TAU/(rank*6)+t)*(radius*(.45+t*.55))*Vector2(1,.5)
+			star(game,spark,3+rank,Color(.94,1,.82,alpha*.7),t*3)
 	if kind.begins_with("warrior_") or kind.begins_with("ranger_") or kind.begins_with("mage_"):
 		extended(game,e,at,t,radius,angle,alpha);return
 	match kind:
@@ -82,18 +87,19 @@ static func projectile(game,shot:Dictionary):
 	var at=game.world_point(shot.pos)+Vector2(0,-28)
 	var direction=Dungeon.iso(shot.dir).normalized()
 	var angle=direction.angle()
+	var scale=float(shot.get("visual_scale",1))
 	match shot.type:
 		"wave":
-			game.draw_arc(at,33,angle-1.2,angle+1.2,24,Color("ffe9a6"),6,true)
-			game.draw_arc(at-direction*10,29,angle-1.1,angle+1.1,24,Color("e8b96580"),4,true)
+			game.draw_arc(at,33*scale,angle-1.2,angle+1.2,24,Color("ffe9a6"),6*scale,true)
+			game.draw_arc(at-direction*10,29*scale,angle-1.1,angle+1.1,24,Color("e8b96580"),4,true)
 		"staff":
 			game.draw_line(at-direction*33,at,Color("9fb8ee70"),10,true)
-			star(game,at,13,Color("effaff"),game.visual_time*5)
+			star(game,at,13*scale,Color("effaff"),game.visual_time*5)
 			star(game,at-direction*20,5,Color("bcdcff"),-game.visual_time*4)
 		_:
 			var piercing=shot.type=="piercing"
 			if piercing:game.draw_line(at-direction*65,at,Color("93f5bb70"),8,true)
-			game.draw_line(at-direction*29,at,Color("f5e6b7"),3,true)
+			game.draw_line(at-direction*29*scale,at,Color("f5e6b7"),3*scale,true)
 			game.draw_line(at-direction*24+direction.orthogonal()*5,at-direction*18,Color("7bced1"),3,true)
 			game.draw_colored_polygon(PackedVector2Array([at+direction*4,at-direction*8+direction.orthogonal()*5,at-direction*8-direction.orthogonal()*5]),Color("ecffff"))
 

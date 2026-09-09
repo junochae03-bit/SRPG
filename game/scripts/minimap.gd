@@ -1,7 +1,7 @@
 extends Node2D
 var game
 func _draw():
-	if game==null or not game.session.connected or game.bag.visible or game.help_panel.visible or game.skill_tree.visible:return
+	if game==null or not game.session.connected or game.bag.visible or game.help_panel.visible or game.skill_tree.visible or game.town_panel.visible:return
 	var center=Vector2(1324,106)
 	draw_circle(center,78,Color("1d5146d9"))
 	draw_arc(center,78,0,TAU,64,Color("b9d4b8"),2,true)

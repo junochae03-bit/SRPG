@@ -1,7 +1,8 @@
 {
+  "version": "V0.1",
   "gate": {
     "status": "PASS",
-    "checks": 2510,
+    "checks": 3767,
     "results": [
       {
         "test": "forest_stability",
@@ -108,11 +109,19 @@
         ]
       },
       {
-        "test": "legacy_save",
+        "test": "skills_v01",
         "status": "PASS",
-        "checks": 0,
+        "checks": 1026,
         "markers": [
-          "LEGACY_SAVE_PASS; migration and restart verified"
+          "SKILLS_V01_TESTS checks=1026 failures=0"
+        ]
+      },
+      {
+        "test": "ui_v01",
+        "status": "PASS",
+        "checks": 231,
+        "markers": [
+          "UI_V01_TESTS checks=231 failures=0"
         ]
       },
       {
@@ -120,7 +129,15 @@
         "status": "PASS",
         "checks": 0,
         "markers": [
-          "LEGACY_SAVE_PASS; migration and restart verified"
+          "LEGACY_SAVE_PASS level=20 items=27 gold=5397"
+        ]
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "LEGACY_SAVE_PASS level=5 items=0 gold=57"
         ]
       },
       {
@@ -130,12 +147,20 @@
         "markers": [
           "VISUAL_V05_PASS"
         ]
+      },
+      {
+        "test": "visual_v01",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V01_PASS"
+        ]
       }
     ],
     "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
-    "runtime_files": 162,
-    "runtime_mib": 145.15,
-    "verified_at": "2026-09-09 03:52:00"
+    "runtime_files": 168,
+    "runtime_mib": 150.19,
+    "verified_at": "2026-09-09 10:27:39"
   },
   "process": {
     "status": "PASS",
@@ -150,6 +175,24 @@
     "restart_persistence": "PASS",
     "elite_fixture": "A weakened elite is defeated through the attack action; guaranteed gear is picked up and compared after a separate process restart.",
     "elite_items": 1,
-    "elite_persistence": "PASS"
+    "elite_persistence": "PASS",
+    "rendered_screens": [
+      "title.png",
+      "gameplay.png",
+      "inventory.png"
+    ]
+  },
+  "windows_export": {
+    "status": "PASS",
+    "version": "V0.1",
+    "kills": 7,
+    "distance": 51.6800745874643,
+    "portable_save": "saves/slot-3.json beside the executable",
+    "restart_persistence": "all persistent player fields identical",
+    "rendered_screens": [
+      "export-inventory.png",
+      "export-skills.png"
+    ],
+    "executable_sha256": "f9cb815a32a1ae3a73ad8699ed2b068cb76fe01636d7e8538243056fac05f37b"
   }
 }

@@ -138,12 +138,11 @@ func load_art():
 			textures[role][state_name] = []
 			for path in art[role][state_name]: textures[role][state_name].append(load(path))
 
-func style(bg: Color, border: Color = Color("b4c9b7"), radius: int = 3) -> StyleBoxFlat:
-	var box = StyleBoxFlat.new()
-	box.bg_color = bg
-	box.border_color = border
-	box.set_border_width_all(1)
-	box.set_corner_radius_all(radius)
+func style(bg: Color, _border: Color = Color("b4c9b7"), _radius: int = 3) -> StyleBoxTexture:
+	var box = StyleBoxTexture.new()
+	box.texture=preload("res://scripts/ui_art.gd").texture("paper")
+	box.texture_margin_left=30;box.texture_margin_right=30;box.texture_margin_top=30;box.texture_margin_bottom=30
+	box.modulate_color=Color(1,1,1,bg.a)
 	box.content_margin_left = 14
 	box.content_margin_right = 14
 	box.content_margin_top = 10
@@ -162,13 +161,14 @@ func label(parent: Node, text_value: String, pos: Vector2, size_value: Vector2, 
 	parent.add_child(control)
 	return control
 
-func panel(parent: Node, pos: Vector2, dimensions: Vector2, background: Color = Color("fff9eaf2")) -> Panel:
+func panel(parent: Node, pos: Vector2, dimensions: Vector2, _background: Color = Color("fff9eaf2")) -> Panel:
 	var control = Panel.new()
 	control.position = pos
 	control.size = dimensions
-	control.add_theme_stylebox_override("panel", style(background))
+	control.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	control.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(control)
+	preload("res://scripts/ui_art.gd").decorate(control,"paper",18)
 	return control
 
 func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2, callback: Callable, accent: bool = false) -> Button:
@@ -183,11 +183,15 @@ func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2,
 	control.add_theme_color_override("font_hover_color", PALE)
 	control.add_theme_color_override("font_pressed_color", PALE)
 	control.add_theme_color_override("font_focus_color", PALE)
-	control.add_theme_stylebox_override("normal", style(Color("d1e9c0") if accent else Color("edf5df"), GOLD if accent else Color("aec6ae")))
-	control.add_theme_stylebox_override("hover", style(Color("c1e2bd"), GOLD))
-	control.add_theme_stylebox_override("pressed", style(Color("afcfac"), GOLD))
+	control.add_theme_color_override("font_disabled_color", Color("728073"))
+	for state in ["normal","hover","pressed","disabled","focus"]:control.add_theme_stylebox_override(state,StyleBoxEmpty.new())
 	control.pressed.connect(callback)
 	parent.add_child(control)
+	var frame=preload("res://scripts/ui_art.gd").decorate(control,"paper",12)
+	control.set_meta("rpg_frame",frame)
+	if accent:frame.modulate=Color(1.05,.98,.80)
+	control.mouse_entered.connect(func():frame.modulate=Color(1.12,1.06,.9))
+	control.mouse_exited.connect(func():frame.modulate=Color(1.05,.98,.80) if accent else Color.WHITE)
 	return control
 
 func line_edit(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2) -> LineEdit:
@@ -199,11 +203,13 @@ func line_edit(parent: Node, text_value: String, pos: Vector2, dimensions: Vecto
 	control.add_theme_font_size_override("font_size", 19)
 	control.add_theme_color_override("font_color", PALE)
 	control.add_theme_color_override("caret_color", GOLD)
+	control.add_theme_color_override("font_placeholder_color", MUTED)
 	control.add_theme_color_override("font_selected_color", Color.WHITE)
 	control.add_theme_color_override("selection_color", GOLD)
-	control.add_theme_stylebox_override("normal", style(Color("faffee"), Color("b5c9b8")))
-	control.add_theme_stylebox_override("focus", style(Color("f3fae9"), GOLD))
+	var field_style=StyleBoxEmpty.new();field_style.content_margin_left=12;field_style.content_margin_right=12;field_style.content_margin_top=8;field_style.content_margin_bottom=8
+	control.add_theme_stylebox_override("normal",field_style);control.add_theme_stylebox_override("focus",field_style)
 	parent.add_child(control)
+	preload("res://scripts/ui_art.gd").decorate(control,"paper",12)
 	return control
 
 func build_interface():

@@ -28,27 +28,21 @@ func configure(owner_panel, value: Dictionary, slot: String = ""):
 func _draw():
 	var r=Rect2(Vector2.ONE*2,size-Vector2.ONE*4)
 	var rarity=int(item.get("rarity",0))
-	var colors=[Color("92a299"),Color("699fbe"),Color("c29d58")]
-	var border=Color("e4ba62") if selected else colors[clampi(rarity,0,2)]
 	var alpha=0.30 if faded else 1.0
-	draw_style_box(_box(Color("d5e0d7") if equip_slot!="" else Color("e7eee1"),border),r)
-	if picture!=null:
-		var space=size-Vector2(14,19)
-		var ratio=minf(space.x/picture.get_width(),space.y/picture.get_height())
-		var dims=picture.get_size()*ratio
-		draw_texture_rect(picture,Rect2((size-dims)*0.5,dims),false,Color(1,1,1,alpha))
+	var art=preload("res://scripts/ui_art.gd")
+	draw_texture_rect(art.texture("equipped" if selected else ["socket","magic","rare"][clampi(rarity,0,2)]),r,false,Color(1,1,1,alpha))
+	var display=picture
+	if display==null and equip_slot!="":display=Content.icon_texture({"category":"weapon" if equip_slot=="weapon" else "armor","slot":equip_slot,"weapon_type":"sword"})
+	if display!=null:
+		var space=size-Vector2(13,17)
+		var ratio=minf(space.x/display.get_width(),space.y/display.get_height())
+		var dims=display.get_size()*ratio
+		draw_texture_rect(display,Rect2((size-dims)*.5,dims),false,Color(1,1,1,alpha*(.24 if item.is_empty() else 1)))
 	if is_hovered() and not preview_only:draw_rect(r,Color(1,1,1,0.13))
 	if font!=null and not item.is_empty():
 		var text_value=str(item.get("count",1)) if item.has("count") else ("+"+str(item.get("bonus",0)))
-		draw_string(font,Vector2(6,size.y-7),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("294744"))
-
-func _box(background: Color, border: Color) -> StyleBoxFlat:
-	var box=StyleBoxFlat.new()
-	box.bg_color=background
-	box.border_color=border
-	box.set_border_width_all(2 if selected else 1)
-	box.set_corner_radius_all(3)
-	return box
+		draw_string_outline(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,14,3,Color("152c2c"))
+		draw_string(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("fff0c9"))
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if preview_only or item.is_empty():return null

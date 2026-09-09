@@ -1,0 +1,15 @@
+{
+  "kit": "res://assets/ui/atelier-kit-v01.png",
+  "facilities": "res://assets/ui/facility-counters-v01.png",
+  "frames": {
+    "paper": [30, 14, 387, 376],
+    "socket": [444, 24, 363, 346],
+    "magic": [848, 11, 380, 386],
+    "rare": [27, 414, 394, 379],
+    "alcove": [445, 366, 364, 459],
+    "scroll": [813, 415, 441, 390],
+    "crest": [23, 800, 402, 415],
+    "equipped": [443, 838, 374, 348],
+    "medallion": [845, 826, 387, 400]
+  }
+}

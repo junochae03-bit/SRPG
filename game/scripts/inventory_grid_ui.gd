@@ -3,7 +3,7 @@ extends Control
 const Inventory = preload("res://scripts/inventory_model.gd")
 const Content = preload("res://scripts/content.gd")
 const ItemControl = preload("res://scripts/inventory_item_ui.gd")
-const CELL = 46
+const CELL = 50
 var panel
 var hovered_cell=Vector2i(-1,-1)
 var hovered_size=Vector2i.ONE
@@ -32,9 +32,9 @@ func rebuild():
 	queue_redraw()
 
 func _draw():
-	draw_rect(Rect2(Vector2.ZERO,size),Color("b4c3bd"))
-	for x in range(Inventory.WIDTH+1):draw_line(Vector2(x*CELL,0),Vector2(x*CELL,size.y),Color("8b9e97"),1)
-	for y in range(Inventory.HEIGHT+1):draw_line(Vector2(0,y*CELL),Vector2(size.x,y*CELL),Color("8b9e97"),1)
+	var socket=preload("res://scripts/ui_art.gd").texture("socket")
+	for x in range(Inventory.WIDTH):
+		for y in range(Inventory.HEIGHT):draw_texture_rect(socket,Rect2(Vector2(x,y)*CELL,Vector2.ONE*CELL),false)
 	if get_viewport().gui_is_dragging() and hovered_cell.x>=0:
 		draw_rect(Rect2(Vector2(hovered_cell)*CELL,Vector2(hovered_size)*CELL),Color(0.2,0.7,0.5,0.45) if allowed else Color(0.85,0.2,0.2,0.45))
 

@@ -1,0 +1,72 @@
+extends SceneTree
+const Content=preload("res://scripts/content.gd")
+const Quote=preload("res://scripts/service_quote.gd")
+const World=preload("res://scripts/world_catalog.gd")
+var checks=0
+var failures=[]
+func check(ok:bool,label:String):
+	checks+=1
+	if not ok:failures.append(label);push_error(label)
+func _initialize():run.call_deferred()
+func run():
+	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
+	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v01/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false)
+	var p=session.sim.players[1];p.level=100;p.gold=5000;p.materials={"seed":100,"ore":100,"essence":100};session.act("claim_starters");session.refresh()
+	game.toggle_skills();var tree=game.skill_tree
+	for cls in Content.CLASSES:
+		session.act("class",cls);tree.choice="";tree.refresh(true)
+		check(tree.nodes.size()==50 and tree.scroll.size.y>=500,"large scrollable fifty-node web "+cls)
+		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=160 and tree.nodes[node.id].get_child_count()>=4,"named illustrated node "+node.id)
+		var active=Content.SKILLS[cls].filter(func(n):return n.effect=="active")[0]
+		tree.search.text=active.name;tree.search.text_changed.emit(active.name)
+		check(tree.choice==active.id,"search selects and reveals matching skill "+cls)
+		tree.search.text="";tree.filter_index=1;tree.refresh(true)
+		check(Content.SKILLS[cls].filter(func(n):return tree.matches(n,p)).size()==12,"active filter finds twelve skills "+cls)
+		p.skill_ranks[active.parents[0]]=1;session.refresh();tree.choice=active.id;tree.refresh(true)
+		tree.invest.pressed.emit();check(p.skill_ranks[active.id]==1,"real UI learns selected skill "+cls)
+		var current=tree.comparison_rows.duplicate(true);tree.invest.pressed.emit()
+		check(p.skill_ranks[active.id]==2 and tree.comparison_rows!=current,"investment updates current and next effect values "+cls)
+		tree.bind_buttons[0].pressed.emit();check(Content.active_node(p,"skill_f").id==active.id,"explicit hotbar assignment "+cls)
+	game.toggle_skills();game.toggle_bag();game.bag.select_item("training-axe")
+	check(game.bag.detail_body.text.contains("착용 전 → 착용 후") and game.bag.portrait.size.y>=200,"equipment comparison and large character display")
+	check(game.bag.grid.CELL==50 and game.bag.size.x>1300,"larger illustrated inventory")
+	game.toggle_bag()
+	var panel=game.town_panel
+	for facility in ["shop","smith","alchemy","guild","inn"]:
+		p.pos=World.resident_pos(facility);session.refresh();session.act("interact")
+		check(panel.visible and panel.counter.texture!=null and panel.greeting.text.contains(World.RESIDENTS[facility].name),"painted workspace and NPC "+facility)
+		check(panel.confirm_button!=null and panel.preview.has("result"),"explicit review before transaction "+facility)
+		var operations=[]
+		match facility:
+			"shop":operations=[["buy",{"index":1}],["potion",{}]]
+			"smith":operations=[["upgrade",{"item":"training-sword"}],["reforge",{"item":"training-sword"}]]
+			"alchemy":operations=[["potion",{}],["essence",{}]]
+			"guild":operations=[["accept",{"zone":"cave"}]]
+			"inn":p.hp=15;p.stamina=3;operations=[["rest",{}]]
+		for op in operations:
+			var old=p.duplicate(true);var q=Quote.quote(p,facility,op[0],op[1]);var gold=p.gold
+			check(q.reason.is_empty() and p==old,"transaction preview is pure and eligible "+facility+op[0])
+			check(panel.request(op[0],op[1]),"real transaction succeeds "+facility+op[0])
+			check(gold-p.gold==q.cost,"quoted gold matches actual cost "+facility+op[0])
+			for key in q.materials:check(old.materials[key]-p.materials[key]==q.materials[key],"quoted material matches actual consumption "+key)
+			check(panel.last_receipt.contains("완료"),"successful transaction gives receipt "+facility+op[0])
+		panel.close()
+	p.pos=World.resident_pos("shop");session.refresh();session.act("interact");panel.shop_mode="sell";panel.choose("sell",{"item":"training-axe"})
+	var q=panel.preview;var before=p.gold;panel.confirm_button.pressed.emit()
+	check(p.gold-before==-q.cost and not p.inventory.any(func(i):return i.id=="training-axe"),"sale review and confirmation transfer exact item and money")
+	check(panel.selected_item=="" and panel.confirm_button.disabled,"sale requires a fresh selection for another item")
+	p.gold=0;panel.shop_mode="buy";panel.choose("buy",{"index":0});var saved=session.sim.persistent(1).duplicate(true)
+	check(panel.confirm_button.disabled and panel.preview.reason.contains("부족"),"unaffordable order explains shortage")
+	check(not panel.request("buy",{"index":0}) and session.sim.persistent(1)==saved,"failed transaction does not consume anything")
+	panel.close()
+	for zone in World.DUNGEONS:
+		p.pos=World.FACILITIES.portal.pos;session.refresh();session.act("interact")
+		check(panel.visible and panel.products.size()==3,"three illustrated expedition destinations")
+		panel.choose("travel",{"zone":zone})
+		check(panel.preview.reason.is_empty() and not panel.confirm_button.disabled,"destination review available "+zone)
+		panel.confirm_button.pressed.emit()
+		check(session.sim.map.zone==zone and not panel.visible,"confirmed expedition arrives in selected dungeon "+zone)
+		session.travel("town");p=session.sim.players[1]
+	session.save_game();check(session.parse_save(session.save_path()).skill_ranks==p.skill_ranks,"new skill investments remain save-compatible")
+	game.stop_audio();await create_timer(.5).timeout;session.disconnect_game();game.queue_free();await process_frame
+	print("UI_V01_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)
