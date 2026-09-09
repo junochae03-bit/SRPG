@@ -13,6 +13,7 @@ import struct
 
 TABLES = ["art_sources", "art_files", "art_assets", "art_uses"]
 OWNER_TABLES = {"equipment": "equipment_id", "classes": "class_id", "skills": "skill_id", "constellations": "constellation_id", "monsters": "monster_id", "raids": "raid_id", "appearances": "appearance_id", "floors": "floor_id", "drops": "drop_id"}
+OWNER_TABLES.update({"facilities": "facility_id", "training_rules": "training_rule_id"})
 CATEGORIES = {"equipment", "icon", "vfx", "environment", "monster", "character", "floor_tile", "ui"}
 RENDER_CATALOG = "res://assets/render_cache_v05/catalog.json"
 RENDER_GENERATOR = "tools/prepare_render_cache.py"
@@ -74,6 +75,10 @@ def enrich(data, root):
                 sheet = next(s for s in catalog["sheets"].values() if s["sheet"] == asset["path"])
                 assert sheet["source_sha256"] == record["sha256"], f"Equipment provenance mismatch: {path}"
                 record["origin"] = {"commit": "be30d7b0a75e0b7783c52c225bb2cab80df85a9d", "tool": doc.get("tool", ""), "source_sha256": sheet["source_sha256"]}
+            elif asset["id"] == "art:training:scarecrow":
+                assert provenance == "game/assets/town_v052/PROVENANCE.md"
+                assert asset["metadata"]["source_dimensions"] == [width, height], "Training source dimensions differ from PNG IHDR"
+                record["origin"] = {"tool": "image_gen", "alpha": "original_preserved", "runtime_storage": "original_png", "provenance": provenance}
             else:
                 record["origin"] = {"scope": "Current project source; consult linked provenance document", "tool": doc.get("tool", "")}
             files[asset["path"]] = record
@@ -167,6 +172,12 @@ def validate(data, root):
             checked_consumers.add(script)
         used.add(use["art_id"])
     assert used == set(assets), f"Unused registered regions: {set(assets)-used}"
+    if data.get("training_rules"):
+        training = assets.get("art:training:scarecrow")
+        assert training and training["path"] == "res://assets/town_v052/training-scarecrow.png", "Missing live training artwork"
+        links = {(u["target_table"], u["target_id"]) for u in data["art_uses"] if u["art_id"] == training["id"]}
+        assert {("facilities", "training"), ("training_rules", "training")} <= links
+        assert not training["metadata"].get("render_cache"), "Training PNG uses original alpha, not chroma cache"
     referenced_files = set()
     for asset in assets.values():
         assert asset["status"] == ("applied" if asset["id"] in applied else "available_catalog"), "Art availability incorrectly claims runtime use"

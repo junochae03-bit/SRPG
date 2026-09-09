@@ -27,7 +27,7 @@ func _ready():
 	add_child(static_map)
 
 func can_show()->bool:
-	return game!=null and game.session.connected and not (game.bag.visible or game.help_panel.visible or game.skill_tree.visible or game.town_panel.visible or game.codex.visible or game.npc_dialogue.visible)
+	return game!=null and game.session.connected and not (game.bag.visible or game.help_panel.visible or game.settings_panel.visible or game.skill_tree.visible or game.town_panel.visible or game.codex.visible or game.npc_dialogue.visible)
 
 func marker_rect(world:Vector2,pixels:float,clamp_to_edge:bool=false)->Rect2:
 	var at=ORIGIN+world*3.0;var limit=73-pixels*.5

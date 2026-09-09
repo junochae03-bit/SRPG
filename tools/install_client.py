@@ -26,7 +26,7 @@ DELIVERY = {
     "GODOT_LICENSE.txt": "licenses/GODOT_LICENSE.txt",
     "GODOT_COPYRIGHT.txt": "licenses/GODOT_COPYRIGHT.txt",
 }
-SETTINGS = ("sprite-names.json", "keybindings.json")
+SETTINGS = ("sprite-names.json", "keybindings.json", "game-options.json")
 SAVE_NAMES = tuple(f"slot-{i}.json{suffix}" for i in range(1, 4) for suffix in ("", ".bak"))
 
 
@@ -108,6 +108,15 @@ def valid_slot(value):
 
 
 def valid_settings(name, value):
+    if name == "game-options.json":
+        options = value.get("values")
+        expected = {"music", "effects", "window_mode", "resolution", "fps", "vsync", "damage_numbers", "enemy_names"}
+        return (value.get("version") == 1 and isinstance(options, dict) and set(options) == expected and
+                all(number(options[key]) and 0 <= options[key] <= 1 for key in ("music", "effects")) and
+                options["window_mode"] in ("windowed", "fullscreen") and
+                number(options["resolution"]) and options["resolution"] in (0, 1, 2) and
+                number(options["fps"]) and options["fps"] in (0, 30, 60, 120, 144) and
+                all(type(options[key]) is bool for key in ("vsync", "damage_numbers", "enemy_names")))
     if name == "sprite-names.json":
         return all(isinstance(key, str) and isinstance(alias, str) and
                    1 <= len(alias.strip()) <= 24 and not any(ord(c) < 32 or ord(c) == 127 for c in alias)

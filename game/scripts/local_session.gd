@@ -9,6 +9,7 @@ signal facility_requested(key:String)
 
 const Simulation = preload("res://scripts/simulation.gd")
 const Content = preload("res://scripts/content.gd")
+const Inventory = preload("res://scripts/inventory_model.gd")
 var sim
 var state = {"players":{},"enemies":{},"drops":{},"clock":0.0}
 var connected = false
@@ -19,6 +20,9 @@ var save_directory = ProjectSettings.globalize_path("res://../runtime/saves") if
 var paused = false
 var save_time = 0.0
 var received_snapshots = 0
+var save_failed=false
+var save_retry=0.0
+var last_save_error=""
 
 func start_game(chosen_name: String, slot_number: int):
 	var previous_slot=slot
@@ -52,6 +56,7 @@ func enter_saved(saved:Dictionary,chosen_name:String)->bool:
 	sim=candidate;world_seed=candidate_seed
 	connected=true
 	paused=false
+	save_failed=false;save_retry=0.
 	save_time=0.0
 	refresh()
 	entered.emit()
@@ -66,10 +71,13 @@ func travel(zone:String)->bool:
 	if not connected or zone not in ["town","forest","cave","ruins"]:return false
 	if zone!="town":return enter_floor({"forest":1,"cave":11,"ruins":21}[zone])
 	var p=sim.players[local_id]
+	var arrival={}
 	if not p.tutorial_done:
 		if p.tutorial_kills<5:sim.notice(local_id,"숲에서 적 5마리를 처치하고 마을로 향하세요.");flush_events();return false
-		p.gold+=0 if p.quest_done else 100;p.tutorial_done=true;p.quest_done=true;sim.notice(local_id,"꽃바람 숲 완료 · 햇살 마을에 도착했습니다. 금화 +100")
-	return change_map("town",0)
+		arrival={"gold":p.gold+(0 if p.quest_done else 100),"tutorial_done":true,"quest_done":true}
+	if not change_map("town",0,arrival):return false
+	if not arrival.is_empty():sim.notice(local_id,"꽃바람 숲 완료 · 햇살 마을에 도착했습니다.");flush_events()
+	return true
 
 func enter_floor(floor_number:int)->bool:
 	if not connected:return false
@@ -80,11 +88,15 @@ func enter_floor(floor_number:int)->bool:
 		if sim.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0):return false
 	return change_map(preload("res://scripts/abyss_catalog.gd").config(floor_number).terrain,floor_number)
 
-func change_map(zone:String,floor_number:int)->bool:
+func change_map(zone:String,floor_number:int,arrival:Dictionary={})->bool:
 	var previous=sim.players[local_id];var saved=sim.persistent(local_id)
-	world_seed+=7919;sim=Simulation.new(world_seed,zone,floor_number)
-	var p=sim.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
-	paused=false;save_game();refresh();entered.emit();return true
+	saved.merge(arrival,true)
+	var next_seed=world_seed+7919;var candidate=Simulation.new(next_seed,zone,floor_number)
+	var p=candidate.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
+	var data=candidate.persistent(local_id);data.world_seed=next_seed
+	if not write_save(data,save_path()):mark_save_failure();return false
+	sim=candidate;world_seed=next_seed;save_failed=false;save_retry=0.;save_time=0.
+	paused=false;refresh();entered.emit();return true
 
 func refresh():
 	state=sim.snapshot(local_id)
@@ -96,7 +108,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
@@ -116,17 +128,16 @@ func act(kind: String, argument: String = "") -> bool:
 func flush_events():
 	for event in sim.events: event_received.emit(event)
 	sim.events.clear()
-	if not sim.dirty.is_empty():
-		save_game()
-		sim.dirty.clear()
+	if not sim.dirty.is_empty() and save_retry<=0:save_game()
 
-func disconnect_game():
-	if connected:save_game()
+func disconnect_game()->bool:
+	if connected and not save_game():return false
 	connected=false
 	paused=false
 	state={"players":{},"enemies":{},"drops":{},"clock":0.0}
 	status_changed.emit("저장했습니다. 같은 슬롯에서 이어서 모험할 수 있습니다.")
 	changed.emit()
+	return true
 
 func save_path() -> String:
 	return save_directory.path_join("slot-%d.json" % slot)
@@ -143,7 +154,7 @@ func parse_save(path: String) -> Variant:
 		if value[key]<0:return null
 	if value.level<1 or value.level>100 or value.potions>20:return null
 	if not value.get("name") is String or not value.get("equipped") is String or not value.get("quest_done") is bool:return null
-	if not value.get("inventory") is Array or value.inventory.size()>80:return null
+	if not value.get("inventory") is Array or value.inventory.size()>Inventory.CAPACITY+Content.SLOTS.size():return null
 	var ids=[]
 	for item in value.inventory:
 		if not item is Dictionary:return null
@@ -172,15 +183,16 @@ func parse_save(path: String) -> Variant:
 	if value.get("equipment",{}).get("weapon",value.equipped)!=value.equipped:return null
 	for key in value.get("materials",{}):
 		var amount=value.materials[key]
-		if key not in Content.MATERIALS or (not amount is float and not amount is int) or amount<0 or amount>999999:return null
+		if key not in Content.MATERIALS or (not amount is float and not amount is int) or amount<0 or amount>Inventory.MAX_MATERIALS or amount!=floor(amount):return null
 		value.materials[key]=int(amount)
+	if Inventory.bag_items(value).size()>Inventory.CAPACITY:return null
 	for id in value.get("bag_positions",{}):
 		var place=value.bag_positions[id]
 		if not id is String or not place is Dictionary or not place.get("rotated") is bool:return null
 		for axis in ["x","y"]:
 			if not place.get(axis) is float and not place.get(axis) is int:return null
 			place[axis]=int(place[axis])
-		if place.x<0 or place.x>=10 or place.y<0 or place.y>=6:return null
+		if place.x<0 or place.x>=Inventory.WIDTH or place.y<0 or place.y>=Inventory.HEIGHT:return null
 	Content.migrate_skills(value)
 	var allowed=[];var definitions={}
 	for node in Content.SKILLS[value.get("class_id","warrior")]:allowed.append(node.id);definitions[node.id]=node
@@ -291,27 +303,48 @@ func save_game()->bool:
 	if sim==null or not sim.players.has(local_id):return false
 	var data=sim.persistent(local_id)
 	data.world_seed=world_seed
-	return write_save(data,save_path())
+	if not write_save(data,save_path()):mark_save_failure();return false
+	var recovered=save_failed
+	save_failed=false;save_retry=0.;save_time=0.;sim.dirty.clear()
+	if recovered:status_changed.emit("저장을 다시 완료했습니다.")
+	return true
+
+func mark_save_failure():
+	if sim!=null:sim.dirty[local_id]=true
+	if not save_failed:
+		status_changed.emit("저장 실패 · 기록을 유지하고 다시 시도합니다.")
+		event_received.emit({"type":"notice","text":"저장 실패 · 기록을 유지하고 다시 시도합니다."})
+	save_failed=true;save_retry=1.
+
+func write_failure(message:String)->bool:
+	last_save_error=message
+	return false
 
 func write_save(data:Dictionary,path:String)->bool:
+	if DirAccess.dir_exists_absolute(path):return write_failure("저장 파일 위치를 폴더가 차지하고 있습니다.")
+	if DirAccess.dir_exists_absolute(path+".tmp"):return write_failure("임시 저장 파일 위치를 사용할 수 없습니다.")
+	if DirAccess.dir_exists_absolute(path+".bak"):return write_failure("백업 파일 위치를 사용할 수 없습니다.")
 	var parent=path.get_base_dir()
 	while not parent.is_empty() and not DirAccess.dir_exists_absolute(parent):
-		if FileAccess.file_exists(parent):return false
+		if FileAccess.file_exists(parent):return write_failure("저장 경로를 폴더로 사용할 수 없습니다.")
 		var next=parent.get_base_dir()
 		if next==parent:break
 		parent=next
-	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
+	if DirAccess.make_dir_recursive_absolute(path.get_base_dir())!=OK:return write_failure("저장 폴더를 만들 수 없습니다.")
 	var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
 	if file==null:
-		event_received.emit({"type":"notice","text":"저장할 수 없습니다. 폴더 쓰기 권한을 확인하세요."})
-		return false
-	file.store_string(JSON.stringify(data,"\t"));file.flush();file.close()
-	if parse_save(path)!=null:DirAccess.copy_absolute(path,path+".bak")
+		return write_failure("저장 파일을 열 수 없습니다.")
+	file.store_string(JSON.stringify(data,"\t"));file.flush();var write_error=file.get_error();file.close()
+	if write_error!=OK:return write_failure("저장 파일을 끝까지 쓸 수 없습니다.")
+	if parse_save(path)!=null and DirAccess.copy_absolute(path,path+".bak")!=OK:return write_failure("기존 기록의 백업을 보존할 수 없습니다.")
 	var error=DirAccess.rename_absolute(path+".tmp",path)
-	if error!=OK:push_error("Save failed: "+error_string(error))
-	return error==OK
+	if error!=OK:return write_failure("새 기록으로 교체할 수 없습니다.")
+	last_save_error="";return true
 
 func _physics_process(delta: float):
+	if connected and save_failed:
+		save_retry=maxf(0.,save_retry-delta)
+		if save_retry<=0:save_game()
 	if not connected or paused:return
 	sim.tick(delta)
 	flush_events()

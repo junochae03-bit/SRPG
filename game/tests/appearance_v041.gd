@@ -18,7 +18,7 @@ func run():
 	game.hud.bag_button.pressed.emit();check(game.bag.visible and session.paused,"bag sprite opens paused inventory")
 	game.hud.bag_button.pressed.emit();game.hud.growth_button.pressed.emit();check(game.skill_tree.visible and session.paused,"book sprite opens growth")
 	game.hud.growth_button.pressed.emit();var escape=InputEventKey.new();escape.physical_keycode=KEY_ESCAPE;escape.pressed=true;game._unhandled_input(escape)
-	check(game.help_panel.visible and session.paused,"Esc retains menu access");game.continue_game();game.toggle_bag()
+	check(game.settings_panel.visible and not game.help_panel.visible and session.paused,"ESC는 일반 설정을 열고 키 변경은 하위 화면에 유지");game.continue_game();game.toggle_bag()
 	for class_id in Content.CLASSES:
 		# Rendering/eligibility fixture owns the registered appearances. Store purchase rules have their own test.
 		p.owned_appearances=[]

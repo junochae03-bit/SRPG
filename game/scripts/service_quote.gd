@@ -4,6 +4,7 @@ const Inventory=preload("res://scripts/inventory_model.gd")
 const World=preload("res://scripts/world_catalog.gd")
 static func sell_price(item:Dictionary)->int:return 5+int(item.bonus)*4+int(item.rarity)*12
 static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:
+	if preload("res://scripts/town_operations.gd").handles(facility,operation):return preload("res://scripts/town_operations.gd").quote(p,facility,operation,extra)
 	var q={"title":"선택한 작업","cost":0,"materials":{},"result":"","reason":"","icon":"interact","item":{},"operation":operation,"extra":extra.duplicate(true)}
 	var staged=p.duplicate(true)
 	match facility+":"+operation:
@@ -51,7 +52,7 @@ static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary
 		"guild:claim":
 			q.title="토벌 의뢰 보상";q.cost=-180;q.icon="guild";q.result="금화 180 G + 정원 정수 1개"
 			if p.guild_contract.is_empty() or p.guild_contract.progress<p.guild_contract.target:q.reason="토벌 목표를 먼저 완료하세요."
-			elif not Inventory.add_stack(staged,"essence",1):q.reason="보상 재료를 받을 가방 공간이 필요합니다."
+			elif not Inventory.add_stack(staged,"essence",1):q.reason=Inventory.stack_failure_reason(staged,"essence",1)
 		"inn:rest":q.title="초승달 여관 숙박";q.cost=10;q.icon="inn";q.result="생명력 %d → %d\n기력 %d → %d" % [p.hp,p.max_hp,p.stamina,p.max_stamina]
 		_:q.reason="이용할 작업을 선택하세요."
 	if q.reason.is_empty() and p.gold<q.cost:q.reason="금화가 %d G 부족합니다." % (q.cost-p.gold)

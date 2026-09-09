@@ -70,7 +70,7 @@ func run():
 	sim.kill(1,victim);check(p.level==1,"one enemy cannot level character")
 	p.xp=Progression.xp_required(1)-1;victim.rewarded=false;sim.kill(1,victim);check(p.level==2 and Progression.available(p)==3,"level awards allocatable stats")
 	sim=Sim.new(321,"town");p=sim.add_player(1,"시설");p.gold=5000;p.materials={"seed":100,"ore":100,"essence":10};Inventory.initialize(p)
-	check(not sim.action(1,"attack") and sim.enemies.is_empty(),"safe independent town")
+	check(not sim.action(1,"attack") and sim.enemies.size()==1 and sim.enemies.values()[0].get("training",false),"safe town contains only the passive practice target")
 	for f in World.FACILITIES:check(sim.map.walkable(World.FACILITIES[f].pos),"facility entrance walkable "+f)
 	for i in range(7):check(service(sim,p,"shop","buy",{"index":i}),"buy equipment family "+str(i))
 	check(p.inventory.size()==7,"seven class equipment slots stocked")

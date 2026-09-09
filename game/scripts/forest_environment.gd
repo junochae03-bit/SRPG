@@ -16,6 +16,9 @@ var _geometry:Array=[]
 var map
 var ground_profile:Dictionary={}
 var ground_draws=0
+var material_regions:Dictionary={}
+var accent_material=""
+const ACCENT_MATERIALS={"forest":"forest","cave":"sky","flood":"dungeon","spore":"forest","lava":"desert","snow":"dungeon","machine":"sky","autumn":"forest","nebula":"dungeon","core":"lava"}
 
 func _init(owner_node:Node2D):
 	game=owner_node
@@ -33,18 +36,24 @@ func rebuild(dungeon):
 	material.set_shader_parameter("walk_mask",ImageTexture.create_from_image(mask))
 	material.set_shader_parameter("camp",map.spawn)
 	ground_profile=FloorTiles.apply(material,map.zone,map.floor_number)
+	build_material_regions()
 	ground_draws=0;terrain.queue_redraw()
 	props.clear();_geometry.clear()
-	var ids=Art.ids(map.zone,map.floor_number);var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+419
+	var ids=Art.available_ids(map.zone,map.floor_number);var allowed=Art.ids(map.zone,map.floor_number)
+	var candidate_index=0;var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+419
 	# Stable art IDs replace old hard-coded forest-sheet slots. Every decorative
 	# origin remains outside walkable cells, with wider entrance/exit clearings.
 	for x in range(-10,Dungeon.SIZE+12,3):
 		for y in range(-10,Dungeon.SIZE+12,3):
 			var pos=Vector2(x,y)
 			if not clear_for_prop(pos):continue
-			var art_id=ids[props.size()%ids.size()]
+			var art_id=ids[candidate_index%ids.size()];candidate_index+=1
 			var size_value=Art.height(art_id)*rng.randf_range(.92,1.08)
-			props.append({"pos":pos,"art_id":art_id,"size":size_value,"flip":rng.randf()<.5,"render_id":props.size(),"alpha":1.0})
+			var flipped=rng.randf()<.5
+			# Leave rejected scenery positions empty. Replacing furniture with more
+			# trees would increase canopy density and defeat the requested cleanup.
+			if art_id not in allowed:continue
+			props.append({"pos":pos,"art_id":art_id,"size":size_value,"flip":flipped,"render_id":props.size(),"alpha":1.0})
 	thin_props()
 	var frames:Dictionary={}
 	for prop in props:
@@ -56,6 +65,26 @@ func rebuild(dungeon):
 		_geometry.append({"point":point,"depth":prop.pos.x+prop.pos.y,"texture":data.texture,"local_rect":local_rect,
 			"bounds":Rect2(point+local_rect.position,local_rect.size),"shadow_radius":prop.size*.19})
 	# No decorative shelter/sign is inserted on the spawn or first passage.
+
+func build_material_regions():
+	material_regions.clear();accent_material=""
+	var mask=Image.create(MASK_SIZE,MASK_SIZE,false,Image.FORMAT_R8);mask.fill(Color.BLACK)
+	if map.floor_number>0:
+		accent_material=ACCENT_MATERIALS[ground_profile.id]
+		for room_index in range(1,map.rooms.size()):
+			if posmod(room_index+map.floor_number,3)!=0 and room_index!=8:continue
+			var center:Vector2i=map.rooms[room_index]
+			var radius=4.5 if room_index==8 else 3.5
+			for dx in range(-5,6):
+				for dy in range(-5,6):
+					var cell=center+Vector2i(dx,dy)
+					var distance=Vector2(dx,dy).length()
+					if not map.floor_cells.has(cell) or distance>=radius:continue
+					material_regions[cell]=accent_material
+					mask.set_pixel(cell.x+MASK_OFFSET,cell.y+MASK_OFFSET,Color(clampf(radius-distance,0.,1.),0,0))
+	material.set_shader_parameter("accent_mask",ImageTexture.create_from_image(mask))
+	material.set_shader_parameter("accent_panel",FloorTiles.panel(accent_material) if accent_material!="" else Vector2.ZERO)
+	material.set_shader_parameter("accent_strength",.62 if accent_material!="" else 0.)
 
 func thin_props():
 	# An independent seed preserves each retained prop's original art, size and
@@ -84,7 +113,8 @@ func ground_evidence()->Dictionary:
 	var path_panel:Vector2=material.get_shader_parameter("path_panel")
 	return {"profile":ground_profile.get("id",""),"ground_id":ground_profile.get("ground",""),"path_id":ground_profile.get("path",""),
 		"atlas":atlas_texture.resource_path if atlas_texture!=null else "","shader":material.shader.resource_path,"draws":ground_draws,
-		"ground_panel":[ground_panel.x,ground_panel.y],"path_panel":[path_panel.x,path_panel.y],"sampling":"world-anchored mirrored","fallback":false}
+		"ground_panel":[ground_panel.x,ground_panel.y],"path_panel":[path_panel.x,path_panel.y],"sampling":"world-anchored mirrored","fallback":false,
+		"layout":map.layout_id,"accent_material":accent_material,"accent_cells":material_regions.size()}
 
 func clear_for_prop(pos:Vector2)->bool:
 	if pos.distance_to(map.spawn)<6.0 or pos.distance_to(map.exit_position)<4.0:return false

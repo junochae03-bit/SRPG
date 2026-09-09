@@ -12,11 +12,12 @@ static func star(game,at:Vector2,radius:float,color:Color,angle:float=0):
 	game.draw_colored_polygon(points,color)
 
 static func render(game,e:Dictionary):
+	preload("res://scripts/skill_vfx.gd").render_ground(game,e)
 	if preload("res://scripts/skill_vfx.gd").render(game,e):return
 	if preload("res://scripts/job_art.gd").render(game,e):return
 	var t=clampf(1.0-e.life/e.max_life,0,1)
 	var at=game.world_point(e.pos)
-	var radius=float(e.get("radius",2))*47
+	var radius=preload("res://scripts/skill_vfx.gd").projected_radius(float(e.get("radius",2)))
 	var kind=e.get("fx","starburst")
 	var alpha=sin(PI*pow(t,.55))
 	var gold=Color(1,.84,.38,alpha)

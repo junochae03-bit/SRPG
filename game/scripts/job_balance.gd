@@ -28,6 +28,7 @@ static func hits(mode:String)->int:
 static func damaging(mode:String)->bool:return mode not in SUPPORT and not BUFF_KEYS.has(mode)
 static func profile(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:float,upgrade:bool=false)->Dictionary:
 	var n=node.duplicate(true);var r=clampi(rank,1,5)-1;var mode=str(n.mode);var scale=1+.22*r
+	n.radius=preload("res://scripts/skill_reach.gd").job_radius(mode,str(p.class_id),float(n.radius))
 	var count=hits(mode)
 	var budget={"field":3.8,"trap":3.,"trap_bleed":2.8,"barrage":4.,"settle_barrage":4.,"combo":2.8,"fan":2.8,"settle_fan":2.8,"finisher":2.4,"execute":2.2,"heavy":3.8,"heavy_dash":3.6,"heavy_execute":4.,"charge":5.,"charge_area":4.8,"charge_spin":4.8,"charge_execute":5.2,"pet_command":2.4,"pet_burst":3.,"pet_pull":2.4}.get(mode,1.8)
 	if n.get("rune_cost",0)>0:budget*=1.2

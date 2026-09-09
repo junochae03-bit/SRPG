@@ -31,7 +31,7 @@ def main():
             a['metadata']['render_cache'] = {'catalog': art_registry.RENDER_CATALOG, 'source': a['path'], 'path': entry['path'], 'key': entry['key']}
     data = art_registry.enrich(data, ROOT)
     art_registry.validate(data, ROOT)
-    assert len(data['art_assets']) == 1700 and data['art_uses'] == original_uses
+    assert len(data['art_assets']) == len(original_assets) and data['art_uses'] == original_uses
     assert data['equipment'] == original_equipment
     assert all((a['path'], a['rect']) == original_assets[a['id']] for a in data['art_assets'])
     assert len([f for f in data['art_files'] if f['representation'] == 'rgba_gzip']) == 41
@@ -70,7 +70,7 @@ def main():
                 try: con.execute(sql); con.commit()
                 except sqlite3.IntegrityError: con.rollback(); checks += 1
                 else: raise AssertionError('SQLite accepted a dangling prepared file relationship')
-    print('ART_REGISTRY_CACHE PASS checks='+str(checks)+' source_regions=1700 prepared_files=41 files='+str(len(data['art_files']))+' uses='+str(len(data['art_uses'])))
+    print('ART_REGISTRY_CACHE PASS checks='+str(checks)+' source_regions='+str(len(original_assets))+' prepared_files=41 files='+str(len(data['art_files']))+' uses='+str(len(data['art_uses'])))
 
 
 if __name__ == '__main__': main()

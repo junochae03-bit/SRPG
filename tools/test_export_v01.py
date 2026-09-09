@@ -205,6 +205,84 @@ for field in ['stats','gold']:
 equipment_checks={'representative_items':6,'source_atlases':6,'reader':equipment_reader,'bag_thumbnails':bag_thumbnails,
                   'codex_reader':codex_equipment_reader,'codex_thumbnails':codex_equipment_thumbnails,'codex_detail':codex_equipment_detail,
                   'capture':equipment_capture,'scope':'One actual portable save with six items, plus visible codex rows; original PNG/imported textures absent and prepared RGBA PCK files used. Source gate covers all 115 crops and all 2,500 definitions.'}
+
+# Six additional, isolated V0.5.2 fixtures preserve all previous exported runs.
+# These invoke ordinary UI actions inside the real executable; none replaces
+# the simulation with source scripts or writes to the portable baseline slot.
+v052_checks=[]
+v052_portable_baseline=save.read_bytes()
+v052_base={'level':100,'class_id':'warrior','costume':'none','avatar':'auto','owned_appearances':[],
+           'tutorial_done':True,'quest_done':True,'inventory':[],
+           'equipment':{slot:'' for slot in ['weapon','head','chest','hands','legs','feet','accessory']},'equipped':'',
+           'bag_positions':{},'materials':{},'potions':0,'skill_ranks':{},'skill_loadout':{},
+           'constellation_allocations':{}}
+
+def v052_fixture(name,updates,args):
+    fixture=copy.deepcopy(v052_base);fixture.update(updates)
+    restored,capture=fixture_capture(name,fixture,['--v052-audit']+args,ROOT/'artifacts'/('export-'+name+'.png'))
+    audit=restored['v052']
+    assert all(audit['packed_resources'].values()),('Required V0.5.2 resources missing from PCK',audit['packed_resources'])
+    for path,files in audit['excluded_packs'].items():
+        local=ROOT/'game'/path.removeprefix('res://')
+        assert local.is_dir() and any(local.glob('*.png')),('Excluded-pack probe must have real local source assets',path)
+        assert not files,('Unreleased V0.6 assets were packed into this executable',path,files)
+    # Opening/selecting/practising must preserve possessions and progression.
+    # Runtime-derived fields such as stamina and motion are intentionally not saves.
+    persistent=audit['persistent']
+    for field in ['level','class_id','costume','avatar','owned_appearances','inventory','equipment','equipped',
+                  'bag_positions','materials','potions','skill_ranks','skill_loadout','constellation_allocations',
+                  'gold','xp','kills','boss_kills','highest_floor','cleared_floor','raid_clears']:
+        expected=fixture[field] if field in fixture else saved_before.get(field)
+        assert persistent.get(field)==expected,('V0.5.2 preview changed fixture field',name,field,persistent.get(field),expected)
+    v052_checks.append({'screen':name,'evidence':audit,'icons':icon_evidence(restored),'capture':capture})
+    return audit
+
+settings=v052_fixture('v052-settings',{},['--show-settings','--settings-page=display'])
+assert settings['settings']['visible'] and not settings['settings']['keyboard'] and settings['settings']['page']=='display'
+assert set(settings['settings']['pages'])=={'sound','display','combat'} and '키 변경' in settings['settings']['keys_button']
+nested=v052_fixture('v052-settings-keys',{},['--show-settings','--settings-keys'])
+assert nested['settings']['keyboard'] and not nested['settings']['visible'] and nested['settings']['keyboard_returns_to_settings'],'Keyboard must be opened by the actual settings button with its return destination retained'
+
+weapons=[row for row in database['equipment'] if row['category']=='weapon' and row['job_lock']=='warrior']
+weak=min(weapons,key=lambda row:(row['tier'],row['rarity'],row['id']))
+strong=max((row for row in weapons if row['tier']<=3 and row['rarity']==1),key=lambda row:(row['tier'],row['bonus'],row['id']))
+equipped_weapon={field:copy.deepcopy(weak[field]) for field in equipment_fields};equipped_weapon['id']='export-v052-equipped'
+bag_items=[]
+for index in range(120):
+    item={field:copy.deepcopy(strong[field]) for field in equipment_fields};item['id']='export-v052-bag-'+str(index)
+    bag_items.append(item)
+comparison_fixture={'inventory':[equipped_weapon]+bag_items,'equipment':dict(v052_base['equipment'],weapon=equipped_weapon['id']),'equipped':equipped_weapon['id'],
+                    'bag_positions':{item['id']:{'x':index%10,'y':index//10,'rotated':False} for index,item in enumerate(bag_items)}}
+comparison=v052_fixture('v052-inventory-comparison',comparison_fixture,['--show-bag','--bag-select='+bag_items[-1]['id']])['inventory']
+assert comparison['visible'] and comparison['capacity']==120 and comparison['grid_size']==[10,12] and comparison['capacity_label']=='120 / 120'
+assert comparison['scroll']>0 and comparison['comparison_visible'] and comparison['selected']==bag_items[-1]['id'] and comparison['equipped']==equipped_weapon['id']
+assert len(comparison['rows'])==5 and any(after>before for _,before,after in comparison['rows']),'Actual equipped-vs-selected derived stat comparison must show a meaningful improvement'
+
+training_fixture={'skill_ranks':{'whirlwind':1},'skill_loadout':{'skill_q':'whirlwind'}}
+for name,args in [('v052-training-world',['--show-training']),('v052-training-record',['--show-training','--show-facility=training'])]:
+    training=v052_fixture(name,training_fixture,args)
+    target=training['training'];enemy=target['enemy']
+    assert target['count']==1 and target['actions']=={'attack':True,'skill_q':True}
+    assert target['stats']['hits']>=2 and target['stats']['total_damage']>0 and target['stats']['last_skill_id']=='whirlwind'
+    assert target['rendered'] and target['drawn_height']==300 and target['texture_source']=='res://assets/town_v052/training-scarecrow.png'
+    assert all(dimension>200 for dimension in target['texture_size']),'Giant dummy must consume the real nonempty sprite region'
+    assert enemy['hp']==enemy['max_hp']==1000000000 and enemy['position']==[37,30] and not enemy['rewarded'] and not enemy['raid'] and not enemy['guardian']
+    assert target['drops']==0 and enemy['stagger']['state'] in ['ready','down','immune']
+    assert 'training_stats' not in training['persistent']
+    assert target['before']==training['persistent'],'Actual practice must preserve every persistent player field'
+    if name.endswith('record'):assert training['facility']['visible'] and training['facility']['id']=='training' and training['facility']['nearest']=='training'
+    else:assert not training['facility']['visible']
+
+matching_v052=json.loads((ROOT/'game/assets/costume_v04/class_matching.json').read_text('utf8'))
+costume_ids_v052=json.loads((ROOT/'game/assets/costume_v04/catalog.json').read_text('utf8')).keys()
+costume_id=next(key for key in sorted(costume_ids_v052) if matching_v052[key]['runtime_role']!='town_npc' and 'warrior' in matching_v052[key]['allowed_base_classes'])
+boutique=v052_fixture('v052-costume-boutique',{'gold':5000},['--show-facility=costume','--wardrobe-select=costume:'+costume_id])['facility']
+assert boutique['visible'] and boutique['id']==boutique['nearest']=='costume' and boutique['walkable']
+assert boutique['wardrobe']['visible'] and boutique['wardrobe']['selected']=='costume:'+costume_id
+assert boutique['wardrobe']['action']=='구매하기' and '1200 G' in boutique['wardrobe']['price'] and boutique['wardrobe']['renaming']
+assert boutique['wardrobe']['cards'] and boutique['wardrobe']['name'],'Boutique must show actual costume cards, name and purchase action'
+assert save.read_bytes()==v052_portable_baseline,'Isolated V0.5.2 fixtures changed the existing portable slot'
+
 catalog=json.loads((ROOT/'game/data/jobs/catalog.json').read_text('utf8'))
 tested_jobs=[]
 for job,definition in catalog['classes'].items():
@@ -314,6 +392,8 @@ report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['m
 report['exported_jobs_restored_and_rendered']=tested_jobs
 report['codex_tabs_restored_and_rendered']=codex_screens
 report['boss_stagger_state_present']=True
+report['v052_features']={'fixtures':v052_checks,'added_runs':len(v052_checks),
+    'scope':'Actual exported Windows screenshots and runtime state: settings with nested keyboard, 120-cell bag and equipped-item comparison, giant training sprite plus live damage/stagger with all save fields unchanged, and a separate costume boutique preview. No costume purchase or personal save was used. Required resources and excluded V0.6 directories were probed inside the exported process.'}
 report['title_creator_dialogue_rendered']=True
 report['empty_creator_does_not_write_save']=True
 report['pck_sha256']=hashlib.sha256((portable/'StelRPG.pck').read_bytes()).hexdigest()

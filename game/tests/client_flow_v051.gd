@@ -40,9 +40,9 @@ func run():
 		for line in lines:check(font.get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x<=b.size.x-4,"record glyphs fit horizontally")
 	await capture("records")
 	tap(KEY_ESCAPE);await process_frame
-	check(game.help_panel.is_visible_in_tree() and not local.connected,"ESC opens keyboard from title without a simulation")
+	check(game.settings_panel.is_visible_in_tree() and not game.help_panel.visible and not local.connected,"ESC opens options from title without a simulation; keys are nested")
 	tap(KEY_ESCAPE);await process_frame
-	check(not game.help_panel.visible and game.menu.visible,"ESC returns to title")
+	check(not game.settings_panel.visible and game.menu.visible,"ESC returns to title")
 	game.slot_picker.select(2);game.refresh_slot_summary();game.begin_adventure()
 	check(game.character_sheet.visible and local.slot_state(3)=="empty","empty record opens creation without writing a save")
 	for cls in Creation.CLASSES:

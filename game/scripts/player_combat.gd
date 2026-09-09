@@ -140,17 +140,20 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 		if heavy:radius+=0.8
 		for e in sim.enemies.values():
 			if not HitGeometry.arc(e,p.pos,p.aim,radius,-0.45 if type=="axe" or heavy else -0.05,.7):continue
-			hit(p,e,amount)
-			if not heavy:jobs.basic_hit(p,e)
+			var accepted=hit(p,e,amount)
+			if accepted and not heavy:jobs.basic_hit(p,e)
 	if heavy:jobs.after_heavy(p)
 	return true
 
-func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Variant=null):
-	if e.hp<=0 or amount<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return
+# 처치 처리 후에도 해당 타격은 성공이다. 적중 시 직업 자원은 남은 체력이
+# 아니라 이 반환값으로 지급하므로 마지막 타격도 정상적으로 보상한다.
+func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Variant=null)->bool:
+	if e.hp<=0 or amount<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return false
+	if e.get("training",false) and not preload("res://scripts/training_ground.gd").can_practice(sim,p):return false
 	var hit_context:Dictionary=stagger_context if attribution==null else attribution
-	if not hit_context.is_empty() and float(hit_context.get("budget",{}).get("created",sim.clock))<float(e.get("stagger",{}).get("reset_at",0)):return
+	if not hit_context.is_empty() and float(hit_context.get("budget",{}).get("created",sim.clock))<float(e.get("stagger",{}).get("reset_at",0)):return false
 	var build_hit=constellation.before_hit(p,e,hit_context)
-	if not build_hit.allowed:return
+	if not build_hit.allowed:return false
 	amount=maxi(1,roundi(amount*build_hit.factor))
 	p.combat_time=4.0
 	if sim.balance.enemies[e.kind].get("ai","")=="armored":amount=maxi(1,roundi(amount*.75))
@@ -158,23 +161,32 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	if float(e.hp)/e.max_hp<.3:amount=roundi(amount*(1+Content.skill_bonus(p,"execute")))
 	if e.kind in ["warden","golem","sentinel"] or e.get("elite",false):amount=roundi(amount*(1+Content.skill_bonus(p,"elite_damage")))
 	var critical=Content.skill_bonus(p,"critical")
-	if critical>0 and sim.rng.randf()<minf(.65,critical):amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")))
+	var hit_details={"critical":false}
+	if critical>0 and sim.rng.randf()<minf(.65,critical):
+		amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")));hit_details.critical=true
 	p.hp=mini(p.max_hp,p.hp+floori(amount*Content.skill_bonus(p,"lifesteal")))
-	amount=jobs.outgoing(p,e,amount)
+	amount=jobs.outgoing(p,e,amount,hit_details)
 	if e.get("stagger",{}).get("state","")=="down":amount=roundi(amount*BossStagger.DOWN_DAMAGE)
 	e.hp-=amount
 	BossStagger.check_threshold(sim,e)
 	BossStagger.apply(sim,p,e,hit_context)
 	constellation.after_hit(p,e,hit_context)
 	var push=Content.skill_bonus(p,"knockback")
-	if push>0:e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
-	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"owner":p.id})
+	if push>0 and not e.get("training",false):e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
+	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"owner":p.id,"critical":hit_details.critical})
+	if e.get("training",false):
+		preload("res://scripts/training_ground.gd").record(sim,p,e,amount,hit_details.critical,hit_context)
+		return true
 	if e.hp<=0:sim.kill(p.id,e)
+	return true
 
-func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="star_impact",attribution:Variant=null):
-	sim.events.append({"type":"nova","fx":fx_kind,"pos":center,"dir":p.aim,"owner":p.id,"duration":0.6,"radius":radius})
+func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="star_impact",attribution:Variant=null,exclude:Array=[])->Array:
+	sim.events.append({"type":"nova","fx":fx_kind,"pos":center,"dir":p.aim,"owner":p.id,"duration":0.6,"radius":radius,"ground_shape":"circle"})
+	var accepted=[]
 	for e in sim.enemies.values():
-		if HitGeometry.circle(e,center,radius) and sim.map.line_clear(center,e.pos):hit(p,e,amount,center,attribution)
+		if e.id in exclude:continue
+		if HitGeometry.circle(e,center,radius) and sim.map.line_clear(center,e.pos) and hit(p,e,amount,center,attribution):accepted.append(e.id)
+	return accepted
 
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
@@ -194,9 +206,16 @@ func tick_projectiles(delta:float):
 		for e in targets:
 			if e.hp<=0 or shot.hit.has(e.id):continue
 			if not HitGeometry.forward_segment(e,origin,next,shot.get("width",.42)):continue
+			# A wider body can overlap a shot in a neighbouring corridor. Do not
+			# consume its pierce ledger or apply splash/status through that wall.
+			if not sim.map.line_clear(origin,e.pos):continue
 			var p=sim.players[shot.owner]
-			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}))
-			else:hit(p,e,shot.amount,origin,shot.get("stagger",{}))
+			var impact:Vector2=e.pos
+			# 거절된 표적은 투사체를 막거나 관통 횟수를 쓰지 않는다.
+			# 폭발도 유효한 주 표적이 있을 때만 발생하며 주 표적은 한 번 맞는다.
+			var accepted=hit(p,e,shot.amount,impact if shot.splash>0 else origin,shot.get("stagger",{}))
+			if not accepted:continue
+			if shot.splash>0:area(p,impact,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}),[e.id])
 			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.,shot.get("stagger",{}))
 			if shot.get("basic",false):jobs.basic_hit(p,e)
 			shot.hit.append(e.id)

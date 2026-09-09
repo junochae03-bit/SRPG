@@ -23,7 +23,7 @@ func setup(owner_game):
 	game.slot_summary.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;game.slot_summary.clip_text=true
 	game.slot_summary.add_theme_color_override("font_shadow_color",Color("402616"));game.slot_summary.add_theme_constant_override("shadow_offset_y",2)
 	game.start_button=wood_button("모험 시작",Vector2(836,483),Vector2(467,62),game.begin_adventure,27)
-	wood_button("키 설정",Vector2(836,551),Vector2(467,62),game.toggle_help,23)
+	wood_button("설정",Vector2(836,551),Vector2(467,62),game.toggle_settings,23)
 	wood_button("종료",Vector2(836,619),Vector2(467,59),game.finish_run,23)
 	game.menu_status=game.label(self,"",Vector2(760,761),Vector2(579,54),17,Color("fff1d4"));game.menu_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	game.menu_status.add_theme_color_override("font_outline_color",Color("284538"));game.menu_status.add_theme_constant_override("outline_size",4)

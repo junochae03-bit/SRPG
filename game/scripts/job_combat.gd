@@ -89,7 +89,7 @@ func attack_multiplier(p:Dictionary,heavy:bool)->float:
 	if p.class_id=="reaper" and heavy:mult*=1+passive(p,2)*.05
 	return mult
 func after_heavy(p:Dictionary):p.job_state["heavy_grit"]=0.0;p.job_state.current_heavy=false
-func outgoing(p:Dictionary,e:Dictionary,amount:int)->int:
+func outgoing(p:Dictionary,e:Dictionary,amount:int,hit_details:Dictionary={})->int:
 	if not p.has("job_state"):return amount
 	var states=e.get("job_status",{})
 	amount=roundi(amount*(1+value(p,"attack")))
@@ -108,7 +108,8 @@ func outgoing(p:Dictionary,e:Dictionary,amount:int)->int:
 	if p.class_id=="thief" and p.pos.distance_to(e.pos)<2:amount=roundi(amount*(1+mini(6,states.size())*passive(p,3)*.015))
 	if p.class_id=="explorer" and (states.has("root") or states.has("stun")):amount=roundi(amount*(1+passive(p,3)*.05))
 	var critical=value(p,"crit")+(passive(p,4)*.02 if p.class_id=="swordsman" else 0)+(.15 if p.job_state.dice_time>0 and p.job_state.dice==3 else 0)
-	if critical>0 and sim.rng.randf()<critical:amount=roundi(amount*(1.5+value(p,"crit_damage")+(passive(p,5)*.08 if p.class_id=="swordsman" else 0)))
+	if critical>0 and sim.rng.randf()<critical:
+		amount=roundi(amount*(1.5+value(p,"crit_damage")+(passive(p,5)*.08 if p.class_id=="swordsman" else 0)));hit_details["critical"]=true
 	if p.class_id=="reaper" and p.job_state.get("current_heavy",false) and p.job_state.get("heavy_proc_cd",0)<=0:
 		p.hp=mini(p.max_hp,p.hp+passive(p,4)*2);p.job_state.heavy_proc_cd=1.
 		if p.job_state.get("natural_heavy",false):reduce_cd(p,"reaper_a01",passive(p,5)*.2)
@@ -121,7 +122,7 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 		s.parry=0;s.counter=5.;
 		p.stamina=minf(p.max_stamina,p.stamina+passive(p,2)*2)
 		if s.get("parry_kind","") in ["parry_counter","parry_knee"]:
-			combat.hit(p,e,roundi(sim.damage_for(p)*s.get("counter_power",2.)),null,s.get("parry_stagger",{}));status(p,e,"stun",.5)
+			if combat.hit(p,e,roundi(sim.damage_for(p)*s.get("counter_power",2.)),null,s.get("parry_stagger",{})):status(p,e,"stun",.5)
 		s.momentum=minf(100,s.momentum+25+minf(20,amount*.05*passive(p,3)));fx(p,"breaker:2",p.pos)
 		return 0
 	for ally in allies(p):
@@ -167,6 +168,7 @@ func target(p:Dictionary,distance:float=8.,marked:bool=false)->Dictionary:
 	var best={};var score=INF
 	for e in sim.enemies.values():
 		if e.hp<=0 or not HitGeometry.circle(e,p.pos,distance) or not sim.map.line_clear(p.pos,e.pos):continue
+		if e.get("training",false) and not preload("res://scripts/training_ground.gd").can_practice(sim,p):continue
 		if marked and not p.job_state.marks.has(str(e.id)):continue
 		var angle=p.aim.dot(p.pos.direction_to(e.pos))
 		if angle<.1:continue
@@ -178,7 +180,7 @@ func move(p:Dictionary,direction:Vector2,distance:float):
 func fx(p:Dictionary,key:String,at:Vector2,radius:float=1.5,visual:Dictionary={})->Dictionary:
 	return combat.skills.fx(p,key,at,.45,radius,Vector2.INF,visual)
 func cast_visual(p:Dictionary,cast:Dictionary)->Dictionary:
-	return {"skill_id":cast.node.id,"skill_mode":cast.node.mode,"rank":cast.rank,"class_id":p.class_id,"origin":p.pos,"count":cast.count,"skill_index":cast.node.index}
+	return {"skill_id":cast.node.id,"skill_mode":cast.node.mode,"rank":cast.rank,"class_id":p.class_id,"origin":p.pos,"count":cast.count,"skill_index":cast.node.index,"ground_shape":preload("res://scripts/skill_reach.gd").job_shape(cast.node.mode),"arc_dot":0.}
 func act(p:Dictionary,kind:String)->bool:
 	var s=p.job_state
 	if kind=="cancel_charge":s.casting={};p.charge_time=-1.;s.heavy_grit=0.;return true
@@ -376,7 +378,9 @@ func _execute(p:Dictionary,cast:Dictionary):
 				"pet_guard":buff(p,"pet_guard",cast.pet_buff,duration)
 				"pet_sacrifice":s.shield=minf(p.max_hp*.6,s.shield+pet.hp*cast.sacrifice_ratio);s.shield_time=duration;pet.hp=0
 				_:
-					if not t.is_empty() and t.hp>0:pet.pos=sim.map.move(t.pos,Vector2(.5,0));combat.hit(p,t,maxi(1,roundi(float(damage)/s.pets.size())));status(p,t,"bleed",5.)
+					if not t.is_empty() and t.hp>0:
+						pet.pos=sim.map.move(t.pos,Vector2(.5,0))
+						if combat.hit(p,t,maxi(1,roundi(float(damage)/s.pets.size()))):status(p,t,"bleed",5.)
 		return
 	if mode in ["teleport","teleport_chain"]:
 		if t.is_empty() or t.hp<=0:return
@@ -391,9 +395,10 @@ func _execute(p:Dictionary,cast:Dictionary):
 		if mode=="chain_dash" or t.get("boss",false):
 			move(p,p.pos.direction_to(t.pos),maxf(0,p.pos.distance_to(t.pos)-1))
 			effect["end"]=p.pos
-		else:
+		if not combat.hit(p,t,damage):return
+		if mode!="chain_dash" and not t.get("boss",false) and t.hp>0:
 			for i in range(30):t.pos=sim.map.move(t.pos,t.pos.direction_to(p.pos)*.1)
-		s.instant=5.+passive(p,3)*.4;buff(p,"speed",passive(p,1)*.04,2.);combat.hit(p,t,damage);return
+		s.instant=5.+passive(p,3)*.4;buff(p,"speed",passive(p,1)*.04,2.);return
 	if mode in ["dash","rush","weave","retreat","flank","blink","card_retreat","heavy_dash"]:
 		move(p,-p.aim if mode in ["retreat","card_retreat"] else p.aim.orthogonal() if mode in ["weave","flank"] else p.aim,n.distance)
 		effect["end"]=p.pos
@@ -423,13 +428,13 @@ func _execute(p:Dictionary,cast:Dictionary):
 	var any_hit=false
 	for e in sim.enemies.values():
 		if e.hp<=0 or not HitGeometry.circle(e,center,n.radius) or not sim.map.line_clear(center,e.pos):continue
-		if center==p.pos and p.aim.dot(p.pos.direction_to(e.pos))<0:continue
+		if center==p.pos and not preload("res://scripts/skill_reach.gd").radial(mode) and p.aim.dot(p.pos.direction_to(e.pos))<0:continue
 		var amount=damage
-		# This job's chain uses the existing close-range hit loop, so its beam
-		# must terminate on an enemy accepted by that loop, not a remote aim target.
-		if mode=="chain":effect["end"]=e.pos
+		# 근접 연쇄의 연결선은 실제 피해가 적용된 표적까지만 그린다.
 		if mode in ["execute","heavy_execute","charge_execute"]:amount=roundi(amount*(1+(1-float(e.hp)/e.max_hp)))
-		combat.hit(p,e,amount);any_hit=true
+		if not combat.hit(p,e,amount):continue
+		any_hit=true
+		if mode=="chain":effect["end"]=e.pos
 		if mode in ["slow","stun","root","bleed","blind","vulnerable","weaken","break_armor"]:status(p,e,mode,duration)
 		if mode=="mark":mark(p,e);status(p,e,"vulnerable",duration)
 		if mode in ["pull","taunt"] and not e.get("boss",false):
@@ -493,6 +498,7 @@ func tick(p:Dictionary,delta:float):
 		if pet.source!="hound" and pet.source!="test" and pet.source not in p.skill_loadout.values():pet.hp=0;continue
 		var t=target(p,7.)
 		var ordered=sim.enemies.get(s.get("pet_target",-1),{})
+		if ordered.get("training",false) and not preload("res://scripts/training_ground.gd").can_practice(sim,p):ordered={}
 		if not ordered.is_empty() and ordered.hp>0 and HitGeometry.circle(ordered,p.pos,9+passive(p,5)*.5) and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
 		if t.is_empty():pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(p.pos)*minf(delta*4,pet.pos.distance_to(p.pos)))
 		else:

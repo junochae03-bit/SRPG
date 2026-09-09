@@ -98,7 +98,7 @@ func turn_page(direction:int):
 	town.wardrobe_page=page;town.wardrobe_selection=options[page*PAGE_SIZE];town.last_receipt="";town.refresh()
 
 func transact(kind:String)->bool:
-	if town.facility!="shop" or town.shop_mode!="costume" or kind not in ["buy_appearance","wear_appearance"]:return false
+	if town.facility not in ["shop","costume"] or town.shop_mode!="costume" or kind not in ["buy_appearance","wear_appearance"]:return false
 	var id=town.wardrobe_selection;var before=int(town.player().gold)
 	var success=game.session.act(kind,id)
 	if success:

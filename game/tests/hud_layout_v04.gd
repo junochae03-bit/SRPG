@@ -91,8 +91,8 @@ func run():
 		advanced_count+=1
 	check(advanced_count==15,"all fifteen advanced class resource interiors captured")
 	local.sim.action(1,"class","warrior");p=local.sim.players[1];local.refresh();hud.refresh();check(not hud.job_resource.visible,"no always-visible empty resource panel for basic job")
-	p.charge_time=.5;local.refresh();hud.refresh();check(hud.charge_label.visible and hud.charge_label.text.contains("55"),"charge readout only appears during actual charge")
-	p.charge_time=-1.;local.refresh();hud.refresh();check(not hud.charge_label.visible,"charge readout hides after charge")
+	p.charge_time=.5;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(game.combat_feedback.charge_visible and is_equal_approx(game.combat_feedback.charge_ratio,.5/.9) and not hud.charge_label.visible,"실제 충전량은 캐릭터 우측 게이지로 표시")
+	p.charge_time=-1.;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(not game.combat_feedback.charge_visible and not hud.charge_label.visible,"충전 종료 후 게이지와 기존 문구 모두 숨김")
 	var labels=hud.find_children("*","Label",true,false)
 	check(not labels.any(func(label):return label.text.contains("별빛을 따라 걷는 모험가")),"removed persistent HUD slogan")
 	game.stop_audio();local.disconnect_game();game.queue_free();await process_frame;await process_frame

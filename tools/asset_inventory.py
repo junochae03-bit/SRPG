@@ -2,6 +2,10 @@
 from pathlib import Path
 import re,hashlib,json
 ROOT=Path(__file__).resolve().parents[1]
+# 실행 파일 검증은 제외된 원화 폴더가 비었는지만 읽으며 자산을 로딩하지 않습니다.
+DIRECTORY_PROBES={
+    'game/scripts/export_capture_v052.gd': {'assets/costume_v06','assets/skill_motions_v06'},
+}
 def referenced_files():
     game=ROOT/'game'
     pending=list((game/'scripts').glob('*.gd'))+[game/'main.tscn',game/'project.godot']
@@ -18,7 +22,12 @@ def referenced_files():
         for relative in re.findall(r'res://([^"\s|]+)',path.read_text('utf8')):
             target=(game/relative).resolve()
             if not target.is_relative_to(game.resolve()):continue
-            if target.is_dir():raise ValueError('Unresolved dynamic asset directory: '+relative)
+            if target.is_dir():
+                if relative in DIRECTORY_PROBES.get(path.relative_to(ROOT).as_posix(),set()):
+                    presets=(game/'export_presets.cfg').read_text('utf8')
+                    excludes=re.search(r'^exclude_filter="([^"]*)"',presets,re.MULTILINE)
+                    if excludes and relative+'/*' in excludes.group(1).split(','):continue
+                raise ValueError('Unresolved dynamic asset directory: '+relative)
             pending.append(target)
     return sorted(seen)
 def inventory():

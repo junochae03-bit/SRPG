@@ -6,6 +6,11 @@ static func price(p:Dictionary,index:int)->int:return 35+mini(9,int(p.level/10))
 static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	var facility=str(request.get("facility",""));var operation=str(request.get("operation",""))
 	if sim.map.zone!="town" or World.nearest(p.pos)!=facility:return false
+	if preload("res://scripts/town_operations.gd").handles(facility,operation):
+		var result=preload("res://scripts/town_operations.gd").stage(p,facility,operation,request)
+		if not result.quote.reason.is_empty() or result.player.is_empty():return false
+		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","gold","guild_contract","hp","stamina"]:p[key]=result.player[key]
+		Inventory.initialize(p);sim.gear_changed(p);sim.notice(p.id,result.quote.title+" · 완료");return true
 	var staged=p.duplicate(true);var success=false;var message=""
 	match facility+":"+operation:
 		"shop:buy":

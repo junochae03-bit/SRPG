@@ -1,10 +1,10 @@
 {
   "counts": {
     "appearances": 620,
-    "art_assets": 1700,
-    "art_files": 222,
-    "art_sources": 10,
-    "art_uses": 10633,
+    "art_assets": 1701,
+    "art_files": 223,
+    "art_sources": 11,
+    "art_uses": 10259,
     "build_nodes": 1510,
     "classes": 20,
     "constellation_edges": 1280,
@@ -12,30 +12,40 @@
     "constellation_exclusions": 4,
     "constellations": 900,
     "drops": 132,
+    "dungeon_layouts": 6,
     "effect_definitions": 33,
     "equipment": 2500,
     "exclusive_groups": 40,
+    "facilities": 8,
     "floors": 100,
+    "inventory_rules": 1,
+    "item_definitions": 4,
     "monsters": 24,
     "raid_drops": 24,
     "raids": 10,
+    "service_effects": 15,
+    "service_inputs": 14,
+    "service_operations": 15,
+    "service_outputs": 80,
+    "service_samples": 65,
     "skill_parents": 651,
     "skill_ranks": 2030,
-    "skills": 610
+    "skills": 610,
+    "training_rules": 1
   },
   "files": {
     "schema.sql": {
-      "bytes": 12523,
-      "sha256": "cfa9911a0b3551a874b8d2bb11b819574ccce2ef6338d8de756fd347e44c1a5f"
+      "bytes": 16099,
+      "sha256": "cf5e7d22174ad32b908d3b0b998641f934dbdb4571f5ecc815f8932dc53cf36b"
     },
     "stelrpg-database.json": {
-      "bytes": 14069897,
-      "sha256": "4fa177e2d15ef0af366a427eb46b20cda366ea0b639a10a92c2455bdcc24443c"
+      "bytes": 14256886,
+      "sha256": "49007470325231d24b10ae5a396987cf30b3ba067d35f6d50ed4e1531c158478"
     },
     "stelrpg.sqlite": {
-      "bytes": 8605696,
-      "sha256": "4e2cb3555323012d055f887db0b832a5e3b2bdc091dcd24d309bf935bea15b1f"
+      "bytes": 8949760,
+      "sha256": "42bee50df593f3446197c04749acbf5b88c7cd82bf059e33962be0401fb41104"
     }
   },
-  "schema_version": 3
+  "schema_version": 4
 }

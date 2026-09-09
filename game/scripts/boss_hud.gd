@@ -17,7 +17,7 @@ func _process(delta:float):
 	for enemy in game.session.state.enemies.values():
 		var distance=p.pos.distance_to(enemy.pos)
 		if enemy.get("boss",false) and enemy.hp>0 and distance<best:boss=enemy;best=distance
-	visible=not boss.is_empty() and not game.bag.visible and not game.skill_tree.visible and not game.help_panel.visible and not game.town_panel.visible and not game.codex.visible and not game.npc_dialogue.visible
+	visible=not boss.is_empty() and not game.bag.visible and not game.skill_tree.visible and not game.help_panel.visible and not game.settings_panel.visible and not game.town_panel.visible and not game.codex.visible and not game.npc_dialogue.visible
 	if boss.is_empty():target_id=-1;return
 	var ratio=clampf(float(boss.hp)/boss.max_hp,0,1)
 	if target_id!=boss.id:target_id=boss.id;trail=ratio;previous=ratio;lag=0
@@ -27,6 +27,15 @@ func _process(delta:float):
 	trail=maxf(trail,ratio);queue_redraw()
 func _draw():
 	if boss.is_empty():return
+	if boss.get("training",false):
+		var p=game.session.state.players.get(game.session.local_id,{})
+		var stats=preload("res://scripts/training_ground.gd").summary(p)
+		var backing=StyleBoxTexture.new();backing.texture=preload("res://scripts/ui_art.gd").texture("magic")
+		for side in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]:backing.set_texture_margin(side,64)
+		draw_set_transform(Vector2(481,0),0,Vector2.ONE*(6./64.));draw_style_box(backing,Rect2(Vector2.ZERO,Vector2(480,92)/(6./64.)));draw_set_transform(Vector2.ZERO)
+		text_center("거대 훈련 허수아비",Vector2(721,37),23,Color("fff2ca"),"physical_attack")
+		text_center("누적 %s  ·  DPS %s  ·  %d회"%[str(stats.total_damage),str(roundi(stats.dps)),stats.hits],Vector2(721,74),21,Color("fff2ca"),"")
+		draw_stagger(102);return
 	var index=["warden","golem","sentinel"].find(boss.kind)
 	var data=preload("res://scripts/world_art.gd").frame("boss_bars",index)
 	var scale=520.0/data.texture.get_width();var origin=Vector2(461,32)
