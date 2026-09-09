@@ -1,6 +1,7 @@
 extends Button
 
 const Content = preload("res://scripts/content.gd")
+const Library = preload("res://scripts/icon_library.gd")
 var panel
 var item: Dictionary = {}
 var equip_slot = ""
@@ -12,12 +13,13 @@ var picture: Texture2D
 
 func configure(owner_panel, value: Dictionary, slot: String = ""):
 	panel=owner_panel
+	material=preload("res://scripts/gat_art.gd").material()
 	item=value
 	equip_slot=slot
 	font=panel.game.fonts
 	if not item.is_empty():
 		picture=Content.icon_texture(item)
-		tooltip_text=item.name+"\n드래그로 이동 · 한 칸 보관"
+		tooltip_text=item.name
 	else:tooltip_text=Content.SLOT_NAMES.get(slot,"")
 	for state in ["normal","hover","pressed","focus"]:add_theme_stylebox_override(state,StyleBoxEmpty.new())
 	pressed.connect(func():
@@ -37,17 +39,28 @@ func _draw():
 		if rarity>=3:
 			for corner in [Vector2(7,7),Vector2(size.x-7,7),Vector2(7,size.y-7),size-Vector2(7,7)]:draw_circle(corner,2.3,color)
 	var display=picture
-	if display==null and equip_slot!="":display=Content.icon_texture({"category":"weapon" if equip_slot=="weapon" else "armor","slot":equip_slot,"weapon_type":"sword"})
+	if display==null and equip_slot!="":display=Library.texture(equip_slot)
 	if display!=null:
-		var space=size-Vector2(13,17)
+		var space=size-Vector2(9,12)
 		var ratio=minf(space.x/display.get_width(),space.y/display.get_height())
 		var dims=display.get_size()*ratio
-		draw_texture_rect(display,Rect2((size-dims)*.5,dims),false,Color(1,1,1,alpha*(.24 if item.is_empty() else 1)))
-	if is_hovered() and not preview_only:draw_rect(r,Color(1,1,1,0.13))
+		draw_texture_rect(display,Rect2((size-dims)*.5,dims),false,Color(1,1,1,alpha*(.6 if item.is_empty() else 1)))
+	if not item.is_empty() and not preview_only:
+		var badge="selected" if equip_slot!="" else "locked" if item.category in ["weapon","armor","accessory"] and not preload("res://scripts/equipment_catalog.gd").reason(panel.player(),item).is_empty() else ""
+		if not badge.is_empty():draw_texture_rect(Library.texture(badge),Rect2(Vector2(size.x-22,4),Vector2(18,18)),false,Color(1,1,1,alpha))
+	if is_hovered() and not preview_only:draw_rect(r.grow(-2),Color("f6dea0"),false,2.)
 	if font!=null and not item.is_empty():
-		var text_value=str(item.get("count",1)) if item.has("count") else ("+"+str(item.get("bonus",0)))
-		draw_string_outline(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,14,3,Color("152c2c"))
-		draw_string(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("fff0c9"))
+		var text_value=quantity_text()
+		draw_string_outline(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,17,4,Color("152c2c"))
+		draw_string(font,Vector2(6,size.y-6),text_value,HORIZONTAL_ALIGNMENT_LEFT,-1,17,Color("fff0c9"))
+
+func quantity_text()->String:
+	if item.has("count"):return str(item.count)
+	return "+%d"%int(item.get("upgrade",0)) if int(item.get("upgrade",0))>0 else ""
+
+func _gui_input(event:InputEvent):
+	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.pressed and event.double_click and not preview_only and not item.is_empty():
+		panel.quick_activate(item.id);accept_event()
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if preview_only or item.is_empty():return null

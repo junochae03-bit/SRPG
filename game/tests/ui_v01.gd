@@ -15,10 +15,10 @@ func run():
 	game.toggle_skills();var tree=game.skill_tree
 	for cls in ["warrior","ranger","mage"]:
 		session.act("class",cls);tree.filter_index=0;tree.choice="";tree.refresh(true)
-		check(tree.nodes.size()==50 and tree.scroll.size.y>=500,"large scrollable fifty-node web "+cls)
-		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=160 and tree.nodes[node.id].icon!=null,"named illustrated node "+node.id)
+		check(tree.nodes.size()==95 and tree.graph.size.x>=900 and tree.graph.size.y>=460,"large pannable original and specialization web "+cls)
+		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=26 and tree.nodes[node.id].icon!=null,"illustrated zoomable node "+node.id)
 		var active=Content.SKILLS[cls].filter(func(n):return n.effect=="active")[0]
-		tree.search.text=active.name;tree.search.text_changed.emit(active.name)
+		tree.search.text=active.name;tree.apply_search()
 		check(tree.choice==active.id,"search selects and reveals matching skill "+cls)
 		tree.search.text="";tree.filter_index=1;tree.refresh(true)
 		check(Content.SKILLS[cls].filter(func(n):return tree.matches(n,p)).size()==12,"active filter finds twelve skills "+cls)
@@ -29,12 +29,13 @@ func run():
 		tree.bind_buttons[1].pressed.emit();check(Content.active_node(p,"skill_f").id==active.id,"explicit hotbar assignment "+cls)
 	game.toggle_skills();game.toggle_bag();game.bag.select_item("training-axe")
 	check(game.bag.detail_body.text.contains("→") and game.bag.portrait.size.y>=200,"equipment comparison and large character display")
-	check(game.bag.grid.CELL==50 and game.bag.size.x>1300,"larger illustrated inventory")
+	check(game.bag.grid.CELL==64 and game.bag.size.x==1560,"Full HD illustrated inventory with readable item cells")
 	game.toggle_bag()
 	p.inventory.filter(func(i):return i.id=="training-sword")[0].rarity=1
 	var panel=game.town_panel
 	for facility in ["shop","smith","alchemy","guild","inn"]:
 		p.pos=World.resident_pos(facility);session.refresh();session.act("interact")
+		check(game.npc_dialogue.visible,"resident greeting before service "+facility);game.npc_dialogue.service_button.pressed.emit()
 		check(panel.visible and panel.counter.texture!=null and panel.greeting.text.contains(World.RESIDENTS[facility].name),"painted workspace and NPC "+facility)
 		check(panel.confirm_button!=null and panel.preview.has("result"),"explicit review before transaction "+facility)
 		var operations=[]
@@ -52,7 +53,7 @@ func run():
 			for key in q.materials:check(old.materials[key]-p.materials[key]==q.materials[key],"quoted material matches actual consumption "+key)
 			check(panel.last_receipt.contains("완료"),"successful transaction gives receipt "+facility+op[0])
 		panel.close()
-	p.pos=World.resident_pos("shop");session.refresh();session.act("interact");panel.shop_mode="sell";panel.choose("sell",{"item":"training-axe"})
+	p.pos=World.resident_pos("shop");session.refresh();session.act("interact");game.npc_dialogue.service_button.pressed.emit();panel.shop_mode="sell";panel.choose("sell",{"item":"training-axe"})
 	var q=panel.preview;var before=p.gold;panel.confirm_button.pressed.emit()
 	check(p.gold-before==-q.cost and not p.inventory.any(func(i):return i.id=="training-axe"),"sale review and confirmation transfer exact item and money")
 	check(panel.selected_item=="" and panel.confirm_button.disabled,"sale requires a fresh selection for another item")

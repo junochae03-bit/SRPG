@@ -1,0 +1,2755 @@
+{
+  "schema_version": 1,
+  "background": "Original PNG preserved. Alpha-zero and RGB r>.65,b>.65,g<.35 are transparent in the existing Gat chroma shader.",
+  "padding": 2,
+  "sheets": {
+    "weapons-trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "width": 1536,
+      "height": 1024,
+      "columns": 5,
+      "rows": 4,
+      "source_sha256": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          298,
+          607,
+          918,
+          1224,
+          1536
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            252,
+            504,
+            753,
+            1024
+          ],
+          [
+            0,
+            254,
+            493,
+            766,
+            1024
+          ],
+          [
+            0,
+            258,
+            491,
+            757,
+            1024
+          ],
+          [
+            0,
+            238,
+            510,
+            763,
+            1024
+          ],
+          [
+            0,
+            232,
+            512,
+            759,
+            1024
+          ]
+        ]
+      }
+    },
+    "weapons-adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "width": 1536,
+      "height": 1024,
+      "columns": 5,
+      "rows": 4,
+      "source_sha256": "454733f8ccb5f3554107dcff9686eb914e3a115a7dd883e12bd9dd38f3cba74e",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          296,
+          604,
+          916,
+          1224,
+          1536
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            248,
+            490,
+            740,
+            1024
+          ],
+          [
+            0,
+            250,
+            488,
+            752,
+            1024
+          ],
+          [
+            0,
+            252,
+            490,
+            744,
+            1024
+          ],
+          [
+            0,
+            237,
+            502,
+            748,
+            1024
+          ],
+          [
+            0,
+            234,
+            504,
+            744,
+            1024
+          ]
+        ]
+      }
+    },
+    "weapons-relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "width": 1536,
+      "height": 1024,
+      "columns": 5,
+      "rows": 4,
+      "source_sha256": "54ead574f44c956d980400e568a1b8c79cc2c4fbbbd908d60332dc1f35fb3523",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          296,
+          609,
+          914,
+          1221,
+          1536
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            250,
+            500,
+            744,
+            1024
+          ],
+          [
+            0,
+            252,
+            496,
+            752,
+            1024
+          ],
+          [
+            0,
+            256,
+            498,
+            746,
+            1024
+          ],
+          [
+            0,
+            250,
+            506,
+            749,
+            1024
+          ],
+          [
+            0,
+            240,
+            506,
+            747,
+            1024
+          ]
+        ]
+      }
+    },
+    "armor-trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "width": 1254,
+      "height": 1254,
+      "columns": 5,
+      "rows": 5,
+      "source_sha256": "b654bff87f1dd80a00c217a3a83427791720a83f4cb61679b5697b3b95880774",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          252,
+          500,
+          752,
+          992,
+          1254
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            250,
+            496,
+            720,
+            970,
+            1254
+          ],
+          [
+            0,
+            251,
+            492,
+            727,
+            960,
+            1254
+          ],
+          [
+            0,
+            248,
+            499,
+            730,
+            966,
+            1254
+          ],
+          [
+            0,
+            246,
+            492,
+            726,
+            959,
+            1254
+          ],
+          [
+            0,
+            252,
+            493,
+            728,
+            966,
+            1254
+          ]
+        ]
+      }
+    },
+    "armor-relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "width": 1254,
+      "height": 1254,
+      "columns": 5,
+      "rows": 5,
+      "source_sha256": "02658fa26f852ad7dfa754d79d59f98ec4b7879fa309a7246674f1fd5a900ee1",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          250,
+          502,
+          756,
+          1004,
+          1254
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            247,
+            488,
+            722,
+            978,
+            1254
+          ],
+          [
+            0,
+            252,
+            492,
+            728,
+            964,
+            1254
+          ],
+          [
+            0,
+            256,
+            493,
+            732,
+            966,
+            1254
+          ],
+          [
+            0,
+            248,
+            488,
+            726,
+            964,
+            1254
+          ],
+          [
+            0,
+            252,
+            500,
+            730,
+            974,
+            1254
+          ]
+        ]
+      }
+    },
+    "accessories": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "width": 1536,
+      "height": 1024,
+      "columns": 5,
+      "rows": 1,
+      "source_sha256": "426eb64ca3a5dac3fd681bf0de8bf949ad5055c4fd4a47963ef4b8d6bc67626c",
+      "grid": {
+        "mode": "adaptive_columns_then_rows",
+        "column_cuts": [
+          0,
+          299,
+          620,
+          910,
+          1250,
+          1536
+        ],
+        "row_cuts_by_column": [
+          [
+            0,
+            1024
+          ],
+          [
+            0,
+            1024
+          ],
+          [
+            0,
+            1024
+          ],
+          [
+            0,
+            1024
+          ],
+          [
+            0,
+            1024
+          ]
+        ]
+      }
+    }
+  },
+  "items": {
+    "weapon_warrior_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        41,
+        25,
+        220,
+        213
+      ],
+      "foreground_rect": [
+        43,
+        27,
+        216,
+        209
+      ],
+      "cell": [
+        0,
+        0,
+        298,
+        252
+      ]
+    },
+    "weapon_ranger_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        392,
+        12,
+        153,
+        229
+      ],
+      "foreground_rect": [
+        394,
+        14,
+        149,
+        225
+      ],
+      "cell": [
+        298,
+        0,
+        309,
+        254
+      ]
+    },
+    "weapon_mage_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        681,
+        11,
+        159,
+        242
+      ],
+      "foreground_rect": [
+        683,
+        13,
+        155,
+        238
+      ],
+      "cell": [
+        607,
+        0,
+        311,
+        258
+      ]
+    },
+    "weapon_rogue_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        981,
+        29,
+        172,
+        196
+      ],
+      "foreground_rect": [
+        983,
+        31,
+        168,
+        192
+      ],
+      "cell": [
+        918,
+        0,
+        306,
+        238
+      ]
+    },
+    "weapon_fighter_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        1247,
+        53,
+        265,
+        158
+      ],
+      "foreground_rect": [
+        1249,
+        55,
+        261,
+        154
+      ],
+      "cell": [
+        1224,
+        0,
+        312,
+        232
+      ]
+    },
+    "weapon_tank_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        50,
+        266,
+        208,
+        225
+      ],
+      "foreground_rect": [
+        52,
+        268,
+        204,
+        221
+      ],
+      "cell": [
+        0,
+        252,
+        298,
+        252
+      ]
+    },
+    "weapon_runesword_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        339,
+        266,
+        234,
+        222
+      ],
+      "foreground_rect": [
+        341,
+        268,
+        230,
+        218
+      ],
+      "cell": [
+        298,
+        254,
+        309,
+        239
+      ]
+    },
+    "weapon_swordsman_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        655,
+        264,
+        217,
+        216
+      ],
+      "foreground_rect": [
+        657,
+        266,
+        213,
+        212
+      ],
+      "cell": [
+        607,
+        258,
+        311,
+        233
+      ]
+    },
+    "weapon_summoner_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        992,
+        250,
+        168,
+        253
+      ],
+      "foreground_rect": [
+        994,
+        252,
+        164,
+        249
+      ],
+      "cell": [
+        918,
+        238,
+        306,
+        272
+      ]
+    },
+    "weapon_elementalist_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        1290,
+        252,
+        207,
+        242
+      ],
+      "foreground_rect": [
+        1292,
+        254,
+        203,
+        238
+      ],
+      "cell": [
+        1224,
+        232,
+        312,
+        280
+      ]
+    },
+    "weapon_healer_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        50,
+        516,
+        226,
+        226
+      ],
+      "foreground_rect": [
+        52,
+        518,
+        222,
+        222
+      ],
+      "cell": [
+        0,
+        504,
+        298,
+        249
+      ]
+    },
+    "weapon_sniper_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        398,
+        498,
+        154,
+        259
+      ],
+      "foreground_rect": [
+        400,
+        500,
+        150,
+        255
+      ],
+      "cell": [
+        298,
+        493,
+        309,
+        273
+      ]
+    },
+    "weapon_hunter_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        646,
+        502,
+        218,
+        221
+      ],
+      "foreground_rect": [
+        648,
+        504,
+        214,
+        217
+      ],
+      "cell": [
+        607,
+        491,
+        311,
+        266
+      ]
+    },
+    "weapon_explorer_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        955,
+        518,
+        227,
+        218
+      ],
+      "foreground_rect": [
+        957,
+        520,
+        223,
+        214
+      ],
+      "cell": [
+        918,
+        510,
+        306,
+        253
+      ]
+    },
+    "weapon_thief_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        1273,
+        530,
+        205,
+        199
+      ],
+      "foreground_rect": [
+        1275,
+        532,
+        201,
+        195
+      ],
+      "cell": [
+        1224,
+        512,
+        312,
+        247
+      ]
+    },
+    "weapon_reaper_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        44,
+        764,
+        219,
+        242
+      ],
+      "foreground_rect": [
+        46,
+        766,
+        215,
+        238
+      ],
+      "cell": [
+        0,
+        753,
+        298,
+        271
+      ]
+    },
+    "weapon_gambler_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        319,
+        774,
+        272,
+        205
+      ],
+      "foreground_rect": [
+        321,
+        776,
+        268,
+        201
+      ],
+      "cell": [
+        298,
+        766,
+        309,
+        258
+      ]
+    },
+    "weapon_breaker_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        623,
+        791,
+        274,
+        183
+      ],
+      "foreground_rect": [
+        625,
+        793,
+        270,
+        179
+      ],
+      "cell": [
+        607,
+        757,
+        311,
+        267
+      ]
+    },
+    "weapon_infighter_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        940,
+        790,
+        262,
+        180
+      ],
+      "foreground_rect": [
+        942,
+        792,
+        258,
+        176
+      ],
+      "cell": [
+        918,
+        763,
+        306,
+        261
+      ]
+    },
+    "weapon_martialist_trail": {
+      "sheet": "res://assets/equipment/weapons-trail.png",
+      "rect": [
+        1246,
+        789,
+        262,
+        184
+      ],
+      "foreground_rect": [
+        1248,
+        791,
+        258,
+        180
+      ],
+      "cell": [
+        1224,
+        759,
+        312,
+        265
+      ]
+    },
+    "weapon_warrior_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        65,
+        51,
+        173,
+        156
+      ],
+      "foreground_rect": [
+        67,
+        53,
+        169,
+        152
+      ],
+      "cell": [
+        0,
+        0,
+        296,
+        248
+      ]
+    },
+    "weapon_ranger_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        394,
+        40,
+        125,
+        178
+      ],
+      "foreground_rect": [
+        396,
+        42,
+        121,
+        174
+      ],
+      "cell": [
+        296,
+        0,
+        308,
+        250
+      ]
+    },
+    "weapon_mage_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        696,
+        44,
+        130,
+        176
+      ],
+      "foreground_rect": [
+        698,
+        46,
+        126,
+        172
+      ],
+      "cell": [
+        604,
+        0,
+        312,
+        252
+      ]
+    },
+    "weapon_rogue_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        999,
+        52,
+        136,
+        147
+      ],
+      "foreground_rect": [
+        1001,
+        54,
+        132,
+        143
+      ],
+      "cell": [
+        916,
+        0,
+        308,
+        237
+      ]
+    },
+    "weapon_fighter_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        1278,
+        73,
+        196,
+        115
+      ],
+      "foreground_rect": [
+        1280,
+        75,
+        192,
+        111
+      ],
+      "cell": [
+        1224,
+        0,
+        312,
+        234
+      ]
+    },
+    "weapon_tank_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        71,
+        289,
+        162,
+        165
+      ],
+      "foreground_rect": [
+        73,
+        291,
+        158,
+        161
+      ],
+      "cell": [
+        0,
+        248,
+        296,
+        242
+      ]
+    },
+    "weapon_runesword_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        362,
+        283,
+        182,
+        175
+      ],
+      "foreground_rect": [
+        364,
+        285,
+        178,
+        171
+      ],
+      "cell": [
+        296,
+        250,
+        308,
+        238
+      ]
+    },
+    "weapon_swordsman_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        677,
+        284,
+        166,
+        172
+      ],
+      "foreground_rect": [
+        679,
+        286,
+        162,
+        168
+      ],
+      "cell": [
+        604,
+        252,
+        312,
+        238
+      ]
+    },
+    "weapon_summoner_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        998,
+        275,
+        140,
+        193
+      ],
+      "foreground_rect": [
+        1000,
+        277,
+        136,
+        189
+      ],
+      "cell": [
+        916,
+        237,
+        308,
+        265
+      ]
+    },
+    "weapon_elementalist_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        1303,
+        280,
+        158,
+        181
+      ],
+      "foreground_rect": [
+        1305,
+        282,
+        154,
+        177
+      ],
+      "cell": [
+        1224,
+        234,
+        312,
+        270
+      ]
+    },
+    "weapon_healer_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        68,
+        526,
+        177,
+        176
+      ],
+      "foreground_rect": [
+        70,
+        528,
+        173,
+        172
+      ],
+      "cell": [
+        0,
+        490,
+        296,
+        250
+      ]
+    },
+    "weapon_sniper_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        391,
+        518,
+        130,
+        198
+      ],
+      "foreground_rect": [
+        393,
+        520,
+        126,
+        194
+      ],
+      "cell": [
+        296,
+        488,
+        308,
+        264
+      ]
+    },
+    "weapon_hunter_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        676,
+        525,
+        163,
+        167
+      ],
+      "foreground_rect": [
+        678,
+        527,
+        159,
+        163
+      ],
+      "cell": [
+        604,
+        490,
+        312,
+        254
+      ]
+    },
+    "weapon_explorer_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        977,
+        535,
+        173,
+        165
+      ],
+      "foreground_rect": [
+        979,
+        537,
+        169,
+        161
+      ],
+      "cell": [
+        916,
+        502,
+        308,
+        246
+      ]
+    },
+    "weapon_thief_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        1296,
+        546,
+        156,
+        148
+      ],
+      "foreground_rect": [
+        1298,
+        548,
+        152,
+        144
+      ],
+      "cell": [
+        1224,
+        504,
+        312,
+        240
+      ]
+    },
+    "weapon_reaper_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        67,
+        778,
+        164,
+        177
+      ],
+      "foreground_rect": [
+        69,
+        780,
+        160,
+        173
+      ],
+      "cell": [
+        0,
+        740,
+        296,
+        284
+      ]
+    },
+    "weapon_gambler_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        346,
+        787,
+        204,
+        147
+      ],
+      "foreground_rect": [
+        348,
+        789,
+        200,
+        143
+      ],
+      "cell": [
+        296,
+        752,
+        308,
+        272
+      ]
+    },
+    "weapon_breaker_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        658,
+        795,
+        204,
+        134
+      ],
+      "foreground_rect": [
+        660,
+        797,
+        200,
+        130
+      ],
+      "cell": [
+        604,
+        744,
+        312,
+        280
+      ]
+    },
+    "weapon_infighter_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        970,
+        795,
+        200,
+        133
+      ],
+      "foreground_rect": [
+        972,
+        797,
+        196,
+        129
+      ],
+      "cell": [
+        916,
+        748,
+        308,
+        276
+      ]
+    },
+    "weapon_martialist_adept": {
+      "sheet": "res://assets/equipment/weapons-adept.png",
+      "rect": [
+        1278,
+        795,
+        191,
+        133
+      ],
+      "foreground_rect": [
+        1280,
+        797,
+        187,
+        129
+      ],
+      "cell": [
+        1224,
+        744,
+        312,
+        280
+      ]
+    },
+    "weapon_warrior_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        72,
+        52,
+        165,
+        159
+      ],
+      "foreground_rect": [
+        74,
+        54,
+        161,
+        155
+      ],
+      "cell": [
+        0,
+        0,
+        296,
+        250
+      ]
+    },
+    "weapon_ranger_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        404,
+        42,
+        127,
+        170
+      ],
+      "foreground_rect": [
+        406,
+        44,
+        123,
+        166
+      ],
+      "cell": [
+        296,
+        0,
+        313,
+        252
+      ]
+    },
+    "weapon_mage_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        702,
+        42,
+        128,
+        176
+      ],
+      "foreground_rect": [
+        704,
+        44,
+        124,
+        172
+      ],
+      "cell": [
+        609,
+        0,
+        305,
+        256
+      ]
+    },
+    "weapon_rogue_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        996,
+        55,
+        126,
+        158
+      ],
+      "foreground_rect": [
+        998,
+        57,
+        122,
+        154
+      ],
+      "cell": [
+        914,
+        0,
+        307,
+        250
+      ]
+    },
+    "weapon_fighter_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        1276,
+        76,
+        197,
+        115
+      ],
+      "foreground_rect": [
+        1278,
+        78,
+        193,
+        111
+      ],
+      "cell": [
+        1221,
+        0,
+        315,
+        240
+      ]
+    },
+    "weapon_tank_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        70,
+        289,
+        164,
+        173
+      ],
+      "foreground_rect": [
+        72,
+        291,
+        160,
+        169
+      ],
+      "cell": [
+        0,
+        250,
+        296,
+        250
+      ]
+    },
+    "weapon_runesword_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        373,
+        291,
+        172,
+        173
+      ],
+      "foreground_rect": [
+        375,
+        293,
+        168,
+        169
+      ],
+      "cell": [
+        296,
+        252,
+        313,
+        244
+      ]
+    },
+    "weapon_swordsman_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        679,
+        294,
+        167,
+        164
+      ],
+      "foreground_rect": [
+        681,
+        296,
+        163,
+        160
+      ],
+      "cell": [
+        609,
+        256,
+        305,
+        242
+      ]
+    },
+    "weapon_summoner_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        998,
+        286,
+        136,
+        182
+      ],
+      "foreground_rect": [
+        1000,
+        288,
+        132,
+        178
+      ],
+      "cell": [
+        914,
+        250,
+        307,
+        256
+      ]
+    },
+    "weapon_elementalist_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        1309,
+        290,
+        158,
+        176
+      ],
+      "foreground_rect": [
+        1311,
+        292,
+        154,
+        172
+      ],
+      "cell": [
+        1221,
+        240,
+        315,
+        266
+      ]
+    },
+    "weapon_healer_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        68,
+        539,
+        163,
+        165
+      ],
+      "foreground_rect": [
+        70,
+        541,
+        159,
+        161
+      ],
+      "cell": [
+        0,
+        500,
+        296,
+        244
+      ]
+    },
+    "weapon_sniper_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        413,
+        527,
+        118,
+        190
+      ],
+      "foreground_rect": [
+        415,
+        529,
+        114,
+        186
+      ],
+      "cell": [
+        296,
+        496,
+        313,
+        256
+      ]
+    },
+    "weapon_hunter_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        681,
+        539,
+        157,
+        156
+      ],
+      "foreground_rect": [
+        683,
+        541,
+        153,
+        152
+      ],
+      "cell": [
+        609,
+        498,
+        305,
+        248
+      ]
+    },
+    "weapon_explorer_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        983,
+        544,
+        168,
+        157
+      ],
+      "foreground_rect": [
+        985,
+        546,
+        164,
+        153
+      ],
+      "cell": [
+        914,
+        506,
+        307,
+        243
+      ]
+    },
+    "weapon_thief_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        1293,
+        547,
+        160,
+        151
+      ],
+      "foreground_rect": [
+        1295,
+        549,
+        156,
+        147
+      ],
+      "cell": [
+        1221,
+        506,
+        315,
+        241
+      ]
+    },
+    "weapon_reaper_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        60,
+        783,
+        164,
+        166
+      ],
+      "foreground_rect": [
+        62,
+        785,
+        160,
+        162
+      ],
+      "cell": [
+        0,
+        744,
+        296,
+        280
+      ]
+    },
+    "weapon_gambler_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        356,
+        786,
+        197,
+        147
+      ],
+      "foreground_rect": [
+        358,
+        788,
+        193,
+        143
+      ],
+      "cell": [
+        296,
+        752,
+        313,
+        272
+      ]
+    },
+    "weapon_breaker_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        665,
+        796,
+        193,
+        132
+      ],
+      "foreground_rect": [
+        667,
+        798,
+        189,
+        128
+      ],
+      "cell": [
+        609,
+        746,
+        305,
+        278
+      ]
+    },
+    "weapon_infighter_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        970,
+        797,
+        196,
+        128
+      ],
+      "foreground_rect": [
+        972,
+        799,
+        192,
+        124
+      ],
+      "cell": [
+        914,
+        749,
+        307,
+        275
+      ]
+    },
+    "weapon_martialist_relic": {
+      "sheet": "res://assets/equipment/weapons-relic.png",
+      "rect": [
+        1279,
+        796,
+        191,
+        133
+      ],
+      "foreground_rect": [
+        1281,
+        798,
+        187,
+        129
+      ],
+      "cell": [
+        1221,
+        747,
+        315,
+        277
+      ]
+    },
+    "armor_warrior_head_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        33,
+        61,
+        192,
+        171
+      ],
+      "foreground_rect": [
+        35,
+        63,
+        188,
+        167
+      ],
+      "cell": [
+        0,
+        0,
+        252,
+        250
+      ]
+    },
+    "armor_warrior_chest_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        274,
+        21,
+        217,
+        221
+      ],
+      "foreground_rect": [
+        276,
+        23,
+        213,
+        217
+      ],
+      "cell": [
+        252,
+        0,
+        248,
+        251
+      ]
+    },
+    "armor_warrior_hands_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        523,
+        48,
+        212,
+        168
+      ],
+      "foreground_rect": [
+        525,
+        50,
+        208,
+        164
+      ],
+      "cell": [
+        500,
+        0,
+        252,
+        248
+      ]
+    },
+    "armor_warrior_legs_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        788,
+        22,
+        176,
+        213
+      ],
+      "foreground_rect": [
+        790,
+        24,
+        172,
+        209
+      ],
+      "cell": [
+        752,
+        0,
+        240,
+        246
+      ]
+    },
+    "armor_warrior_feet_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        1012,
+        33,
+        216,
+        200
+      ],
+      "foreground_rect": [
+        1014,
+        35,
+        212,
+        196
+      ],
+      "cell": [
+        992,
+        0,
+        262,
+        252
+      ]
+    },
+    "armor_ranger_head_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        35,
+        269,
+        193,
+        207
+      ],
+      "foreground_rect": [
+        37,
+        271,
+        189,
+        203
+      ],
+      "cell": [
+        0,
+        250,
+        252,
+        246
+      ]
+    },
+    "armor_ranger_chest_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        276,
+        260,
+        206,
+        224
+      ],
+      "foreground_rect": [
+        278,
+        262,
+        202,
+        220
+      ],
+      "cell": [
+        252,
+        251,
+        248,
+        241
+      ]
+    },
+    "armor_ranger_hands_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        520,
+        281,
+        216,
+        193
+      ],
+      "foreground_rect": [
+        522,
+        283,
+        212,
+        189
+      ],
+      "cell": [
+        500,
+        248,
+        252,
+        251
+      ]
+    },
+    "armor_ranger_legs_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        789,
+        258,
+        177,
+        223
+      ],
+      "foreground_rect": [
+        791,
+        260,
+        173,
+        219
+      ],
+      "cell": [
+        752,
+        246,
+        240,
+        246
+      ]
+    },
+    "armor_ranger_feet_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        1013,
+        271,
+        213,
+        200
+      ],
+      "foreground_rect": [
+        1015,
+        273,
+        209,
+        196
+      ],
+      "cell": [
+        992,
+        252,
+        262,
+        241
+      ]
+    },
+    "armor_mage_head_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        21,
+        515,
+        218,
+        186
+      ],
+      "foreground_rect": [
+        23,
+        517,
+        214,
+        182
+      ],
+      "cell": [
+        0,
+        496,
+        252,
+        224
+      ]
+    },
+    "armor_mage_chest_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        268,
+        499,
+        222,
+        220
+      ],
+      "foreground_rect": [
+        270,
+        501,
+        218,
+        216
+      ],
+      "cell": [
+        252,
+        492,
+        248,
+        235
+      ]
+    },
+    "armor_mage_hands_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        516,
+        524,
+        207,
+        180
+      ],
+      "foreground_rect": [
+        518,
+        526,
+        203,
+        176
+      ],
+      "cell": [
+        500,
+        499,
+        252,
+        231
+      ]
+    },
+    "armor_mage_legs_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        768,
+        504,
+        208,
+        213
+      ],
+      "foreground_rect": [
+        770,
+        506,
+        204,
+        209
+      ],
+      "cell": [
+        752,
+        492,
+        240,
+        234
+      ]
+    },
+    "armor_mage_feet_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        1009,
+        515,
+        219,
+        192
+      ],
+      "foreground_rect": [
+        1011,
+        517,
+        215,
+        188
+      ],
+      "cell": [
+        992,
+        493,
+        262,
+        235
+      ]
+    },
+    "armor_rogue_head_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        31,
+        738,
+        192,
+        218
+      ],
+      "foreground_rect": [
+        33,
+        740,
+        188,
+        214
+      ],
+      "cell": [
+        0,
+        720,
+        252,
+        250
+      ]
+    },
+    "armor_rogue_chest_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        265,
+        735,
+        226,
+        218
+      ],
+      "foreground_rect": [
+        267,
+        737,
+        222,
+        214
+      ],
+      "cell": [
+        252,
+        727,
+        248,
+        233
+      ]
+    },
+    "armor_rogue_hands_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        516,
+        755,
+        217,
+        187
+      ],
+      "foreground_rect": [
+        518,
+        757,
+        213,
+        183
+      ],
+      "cell": [
+        500,
+        730,
+        252,
+        236
+      ]
+    },
+    "armor_rogue_legs_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        788,
+        736,
+        176,
+        216
+      ],
+      "foreground_rect": [
+        790,
+        738,
+        172,
+        212
+      ],
+      "cell": [
+        752,
+        726,
+        240,
+        233
+      ]
+    },
+    "armor_rogue_feet_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        1012,
+        750,
+        214,
+        197
+      ],
+      "foreground_rect": [
+        1014,
+        752,
+        210,
+        193
+      ],
+      "cell": [
+        992,
+        728,
+        262,
+        238
+      ]
+    },
+    "armor_fighter_head_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        35,
+        983,
+        197,
+        220
+      ],
+      "foreground_rect": [
+        37,
+        985,
+        193,
+        216
+      ],
+      "cell": [
+        0,
+        970,
+        252,
+        284
+      ]
+    },
+    "armor_fighter_chest_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        274,
+        966,
+        204,
+        249
+      ],
+      "foreground_rect": [
+        276,
+        968,
+        200,
+        245
+      ],
+      "cell": [
+        252,
+        960,
+        248,
+        294
+      ]
+    },
+    "armor_fighter_hands_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        508,
+        991,
+        225,
+        203
+      ],
+      "foreground_rect": [
+        510,
+        993,
+        221,
+        199
+      ],
+      "cell": [
+        500,
+        966,
+        252,
+        288
+      ]
+    },
+    "armor_fighter_legs_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        779,
+        966,
+        197,
+        247
+      ],
+      "foreground_rect": [
+        781,
+        968,
+        193,
+        243
+      ],
+      "cell": [
+        752,
+        959,
+        240,
+        295
+      ]
+    },
+    "armor_fighter_feet_trail": {
+      "sheet": "res://assets/equipment/armor-trail.png",
+      "rect": [
+        1009,
+        986,
+        218,
+        217
+      ],
+      "foreground_rect": [
+        1011,
+        988,
+        214,
+        213
+      ],
+      "cell": [
+        992,
+        966,
+        262,
+        288
+      ]
+    },
+    "armor_warrior_head_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        38,
+        62,
+        195,
+        153
+      ],
+      "foreground_rect": [
+        40,
+        64,
+        191,
+        149
+      ],
+      "cell": [
+        0,
+        0,
+        250,
+        247
+      ]
+    },
+    "armor_warrior_chest_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        277,
+        18,
+        196,
+        229
+      ],
+      "foreground_rect": [
+        279,
+        20,
+        192,
+        225
+      ],
+      "cell": [
+        250,
+        0,
+        252,
+        252
+      ]
+    },
+    "armor_warrior_hands_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        516,
+        48,
+        221,
+        184
+      ],
+      "foreground_rect": [
+        518,
+        50,
+        217,
+        180
+      ],
+      "cell": [
+        502,
+        0,
+        254,
+        256
+      ]
+    },
+    "armor_warrior_legs_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        777,
+        18,
+        196,
+        222
+      ],
+      "foreground_rect": [
+        779,
+        20,
+        192,
+        218
+      ],
+      "cell": [
+        756,
+        0,
+        248,
+        248
+      ]
+    },
+    "armor_warrior_feet_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        1014,
+        46,
+        208,
+        186
+      ],
+      "foreground_rect": [
+        1016,
+        48,
+        204,
+        182
+      ],
+      "cell": [
+        1004,
+        0,
+        250,
+        252
+      ]
+    },
+    "armor_ranger_head_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        28,
+        279,
+        214,
+        192
+      ],
+      "foreground_rect": [
+        30,
+        281,
+        210,
+        188
+      ],
+      "cell": [
+        0,
+        247,
+        250,
+        241
+      ]
+    },
+    "armor_ranger_chest_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        258,
+        256,
+        230,
+        232
+      ],
+      "foreground_rect": [
+        260,
+        258,
+        226,
+        228
+      ],
+      "cell": [
+        250,
+        252,
+        252,
+        240
+      ]
+    },
+    "armor_ranger_hands_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        514,
+        281,
+        229,
+        185
+      ],
+      "foreground_rect": [
+        516,
+        283,
+        225,
+        181
+      ],
+      "cell": [
+        502,
+        256,
+        254,
+        237
+      ]
+    },
+    "armor_ranger_legs_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        773,
+        256,
+        206,
+        226
+      ],
+      "foreground_rect": [
+        775,
+        258,
+        202,
+        222
+      ],
+      "cell": [
+        756,
+        248,
+        248,
+        240
+      ]
+    },
+    "armor_ranger_feet_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        1015,
+        271,
+        212,
+        211
+      ],
+      "foreground_rect": [
+        1017,
+        273,
+        208,
+        207
+      ],
+      "cell": [
+        1004,
+        252,
+        250,
+        248
+      ]
+    },
+    "armor_mage_head_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        19,
+        505,
+        219,
+        198
+      ],
+      "foreground_rect": [
+        21,
+        507,
+        215,
+        194
+      ],
+      "cell": [
+        0,
+        488,
+        250,
+        234
+      ]
+    },
+    "armor_mage_chest_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        259,
+        495,
+        235,
+        230
+      ],
+      "foreground_rect": [
+        261,
+        497,
+        231,
+        226
+      ],
+      "cell": [
+        250,
+        492,
+        252,
+        236
+      ]
+    },
+    "armor_mage_hands_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        521,
+        520,
+        220,
+        188
+      ],
+      "foreground_rect": [
+        523,
+        522,
+        216,
+        184
+      ],
+      "cell": [
+        502,
+        493,
+        254,
+        239
+      ]
+    },
+    "armor_mage_legs_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        776,
+        494,
+        201,
+        227
+      ],
+      "foreground_rect": [
+        778,
+        496,
+        197,
+        223
+      ],
+      "cell": [
+        756,
+        488,
+        248,
+        238
+      ]
+    },
+    "armor_mage_feet_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        1012,
+        518,
+        217,
+        194
+      ],
+      "foreground_rect": [
+        1014,
+        520,
+        213,
+        190
+      ],
+      "cell": [
+        1004,
+        500,
+        250,
+        230
+      ]
+    },
+    "armor_rogue_head_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        39,
+        741,
+        203,
+        220
+      ],
+      "foreground_rect": [
+        41,
+        743,
+        199,
+        216
+      ],
+      "cell": [
+        0,
+        722,
+        250,
+        256
+      ]
+    },
+    "armor_rogue_chest_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        274,
+        731,
+        214,
+        230
+      ],
+      "foreground_rect": [
+        276,
+        733,
+        210,
+        226
+      ],
+      "cell": [
+        250,
+        728,
+        252,
+        236
+      ]
+    },
+    "armor_rogue_hands_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        509,
+        757,
+        234,
+        183
+      ],
+      "foreground_rect": [
+        511,
+        759,
+        230,
+        179
+      ],
+      "cell": [
+        502,
+        732,
+        254,
+        234
+      ]
+    },
+    "armor_rogue_legs_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        780,
+        732,
+        221,
+        228
+      ],
+      "foreground_rect": [
+        782,
+        734,
+        217,
+        224
+      ],
+      "cell": [
+        756,
+        726,
+        248,
+        238
+      ]
+    },
+    "armor_rogue_feet_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        1017,
+        749,
+        206,
+        208
+      ],
+      "foreground_rect": [
+        1019,
+        751,
+        202,
+        204
+      ],
+      "cell": [
+        1004,
+        730,
+        250,
+        244
+      ]
+    },
+    "armor_fighter_head_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        38,
+        994,
+        198,
+        219
+      ],
+      "foreground_rect": [
+        40,
+        996,
+        194,
+        215
+      ],
+      "cell": [
+        0,
+        978,
+        250,
+        276
+      ]
+    },
+    "armor_fighter_chest_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        265,
+        966,
+        215,
+        255
+      ],
+      "foreground_rect": [
+        267,
+        968,
+        211,
+        251
+      ],
+      "cell": [
+        250,
+        964,
+        252,
+        290
+      ]
+    },
+    "armor_fighter_hands_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        515,
+        992,
+        222,
+        194
+      ],
+      "foreground_rect": [
+        517,
+        994,
+        218,
+        190
+      ],
+      "cell": [
+        502,
+        966,
+        254,
+        288
+      ]
+    },
+    "armor_fighter_legs_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        768,
+        969,
+        213,
+        240
+      ],
+      "foreground_rect": [
+        770,
+        971,
+        209,
+        236
+      ],
+      "cell": [
+        756,
+        964,
+        248,
+        290
+      ]
+    },
+    "armor_fighter_feet_relic": {
+      "sheet": "res://assets/equipment/armor-relic.png",
+      "rect": [
+        1008,
+        991,
+        216,
+        205
+      ],
+      "foreground_rect": [
+        1010,
+        993,
+        212,
+        201
+      ],
+      "cell": [
+        1004,
+        974,
+        250,
+        280
+      ]
+    },
+    "accessory_seed_necklace": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "rect": [
+        52,
+        315,
+        205,
+        363
+      ],
+      "foreground_rect": [
+        54,
+        317,
+        201,
+        359
+      ],
+      "cell": [
+        0,
+        0,
+        299,
+        1024
+      ]
+    },
+    "accessory_amber_brooch": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "rect": [
+        341,
+        358,
+        235,
+        292
+      ],
+      "foreground_rect": [
+        343,
+        360,
+        231,
+        288
+      ],
+      "cell": [
+        299,
+        0,
+        321,
+        1024
+      ]
+    },
+    "accessory_crystal_ring": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "rect": [
+        665,
+        381,
+        208,
+        262
+      ],
+      "foreground_rect": [
+        667,
+        383,
+        204,
+        258
+      ],
+      "cell": [
+        620,
+        0,
+        290,
+        1024
+      ]
+    },
+    "accessory_star_earrings": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "rect": [
+        947,
+        378,
+        265,
+        261
+      ],
+      "foreground_rect": [
+        949,
+        380,
+        261,
+        257
+      ],
+      "cell": [
+        910,
+        0,
+        340,
+        1024
+      ]
+    },
+    "accessory_dawn_pendant": {
+      "sheet": "res://assets/equipment/accessories.png",
+      "rect": [
+        1289,
+        316,
+        183,
+        361
+      ],
+      "foreground_rect": [
+        1291,
+        318,
+        179,
+        357
+      ],
+      "cell": [
+        1250,
+        0,
+        286,
+        1024
+      ]
+    }
+  }
+}

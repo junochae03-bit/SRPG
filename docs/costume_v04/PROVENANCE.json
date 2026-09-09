@@ -1,0 +1,150 @@
+{
+  "images": [
+    {
+      "file": "amethyst-purple-dress-sheet.png",
+      "sha256": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8"
+    },
+    {
+      "file": "amethyst-summer-shawl-sheet.png",
+      "sha256": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2"
+    },
+    {
+      "file": "aqua-goggles-explorer-sheet.png",
+      "sha256": "d2b0db9d9328615803af2319f8c33bf4ca5d198db57d0be6ab8d91b427108601"
+    },
+    {
+      "file": "aqua-pajama-sheet.png",
+      "sha256": "f735f329121728d2278d3e731c98b2a415f724e24ae188b0da963d6372726137"
+    },
+    {
+      "file": "aqua-rabbit-stage-sheet.png",
+      "sha256": "335c37486cf203e5793d9ad6809533fe3d29f7846503fdb5d88b92a78cd28075"
+    },
+    {
+      "file": "aqua-winter-hanbok-sheet.png",
+      "sha256": "780eb5b746cdd631e1bc28d7056dfb83fe33048f81d57e6cdf6cae42bde492cc"
+    },
+    {
+      "file": "cobalt-black-ribbon-maid-sheet.png",
+      "sha256": "3fee4ea917e3b90478cb270e5e810683296d7fc3ff07ccc26e73ecb8ad517fc5"
+    },
+    {
+      "file": "cobalt-broom-maid-sheet.png",
+      "sha256": "e7f848bd53f3e46e1c5f638881e824baf70e42ad002ceb058e59dfc00487b761"
+    },
+    {
+      "file": "cobalt-navy-hanbok-sheet.png",
+      "sha256": "468bdeafbf11a7a04673796056e43dc9fdd955eb39fce79cdacb6eacd2e0b02e"
+    },
+    {
+      "file": "crimson-black-dress-sheet.png",
+      "sha256": "53eaefede0fd0e9ab728e24831f69313ab46c7b318a10674ba9cca3f71d68fcb"
+    },
+    {
+      "file": "crimson-black-jacket-sheet.png",
+      "sha256": "a1d9c747730843de4a474e97220ff84a4fcb8461bbfa3e953f4cd726da8e5ccd"
+    },
+    {
+      "file": "crimson-pastel-rabbit-sheet.png",
+      "sha256": "a7f732e15056c6fe28cc6fc8ccd85773f5026f18c69cc0ed7dea2a0e0e72e45d"
+    },
+    {
+      "file": "crimson-rose-gothic-sheet.png",
+      "sha256": "e8ff9dfa38670211aa4d6812d6c7497a41eacb1cda075f76926326947dbd8597"
+    },
+    {
+      "file": "lavender-sailor-sheet.png",
+      "sha256": "bcae4f6178ab86c2a76fc7d1e65a525276550c66d7a2fbd972e266fdeffe6778"
+    },
+    {
+      "file": "lavender-shrine-maiden-sheet.png",
+      "sha256": "61c97fe967d977d5769d39097d01aac1edca025433950fcdbf9f0ef93b12af03"
+    },
+    {
+      "file": "lavender-winter-hanbok-sheet.png",
+      "sha256": "1706348a89df7af80c5c6c99488bc149a95d76f1ea92465b179407e422ed30c8"
+    },
+    {
+      "file": "mint-hanbok-sheet.png",
+      "sha256": "4971c06409b32a814cea6784cd20450263fa080bba1c0b6905660ea0a24a344a"
+    },
+    {
+      "file": "mint-silver-knight-attacks-v04.png",
+      "sha256": "a9b9c91e6319cbc17b7ef5619ac7f71824708804e8bb5663b84ab40f55a5e6c7"
+    },
+    {
+      "file": "mint-silver-knight-sheet.png",
+      "sha256": "d7c8530cafc4ebf7509bdb136533d52c971ac6e84cefc36cefa15882bbb6a0fc"
+    },
+    {
+      "file": "mint-summer-attacks-v04.png",
+      "sha256": "1280135536aea64778e427e0caeb1663417fcadc03ad0ba1e107ba68cd2d53f3"
+    },
+    {
+      "file": "mint-summer-sheet.png",
+      "sha256": "6a57f04d50b2e9df1db35fd1a258ea77ebc1c264cbe8002496dd259ae71fe177"
+    },
+    {
+      "file": "pearlcat-sailor-sheet.png",
+      "sha256": "79a51b522657a8c22fcfb6d591124eb44c4a4e411124dabd99c6d39d62d20393"
+    },
+    {
+      "file": "pink-beret-gunner-sheet.png",
+      "sha256": "513119a2db90897e7be2716f024c0086cdf55fa2828aad884910c42fe7442aad"
+    },
+    {
+      "file": "pink-black-veil-hanbok-sheet.png",
+      "sha256": "1d40c4b3825eecaa7358ec7d0236f838dc3b759f558c8acdc9cbc6a1eb9b66c2"
+    },
+    {
+      "file": "pink-bunny-hoodie-sheet.png",
+      "sha256": "25b9b555faac1db096257154dca29522ab458f520322174685473172ec189129"
+    },
+    {
+      "file": "raven-black-punk-sheet.png",
+      "sha256": "1231ba97262120875d34b97994723b67b64c990ff7c1f2b7f09c90f3e45b3c94"
+    },
+    {
+      "file": "raven-navy-hanbok-sheet.png",
+      "sha256": "17bb573c8a1ae93be666fcf6652af582391111b520930b6d593e89a946effaaa"
+    },
+    {
+      "file": "raven-pink-dress-sheet.png",
+      "sha256": "2c2969c3f788217679a9264ab41fffe7397fc700ba40bd967c865c0c078a5be3"
+    },
+    {
+      "file": "raven-school-uniform-sheet.png",
+      "sha256": "ca6a8c6cfd985e80903b4a235028701d140f5a643dec834e494f84e84264307e"
+    },
+    {
+      "file": "raven-summer-resort-sheet.png",
+      "sha256": "ac87cdec41cd7053c6ef0f114aeba3aae1de098e6a007867e67ae98377cbdf97"
+    },
+    {
+      "file": "silvercat-black-uniform-sheet.png",
+      "sha256": "979ef0d99107479e3dfa163719a6f3de73a154f6c9636232a0b0ea0e847068bb"
+    },
+    {
+      "file": "silvercat-blossom-hanbok-sheet.png",
+      "sha256": "6b1fe0fd1a66acbb421ad318492462b1be3065b83735dd2645c6b833aaa5ca45"
+    },
+    {
+      "file": "silvercat-pink-maid-sheet.png",
+      "sha256": "4749725bd09b4b251b3aceb645c76d4ededd3faef6431eeaea351ead4ae224d8"
+    },
+    {
+      "file": "silvercat-street-sheet.png",
+      "sha256": "e6846ea94ff5f3a5ed6fee28f2c7862d63c2c47747c93926247c0052c6e426b6"
+    },
+    {
+      "file": "silvercat-summer-resort-sheet.png",
+      "sha256": "dda5a6e1e8f5ead8bbab607176b4ff5fcff7ade94506bb6da5b28b6ee4a8860d"
+    }
+  ],
+  "original_source_sheets_preserved": 33,
+  "new_attack_patch_strips": 2,
+  "generated_with": "built-in image_gen",
+  "raster_postprocessing": "none; chroma conversion occurs only in runtime memory",
+  "total_costumes": 33,
+  "total_frames": 528
+}

@@ -1,0 +1,511 @@
+{
+  "source_pixels": "unaltered",
+  "tool": "image_gen (original packs)",
+  "runtime_use": "108 environmental props, 18 chapter-specific common monster appearances, 6 raid appearances; idle/attack key poses only",
+  "files": [
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\forest.png",
+      "runtime": "res://assets/environment/biomes-v04/forest.png",
+      "sha256": "c3beba3599f958cb3861a95849ca596e15488f625cf29a54bdf4ba24a85cdfb3",
+      "bytes": 2136338,
+      "objects": [
+        "forest_oak_tree",
+        "forest_birch_tree",
+        "forest_mossy_boulders",
+        "forest_flower_shrub",
+        "forest_hollow_log",
+        "forest_signpost",
+        "bamboo_waterwheel",
+        "bamboo_deer_scarer",
+        "bamboo_incense_burner",
+        "bamboo_ceremonial_drum",
+        "bamboo_bamboo_grove",
+        "bamboo_woven_screen"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\cave.png",
+      "runtime": "res://assets/environment/biomes-v04/cave.png",
+      "sha256": "31aeca39ea5d25ec9f36aaa1f3a1cad4785ce023f55ae86d4f090fa45483aa3c",
+      "bytes": 2104269,
+      "objects": [
+        "cave_cyan_crystals",
+        "cave_stalagmites",
+        "cave_amethyst_geode",
+        "cave_glowing_mushrooms",
+        "cave_ore_boulders",
+        "cave_mine_arch"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\ruins.png",
+      "runtime": "res://assets/environment/biomes-v04/ruins.png",
+      "sha256": "bc4f93cc30fabe265b3a0080918f74a643aebddc316677f12fb05a975b707d8f",
+      "bytes": 1948651,
+      "objects": [
+        "ruins_ivy_arch",
+        "ruins_obelisk",
+        "ruins_broken_column",
+        "ruins_wall_corner",
+        "ruins_stone_basin",
+        "ruins_rubble"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\autumn.png",
+      "runtime": "res://assets/environment/biomes-v04/autumn.png",
+      "sha256": "bf46f4b57b21b8c0542898be453e4aa0a4097097c77b18f14af2947fd37e3e52",
+      "bytes": 2136647,
+      "objects": [
+        "autumn_maple_tree",
+        "autumn_ginkgo_tree",
+        "autumn_leafy_boulders",
+        "autumn_berry_shrub",
+        "autumn_mushroom_stump",
+        "autumn_lantern_post"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\snow.png",
+      "runtime": "res://assets/environment/biomes-v04/snow.png",
+      "sha256": "863a72bd776de1fab57cae3f346702a6a0123da4d1091306b25a045d23f7b166",
+      "bytes": 1876821,
+      "objects": [
+        "snow_snow_fir",
+        "snow_frost_birch",
+        "snow_ice_boulders",
+        "snow_snow_shrub",
+        "snow_snow_lantern",
+        "snow_stone_cairn",
+        "ice_frozen_throne",
+        "ice_pipe_organ",
+        "ice_swan_basin",
+        "ice_candelabrum",
+        "ice_royal_sleigh",
+        "ice_chime_rack"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "biomes",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\biomes-20260909\\sheets\\marsh.png",
+      "runtime": "res://assets/environment/biomes-v04/marsh.png",
+      "sha256": "da60035ed3f220b01dea809709199e5a6ff847450b201b5f2fa9239126a705c2",
+      "bytes": 2225993,
+      "objects": [
+        "marsh_willow_tree",
+        "marsh_hollow_cypress",
+        "marsh_fern_boulders",
+        "marsh_cattails",
+        "marsh_shelf_mushrooms",
+        "marsh_boardwalk"
+      ],
+      "source_manifest_sha256": "e40826f27fe0b9e67dfeb19a90b7cb7f6be447c79b3468e23a414e5a0fc5770a"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\flood_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/flood.png",
+      "sha256": "16270efe722a04435dccfd6ab5fd608a90ea14cbaeb513dbd7f01afb7f8db8c8",
+      "bytes": 2298030,
+      "objects": [
+        "flood_coral_arch",
+        "flood_sunken_column",
+        "flood_rust_gate",
+        "flood_tidal_basin",
+        "flood_shipwreck_crate",
+        "flood_bronze_beacon",
+        "ruins_ivy_arch",
+        "ruins_obelisk",
+        "ruins_broken_column",
+        "ruins_wall_corner",
+        "ruins_stone_basin",
+        "ruins_rubble",
+        "desert_sarcophagus",
+        "desert_sphinx",
+        "desert_canopic_cabinet",
+        "desert_sun_dial",
+        "desert_scarab_reliquary",
+        "desert_funeral_barge"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\flood_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "sha256": "1673f863164228d38c06882ab99fafb75775919ed841ac5772114375f984371f",
+      "bytes": 2241009,
+      "objects": [
+        "flood_rustclaw_crab_idle",
+        "flood_bell_nautilus_idle",
+        "flood_bastion_tortoise_idle",
+        "flood_rustclaw_crab_attack",
+        "flood_bell_nautilus_attack",
+        "flood_bastion_tortoise_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\spore_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/spore.png",
+      "sha256": "50ee204d87429178e385fe14c155681a6fde3b17b1629d64a1860088ee0bbda6",
+      "bytes": 2296431,
+      "objects": [
+        "spore_canopy_mushroom",
+        "spore_root_nest",
+        "spore_shelf_log",
+        "spore_puffball_cluster",
+        "spore_mycelium_stone",
+        "spore_spore_lantern",
+        "marsh_willow_tree",
+        "marsh_hollow_cypress",
+        "marsh_fern_boulders",
+        "marsh_cattails",
+        "marsh_shelf_mushrooms",
+        "marsh_boardwalk"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\spore_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "sha256": "e797d23f8def72626f5b2b3a69b5ab2c4f86285bde9654e8fa79f977d61681fe",
+      "bytes": 2203163,
+      "objects": [
+        "spore_blade_cricket_idle",
+        "spore_lantern_moth_idle",
+        "spore_crown_toad_idle",
+        "spore_blade_cricket_attack",
+        "spore_lantern_moth_attack",
+        "spore_crown_toad_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\lava_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/lava.png",
+      "sha256": "58e2e25e2073f39938efaf44fa31454a37010ef417f657479531e90cc5b57efb",
+      "bytes": 2089297,
+      "objects": [
+        "lava_basalt_arch",
+        "lava_fumarole_pillar",
+        "lava_ember_crystals",
+        "lava_scorched_cart",
+        "lava_slag_boulders",
+        "lava_forge_brazier",
+        "dragon_cracked_egg",
+        "dragon_rib_arch",
+        "dragon_horn_trophy",
+        "dragon_scale_rack",
+        "dragon_treasure_cauldron",
+        "dragon_feeding_bowl"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\lava_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "sha256": "462b3a8a69f35b011723679ffba51a43afb0e3b1b4de32fc6cf7fd54ed9f0192",
+      "bytes": 1982835,
+      "objects": [
+        "lava_coal_salamander_idle",
+        "lava_vent_snail_idle",
+        "lava_obsidian_rhino_idle",
+        "lava_coal_salamander_attack",
+        "lava_vent_snail_attack",
+        "lava_obsidian_rhino_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\machine_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/machine.png",
+      "sha256": "c9ed2aa139b8bc8d9a497a1d980a8c5615fff066eb53c4c5a623a61cb3f1598f",
+      "bytes": 2144987,
+      "objects": [
+        "machine_gear_tower",
+        "machine_pipe_junction",
+        "machine_dormant_boiler",
+        "machine_gear_scrap",
+        "machine_repair_bench",
+        "machine_broken_lamppost"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\machine_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "sha256": "02e47c775a69f1039af7d36066b3623d17a3f37b40752a4b46ac5f299f31cf87",
+      "bytes": 2034136,
+      "objects": [
+        "machine_saw_wheel_idle",
+        "machine_mortar_tripod_idle",
+        "machine_foundry_ogre_idle",
+        "machine_saw_wheel_attack",
+        "machine_mortar_tripod_attack",
+        "machine_foundry_ogre_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\nebula_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/nebula.png",
+      "sha256": "4cc1f125d3a3eeecce7f2d2df74f0a0adf314ea8ebbaf64b612d173addbdc298",
+      "bytes": 2268435,
+      "objects": [
+        "nebula_moonstone_arch",
+        "nebula_star_geode",
+        "nebula_celestial_orrery",
+        "nebula_astral_lantern",
+        "nebula_quartz_boulders",
+        "nebula_crystal_monolith",
+        "sky_wind_harp",
+        "sky_winged_hourglass",
+        "sky_celestial_bell",
+        "sky_cloud_cistern",
+        "sky_wind_vanes",
+        "sky_star_lectern"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\nebula_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "sha256": "3229ced03397f3c58c7c3c9f78a24fb1bb7727014feeded69aa8dfaf77d8cae1",
+      "bytes": 2027606,
+      "objects": [
+        "nebula_quartz_scorpion_idle",
+        "nebula_comet_cuttlefish_idle",
+        "nebula_crown_manta_idle",
+        "nebula_quartz_scorpion_attack",
+        "nebula_comet_cuttlefish_attack",
+        "nebula_crown_manta_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\core_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/core.png",
+      "sha256": "d0b9f3c570db045fb67661928d108bbd95bf8dd3eee7484578be2bfd60c5df7c",
+      "bytes": 2052115,
+      "objects": [
+        "core_fractured_pylon",
+        "core_bound_core",
+        "core_broken_ring_gate",
+        "core_core_altar",
+        "core_core_fragments",
+        "core_chained_obelisk",
+        "graveyard_skull_ossuary",
+        "graveyard_weeping_statue",
+        "graveyard_coffin_cart",
+        "graveyard_raven_perch",
+        "graveyard_gravedigger_rack",
+        "graveyard_bone_gate"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "expansion",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-expansion-20260909\\sheets\\core_monsters.png",
+      "runtime": "res://assets/world/dungeon-v04/core-monsters.png",
+      "sha256": "d573997a69b1619a93e66e8cb33029c0d053afc65a5b71ff34401d88f4e3c95b",
+      "bytes": 2157627,
+      "objects": [
+        "core_rune_leech_idle",
+        "core_bound_grimoire_idle",
+        "core_horned_ram_idle",
+        "core_rune_leech_attack",
+        "core_bound_grimoire_attack",
+        "core_horned_ram_attack"
+      ],
+      "source_manifest_sha256": "dcc254a2a5b914b2d32bc42d172dfef909824ccb7b7a774df27398a0d27a245d"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\flood_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/flood-bosses.png",
+      "sha256": "428ad5d547c8cc699dc580c0bdcb42abb5aea4fdd8c7c1998ca6475ae942b2a3",
+      "bytes": 2198484,
+      "objects": [
+        "boss_flood_anchor_admiral_idle",
+        "boss_flood_anchor_admiral_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\spore_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/spore-bosses.png",
+      "sha256": "79d6b7291f625b599cdc25d80e863b3ab92983ebbb29098cb5f712ff5a8561c0",
+      "bytes": 1820377,
+      "objects": [
+        "boss_spore_threefold_hydra_idle",
+        "boss_spore_threefold_hydra_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\lava_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/lava-bosses.png",
+      "sha256": "eae2756ec37a6d0ec285398840bf8d4029ca3185659d07fb9d304220dc783a5e",
+      "bytes": 2127520,
+      "objects": [
+        "boss_lava_caldera_drake_idle",
+        "boss_lava_caldera_drake_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\machine_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/machine-bosses.png",
+      "sha256": "b35f3fa28ca645a044212ab241794bf9d992db55a9e3110cf9b2d667f9a7f312",
+      "bytes": 2223447,
+      "objects": [
+        "boss_machine_siege_engine_idle",
+        "boss_machine_siege_engine_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\nebula_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/nebula-bosses.png",
+      "sha256": "18e3915103097c1c329c1da96048d0d6623b8790a81d6c90d46c52ac3d340ca2",
+      "bytes": 2037020,
+      "objects": [
+        "boss_nebula_starwhale_idle",
+        "boss_nebula_starwhale_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "bosses",
+      "source": "D:\\SSRPG\\RPG2\\art\\dungeons\\dungeon-bosses-20260909\\sheets\\core_boss.png",
+      "runtime": "res://assets/world/dungeon-v04/core-bosses.png",
+      "sha256": "4326e90c5c418275ea4bca8b2024b1f3593ae1a0d7f17a3c37ba90e7dd27109a",
+      "bytes": 2128539,
+      "objects": [
+        "boss_core_crowned_wraith_idle",
+        "boss_core_crowned_wraith_attack"
+      ],
+      "source_manifest_sha256": "f592c7041c238ffb6b475f4b92483fb0142f219ea090f22e6351c9738d8ca282"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\desert_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/desert.png",
+      "sha256": "2263ae6aadab84b0b916a3839aae8f6bdb649909fc03cf3d0abf01d7a1307e0f",
+      "bytes": 2353267,
+      "objects": [
+        "desert_sarcophagus",
+        "desert_sphinx",
+        "desert_canopic_cabinet",
+        "desert_sun_dial",
+        "desert_scarab_reliquary",
+        "desert_funeral_barge"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\sky_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/sky.png",
+      "sha256": "1ca6ce678242805ba3fbc84f893a6c4ce1b39e6372999248801134ce5b13e72e",
+      "bytes": 2154113,
+      "objects": [
+        "sky_wind_harp",
+        "sky_winged_hourglass",
+        "sky_celestial_bell",
+        "sky_cloud_cistern",
+        "sky_wind_vanes",
+        "sky_star_lectern"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\ice_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/ice.png",
+      "sha256": "6830bb7c49eee0d577d60474763a145334e3404cba2e7b5c92e133949b0c3663",
+      "bytes": 2180848,
+      "objects": [
+        "ice_frozen_throne",
+        "ice_pipe_organ",
+        "ice_swan_basin",
+        "ice_candelabrum",
+        "ice_royal_sleigh",
+        "ice_chime_rack"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\graveyard_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/graveyard.png",
+      "sha256": "80759fc104d15a8e187bb63ea22f37f05e27a2a470abb9574d08d6d6569ac6b2",
+      "bytes": 2312048,
+      "objects": [
+        "graveyard_skull_ossuary",
+        "graveyard_weeping_statue",
+        "graveyard_coffin_cart",
+        "graveyard_raven_perch",
+        "graveyard_gravedigger_rack",
+        "graveyard_bone_gate"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\bamboo_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/bamboo.png",
+      "sha256": "939df64e22dac89df25832c09e74b89d87b4126f4fccd7a426cc7db93032ddb0",
+      "bytes": 2436618,
+      "objects": [
+        "bamboo_waterwheel",
+        "bamboo_deer_scarer",
+        "bamboo_incense_burner",
+        "bamboo_ceremonial_drum",
+        "bamboo_bamboo_grove",
+        "bamboo_woven_screen"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    },
+    {
+      "pack": "fantasy",
+      "source": "D:\\SSRPG\\RPG2\\art\\backgrounds\\fantasy-expansion-20260909\\sheets\\dragon_environment.png",
+      "runtime": "res://assets/environment/biomes-v04/dragon.png",
+      "sha256": "4074d7228718134eb5112f049ba77541161b921cc4549db380f97834c93785e4",
+      "bytes": 2481078,
+      "objects": [
+        "dragon_cracked_egg",
+        "dragon_rib_arch",
+        "dragon_horn_trophy",
+        "dragon_scale_rack",
+        "dragon_treasure_cauldron",
+        "dragon_feeding_bowl"
+      ],
+      "source_manifest_sha256": "4b3c0432794b9634870785b96b635e616a4ba3b90a39f4bc7f86efa6fe911071"
+    }
+  ]
+}

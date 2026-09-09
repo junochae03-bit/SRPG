@@ -1,0 +1,1125 @@
+{
+  "schema_version": 1,
+  "status": "proposal_only",
+  "review_date": "2026-09-09",
+  "scope": "gat_addition_01_1 through gat_addition_12_2; 24 entries on 12 existing source sheets",
+  "catalog_path": "game/assets/gat/catalog.json",
+  "review_method": "12개 원본 PNG를 view_image로 직접 열어 상·하단 24종의 96개 프레임을 확인하고 catalog rect로 ID를 대응했다. 명칭과 의상만으로 분류하지 않았다.",
+  "class_visual_contract": {
+    "warrior": "검 또는 방패",
+    "ranger": "활 또는 총",
+    "mage": "지팡이 또는 실제 마법 시전",
+    "rogue": "단검",
+    "fighter": "건틀릿 또는 주먹"
+  },
+  "runtime_frame_contract": {
+    "source": "game/scripts/gat_art.gd",
+    "idle_indices": [
+      0,
+      1
+    ],
+    "action_sequence": [
+      2,
+      3,
+      3,
+      0
+    ],
+    "note": "기존 GAT는 행동마다 같은 2→3→3→0 시퀀스를 사용한다. 프레임 2와 3을 별도의 일반·강공격 전용 프레임이라고 주장하지 않는다."
+  },
+  "decision_policy": "실제 무기·도구와 행동을 함께 보고 제안한다. 발광·베기 궤적만으로 모든 항목을 mage로 분류하지 않는다. 무기 형태나 물리/마법 구분이 불충분하면 allowed_base_classes를 빈 배열로 둔다.",
+  "summary": {
+    "entries": 24,
+    "source_sheets": 12,
+    "observed_frames": 96,
+    "class_counts": {
+      "warrior": 6,
+      "ranger": 0,
+      "mage": 14,
+      "rogue": 2,
+      "fighter": 0,
+      "unresolved": 2
+    },
+    "unresolved_ids": [
+      "gat_addition_06_1",
+      "gat_addition_10_1"
+    ]
+  },
+  "entries": [
+    {
+      "id": "gat_addition_01_1",
+      "source_path": "res://assets/gat/addition_01.png",
+      "source_local_path": "game/assets/gat/addition_01.png",
+      "catalog_name": "모험가 01 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "조개 장식 지팡이",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            57,
+            110,
+            293,
+            349
+          ],
+          "observation": "조개 지팡이를 파지한다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            121,
+            374,
+            339
+          ],
+          "observation": "지팡이를 전방으로 내밀고 끝에 물빛 호와 부유 십자 효과가 생긴다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            78,
+            357,
+            381
+          ],
+          "observation": "지팡이를 높여 큰 청록색 호와 여러 십자 효과를 시전한다."
+        }
+      ],
+      "rationale": "지팡이와 끝에서 발생하는 회복·마법 표현이 직접 보인다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_01_2",
+      "source_path": "res://assets/gat/addition_01.png",
+      "source_local_path": "game/assets/gat/addition_01.png",
+      "catalog_name": "모험가 01 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "네잎클로버 지팡이",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            67,
+            536,
+            242,
+            337
+          ],
+          "observation": "클로버 장식 지팡이를 파지한다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            551,
+            330,
+            322
+          ],
+          "observation": "지팡이를 내밀며 녹색 호와 십자 효과가 생긴다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1173,
+            520,
+            327,
+            353
+          ],
+          "observation": "높인 지팡이 끝에 큰 녹색 호와 십자 효과가 생긴다."
+        }
+      ],
+      "rationale": "클로버 지팡이를 매개로 한 마법 표현이 두 행동 프레임 모두 분명하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_02_1",
+      "source_path": "res://assets/gat/addition_02.png",
+      "source_local_path": "game/assets/gat/addition_02.png",
+      "catalog_name": "모험가 02 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "약초 바구니와 잎",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            73,
+            94,
+            212,
+            336
+          ],
+          "observation": "잎이 가득한 바구니를 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            777,
+            112,
+            354,
+            317
+          ],
+          "observation": "잎 한 묶음을 전방으로 펼치고 작은 반짝임이 나타난다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1167,
+            95,
+            338,
+            342
+          ],
+          "observation": "바구니를 안고 눈을 감은 자세에서 녹색 원형 발밑 효과·떠오르는 잎·십자 효과가 나타난다."
+        }
+      ],
+      "rationale": "통상 무기는 없지만 마지막 프레임의 회복·자연 마법 효과가 mage와 맞는다. 약초를 든 평상 자세만으로 분류하지 않았다.",
+      "confidence": "medium",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_02_2",
+      "source_path": "res://assets/gat/addition_02.png",
+      "source_local_path": "game/assets/gat/addition_02.png",
+      "catalog_name": "모험가 02 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "십자 장식 마법서",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            65,
+            537,
+            230,
+            359
+          ],
+          "observation": "십자가가 새겨진 책을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            559,
+            322,
+            337
+          ],
+          "observation": "책을 펼쳐 전방에 들며 책 위에서 황금빛 광선이 솟는다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            517,
+            360,
+            386
+          ],
+          "observation": "펼친 책 위에 빛나는 큰 십자와 둘레를 도는 황금빛 효과가 생긴다."
+        }
+      ],
+      "rationale": "책을 매개로 빛을 시전하는 행동이 명확하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_03_1",
+      "source_path": "res://assets/gat/addition_03.png",
+      "source_local_path": "game/assets/gat/addition_03.png",
+      "catalog_name": "모험가 03 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "장식 거울 모양의 타원형 도구",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            70,
+            109,
+            250,
+            334
+          ],
+          "observation": "금색 테두리와 반사면 같은 중앙부의 타원형 도구를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            121,
+            357,
+            321
+          ],
+          "observation": "도구를 내밀고 주변에 다수의 청록색 십자 효과가 생긴다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1161,
+            97,
+            331,
+            345
+          ],
+          "observation": "도구를 높여 청록색 호와 십자 효과를 만든다."
+        }
+      ],
+      "rationale": "타원형 도구는 방패와 비슷한 윤곽이지만 방어·방패 밀치기보다 반사면을 펼치는 회복 시전 동작과 효과가 두드러진다.",
+      "confidence": "medium",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_03_2",
+      "source_path": "res://assets/gat/addition_03.png",
+      "source_local_path": "game/assets/gat/addition_03.png",
+      "catalog_name": "모험가 03 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "손종",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            65,
+            563,
+            260,
+            335
+          ],
+          "observation": "손잡이가 있는 큰 종을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            576,
+            328,
+            322
+          ],
+          "observation": "종을 흔들며 공중에 청록색 음표가 생긴다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            516,
+            333,
+            382
+          ],
+          "observation": "종을 들어 올리며 여러 음표와 길게 휘는 빛의 궤적을 만든다."
+        }
+      ],
+      "rationale": "음표와 빛을 생성하는 종 기반 시전 표현이다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_04_1",
+      "source_path": "res://assets/gat/addition_04.png",
+      "source_local_path": "game/assets/gat/addition_04.png",
+      "catalog_name": "모험가 04 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "바구니",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            74,
+            114,
+            206,
+            319
+          ],
+          "observation": "바구니를 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            118,
+            362,
+            314
+          ],
+          "observation": "바구니를 전방으로 내밀며 황금색 호와 십자 효과가 나타난다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1174,
+            65,
+            326,
+            368
+          ],
+          "observation": "바구니를 들어 올리며 큰 황금빛 호와 여러 십자 효과를 만든다."
+        }
+      ],
+      "rationale": "무기 형태만으로는 분류할 수 없으나 두 행동 프레임의 십자·빛 효과가 회복 마법에 맞는다. 바구니 타격만으로 warrior나 fighter를 제안하지 않았다.",
+      "confidence": "medium",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_04_2",
+      "source_path": "res://assets/gat/addition_04.png",
+      "source_local_path": "game/assets/gat/addition_04.png",
+      "catalog_name": "모험가 04 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "큰 깃펜",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            64,
+            577,
+            200,
+            309
+          ],
+          "observation": "큰 깃털 모양 도구를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            585,
+            361,
+            301
+          ],
+          "observation": "깃펜을 내밀고 끝을 따라 청색 호와 십자 효과를 만든다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            528,
+            348,
+            358
+          ],
+          "observation": "깃펜을 높이며 큰 청색 호와 십자 효과를 생성한다."
+        }
+      ],
+      "rationale": "날붙이가 아닌 깃펜을 매개로 한 명확한 빛의 시전이다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_05_1",
+      "source_path": "res://assets/gat/addition_05.png",
+      "source_local_path": "game/assets/gat/addition_05.png",
+      "catalog_name": "모험가 05 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "보라색 수정 지팡이",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            50,
+            90,
+            280,
+            354
+          ],
+          "observation": "긴 자루 끝에 보라색 수정이 있는 지팡이를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            98,
+            384,
+            341
+          ],
+          "observation": "지팡이를 전방으로 내밀며 수정 끝에 어두운 구체와 입자가 모인다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            61,
+            344,
+            381
+          ],
+          "observation": "지팡이를 높이고 검보라색 기운을 큰 호로 둘러낸다."
+        }
+      ],
+      "rationale": "수정 지팡이와 끝의 마력 집속이 분명하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_05_2",
+      "source_path": "res://assets/gat/addition_05.png",
+      "source_local_path": "game/assets/gat/addition_05.png",
+      "catalog_name": "모험가 05 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "접이식 부채",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            47,
+            555,
+            275,
+            365
+          ],
+          "observation": "펼친 부채를 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            558,
+            318,
+            359
+          ],
+          "observation": "부채를 내밀자 앞에 청색 물방울·거품이 나타난다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            542,
+            344,
+            379
+          ],
+          "observation": "부채를 높이고 몸 둘레를 감싸는 큰 물줄기·거품 궤적을 생성한다."
+        }
+      ],
+      "rationale": "부채의 물 마법 표현이며 검·단검 타격과 다르다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_06_1",
+      "source_path": "res://assets/gat/addition_06.png",
+      "source_local_path": "game/assets/gat/addition_06.png",
+      "catalog_name": "모험가 06 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "어두운 긴 리본 또는 띠",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            80,
+            125,
+            231,
+            322
+          ],
+          "observation": "한 손에서 아래로 길게 늘어진 자주색 띠가 보인다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            130,
+            321,
+            314
+          ],
+          "observation": "띠를 전방에서 크게 둥글게 휘두르고 가장자리에 어두운 잔상이 따른다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            83,
+            359,
+            371
+          ],
+          "observation": "띠를 머리 위로 들고 몸 둘레에서 여러 고리와 검보라색 잔상을 만든다."
+        }
+      ],
+      "rationale": "리본을 물리적으로 휘두르는 채찍형 공격과 어두운 마법 시전이 모두 가능한 형태다. 네 프레임에 검·단검·총·지팡이·주먹 타격을 확정할 근거가 부족하여 보류한다.",
+      "confidence": "low",
+      "allowed_base_classes": []
+    },
+    {
+      "id": "gat_addition_06_2",
+      "source_path": "res://assets/gat/addition_06.png",
+      "source_local_path": "game/assets/gat/addition_06.png",
+      "catalog_name": "모험가 06 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "문양이 있는 마법서",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            91,
+            577,
+            177,
+            329
+          ],
+          "observation": "문양이 새겨진 책을 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            576,
+            328,
+            329
+          ],
+          "observation": "펼친 책을 들고 다른 손 앞에 발광하는 종이·문자 패널을 띄운다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            557,
+            356,
+            347
+          ],
+          "observation": "손을 높여 여러 발광 패널과 눈꽃 형태 입자를 몸 둘레에 띄운다."
+        }
+      ],
+      "rationale": "책과 공중 부유 문자 패널을 이용하는 마법 동작이 명확하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_07_1",
+      "source_path": "res://assets/gat/addition_07.png",
+      "source_local_path": "game/assets/gat/addition_07.png",
+      "catalog_name": "모험가 07 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "양손의 짧은 단검",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            60,
+            100,
+            284,
+            364
+          ],
+          "observation": "양손 각각 짧고 넓은 붉은 날 단검을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            121,
+            384,
+            343
+          ],
+          "observation": "한쪽 단검을 전방으로 찌르며 다른 단검은 뒤로 둔다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            105,
+            361,
+            362
+          ],
+          "observation": "단검을 위로 베며 붉은 베기 궤적을 만든다."
+        }
+      ],
+      "rationale": "쌍단검과 짧은 날의 찌르기·베기 동작이 rogue에 맞는다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "rogue"
+      ]
+    },
+    {
+      "id": "gat_addition_07_2",
+      "source_path": "res://assets/gat/addition_07.png",
+      "source_local_path": "game/assets/gat/addition_07.png",
+      "catalog_name": "모험가 07 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "긴 외날검과 칼집",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            83,
+            564,
+            242,
+            363
+          ],
+          "observation": "허리 옆에 긴 칼집을 파지한다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            582,
+            279,
+            343
+          ],
+          "observation": "긴 도를 두 손으로 뽑아 몸 앞에 낮게 둔다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            559,
+            361,
+            366
+          ],
+          "observation": "긴 검을 두 손으로 휘두르며 큰 반원형 베기 궤적을 만든다."
+        }
+      ],
+      "rationale": "양손 검술이 직접 보이므로 교복 이름과 무관하게 warrior에 맞는다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    },
+    {
+      "id": "gat_addition_08_1",
+      "source_path": "res://assets/gat/addition_08.png",
+      "source_local_path": "game/assets/gat/addition_08.png",
+      "catalog_name": "모험가 08 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "양손 단검과 투척 단검",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            62,
+            85,
+            247,
+            322
+          ],
+          "observation": "양손에 짧은 단검을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            789,
+            104,
+            330,
+            302
+          ],
+          "observation": "손에서 떨어져 전방으로 날아가는 단검과 속도선을 보여준다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1158,
+            80,
+            336,
+            432
+          ],
+          "observation": "남은 단검을 높이고 짧은 날로 회전 베기 동작을 한다."
+        }
+      ],
+      "rationale": "단검 투척과 단검 베기가 직접 보인다. 원거리 투척이라는 이유만으로 활·총 클래스 ranger로 분류하지 않는다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "rogue"
+      ]
+    },
+    {
+      "id": "gat_addition_08_2",
+      "source_path": "res://assets/gat/addition_08.png",
+      "source_local_path": "game/assets/gat/addition_08.png",
+      "catalog_name": "모험가 08 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "청록색 장검",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            18,
+            513,
+            250,
+            389
+          ],
+          "observation": "날이 길고 각진 청록색 검을 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            553,
+            346,
+            335
+          ],
+          "observation": "검을 수평으로 휘둘러 날을 따르는 청록색 베기 궤적을 만든다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            512,
+            352,
+            393
+          ],
+          "observation": "검을 수직으로 들어 두 손으로 잡고 큰 청록색 기운을 일으킨다."
+        }
+      ],
+      "rationale": "장검을 직접 휘두르는 검술이 핵심이다. 강한 발광 효과만으로 mage로 바꾸지 않는다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    },
+    {
+      "id": "gat_addition_09_1",
+      "source_path": "res://assets/gat/addition_09.png",
+      "source_local_path": "game/assets/gat/addition_09.png",
+      "catalog_name": "모험가 09 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "큰 원형 방패",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            89,
+            107,
+            228,
+            335
+          ],
+          "observation": "팔 앞에 검금색 원형 방패를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            796,
+            114,
+            283,
+            328
+          ],
+          "observation": "몸을 벌려 지탱하며 방패를 전방으로 밀어낸다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            48,
+            344,
+            394
+          ],
+          "observation": "방패를 유지하며 인물 뒤에 큰 붉은 원형 장벽 효과가 나타난다."
+        }
+      ],
+      "rationale": "원형 방패 파지와 전방 방패 동작이 명확하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    },
+    {
+      "id": "gat_addition_09_2",
+      "source_path": "res://assets/gat/addition_09.png",
+      "source_local_path": "game/assets/gat/addition_09.png",
+      "catalog_name": "모험가 09 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "긴 사각 방패",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            42,
+            565,
+            282,
+            345
+          ],
+          "observation": "몸통 대부분을 덮는 긴 방패를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            593,
+            323,
+            316
+          ],
+          "observation": "몸을 낮추고 긴 방패를 앞세운다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            515,
+            350,
+            401
+          ],
+          "observation": "방패로 몸을 가리면서 둘레에 붉은 장벽·회오리 효과를 만든다."
+        }
+      ],
+      "rationale": "대형 방패를 이용한 전방 방어·밀치기 표현이 분명하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    },
+    {
+      "id": "gat_addition_10_1",
+      "source_path": "res://assets/gat/addition_10.png",
+      "source_local_path": "game/assets/gat/addition_10.png",
+      "catalog_name": "모험가 10 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "붉은 용 머리 형태의 큰 팔 장비",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            43,
+            86,
+            278,
+            346
+          ],
+          "observation": "한쪽 팔을 덮는 길고 붉은 용 머리·갑각 형태 장비가 보이며 다른 손은 작게 쥐어져 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            107,
+            339,
+            325
+          ],
+          "observation": "큰 팔 장비를 수평으로 전방에 내밀어 주먹질 또는 방패 밀치기처럼 보인다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            89,
+            341,
+            345
+          ],
+          "observation": "큰 장비를 다시 세운 채 붉은 둘레 효과와 파편을 만든다."
+        }
+      ],
+      "rationale": "정면에서는 긴 방패판처럼 보이고 전방 자세에서는 용 머리 건틀릿처럼 보인다. 방패 warrior와 건틀릿 fighter를 이 네 프레임만으로 확정할 수 없어 보류한다.",
+      "confidence": "low",
+      "allowed_base_classes": []
+    },
+    {
+      "id": "gat_addition_10_2",
+      "source_path": "res://assets/gat/addition_10.png",
+      "source_local_path": "game/assets/gat/addition_10.png",
+      "catalog_name": "모험가 10 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "가시 달린 원형 방패",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            60,
+            569,
+            247,
+            333
+          ],
+          "observation": "방사형 가시와 중앙 별 장식이 있는 원형 방패를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            584,
+            320,
+            317
+          ],
+          "observation": "몸을 낮추고 방패를 전방으로 밀어내며 충격선을 만든다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            569,
+            343,
+            338
+          ],
+          "observation": "방패를 몸 앞에 세우고 둘레에 가시·파편 형태 효과를 만든다."
+        }
+      ],
+      "rationale": "원형 방패 윤곽과 직접적인 방패 밀치기가 명확하다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    },
+    {
+      "id": "gat_addition_11_1",
+      "source_path": "res://assets/gat/addition_11.png",
+      "source_local_path": "game/assets/gat/addition_11.png",
+      "catalog_name": "모험가 11 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "펼친 책과 깃펜",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            47,
+            91,
+            240,
+            363
+          ],
+          "observation": "펼친 책과 깃펜을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            107,
+            384,
+            344
+          ],
+          "observation": "책을 전방에 펼치며 잎과 녹색 바람 궤적을 띄운다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            49,
+            365,
+            403
+          ],
+          "observation": "책 페이지 위에서 더 큰 녹색 잎·바람 효과를 만든다."
+        }
+      ],
+      "rationale": "책을 매개로 하는 자연 마법이 직접 보인다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_11_2",
+      "source_path": "res://assets/gat/addition_11.png",
+      "source_local_path": "game/assets/gat/addition_11.png",
+      "catalog_name": "모험가 11 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "불꽃을 담은 그릇",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            51,
+            568,
+            258,
+            360
+          ],
+          "observation": "불꽃이 솟는 얕은 그릇을 들고 있다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            575,
+            384,
+            351
+          ],
+          "observation": "그릇을 전방으로 내밀며 큰 불꽃을 호 형태로 뿜는다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1152,
+            517,
+            364,
+            415
+          ],
+          "observation": "그릇을 높이며 몸 둘레를 도는 더 큰 불꽃 궤적을 만든다."
+        }
+      ],
+      "rationale": "손에 든 화구에서 불꽃을 조종하는 시전이다. 직업을 연상시키는 도구명으로 판정하지 않았다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_12_1",
+      "source_path": "res://assets/gat/addition_12.png",
+      "source_local_path": "game/assets/gat/addition_12.png",
+      "catalog_name": "모험가 12 A",
+      "sheet_row": "upper",
+      "observed_weapon_or_focus": "파란 구체 지팡이",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            82,
+            112,
+            249,
+            340
+          ],
+          "observation": "자루 끝에 파란 구체가 달린 지팡이를 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            792,
+            124,
+            335,
+            328
+          ],
+          "observation": "지팡이를 내밀자 구체 앞에서 얼음빛 호와 눈꽃 입자가 생긴다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1169,
+            56,
+            335,
+            456
+          ],
+          "observation": "지팡이를 높이며 큰 청색 호와 여러 눈꽃 입자를 생성한다."
+        }
+      ],
+      "rationale": "구체 지팡이와 얼음 마법 시전이 직접 보인다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "mage"
+      ]
+    },
+    {
+      "id": "gat_addition_12_2",
+      "source_path": "res://assets/gat/addition_12.png",
+      "source_local_path": "game/assets/gat/addition_12.png",
+      "catalog_name": "모험가 12 B",
+      "sheet_row": "lower",
+      "observed_weapon_or_focus": "불꽃이 둘러진 긴 검",
+      "evidence": [
+        {
+          "frame_index": 0,
+          "source_rect": [
+            54,
+            553,
+            293,
+            340
+          ],
+          "observation": "손잡이·코등이·긴 날이 구분되는 불붙은 검을 든다."
+        },
+        {
+          "frame_index": 2,
+          "source_rect": [
+            768,
+            563,
+            373,
+            324
+          ],
+          "observation": "긴 검을 전방으로 휘두르며 날을 따라 불꽃 베기 궤적을 만든다."
+        },
+        {
+          "frame_index": 3,
+          "source_rect": [
+            1162,
+            512,
+            344,
+            380
+          ],
+          "observation": "검을 세우고 두 손으로 잡으며 큰 불꽃 궤적을 만든다."
+        }
+      ],
+      "rationale": "불꽃 속성 효과가 있지만 주된 도구와 동작은 긴 검을 이용한 검술이다.",
+      "confidence": "high",
+      "allowed_base_classes": [
+        "warrior"
+      ]
+    }
+  ]
+}

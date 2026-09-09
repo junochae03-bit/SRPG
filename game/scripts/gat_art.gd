@@ -21,6 +21,7 @@ static func texture(key:String,index:int)->AtlasTexture:
 		var atlas=AtlasTexture.new();atlas.atlas=load(entry.sheet);atlas.region=Rect2(r[0],r[1],r[2],r[3]);atlas.filter_clip=true;textures[cache_key]=atlas
 	return textures[cache_key]
 static func frame(p:Dictionary,time:float)->Dictionary:
+	if preload("res://scripts/costume_art_v04.gd").has_sprite(p):return preload("res://scripts/costume_art_v04.gd").frame(p,time)
 	if preload("res://scripts/job_art.gd").has_sprite(p):return preload("res://scripts/job_art.gd").frame(p,time)
 	initialize();var key=avatar(p);var entry=catalog[key];var index=1 if fposmod(time,4.0)>3.82 else 0
 	if preload("res://scripts/combat_sprite_art.gd").AVATARS.has(key):return preload("res://scripts/combat_sprite_art.gd").frame(key,p,time)
@@ -30,6 +31,7 @@ static func frame(p:Dictionary,time:float)->Dictionary:
 	var foot=entry.frames[index].foot
 	return {"texture":texture(key,index),"foot":Vector2(foot[0],foot[1]),"height":float(entry.get("body_height",entry.height)),"index":index,"animated":false}
 static func portrait(p:Dictionary)->AtlasTexture:
+	if preload("res://scripts/costume_art_v04.gd").has_sprite(p):return preload("res://scripts/costume_art_v04.gd").portrait(p)
 	if preload("res://scripts/job_art.gd").has_sprite(p):return preload("res://scripts/job_art.gd").portrait(p)
 	initialize();var key=avatar(p);var cache_key=key+"portrait"
 	if not textures.has(cache_key):

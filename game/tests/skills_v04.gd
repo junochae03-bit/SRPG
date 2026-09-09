@@ -50,7 +50,10 @@ func run():
 			check(not sim.action(1,action),"camp blocks offensive skill "+class_id+action)
 		var saved=sim.persistent(1);var restored=Simulation.new().add_player(1,"복원",saved)
 		check(restored.skill_ranks==p.skill_ranks,"expanded ranks survive save model "+class_id)
-		p.pos=sim.map.spawn;check(sim.action(1,"reset_skills") and Content.available_points(p)==39,"all expanded points refunded "+class_id)
+		p.pos=sim.map.spawn;check(not sim.action(1,"reset_skills"),"tutorial shelter does not allow respec "+class_id)
+		sim.map.zone="town";p.haste_time=3.;p.job_state.shield=40.
+		check(sim.action(1,"reset_skills") and Content.available_points(p)==39,"all expanded points refunded in actual town "+class_id)
+		check(p.haste_time==0 and p.job_state.shield==0,"town reset clears old skill buffs "+class_id)
 	var legacy={"class_id":"warrior","skill_ranks":{"blade":1,"combo":3},"level":5}
 	Content.migrate_skills(legacy)
 	check(legacy.skill_ranks=={"blade":1,"heavy_training":3} and Content.available_points(legacy)==0,"legacy combo investment preserved as heavy training")

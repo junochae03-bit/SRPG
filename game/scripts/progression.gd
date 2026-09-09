@@ -11,7 +11,7 @@ static func initialize(p:Dictionary):
 static func available(p:Dictionary)->int:
 	var spent=0
 	for key in NAMES:spent+=int(p.get("stats",{}).get(key,0))
-	return maxi(0,(int(p.level)-1)*3-spent)
+	return maxi(0,(int(p.level)-1)*3+int(p.get("creation_points",0))-spent)
 static func bonus(p:Dictionary,key:String)->int:
 	return int(p.get("stats",{}).get(key,0))+int(p.get("gear_stats",{}).get(key,0))
 static func damage(p:Dictionary,weapon:String)->int:

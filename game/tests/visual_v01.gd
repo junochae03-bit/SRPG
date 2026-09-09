@@ -18,6 +18,9 @@ func run():
 	game.skill_tree.search.text="회복";game.skill_tree.search.text_changed.emit("회복");await capture("skills-search-v01");game.toggle_skills()
 	for facility in ["shop","smith","alchemy","guild","inn","portal"]:
 		p.pos=World.FACILITIES[facility].pos;session.refresh();session.act("interact")
+		if facility in World.RESIDENTS:
+			assert(game.npc_dialogue.visible);game.npc_dialogue.service_button.pressed.emit()
+		assert(game.town_panel.visible and game.town_panel.facility==facility)
 		if facility=="shop":game.town_panel.choose("buy",{"index":3})
 		elif facility=="smith":game.town_panel.choose("upgrade",{"item":"sample-sword"})
 		elif facility=="alchemy":game.town_panel.choose("essence")

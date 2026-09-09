@@ -19,6 +19,7 @@ static func skill_profile(node:Dictionary,rank:int,player:Dictionary={})->Dictio
 	elif mode.begins_with("heavy") or mode in ["stun","burst","pull","chain_pull","chain_group","parry_counter","parry_knee","frost","spin","piercing","pet_burst"]:base=32.;grade="높음"
 	elif mode in ["shot","fan","retreat","dash","rush","blink","weave","flank","card_retreat","slow_shot","bleed_shot","settle_fan","wave"]:base=16.;grade="낮음"
 	base*=1.+.20*(clampi(rank,1,int(node.get("max_rank",3)))-1)
+	base*=preload("res://scripts/constellation_effects.gd").stagger_multiplier(player,str(node.get("id","")))
 	return {"base":base,"value":base*multiplier,"grade":grade,"multiplier":multiplier,"mode":mode,"rank":rank}
 
 static func token(node:Dictionary,rank:int,p:Dictionary,clock:float,count:int=1)->Dictionary:
@@ -43,7 +44,7 @@ static func cancel_attacks(sim,e:Dictionary):
 
 static func reset(sim,e:Dictionary):
 	cancel_attacks(sim,e)
-	e.hp=e.max_hp;e.pos=e.home;e.phase=1;e.pattern=0;e.cooldown=1.;e["stun_time"]=0.;e["slow_time"]=0.;e["job_status"]={}
+	e.hp=e.max_hp;e.pos=e.home;e.phase=1;e.pattern=0;e.cooldown=1.;e["stun_time"]=0.;e["slow_time"]=0.;e["job_status"]={};e.erase("constellation_marks")
 	initialize(e,sim.clock)
 
 static func engaged_players(sim,e:Dictionary)->Array:

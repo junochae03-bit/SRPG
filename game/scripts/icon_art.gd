@@ -1,35 +1,151 @@
 extends RefCounted
+## Semantic icon routing shared by the skill tree, HUD, services and codex.
 const Content=preload("res://scripts/content.gd")
-const ACTIVE={"blade_wave":0,"whirlwind":1,"rush":2,"warrior_fan":3,"warrior_burst":4,"warrior_field":5,"warrior_chain":6,"warrior_pull":7,"warrior_heal":8,"warrior_barrier":9,"warrior_haste":10,"warrior_nova_ring":11,"retreat_shot":12,"piercing_shot":13,"arrow_rain":14,"ranger_fan":15,"ranger_burst":16,"ranger_field":17,"ranger_chain":18,"ranger_pull":19,"ranger_heal":20,"ranger_barrier":21,"ranger_haste":22,"ranger_nova_ring":23,"frost_nova":24,"thunder":25,"blink":26,"mage_fan":27,"mage_burst":28,"mage_field":29,"mage_chain":30,"mage_pull":31,"mage_heal":32,"mage_barrier":33,"mage_haste":34,"mage_nova_ring":35}
-const SUPPORT={"damage":0,"health":1,"defense":2,"stamina":3,"stamina_regen":3,"speed":4,"heavy_power":5,"critical":6,"critical_damage":7,"lifesteal":8,"execute":9,"thorns":10,"health_regen":11,"potion_power":12,"potion":12,"xp_bonus":13,"gold_bonus":14,"dodge_duration":15,"dodge_discount":15,"dodge":15,"sprint_discount":16,"heavy_discount":17,"skill_discount":17,"projectile_speed":18,"pierce":18,"slow_duration":19,"stun_duration":20,"knockback":21,"elite_damage":22,"attack_haste":23,"skill_haste":24,"range":25,"melee_range":25,"skill_radius":25,"skill_power":26,"satchel":27,"growth":28,"interact":29,"return":30,"portal":30,"smith":31,"shop":32,"alchemy":33,"guild":34,"inn":35}
-static var catalog:Dictionary={}
-static var cache:Dictionary={}
-static func texture(sheet:String,index:int)->AtlasTexture:
-	if catalog.is_empty():catalog=JSON.parse_string(FileAccess.get_file_as_string("res://assets/icons/catalog.json"))
-	var key=sheet+str(index)
-	if not cache.has(key):
-		var data=catalog[sheet];var r=data.frames[index]
-		var tex=AtlasTexture.new();tex.atlas=load(data.sheet);tex.region=Rect2(r[0],r[1],r[2],r[3]);tex.filter_clip=true;cache[key]=tex
-	return cache[key]
-static func skill(node:Dictionary)->Texture2D:
-	if node.get("effect","")=="upgrade":
+const Library=preload("res://scripts/icon_library.gd")
+
+# Legacy function/effect names remain accepted; every value is a semantic key.
+const SUPPORT={
+	"damage":"physical_attack","health":"health","defense":"defense","stamina":"stamina",
+	"stamina_regen":"stamina","speed":"agility","heavy_power":"charge","critical":"critical",
+	"critical_damage":"critical_damage","lifesteal":"lifesteal","execute":"vulnerable","thorns":"counter",
+	"health_regen":"regen","potion_power":"heal","potion":"consumable","xp_bonus":"experience",
+	"gold_bonus":"gold","dodge_duration":"dash","dodge_discount":"dash","dodge":"dash",
+	"sprint_discount":"agility","sprint":"agility","heavy_discount":"stamina","skill_discount":"stamina",
+	"projectile_speed":"arrow","pierce":"arrow","slow_duration":"slow","stun_duration":"stun",
+	"knockback":"strength","elite_damage":"elite","attack_haste":"attack_speed","skill_haste":"cooldown",
+	"range":"range","melee_range":"range","skill_radius":"area","skill_power":"arcane",
+	"satchel":"bag","growth":"skills","interact":"interact","return":"return_home","portal":"portal",
+	"smith":"smith","shop":"shop","alchemy":"alchemy","guild":"guild","inn":"inn",
+	"attack":"physical_attack","heavy":"charge","nova":"arcane"
+}
+const BASIC_ACTIVE={
+	"blade_wave":"slash","whirlwind":"whirlwind","rush":"dash",
+	"warrior_fan":"slash","warrior_burst":"earth","warrior_field":"rune",
+	"warrior_chain":"chain","warrior_pull":"chain","warrior_heal":"heal",
+	"warrior_barrier":"shield","warrior_haste":"haste","warrior_nova_ring":"holy",
+	"piercing_shot":"arrow","arrow_rain":"arrow","retreat_shot":"dash",
+	"ranger_fan":"arrow","ranger_burst":"fire","ranger_field":"trap",
+	"ranger_chain":"arrow","ranger_pull":"wind","ranger_heal":"heal",
+	"ranger_barrier":"shield","ranger_haste":"haste","ranger_nova_ring":"whirlwind",
+	"frost_nova":"ice","thunder":"lightning","blink":"dash",
+	"mage_fan":"arcane","mage_burst":"fire","mage_field":"ice",
+	"mage_chain":"lightning","mage_pull":"arcane","mage_heal":"heal",
+	"mage_barrier":"shield","mage_haste":"haste","mage_nova_ring":"arcane"
+}
+const MODES={
+	"ally_dash":"dash","heal":"heal","regen":"regen","field_heal":"regen",
+	"shield":"shield","guard":"guard","fortress":"shield","wall":"shield","share":"shield",
+	"haste":"haste","buff_crit":"critical","buff_crit_damage":"critical_damage",
+	"chant":"holy","enchant":"rune","cleanse":"heal","distribute":"gift",
+	"dash":"dash","rush":"dash","retreat":"dash","weave":"dash","flank":"dash",
+	"blink":"dash","teleport":"dash","teleport_chain":"shadow","return_anchor":"return_home",
+	"spin":"whirlwind","charge_spin":"whirlwind","combo":"combo","finisher":"combo_resource",
+	"uppercut":"strength","break_guard":"armor_break","charge":"charge","charge_area":"earth",
+	"charge_execute":"charge","heavy":"charge","heavy_dash":"dash","heavy_execute":"charge",
+	"execute":"slash","root":"root","slow":"slow","stun":"stun","bleed":"bleed",
+	"blind":"blind","weaken":"weaken","vulnerable":"vulnerable","break_armor":"armor_break",
+	"mark":"mark","taunt":"taunt","pull":"chain","parry":"guard","parry_counter":"counter",
+	"parry_knee":"counter","meditate":"momentum","trap":"trap","trap_bleed":"trap",
+	"chain_pull":"chain","chain_dash":"chain","chain_group":"chain","chain_retreat":"chain",
+	"root_shot":"root","slow_shot":"slow","bleed_shot":"bleed","pull_shot":"chain","execute_shot":"arrow",
+	"summon":"summon","pet_command":"pet_command","pet_buff":"companion","pet_haste":"haste",
+	"pet_guard":"guard","pet_heal":"heal","pet_recall":"companion","pet_burst":"pet_command",
+	"pet_pull":"chain","pet_sacrifice":"shield",
+	"hit_card":"card_draw","hold_card":"card_hold","cut_card":"card_discard","stand_card":"card_hold",
+	"settle":"card_hand","settle_fan":"card_hand","settle_heavy":"card_hand","settle_barrage":"card_hand",
+	"dice":"dice","reroll":"dice","dice_buff":"dice","card_retreat":"card_hand"
+}
+# Each row follows that job's p01..p06 descriptions and JobBalance.passive_metrics.
+const JOB_PASSIVES={
+	"tank":["shield","defense","guard","shield","counter","taunt"],
+	"runesword":["rune","attack_speed","area","stamina","cooldown","shield"],
+	"swordsman":["slash","boss","combo","stamina","critical","critical_damage"],
+	"summoner":["summon","companion","rune","stamina","cooldown","pet_command"],
+	"elementalist":["fire","burn","ice","guard","lightning","stamina"],
+	"healer":["heal","stamina","holy","stamina","shield","shield"],
+	"sniper":["arrow","range","boss","stamina","agility","dash"],
+	"hunter":["bleed","arrow","trap","root","gift","pickup"],
+	"explorer":["chain","attack_speed","root","vulnerable","stamina","agility"],
+	"thief":["dash","mark","area","vulnerable","gift","cooldown"],
+	"reaper":["chain","haste","charge","shadow","heal","cooldown"],
+	"gambler":["card_discard","dash","card_hand","dice","cooldown","arrow"],
+	"infighter":["rush_resource","strength","haste","dash","defense","heal"],
+	"breaker":["momentum","guard","stamina","counter","defense","cooldown"],
+	"martialist":["range","combo_resource","combo","stagger","attack_speed","physical_attack"]
+}
+# Specializations route by their actual behavior, never by an old FX row.
+const CONSTELLATION_EFFECTS={
+	"skill_damage":"skills","skill_range":"range","skill_radius":"area","skill_haste":"cooldown",
+	"skill_discount":"stamina","skill_duration":"cooldown","move_speed":"agility","attack_speed":"attack_speed",
+	"stagger_power":"stagger","support_power":"holy","followup_damage":"combo","stagger_followup":"stagger",
+	"execute_damage":"vulnerable","efficiency_followup":"stamina","mobility_refund":"dash","slow_on_followup":"slow",
+	"support_followup":"holy","guard_on_followup":"shield","control_damage":"root","heal_on_followup":"regen",
+	"echo":"area","focus":"mark","momentum":"momentum","warrior_wave":"slash","warrior_reprise":"counter",
+	"ranger_chain":"chain","ranger_snare":"trap","mage_burn":"burn","mage_relay":"rune",
+	"rogue_contract":"mark","rogue_venom":"poison","fighter_flurry":"combo","fighter_crush":"charge"
+}
+static var nodes_by_id:Dictionary={}
+
+static func lookup_node(id:String)->Dictionary:
+	if nodes_by_id.is_empty():
 		Content.initialize_jobs()
 		for group in Content.SKILLS.values():
-			for other in group:
-				if other.id==node.get("target",""):return skill(other)
-	if node.get("runtime","")=="job":
-		var mode=node.get("mode","")
-		var mapped={"heal":32,"regen":32,"field_heal":34,"shield":33,"guard":33,"fortress":33,"haste":34,"buff_attack":10,"buff_crit":17,"buff_crit_damage":16,"shot":13,"fan":15,"barrage":14,"field":29,"slow":24,"wall":24,"burst":28,"chain":30,"blink":26,"summon":31,"pet_command":30,"pet_recall":26,"pet_heal":32,"pet_buff":34,"pet_haste":34,"pet_sacrifice":33,"bleed":7,"blind":25,"mark":13,"root":31,"trap":21,"trap_bleed":21,"bleed_shot":19,"pull_shot":23,"execute_shot":16,"slow_shot":24,"root_shot":21,"heavy":4,"heavy_dash":2,"heavy_execute":4,"charge":4,"charge_area":1,"charge_spin":1,"charge_execute":11,"parry":9,"parry_counter":9,"parry_knee":9,"combo":1,"finisher":11,"rush":2,"retreat":12,"weave":26,"teleport":26,"teleport_chain":30,"chain_pull":23,"chain_dash":2,"chain_group":30,"chain_retreat":12,"settle":27,"settle_fan":27,"settle_heavy":28,"settle_barrage":29}
-		if mapped.has(mode):return texture("active",mapped[mode])
-	if node.get("effect","")=="passive":
-		var family=Content.base_class(str(node.id).get_slice("_",0));var index=int(str(node.id).right(2))-1
-		var indices={"warrior":[5,22,2,3,6,7],"mage":[26,1,24,3,11,28],"ranger":[18,25,22,17,4,14],"rogue":[4,25,20,9,26,24],"fighter":[3,2,6,5,15,8]}
-		return texture("support",indices.get(family,[0,1,2,3,4,5])[clampi(index,0,5)])
-	return texture("active",ACTIVE.get(node.get("id",""),int(node.get("index",0))%36)) if node.get("effect","")=="active" else texture("support",SUPPORT.get(node.get("effect",""),28))
-static func function_icon(key:String)->Texture2D:return preload("res://scripts/job_item_art.gd").texture("interact") if key=="interact" else texture("support",SUPPORT[key])
+			for node in group:nodes_by_id[node.id]=node
+	return nodes_by_id.get(id,{})
+
+static func key_for_skill(node:Dictionary)->String:
+	if node.is_empty():return "skill_empty"
+	var id=str(node.get("id",""));var effect=str(node.get("effect",""))
+	var cls=id.get_slice("_",0)
+	if effect=="constellation":
+		for key in node.get("effects",{}):
+			if key=="skill_damage":return "magic_attack" if node.get("family","")=="mage" else "physical_attack"
+			if CONSTELLATION_EFFECTS.has(key):return CONSTELLATION_EFFECTS[key]
+		return "unknown"
+	if effect=="upgrade":
+		var target=lookup_node(str(node.get("target","")))
+		return key_for_skill(target) if not target.is_empty() and target.get("effect","")!="upgrade" else "unknown"
+	if effect=="passive":
+		var index=int(id.right(2))-1;var keys=JOB_PASSIVES.get(cls,[])
+		return keys[index] if index>=0 and index<keys.size() else "unknown"
+	if effect!="active":
+		if effect=="damage" and cls=="mage":return "magic_attack"
+		return SUPPORT.get(effect,"unknown")
+	if BASIC_ACTIVE.has(id):return BASIC_ACTIVE[id]
+	var mode=str(node.get("mode",""))
+	if cls=="elementalist":
+		# Fire / ice / lightning are separate branches sharing old FX rows.
+		var number=int(id.trim_prefix("elementalist_a"))
+		if number>=1 and number<=4:return "fire"
+		if number>=5 and number<=8:return "ice"
+		if number in [9,10]:return "lightning"
+		if number==11:return "haste"
+		if number==12:return "wind"
+	if MODES.has(mode):return MODES[mode]
+	match mode:
+		"strike":return "strength" if cls in ["fighter","breaker","infighter","martialist"] else "holy" if cls=="healer" else "slash"
+		"shot","fan":return "arcane" if cls in ["mage","summoner"] else "arrow"
+		"field":return "rune" if cls in ["warrior","runesword"] else "trap" if cls in ["ranger","hunter"] else "area"
+		"burst":return "rune" if cls=="runesword" else "earth"
+		"barrage":return "arrow" if cls in ["ranger","sniper","hunter"] else "combo"
+		"chain":return "lightning" if cls in ["mage","elementalist","runesword"] else "chain"
+		"buff_attack","stance","empower":return "magic_attack" if cls in ["mage","elementalist","summoner"] else "physical_attack"
+	return "unknown"
+
+static func skill(node:Dictionary)->Texture2D:
+	return Library.texture(key_for_skill(node))
+
+static func function_icon(key:String)->Texture2D:
+	return Library.texture(SUPPORT.get(key,key))
+
 static func action(p:Dictionary,key:String,weapon:String)->Texture2D:
-	if key in Content.ACTIONS:return skill(Content.active_node(p,key))
-	if key=="nova":return texture("active",{"warrior":11,"ranger":15,"mage":26}[p.class_id])
-	if key=="attack":return texture("active",{"sword":0,"axe":1,"bow":13,"staff":27}[weapon])
-	if key=="heavy":return texture("active",{"sword":4,"axe":1,"bow":16,"staff":28}[weapon])
+	if key in Content.ACTIONS:
+		Content.initialize_jobs()
+		if not Content.SKILLS.has(p.get("class_id","")):return Library.texture("skill_empty")
+		return skill(Content.active_node(p,key))
+	if key=="nova":
+		var base=Content.base_class(str(p.get("class_id","warrior")))
+		return Library.texture({"warrior":"slash","ranger":"arrow","mage":"arcane","rogue":"shadow","fighter":"strength"}.get(base,"skills"))
+	if key=="attack":return Library.texture({"sword":"slash","axe":"slash","bow":"arrow","staff":"arcane"}.get(weapon,"physical_attack"))
+	if key=="heavy":return Library.texture("charge")
 	return function_icon(key)

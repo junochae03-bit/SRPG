@@ -8,11 +8,13 @@ var sim:
 var projectiles:Array=[]
 var skills
 var jobs
+var constellation
 var stagger_context:Dictionary={}
 func _init(owner_sim):
 	sim_ref=weakref(owner_sim)
 	jobs=preload("res://scripts/job_combat.gd").new(self)
 	skills=preload("res://scripts/active_skills.gd").new(self)
+	constellation=preload("res://scripts/constellation_effects.gd").new(self)
 
 func weapon_type(p:Dictionary)->String:
 	if Content.job(p):return Content.CLASSES[p.class_id].weapon
@@ -20,11 +22,13 @@ func weapon_type(p:Dictionary)->String:
 
 func initialize(p:Dictionary):
 	jobs.reset(p)
+	constellation.reset(p)
 	p.merge({"sprint":false,"dodge_cd":0.0,"dodge_time":0.0,"dodge_dir":Vector2.ZERO,"invulnerable":0.0,"charge_time":-1.0})
 	p.merge({"skill_f_cd":0.0,"skill_v_cd":0.0,"skill_c_cd":0.0,"motion":"idle","motion_time":0.0,"motion_duration":0.4,"hurt_time":0.0})
 	p.merge({"skill_cooldowns":{},"barrier_time":0.0,"barrier_strength":0.0,"haste_time":0.0,"regen_fraction":0.0,"combat_time":0.0,"enemy_slow_time":0.0})
 
 func tick_player(p:Dictionary,delta:float):
+	constellation.tick_player(p,delta)
 	jobs.tick(p,delta)
 	for key in ["dodge_cd","dodge_time","invulnerable","skill_f_cd","skill_v_cd","skill_c_cd","motion_time","hurt_time"]:p[key]=maxf(0,p[key]-delta)
 	for key in ["barrier_time","haste_time","combat_time","enemy_slow_time"]:p[key]=maxf(0,p[key]-delta)
@@ -35,6 +39,7 @@ func tick_player(p:Dictionary,delta:float):
 		if p.regen_fraction>=1:p.hp=mini(p.max_hp,p.hp+int(p.regen_fraction));p.regen_fraction=fposmod(p.regen_fraction,1)
 	if p.charge_time>=0:p.charge_time=minf(0.9,p.charge_time+delta)
 	var speed=(sim.balance.player.speed+Content.skill_bonus(p,"speed"))*preload("res://scripts/progression.gd").move_speed(p)
+	speed*=1.+float(constellation.values(p).get("move_speed",0))
 	if p.haste_time>0:speed*=1+p.get("haste_speed",.25)
 	if p.enemy_slow_time>0:speed*=.65
 	if p.has("job_state"):
@@ -65,6 +70,7 @@ func act(p:Dictionary,kind:String)->bool:
 		p.dodge_dir=p.dir.normalized() if p.dir.length()>0.1 else p.aim.normalized()
 		if p.dodge_dir==Vector2.ZERO:p.dodge_dir=Vector2.RIGHT
 		sim.events.append({"type":"dodge","pos":p.pos,"dir":p.dodge_dir,"owner":p.id})
+		constellation.moved(p,true)
 		return true
 	if kind=="cancel_charge":p.charge_time=-1.0;return true
 	if sim.map.in_town(p.pos) or p.dodge_time>0:return false
@@ -113,6 +119,7 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 		if not heavy:jobs.basic(p)
 		config.cooldown/=jobs.attack_speed(p)
 	p.attack_cd=maxf(0.15,(config.cooldown-Content.skill_bonus(p,"attack_haste"))/preload("res://scripts/progression.gd").attack_speed(p))*(1.5 if heavy else 1.0);p.swing=0.32
+	p.attack_cd=maxf(.15,p.attack_cd/(1.+float(constellation.values(p).get("attack_speed",0))))
 	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
@@ -142,6 +149,9 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	if e.hp<=0 or amount<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return
 	var hit_context:Dictionary=stagger_context if attribution==null else attribution
 	if not hit_context.is_empty() and float(hit_context.get("budget",{}).get("created",sim.clock))<float(e.get("stagger",{}).get("reset_at",0)):return
+	var build_hit=constellation.before_hit(p,e,hit_context)
+	if not build_hit.allowed:return
+	amount=maxi(1,roundi(amount*build_hit.factor))
 	p.combat_time=4.0
 	if sim.balance.enemies[e.kind].get("ai","")=="armored":amount=maxi(1,roundi(amount*.75))
 	if e.kind=="sentinel" and e.windup<=0:amount=maxi(1,roundi(amount*.70))
@@ -155,6 +165,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	e.hp-=amount
 	BossStagger.check_threshold(sim,e)
 	BossStagger.apply(sim,p,e,hit_context)
+	constellation.after_hit(p,e,hit_context)
 	var push=Content.skill_bonus(p,"knockback")
 	if push>0:e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
 	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"owner":p.id})

@@ -1,0 +1,686 @@
+{
+  "mint-summer": {
+    "body_height": 235,
+    "method": "Visible shoe contacts manually read on original sheets and the two imagegen repair strips. Coordinates approximate, source PNGs unchanged. Per-frame height is standing-equivalent, not pose bounding height.",
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          104,
+          263
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          164,
+          303
+        ],
+        "source_rect": [
+          60,
+          40,
+          194,
+          266
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 1,
+        "foot": [
+          83,
+          267
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          481,
+          305
+        ],
+        "source_rect": [
+          398,
+          38,
+          169,
+          270
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 2,
+        "foot": [
+          100,
+          266
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          793,
+          303
+        ],
+        "source_rect": [
+          693,
+          37,
+          181,
+          269
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 3,
+        "foot": [
+          111,
+          264
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1112,
+          303
+        ],
+        "source_rect": [
+          1001,
+          39,
+          186,
+          267
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 4,
+        "foot": [
+          162,
+          255
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          177,
+          615
+        ],
+        "source_rect": [
+          15,
+          360,
+          268,
+          256
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 5,
+        "foot": [
+          119,
+          262
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          477,
+          615
+        ],
+        "source_rect": [
+          358,
+          353,
+          234,
+          263
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 6,
+        "foot": [
+          206,
+          437
+        ],
+        "body_height": 430,
+        "confidence": "medium",
+        "note": "Manual midpoint of silver boots/sandals in imagegen replacement strip, independently scaled to original character standing size.",
+        "source_contact": [
+          386,
+          662
+        ],
+        "source_rect": [
+          180,
+          225,
+          639,
+          438
+        ],
+        "estimated_contact_uncertainty_source_px": 10
+      },
+      {
+        "index": 7,
+        "foot": [
+          312,
+          446
+        ],
+        "body_height": 430,
+        "confidence": "medium",
+        "note": "Manual midpoint of silver boots/sandals in imagegen replacement strip, independently scaled to original character standing size.",
+        "source_contact": [
+          1354,
+          663
+        ],
+        "source_rect": [
+          1042,
+          217,
+          473,
+          447
+        ],
+        "estimated_contact_uncertainty_source_px": 10
+      },
+      {
+        "index": 8,
+        "foot": [
+          69,
+          188
+        ],
+        "body_height": 235,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          91,
+          908
+        ],
+        "source_rect": [
+          22,
+          720,
+          248,
+          192
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 9,
+        "foot": [
+          138,
+          276
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          484,
+          923
+        ],
+        "source_rect": [
+          346,
+          647,
+          213,
+          279
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 10,
+        "foot": [
+          90,
+          216
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          743,
+          913
+        ],
+        "source_rect": [
+          653,
+          697,
+          307,
+          227
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 11,
+        "foot": [
+          69,
+          190
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1059,
+          914
+        ],
+        "source_rect": [
+          990,
+          724,
+          249,
+          196
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 12,
+        "foot": [
+          78,
+          182
+        ],
+        "body_height": 235,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          103,
+          1195
+        ],
+        "source_rect": [
+          25,
+          1013,
+          271,
+          185
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 13,
+        "foot": [
+          81,
+          200
+        ],
+        "body_height": 235,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          479,
+          1209
+        ],
+        "source_rect": [
+          398,
+          1009,
+          194,
+          203
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 14,
+        "foot": [
+          110,
+          247
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          796,
+          1213
+        ],
+        "source_rect": [
+          686,
+          966,
+          205,
+          248
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 15,
+        "foot": [
+          76,
+          265
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1101,
+          1225
+        ],
+        "source_rect": [
+          1025,
+          960,
+          214,
+          266
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      }
+    ]
+  },
+  "mint-silver-knight": {
+    "body_height": 245,
+    "method": "Visible shoe contacts manually read on original sheets and the two imagegen repair strips. Coordinates approximate, source PNGs unchanged. Per-frame height is standing-equivalent, not pose bounding height.",
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          139,
+          270
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          184,
+          302
+        ],
+        "source_rect": [
+          45,
+          32,
+          200,
+          272
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 1,
+        "foot": [
+          134,
+          270
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          504,
+          302
+        ],
+        "source_rect": [
+          370,
+          32,
+          188,
+          272
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 2,
+        "foot": [
+          156,
+          270
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          806,
+          302
+        ],
+        "source_rect": [
+          650,
+          32,
+          216,
+          272
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 3,
+        "foot": [
+          133,
+          270
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1120,
+          302
+        ],
+        "source_rect": [
+          987,
+          32,
+          191,
+          272
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 4,
+        "foot": [
+          156,
+          243
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          180,
+          597
+        ],
+        "source_rect": [
+          24,
+          354,
+          246,
+          244
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 5,
+        "foot": [
+          185,
+          258
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          510,
+          597
+        ],
+        "source_rect": [
+          325,
+          339,
+          256,
+          259
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 6,
+        "foot": [
+          232,
+          458
+        ],
+        "body_height": 440,
+        "confidence": "medium",
+        "note": "Manual midpoint of silver boots/sandals in imagegen replacement strip, independently scaled to original character standing size.",
+        "source_contact": [
+          349,
+          679
+        ],
+        "source_rect": [
+          117,
+          221,
+          643,
+          460
+        ],
+        "estimated_contact_uncertainty_source_px": 10
+      },
+      {
+        "index": 7,
+        "foot": [
+          294,
+          471
+        ],
+        "body_height": 440,
+        "confidence": "medium",
+        "note": "Manual midpoint of silver boots/sandals in imagegen replacement strip, independently scaled to original character standing size.",
+        "source_contact": [
+          1365,
+          681
+        ],
+        "source_rect": [
+          1071,
+          210,
+          432,
+          473
+        ],
+        "estimated_contact_uncertainty_source_px": 10
+      },
+      {
+        "index": 8,
+        "foot": [
+          185,
+          183
+        ],
+        "body_height": 245,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          202,
+          915
+        ],
+        "source_rect": [
+          17,
+          732,
+          270,
+          185
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 9,
+        "foot": [
+          91,
+          296
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          485,
+          923
+        ],
+        "source_rect": [
+          394,
+          627,
+          173,
+          298
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 10,
+        "foot": [
+          115,
+          246
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          779,
+          909
+        ],
+        "source_rect": [
+          664,
+          663,
+          291,
+          258
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 11,
+        "foot": [
+          93,
+          192
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1079,
+          910
+        ],
+        "source_rect": [
+          986,
+          718,
+          256,
+          194
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 12,
+        "foot": [
+          121,
+          187
+        ],
+        "body_height": 245,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          146,
+          1202
+        ],
+        "source_rect": [
+          25,
+          1015,
+          283,
+          189
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 13,
+        "foot": [
+          122,
+          204
+        ],
+        "body_height": 245,
+        "confidence": "medium-low",
+        "note": "Manual planted shoe/support-foot estimate in crouched or airborne pose; hand, sword and trailing effect excluded. Standing-equivalent body height retained.",
+        "source_contact": [
+          458,
+          1207
+        ],
+        "source_rect": [
+          336,
+          1003,
+          259,
+          206
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 14,
+        "foot": [
+          107,
+          245
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          808,
+          1218
+        ],
+        "source_rect": [
+          701,
+          973,
+          182,
+          247
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      },
+      {
+        "index": 15,
+        "foot": [
+          91,
+          258
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "Manual visible shoe midpoint at ground-contact level; accessories, sword and cape excluded.",
+        "source_contact": [
+          1110,
+          1223
+        ],
+        "source_rect": [
+          1019,
+          965,
+          189,
+          259
+        ],
+        "estimated_contact_uncertainty_source_px": 6
+      }
+    ]
+  }
+}

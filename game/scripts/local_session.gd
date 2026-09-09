@@ -21,21 +21,42 @@ var save_time = 0.0
 var received_snapshots = 0
 
 func start_game(chosen_name: String, slot_number: int):
+	var previous_slot=slot
 	slot = clampi(slot_number,1,3)
 	DirAccess.make_dir_recursive_absolute(save_directory)
 	var saved = load_slot()
-	world_seed = int(saved.get("world_seed",20260908+slot*137))
-	sim = Simulation.new(world_seed,"town" if not saved.is_empty() and (int(saved.get("schema_version",0))<6 or saved.get("tutorial_done",false)) else "forest")
+	if not enter_saved(saved,chosen_name):slot=previous_slot
+
+func slot_state(slot_number:int)->String:
+	var path=save_directory.path_join("slot-%d.json"%clampi(slot_number,1,3))
+	if not FileAccess.file_exists(path) and not FileAccess.file_exists(path+".bak"):return "empty"
+	return "saved" if parse_save(path)!=null or parse_save(path+".bak")!=null else "damaged"
+
+func create_character(sheet:Dictionary,slot_number:int)->bool:
+	if connected or slot_number<1 or slot_number>3 or slot_state(slot_number)!="empty":return false
+	var saved=preload("res://scripts/character_creation.gd").player_data(sheet)
+	if saved.is_empty():return false
+	var previous_slot=slot
+	slot=slot_number
+	if enter_saved(saved,saved.name):return true
+	slot=previous_slot;return false
+
+func enter_saved(saved:Dictionary,chosen_name:String)->bool:
+	var candidate_seed=int(saved.get("world_seed",20260908+slot*137))
+	var candidate=Simulation.new(candidate_seed,"town" if not saved.is_empty() and (int(saved.get("schema_version",0))<6 or saved.get("tutorial_done",false)) else "forest")
 	var display_name = saved.get("name",chosen_name.strip_edges().left(16))
 	if display_name.is_empty(): display_name="모험가"
-	sim.add_player(local_id,display_name,saved)
+	candidate.add_player(local_id,display_name,saved)
+	var data=candidate.persistent(local_id);data.world_seed=candidate_seed
+	if not write_save(data,save_path()):return false
+	sim=candidate;world_seed=candidate_seed
 	connected=true
 	paused=false
 	save_time=0.0
 	refresh()
-	save_game()
 	entered.emit()
 	status_changed.emit("슬롯 %d · 모험을 시작합니다." % slot)
+	return true
 
 func new_expedition():
 	if not connected: return
@@ -75,7 +96,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","reset_skills","class","costume","avatar","claim_starters","potion","stat","reset_stats","bind_skill","facility"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","claim_starters","potion","stat","reset_stats","bind_skill","facility"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
@@ -116,7 +137,7 @@ func parse_save(path: String) -> Variant:
 	var parser=JSON.new()
 	if parser.parse(FileAccess.get_file_as_string(path))!=OK:return null
 	var value=parser.data
-	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6]:return null
+	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6,7]:return null
 	for key in ["level","xp","gold","potions","kills","boss_kills","world_seed"]:
 		if not value.get(key) is float and not value.get(key) is int:return null
 		if value[key]<0:return null
@@ -179,7 +200,12 @@ func parse_save(path: String) -> Variant:
 		var amount=value.stats[key]
 		if (not amount is float and not amount is int) or amount<0 or amount!=floor(amount):return null
 		value.stats[key]=int(amount);stats_spent+=int(amount)
-	if stats_spent>(int(value.level)-1)*3:return null
+	var creation_points=0
+	if int(value.schema_version)>=7:
+		if not value.get("creation_points") is int and not value.get("creation_points") is float:return null
+		if float(value.creation_points) not in [0.0,10.0]:return null
+		creation_points=int(value.creation_points);value.creation_points=creation_points
+	if stats_spent>(int(value.level)-1)*3+creation_points:return null
 	preload("res://scripts/progression.gd").migrate(value)
 	var equipped_skills=[]
 	for action in value.get("skill_loadout",{}):
@@ -232,32 +258,52 @@ func parse_save(path: String) -> Variant:
 			if item.required_level<1 or item.required_level>100 or item.required_level!=floor(item.required_level):return null
 			item.required_level=int(item.required_level)
 			if item.get("resonance","") not in ([""] if item.rarity<3 else preload("res://scripts/equipment_catalog.gd").RESONANCE.keys()):return null
+	if int(value.schema_version)>=7:
+		if value.get("skill_build_version",0)!=2:return null
+		value.skill_build_version=2
+		if not value.get("constellation_allocations") is Dictionary:return null
+		if not Content.Build.validate_build(value).ok:return null
+		for key in value.constellation_allocations:value.constellation_allocations[key]=int(value.constellation_allocations[key])
+	else:
+		value["skill_build_version"]=2;value["constellation_allocations"]={};value["creation_points"]=0
 	return value
 
 func load_slot() -> Dictionary:
 	var path=save_path()
 	var value=parse_save(path)
 	if value!=null:return value
+	if not FileAccess.file_exists(path):
+		var backup_only=parse_save(path+".bak")
+		if backup_only!=null:return backup_only
 	if FileAccess.file_exists(path):
 		DirAccess.copy_absolute(path,path+".corrupt-"+str(Time.get_ticks_msec()))
 		var backup=parse_save(path+".bak")
 		if backup!=null:return backup
 	return {}
 
-func save_game():
-	if sim==null or not sim.players.has(local_id):return
-	DirAccess.make_dir_recursive_absolute(save_directory)
+func save_game()->bool:
+	if sim==null or not sim.players.has(local_id):return false
 	var data=sim.persistent(local_id)
 	data.world_seed=world_seed
-	var path=save_path()
+	return write_save(data,save_path())
+
+func write_save(data:Dictionary,path:String)->bool:
+	var parent=path.get_base_dir()
+	while not parent.is_empty() and not DirAccess.dir_exists_absolute(parent):
+		if FileAccess.file_exists(parent):return false
+		var next=parent.get_base_dir()
+		if next==parent:break
+		parent=next
+	DirAccess.make_dir_recursive_absolute(path.get_base_dir())
 	var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
 	if file==null:
 		event_received.emit({"type":"notice","text":"저장할 수 없습니다. 폴더 쓰기 권한을 확인하세요."})
-		return
+		return false
 	file.store_string(JSON.stringify(data,"\t"));file.flush();file.close()
 	if parse_save(path)!=null:DirAccess.copy_absolute(path,path+".bak")
 	var error=DirAccess.rename_absolute(path+".tmp",path)
 	if error!=OK:push_error("Save failed: "+error_string(error))
+	return error==OK
 
 func _physics_process(delta: float):
 	if not connected or paused:return

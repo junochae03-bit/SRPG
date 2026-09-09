@@ -144,10 +144,23 @@ func verify_consumer():
 		game._process(duration + .1)
 	check(game.effects.is_empty(), "repeated bursts leave no effect entries")
 	check(int(Performance.get_monitor(Performance.OBJECT_NODE_COUNT)) == nodes_before, "effect bursts do not allocate nodes")
-	game.stop_audio()
-	# Audio playback is released on the audio thread. Match visual_jobs.gd's
-	# shutdown grace period so a title-music WAV is not retained at process exit.
-	await create_timer(.5).timeout
+	# Exercise real playback (including interrupted cross-fades) even though
+	# this visual test is muted. Muting must not bypass retirement coverage.
+	var director=game.audio_director
+	check(director.pending_playbacks()>0,"title music instantiated a real playback under mute")
+	director.set_process(false)
+	for track in ["town","field","title"]:
+		director.set_music(track);await create_timer(.05).timeout
+		check(director.music_players[director.music_index].playing,"music survives interrupted crossfade "+track)
+	director.play_sound("sword");director.play_sound("heavy")
+	check(director.pool.any(func(player):return player.playing),"effect pool really plays before shutdown")
+	check(await director.shutdown(),"audio server releases every real playback before teardown")
+	check(director.pending_playbacks()==0,"no retired playback remains strongly held by audio server")
+	check(director.current_fade==null,"shutdown releases interrupted crossfade")
+	check(director.music_players.all(func(player):return player.stream==null and not player.has_stream_playback()),"music node stream references cleared")
+	check(director.pool.all(func(player):return player.stream==null and not player.has_stream_playback()),"effect node stream references cleared")
+	check(await director.shutdown(),"repeated shutdown is safe and already drained")
+	director=null
 	game.queue_free()
 	game = null
 	await process_frame

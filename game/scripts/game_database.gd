@@ -3,21 +3,25 @@ extends RefCounted
 const Content=preload("res://scripts/content.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
 const World=preload("res://scripts/world_catalog.gd")
+const WorldArt=preload("res://scripts/world_art.gd")
 const Abyss=preload("res://scripts/abyss_catalog.gd")
 const Scaling=preload("res://scripts/skill_scaling.gd")
 const Jobs=preload("res://scripts/job_balance.gd")
 const Attacks=preload("res://scripts/monster_attacks.gd")
-const REFERENCE={"damage":100.0,"max_hp":1000,"level":100,"technique":0,"note":"공격력 100 / 최대 HP 1000 / 기술 0 / 장비·다른 패시브·직업 자원 보정 없음. 강화 노드는 원기술 3랭크 기준. 실전 피해·쿨타임은 캐릭터와 적 상태에 따라 달라집니다."}
+const Build=preload("res://scripts/skill_build.gd")
+const REFERENCE={"damage":100.0,"max_hp":1000,"level":100,"technique":0,"note":"공격력 100 / 최대 HP 1000 / 기술 0 / 장비·별자리·다른 패시브·직업 자원 보정 없음. 강화 노드는 원기술 3랭크 기준. 실전 피해·쿨타임은 캐릭터와 적 상태에 따라 달라집니다."}
 static var _cache:Dictionary={}
+static var _art_cache:Dictionary={}
 static var _textures:Dictionary={}
 
 static func reset_cache():
-	_cache.clear();_textures.clear()
+	_cache.clear();_art_cache.clear();_textures.clear()
 
-static func snapshot()->Dictionary:
-	if not _cache.is_empty():return _cache
+static func snapshot(include_art:bool=false)->Dictionary:
+	if not _cache.is_empty():return _with_art() if include_art else _cache
 	Content.initialize_jobs()
-	var db={"metadata":{"schema_version":1,"reference":REFERENCE,"drop_note":"기본 드랍은 항목별 독립 판정. 레이드 추가 장비 1개는 기본 드랍과 별도이며 등급 확률 합계만 100%."},"classes":[],"equipment":[],"monsters":[],"raids":[],"floors":[],"appearances":[],"drops":[],"raid_drops":[],"skills":[],"skill_parents":[],"skill_ranks":[]}
+	if Build.nodes_for("warrior").is_empty():Build.initialize(Content.SKILLS,Content.CLASSES)
+	var db={"metadata":{"schema_version":2,"reference":REFERENCE,"drop_note":"기본 드랍은 항목별 독립 판정. 레이드 추가 장비 1개는 기본 드랍과 별도이며 등급 확률 합계만 100%.","build_policy":{"version":Build.BUILD_VERSION,"max_keystones":Build.MAX_KEYSTONES,"point_budget":"level-1, shared with original skill ranks","baseline_allocations":{}}},"classes":[],"equipment":[],"monsters":[],"raids":[],"floors":[],"appearances":[],"drops":[],"raid_drops":[],"skills":[],"skill_parents":[],"skill_ranks":[],"build_nodes":[],"constellations":[],"constellation_edges":[],"exclusive_groups":[],"effect_definitions":[],"constellation_effects":[],"constellation_exclusions":[]}
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
 	for class_id in class_ids:
 		var c=Content.CLASSES[class_id].duplicate(true)
@@ -40,6 +44,8 @@ static func snapshot()->Dictionary:
 		db.monsters.append(m)
 	for floor_number in range(1,101):
 		var f=Abyss.config(floor_number)
+		f["art_theme"]=preload("res://scripts/environment_art.gd").theme(f.terrain,floor_number)
+		f["environment_ids"]=preload("res://scripts/environment_art.gd").ids(f.terrain,floor_number)
 		f["id"]=floor_number;f["required_level"]=maxi(1,floor_number-7);f["tier"]=int((floor_number-1)/10)
 		f["guardian_id"]=f.boss if f.raid else f.elite;f["raid_id"]="raid:%03d"%floor_number if f.raid else ""
 		f["description"]=f.lore;db.floors.append(f)
@@ -48,7 +54,7 @@ static func snapshot()->Dictionary:
 		_appearance(db,f,f.guardian_id,"raid" if f.raid else "guardian")
 		if f.raid:
 			var r=Abyss.enemy_stats(f.boss,floor_number,true,true)
-			r.merge({"id":f.raid_id,"name":f.title,"kind":f.boss,"monster_id":f.boss,"role":"raid","floor":floor_number,"floors":[floor_number],"level":f.level,"asset":_monster_asset(f.boss),"display_height":World.display_height(f.boss),"patterns":_raid_patterns(floor_number),"description":f.lore,"subtitle":"B%d 레이드 · LV.%d"%[floor_number,f.level]},true)
+			r.merge({"id":f.raid_id,"name":f.title,"kind":f.boss,"monster_id":f.boss,"role":"raid","floor":floor_number,"floors":[floor_number],"level":f.level,"asset":_monster_asset(f.boss,floor_number,true),"display_height":World.display_height(f.boss),"patterns":_raid_patterns(floor_number),"description":f.lore,"subtitle":"B%d 레이드 · LV.%d"%[floor_number,f.level]},true)
 			r["stagger"]=_boss_stagger(floor_number)
 			db.raids.append(r)
 			for grade in range(2,5):
@@ -74,8 +80,37 @@ static func snapshot()->Dictionary:
 			for rank in range(1,s.max_rank+1):
 				var r=_skill_rank(class_id,node,rank);s.ranks.append(r);db.skill_ranks.append(r)
 			db.skills.append(s)
+	var groups={};var effect_ids={}
+	for class_id in class_ids:
+		for n in Build.nodes_for(class_id):
+			db.build_nodes.append({"id":n.id,"class_id":class_id,"type":n.type,"cost":n.cost,"max_rank":n.max_rank,"required_level":int(n.get("level",1)),"exclusive_group":n.exclusive_group})
+			if n.type=="original":continue
+			var row=n.duplicate(true)
+			row["node"]=n.duplicate(true);row["class_name"]=Content.CLASSES[class_id].name;row["asset"]=_texture_ref(preload("res://scripts/icon_art.gd").skill(n));row["subtitle"]=Content.CLASSES[class_id].name+" · "+n.cluster_name+" · %dSP"%n.cost
+			row["description"]=n.description+"\n연결: "+n.synergy+"\n조건·대가: "+n.tradeoff if n.type!="minor" else n.description
+			row["ranks"]=[{"skill_id":n.id,"rank":1,"metrics":[["별자리 효과",n.effects_text],["공유 SP 비용",str(n.cost)],["최대 핵심 선택",str(Build.MAX_KEYSTONES)]],"profile":{"effects":n.effects},"stagger":{"base":0.,"value":0.,"grade":"직접 타격 없음","multiplier":1.}}]
+			db.constellations.append(row)
+			if not n.exclusive_group.is_empty():groups[n.exclusive_group]={"id":n.exclusive_group,"class_id":class_id,"max_selected":1}
+			for parent in n.parents:db.constellation_edges.append({"node_id":n.id,"parent_id":parent,"required_rank":n.required_rank,"mode":n.parent_mode})
+			for other in n.get("exclusive_with",[]):
+				if n.id<other:db.constellation_exclusions.append({"left_id":n.id,"right_id":other})
+			for effect_id in n.effects:
+				effect_ids[effect_id]={"id":effect_id,"name":Build.effect_label(effect_id)}
+				db.constellation_effects.append({"node_id":n.id,"effect_id":effect_id,"value":n.effects[effect_id]})
+	db.exclusive_groups=groups.values();db.effect_definitions=effect_ids.values()
 	_cache=db
-	return _cache
+	return _with_art() if include_art else _cache
+
+static func _with_art()->Dictionary:
+	# Management export only. The game/codex uses snapshot() without this flag,
+	# so packed .gdc scripts never enter the development source-call scanner.
+	if _art_cache.is_empty():
+		_art_cache=_cache.duplicate()
+		_art_cache["metadata"]=_cache.metadata.duplicate(true)
+		_art_cache.merge(preload("res://scripts/art_registry.gd").snapshot(_cache))
+		_art_cache.metadata.schema_version=3
+		_art_cache.metadata.art_registry_note="실제 카탈로그·소비 경로에 연결된 영역. 플레이 중 그린 횟수는 아니며 파일 SHA256·출처 검증은 portable DB 생성 시 기록합니다."
+	return _art_cache
 
 static func _equipment(slot:String,owner:String,tier:int,grade:int)->Dictionary:
 	var id="eq:%s:%s:%02d:%d"%[owner,"weapon" if slot=="sword" else slot,tier,grade]
@@ -90,6 +125,8 @@ static func _option_summary(item:Dictionary)->String:
 
 static func _appearance(db:Dictionary,f:Dictionary,kind:String,role:String):
 	var a=Abyss.enemy_stats(kind,f.floor,role=="raid",role in ["guardian","raid"])
+	a["asset"]=_monster_asset(kind,f.floor,role=="raid")
+	a["name"]=f.title if role=="raid" else WorldArt.appearance_name(kind,f.floor,World.ENEMIES[kind].name)
 	a.merge({"id":"appearance:%03d:%s:%s"%[f.floor,kind,role],"floor_id":f.floor,"monster_id":kind,"role":role,"level":f.level+(3 if role=="elite" else 0),"raid_id":f.raid_id if role=="raid" else ""},true);db.appearances.append(a)
 
 static func _grade_tail(floor_number:int,grade:int)->float:
@@ -110,7 +147,7 @@ static func _boss_stagger(floor_number:int)->Dictionary:
 	return result
 
 static func _reference_player(class_id:String)->Dictionary:
-	return {"class_id":class_id,"level":100,"stats":{"strength":0,"endurance":0,"technique":0,"agility":0,"magic":0},"gear_stats":{},"skill_ranks":{},"inventory":[],"equipment":{}}
+	return {"class_id":class_id,"level":100,"stats":{"strength":0,"endurance":0,"technique":0,"agility":0,"magic":0},"gear_stats":{},"skill_ranks":{},"constellation_allocations":{},"inventory":[],"equipment":{}}
 
 static func _skill_rank(class_id:String,node:Dictionary,rank:int)->Dictionary:
 	var p=_reference_player(class_id);var advanced=node.get("runtime","")=="job" or Content.CLASSES[class_id].has("base") or class_id in ["rogue","fighter"]
@@ -125,10 +162,15 @@ static func _skill_rank(class_id:String,node:Dictionary,rank:int)->Dictionary:
 	return {"skill_id":node.id,"rank":rank,"metrics":metrics,"profile":profile,"stagger":stagger}
 
 static func _texture_ref(texture:Texture2D)->Dictionary:
-	if texture is AtlasTexture:return {"path":texture.atlas.resource_path,"rect":[texture.region.position.x,texture.region.position.y,texture.region.size.x,texture.region.size.y]}
+	if texture is AtlasTexture:return {"path":str(texture.get_meta("source_path",texture.atlas.resource_path)),"rect":[texture.region.position.x,texture.region.position.y,texture.region.size.x,texture.region.size.y]}
 	return {"path":texture.resource_path,"rect":[0,0,texture.get_width(),texture.get_height()]}
 
-static func _monster_asset(kind:String)->Dictionary:
+static func _monster_asset(kind:String,floor_number:int=0,raid:bool=false)->Dictionary:
+	var themed=preload("res://scripts/world_art.gd").variant_frame(kind,floor_number,raid)
+	if not themed.is_empty():
+		var asset=_texture_ref(themed.texture)
+		asset.merge({"art_id":themed.art_id,"species":themed.species,"appearance_name":themed.name,"foot":[themed.foot.x,themed.foot.y],"body_height":themed.height,"animation":"idle/attack key poses"},true)
+		return asset
 	var m=World.ENEMIES[kind];var sheet="bosses" if m.ai=="boss" else m.get("art_sheet","enemies")
 	var index=["warden","golem","sentinel"].find(kind)*3 if m.ai=="boss" else int(m.art)
 	var frame=preload("res://scripts/world_art.gd").frame(sheet,index);var asset=_texture_ref(frame.texture)
@@ -170,12 +212,14 @@ static func query(kind:String,filters:Dictionary={},page:int=0,page_size:int=12)
 	var db=snapshot();var source=db.get(kind,[])
 	if kind=="monsters":source=db.monsters+db.raids
 	if kind=="drops":source=db.drops+db.raid_drops
+	if kind=="skills":source=db.skills+db.constellations
 	if kind=="drops" and not str(filters.get("equipment_id","")).is_empty():source=sources(detail("equipment",filters.equipment_id))
 	var results=[];var q=str(filters.get("q","")).strip_edges().to_lower()
-	for row in source:
+	for original_row in source:
+		var row=monster_on_floor(original_row,int(filters.get("floor",0))) if kind=="monsters" else original_row
 		if not q.is_empty() and not (str(row.id)+" "+str(row.get("name",""))+" "+str(row.get("subtitle",""))+" "+str(row.get("description",""))).to_lower().contains(q):continue
 		var match_filter=true
-		for key in ["family","class_id","slot","role","monster_id","effect"]:
+		for key in ["family","class_id","slot","role","monster_id","effect","category","art_id","target_table","target_id","consumer"]:
 			var wanted=str(filters.get(key,""))
 			if wanted.is_empty():continue
 			if kind=="equipment" and key=="class_id":
@@ -205,6 +249,16 @@ static func query(kind:String,filters:Dictionary={},page:int=0,page_size:int=12)
 	page_size=clampi(page_size,1,100);var pages=maxi(1,ceili(results.size()/float(page_size)));page=clampi(page,0,pages-1)
 	return {"items":results.slice(page*page_size,mini((page+1)*page_size,results.size())),"total":results.size(),"page":page,"pages":pages}
 
+static func monster_on_floor(row:Dictionary,floor_number:int)->Dictionary:
+	if row.is_empty() or floor_number<=0 or row.get("role","")=="raid":return row
+	for appearance in snapshot().appearances:
+		if appearance.monster_id==row.id and appearance.floor_id==floor_number:
+			var result=row.duplicate(true)
+			result["base_name"]=row.name;result["name"]=appearance.name;result["asset"]=appearance.asset
+			result["subtitle"]="B%d 출현 외형 · 기본형 %s"%[floor_number,row.name]
+			return result
+	return row
+
 static func sources(item:Dictionary)->Array:
 	if item.is_empty():return []
 	var db=snapshot();var results=[]
@@ -228,6 +282,7 @@ static func detail(kind:String,id:String)->Dictionary:
 	var db=snapshot();var source=db.get(kind,[])
 	if kind=="monsters":source=db.monsters+db.raids
 	if kind=="drops":source=db.drops+db.raid_drops
+	if kind=="skills":source=db.skills+db.constellations
 	for row in source:
 		if str(row.id)==id:return row
 	return {}
@@ -235,6 +290,7 @@ static func detail(kind:String,id:String)->Dictionary:
 static func asset_texture(row:Dictionary)->Texture2D:
 	var a=row.get("asset",{})
 	if a.is_empty():return null
+	if str(a.get("path","")).contains("/assets/equipment/"):return preload("res://scripts/equipment_art.gd").texture_for_asset(a)
 	var key=str(a)
 	if not _textures.has(key):
 		var texture=AtlasTexture.new();texture.atlas=load(a.path);texture.region=Rect2(a.rect[0],a.rect[1],a.rect[2],a.rect[3]);texture.filter_clip=true;_textures[key]=texture

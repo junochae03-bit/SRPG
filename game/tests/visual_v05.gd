@@ -57,7 +57,11 @@ func run():
 	game.skill_tree.mode="stats";game.skill_tree.refresh(true);await capture("stats-v05");game.toggle_skills()
 	session.sim=Simulation.new(20260909,"town");session.sim.add_player(1,"스프라이트 검사");session.refresh();game.on_entered();game.camera_pos=preload("res://scripts/dungeon.gd").iso(session.sim.map.spawn);await capture("town-v05")
 	for facility in ["smith","shop","alchemy","guild","inn","portal"]:
-		p=session.sim.players[1];p.pos=preload("res://scripts/world_catalog.gd").FACILITIES[facility].pos;session.refresh();session.act("interact");await capture("facility-v05-"+facility);game.town_panel.close()
+		p=session.sim.players[1];p.pos=preload("res://scripts/world_catalog.gd").FACILITIES[facility].pos;session.refresh();session.act("interact")
+		if facility!="portal":
+			assert(game.npc_dialogue.visible);game.npc_dialogue.service_button.pressed.emit()
+		assert(game.town_panel.visible and game.town_panel.facility==facility)
+		await capture("facility-v05-"+facility);game.town_panel.close()
 	var layer=CanvasLayer.new();layer.layer=20;root.add_child(layer);var gallery=Gallery.new();gallery.font=game.fonts;gallery.material=preload("res://scripts/gat_art.gd").material();layer.add_child(gallery);await capture("combat-poses-v05")
 	gallery.hide();var collection=Collection.new();collection.font=game.fonts;collection.material=preload("res://scripts/gat_art.gd").material();layer.add_child(collection);await capture("monsters-v05")
 	collection.costumes=true;collection.queue_redraw();await capture("costumes-v05")

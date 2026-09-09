@@ -44,3 +44,50 @@ FROM skills s JOIN assets a ON a.id=s.asset_id WHERE s.class_id='elementalist';
 PRAGMA foreign_key_check;
 PRAGMA integrity_check;
 SELECT raid_id,SUM(chance) FROM raid_drops GROUP BY raid_id HAVING ABS(SUM(chance)-1)>0.00000001;
+
+-- 10. Reaper specializations with explicit SP opportunity costs and tradeoffs.
+SELECT n.id,c.name,c.cluster_name,n.type,n.cost,c.effects_text,c.synergy,c.tradeoff,n.exclusive_group
+FROM build_nodes n JOIN constellations c ON c.id=n.id
+WHERE n.class_id='reaper' ORDER BY c.cluster,n.id;
+
+-- 11. The actual effects combat consumes, separate from displayed Korean names.
+SELECT c.name,e.effect_id,e.value FROM constellation_effects e
+JOIN constellations c ON c.id=e.node_id JOIN build_nodes n ON n.id=c.id
+WHERE n.class_id='reaper' AND n.type='keystone';
+
+-- 12. Original and specialization prerequisite graph with any/all semantics.
+SELECT e.* FROM build_edges e JOIN build_nodes n ON n.id=e.node_id
+WHERE n.class_id='fighter' ORDER BY e.node_id,e.parent_id;
+
+-- 13. Each class has five keys, but max two may be selected. Each pair below is exclusive.
+SELECT g.id,n.id,c.name,g.max_selected FROM exclusive_groups g
+JOIN build_nodes n ON n.exclusive_group=g.id JOIN constellations c ON c.id=n.id
+WHERE g.class_id='mage' ORDER BY g.id,n.id;
+
+-- 14. Finished art: distinguish runtime mappings from catalog-only availability.
+SELECT category,status,COUNT(*) regions FROM art_catalog
+GROUP BY category,status ORDER BY category,status;
+
+-- 15. New equipment art follows the actual 2,500 equipment definitions.
+SELECT e.id,e.name,a.runtime_path,a.x,a.y,a.width,a.height,a.runtime_sha256
+FROM equipment e JOIN art_uses u ON u.equipment_id=e.id
+JOIN art_catalog a ON a.id=u.art_id
+WHERE e.id='eq:reaper:weapon:09:3';
+
+-- 16. Floor material samples and current theme/layer mapping, not unused walls.
+SELECT a.name,a.runtime_path,a.x,a.y,a.width,a.height,u.mapping_json
+FROM art_catalog a JOIN art_uses u ON u.art_id=a.id
+WHERE a.category='floor_tile' AND u.floor_id=100;
+
+-- 17. The NPC idle pose is applied; its other completed poses remain available.
+SELECT id,name,frame,action,status,runtime_path,x,y,width,height
+FROM art_catalog WHERE id LIKE 'art:character:costume:pink-beret-gunner:%'
+ORDER BY frame;
+
+-- 18. Source identity and every gameplay/catalog consumer of a finished region.
+SELECT target_table,target_id,consumer,usage_kind,mapping_json
+FROM art_usage WHERE art_id='art:equipment:weapon_reaper_relic';
+
+-- 19. Runtime code references do not imply every library atlas region is used.
+SELECT id,name,category,runtime_path,provenance_path FROM art_catalog
+WHERE status='available_catalog' ORDER BY category,id;

@@ -1,0 +1,6178 @@
+{
+  "cobalt-black-ribbon-maid": {
+    "body_height": 235,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-black-ribbon-maid-sheet.png",
+    "source_sha256": "3fee4ea917e3b90478cb270e5e810683296d7fc3ff07ccc26e73ecb8ad517fc5",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-black-ribbon-maid-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\cobalt-black-ribbon-maid.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          154.5,
+          303.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          135,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          42,
+          27,
+          208,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          163.0,
+          304.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          331,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          347,
+          26,
+          209,
+          304
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          159.5,
+          302.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          520,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          655,
+          27,
+          214,
+          302
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          177.0,
+          303.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          720,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          970,
+          27,
+          216,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          111.0,
+          290.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          879,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          40,
+          352,
+          222,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          121.0,
+          288.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1063.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          337,
+          352,
+          273,
+          288
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          115.0,
+          291.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1252.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          657,
+          351,
+          274,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          123.5,
+          292.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1460,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          972,
+          350,
+          226,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          117.0,
+          293.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          115,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          38,
+          664,
+          217,
+          293
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          152.5,
+          304.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          308,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          322,
+          653,
+          284,
+          304
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          112.0,
+          292.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          474.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          643,
+          666,
+          310,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          115.0,
+          295.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          689,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          977,
+          663,
+          222,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          40.0,
+          223.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          838,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          37,
+          990,
+          252,
+          223
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          130.5,
+          225.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1076.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          348,
+          989,
+          238,
+          225
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          116.0,
+          253.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1267,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          664,
+          974,
+          215,
+          253
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          106.5,
+          266.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1460.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          990,
+          966,
+          190,
+          266
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "cobalt-navy-hanbok": {
+    "body_height": 260,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-navy-hanbok-sheet.png",
+    "source_sha256": "468bdeafbf11a7a04673796056e43dc9fdd955eb39fce79cdacb6eacd2e0b02e",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-navy-hanbok-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\cobalt-navy-hanbok.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          111.0,
+          307.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          115.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          39,
+          20,
+          201,
+          307
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          170.5,
+          309.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          330,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          342,
+          18,
+          216,
+          309
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          178.0,
+          303.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          525,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          651,
+          24,
+          217,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          130.0,
+          307.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          697,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          974,
+          20,
+          214,
+          307
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          126.0,
+          303.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          879.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          30,
+          338,
+          250,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          132.5,
+          299.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1069,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          334,
+          342,
+          274,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          129.5,
+          296.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1258,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          648,
+          344,
+          282,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          126.5,
+          298.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1464,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          974,
+          343,
+          211,
+          298
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          124.5,
+          300.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          115.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          31,
+          651,
+          228,
+          300
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          130.5,
+          309.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          302,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          335,
+          643,
+          266,
+          309
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          129.0,
+          295.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          487.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          645,
+          656,
+          293,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          117.0,
+          298.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          689,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          982,
+          653,
+          225,
+          298
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          32.0,
+          232.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          835,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          27,
+          982,
+          268,
+          232
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          118.5,
+          234.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1073,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          358,
+          982,
+          228,
+          234
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          123.5,
+          279.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1265,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          663,
+          958,
+          238,
+          279
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          106.0,
+          287.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1458,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          990,
+          952,
+          198,
+          287
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "cobalt-broom-maid": {
+    "body_height": 240,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-broom-maid-sheet.png",
+    "source_sha256": "e7f848bd53f3e46e1c5f638881e824baf70e42ad002ceb058e59dfc00487b761",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\cobalt-reference-20260909\\cobalt-broom-maid-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\cobalt-broom-maid.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          140.5,
+          309.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          121,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          39,
+          26,
+          238,
+          309
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          176.0,
+          311.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          329,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          338,
+          22,
+          241,
+          311
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          135.5,
+          312.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          501.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          658,
+          23,
+          243,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          198.5,
+          308.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          721,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          966,
+          25,
+          251,
+          308
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          113.5,
+          293.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          879,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          31,
+          342,
+          227,
+          293
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          116.0,
+          290.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1065.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          329,
+          348,
+          256,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          75.5,
+          273.0
+        ],
+        "body_height": 255,
+        "confidence": "medium-low",
+        "note": "빗자루와 쓸기 곡선을 제외하고 화면 왼쪽의 보이는 지지 신발만 선택. 반대 발은 빗자루에 가려져 접점 불확실. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1227,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          630,
+          362,
+          305,
+          273
+        ],
+        "foot_uncertainty_source_px": 8,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          132.5,
+          292.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1455,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          975,
+          346,
+          265,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          147.5,
+          311.0
+        ],
+        "body_height": 265,
+        "confidence": "medium-low",
+        "note": "아래로 내린 빗자루 머리를 제외. 화면 오른쪽에 드러난 신발 밑창을 지지점으로 선택; 반대 발 일부 가림. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          125,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          28,
+          644,
+          235,
+          311
+        ],
+        "foot_uncertainty_source_px": 8,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          124.5,
+          295.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          297.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          321,
+          659,
+          273,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          131.5,
+          290.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          488,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          638,
+          665,
+          293,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          107.0,
+          292.0
+        ],
+        "body_height": 265,
+        "confidence": "medium-low",
+        "note": "빗자루 아래끝을 제외하고 화면 왼쪽에 드러난 신발 접점을 선택. 반대 신발은 가려져 접점 불확실. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          681,
+          455
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          974,
+          662,
+          240,
+          294
+        ],
+        "foot_uncertainty_source_px": 8,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          33.0,
+          212.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          833,
+          455
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          24,
+          1001,
+          263,
+          214
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          125.5,
+          214.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "화면 약 x1044와 x1088의 두 신발 중간. 왼쪽 빗자루 머리와 오른쪽 손/빗자루 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1066,
+          455
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          329,
+          1000,
+          272,
+          216
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          129.5,
+          278.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1266.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          658,
+          962,
+          244,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          126.5,
+          276.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1458.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          967,
+          963,
+          238,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "aqua-pajama": {
+    "body_height": 250,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-pajama-sheet.png",
+    "source_sha256": "f735f329121728d2278d3e731c98b2a415f724e24ae188b0da963d6372726137",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-pajama-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\aqua-pajama.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          95.5,
+          294.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          112,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          69,
+          37,
+          187,
+          294
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          97.0,
+          295.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          305.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          381,
+          36,
+          183,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          89.5,
+          295.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          495,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          680,
+          36,
+          179,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          93.0,
+          295.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          688,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          993,
+          36,
+          182,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          90.5,
+          297.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          877,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          64,
+          351,
+          190,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          90.5,
+          293.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1049,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          369,
+          355,
+          279,
+          293
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          90.0,
+          289.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1253,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          684,
+          357,
+          225,
+          289
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          86.0,
+          294.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1455.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1000,
+          354,
+          170,
+          294
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          127.0,
+          262.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          120,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          32,
+          696,
+          214,
+          262
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          105.0,
+          284.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          305,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          366,
+          674,
+          201,
+          284
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          126.0,
+          273.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          481,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          650,
+          685,
+          315,
+          273
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          84.5,
+          270.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          682,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1006,
+          688,
+          191,
+          270
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          54.5,
+          212.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          14,
+          1008,
+          279,
+          212
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          116.0,
+          215.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1072,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          367,
+          1009,
+          228,
+          215
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          109.0,
+          258.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1266,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          682,
+          977,
+          205,
+          258
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          90.0,
+          276.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1457,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1006,
+          964,
+          171,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "aqua-rabbit-stage": {
+    "body_height": 210,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-rabbit-stage-sheet.png",
+    "source_sha256": "335c37486cf203e5793d9ad6809533fe3d29f7846503fdb5d88b92a78cd28075",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-rabbit-stage-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\aqua-rabbit-stage.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          84.5,
+          310.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          111,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          63,
+          12,
+          169,
+          310
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          112.0,
+          312.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          320,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          381,
+          13,
+          160,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          87.5,
+          313.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          497.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          687,
+          12,
+          166,
+          313
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          75.0,
+          312.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          686.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1015,
+          12,
+          152,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          72.0,
+          303.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          873,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          73,
+          344,
+          167,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          74.5,
+          302.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1036.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          367,
+          345,
+          278,
+          302
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          75.0,
+          299.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1252,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          693,
+          349,
+          191,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          78.0,
+          302.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1456,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1016,
+          346,
+          152,
+          302
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          85.0,
+          272.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          105,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          47,
+          689,
+          192,
+          272
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          75.5,
+          288.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          291,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          379,
+          673,
+          196,
+          288
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          78.5,
+          283.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          464,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          668,
+          678,
+          273,
+          283
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          80.5,
+          288.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          686,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1014,
+          675,
+          165,
+          288
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          58.0,
+          240.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          20,
+          988,
+          259,
+          240
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          94.0,
+          227.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양 신발 접점의 중간. 가운데 큰 장갑이 하단을 차지하므로 장갑의 바닥끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1068.5,
+          454
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          380,
+          997,
+          197,
+          231
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          76.5,
+          253.0
+        ],
+        "body_height": 220,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1256,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          696,
+          989,
+          179,
+          253
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          83.5,
+          264.0
+        ],
+        "body_height": 210,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1459,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          1014,
+          981,
+          152,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "aqua-winter-hanbok": {
+    "body_height": 250,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-winter-hanbok-sheet.png",
+    "source_sha256": "780eb5b746cdd631e1bc28d7056dfb83fe33048f81d57e6cdf6cae42bde492cc",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-winter-hanbok-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\aqua-winter-hanbok.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          166.5,
+          291.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          139,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          40,
+          47,
+          208,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          159.5,
+          288.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          329,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          355,
+          44,
+          203,
+          288
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          169.0,
+          289.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          526,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          666,
+          49,
+          200,
+          289
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          174.5,
+          290.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          719,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          981,
+          47,
+          206,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          120.5,
+          281.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          882.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          28,
+          363,
+          225,
+          281
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          114.5,
+          274.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1058,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          340,
+          368,
+          287,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          125.0,
+          276.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1261,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          659,
+          368,
+          259,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          117.5,
+          280.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1462,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          979,
+          364,
+          204,
+          280
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          116.0,
+          239.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          114.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          34,
+          716,
+          216,
+          239
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          118.0,
+          275.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          307.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          337,
+          681,
+          216,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          120.5,
+          258.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          482,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          631,
+          695,
+          299,
+          258
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          119.5,
+          264.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          693,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          971,
+          692,
+          212,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          56.5,
+          209.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          16,
+          1013,
+          283,
+          209
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          116.5,
+          203.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1071,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          354,
+          1019,
+          233,
+          203
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          113.0,
+          241.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1263.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          664,
+          993,
+          224,
+          241
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          113.0,
+          270.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1461.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          985,
+          969,
+          197,
+          270
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "aqua-goggles-explorer": {
+    "body_height": 225,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-goggles-explorer-sheet.png",
+    "source_sha256": "d2b0db9d9328615803af2319f8c33bf4ca5d198db57d0be6ab8d91b427108601",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\aqua-reference-20260909\\aqua-goggles-explorer-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\aqua-goggles-explorer.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          148.0,
+          279.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          135,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          53,
+          54,
+          200,
+          279
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          178.5,
+          278.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          340,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          355,
+          55,
+          208,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          152.5,
+          279.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          521,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          673,
+          54,
+          201,
+          279
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          168.0,
+          279.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          719,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          979,
+          55,
+          207,
+          279
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          112.5,
+          274.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          876.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          48,
+          367,
+          235,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          124.0,
+          266.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1060,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          340,
+          372,
+          292,
+          266
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          105.5,
+          268.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1249,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          666,
+          373,
+          267,
+          268
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          112.0,
+          269.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1465.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          992,
+          372,
+          182,
+          269
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          123.0,
+          236.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          117.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          40,
+          726,
+          220,
+          236
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          116.0,
+          286.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          301.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          345,
+          677,
+          238,
+          286
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          120.0,
+          247.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          476,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          649,
+          713,
+          316,
+          247
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          114.5,
+          262.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          697.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          992,
+          701,
+          187,
+          262
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          73.0,
+          197.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          843,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          15,
+          1021,
+          291,
+          197
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          120.5,
+          190.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1077,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          364,
+          1030,
+          217,
+          190
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          108.5,
+          242.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1264,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          676,
+          995,
+          213,
+          242
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          104.0,
+          254.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1463,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          999,
+          983,
+          176,
+          254
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "crimson-rose-gothic": {
+    "body_height": 230,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-rose-gothic-sheet.png",
+    "source_sha256": "e8ff9dfa38670211aa4d6812d6c7497a41eacb1cda075f76926326947dbd8597",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-rose-gothic-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\crimson-rose-gothic.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          181.0,
+          299.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          134,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          25,
+          39,
+          268,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          172.5,
+          299.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          324,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          340,
+          39,
+          259,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          172.0,
+          296.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          514,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          654,
+          42,
+          266,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          179.5,
+          298.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          711,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          967,
+          39,
+          260,
+          298
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          144.5,
+          285.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          889.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          20,
+          367,
+          246,
+          285
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          164.0,
+          290.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1077,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          326,
+          362,
+          303,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          133.0,
+          285.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1255.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          652,
+          367,
+          297,
+          285
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          148.0,
+          289.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1465,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          968,
+          363,
+          255,
+          289
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          125.0,
+          262.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          107,
+          455
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          23,
+          699,
+          266,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          125.5,
+          278.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          298.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          330,
+          688,
+          269,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          144.5,
+          276.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          485,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          643,
+          689,
+          330,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          145.5,
+          274.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          696.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          977,
+          692,
+          252,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          67.0,
+          215.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          843,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          19,
+          1011,
+          282,
+          215
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          139.0,
+          217.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "신발 접점 약 (1048,453), (1100,453)의 중간. y456까지 내려오는 왼쪽 우산 끝은 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1074,
+          453
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          341,
+          1010,
+          266,
+          223
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          115.5,
+          236.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1258.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          652,
+          994,
+          249,
+          236
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          132.5,
+          268.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1459.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          966,
+          976,
+          247,
+          268
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "crimson-black-dress": {
+    "body_height": 245,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-black-dress-sheet.png",
+    "source_sha256": "53eaefede0fd0e9ab728e24831f69313ab46c7b318a10674ba9cca3f71d68fcb",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-black-dress-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\crimson-black-dress.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          150.5,
+          299.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          128,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          44,
+          38,
+          227,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          172.0,
+          299.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          330,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          341,
+          38,
+          226,
+          299
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          171.5,
+          297.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          520,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          658,
+          40,
+          234,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          167.0,
+          300.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          710,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          967,
+          38,
+          233,
+          300
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          138.0,
+          291.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          881.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          26,
+          360,
+          265,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          168.0,
+          290.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1084,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          322,
+          361,
+          279,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          125.5,
+          284.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1256,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          649,
+          365,
+          282,
+          284
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          133.5,
+          289.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1458,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          961,
+          362,
+          254,
+          289
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          132.0,
+          268.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          115,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          24,
+          687,
+          246,
+          268
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          129.0,
+          276.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          303,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          331,
+          679,
+          258,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          140.0,
+          269.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          486,
+          455
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          636,
+          688,
+          319,
+          271
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          130.5,
+          269.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          690.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          971,
+          688,
+          246,
+          269
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          63.0,
+          200.5
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발 약 (840,454). 더 아래까지 내려오는 꽃잎/속도선과 든 앞발을 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          840,
+          454
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          12,
+          1011,
+          297,
+          205
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          145.0,
+          197.5
+        ],
+        "body_height": 260,
+        "confidence": "medium-low",
+        "note": "양 신발의 깊이 차이를 포함한 지면 중간 추정. 가운데 손과 드레스 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1077,
+          453.5
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          344,
+          1017,
+          264,
+          203
+        ],
+        "foot_uncertainty_source_px": 8,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          125.0,
+          250.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1269,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          666,
+          983,
+          224,
+          250
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          136.0,
+          264.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1464.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          971,
+          972,
+          230,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "crimson-black-jacket": {
+    "body_height": 260,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-black-jacket-sheet.png",
+    "source_sha256": "a1d9c747730843de4a474e97220ff84a4fcb8461bbfa3e953f4cd726da8e5ccd",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-black-jacket-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\crimson-black-jacket.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          168.5,
+          304.0
+        ],
+        "body_height": 300,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          135,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          30,
+          39,
+          226,
+          304
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          170.5,
+          306.0
+        ],
+        "body_height": 300,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          330,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          346,
+          37,
+          216,
+          306
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          176.0,
+          301.0
+        ],
+        "body_height": 300,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          522,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          657,
+          40,
+          227,
+          301
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          179.0,
+          304.0
+        ],
+        "body_height": 300,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          717,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          968,
+          39,
+          219,
+          304
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          123.5,
+          290.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          881,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          27,
+          367,
+          238,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          129.0,
+          290.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1068.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          333,
+          367,
+          270,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          118.0,
+          290.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1248,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          658,
+          367,
+          306,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          117.0,
+          290.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1460,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          983,
+          367,
+          211,
+          290
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          127.0,
+          257.0
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          118.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          21,
+          704,
+          219,
+          257
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          131.0,
+          271.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          299.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          326,
+          692,
+          278,
+          271
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          135.5,
+          269.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          480,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          633,
+          694,
+          341,
+          269
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          121.0,
+          267.0
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          689,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          982,
+          696,
+          233,
+          267
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          48.5,
+          215.0
+        ],
+        "body_height": 280,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          16,
+          1001,
+          273,
+          215
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          122.0,
+          205.5
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1073,
+          454.5
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          364,
+          1007,
+          235,
+          209
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          128.0,
+          259.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1271,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          661,
+          977,
+          219,
+          259
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          122.5,
+          264.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1460.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          973,
+          974,
+          219,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "crimson-pastel-rabbit": {
+    "body_height": 225,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-pastel-rabbit-sheet.png",
+    "source_sha256": "a7f732e15056c6fe28cc6fc8ccd85773f5026f18c69cc0ed7dea2a0e0e72e45d",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\crimson-reference-20260909\\crimson-pastel-rabbit-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\crimson-pastel-rabbit.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          155.0,
+          284.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          129,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          30,
+          42,
+          238,
+          284
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          166.5,
+          285.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          326,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          338,
+          41,
+          241,
+          285
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          165.5,
+          284.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          518,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          648,
+          42,
+          239,
+          284
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          161.0,
+          286.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          709,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          969,
+          40,
+          234,
+          286
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          120.5,
+          273.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          877.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          29,
+          356,
+          247,
+          273
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          135.5,
+          274.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1060,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          335,
+          357,
+          315,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          140.5,
+          274.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1261.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          655,
+          357,
+          287,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          130.0,
+          274.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1462,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          978,
+          357,
+          232,
+          274
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          140.5,
+          257.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          123,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          25,
+          676,
+          233,
+          257
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          140.5,
+          272.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          304.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          328,
+          661,
+          275,
+          272
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          134.0,
+          260.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          485,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          642,
+          672,
+          308,
+          260
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          127.0,
+          263.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          691.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          975,
+          670,
+          236,
+          263
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          71.5,
+          210.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          22,
+          993,
+          296,
+          210
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          165.0,
+          205.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1083.5,
+          453
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          335,
+          996,
+          280,
+          211
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          118.5,
+          243.0
+        ],
+        "body_height": 220,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1259.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          652,
+          974,
+          251,
+          243
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          122.5,
+          271.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1462.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          982,
+          957,
+          215,
+          271
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "amethyst-purple-dress": {
+    "body_height": 250,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\amethyst-reference-20260909\\amethyst-purple-dress-sheet.png",
+    "source_sha256": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\amethyst-reference-20260909\\amethyst-purple-dress-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\amethyst-purple-dress.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          129.5,
+          297.0
+        ],
+        "body_height": 290,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          120.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          50,
+          42,
+          217,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          134.5,
+          297.0
+        ],
+        "body_height": 290,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          314,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          354,
+          42,
+          220,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          136.0,
+          297.0
+        ],
+        "body_height": 290,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          507,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          667,
+          42,
+          218,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          141.0,
+          295.0
+        ],
+        "body_height": 290,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          701,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          980,
+          44,
+          219,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          118.0,
+          280.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          883.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          39,
+          370,
+          216,
+          280
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          118.5,
+          278.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1066.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          349,
+          372,
+          257,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          127.5,
+          278.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1259,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          663,
+          372,
+          273,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          128.5,
+          278.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1464.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          986,
+          372,
+          215,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          117.5,
+          275.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          117,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          42,
+          690,
+          208,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          123.0,
+          294.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          303.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          345,
+          671,
+          244,
+          294
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          132.0,
+          279.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          491,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          655,
+          686,
+          282,
+          279
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          122.5,
+          271.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          693,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          991,
+          694,
+          218,
+          271
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          36.5,
+          211.0
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          838,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          37,
+          1007,
+          256,
+          211
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          132.5,
+          211.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1075,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          364,
+          1007,
+          247,
+          211
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          110.0,
+          244.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1265.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          678,
+          988,
+          209,
+          244
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          116.0,
+          256.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1462,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          991,
+          978,
+          201,
+          256
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "amethyst-summer-shawl": {
+    "body_height": 260,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\amethyst-reference-20260909\\amethyst-summer-shawl-sheet.png",
+    "source_sha256": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\amethyst-reference-20260909\\amethyst-summer-shawl-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\amethyst-summer-shawl.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          160.0,
+          312.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          132,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          45,
+          24,
+          222,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          159.0,
+          313.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          324,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          356,
+          24,
+          221,
+          313
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          139.5,
+          312.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          505,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          655,
+          24,
+          233,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          149.5,
+          313.0
+        ],
+        "body_height": 285,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          700.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          958,
+          23,
+          236,
+          313
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          124.5,
+          296.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          880,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          36,
+          343,
+          244,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          125.0,
+          297.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1074,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          332,
+          342,
+          236,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          127.0,
+          297.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1253,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          630,
+          342,
+          300,
+          297
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          129.0,
+          296.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1462,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          962,
+          343,
+          225,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          129.5,
+          293.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          120,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          39,
+          645,
+          217,
+          293
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          119.5,
+          295.0
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          297.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          335,
+          644,
+          265,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          132.5,
+          292.0
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          487.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          647,
+          646,
+          300,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          132.0,
+          293.0
+        ],
+        "body_height": 265,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          696,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          963,
+          645,
+          222,
+          293
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          46.0,
+          250.0
+        ],
+        "body_height": 275,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          841,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          39,
+          969,
+          268,
+          250
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          132.5,
+          239.5
+        ],
+        "body_height": 270,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1071.5,
+          455
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          338,
+          977,
+          263,
+          242
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          141.0,
+          275.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1275,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          646,
+          953,
+          226,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          121.0,
+          286.0
+        ],
+        "body_height": 260,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1463.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          971,
+          943,
+          203,
+          286
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "lavender-sailor": {
+    "body_height": 225,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-sailor-sheet.png",
+    "source_sha256": "bcae4f6178ab86c2a76fc7d1e65a525276550c66d7a2fbd972e266fdeffe6778",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-sailor-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\lavender-sailor.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          173.0,
+          306.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          142,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          36,
+          28,
+          221,
+          306
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          187.5,
+          302.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          338,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          338,
+          28,
+          234,
+          302
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          187.0,
+          301.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          531,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          637,
+          31,
+          229,
+          301
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          178.0,
+          305.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          719,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          962,
+          27,
+          227,
+          305
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          124.0,
+          296.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          883,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          38,
+          345,
+          232,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          123.5,
+          292.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1061.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          337,
+          348,
+          285,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          132.5,
+          288.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1270,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          662,
+          353,
+          237,
+          288
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          116.0,
+          295.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1461,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          982,
+          346,
+          208,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          121.5,
+          276.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          120,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          27,
+          668,
+          207,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          141.5,
+          278.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          319,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          337,
+          664,
+          219,
+          278
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          120.5,
+          275.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          482,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          642,
+          669,
+          293,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          119.5,
+          281.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          697.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          975,
+          663,
+          197,
+          281
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          57.0,
+          214.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          840,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          28,
+          992,
+          271,
+          214
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          140.5,
+          226.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1080.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          343,
+          983,
+          243,
+          226
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          136.5,
+          269.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "화면 오른쪽 신발만 지지점. 반대 발은 들어 올린 피격 자세로 지면 중점 계산에서 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1281,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          674,
+          963,
+          201,
+          269
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          119.0,
+          276.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1466,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          981,
+          959,
+          194,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "lavender-winter-hanbok": {
+    "body_height": 225,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-winter-hanbok-sheet.png",
+    "source_sha256": "1706348a89df7af80c5c6c99488bc149a95d76f1ea92465b179407e422ed30c8",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-winter-hanbok-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\lavender-winter-hanbok.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          182.0,
+          303.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          146,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          41,
+          36,
+          223,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          173.5,
+          303.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          337,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          355,
+          36,
+          210,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          182.0,
+          301.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          531,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          667,
+          38,
+          219,
+          301
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          172.5,
+          303.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          721,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          983,
+          36,
+          208,
+          303
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          119.5,
+          295.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          891,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          40,
+          355,
+          191,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          126.0,
+          291.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1059,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          331,
+          359,
+          300,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          131.0,
+          291.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1262,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          656,
+          359,
+          266,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          121.5,
+          292.0
+        ],
+        "body_height": 230,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1459.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          978,
+          358,
+          225,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          126.5,
+          272.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          120.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          33,
+          687,
+          215,
+          272
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          128.5,
+          296.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          314,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          338,
+          663,
+          213,
+          296
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          132.5,
+          275.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          480,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          633,
+          684,
+          325,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          115.0,
+          275.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          693.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          992,
+          684,
+          204,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          56.0,
+          206.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          842,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          18,
+          1012,
+          261,
+          206
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          137.0,
+          227.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1080,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          342,
+          991,
+          238,
+          227
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          139.5,
+          264.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1279,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          664,
+          973,
+          215,
+          264
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          111.0,
+          269.0
+        ],
+        "body_height": 225,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1464.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          996,
+          968,
+          184,
+          269
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  },
+  "lavender-shrine-maiden": {
+    "body_height": 215,
+    "body_height_method": "idle 15 scalp/hair-surface to soles estimate excluding ears, horns, hats, weapons and effects; retained source-pixel reference from manual review",
+    "source_sheet": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-shrine-maiden-sheet.png",
+    "source_sha256": "61c97fe967d977d5769d39097d01aac1edca025433950fcdbf9f0ef93b12af03",
+    "source_size": [
+      1254,
+      1254
+    ],
+    "source_atlas": "D:\\SSRPG\\RPG2\\art\\skins\\lavender-reference-20260909\\lavender-shrine-maiden-atlas.json",
+    "preview": "D:\\SSRPG\\RPG2\\art\\skins\\review-20260909\\pose-previews\\lavender-shrine-maiden.png",
+    "coordinate_convention": "foot is [x,y] local to the original atlas frames[index].rect, in source PNG pixel-edge coordinates rounded to 0.5 px. It is the visually selected supporting sole or midpoint of supporting soles; never bbox-center or hand/weapon/effect bottom.",
+    "mapping": "capture_anchor=[111+192*(index%8),238+218*(index//8)]; capture_scale=112/idle_body_height; source_local=bbox_bottom_center+(capture_foot-capture_anchor)/capture_scale",
+    "uncertainty": "Manual static-image estimates. 0.5 px is storage precision, not measurement accuracy. Typical foot uncertainty +/-5 source px, obscured soles +/-8 source px; equivalent body height +/-15 source px. Runtime playback still requires validation.",
+    "source_pixels_modified": false,
+    "frames": [
+      {
+        "index": 0,
+        "foot": [
+          167.0,
+          312.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          139,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          47,
+          36,
+          226,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 1,
+        "foot": [
+          179.5,
+          307.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          339,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          344,
+          37,
+          221,
+          307
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 2,
+        "foot": [
+          180.5,
+          312.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          532,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          659,
+          36,
+          219,
+          312
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 3,
+        "foot": [
+          174.5,
+          311.0
+        ],
+        "body_height": 255,
+        "confidence": "medium",
+        "note": "보이는 지지 신발의 밑창 접점. 몸높이는 이동 0–3의 기준 서기 상당 높이. 기존 원본 배율에서 관찰한 이동/idle 체격 차이를 별도 반영.",
+        "capture_foot": [
+          721,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          976,
+          37,
+          218,
+          311
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 4,
+        "foot": [
+          126.5,
+          295.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          882,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          48,
+          368,
+          241,
+          295
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 5,
+        "foot": [
+          89.0,
+          291.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "화면 왼쪽 신발이 지지발. 화면 오른쪽으로 살짝 든 신발은 지지점에서 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1041,
+          238
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          341,
+          372,
+          293,
+          291
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 6,
+        "foot": [
+          139.5,
+          289.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1268.5,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          659,
+          370,
+          258,
+          289
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 7,
+        "foot": [
+          130.5,
+          292.0
+        ],
+        "body_height": 235,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1470,
+          238
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          978,
+          371,
+          203,
+          292
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 8,
+        "foot": [
+          138.0,
+          275.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          125,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          32,
+          689,
+          222,
+          275
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 9,
+        "foot": [
+          137.5,
+          281.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          313,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          340,
+          686,
+          237,
+          281
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 10,
+        "foot": [
+          129.0,
+          272.0
+        ],
+        "body_height": 250,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          485.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          645,
+          694,
+          294,
+          272
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 11,
+        "foot": [
+          134.5,
+          276.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          703.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          985,
+          691,
+          206,
+          276
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 12,
+        "foot": [
+          61.0,
+          212.0
+        ],
+        "body_height": 245,
+        "confidence": "medium",
+        "note": "뒤쪽 지지 신발의 밑창 접점. 앞쪽으로 든 발, 뻗은 손, 꼬리 및 속도선 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          837,
+          456
+        ],
+        "supporting_soles_used": 1,
+        "source_rect": [
+          21,
+          1007,
+          283,
+          212
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 13,
+        "foot": [
+          123.5,
+          214.0
+        ],
+        "body_height": 240,
+        "confidence": "medium",
+        "note": "착지한 양쪽 신발 사이 지면의 중점. 바닥을 짚은 손과 소매 끝 제외. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1073.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          355,
+          1005,
+          237,
+          214
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 14,
+        "foot": [
+          128.5,
+          259.0
+        ],
+        "body_height": 220,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. 몸높이는 머리 크기를 기준 서기와 비교한 standing-equivalent 근사값. 숙임/무릎 굽힘, 든 팔, 무기·효과로 달라진 bbox 높이를 사용하지 않음.",
+        "capture_foot": [
+          1274,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          676,
+          975,
+          215,
+          259
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      },
+      {
+        "index": 15,
+        "foot": [
+          121.0,
+          256.0
+        ],
+        "body_height": 215,
+        "confidence": "medium",
+        "note": "양쪽 지지 신발 밑창 사이 지면의 중점. idle 기준 몸높이. 귀·뿔·모자와 효과를 제외한 근사값.",
+        "capture_foot": [
+          1470.5,
+          456
+        ],
+        "supporting_soles_used": 2,
+        "source_rect": [
+          997,
+          980,
+          182,
+          256
+        ],
+        "foot_uncertainty_source_px": 5,
+        "body_height_uncertainty_source_px": 15
+      }
+    ]
+  }
+}

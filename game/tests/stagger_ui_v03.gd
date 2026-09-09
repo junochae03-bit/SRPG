@@ -18,7 +18,7 @@ func run():
 	var rows=game.skill_tree.comparison_rows.filter(func(row):return row[0]=="시전당 무력화")
 	check(rows.size()==1,"learned active has stagger comparison")
 	check(float(rows[0][2])>float(rows[0][1]),"next rank strengthens stagger")
-	check(game.skill_tree.comparison_scroll.size.y==230,"long skill details scroll within their frame")
+	check(game.skill_tree.comparison_scroll.get_rect().end.y<game.skill_tree.prerequisites.position.y,"long skill details scroll within their frame")
 	await capture("skill");game.skill_tree.mode="stats";game.skill_tree.refresh(true);await capture("stats");game.toggle_skills()
 	check(local.enter_floor(100),"raid entry")
 	p=local.sim.players[1];var boss=local.sim.enemies.values().filter(func(e):return e.get("guardian",false))[0]

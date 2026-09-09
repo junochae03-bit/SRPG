@@ -2,12 +2,13 @@ extends SceneTree
 const Inventory=preload("res://scripts/inventory_model.gd")
 var checks=0
 var failures=[]
+var surface:SubViewport
 func _initialize():run.call_deferred()
 func check(ok:bool,name:String):
 	checks+=1
 	if not ok:failures.append(name);push_error(name)
 func run():
-	var surface=SubViewport.new();surface.size=Vector2i(1440,900);root.add_child(surface)
+	surface=SubViewport.new();surface.size=Vector2i(1920,1080);surface.size_2d_override=Vector2i(1600,900);surface.size_2d_override_stretch=true;surface.render_target_update_mode=SubViewport.UPDATE_ALWAYS;surface.gui_embed_subwindows=true;root.add_child(surface)
 	var game=load("res://main.tscn").instantiate();surface.add_child(game)
 	await process_frame
 	game.session.save_directory=ProjectSettings.globalize_path("res://../runtime/inventory-ui/"+str(Time.get_ticks_usec()))
@@ -45,19 +46,19 @@ func run():
 	var drag={"kind":"inventory_item","id":"training-bow","slot":"","rotated":false}
 	bag.grid.force_drag(drag,null)
 	var key=InputEventKey.new();key.physical_keycode=KEY_R;key.pressed=true
-	surface.push_input(key)
+	surface.push_input(key,true)
 	check(not drag.rotated,"one-cell inventory no longer rotates items")
 	var release=InputEventMouseButton.new();release.button_index=MOUSE_BUTTON_LEFT;release.pressed=false;release.position=Vector2.ZERO
-	surface.push_input(release)
+	surface.push_input(release,true)
 	await process_frame
 	bag.refresh(true)
 	var source_control
 	for child in bag.grid.get_children():
 		if child.item.id=="training-bow":source_control=child
-	var start=source_control.global_position+Vector2(12,12)
-	var motion=InputEventMouseMotion.new();motion.position=start;surface.push_input(motion)
-	var press=InputEventMouseButton.new();press.button_index=MOUSE_BUTTON_LEFT;press.pressed=true;press.position=start;surface.push_input(press)
-	motion=InputEventMouseMotion.new();motion.position=start+Vector2(25,10);motion.relative=Vector2(25,10);motion.button_mask=MOUSE_BUTTON_MASK_LEFT;surface.push_input(motion)
+	var start=source_control.get_global_transform_with_canvas()*Vector2(12,12)
+	var motion=InputEventMouseMotion.new();motion.position=start;surface.push_input(motion,true)
+	var press=InputEventMouseButton.new();press.button_index=MOUSE_BUTTON_LEFT;press.pressed=true;press.position=start;surface.push_input(press,true)
+	motion=InputEventMouseMotion.new();motion.position=start+Vector2(25,10);motion.relative=Vector2(25,10);motion.button_mask=MOUSE_BUTTON_MASK_LEFT;surface.push_input(motion,true)
 	await process_frame
 	check(surface.gui_is_dragging(),"pointer drag starts from real item button")
 	if surface.gui_is_dragging():
@@ -67,15 +68,65 @@ func run():
 		for y in range(Inventory.HEIGHT):
 			for x in range(Inventory.WIDTH):
 				if Inventory.can_place(p,active.id,Vector2i(x,y),active.rotated):destination=Vector2i(x,y)
-		var drop_at=bag.grid.global_position+Vector2(destination)*bag.grid.CELL+Vector2.ONE*10
-		motion=InputEventMouseMotion.new();motion.position=drop_at;motion.relative=drop_at-start;motion.button_mask=MOUSE_BUTTON_MASK_LEFT;surface.push_input(motion)
-		Input.flush_buffered_events()
-		release.position=drop_at;surface.push_input(release)
-		check(p.bag_positions[active.id].x==destination.x and p.bag_positions[active.id].y==destination.y,"pointer release commits grid destination")
+		var drop_at=bag.grid.get_global_transform_with_canvas()*(Vector2(destination)*bag.grid.CELL+Vector2.ONE*10)
+		motion=InputEventMouseMotion.new();motion.position=drop_at;motion.relative=drop_at-start;motion.button_mask=MOUSE_BUTTON_MASK_LEFT;surface.push_input(motion,true)
+		release.position=drop_at;surface.push_input(release,true)
+		check(p.bag_positions[active.id].x==destination.x and p.bag_positions[active.id].y==destination.y,"pointer release commits grid destination: expected=%s actual=%s at=%s grid=%s hovered=%s allowed=%s"%[destination,p.bag_positions[active.id],drop_at,bag.grid.get_global_transform_with_canvas(),bag.grid.hovered_cell,bag.grid.allowed])
 	await process_frame
 	session.save_game()
 	var saved=session.parse_save(session.save_path())
-	check(saved!=null and saved.schema_version==6 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
+	check(saved!=null and saved.schema_version==7 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
+	var cls=p.class_id
+	var content=preload("res://scripts/content.gd")
+	for class_id in ["warrior","ranger","mage","rogue","fighter"]:
+		p.class_id=class_id;session.refresh();bag.refresh(true)
+		check(bag.avatar_keys==content.avatar_options(class_id) and bag.costume_keys==content.costume_options(class_id),"picker indexes match allowed appearances "+class_id)
+		var blocked=content.COSTUMES.keys().filter(func(id):return not bag.costume_keys.has(id))
+		if not blocked.is_empty():
+			var before_costume=p.costume
+			check(not session.act("costume",blocked[0]) and p.costume==before_costume,"blocked costume cannot bypass class filter "+class_id)
+	p.class_id=cls;p.level=100;session.sim.recalculate(p)
+	var long_item=preload("res://scripts/equipment_catalog.gd").make("sword",1,4,"ui-long-item","none",cls)
+	long_item.name="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국 최후의 수호검";long_item.upgrade=3;long_item.bonus=87
+	check(Inventory.add_gear(p,long_item),"long equipment fixture added through inventory model")
+	session.refresh();bag.select_item(long_item.id);await process_frame;await process_frame
+	var current
+	for child in bag.grid.get_children():
+		if child.item.id==long_item.id:current=child
+	check(current.quantity_text()=="+3","upgrade badge uses upgrade rank, not +87 combat bonus")
+	check(bag.grid.CELL==64 and current.size==Vector2(64,64),"one-cell item art has readable 64px slot")
+	check(bag.detail_name.get_line_count()>=2 and bag.detail_name.text==long_item.name,"long name wraps without truncating text")
+	check(bag.detail_scroll.get_v_scroll_bar().max_value>bag.detail_scroll.size.y,"overflow details are scrollable")
+	check(bag.primary.position.y>bag.detail_scroll.position.y+bag.detail_scroll.size.y,"equip action stays below scrolling details")
+	var bounds=bag.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,bag.size)
+	check(surface.get_visible_rect().encloses(bounds),"wide inventory fits logical viewport with safe margins")
+	await capture("inventory-v04-long-name")
+	var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.pressed=true;click.double_click=true;click.position=current.get_global_transform_with_canvas()*(current.size*.5)
+	surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame
+	check(p.equipment.weapon==long_item.id,"real double-click equips selected valid weapon")
+	check(bag.equipment_controls.weapon.quantity_text()=="+3","equipped control keeps actual enhancement badge")
+	p.hp=p.max_hp-100;p.potion_cd=0;var prior_potions=p.potions;var prior_hp=p.hp;session.refresh();bag.refresh(true)
+	var potion_control=bag.grid.get_children().filter(func(child):return child.item.category=="consumable")[0]
+	click.position=potion_control.get_global_transform_with_canvas()*(potion_control.size*.5);surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame
+	check(p.potions==prior_potions-1 and p.hp>prior_hp,"real double-click consumes potion and heals")
+	bag.select_item(long_item.id)
+	var popup=bag.costume_picker.get_popup()
+	check(popup.max_size.y==440,"appearance popup has bounded height")
+	# Stress the actual picker presentation with the whole catalog. Class-filtered
+	# choices are restored afterward; no disallowed choice is submitted.
+	for id in content.COSTUMES:bag.costume_picker.add_item(content.COSTUMES[id])
+	bag.costume_picker.grab_focus();key=InputEventKey.new();key.keycode=KEY_SPACE;key.physical_keycode=KEY_SPACE;key.pressed=true;surface.push_input(key,true)
+	await process_frame;await process_frame
+	check(popup.visible and popup.size.y<=440,"long appearance menu opens and scrolls within cap")
+	await capture("inventory-v04-appearance-menu");popup.hide();bag.costume_keys=[];bag.refresh(true)
 	game.stop_audio();session.disconnect_game();await create_timer(0.5).timeout;surface.queue_free();await process_frame
 	print("INVENTORY_UI_TESTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)
+
+func capture(name:String):
+	if DisplayServer.get_name()=="headless":return
+	await process_frame;await RenderingServer.frame_post_draw
+	var picture=surface.get_texture().get_image()
+	check(picture.get_size()==Vector2i(1920,1080),"full-HD inventory capture")
+	var path=ProjectSettings.globalize_path("res://../artifacts/"+name+".png")
+	check(picture.save_png(path)==OK,"save inventory evidence "+name)

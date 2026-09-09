@@ -12,6 +12,11 @@ func equip(sim,p,type):
 	var id="test-"+type
 	if Inventory.find_item(p,id).is_empty():Inventory.add_gear(p,{"id":id,"name":type,"weapon_type":type,"category":"weapon","slot":"weapon","bonus":0,"rarity":0})
 	sim.action(p.id,"equip",id);p.attack_cd=0;p.charge_time=-1
+func change_class_in_town(sim,kind:String)->bool:
+	var previous_zone=sim.map.zone;sim.map.zone="town"
+	var changed=sim.action(1,"class",kind)
+	sim.map.zone=previous_zone
+	return changed
 func run():
 	var sim=Simulation.new();var p=sim.add_player(1,"전투 검증")
 	var room=Vector2(sim.map.rooms[1]);p.pos=room;p.aim=Vector2.RIGHT
@@ -64,7 +69,10 @@ func run():
 	sim.tick(0.03);check(p.hp==before-preload("res://scripts/progression.gd").received(p,sim.balance.enemies.shade.damage),"armor defense reduces incoming damage")
 	p.pos=sim.map.spawn;p.level=10;p.stamina=100;p.dodge_time=0
 	for type in ["warrior","ranger","mage"]:
-		check(sim.action(1,"class",type),"class change at camp "+type)
+		sim.map.zone="forest"
+		var previous_class=p.class_id;var previous_ranks=p.skill_ranks.duplicate(true)
+		check(not sim.action(1,"class","ranger" if previous_class!="ranger" else "warrior") and p.class_id==previous_class and p.skill_ranks==previous_ranks,"tutorial shelter cannot bypass respec with class switch "+type)
+		check(change_class_in_town(sim,type),"class change in actual town "+type)
 		var nodes=Content.SKILLS[type]
 		check(not sim.action(1,"invest",nodes[4].id),"final node requires parents "+type)
 		var power=sim.damage_for(p)
@@ -76,6 +84,9 @@ func run():
 		check(not sim.action(1,"skill_q"),"unassigned sixth-slot system has no free signature "+type)
 		check(not sim.action(1,"reset_skills"),"field respec rejected "+type)
 		p.pos=sim.map.spawn
+		check(not sim.action(1,"reset_skills"),"tutorial shelter is not a respec town "+type)
+		sim.map.zone="town";p.barrier_time=4.;p.job_state.shield=50.
 		check(sim.action(1,"reset_skills") and Content.available_points(p)==9,"camp reset refunds points "+type)
+		check(p.barrier_time==0 and p.job_state.shield==0 and p.constellation_state.last_skill.is_empty(),"town respec clears combat buffs "+type)
 	print("COMBAT_TESTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

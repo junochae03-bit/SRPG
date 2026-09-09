@@ -117,7 +117,7 @@ func run():
 	p=session.sim.players[1];p.pos=Vector2(session.sim.map.rooms[1]);check(not session.travel("ruins"),"cannot change dungeon in combat field")
 	check(session.act("return") and session.sim.map.zone=="town","R returns to town")
 	p=session.sim.players[1];p.level=10;session.act("stat","endurance");session.save_game();var loaded=session.parse_save(session.save_path())
-	check(loaded!=null and loaded.schema_version==6 and loaded.stats.endurance==1,"v5 stats saved and validated")
+	check(loaded!=null and loaded.schema_version==7 and loaded.stats.endurance==1,"v5 stats saved and validated")
 	session.disconnect_game();session.queue_free();await process_frame
 	print("V05_TESTS checks=",checks," failures=",failed.size())
 	quit(0 if failed.is_empty() else 1)

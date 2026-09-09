@@ -46,6 +46,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 	if map.floor_number>0:
 		var scaled=preload("res://scripts/abyss_catalog.gd").enemy_stats(kind,map.floor_number,boss)
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
+		if not boss:e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
 	BossStagger.initialize(e,clock)
 	enemies[id]=e;return e
 
@@ -55,6 +56,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
 	saved=saved.duplicate(true)
+	p.merge({"skill_build_version":2,"constellation_allocations":{},"creation_points":0})
 	if not saved.is_empty():
 		Content.migrate_appearance(saved);Progression.migrate(saved)
 		if int(saved.get("schema_version",0))<6:saved["tutorial_done"]=true
@@ -62,6 +64,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		if saved.has(key):
 			p[key] = saved[key]
 	p.level = clampi(int(p.level), 1, 100)
+	for key in ["skill_build_version","constellation_allocations","creation_points"]:
+		if int(saved.get("schema_version",0))>=7 and saved.has(key):p[key]=saved[key]
 	Content.migrate_skills(p)
 	Progression.initialize(p)
 	if int(saved.get("schema_version",0))<3:p.bag_positions={}
@@ -73,7 +77,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	return p
 
 func persistent(id: int) -> Dictionary:
-	var result = {"schema_version":6}
+	var result = {"schema_version":7}
+	for key in ["skill_build_version","constellation_allocations","creation_points"]:result[key]=players[id][key]
 	for key in ["name","level","xp","gold","potions","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
 		result[key] = players[id][key]
 	return result
@@ -118,6 +123,18 @@ func gear_changed(p: Dictionary):
 
 func notice(id: int, message: String):
 	events.append({"type":"notice","owner":id,"text":message})
+
+func clear_build_runtime(p:Dictionary):
+	combat.jobs.reset(p)
+	combat.constellation.reset(p)
+	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=p.id)
+	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=p.id)
+	for enemy in enemies.values():
+		for key in enemy.get("job_status",{}).keys():
+			if enemy.job_status[key].get("owner",0)==p.id:enemy.job_status.erase(key)
+		if enemy.has("constellation_marks"):enemy.constellation_marks.erase(str(p.id))
+	p.merge({"barrier_time":0.0,"barrier_strength":0.0,"haste_time":0.0,"haste_speed":0.0,"haste_attack":0.0,"regen_fraction":0.0,"charge_time":-1.0,"skill_cooldowns":{},"motion_time":0.0,"invulnerable":0.0,"dodge_time":0.0,"sprint":false},true)
+	for key in ["casting_vfx","casting_rank","constellation_cast"]:p.erase(key)
 
 func action(id: int, kind: String, argument: String = "") -> bool:
 	if not players.has(id):
@@ -223,12 +240,25 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		return false
 	if kind=="invest":
 		if not Content.can_invest(p,argument):
-			notice(id,"스킬 포인트와 선행 스킬을 확인하세요. 해금 레벨과 최대 랭크를 확인하세요.")
+			notice(id,Content.Build.node_state(p,argument).reason)
 			return false
-		p.skill_ranks[argument]=int(p.skill_ranks.get(argument,0))+1
+		var node=Content.Build.definition(argument);var field=node.allocation_field
+		p[field][argument]=int(p[field].get(argument,0))+1
 		gear_changed(p)
 		return true
+	if kind=="uninvest":
+		if map.zone!="town":notice(id,"특성 재분배는 마을에서 가능합니다.");return false
+		var node=Content.Build.definition(argument)
+		if node.is_empty() or Content.Build.rank(p,node)<=0:return false
+		var preview=Content.Build.preview(p,argument,Content.Build.rank(p,node)-1)
+		if not preview.ok:notice(id,preview.reason);return false
+		clear_build_runtime(p)
+		p.skill_ranks=preview.player.skill_ranks;p.constellation_allocations=preview.player.constellation_allocations
+		for slot in p.skill_loadout.keys():
+			if int(p.skill_ranks.get(p.skill_loadout[slot],0))<=0:p.skill_loadout.erase(slot)
+		gear_changed(p);notice(id,"스킬 포인트 %d 반환"%preview.refund);return true
 	if kind=="reset_skills" or kind=="class":
+		if map.zone!="town":notice(id,"전직과 특성 재분배는 마을에서 가능합니다.");return false
 		if not map.in_town(p.pos):
 			notice(id,"직업 변경과 스킬 초기화는 쉼터에서 가능합니다.")
 			return false
@@ -244,19 +274,21 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 				if not item.is_empty() and not preload("res://scripts/equipment_catalog.gd").reason(staged,item).is_empty():
 					if not Inventory.unequip(staged,slot):notice(id,"전직 장비를 벗어둘 가방 공간이 필요합니다.");return false
 			p.class_id=argument;p.equipment=staged.equipment;p.equipped=staged.equipped;p.bag_positions=staged.bag_positions
-			combat.jobs.reset(p)
+			Content.normalize_appearance(p)
+		clear_build_runtime(p)
 		p.skill_ranks.clear()
+		p.constellation_allocations.clear()
 		p.skill_loadout.clear()
 		gear_changed(p)
 		notice(id,"스킬 포인트를 돌려받았습니다. "+Content.CLASSES[p.class_id].name)
 		return true
 	if kind=="costume":
-		if not Content.COSTUMES.has(argument):return false
+		if argument not in Content.costume_options(p.class_id):return false
 		p.costume=argument
 		dirty[id]=true
 		return true
 	if kind=="avatar":
-		if argument!="auto" and not Content.AVATARS.has(argument):return false
+		if argument not in Content.avatar_options(p.class_id):return false
 		p.avatar=argument;p.costume="none";dirty[id]=true
 		return true
 	if kind=="claim_starters":
@@ -446,6 +478,7 @@ func reset_after_defeat(player_id:int):
 	# Defeat removes the owner's pending attacks. The encounter resets only when
 	# nobody remains in its arena, so this also has sensible future party behavior.
 	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=player_id)
+	if players.has(player_id):combat.constellation.reset(players[player_id])
 	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=player_id)
 	for e in enemies.values():
 		for key in e.get("job_status",{}).keys():
