@@ -1,6 +1,7 @@
 extends RefCounted
 # Runtime for the level-30 jobs. Cast snapshots prevent resource reuse on cancellation.
 const Content=preload("res://scripts/content.gd")
+const Balance=preload("res://scripts/job_balance.gd")
 var owner_ref:WeakRef
 var combat:
 	get:return owner_ref.get_ref()
@@ -42,8 +43,15 @@ func dispose_hand(p:Dictionary):
 	var s=p.job_state;s.discard.append_array(s.hand);s.hand.clear();s.held=-1;s.selected=0;draw_cards(p,2)
 func passive(p:Dictionary,index:int)->int:return int(p.skill_ranks.get(p.class_id+"_p%02d"%(index+1),0))
 func buff(p:Dictionary,key:String,value:float,duration:float):
-	var old=p.job_state.buffs.get(key,{"value":0.0,"time":0.0})
-	p.job_state.buffs[key]={"value":maxf(old.value,value),"time":maxf(old.time,duration)}
+	var old=p.job_state.buffs.get(key,{})
+	var layers=old.get("layers",[])
+	if layers.is_empty() and not old.is_empty():layers.append({"value":old.value,"time":old.time})
+	var same=layers.filter(func(layer):return is_equal_approx(layer.value,value))
+	if same.is_empty():layers.append({"value":value,"time":duration})
+	else:same[0].time=maxf(same[0].time,duration)
+	var strongest=0.;var remaining=0.
+	for layer in layers:strongest=maxf(strongest,layer.value);remaining=maxf(remaining,layer.time)
+	p.job_state.buffs[key]={"value":strongest,"time":remaining,"layers":layers}
 func value(p:Dictionary,key:String)->float:return float(p.job_state.buffs.get(key,{}).get("value",0))
 func basic(p:Dictionary):
 	p.job_state.current_heavy=false
@@ -73,7 +81,7 @@ func mark(p:Dictionary,e:Dictionary):
 func attack_speed(p:Dictionary)->float:
 	return 1+value(p,"haste")+(p.job_state.rush*.035 if p.class_id=="infighter" else 0)+(.25 if p.job_state.dice==2 and p.job_state.dice_time>0 else 0)
 func attack_multiplier(p:Dictionary,heavy:bool)->float:
-	var s=p.job_state;var mult=1.0
+	var s=p.job_state;var mult=float(Balance.role(p.class_id)[2])
 	if s.dice_time>0 and s.dice==1:mult+=.2
 	if p.class_id=="breaker":mult*=1+s.get("heavy_grit",0)/70.0 if heavy else (1.35 if s.get("punch",0)==1 else .85)
 	if heavy:s.current_heavy=true
@@ -110,8 +118,9 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 	var s=p.job_state;var facing=p.aim.dot(p.pos.direction_to(e.pos))>0.0
 	if s.parry>0 and parryable and facing:
 		s.parry=0;s.counter=5.;
+		p.stamina=minf(p.max_stamina,p.stamina+passive(p,2)*2)
 		if s.get("parry_kind","") in ["parry_counter","parry_knee"]:
-			combat.hit(p,e,roundi(sim.damage_for(p)*2));status(p,e,"stun",.5)
+			combat.hit(p,e,roundi(sim.damage_for(p)*s.get("counter_power",2.)));status(p,e,"stun",.5)
 		s.momentum=minf(100,s.momentum+25+minf(20,amount*.05*passive(p,3)));fx(p,"breaker:2",p.pos)
 		return 0
 	for ally in allies(p):
@@ -124,6 +133,7 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 	amount=roundi(amount*(1-minf(.65,value(p,"defense"))))
 	if p.class_id=="infighter" and s.get("channel",0)>0:amount=roundi(amount*(1-passive(p,4)*.025))
 	if p.class_id=="breaker" and p.motion=="slam" and p.motion_time>0:amount=roundi(amount*(1-passive(p,4)*.025))
+	if p.class_id=="breaker" and (p.charge_time>=0 or not s.casting.is_empty()):amount=roundi(amount*(1-passive(p,1)*.025))
 	if s.dice_time>0 and s.dice==6:amount=roundi(amount*.8)
 	if value(p,"guard")>0 and facing:
 		amount=roundi(amount*(1-minf(.8,value(p,"guard")+(passive(p,2)*.03 if p.class_id=="tank" else 0))))
@@ -135,7 +145,8 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 		var total=grit(p);var earned=minf(100-s.momentum-total,amount*.8)
 		if earned>0:s.grit.append({"amount":earned,"remaining":2.0})
 	if amount>0:
-		if not (p.class_id=="elementalist" and passive(p,3)>0) and value(p,"guard")<=0:s.casting={};p.charge_time=-1.;s.heavy_grit=0.
+		var resist=p.class_id=="elementalist" and passive(p,3)>0 and sim.rng.randf()<minf(.85,.25+passive(p,3)*.12)
+		if not resist and value(p,"guard")<=0:s.casting={};p.charge_time=-1.;s.heavy_grit=0.
 		s.meditate=0.
 		s.channel=0.
 	return maxi(0,amount)
@@ -198,17 +209,18 @@ func act(p:Dictionary,kind:String)->bool:
 	if kind not in Content.ACTIONS or not s.get("candidates",[]).is_empty():return false
 	var n=Content.active_node(p,kind)
 	if n.is_empty() or Content.action_rank(p,kind)<=0:return false
-	if p.skill_cooldowns.get(n.id,0)>0 or p.stamina<n.cost:return false
+	var rank=Content.action_rank(p,kind);var up=int(p.skill_ranks.get(n.id+"_upgrade",0))>0
+	var cast=Balance.profile(p,n,rank,sim.damage_for(p),p.max_hp,up)
+	if p.skill_cooldowns.get(n.id,0)>0 or p.stamina<cast.cost:return false
 	if n.get("rune_cost",0)>s.runes:return false
-	var mode=n.mode;var t=target(p,n.range,mode in ["teleport","teleport_chain"])
+	var mode=n.mode;var t=target(p,cast.node.range,mode in ["teleport","teleport_chain"])
 	if mode in ["teleport","teleport_chain","chain_pull","chain_dash","chain_retreat","chain_group"] and t.is_empty():return false
 	if mode.begins_with("pet_") and s.pets.is_empty():return false
 	if mode=="cut_card" and s.hand.is_empty():return false
 	if mode in ["reroll","dice_buff"] and s.dice_time<=0:return false
 	if mode=="hit_card" and s.hand.size()>=5:return false
-	var rank=Content.action_rank(p,kind);var up=int(p.skill_ranks.get(n.id+"_upgrade",0))>0
-	p.stamina-=n.cost;p.skill_cooldowns[n.id]=n.cooldown*(1-.04*(rank-1));s.runes-=int(n.get("rune_cost",0))
-	var cast={"node":n.duplicate(true),"rank":rank,"up":up,"time":float(n.windup),"power":float(n.power)*(1+.2*(rank-1)),"target":t.get("id",-1),"origin":p.pos,"aim":p.aim}
+	p.stamina-=cast.cost;p.skill_cooldowns[n.id]=cast.cooldown;s.runes-=int(n.get("rune_cost",0))
+	cast.merge({"target":t.get("id",-1),"origin":p.pos,"aim":p.aim})
 	configure(p,cast)
 	if mode.begins_with("settle"):
 		cast.power*=payout(s.hand);cast["blackjack"]=hand_total(s.hand)==21;dispose_hand(p)
@@ -232,10 +244,10 @@ func allies(p:Dictionary,radius:float=6.)->Array:
 func status(p:Dictionary,e:Dictionary,key:String,duration:float):
 	if e.hp<=0:return
 	if not e.has("job_status"):e.job_status={}
-	e.job_status[key]={"time":duration,"owner":p.id,"tick":0.0}
 	if p.class_id=="explorer" and key in ["root","stun"]:
 		duration+=passive(p,2)*.15
 		if e.get("boss",false):e.job_status["vulnerable"]={"time":duration,"owner":p.id,"tick":0.}
+	e.job_status[key]={"time":duration,"owner":p.id,"tick":0.0}
 	if key=="slow":e.slow_time=maxf(e.get("slow_time",0),duration)
 	if key in ["root","stun"] and not e.get("boss",false):e.stun_time=maxf(e.get("stun_time",0),minf(duration,1.5))
 	if p.class_id=="thief":
@@ -247,19 +259,22 @@ func status(p:Dictionary,e:Dictionary,key:String,duration:float):
 			for a in allies(p):buff(a,mapping[key],.15,5.);fx(a,"thief:5",a.pos)
 func execute(p:Dictionary,cast:Dictionary):
 	var s=p.job_state;var n=cast.node;var mode=n.mode;var damage=roundi(sim.damage_for(p)*cast.power);var t=sim.enemies.get(cast.target,{})
-	var point=combat.skills.target(p,3.);var upgraded=cast.up;var duration=float(n.duration)+(1.5 if upgraded else 0)
+	var point=combat.skills.target(p,3.);var upgraded=cast.up;var duration=float(n.duration)
+	# Ground skills land on the acquired target; empty ground still follows aim.
+	if not t.is_empty():point=t.pos
 	p.motion="slam" if mode.begins_with("charge") or mode.begins_with("heavy") or mode=="finisher" else "cleave"
 	p.motion_time=.6 if p.motion=="slam" else .35;p.motion_duration=p.motion_time
 	s.lock=.6 if p.motion=="slam" else .16
 	s["current_index"]=int(n.index)
 	s["current_heavy"]=mode.begins_with("charge") or mode.begins_with("heavy")
+	s["natural_heavy"]=false
 	s["direct_cast"]=n.id
 	s["support_sent"]=[]
 	if p.level>=100:master(p,cast)
 	fx(p,n.fx,p.pos if mode in ["guard","parry","haste","shield"] else point,n.radius)
 	if mode in ["haste","buff_attack","buff_crit","buff_crit_damage","stance","empower","enchant","guard","fortress","share","chant","stand_card","dice_buff"]:
-		var key={"haste":"haste","buff_attack":"attack","buff_crit":"crit","buff_crit_damage":"crit_damage","guard":"guard","fortress":"defense","share":"defense","chant":"attack","stand_card":"stand","dice_buff":"attack","enchant":"attack"}.get(mode,"attack")
-		for a in allies(p) if p.class_id in ["healer","tank"] else [p]:buff(a,key,(.35 if key=="guard" else .2)*(1+.1*(cast.rank-1)),duration)
+		var key=Balance.BUFF_KEYS.get(mode,"attack")
+		for a in allies(p) if p.class_id in ["healer","tank"] else [p]:buff(a,key,cast.buff,duration)
 		return
 	if mode=="wall":
 		s["wall"]={"pos":point,"dir":p.aim,"time":duration,"radius":1.6+(1. if upgraded else 0)}
@@ -271,34 +286,37 @@ func execute(p:Dictionary,cast:Dictionary):
 			else:move(p,p.aim,2.5)
 			buff(p,"defense",.03*passive(p,1)+(.15 if upgraded else 0),3.)
 		for a in allies(p) if p.class_id in ["tank","healer"] else [p]:
-			var power=(35+cast.rank*10)*(1.15 if upgraded else 1)
-			if p.class_id=="tank":power*=1+passive(p,3)*.06+(passive(p,0)*.08 if a.hp<a.max_hp*.35 else 0)
-			if p.class_id=="healer":power*=1+passive(p,4)*.06+(passive(p,5)*.08 if a.hp<a.max_hp*.35 else 0)
+			var power=cast.shield
+			if p.class_id=="tank" and a.hp<a.max_hp*.35:power*=1+passive(p,0)*.08
+			if p.class_id=="healer" and a.hp<a.max_hp*.35:power*=1+passive(p,5)*.08
 			a.job_state.shield=maxf(a.job_state.shield,power);a.job_state.shield_time=duration
 		if p.class_id=="runesword":buff(p,"defense",passive(p,5)*.03,3.)
 		return
 	if mode in ["heal","regen","field_heal"]:
 		for a in allies(p) if p.class_id=="healer" else [p]:
-			var healing=roundi(a.max_hp*.18*(1+passive(p,0)*.05))
+			var healing=roundi(cast.heal*float(a.max_hp)/p.max_hp)
 			var effective=mini(a.max_hp-a.hp,healing);a.hp+=effective
 			if p.class_id=="healer" and effective>0:p.stamina=minf(p.max_stamina,p.stamina+passive(p,1))
-			buff(a,"regen",3,duration if mode!="heal" else .1)
+			if cast.regen>0:buff(a,"regen",cast.regen*float(a.max_hp)/p.max_hp,duration)
 		return
 	if mode=="cleanse":
-		for a in allies(p) if p.class_id=="healer" else [p]:a.enemy_slow_time=0
+		for a in allies(p) if p.class_id=="healer" else [p]:a.enemy_slow_time=0;buff(a,"defense",cast.buff,duration)
 		return
 	if mode=="distribute":
+		var shared=s.buffs.duplicate(true)
 		for a in allies(p):
-			for key in s.buffs:buff(a,key,s.buffs[key].value,s.buffs[key].time)
+			for key in shared:
+				for layer in shared[key].get("layers",[{"value":shared[key].value,"time":shared[key].time}]):buff(a,key,layer.value,layer.time)
+			a.job_state.shield=maxf(a.job_state.shield,cast.shield*.4);a.job_state.shield_time=duration
 		return
 	if mode=="return_anchor":
 		if s.anchor.is_empty():s.anchor=[p.pos];p.skill_cooldowns[n.id]=.4
 		else:
-			if p.pos.distance_to(s.anchor[0])<8 and sim.map.line_clear(p.pos,s.anchor[0]):p.pos=s.anchor[0]
+			if p.pos.distance_to(s.anchor[0])<cast.anchor_range and sim.map.line_clear(p.pos,s.anchor[0]):p.pos=s.anchor[0]
 			s.anchor.clear()
 		return
-	if mode in ["parry","parry_counter","parry_knee"]:s.parry=.25;s.parry_kind=mode;return
-	if mode=="meditate":s["meditate"]=1.2;s.lock=1.2;return
+	if mode in ["parry","parry_counter","parry_knee"]:s.parry=cast.parry;s.parry_kind=mode;s.counter_power=cast.counter_power;return
+	if mode=="meditate":s["meditate"]=1.2;s["meditate_rate"]=cast.meditate_rate;s.lock=1.2;return
 	if mode=="hit_card":
 		draw_cards(p,1)
 		if hand_total(s.hand)>21:fx(p,"gambler:5",p.pos);dispose_hand(p);buff(p,"speed",passive(p,1)*.05,2.)
@@ -312,18 +330,18 @@ func execute(p:Dictionary,cast:Dictionary):
 	if mode=="summon":
 		s.pets=s.pets.filter(func(pet):return pet.source!=n.id)
 		if s.pets.size()>=2+(1 if passive(p,0)>=3 else 0):s.pets.pop_front()
-		s.pets.append({"source":n.id,"pos":p.pos,"hp":100.+passive(p,1)*15,"max_hp":100.+passive(p,1)*15,"cd":0.,"power":cast.power,"kind":n.index});return
+		s.pets.append({"source":n.id,"pos":p.pos,"hp":cast.pet_hp,"max_hp":cast.pet_hp,"cd":0.,"power":cast.pet_power,"kind":n.index});return
 	if mode.begins_with("pet_"):
 		for pet in s.pets:
 			match mode:
-				"pet_heal":pet.hp=pet.get("max_hp",100.)
-				"pet_recall":pet.pos=p.pos;pet.hp=minf(100,pet.hp+20)
-				"pet_buff":buff(p,"pet_power",.5,duration)
-				"pet_haste":buff(p,"pet_haste",.5,duration)
-				"pet_guard":buff(p,"pet_guard",.4,duration)
-				"pet_sacrifice":s.shield+=pet.hp;s.shield_time=duration;pet.hp=0
+				"pet_heal":pet.hp=pet.get("max_hp",100.);buff(p,"pet_guard",cast.pet_buff,duration)
+				"pet_recall":pet.pos=p.pos;pet.hp=minf(pet.get("max_hp",100.),pet.hp+pet.get("max_hp",100.)*cast.recall_heal)
+				"pet_buff":buff(p,"pet_power",cast.pet_buff,duration)
+				"pet_haste":buff(p,"pet_haste",cast.pet_buff,duration)
+				"pet_guard":buff(p,"pet_guard",cast.pet_buff,duration)
+				"pet_sacrifice":s.shield=minf(p.max_hp*.6,s.shield+pet.hp*cast.sacrifice_ratio);s.shield_time=duration;pet.hp=0
 				_:
-					if not t.is_empty() and t.hp>0:pet.pos=sim.map.move(t.pos,Vector2(.5,0));combat.hit(p,t,damage);status(p,t,"bleed",5.)
+					if not t.is_empty() and t.hp>0:pet.pos=sim.map.move(t.pos,Vector2(.5,0));combat.hit(p,t,maxi(1,roundi(float(damage)/s.pets.size())));status(p,t,"bleed",5.)
 		return
 	if mode in ["teleport","teleport_chain"]:
 		if t.is_empty() or t.hp<=0:return
@@ -340,16 +358,17 @@ func execute(p:Dictionary,cast:Dictionary):
 	if mode in ["dash","rush","weave","retreat","flank","blink","card_retreat","heavy_dash"]:
 		move(p,-p.aim if mode in ["retreat","card_retreat"] else p.aim.orthogonal() if mode in ["weave","flank"] else p.aim,n.distance)
 		if mode=="weave":p.invulnerable=.1
+		if mode=="retreat" and p.class_id=="sniper":buff(p,"speed",passive(p,5)*.03,2.)
 		if mode=="card_retreat":basic(p)
 	if mode in ["shot","fan","root_shot","slow_shot","bleed_shot","pull_shot","execute_shot","settle","settle_heavy","settle_fan"]:
-		var count=3 if mode in ["fan","settle_fan"] else 1
+		var count=int(cast.count)
 		for i in range(count):
 			combat.launch(p,"bow" if Content.CLASSES[p.class_id].weapon=="bow" else "staff",p.aim.rotated((i-(count-1)*.5)*.15),damage,n.range,14.,0)
 			combat.projectiles.back()["status"]=mode.trim_suffix("_shot") if mode.ends_with("_shot") else ""
 			combat.projectiles.back()["pierce"]=2 if p.class_id=="sniper" else 0
 		return
 	if mode in ["field","trap","trap_bleed","barrage","combo","settle_barrage"]:
-		var count=6 if mode in ["barrage","settle_barrage"] else 3 if mode=="combo" else 5
+		var count=int(cast.count)
 		combat.skills.add_zone(p,n.fx,point if mode in ["field","trap","trap_bleed"] else p.pos+p.aim*1.1,n.radius,damage,combat.skills.pulses(count,.05,.12 if mode in ["barrage","combo","settle_barrage"] else .5),2. if mode=="trap" else 0.)
 		var zone=combat.skills.zones.back();zone["job_node"]=n.id;zone["mode"]=mode;zone["follow"]=mode in ["barrage","combo"] and not Content.CLASSES[p.class_id].projectile;zone["hit_any"]=false
 		if mode=="barrage":s["channel"]=.8;s.lock=.8
@@ -369,6 +388,7 @@ func execute(p:Dictionary,cast:Dictionary):
 	if any_hit:
 		if p.class_id=="infighter":s.rush=mini(10,s.rush+1);s.rush_time=2.+(passive(p,3)*.2 if s.get("after_dash",0)>0 else 0)
 		if p.class_id=="martialist" and mode!="finisher":combo(p,n.id)
+	s.current_heavy=false
 func combo(p:Dictionary,id:String):
 	var s=p.job_state
 	if s.last_skill!=id:s.combo=mini(3,s.combo+1)
@@ -387,8 +407,12 @@ func tick(p:Dictionary,delta:float):
 		else:s.out_of_combat=0.
 		if s.get("out_of_combat",0)>2.+passive(p,0)*.4:s.momentum=maxf(0,s.momentum-delta*25)
 	for key in s.buffs.keys():
-		s.buffs[key].time-=delta
-		if s.buffs[key].time<=0:s.buffs.erase(key)
+		var entry=s.buffs[key];var layers=entry.get("layers",[{"value":entry.value,"time":entry.time}])
+		for layer in layers:layer.time-=delta
+		layers=layers.filter(func(layer):return layer.time>0)
+		if layers.is_empty():s.buffs.erase(key);continue
+		entry.value=0.;entry.time=0.;entry.layers=layers
+		for layer in layers:entry.value=maxf(entry.value,layer.value);entry.time=maxf(entry.time,layer.time)
 	if s.combo_time<=0:s.combo=0;s.last_skill=""
 	if s.rush_time<=0:s.rush=maxi(0,s.rush-1);s.rush_time=1.
 	for h in s.grit:h.remaining-=delta
@@ -404,26 +428,29 @@ func tick(p:Dictionary,delta:float):
 	if Content.job(p):p.dodge_cd=maxf(0,s.dash_timer) if s.dash_charges<=0 else 0.
 	if s.get("meditate",0)>0:
 		if p.dir.length()>.1:s.meditate=0.
-		else:s.momentum=minf(100,s.momentum+delta*25);s.meditate-=delta
+		else:s.momentum=minf(100,s.momentum+minf(delta,s.meditate)*s.get("meditate_rate",25.));s.meditate-=delta
 	if not s.casting.is_empty():
 		s.casting.time-=delta
 		if s.casting.time<=0:var cast=s.casting;s.casting={};execute(p,cast)
 	if value(p,"regen")>0:
 		s["regen"]=s.get("regen",0)+delta*value(p,"regen")
 		if s.regen>=1:p.hp=mini(p.max_hp,p.hp+int(s.regen));s.regen=fposmod(s.regen,1.)
-	if p.class_id=="hunter" and s.pets.is_empty():s.pets.append({"source":"hound","pos":p.pos,"hp":100.,"cd":0.,"power":.5,"kind":0})
+	if p.class_id=="hunter" and s.pets.is_empty():
+		s.hound_respawn=maxf(0,s.get("hound_respawn",0)-delta)
+		if s.hound_respawn<=0:s.pets.append({"source":"hound","pos":p.pos,"hp":p.max_hp*.3,"max_hp":p.max_hp*.3,"cd":0.,"power":.35,"kind":0})
 	for pet in s.pets:
 		pet.cd-=delta
 		if pet.hp<=0:continue
 		if pet.source!="hound" and pet.source!="test" and pet.source not in p.skill_loadout.values():pet.hp=0;continue
 		var t=target(p,7.)
 		var ordered=sim.enemies.get(s.get("pet_target",-1),{})
-		if not ordered.is_empty() and ordered.hp>0 and ordered.pos.distance_to(p.pos)<9 and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
+		if not ordered.is_empty() and ordered.hp>0 and ordered.pos.distance_to(p.pos)<9+passive(p,5)*.5 and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
 		if t.is_empty():pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(p.pos)*minf(delta*4,pet.pos.distance_to(p.pos)))
 		else:
 			pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(t.pos)*delta*4)
 			if pet.cd<=0 and pet.pos.distance_to(t.pos)<(5. if pet.kind==1 else 1.6):
 				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos);pet.cd=.8/(1+value(p,"pet_haste"))
+	if p.class_id=="hunter" and s.pets.any(func(pet):return pet.hp<=0):s.hound_respawn=8.
 	s.pets=s.pets.filter(func(pet):return pet.hp>0)
 	if p.class_id=="hunter":
 		for drop in sim.drops.values():
@@ -465,53 +492,16 @@ func resource_text(p:Dictionary)->String:
 func reduce_cd(p:Dictionary,id:String,amount:float):
 	if amount>0 and p.skill_cooldowns.get(id,0)>0:p.skill_cooldowns[id]=maxf(.5,p.skill_cooldowns[id]-amount)
 func configure(p:Dictionary,cast:Dictionary):
-	var n=cast.node;var i=int(n.index);var s=p.job_state
-	# Per-family ranks affect their actual damage/range/cost/duration paths.
-	match p.class_id:
-		"runesword":
-			n.radius+=passive(p,2)*.1
-			if i in [4,5,6,7]:p.stamina=minf(p.max_stamina,p.stamina+passive(p,3))
-			if i==8:reduce_cd(p,n.id,passive(p,4)*.2)
-		"swordsman":
-			if i in [1,3,5,6,10]:cast.power*=1+passive(p,0)*.05
-			if i==4:p.stamina=minf(p.max_stamina,p.stamina+passive(p,3))
-		"summoner":
-			n.duration+=passive(p,2)*.3
-			if i in [4,5,6,7]:p.stamina=minf(p.max_stamina,p.stamina+passive(p,3))
-			if i>=8:reduce_cd(p,n.id,passive(p,4)*.2)
-		"elementalist":
-			cast.power*=1+passive(p,(i/4)*2)*.05
-			if i<4:n.duration+=passive(p,1)*.3
-			p.stamina=minf(p.max_stamina,p.stamina+passive(p,5))
-		"healer":n.duration+=passive(p,2)*.3;p.stamina=minf(p.max_stamina,p.stamina+passive(p,3))
-		"sniper":cast.power*=1+passive(p,0)*.05;n.range+=passive(p,1)*.4;p.stamina=minf(p.max_stamina,p.stamina+passive(p,3))
-		"hunter":
-			if i in [4,5,7]:reduce_cd(p,n.id,passive(p,2)*.3)
-		"explorer":
-			cast.time=maxf(0,cast.time-passive(p,1)*.025)
-			if i<4:cast.power*=1+passive(p,0)*.05
-			if i>=8:p.stamina=minf(p.max_stamina,p.stamina+passive(p,4));buff(p,"speed",passive(p,5)*.03,2.)
-		"thief":n.radius+=passive(p,2)*.08
-		"reaper":
-			if i in [4,5,6,7]:cast.power*=1+passive(p,2)*.05
-			if i<4:n.range+=passive(p,0)*.2
-		"gambler":
-			if i in [4,5,6,7] and hand_total(s.hand) in [17,18,19,20]:cast.power*=1+passive(p,2)*.03
-			if s.dice_time>0:cast.time=maxf(0,cast.time-passive(p,4)*.03)
-		"infighter":n.duration+=passive(p,2)*.1
-		"martialist":
-			n.range+=passive(p,0)*.1
-			if n.mode=="finisher" and s.combo>=3:buff(p,"next_combo",passive(p,5)*.04,4.)
-			elif n.mode=="combo" and value(p,"next_combo")>0:cast.power*=1+value(p,"next_combo");s.buffs.erase("next_combo")
-	if not cast.up:return
-	# Upgrades are applied to the selected action, never a free extra equipped action.
-	match n.mode:
-		"haste","buff_attack","buff_crit","buff_crit_damage","stance","guard","shield","fortress","heal","regen","empower","enchant","chant","dice","dice_buff","distribute","cleanse":n.duration+=2.;cast.power*=1.15
-		"dash","rush","retreat","flank","blink","teleport","teleport_chain","chain_dash","chain_pull","chain_group","chain_retreat":n.distance+=.6;n.range+=1.;buff(p,"defense",.12,2.)
-		"parry","parry_counter","parry_knee":buff(p,"defense",.12,1.)
-		"charge","charge_spin","charge_area","charge_execute","heavy","heavy_dash","heavy_execute","execute","finisher":cast.power*=1.25
-		"shot","fan","settle","settle_heavy","settle_fan","settle_barrage","root_shot","slow_shot","bleed_shot","pull_shot","execute_shot":n.range+=1.5;cast.power*=1.15
-		_:n.radius+=.35;cast.power*=1.15
+	# Only transient, conditional effects live here. Stable values are in Balance.
+	var n=cast.node;var s=p.job_state
+	if cast.mitigation>0:buff(p,"defense",cast.mitigation,1. if n.mode.begins_with("parry") else 2.)
+	if p.class_id=="explorer" and n.index>=8:buff(p,"speed",passive(p,5)*.03,2.)
+	if p.class_id=="gambler":
+		if n.index in [4,5,6,7] and hand_total(s.hand) in [17,18,19,20]:cast.power*=1+passive(p,2)*.03
+		if s.dice_time>0:cast.time=maxf(0,cast.time-passive(p,4)*.03)
+	if p.class_id=="martialist":
+		if n.mode=="finisher" and s.combo>=3:buff(p,"next_combo",passive(p,5)*.04,4.)
+		elif n.mode=="combo" and value(p,"next_combo")>0:cast.power*=1+value(p,"next_combo");s.buffs.erase("next_combo")
 func master(p:Dictionary,cast:Dictionary):
 	var s=p.job_state
 	if p.class_id=="infighter":

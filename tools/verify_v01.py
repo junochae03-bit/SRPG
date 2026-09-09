@@ -24,7 +24,7 @@ def run(test,args=None,graphics=False):
     markers=[line for line in output.splitlines() if any(t in line for t in ['TESTS checks=','LEGACY_SAVE_PASS','FOREST_STABILITY','VISUAL_V05_PASS','VISUAL_V01_PASS'])]
     results.append({'test':test,'status':'PASS','checks':sum(int(a) for a,b in matches),'markers':markers})
     print(test, 'PASS', '; '.join(markers),flush=True)
-for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01']:run(test)
+for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
 if user_save.is_file():
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
@@ -47,6 +47,8 @@ png=ROOT/'game'/ui['kit'].removeprefix('res://');w,h=struct.unpack('>II',png.rea
 for x,y,fw,fh in ui['frames'].values():assert fw>0 and fh>0 and 0<=x<x+fw<=w and 0<=y<y+fh<=h
 run('visual_v05',graphics=True)
 run('visual_v01',graphics=True)
+run('visual_jobs',graphics=True)
+run('job_benchmark')
 report={'status':'PASS','checks':checks,'results':results,'save_integrity':save_integrity,'runtime_files':len(rows),'runtime_mib':round(sum(x['bytes'] for x in rows)/1048576,2),'verified_at':time.strftime('%Y-%m-%d %H:%M:%S'),'run_directory':str(RUN)}
 (ROOT/'artifacts/v01_verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
 print('V01_GATE PASS checks='+str(checks),flush=True)

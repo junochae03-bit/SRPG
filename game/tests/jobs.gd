@@ -87,7 +87,7 @@ func run():
 	cards=hero.job_state.deck+hero.job_state.hand+hero.job_state.discard
 	check(cards.size()==52 and hero.job_state.candidates.is_empty(),"cut selection conserves deck")
 	var session=preload("res://scripts/local_session.gd").new();root.add_child(session)
-	session.save_directory="/tmp/srpg-job-saves-"+str(Time.get_ticks_usec());session.start_game("저장 검증",1);session.set_physics_process(false)
+	session.save_directory=ProjectSettings.globalize_path("res://../runtime/job-saves/"+str(Time.get_ticks_usec()));session.start_game("저장 검증",1);session.set_physics_process(false)
 	var saved_hero=session.sim.players[1];saved_hero.level=100
 	for cls in Content.CLASSES:
 		if not Content.CLASSES[cls].has("base"):continue
@@ -97,5 +97,5 @@ func run():
 		session.save_game();var parsed=session.parse_save(session.save_path())
 		check(parsed!=null and parsed.class_id==cls and parsed.skill_loadout==saved_hero.skill_loadout,"save restores job and six slots "+cls)
 	session.disconnect_game();session.queue_free()
-	print("JOBS: ",checks," checks, ",failures.size()," failures")
+	print("JOBS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

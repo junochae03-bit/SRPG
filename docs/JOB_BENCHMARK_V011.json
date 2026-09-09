@@ -1,0 +1,193 @@
+{
+  "before_commit": "2732f1e",
+  "before": {
+    "jobs": {
+      "breaker": {
+        "casts": 29.0,
+        "five_dps": 2489.8,
+        "minimum_stamina": 63.8,
+        "single_dps": 439.7
+      },
+      "elementalist": {
+        "casts": 31.0,
+        "five_dps": 2579.9,
+        "minimum_stamina": 184.0,
+        "single_dps": 556.3
+      },
+      "explorer": {
+        "casts": 38.0,
+        "five_dps": 4234.1,
+        "minimum_stamina": 28.4,
+        "single_dps": 886.8
+      },
+      "gambler": {
+        "casts": 38.0,
+        "five_dps": 1103.1,
+        "minimum_stamina": 25.1,
+        "single_dps": 1103.1
+      },
+      "healer": {
+        "casts": 24.0,
+        "five_dps": 4097.5,
+        "minimum_stamina": 153.6,
+        "single_dps": 819.5
+      },
+      "hunter": {
+        "casts": 41.0,
+        "five_dps": 6520.3,
+        "minimum_stamina": 41.9,
+        "single_dps": 1540.3
+      },
+      "infighter": {
+        "casts": 37.0,
+        "five_dps": 7171.2,
+        "minimum_stamina": 45.0,
+        "single_dps": 1434.2
+      },
+      "martialist": {
+        "casts": 35.0,
+        "five_dps": 3974.8,
+        "minimum_stamina": 29.3,
+        "single_dps": 795.0
+      },
+      "reaper": {
+        "casts": 36.0,
+        "five_dps": 3169.2,
+        "minimum_stamina": 57.6,
+        "single_dps": 717.5
+      },
+      "runesword": {
+        "casts": 37.0,
+        "five_dps": 4961.0,
+        "minimum_stamina": 55.9,
+        "single_dps": 992.2
+      },
+      "sniper": {
+        "casts": 28.0,
+        "five_dps": 4210.6,
+        "minimum_stamina": 63.8,
+        "single_dps": 1287.5
+      },
+      "summoner": {
+        "casts": 37.0,
+        "five_dps": 4810.2,
+        "minimum_stamina": 134.4,
+        "single_dps": 2898.8
+      },
+      "swordsman": {
+        "casts": 40.0,
+        "five_dps": 6694.6,
+        "minimum_stamina": 29.4,
+        "single_dps": 1477.9
+      },
+      "tank": {
+        "casts": 36.0,
+        "five_dps": 3151.4,
+        "minimum_stamina": 21.4,
+        "single_dps": 588.5
+      },
+      "thief": {
+        "casts": 38.0,
+        "five_dps": 5209.5,
+        "minimum_stamina": 27.4,
+        "single_dps": 1696.4
+      }
+    },
+    "scenario": "LV60, 177 stats (100 primary / 77 vitality), 36 SP (all actives and passives rank2), six equipped, default gear, 30 seconds, three seeds, stationary targets; movement restored to melee range; no enemy AI or incoming damage; cooldown/stamina/resources real"
+  },
+  "after": {
+    "jobs": {
+      "breaker": {
+        "casts": 29.0,
+        "five_dps": 5302.8,
+        "minimum_stamina": 63.8,
+        "single_dps": 958.8
+      },
+      "elementalist": {
+        "casts": 31.0,
+        "five_dps": 4474.4,
+        "minimum_stamina": 184.0,
+        "single_dps": 1076.7
+      },
+      "explorer": {
+        "casts": 38.0,
+        "five_dps": 5442.0,
+        "minimum_stamina": 28.4,
+        "single_dps": 1294.4
+      },
+      "gambler": {
+        "casts": 38.0,
+        "five_dps": 1003.6,
+        "minimum_stamina": 25.1,
+        "single_dps": 1003.6
+      },
+      "healer": {
+        "casts": 22.0,
+        "five_dps": 2911.7,
+        "minimum_stamina": 153.6,
+        "single_dps": 582.3
+      },
+      "hunter": {
+        "casts": 39.0,
+        "five_dps": 4007.0,
+        "minimum_stamina": 41.9,
+        "single_dps": 1478.6
+      },
+      "infighter": {
+        "casts": 37.0,
+        "five_dps": 5619.0,
+        "minimum_stamina": 45.0,
+        "single_dps": 1123.8
+      },
+      "martialist": {
+        "casts": 34.0,
+        "five_dps": 5314.2,
+        "minimum_stamina": 29.3,
+        "single_dps": 1062.8
+      },
+      "reaper": {
+        "casts": 31.0,
+        "five_dps": 4068.6,
+        "minimum_stamina": 53.4,
+        "single_dps": 916.6
+      },
+      "runesword": {
+        "casts": 35.0,
+        "five_dps": 4865.3,
+        "minimum_stamina": 59.0,
+        "single_dps": 973.1
+      },
+      "sniper": {
+        "casts": 28.0,
+        "five_dps": 3061.2,
+        "minimum_stamina": 63.8,
+        "single_dps": 1080.4
+      },
+      "summoner": {
+        "casts": 35.0,
+        "five_dps": 1914.4,
+        "minimum_stamina": 130.4,
+        "single_dps": 848.0
+      },
+      "swordsman": {
+        "casts": 40.0,
+        "five_dps": 5532.2,
+        "minimum_stamina": 29.4,
+        "single_dps": 1220.2
+      },
+      "tank": {
+        "casts": 30.0,
+        "five_dps": 3527.7,
+        "minimum_stamina": 21.4,
+        "single_dps": 705.5
+      },
+      "thief": {
+        "casts": 38.0,
+        "five_dps": 4683.3,
+        "minimum_stamina": 27.4,
+        "single_dps": 1408.9
+      }
+    },
+    "scenario": "LV60, 177 stats (100 primary / 77 vitality), 36 SP (all actives and passives rank2), six equipped, default gear, 30 seconds, three seeds, stationary targets; movement restored to melee range; no enemy AI or incoming damage; cooldown/stamina/resources real"
+  }
+}

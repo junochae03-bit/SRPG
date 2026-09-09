@@ -540,6 +540,171 @@
     "sha256": "1f102623875fb74e3c85c052dbd200319588e4a685bb5a83f0210af063e93b60"
   },
   {
+    "path": "game/assets/jobs/breaker-effects.png",
+    "bytes": 1667617,
+    "sha256": "4705b7141490f8dfc8b1b2a515afdbf022cd39e5d66039534b204fbc814d91a7"
+  },
+  {
+    "path": "game/assets/jobs/breaker-sprite.png",
+    "bytes": 2268046,
+    "sha256": "b7922289e4f637656f7a98173a31641e733f5a3943776698e6bd9336a77a20b2"
+  },
+  {
+    "path": "game/assets/jobs/catalog.json",
+    "bytes": 111960,
+    "sha256": "069521087b1d46098f97b3900063d0127a4b726ca78abd241fd84103f1b6b2e3"
+  },
+  {
+    "path": "game/assets/jobs/companions-sprite.png",
+    "bytes": 1553708,
+    "sha256": "bdea2c87bf2a9a8f77d723d63e35a4cd5ad5d86455b3bf77d361e0576c59f35c"
+  },
+  {
+    "path": "game/assets/jobs/elementalist-effects.png",
+    "bytes": 1551564,
+    "sha256": "d079520e9be900d4f2c85140953a02e87877ff91838955308ffe9e42545ce310"
+  },
+  {
+    "path": "game/assets/jobs/elementalist-sprite.png",
+    "bytes": 2152281,
+    "sha256": "f9dba42d34abd4a558c839d17bd8eb5f0465b4e0a85e31f2a8f3c21fc114cebc"
+  },
+  {
+    "path": "game/assets/jobs/explorer-effects.png",
+    "bytes": 1287811,
+    "sha256": "18043c200984e49a19826e230b670fe768844257ea635e4ac714038e5b663b9a"
+  },
+  {
+    "path": "game/assets/jobs/explorer-sprite.png",
+    "bytes": 2010905,
+    "sha256": "04c8364e7b07ebc48d3802fcf0fc0cb4e8757ada2462a15981082c778c8032de"
+  },
+  {
+    "path": "game/assets/jobs/fighter-sprite.png",
+    "bytes": 2199126,
+    "sha256": "d65e64b72d5dc5bd7f7687affca6c90c50ae6e54fd4dd8e31584f4b94fbfa2c5"
+  },
+  {
+    "path": "game/assets/jobs/gambler-effects.png",
+    "bytes": 1584385,
+    "sha256": "49772bd8abf445308c4d1df8eb7d92737606dfefc62256fdd025f5575bff5d4a"
+  },
+  {
+    "path": "game/assets/jobs/gambler-sprite.png",
+    "bytes": 2146275,
+    "sha256": "6b0eb234dee32d687583cc41138229a0e01df7d082f136bbbb6538fdfa302aea"
+  },
+  {
+    "path": "game/assets/jobs/healer-effects.png",
+    "bytes": 1390496,
+    "sha256": "9b24da65b608f1e4a0d369b90ee3859e74d40a0c33b225aa37a4af57a642e145"
+  },
+  {
+    "path": "game/assets/jobs/healer-sprite.png",
+    "bytes": 2185237,
+    "sha256": "4dfcf1b47a6ff9f0b71deedfaf3ea12ae7a9cf8eb67002fc9faa8789b85c6a03"
+  },
+  {
+    "path": "game/assets/jobs/hunter-effects.png",
+    "bytes": 1388763,
+    "sha256": "aeb31ab3e0b12d8289434cb18d849c15ac01e2220f24889bb21d486542ddac3a"
+  },
+  {
+    "path": "game/assets/jobs/hunter-sprite.png",
+    "bytes": 1618413,
+    "sha256": "4c64e39b8e10626cd2c1fca73b79c374c063e19d32100c819d37d16553bf77a5"
+  },
+  {
+    "path": "game/assets/jobs/infighter-effects.png",
+    "bytes": 831821,
+    "sha256": "cc4a50cbdbab7c8efe7a37ba93d75d07f4ad85f59f2f75a70776875d4d8599ff"
+  },
+  {
+    "path": "game/assets/jobs/infighter-sprite.png",
+    "bytes": 2206162,
+    "sha256": "3f930271e2d625d29d3002efb5e3542dbab8c713564850175c7bde18a5072fcd"
+  },
+  {
+    "path": "game/assets/jobs/martialist-effects.png",
+    "bytes": 1661171,
+    "sha256": "42f3d104f985cdcd61dc2ea596028a0b6722f187451f096831fc0678f0f797ae"
+  },
+  {
+    "path": "game/assets/jobs/martialist-sprite.png",
+    "bytes": 2162751,
+    "sha256": "ea292904b65068092f184b5bdce4e4deb57ea53b145b1ec4d23ae258b655e0d8"
+  },
+  {
+    "path": "game/assets/jobs/reaper-effects.png",
+    "bytes": 1548161,
+    "sha256": "3aeb9ad4db86e4f430a0212290fb1074e088135157c01cffcf054ee08bc36199"
+  },
+  {
+    "path": "game/assets/jobs/reaper-sprite.png",
+    "bytes": 2269052,
+    "sha256": "b153bfd2f1115bb33874dec582a3c429a0f2f9e050f3a76d23afed4380b88217"
+  },
+  {
+    "path": "game/assets/jobs/runesword-effects.png",
+    "bytes": 1589071,
+    "sha256": "541a94ca70fcbdf14c8cf34746cc896c3c514d0df43d3354575d522dab694c53"
+  },
+  {
+    "path": "game/assets/jobs/runesword-sprite.png",
+    "bytes": 2034920,
+    "sha256": "dd0fb60b8c0a8e77b561ed02949c5f0758778612828a16e8b4be7493c65ffe7e"
+  },
+  {
+    "path": "game/assets/jobs/sniper-effects.png",
+    "bytes": 1401278,
+    "sha256": "bf2170f57290b2f8d3855a8c1cc4b26a3cce31b40d43b83d2e39ed9e8fde3aa8"
+  },
+  {
+    "path": "game/assets/jobs/sniper-sprite.png",
+    "bytes": 1999936,
+    "sha256": "63ed0faf26c60dd120e6131537e13592672982961f94456f52302f4a124d2883"
+  },
+  {
+    "path": "game/assets/jobs/summoner-effects.png",
+    "bytes": 1429018,
+    "sha256": "7057cfc1fd8667202a1dd905147648807d8c3ce08f9f2fe4409aa84d1ccbdd33"
+  },
+  {
+    "path": "game/assets/jobs/summoner-sprite.png",
+    "bytes": 2067572,
+    "sha256": "69f330a3b116c8ca015ea583f5388d87cbdc000f2eedd2b5de891ab8486ef39a"
+  },
+  {
+    "path": "game/assets/jobs/swordsman-effects.png",
+    "bytes": 1469285,
+    "sha256": "ab16d6d523e1b322a33c1848964db3b10b99c300cddad7d56b21584fe9b302da"
+  },
+  {
+    "path": "game/assets/jobs/swordsman-sprite.png",
+    "bytes": 2059827,
+    "sha256": "f19aa5037ac0767a33fe0ced8c05ef9280c924036f2910fe20d6dbba63472e62"
+  },
+  {
+    "path": "game/assets/jobs/tank-effects.png",
+    "bytes": 1513380,
+    "sha256": "1cc77d29df6fcd037c31a2ac7136b0b5d179d0d5c159cc265855bb5d5c10c806"
+  },
+  {
+    "path": "game/assets/jobs/tank-sprite.png",
+    "bytes": 1863367,
+    "sha256": "6c73c90b8794ba94815290751fc18498096a6f474569d87193a5bf275e8742f3"
+  },
+  {
+    "path": "game/assets/jobs/thief-effects.png",
+    "bytes": 1633722,
+    "sha256": "d5ea872e2a0c5b88ced866b237d58e1a7f62a87511636086bdea3fbc0f0ec093"
+  },
+  {
+    "path": "game/assets/jobs/thief-sprite.png",
+    "bytes": 1946967,
+    "sha256": "e9078ec6b2e691e97a4106210a9b75d19ae91529697ee354ec613fec623c69ee"
+  },
+  {
     "path": "game/assets/koongya/forest_background.png",
     "bytes": 1473142,
     "sha256": "cd90b5eab7808124c1b6372637e42b92ef1e3a689082788b5b3ed0fafc7554d8"
@@ -630,24 +795,29 @@
     "sha256": "7fb8ebdc11b52ccbe1acb08b4bf77ba7c781d27fd3b3561bc355d070cc17467c"
   },
   {
+    "path": "game/data/jobs/catalog.json",
+    "bytes": 330449,
+    "sha256": "62f4cffa18b7a90aab56121ccb6657eb1dca676955446938a89ba7a2222b4381"
+  },
+  {
     "path": "game/main.tscn",
     "bytes": 159,
     "sha256": "8643218a370179dde04b8ca9ce271a1b6d40824fdcd5118bd54c61508738388e"
   },
   {
     "path": "game/project.godot",
-    "bytes": 752,
-    "sha256": "c527b9540daed53ae7bc55418c35924bd43c9cacd26a1c8136f3f78e8a50db11"
+    "bytes": 756,
+    "sha256": "58160822dcb8163023f64777d5b5ab7b2fc83ba02d580979812b4984016f3dcf"
   },
   {
     "path": "game/scripts/action_circle.gd",
-    "bytes": 1746,
-    "sha256": "2a08cd96abf9f7a892074702b63d70f348446afc29f3543f0757b957642c2c39"
+    "bytes": 1889,
+    "sha256": "43730bed2b5a1dcd2f92793f12916206db8311c0608983a761b0f1984dca8b2e"
   },
   {
     "path": "game/scripts/active_skills.gd",
-    "bytes": 6700,
-    "sha256": "02df656afb08f78e2621e2185da52d96c2b7d0c802bf953007f71327d7226933"
+    "bytes": 7494,
+    "sha256": "bbe6ba252d19525aada4c7635f13a6c332724bfa6ae2eb8d31096e179d0e4f32"
   },
   {
     "path": "game/scripts/audio_director.gd",
@@ -666,8 +836,8 @@
   },
   {
     "path": "game/scripts/combat_hud.gd",
-    "bytes": 8145,
-    "sha256": "073d3ff8f28741819b11c12c2c286d7f0bfc44d5d442b20edc314fd5ce73496a"
+    "bytes": 9166,
+    "sha256": "84efae8e96f740d223af031a9dfcf19e486d5de2ed590d5676d4b26765363c64"
   },
   {
     "path": "game/scripts/combat_sprite_art.gd",
@@ -676,8 +846,8 @@
   },
   {
     "path": "game/scripts/content.gd",
-    "bytes": 5339,
-    "sha256": "0fcb90de67b76e69351aa012bbebbdb94edd94a30b606e79a59f5c5e628d2dcc"
+    "bytes": 6115,
+    "sha256": "0df0c908fb1071597281749e1dea91f64990c56a91284a6af69bbed7223511cc"
   },
   {
     "path": "game/scripts/dungeon.gd",
@@ -696,8 +866,8 @@
   },
   {
     "path": "game/scripts/gat_art.gd",
-    "bytes": 2292,
-    "sha256": "96bcfd5bd42f69060a4928c908491c8bcac25fc63683c939b969306143281963"
+    "bytes": 2555,
+    "sha256": "ff9323af40e5ba69bfd870a568496cf000a6d3a28178450a28d6ddbd010e899d"
   },
   {
     "path": "game/scripts/gat_catalog.gd",
@@ -711,8 +881,8 @@
   },
   {
     "path": "game/scripts/icon_art.gd",
-    "bytes": 2565,
-    "sha256": "a4bc20c5776601751ae68ee770cabedc16044c834ad490614577f69644ff9698"
+    "bytes": 4174,
+    "sha256": "26717f746d9af5665aab4353ed5967e0af004f9b5319bc225d4cec3843e71172"
   },
   {
     "path": "game/scripts/inventory_grid_ui.gd",
@@ -740,19 +910,39 @@
     "sha256": "d4e7ee5a6d4d6cc6008eac8907e20df07460a875ee9386dedb8ac5852cdd7209"
   },
   {
+    "path": "game/scripts/job_art.gd",
+    "bytes": 2523,
+    "sha256": "031093dd07acbb89c70590a3df18f00f834bffba234511bd6fdd96daabc66dcd"
+  },
+  {
+    "path": "game/scripts/job_balance.gd",
+    "bytes": 14884,
+    "sha256": "dd8f4af107323fcc4dee442796515ef3604dd5783b00137ce9702362b6098a40"
+  },
+  {
+    "path": "game/scripts/job_combat.gd",
+    "bytes": 31511,
+    "sha256": "8862a55b2e7e595f312edb76ba6a56524db3272473d3e3ef47deeaa0b9db748f"
+  },
+  {
+    "path": "game/scripts/job_resource_hud.gd",
+    "bytes": 4587,
+    "sha256": "68dea61c8e29d26db28f90f3af8293ec5af4cb79f5baa1aa3d87aaf273666bc2"
+  },
+  {
     "path": "game/scripts/local_session.gd",
-    "bytes": 10114,
-    "sha256": "52ae0a1a247981773fbeced9c1135290b0295b89463ac2879c6934bde53122bf"
+    "bytes": 10788,
+    "sha256": "99718d195c5cf5fc4be05d4a299f7f0f17b9d90f46ff38668419409396e2e8da"
   },
   {
     "path": "game/scripts/loot_tables.gd",
-    "bytes": 1495,
-    "sha256": "226c3a6e1fc26031ff195f290a4ea1912bed979f2a765069393246f685fb18f1"
+    "bytes": 1545,
+    "sha256": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6"
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 35011,
-    "sha256": "7e167a81e89fe14999058d4ac2e68cd31460f82da2bd17b25f211624db14a2ee"
+    "bytes": 35323,
+    "sha256": "3f03b3da75729db0ab6a8662793af4ceb5a071a6319a0ac4138511d225bafcfa"
   },
   {
     "path": "game/scripts/minimap.gd",
@@ -761,13 +951,13 @@
   },
   {
     "path": "game/scripts/monster_attacks.gd",
-    "bytes": 6986,
-    "sha256": "3124c7e04490dc02c178c16d4f8875c5204e440c7db2bcd4436dcec5aa994e7d"
+    "bytes": 7499,
+    "sha256": "180139746707f5cd60ae7bc4d714bb81cf3e95cc2cdf162da9d3f3b6829bb8cd"
   },
   {
     "path": "game/scripts/player_combat.gd",
-    "bytes": 8733,
-    "sha256": "661a4baf9dc1424dda4f7531ac5bbc962d001c0c4db39f684a1291adb5c1243d"
+    "bytes": 10279,
+    "sha256": "3d78e4c8836aa43d126df41f0d6b8d81f0e9e2310b7ad8b3183353bb7372d39f"
   },
   {
     "path": "game/scripts/progression.gd",
@@ -781,8 +971,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 19418,
-    "sha256": "70944a905609e2591c5278e43b69b3fd11282a9afe975d31e67d5a391cd039d8"
+    "bytes": 20274,
+    "sha256": "0bf31cdf434c7738f0a511c5f779332161d5c4a0c66cb92c25d8eca2d56f140d"
   },
   {
     "path": "game/scripts/skill_catalog.gd",
@@ -791,8 +981,8 @@
   },
   {
     "path": "game/scripts/skill_effects.gd",
-    "bytes": 7425,
-    "sha256": "e4d03cdd266f925ca5c3f529f18d895b67c37c7132b134cdc57507de992514ca"
+    "bytes": 7487,
+    "sha256": "81371ed251f65838cd7c31027d61bf399c84f9cdda339471c29f445de1ee4a14"
   },
   {
     "path": "game/scripts/skill_scaling.gd",
@@ -801,8 +991,8 @@
   },
   {
     "path": "game/scripts/skill_tree_ui.gd",
-    "bytes": 12837,
-    "sha256": "8f67a890e0203159134b3b7a0895ee2a1f6d72cb50fa709e2a8d96360c85710d"
+    "bytes": 17096,
+    "sha256": "e95f6ed89b5403615149056c97816cdab957f0e79ddd4529d0b8b743df83209c"
   },
   {
     "path": "game/scripts/town_panel.gd",
@@ -836,7 +1026,7 @@
   },
   {
     "path": "game/shaders/gat_chroma.gdshader",
-    "bytes": 454,
-    "sha256": "0c6526cc18352af493ee0981b4dea35b85e8cf85f2c670f1165cfc74e6d8f40b"
+    "bytes": 684,
+    "sha256": "2eb37c40fcb6010c20cf7c94d657e63d79d94a41714aae8336bfef43fae94614"
   }
 ]
