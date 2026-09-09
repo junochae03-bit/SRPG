@@ -438,5 +438,36 @@
     "costume_pack": "22 completed sheets reviewed/inventoried; not integrated",
     "new_equipment_art": "no completed independent handoff found; existing sprites retained"
   },
-  "generated_at": "2026-09-09 19:17:51"
+  "generated_at": "2026-09-09 19:17:51",
+  "publication": {
+    "status": "PASS",
+    "release": "https://github.com/junochae03-bit/SRPG/releases/tag/V0.3",
+    "game_commit": "b562df5af13d15ccdc54fa4efa2e9bd9d24ae694",
+    "assets": [
+      {
+        "name": "SHA256SUMS.txt",
+        "bytes": 92,
+        "sha256": "ea5f2421a489b5098f96cca9c434b6dbe3dac42134dd50db89cb39f67c424355",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.3/SHA256SUMS.txt"
+      },
+      {
+        "name": "StelRPG-V0.3-Database-SHA256.txt",
+        "bytes": 93,
+        "sha256": "cc8d2934cb7ea6d5779429c8e2f02507a1180a317b0328b9adda45b59dc57253",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.3/StelRPG-V0.3-Database-SHA256.txt"
+      },
+      {
+        "name": "StelRPG-V0.3-Database.zip",
+        "bytes": 553688,
+        "sha256": "98b7fedc105fe36b8f1e7f92b5f5fb8a0df7b2fedd8a1ae8a2fb11ac1090dc43",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.3/StelRPG-V0.3-Database.zip"
+      },
+      {
+        "name": "StelRPG-V0.3-Windows.zip",
+        "bytes": 157241951,
+        "sha256": "7caad382aad482fe682415e9464c6fff20768de065c0591cb445b6282887551d",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.3/StelRPG-V0.3-Windows.zip"
+      }
+    ]
+  }
 }
