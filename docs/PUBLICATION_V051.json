@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "feature_commit": "26f60e2988c26690223cef97691caf7264b2169f",
+  "merge_commit": "044787e3b2f45828e23777294153579c5f39a3c8",
+  "tag_object": "75d8e54440ae6ae8e5d9dd0dd008e5637a5f1ae6",
+  "tag_commit": "044787e3b2f45828e23777294153579c5f39a3c8",
+  "original_v05_tag_preserved": "505b390cb9e24300f577029237bd8bca7641002c",
+  "source_assertions": 264711,
+  "exported_executable_runs": 71,
+  "release": {
+    "assets": [
+      {
+        "digest": "sha256:1b1be4d61e12eb0e853d549d319576324b7327ef25223d3c01c5e3296a9b1e59",
+        "name": "SHA256SUMS.txt",
+        "size": 94,
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.1/SHA256SUMS.txt"
+      },
+      {
+        "digest": "sha256:e6a4c68503f48e66a86687eb4a722270affb05c5f1868b811f420809462e4af5",
+        "name": "StelRPG-V0.5.1-Database-SHA256.txt",
+        "size": 95,
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.1/StelRPG-V0.5.1-Database-SHA256.txt"
+      },
+      {
+        "digest": "sha256:1bf714fa2aa5362605f9766f01788748d7a57c526fa851c650aa140993adab72",
+        "name": "StelRPG-V0.5.1-Database.zip",
+        "size": 2369830,
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.1/StelRPG-V0.5.1-Database.zip"
+      },
+      {
+        "digest": "sha256:22bfa0bc7d129b4af24bcc96877afd82483347075699dd96b8416a69b345199b",
+        "name": "StelRPG-V0.5.1-Windows.zip",
+        "size": 323036463,
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.1/StelRPG-V0.5.1-Windows.zip"
+      }
+    ],
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-09-09T16:59:06Z",
+    "tag": "V0.5.1",
+    "target": "main",
+    "url": "https://github.com/junochae03-bit/SRPG/releases/tag/V0.5.1"
+  },
+  "private_save_files_in_assets": false
+}
