@@ -32,12 +32,24 @@
     "crop_bounds": "PASS: 36 valid rects, no source-cell edge touches",
     "resources": "PASS: 36 AtlasTexture + 36 Sprite2D files exist",
     "zip_integrity": "PASS; archive manifest byte-equals live source manifest",
-    "godot_render": "NOT_VERIFIED; initial import log contains sandbox certificate/user-directory/editor-settings errors; escalated run has no completion evidence",
+    "godot_render": "PASS:36/36 resources loaded; capture error0; import/render logs have no ERROR or SCRIPT ERROR. Visual edge follow-up remains.",
     "existing_import_log_absolute_path": "D:/SSRPG/RPG2/art/backgrounds/biomes-20260909/validation/godot-import.log",
     "expected_preview_absolute_path": "D:/SSRPG/RPG2/art/backgrounds/biomes-20260909/preview-overview.png",
-    "expected_preview_exists": false,
+    "expected_preview_exists": true,
     "expected_render_report_absolute_path": "D:/SSRPG/RPG2/art/backgrounds/biomes-20260909/validation/preview_report.json",
-    "expected_render_report_exists": false
+    "expected_render_report_exists": true,
+    "preview_size": [
+      1288,
+      1145
+    ],
+    "preview_sha256": "6abb9fec904d5ece4b328ef576693ceb87fdf341876a79723d282ffa4112e8e1",
+    "visual_review_absolute_path": "D:/SSRPG/RPG2/art/backgrounds/biomes-20260909/validation/visual_review.json",
+    "near_pure_magenta_pixels": 76,
+    "near_magenta_criterion": "R>=204 and G<=51 and B>=204 in the1288x1145 overview; heuristic, not a semantic edge mask",
+    "amethyst_visual_review": "Purple crystal surfaces preserved in overview; independently viewed by environment author.",
+    "remaining_visual_check": "Inspect sparse magenta edge specks at final in-game scale; runtime map integration not yet performed.",
+    "archive_note": "Original ZIP preserved; new render evidence is available beside source pack, not inside original archive.",
+    "prior_attempt": "Initial sandbox import reported environment-access errors. Its log was replaced by the later successful main-thread run."
   },
   "biome_mapping_status": "PROPOSED_ONLY; existing chapter and terrain values are authoritative; art_theme is a suggested independent field, not an existing zone ID",
   "biome_mappings": [
