@@ -66,10 +66,12 @@ All four completed environment/monster packs are integrated: 30 referenced PNGs,
    Proof: python tools/build_database.py; python tools/build_database.py --check; python tools/verify_v01.py. Inspect command logs, not merely exit status. Checkpoint: root completion review against all user requirements and actual screenshots.
 4. [complete] Package V0.5 and exercise the exported executable. Update concise play guide and verification/release documents; inventory only used runtime files. Test fresh creation, existing slot, NPC dialogue/service/close, graph pan/search/learn/restart and combat.
    Proof: python tools/asset_inventory.py; python tools/build_v01.py --version V0.5; python tools/test_export_v01.py --version V0.5; python tools/package_v01.py --version V0.5; python tools/package_database.py --version V0.5 (inspect each CLI before invocation). Checkpoint: rendered screens and export logs reviewed by root; no original saves in archives.
-5. [pending] Deliver the verified client from its separate V0.5 release directory; leave the existing RPG2 source, separate art and original saves in place. Commit/merge/push curated source and publish V0.5 assets to the authorized repository. Verify release server digests, branch and user launch path. No force-push or existing-release replacement.
+5. [complete] Deliver the verified client from its separate V0.5 release directory; leave the existing RPG2 source, separate art and original saves in place. Commit/merge/push curated source and publish V0.5 assets to the authorized repository. Verify release server digests, branch and user launch path. No force-push or existing-release replacement.
 
 Godot checks require the already established elevated Windows launch path. Use the installed Godot 4.6 console executable and bundled Python; runtime logs, engines, templates, saves and extracted source packs stay ignored.
 
 ## Release target update
 
 The user raised the client target to V0.5 while the expanded art/database work was still in progress. The current feature worktree and `_v04` module/test/asset names are retained as implementation identifiers. No V0.4 publication is claimed. The complete gate, Windows build and GitHub release target V0.5; save schema remains 7. Local delivery uses a separate release directory without replacing the older RPG2 checkout.
+
+Publication proof: [PUBLICATION_V05.json](PUBLICATION_V05.json). V0.5 points to merge `505b390`; all four GitHub assets match their local SHA256 digests. The client is delivered from a separate release directory. Original RPG2 source and saves remain in place.
