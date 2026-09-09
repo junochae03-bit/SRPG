@@ -1,0 +1,244 @@
+{
+  "status": "PASS",
+  "version": "V0.1.1",
+  "baseline_commit": "2732f1e",
+  "source": {
+    "status": "PASS",
+    "checks": 7860,
+    "results": [
+      {
+        "test": "forest_stability",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "FOREST_STABILITY_PASS fixed_changes=0 smooth_fade=PASS"
+        ]
+      },
+      {
+        "test": "rules",
+        "status": "PASS",
+        "checks": 90,
+        "markers": [
+          "RULE_TESTS checks=90 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_grid",
+        "status": "PASS",
+        "checks": 83,
+        "markers": [
+          "INVENTORY_GRID_TESTS checks=83 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_ui",
+        "status": "PASS",
+        "checks": 17,
+        "markers": [
+          "INVENTORY_UI_TESTS checks=17 failures=0"
+        ]
+      },
+      {
+        "test": "combat",
+        "status": "PASS",
+        "checks": 42,
+        "markers": [
+          "COMBAT_TESTS checks=42 failures=0"
+        ]
+      },
+      {
+        "test": "skills_v04",
+        "status": "PASS",
+        "checks": 204,
+        "markers": [
+          "SKILLS_V04_TESTS checks=204 failures=0"
+        ]
+      },
+      {
+        "test": "loot_v04",
+        "status": "PASS",
+        "checks": 302,
+        "markers": [
+          "LOOT_V04_TESTS checks=302 failures=0"
+        ]
+      },
+      {
+        "test": "single_player",
+        "status": "PASS",
+        "checks": 30,
+        "markers": [
+          "SINGLE_PLAYER_TESTS checks=30 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_ui",
+        "status": "PASS",
+        "checks": 43,
+        "markers": [
+          "EXPANSION_UI_TESTS checks=43 failures=0"
+        ]
+      },
+      {
+        "test": "appearance_v041",
+        "status": "PASS",
+        "checks": 138,
+        "markers": [
+          "APPEARANCE_V041_TESTS checks=138 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_v05",
+        "status": "PASS",
+        "checks": 877,
+        "markers": [
+          "V05_TESTS checks=877 failures=0"
+        ]
+      },
+      {
+        "test": "polish_v05",
+        "status": "PASS",
+        "checks": 1124,
+        "markers": [
+          "POLISH_V05_TESTS checks=1124 failures=0"
+        ]
+      },
+      {
+        "test": "monsters_v05",
+        "status": "PASS",
+        "checks": 410,
+        "markers": [
+          "MONSTERS_V05_TESTS checks=410 failures=0"
+        ]
+      },
+      {
+        "test": "skills_v01",
+        "status": "PASS",
+        "checks": 1026,
+        "markers": [
+          "SKILLS_V01_TESTS checks=1026 failures=0"
+        ]
+      },
+      {
+        "test": "ui_v01",
+        "status": "PASS",
+        "checks": 231,
+        "markers": [
+          "UI_V01_TESTS checks=231 failures=0"
+        ]
+      },
+      {
+        "test": "jobs",
+        "status": "PASS",
+        "checks": 242,
+        "markers": []
+      },
+      {
+        "test": "job_balance",
+        "status": "PASS",
+        "checks": 1408,
+        "markers": [
+          "JOB_BALANCE_TESTS checks=1408 failures=0"
+        ]
+      },
+      {
+        "test": "job_ui",
+        "status": "PASS",
+        "checks": 1593,
+        "markers": [
+          "JOB_UI_TESTS checks=1593 failures=0"
+        ]
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "LEGACY_SAVE_PASS level=5 items=0 gold=57"
+        ]
+      },
+      {
+        "test": "visual_v05",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V05_PASS"
+        ]
+      },
+      {
+        "test": "visual_v01",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V01_PASS"
+        ]
+      },
+      {
+        "test": "visual_jobs",
+        "status": "PASS",
+        "checks": 0,
+        "markers": []
+      },
+      {
+        "test": "job_benchmark",
+        "status": "PASS",
+        "checks": 0,
+        "markers": []
+      }
+    ],
+    "save_integrity": "not present in this checkout",
+    "runtime_files": 206,
+    "runtime_mib": 204.74,
+    "verified_at": "2026-09-09 17:01:49"
+  },
+  "exported_windows": {
+    "status": "PASS",
+    "version": "V0.1.1",
+    "kills": 6,
+    "distance": 54.3400306254625,
+    "portable_save": "saves/slot-3.json beside the executable",
+    "restart_persistence": "all persistent player fields identical",
+    "rendered_screens": [
+      "export-inventory.png",
+      "export-skills.png"
+    ],
+    "executable_sha256": "f9cb815a32a1ae3a73ad8699ed2b068cb76fe01636d7e8538243056fac05f37b",
+    "exported_jobs_restored_and_rendered": [
+      "tank",
+      "runesword",
+      "swordsman",
+      "summoner",
+      "elementalist",
+      "healer",
+      "sniper",
+      "hunter",
+      "explorer",
+      "thief",
+      "reaper",
+      "gambler",
+      "infighter",
+      "breaker",
+      "martialist"
+    ],
+    "pck_sha256": "3a4036b5860c6950623fdff62cacb5ef3af075a2f79f7f4edff112e37d53ec68"
+  },
+  "package": {
+    "file": "StelRPG-V0.1.1-Windows.zip",
+    "bytes": 155900294,
+    "sha256": "4e963908debecc4008d48aa80a015591a99030643218e0e23cfdaf0d36afe911",
+    "included_files": 6,
+    "excludes": [
+      "saves",
+      "engine tools",
+      "extraction originals",
+      "test outputs"
+    ]
+  },
+  "local_sync": {
+    "status": "PASS",
+    "source_and_build_copied": true,
+    "user_save_files_unchanged": 3,
+    "changed_source_files_backed_up": 33,
+    "godot_import": "PASS"
+  },
+  "runtime_manifest_sha256": "7a6b63555a50faa3b18514d4ebcf9a395f5a79ebf83aedb677516aae1a56161f"
+}

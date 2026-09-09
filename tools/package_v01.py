@@ -2,12 +2,15 @@
 from pathlib import Path
 import json,zipfile,hashlib
 from engine_path import ROOT
-OUT=ROOT/'releases/V0.1/StelRPG-V0.1-Windows'
-verification=json.loads((ROOT/'artifacts/export-check-v01.json').read_text('utf8'))
+from release_version import VERSION,KEY
+OUT=ROOT/'releases'/VERSION/('StelRPG-'+VERSION+'-Windows')
+verification=json.loads((ROOT/('artifacts/export-check-'+KEY+'.json')).read_text('utf8'))
 assert verification['status']=='PASS'
-manifest=json.loads((ROOT/'artifacts/export-v01.json').read_text('utf8'))
+assert verification['version']==VERSION
+manifest=json.loads((ROOT/('artifacts/export-'+KEY+'.json')).read_text('utf8'))
 assert verification['executable_sha256']==hashlib.sha256((OUT/'StelRPG.exe').read_bytes()).hexdigest()
-archive=OUT.parent/'StelRPG-V0.1-Windows.zip'
+assert verification['pck_sha256']==hashlib.sha256((OUT/'StelRPG.pck').read_bytes()).hexdigest()
+archive=OUT.parent/('StelRPG-'+VERSION+'-Windows.zip')
 with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
     for row in manifest['files']:
         file=OUT/row['name'];assert file.is_file() and file.parent==OUT

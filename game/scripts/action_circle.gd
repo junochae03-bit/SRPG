@@ -7,6 +7,7 @@ var picture:Texture2D
 var cooldown=0.0
 var max_cooldown=1.0
 var count=""
+var rank_text=""
 var tint=Color("64c9be")
 func setup(owner_game,action:String,title:String,key:String):
 	game=owner_game;kind=action;caption=title;hotkey=key
@@ -29,7 +30,8 @@ func _draw():
 		write_text(center+Vector2(0,8),"%.1f" % cooldown,21)
 	else:write_text(center+Vector2(radius-12,radius-5),count,14)
 	write_text(Vector2(size.x*0.5,6),hotkey,12)
-	write_text(Vector2(size.x*0.5,size.y+16),caption,15)
+	write_text(Vector2(size.x*0.5,size.y+16),caption.left(6)+"…" if caption.length()>7 else caption,13)
+	if not rank_text.is_empty():write_text(Vector2(10,size.y-4),rank_text,11)
 func write_text(at:Vector2,value:String,font_size:int):
 	at.x-=game.fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x*0.5
 	draw_string_outline(game.fonts,at,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,3,Color("193e48"))

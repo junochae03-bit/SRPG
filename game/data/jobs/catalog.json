@@ -187,7 +187,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "아군 합류와 구조",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "보호막 +15%, 유지시간 +2초.",
         "fx": "tank:0",
         "runtime": "job",
         "index": 0,
@@ -206,7 +206,7 @@
       {
         "id": "tank_a01_upgrade",
         "name": "굳건한 합류",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "보호막 +15%, 유지시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -235,7 +235,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "아군 합류와 구조",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "보호막 +15%, 유지시간 +2초.",
         "fx": "tank:1",
         "runtime": "job",
         "index": 1,
@@ -254,7 +254,7 @@
       {
         "id": "tank_a02_upgrade",
         "name": "안전한 탈출",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "보호막 +15%, 유지시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -283,7 +283,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "아군 합류와 구조",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:2",
         "runtime": "job",
         "index": 2,
@@ -302,7 +302,7 @@
       {
         "id": "tank_a03_upgrade",
         "name": "동행하는 방벽",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -331,7 +331,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "아군 합류와 구조",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "tank:3",
         "runtime": "job",
         "index": 3,
@@ -350,7 +350,7 @@
       {
         "id": "tank_a04_upgrade",
         "name": "굳건한 유대",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -409,7 +409,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "방패와 공격 차단",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "tank:0",
         "runtime": "job",
         "index": 4,
@@ -428,7 +428,7 @@
       {
         "id": "tank_a05_upgrade",
         "name": "넓어진 수호",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -457,7 +457,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "방패와 공격 차단",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:1",
         "runtime": "job",
         "index": 5,
@@ -476,7 +476,7 @@
       {
         "id": "tank_a06_upgrade",
         "name": "잔존 방벽",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -505,7 +505,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "방패와 공격 차단",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "보호막 +15%, 유지시간 +2초.",
         "fx": "tank:2",
         "runtime": "job",
         "index": 6,
@@ -524,7 +524,7 @@
       {
         "id": "tank_a07_upgrade",
         "name": "반격 준비",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "보호막 +15%, 유지시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -553,7 +553,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "방패와 공격 차단",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "tank:3",
         "runtime": "job",
         "index": 7,
@@ -572,7 +572,7 @@
       {
         "id": "tank_a08_upgrade",
         "name": "무너지지 않는 전열",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -631,7 +631,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "진입 저지와 반격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:0",
         "runtime": "job",
         "index": 8,
@@ -650,7 +650,7 @@
       {
         "id": "tank_a09_upgrade",
         "name": "무너진 자세",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -679,7 +679,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "진입 저지와 반격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:1",
         "runtime": "job",
         "index": 9,
@@ -698,7 +698,7 @@
       {
         "id": "tank_a10_upgrade",
         "name": "멈춰 선 적",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -727,7 +727,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "진입 저지와 반격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:2",
         "runtime": "job",
         "index": 10,
@@ -746,7 +746,7 @@
       {
         "id": "tank_a11_upgrade",
         "name": "위압의 외침",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -775,7 +775,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "진입 저지와 반격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "tank:3",
         "runtime": "job",
         "index": 11,
@@ -794,7 +794,7 @@
       {
         "id": "tank_a12_upgrade",
         "name": "지켜낸 경계",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -855,7 +855,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "룬 순환과 공격 강화",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "runesword:0",
         "runtime": "job",
         "index": 0,
@@ -875,7 +875,7 @@
       {
         "id": "runesword_a01_upgrade",
         "name": "순환 가속",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -904,7 +904,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "룬 순환과 공격 강화",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "runesword:1",
         "runtime": "job",
         "index": 1,
@@ -924,7 +924,7 @@
       {
         "id": "runesword_a02_upgrade",
         "name": "겹친 각인",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -953,7 +953,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "룬 순환과 공격 강화",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:2",
         "runtime": "job",
         "index": 2,
@@ -973,7 +973,7 @@
       {
         "id": "runesword_a03_upgrade",
         "name": "압축 방출",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1002,7 +1002,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "룬 순환과 공격 강화",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "runesword:3",
         "runtime": "job",
         "index": 3,
@@ -1022,7 +1022,7 @@
       {
         "id": "runesword_a04_upgrade",
         "name": "이어지는 공명",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1081,7 +1081,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "광역 룬 마법",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:0",
         "runtime": "job",
         "index": 4,
@@ -1101,7 +1101,7 @@
       {
         "id": "runesword_a05_upgrade",
         "name": "연쇄 파문",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1130,7 +1130,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "광역 룬 마법",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:1",
         "runtime": "job",
         "index": 5,
@@ -1150,7 +1150,7 @@
       {
         "id": "runesword_a06_upgrade",
         "name": "남겨진 서리",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1179,7 +1179,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "광역 룬 마법",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:2",
         "runtime": "job",
         "index": 6,
@@ -1199,7 +1199,7 @@
       {
         "id": "runesword_a07_upgrade",
         "name": "움직이는 검진",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1228,7 +1228,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "광역 룬 마법",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:3",
         "runtime": "job",
         "index": 7,
@@ -1248,7 +1248,7 @@
       {
         "id": "runesword_a08_upgrade",
         "name": "모여드는 파열",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1307,7 +1307,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "이동과 방호",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:0",
         "runtime": "job",
         "index": 8,
@@ -1327,7 +1327,7 @@
       {
         "id": "runesword_a09_upgrade",
         "name": "귀환 각인",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1356,7 +1356,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "이동과 방호",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "보호막 +15%, 유지시간 +2초.",
         "fx": "runesword:1",
         "runtime": "job",
         "index": 9,
@@ -1376,7 +1376,7 @@
       {
         "id": "runesword_a10_upgrade",
         "name": "보호의 반향",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "보호막 +15%, 유지시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1394,7 +1394,7 @@
       {
         "id": "runesword_a11",
         "name": "정화의 룬",
-        "description": "룬을 소비해 자신의 해로운 효과 하나를 제거한다.",
+        "description": "감속을 해제하고 잠시 받는 피해를 줄입니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -1405,7 +1405,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "이동과 방호",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "정화 후 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "fx": "runesword:2",
         "runtime": "job",
         "index": 10,
@@ -1425,7 +1425,7 @@
       {
         "id": "runesword_a11_upgrade",
         "name": "깨끗한 순환",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "정화 후 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1454,7 +1454,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "이동과 방호",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "runesword:3",
         "runtime": "job",
         "index": 11,
@@ -1474,7 +1474,7 @@
       {
         "id": "runesword_a12_upgrade",
         "name": "압축 문양",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1535,7 +1535,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "공격력과 결정타",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:0",
         "runtime": "job",
         "index": 0,
@@ -1554,7 +1554,7 @@
       {
         "id": "swordsman_a01_upgrade",
         "name": "타오르는 투지",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1583,7 +1583,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "공격력과 결정타",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "swordsman:1",
         "runtime": "job",
         "index": 1,
@@ -1602,7 +1602,7 @@
       {
         "id": "swordsman_a02_upgrade",
         "name": "날카로운 집중",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1631,7 +1631,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "공격력과 결정타",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "swordsman:2",
         "runtime": "job",
         "index": 2,
@@ -1650,7 +1650,7 @@
       {
         "id": "swordsman_a03_upgrade",
         "name": "끝까지 결투",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1679,7 +1679,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "공격력과 결정타",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "swordsman:3",
         "runtime": "job",
         "index": 3,
@@ -1698,7 +1698,7 @@
       {
         "id": "swordsman_a04_upgrade",
         "name": "완성된 일격",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1757,7 +1757,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "공격속도와 연격",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:0",
         "runtime": "job",
         "index": 4,
@@ -1776,7 +1776,7 @@
       {
         "id": "swordsman_a05_upgrade",
         "name": "이어지는 호흡",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1805,7 +1805,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "공격속도와 연격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "swordsman:1",
         "runtime": "job",
         "index": 5,
@@ -1824,7 +1824,7 @@
       {
         "id": "swordsman_a06_upgrade",
         "name": "흐르는 검격",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1853,7 +1853,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "공격속도와 연격",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "swordsman:2",
         "runtime": "job",
         "index": 6,
@@ -1872,7 +1872,7 @@
       {
         "id": "swordsman_a07_upgrade",
         "name": "끊기지 않는 추격",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1901,7 +1901,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "공격속도와 연격",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:3",
         "runtime": "job",
         "index": 7,
@@ -1920,7 +1920,7 @@
       {
         "id": "swordsman_a08_upgrade",
         "name": "가속 검무",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -1979,7 +1979,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "치명타와 폭발 구간",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:0",
         "runtime": "job",
         "index": 8,
@@ -1998,7 +1998,7 @@
       {
         "id": "swordsman_a09_upgrade",
         "name": "약점 확신",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2027,7 +2027,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "치명타와 폭발 구간",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:1",
         "runtime": "job",
         "index": 9,
@@ -2046,7 +2046,7 @@
       {
         "id": "swordsman_a10_upgrade",
         "name": "파괴의 결의",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2075,7 +2075,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "치명타와 폭발 구간",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "swordsman:2",
         "runtime": "job",
         "index": 10,
@@ -2094,7 +2094,7 @@
       {
         "id": "swordsman_a11_upgrade",
         "name": "드러난 급소",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2123,7 +2123,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "치명타와 폭발 구간",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "swordsman:3",
         "runtime": "job",
         "index": 11,
@@ -2142,7 +2142,7 @@
       {
         "id": "swordsman_a12_upgrade",
         "name": "완벽한 집중",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2203,7 +2203,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "소환 편성",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "소환수 공격력과 최대 생명력 +15%.",
         "fx": "summoner:0",
         "runtime": "job",
         "index": 0,
@@ -2222,7 +2222,7 @@
       {
         "id": "summoner_a01_upgrade",
         "name": "숙련된 칼날",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "소환수 공격력과 최대 생명력 +15%.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2251,7 +2251,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "소환 편성",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "소환수 공격력과 최대 생명력 +15%.",
         "fx": "summoner:1",
         "runtime": "job",
         "index": 1,
@@ -2270,7 +2270,7 @@
       {
         "id": "summoner_a02_upgrade",
         "name": "집중 마탄",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "소환수 공격력과 최대 생명력 +15%.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2299,7 +2299,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "소환 편성",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "소환수 공격력과 최대 생명력 +15%.",
         "fx": "summoner:2",
         "runtime": "job",
         "index": 2,
@@ -2318,7 +2318,7 @@
       {
         "id": "summoner_a03_upgrade",
         "name": "계약의 방패",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "소환수 공격력과 최대 생명력 +15%.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2347,7 +2347,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "소환 편성",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "소환수 공격력과 최대 생명력 +15%.",
         "fx": "summoner:3",
         "runtime": "job",
         "index": 3,
@@ -2366,7 +2366,7 @@
       {
         "id": "summoner_a04_upgrade",
         "name": "강대한 계약",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "소환수 공격력과 최대 생명력 +15%.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2384,7 +2384,7 @@
       {
         "id": "summoner_p01",
         "name": "계약 확장",
-        "description": "계약 용량을 제한적으로 확장한다.",
+        "description": "소환수 피해가 랭크당 2.5% 증가합니다. 3랭크부터 최대 소환수가 2마리에서 3마리가 됩니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -2425,7 +2425,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "소환수 버프",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "summoner:0",
         "runtime": "job",
         "index": 4,
@@ -2444,7 +2444,7 @@
       {
         "id": "summoner_a05_upgrade",
         "name": "집중된 계약",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2473,7 +2473,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "소환수 버프",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "summoner:1",
         "runtime": "job",
         "index": 5,
@@ -2492,7 +2492,7 @@
       {
         "id": "summoner_a06_upgrade",
         "name": "추격의 계약",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2510,7 +2510,7 @@
       {
         "id": "summoner_a07",
         "name": "생명의 계약",
-        "description": "소환수 생명력을 회복하고 짧은 지속 회복을 부여한다.",
+        "description": "소환수를 완전히 회복시키고 잠시 받는 피해를 줄입니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -2521,7 +2521,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "소환수 버프",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "회복 후 동료 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "fx": "summoner:2",
         "runtime": "job",
         "index": 6,
@@ -2540,7 +2540,7 @@
       {
         "id": "summoner_a07_upgrade",
         "name": "넘치는 생명",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "회복 후 동료 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2569,7 +2569,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "소환수 버프",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "summoner:3",
         "runtime": "job",
         "index": 7,
@@ -2588,7 +2588,7 @@
       {
         "id": "summoner_a08_upgrade",
         "name": "깊어진 해방",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2647,7 +2647,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "명령과 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "summoner:0",
         "runtime": "job",
         "index": 8,
@@ -2666,7 +2666,7 @@
       {
         "id": "summoner_a09_upgrade",
         "name": "일점 돌파",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2684,7 +2684,7 @@
       {
         "id": "summoner_a10",
         "name": "긴급 귀환",
-        "description": "소환수들을 자신 주변으로 철수시키고 짧게 보호한다.",
+        "description": "소환수를 곁으로 부르고 생명력 일부를 회복합니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -2695,7 +2695,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "명령과 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "동료 회복량 15% 증가.",
         "fx": "summoner:1",
         "runtime": "job",
         "index": 9,
@@ -2714,7 +2714,7 @@
       {
         "id": "summoner_a10_upgrade",
         "name": "재집결",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "동료 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2743,7 +2743,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "명령과 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "summoner:2",
         "runtime": "job",
         "index": 10,
@@ -2762,7 +2762,7 @@
       {
         "id": "summoner_a11_upgrade",
         "name": "겹친 공명",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2780,7 +2780,7 @@
       {
         "id": "summoner_a12",
         "name": "희생 방호",
-        "description": "지정 소환수를 해제하고 그 계약으로 자신에게 보호막을 만든다.",
+        "description": "소환수의 현재 생명력 일부를 보호막으로 바꿉니다. 보호막 상한은 주인 최대 생명력의 60%입니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -2791,7 +2791,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "명령과 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "생명력의 보호막 전환율 15% 증가. 상한은 최대 HP 60% 유지.",
         "fx": "summoner:3",
         "runtime": "job",
         "index": 11,
@@ -2810,7 +2810,7 @@
       {
         "id": "summoner_a12_upgrade",
         "name": "되돌아온 계약",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "생명력의 보호막 전환율 15% 증가. 상한은 최대 HP 60% 유지.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2844,7 +2844,7 @@
       {
         "id": "summoner_p06",
         "name": "공동 표적",
-        "description": "주인의 기본 공격이 소환수에게 같은 표적을 알린다. 추가 협동 공격은 발생하지 않는다.",
+        "description": "1랭크부터 평타가 적중한 대상을 소환수에게 지시합니다. 투자할수록 지정 표적을 유지할 수 있는 거리가 늘어납니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -2871,7 +2871,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "화염과 지속 광역",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:0",
         "runtime": "job",
         "index": 0,
@@ -2890,7 +2890,7 @@
       {
         "id": "elementalist_a01_upgrade",
         "name": "폭심 확대",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2919,7 +2919,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "화염과 지속 광역",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:1",
         "runtime": "job",
         "index": 1,
@@ -2938,7 +2938,7 @@
       {
         "id": "elementalist_a02_upgrade",
         "name": "남겨진 불씨",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -2967,7 +2967,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "화염과 지속 광역",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:2",
         "runtime": "job",
         "index": 2,
@@ -2986,7 +2986,7 @@
       {
         "id": "elementalist_a03_upgrade",
         "name": "작열 지대",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3015,7 +3015,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "화염과 지속 광역",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:3",
         "runtime": "job",
         "index": 3,
@@ -3034,7 +3034,7 @@
       {
         "id": "elementalist_a04_upgrade",
         "name": "확산 연소",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3093,7 +3093,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "냉기와 위치 제어",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:0",
         "runtime": "job",
         "index": 4,
@@ -3112,7 +3112,7 @@
       {
         "id": "elementalist_a05_upgrade",
         "name": "깊은 냉기",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3141,7 +3141,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "냉기와 위치 제어",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:1",
         "runtime": "job",
         "index": 5,
@@ -3160,7 +3160,7 @@
       {
         "id": "elementalist_a06_upgrade",
         "name": "부서지는 빙벽",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3189,7 +3189,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "냉기와 위치 제어",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:2",
         "runtime": "job",
         "index": 6,
@@ -3208,7 +3208,7 @@
       {
         "id": "elementalist_a07_upgrade",
         "name": "응축 눈보라",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3237,7 +3237,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "냉기와 위치 제어",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:3",
         "runtime": "job",
         "index": 7,
@@ -3256,7 +3256,7 @@
       {
         "id": "elementalist_a08_upgrade",
         "name": "산산조각",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3290,7 +3290,7 @@
       {
         "id": "elementalist_p04",
         "name": "시전 집중",
-        "description": "캐스팅 중 일반 피격에 의한 방해 부담을 줄인다. 하드 CC 면역은 아니다.",
+        "description": "피격 시 캐스팅 방해에 저항할 확률이 증가합니다. 1랭크 37%에서 5랭크 85%까지 성장합니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -3315,7 +3315,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "번개와 시전 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:0",
         "runtime": "job",
         "index": 8,
@@ -3334,7 +3334,7 @@
       {
         "id": "elementalist_a09_upgrade",
         "name": "확장 연쇄",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3363,7 +3363,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "번개와 시전 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:1",
         "runtime": "job",
         "index": 9,
@@ -3382,7 +3382,7 @@
       {
         "id": "elementalist_a10_upgrade",
         "name": "뇌전 잔향",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3411,7 +3411,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "번개와 시전 운용",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "elementalist:2",
         "runtime": "job",
         "index": 10,
@@ -3430,7 +3430,7 @@
       {
         "id": "elementalist_a11_upgrade",
         "name": "안정된 가속",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3459,7 +3459,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "번개와 시전 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "elementalist:3",
         "runtime": "job",
         "index": 11,
@@ -3478,7 +3478,7 @@
       {
         "id": "elementalist_a12_upgrade",
         "name": "삼원 공명",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3539,7 +3539,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "치유와 회복",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "즉시 회복량 15% 증가.",
         "fx": "healer:0",
         "runtime": "job",
         "index": 0,
@@ -3558,7 +3558,7 @@
       {
         "id": "healer_a01_upgrade",
         "name": "구원의 빛",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "즉시 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3587,7 +3587,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "치유와 회복",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "회복량과 지속 회복량 +15%. 지속 회복 시간 +2초.",
         "fx": "healer:1",
         "runtime": "job",
         "index": 1,
@@ -3606,7 +3606,7 @@
       {
         "id": "healer_a02_upgrade",
         "name": "이어지는 기도",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "회복량과 지속 회복량 +15%. 지속 회복 시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3635,7 +3635,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "치유와 회복",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "즉시 회복량 15% 증가.",
         "fx": "healer:2",
         "runtime": "job",
         "index": 2,
@@ -3654,7 +3654,7 @@
       {
         "id": "healer_a03_upgrade",
         "name": "고른 자비",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "즉시 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3683,7 +3683,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "치유와 회복",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "회복량과 지속 회복량 +15%. 지속 회복 시간 +2초.",
         "fx": "healer:3",
         "runtime": "job",
         "index": 3,
@@ -3702,7 +3702,7 @@
       {
         "id": "healer_a04_upgrade",
         "name": "안온한 성역",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "회복량과 지속 회복량 +15%. 지속 회복 시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3761,7 +3761,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "공격 지원 버프",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "healer:0",
         "runtime": "job",
         "index": 4,
@@ -3780,7 +3780,7 @@
       {
         "id": "healer_a05_upgrade",
         "name": "전투의 축복",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3809,7 +3809,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "공격 지원 버프",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "healer:1",
         "runtime": "job",
         "index": 5,
@@ -3828,7 +3828,7 @@
       {
         "id": "healer_a06_upgrade",
         "name": "활력의 축복",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3857,7 +3857,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "공격 지원 버프",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "healer:2",
         "runtime": "job",
         "index": 6,
@@ -3876,7 +3876,7 @@
       {
         "id": "healer_a07_upgrade",
         "name": "정교한 축복",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3905,7 +3905,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "공격 지원 버프",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "healer:3",
         "runtime": "job",
         "index": 7,
@@ -3924,7 +3924,7 @@
       {
         "id": "healer_a08_upgrade",
         "name": "끝나지 않는 찬가",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -3974,7 +3974,7 @@
       {
         "id": "healer_a09",
         "name": "정화",
-        "description": "대상의 해제 가능한 해로운 효과를 제거한다.",
+        "description": "감속을 해제하고 잠시 받는 피해를 줄입니다.",
         "effect": "active",
         "value": 0,
         "parents": [],
@@ -3983,7 +3983,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "정화와 생존 지원",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "정화 후 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "fx": "healer:0",
         "runtime": "job",
         "index": 8,
@@ -4002,7 +4002,7 @@
       {
         "id": "healer_a09_upgrade",
         "name": "정화의 여운",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "정화 후 피해 감소 효과 15% 증가, 지속시간 2초 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4031,7 +4031,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "정화와 생존 지원",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "보호막 +15%, 유지시간 +2초.",
         "fx": "healer:1",
         "runtime": "job",
         "index": 9,
@@ -4050,7 +4050,7 @@
       {
         "id": "healer_a10_upgrade",
         "name": "인장의 회복",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "보호막 +15%, 유지시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4079,7 +4079,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "정화와 생존 지원",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "즉시 회복량 15% 증가.",
         "fx": "healer:2",
         "runtime": "job",
         "index": 10,
@@ -4098,7 +4098,7 @@
       {
         "id": "healer_a11_upgrade",
         "name": "회복의 약속",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "즉시 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4127,7 +4127,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "정화와 생존 지원",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "healer:3",
         "runtime": "job",
         "index": 11,
@@ -4146,7 +4146,7 @@
       {
         "id": "healer_a12_upgrade",
         "name": "자비로운 심판",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4180,7 +4180,7 @@
       {
         "id": "healer_p06",
         "name": "긴급 대응",
-        "description": "위험 상태의 아군을 회복·보호하는 효과를 보강한다.",
+        "description": "생명력이 35% 아래인 대상에게 부여하는 보호막이 랭크당 8% 강해집니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -4207,7 +4207,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "충전과 관통",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:0",
         "runtime": "job",
         "index": 0,
@@ -4226,7 +4226,7 @@
       {
         "id": "sniper_a01_upgrade",
         "name": "응축 관통",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4255,7 +4255,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "충전과 관통",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:1",
         "runtime": "job",
         "index": 1,
@@ -4274,7 +4274,7 @@
       {
         "id": "sniper_a02_upgrade",
         "name": "흔들림 없는 조준",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4303,7 +4303,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "충전과 관통",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:2",
         "runtime": "job",
         "index": 2,
@@ -4322,7 +4322,7 @@
       {
         "id": "sniper_a03_upgrade",
         "name": "극한 장력",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4351,7 +4351,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "충전과 관통",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:3",
         "runtime": "job",
         "index": 3,
@@ -4370,7 +4370,7 @@
       {
         "id": "sniper_a04_upgrade",
         "name": "통제된 분열",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4429,7 +4429,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "표적 집중",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:0",
         "runtime": "job",
         "index": 4,
@@ -4448,7 +4448,7 @@
       {
         "id": "sniper_a05_upgrade",
         "name": "깊은 관찰",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4477,7 +4477,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "표적 집중",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "sniper:1",
         "runtime": "job",
         "index": 5,
@@ -4496,7 +4496,7 @@
       {
         "id": "sniper_a06_upgrade",
         "name": "정밀한 파쇄",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4525,7 +4525,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "표적 집중",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:2",
         "runtime": "job",
         "index": 6,
@@ -4544,7 +4544,7 @@
       {
         "id": "sniper_a07_upgrade",
         "name": "고정된 사선",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4573,7 +4573,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "표적 집중",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:3",
         "runtime": "job",
         "index": 7,
@@ -4592,7 +4592,7 @@
       {
         "id": "sniper_a08_upgrade",
         "name": "사냥의 끝",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4651,7 +4651,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "사선과 재배치",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:0",
         "runtime": "job",
         "index": 8,
@@ -4670,7 +4670,7 @@
       {
         "id": "sniper_a09_upgrade",
         "name": "다시 겨눈 활",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4699,7 +4699,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "사선과 재배치",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "sniper:1",
         "runtime": "job",
         "index": 9,
@@ -4718,7 +4718,7 @@
       {
         "id": "sniper_a10_upgrade",
         "name": "정돈된 진지",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4747,7 +4747,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "사선과 재배치",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "sniper:2",
         "runtime": "job",
         "index": 10,
@@ -4766,7 +4766,7 @@
       {
         "id": "sniper_a11_upgrade",
         "name": "숙련된 장전",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4795,7 +4795,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "사선과 재배치",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "sniper:3",
         "runtime": "job",
         "index": 11,
@@ -4814,7 +4814,7 @@
       {
         "id": "sniper_a12_upgrade",
         "name": "사선 확보",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4875,7 +4875,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "석궁과 출혈",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:0",
         "runtime": "job",
         "index": 0,
@@ -4894,7 +4894,7 @@
       {
         "id": "hunter_a01_upgrade",
         "name": "깊은 상처",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4923,7 +4923,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "석궁과 출혈",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:1",
         "runtime": "job",
         "index": 1,
@@ -4942,7 +4942,7 @@
       {
         "id": "hunter_a02_upgrade",
         "name": "벌어진 상처",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -4971,7 +4971,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "석궁과 출혈",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:2",
         "runtime": "job",
         "index": 2,
@@ -4990,7 +4990,7 @@
       {
         "id": "hunter_a03_upgrade",
         "name": "도망칠 수 없는 상처",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5019,7 +5019,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "석궁과 출혈",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:3",
         "runtime": "job",
         "index": 3,
@@ -5038,7 +5038,7 @@
       {
         "id": "hunter_a04_upgrade",
         "name": "남겨진 혈흔",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5097,7 +5097,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "덫과 사냥터",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:0",
         "runtime": "job",
         "index": 4,
@@ -5116,7 +5116,7 @@
       {
         "id": "hunter_a05_upgrade",
         "name": "깊이 박힌 톱니",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5145,7 +5145,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "덫과 사냥터",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:1",
         "runtime": "job",
         "index": 5,
@@ -5164,7 +5164,7 @@
       {
         "id": "hunter_a06_upgrade",
         "name": "빠져나오기 어려운 덫",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5193,7 +5193,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "덫과 사냥터",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:2",
         "runtime": "job",
         "index": 6,
@@ -5212,7 +5212,7 @@
       {
         "id": "hunter_a07_upgrade",
         "name": "준비된 사냥터",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5241,7 +5241,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "덫과 사냥터",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:3",
         "runtime": "job",
         "index": 7,
@@ -5260,7 +5260,7 @@
       {
         "id": "hunter_a08_upgrade",
         "name": "겹쳐진 가시",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5319,7 +5319,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "사냥개와 전리품",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:0",
         "runtime": "job",
         "index": 8,
@@ -5338,7 +5338,7 @@
       {
         "id": "hunter_a09_upgrade",
         "name": "집요한 이빨",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5367,7 +5367,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "사냥개와 전리품",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "hunter:1",
         "runtime": "job",
         "index": 9,
@@ -5386,7 +5386,7 @@
       {
         "id": "hunter_a10_upgrade",
         "name": "노련한 몰이",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5415,7 +5415,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "사냥개와 전리품",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "hunter:2",
         "runtime": "job",
         "index": 10,
@@ -5434,7 +5434,7 @@
       {
         "id": "hunter_a11_upgrade",
         "name": "들끓는 야성",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5452,7 +5452,7 @@
       {
         "id": "hunter_a12",
         "name": "귀환 호각",
-        "description": "사냥개를 주인에게 철수시키고 회복한다.",
+        "description": "소환수를 곁으로 부르고 생명력 일부를 회복합니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -5463,7 +5463,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "사냥개와 전리품",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "동료 회복량 15% 증가.",
         "fx": "hunter:3",
         "runtime": "job",
         "index": 11,
@@ -5482,7 +5482,7 @@
       {
         "id": "hunter_a12_upgrade",
         "name": "재출격",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "동료 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5543,7 +5543,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "채찍 광역 공격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:0",
         "runtime": "job",
         "index": 0,
@@ -5562,7 +5562,7 @@
       {
         "id": "explorer_a01_upgrade",
         "name": "넓은 궤적",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5591,7 +5591,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "채찍 광역 공격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:1",
         "runtime": "job",
         "index": 1,
@@ -5610,7 +5610,7 @@
       {
         "id": "explorer_a02_upgrade",
         "name": "연속 회전",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5639,7 +5639,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "채찍 광역 공격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:2",
         "runtime": "job",
         "index": 2,
@@ -5658,7 +5658,7 @@
       {
         "id": "explorer_a03_upgrade",
         "name": "무너지는 자세",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5687,7 +5687,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "채찍 광역 공격",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:3",
         "runtime": "job",
         "index": 3,
@@ -5706,7 +5706,7 @@
       {
         "id": "explorer_a04_upgrade",
         "name": "한곳에 모으기",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5765,7 +5765,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "포박과 행동 봉쇄",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:0",
         "runtime": "job",
         "index": 4,
@@ -5784,7 +5784,7 @@
       {
         "id": "explorer_a05_upgrade",
         "name": "조여드는 매듭",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5813,7 +5813,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "포박과 행동 봉쇄",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:1",
         "runtime": "job",
         "index": 5,
@@ -5832,7 +5832,7 @@
       {
         "id": "explorer_a06_upgrade",
         "name": "준비된 장애물",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5861,7 +5861,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "포박과 행동 봉쇄",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:2",
         "runtime": "job",
         "index": 6,
@@ -5880,7 +5880,7 @@
       {
         "id": "explorer_a07_upgrade",
         "name": "연결된 매듭",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5909,7 +5909,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "포박과 행동 봉쇄",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:3",
         "runtime": "job",
         "index": 7,
@@ -5928,7 +5928,7 @@
       {
         "id": "explorer_a08_upgrade",
         "name": "빈틈 노출",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -5987,7 +5987,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "로프 이동과 회피",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:0",
         "runtime": "job",
         "index": 8,
@@ -6006,7 +6006,7 @@
       {
         "id": "explorer_a09_upgrade",
         "name": "빠른 도착",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6035,7 +6035,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "로프 이동과 회피",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:1",
         "runtime": "job",
         "index": 9,
@@ -6054,7 +6054,7 @@
       {
         "id": "explorer_a10_upgrade",
         "name": "선회 타격",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6083,7 +6083,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "로프 이동과 회피",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:2",
         "runtime": "job",
         "index": 10,
@@ -6102,7 +6102,7 @@
       {
         "id": "explorer_a11_upgrade",
         "name": "남겨진 방해",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6131,7 +6131,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "로프 이동과 회피",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "explorer:3",
         "runtime": "job",
         "index": 11,
@@ -6150,7 +6150,7 @@
       {
         "id": "explorer_a12_upgrade",
         "name": "제압 착지",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6211,7 +6211,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "섬광 잠입",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:0",
         "runtime": "job",
         "index": 0,
@@ -6230,7 +6230,7 @@
       {
         "id": "thief_a01_upgrade",
         "name": "섬표 투척 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6259,7 +6259,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "섬광 잠입",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:1",
         "runtime": "job",
         "index": 1,
@@ -6278,7 +6278,7 @@
       {
         "id": "thief_a02_upgrade",
         "name": "섬광 습격 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6307,7 +6307,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "섬광 잠입",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "귀환 가능한 거리 1칸 증가.",
         "fx": "thief:1",
         "runtime": "job",
         "index": 2,
@@ -6326,7 +6326,7 @@
       {
         "id": "thief_a03_upgrade",
         "name": "귀환 표식 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "귀환 가능한 거리 1칸 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6355,7 +6355,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "섬광 잠입",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:1",
         "runtime": "job",
         "index": 3,
@@ -6374,7 +6374,7 @@
       {
         "id": "thief_a04_upgrade",
         "name": "연쇄 도약 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6433,7 +6433,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "육중 약탈",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:2",
         "runtime": "job",
         "index": 4,
@@ -6452,7 +6452,7 @@
       {
         "id": "thief_a05_upgrade",
         "name": "발목 절개 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6481,7 +6481,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "육중 약탈",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:3",
         "runtime": "job",
         "index": 5,
@@ -6500,7 +6500,7 @@
       {
         "id": "thief_a06_upgrade",
         "name": "갑옷 뜯기 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6529,7 +6529,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "육중 약탈",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:3",
         "runtime": "job",
         "index": 6,
@@ -6548,7 +6548,7 @@
       {
         "id": "thief_a07_upgrade",
         "name": "약점 각인 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6577,7 +6577,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "육중 약탈",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:3",
         "runtime": "job",
         "index": 7,
@@ -6596,7 +6596,7 @@
       {
         "id": "thief_a08_upgrade",
         "name": "무장 절도 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6655,7 +6655,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "은밀한 분배",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:4",
         "runtime": "job",
         "index": 8,
@@ -6674,7 +6674,7 @@
       {
         "id": "thief_a09_upgrade",
         "name": "혈맥 절개 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6703,7 +6703,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "은밀한 분배",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "thief:1",
         "runtime": "job",
         "index": 9,
@@ -6722,7 +6722,7 @@
       {
         "id": "thief_a10_upgrade",
         "name": "시야 절단 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6740,7 +6740,7 @@
       {
         "id": "thief_a11",
         "name": "장물 분배",
-        "description": "자신이 보유한 시프 연계 버프를 범위 내 아군에게 남은 시간만큼 전달.",
+        "description": "주변에 현재 강화 효과를 나누고 작은 보호막을 부여합니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -6751,7 +6751,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "은밀한 분배",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "공유 보호막 15% 증가, 유지시간 2초 증가.",
         "fx": "thief:5",
         "runtime": "job",
         "index": 10,
@@ -6770,7 +6770,7 @@
       {
         "id": "thief_a11_upgrade",
         "name": "장물 분배 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "공유 보호막 15% 증가, 유지시간 2초 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6799,7 +6799,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "은밀한 분배",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "thief:1",
         "runtime": "job",
         "index": 11,
@@ -6818,7 +6818,7 @@
       {
         "id": "thief_a12_upgrade",
         "name": "완전범죄 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6879,7 +6879,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "철쇄 추격",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:2",
         "runtime": "job",
         "index": 0,
@@ -6898,7 +6898,7 @@
       {
         "id": "reaper_a01_upgrade",
         "name": "포획 사슬 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6927,7 +6927,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "철쇄 추격",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:2",
         "runtime": "job",
         "index": 1,
@@ -6946,7 +6946,7 @@
       {
         "id": "reaper_a02_upgrade",
         "name": "추격 사슬 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -6975,7 +6975,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "철쇄 추격",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:2",
         "runtime": "job",
         "index": 2,
@@ -6994,7 +6994,7 @@
       {
         "id": "reaper_a03_upgrade",
         "name": "되감는 사슬 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7023,7 +7023,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "철쇄 추격",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:2",
         "runtime": "job",
         "index": 3,
@@ -7042,7 +7042,7 @@
       {
         "id": "reaper_a04_upgrade",
         "name": "철쇄 투망 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7060,7 +7060,7 @@
       {
         "id": "reaper_p01",
         "name": "사슬 감각",
-        "description": "사슬 투사체 속도와 적중 후 입력 예약 시간을 증가.",
+        "description": "사슬의 표적 사거리가 랭크당 0.2칸 증가합니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -7101,7 +7101,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "중량 참살",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "reaper:0",
         "runtime": "job",
         "index": 4,
@@ -7120,7 +7120,7 @@
       {
         "id": "reaper_a05_upgrade",
         "name": "단두 베기 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7149,7 +7149,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "중량 참살",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "reaper:0",
         "runtime": "job",
         "index": 5,
@@ -7168,7 +7168,7 @@
       {
         "id": "reaper_a06_upgrade",
         "name": "반월 처형 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7197,7 +7197,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "중량 참살",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "reaper:0",
         "runtime": "job",
         "index": 6,
@@ -7216,7 +7216,7 @@
       {
         "id": "reaper_a07_upgrade",
         "name": "파쇄 낙하 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7245,7 +7245,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "중량 참살",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "reaper:0",
         "runtime": "job",
         "index": 7,
@@ -7264,7 +7264,7 @@
       {
         "id": "reaper_a08_upgrade",
         "name": "종언의 일격 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7323,7 +7323,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "생존과 재진입",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:4",
         "runtime": "job",
         "index": 8,
@@ -7342,7 +7342,7 @@
       {
         "id": "reaper_a09_upgrade",
         "name": "흑월 보법 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7371,7 +7371,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "생존과 재진입",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "reaper:3",
         "runtime": "job",
         "index": 9,
@@ -7390,7 +7390,7 @@
       {
         "id": "reaper_a10_upgrade",
         "name": "사슬 방벽 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7419,7 +7419,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "생존과 재진입",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "reaper:5",
         "runtime": "job",
         "index": 10,
@@ -7438,7 +7438,7 @@
       {
         "id": "reaper_a11_upgrade",
         "name": "죽음의 예고 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7467,7 +7467,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "생존과 재진입",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "reaper:0",
         "runtime": "job",
         "index": 11,
@@ -7486,7 +7486,7 @@
       {
         "id": "reaper_a12_upgrade",
         "name": "집행 태세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7547,7 +7547,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "패 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "재사용 시간 15% 감소.",
         "fx": "gambler:0",
         "runtime": "job",
         "index": 0,
@@ -7566,7 +7566,7 @@
       {
         "id": "gambler_a01_upgrade",
         "name": "히트 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "재사용 시간 15% 감소.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7595,7 +7595,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "패 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "재사용 시간 15% 감소.",
         "fx": "gambler:3",
         "runtime": "job",
         "index": 1,
@@ -7614,7 +7614,7 @@
       {
         "id": "gambler_a02_upgrade",
         "name": "홀드 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "재사용 시간 15% 감소.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7643,7 +7643,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "패 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "재사용 시간 15% 감소.",
         "fx": "gambler:0",
         "runtime": "job",
         "index": 2,
@@ -7662,7 +7662,7 @@
       {
         "id": "gambler_a03_upgrade",
         "name": "컷 카드 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "재사용 시간 15% 감소.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7691,7 +7691,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "패 운용",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "gambler:3",
         "runtime": "job",
         "index": 3,
@@ -7710,7 +7710,7 @@
       {
         "id": "gambler_a04_upgrade",
         "name": "세이프 스탠드 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7728,7 +7728,7 @@
       {
         "id": "gambler_p01",
         "name": "카운팅 습관",
-        "description": "버림 기록을 10점 카드·A·나머지로 자동 집계하는 UI 편의. 미래 덱 순서는 비공개.",
+        "description": "버림패 A·10점·기타 집계를 확인합니다. 히트·홀드·컷 카드의 재사용 시간이 랭크당 0.12초 줄어듭니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -7769,7 +7769,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "승부의 카드",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:0",
         "runtime": "job",
         "index": 4,
@@ -7788,7 +7788,7 @@
       {
         "id": "gambler_a05_upgrade",
         "name": "하이 카드 강화",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7817,7 +7817,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "승부의 카드",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:1",
         "runtime": "job",
         "index": 5,
@@ -7836,7 +7836,7 @@
       {
         "id": "gambler_a06_upgrade",
         "name": "스플릿 샷 강화",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7865,7 +7865,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "승부의 카드",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:3",
         "runtime": "job",
         "index": 6,
@@ -7884,7 +7884,7 @@
       {
         "id": "gambler_a07_upgrade",
         "name": "더블 다운 강화",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7913,7 +7913,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "승부의 카드",
-        "upgrade_text": "투사체 사거리 +1.5, 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:1",
         "runtime": "job",
         "index": 7,
@@ -7932,7 +7932,7 @@
       {
         "id": "gambler_a08_upgrade",
         "name": "블랙잭 피날레 강화",
-        "description": "투사체 사거리 +1.5, 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -7991,7 +7991,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "주사위와 탈출",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:2",
         "runtime": "job",
         "index": 8,
@@ -8010,7 +8010,7 @@
       {
         "id": "gambler_a09_upgrade",
         "name": "행운의 주사위 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8039,7 +8039,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "주사위와 탈출",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:2",
         "runtime": "job",
         "index": 9,
@@ -8058,7 +8058,7 @@
       {
         "id": "gambler_a10_upgrade",
         "name": "리롤 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8087,7 +8087,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "주사위와 탈출",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "gambler:0",
         "runtime": "job",
         "index": 10,
@@ -8106,7 +8106,7 @@
       {
         "id": "gambler_a11_upgrade",
         "name": "페이크 딜 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8135,7 +8135,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "주사위와 탈출",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "gambler:2",
         "runtime": "job",
         "index": 11,
@@ -8154,7 +8154,7 @@
       {
         "id": "gambler_a12_upgrade",
         "name": "하우스 룰 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8215,7 +8215,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "폭풍 연타",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 0,
@@ -8234,7 +8234,7 @@
       {
         "id": "infighter_a01_upgrade",
         "name": "연환난타 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8263,7 +8263,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "폭풍 연타",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:1",
         "runtime": "job",
         "index": 1,
@@ -8282,7 +8282,7 @@
       {
         "id": "infighter_a02_upgrade",
         "name": "보디 러시 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8311,7 +8311,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "폭풍 연타",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:3",
         "runtime": "job",
         "index": 2,
@@ -8330,7 +8330,7 @@
       {
         "id": "infighter_a03_upgrade",
         "name": "라이징 훅 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8359,7 +8359,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "폭풍 연타",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 3,
@@ -8378,7 +8378,7 @@
       {
         "id": "infighter_a04_upgrade",
         "name": "백렬권 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8437,7 +8437,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "섬광 보법",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 4,
@@ -8456,7 +8456,7 @@
       {
         "id": "infighter_a05_upgrade",
         "name": "위빙 잽 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8485,7 +8485,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "섬광 보법",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 5,
@@ -8504,7 +8504,7 @@
       {
         "id": "infighter_a06_upgrade",
         "name": "체이서 스트레이트 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8533,7 +8533,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "섬광 보법",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 6,
@@ -8552,7 +8552,7 @@
       {
         "id": "infighter_a07_upgrade",
         "name": "리버스 스텝 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8581,7 +8581,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "섬광 보법",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:1",
         "runtime": "job",
         "index": 7,
@@ -8600,7 +8600,7 @@
       {
         "id": "infighter_a08_upgrade",
         "name": "사각 연타 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8618,7 +8618,7 @@
       {
         "id": "infighter_p03",
         "name": "이단 보법",
-        "description": "기본 2단 대시 사이 방향 전환 조작을 부드럽게 하고 평타 순서 보존시간 증가.",
+        "description": "강화 기술의 지속시간을 랭크당 0.1초 늘립니다. 회피 충전은 기본 2회를 유지합니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -8659,7 +8659,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "압박과 지속",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "infighter:1",
         "runtime": "job",
         "index": 8,
@@ -8678,7 +8678,7 @@
       {
         "id": "infighter_a09_upgrade",
         "name": "러시 태세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8707,7 +8707,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "압박과 지속",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "infighter:0",
         "runtime": "job",
         "index": 9,
@@ -8726,7 +8726,7 @@
       {
         "id": "infighter_a10_upgrade",
         "name": "가드 크래시 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8755,7 +8755,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "압박과 지속",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "즉시 회복량 15% 증가.",
         "fx": "infighter:2",
         "runtime": "job",
         "index": 10,
@@ -8774,7 +8774,7 @@
       {
         "id": "infighter_a11_upgrade",
         "name": "숨 고르기 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "즉시 회복량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8803,7 +8803,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "압박과 지속",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "infighter:1",
         "runtime": "job",
         "index": 11,
@@ -8822,7 +8822,7 @@
       {
         "id": "infighter_a12_upgrade",
         "name": "끝없는 공세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8883,7 +8883,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "축기 파괴",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 0,
@@ -8902,7 +8902,7 @@
       {
         "id": "breaker_a01_upgrade",
         "name": "붕산장 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8931,7 +8931,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "축기 파괴",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 1,
@@ -8950,7 +8950,7 @@
       {
         "id": "breaker_a02_upgrade",
         "name": "진각 파동 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -8979,7 +8979,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "축기 파괴",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 2,
@@ -8998,7 +8998,7 @@
       {
         "id": "breaker_a03_upgrade",
         "name": "회천격 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9027,7 +9027,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "축기 파괴",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 3,
@@ -9046,7 +9046,7 @@
       {
         "id": "breaker_a04_upgrade",
         "name": "천붕일격 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9080,7 +9080,7 @@
       {
         "id": "breaker_p02",
         "name": "중심 고정",
-        "description": "차지 중 밀림 감소. 잡기·회피 불가 공격을 무효화하지 않음.",
+        "description": "차지를 준비하는 동안 받는 피해를 랭크당 2.5% 줄입니다. 잡기나 회피 불가 공격을 무효화하지 않습니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -9105,7 +9105,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "절대 반격",
-        "upgrade_text": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "upgrade_text": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "fx": "breaker:2",
         "runtime": "job",
         "index": 4,
@@ -9124,7 +9124,7 @@
       {
         "id": "breaker_a05_upgrade",
         "name": "흘려받기 강화",
-        "description": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "description": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9153,7 +9153,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "절대 반격",
-        "upgrade_text": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "upgrade_text": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "fx": "breaker:2",
         "runtime": "job",
         "index": 5,
@@ -9172,7 +9172,7 @@
       {
         "id": "breaker_a06_upgrade",
         "name": "낮은 반격 강화",
-        "description": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "description": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9201,7 +9201,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "절대 반격",
-        "upgrade_text": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "upgrade_text": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "fx": "breaker:2",
         "runtime": "job",
         "index": 6,
@@ -9220,7 +9220,7 @@
       {
         "id": "breaker_a07_upgrade",
         "name": "철벽 무릎 강화",
-        "description": "시전 시 1초 동안 받는 피해 12% 감소. 패링 판정창은 유지.",
+        "description": "시전 후 1초 동안 받는 피해 12% 감소. 직접 반격 피해 +15%. 패링 판정창은 유지.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9249,7 +9249,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "절대 반격",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 7,
@@ -9268,7 +9268,7 @@
       {
         "id": "breaker_a08_upgrade",
         "name": "역린 태세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9286,7 +9286,7 @@
       {
         "id": "breaker_p03",
         "name": "정적의 눈",
-        "description": "적 공격 예고의 패링 가능 여부를 강조하는 UI 보조. 판정창·미래 행동은 변경하지 않음.",
+        "description": "정면 패링에 성공하면 기력을 랭크당 2 회복합니다. 패링 판정창은 늘어나지 않습니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -9327,7 +9327,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "장거리 진입과 버티기",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "breaker:1",
         "runtime": "job",
         "index": 8,
@@ -9346,7 +9346,7 @@
       {
         "id": "breaker_a09_upgrade",
         "name": "철산고 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9375,7 +9375,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "장거리 진입과 버티기",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 9,
@@ -9394,7 +9394,7 @@
       {
         "id": "breaker_a10_upgrade",
         "name": "금강 호흡 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9412,7 +9412,7 @@
       {
         "id": "breaker_a11",
         "name": "기맥 정돈",
-        "description": "제자리에서 짧게 호흡해 기세 회복. 피격·이동 시 취소, 실제 진행분만 획득.",
+        "description": "1.2초 집중해 기세를 모읍니다. 이동하거나 피격되면 끊깁니다.",
         "effect": "active",
         "value": 0,
         "parents": [
@@ -9423,7 +9423,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "장거리 진입과 버티기",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "초당 기세 획득량 15% 증가.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 10,
@@ -9442,7 +9442,7 @@
       {
         "id": "breaker_a11_upgrade",
         "name": "기맥 정돈 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "초당 기세 획득량 15% 증가.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9471,7 +9471,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "장거리 진입과 버티기",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "breaker:0",
         "runtime": "job",
         "index": 11,
@@ -9490,7 +9490,7 @@
       {
         "id": "breaker_a12_upgrade",
         "name": "파천 태세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9551,7 +9551,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "돌진 연무",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:2",
         "runtime": "job",
         "index": 0,
@@ -9570,7 +9570,7 @@
       {
         "id": "martialist_a01_upgrade",
         "name": "쇄도각 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9599,7 +9599,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "돌진 연무",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:0",
         "runtime": "job",
         "index": 1,
@@ -9618,7 +9618,7 @@
       {
         "id": "martialist_a02_upgrade",
         "name": "추풍각 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9647,7 +9647,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "돌진 연무",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:1",
         "runtime": "job",
         "index": 2,
@@ -9666,7 +9666,7 @@
       {
         "id": "martialist_a03_upgrade",
         "name": "질풍 연각 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9695,7 +9695,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "돌진 연무",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:2",
         "runtime": "job",
         "index": 3,
@@ -9714,7 +9714,7 @@
       {
         "id": "martialist_a04_upgrade",
         "name": "비상 돌파 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9732,7 +9732,7 @@
       {
         "id": "martialist_p01",
         "name": "전진 중심",
-        "description": "돌진 발차기 도착 위치를 표적 앞 유효 거리로 보정. 공격 사거리 밖 추적은 불가.",
+        "description": "전진 기술의 표적 사거리가 랭크당 0.1칸 증가합니다. 벽을 통과하거나 무한 추적하지 않습니다.",
         "effect": "passive",
         "value": 1,
         "parents": [
@@ -9773,7 +9773,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "중량 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:0",
         "runtime": "job",
         "index": 4,
@@ -9792,7 +9792,7 @@
       {
         "id": "martialist_a05_upgrade",
         "name": "쌍룡각 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9821,7 +9821,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "중량 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:0",
         "runtime": "job",
         "index": 5,
@@ -9840,7 +9840,7 @@
       {
         "id": "martialist_a06_upgrade",
         "name": "승천각 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9869,7 +9869,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "중량 연계",
-        "upgrade_text": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:1",
         "runtime": "job",
         "index": 6,
@@ -9888,7 +9888,7 @@
       {
         "id": "martialist_a07_upgrade",
         "name": "회축연무 강화",
-        "description": "효과 반경 +0.35, 공격 피해 +15%. 지속형 효과는 지속시간 +1.5초.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9917,7 +9917,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "중량 연계",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "martialist:1",
         "runtime": "job",
         "index": 7,
@@ -9936,7 +9936,7 @@
       {
         "id": "martialist_a08_upgrade",
         "name": "낙성각 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -9995,7 +9995,7 @@
         "level": 30,
         "max_rank": 5,
         "path": "간격과 마무리",
-        "upgrade_text": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "upgrade_text": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "fx": "martialist:0",
         "runtime": "job",
         "index": 8,
@@ -10014,7 +10014,7 @@
       {
         "id": "martialist_a09_upgrade",
         "name": "반보 회축 강화",
-        "description": "기술 이동 거리 +0.6, 표적 탐색 거리 +1. 시전 시 2초 동안 받는 피해 12% 감소.",
+        "description": "공격이 있는 기술은 피해 +15%. 적용 효과 지속시간 +2초. 이동·사격 기술은 거리가 늘어납니다.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -10043,7 +10043,7 @@
         "level": 38,
         "max_rank": 5,
         "path": "간격과 마무리",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "martialist:3",
         "runtime": "job",
         "index": 9,
@@ -10062,7 +10062,7 @@
       {
         "id": "martialist_a10_upgrade",
         "name": "철벽 자세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -10091,7 +10091,7 @@
         "level": 46,
         "max_rank": 5,
         "path": "간격과 마무리",
-        "upgrade_text": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "upgrade_text": "피해 +25%, 적용 효과 지속시간 +2초.",
         "fx": "martialist:0",
         "runtime": "job",
         "index": 10,
@@ -10110,7 +10110,7 @@
       {
         "id": "martialist_a11_upgrade",
         "name": "용권 연무 강화",
-        "description": "해당 강타의 피해 +25%. 차지와 자원 소비 규칙 유지.",
+        "description": "피해 +25%, 적용 효과 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -10139,7 +10139,7 @@
         "level": 54,
         "max_rank": 5,
         "path": "간격과 마무리",
-        "upgrade_text": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "upgrade_text": "강화 효과 +15%, 지속시간 +2초.",
         "fx": "martialist:1",
         "runtime": "job",
         "index": 11,
@@ -10158,7 +10158,7 @@
       {
         "id": "martialist_a12_upgrade",
         "name": "무극 자세 강화",
-        "description": "지속형 효과 지속시간 +3.5초. 공격 피해가 있는 기술은 피해 +15%.",
+        "description": "강화 효과 +15%, 지속시간 +2초.",
         "effect": "upgrade",
         "value": 1,
         "parents": [
@@ -10214,10 +10214,125 @@
         "effect": "damage",
         "value": 2,
         "parents": [],
-        "column": 0,
+        "column": 1,
         "tier": 0,
         "level": 1,
-        "max_rank": 5
+        "max_rank": 5,
+        "path": "전직 준비"
+      },
+      {
+        "id": "rogue_a01",
+        "name": "재빠른 베기",
+        "description": "조준 방향의 적을 공격합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [],
+        "column": 0,
+        "tier": 0,
+        "level": 2,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "thief:0",
+        "runtime": "job",
+        "index": 0,
+        "mode": "strike",
+        "power": 1.5,
+        "cost": 10,
+        "cooldown": 4.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "rogue_a02",
+        "name": "옆걸음",
+        "description": "이동하며 유리한 전투 위치를 잡습니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "rogue_a01"
+        ],
+        "column": 0,
+        "tier": 1,
+        "level": 8,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "thief:1",
+        "runtime": "job",
+        "index": 1,
+        "mode": "weave",
+        "power": 1.5,
+        "cost": 14,
+        "cooldown": 6.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "rogue_a03",
+        "name": "상처 내기",
+        "description": "근처의 적을 제압합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "rogue_a02"
+        ],
+        "column": 0,
+        "tier": 2,
+        "level": 16,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "thief:2",
+        "runtime": "job",
+        "index": 2,
+        "mode": "bleed",
+        "power": 1.5,
+        "cost": 18,
+        "cooldown": 8.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "rogue_a04",
+        "name": "연막 기습",
+        "description": "위기 상황을 벗어날 기술을 준비합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "rogue_a03"
+        ],
+        "column": 0,
+        "tier": 3,
+        "level": 24,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "thief:3",
+        "runtime": "job",
+        "index": 3,
+        "mode": "blind",
+        "power": 1.5,
+        "cost": 16,
+        "cooldown": 9.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
       }
     ],
     "fighter": [
@@ -10228,10 +10343,125 @@
         "effect": "damage",
         "value": 2,
         "parents": [],
-        "column": 0,
+        "column": 1,
         "tier": 0,
         "level": 1,
-        "max_rank": 5
+        "max_rank": 5,
+        "path": "전직 준비"
+      },
+      {
+        "id": "fighter_a01",
+        "name": "곧은 주먹",
+        "description": "조준 방향의 적을 공격합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [],
+        "column": 0,
+        "tier": 0,
+        "level": 2,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "martialist:0",
+        "runtime": "job",
+        "index": 0,
+        "mode": "strike",
+        "power": 1.5,
+        "cost": 10,
+        "cooldown": 4.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "fighter_a02",
+        "name": "돌진 권격",
+        "description": "이동하며 유리한 전투 위치를 잡습니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "fighter_a01"
+        ],
+        "column": 0,
+        "tier": 1,
+        "level": 8,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "martialist:1",
+        "runtime": "job",
+        "index": 1,
+        "mode": "rush",
+        "power": 1.5,
+        "cost": 14,
+        "cooldown": 6.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "fighter_a03",
+        "name": "띄우기",
+        "description": "근처의 적을 제압합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "fighter_a02"
+        ],
+        "column": 0,
+        "tier": 2,
+        "level": 16,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "martialist:2",
+        "runtime": "job",
+        "index": 2,
+        "mode": "uppercut",
+        "power": 1.5,
+        "cost": 18,
+        "cooldown": 8.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
+      },
+      {
+        "id": "fighter_a04",
+        "name": "권갑 방어",
+        "description": "위기 상황을 벗어날 기술을 준비합니다.",
+        "effect": "active",
+        "value": 0,
+        "parents": [
+          "fighter_a03"
+        ],
+        "column": 0,
+        "tier": 3,
+        "level": 24,
+        "max_rank": 5,
+        "path": "전직 준비",
+        "upgrade_text": "30레벨에 계열 전직을 선택합니다. 전직하면 SP를 다시 배분합니다.",
+        "fx": "martialist:3",
+        "runtime": "job",
+        "index": 3,
+        "mode": "guard",
+        "power": 1.5,
+        "cost": 16,
+        "cooldown": 9.0,
+        "count": 1,
+        "radius": 2.0,
+        "range": 5.0,
+        "duration": 5.0,
+        "distance": 1.6,
+        "windup": 0.0
       }
     ]
   }

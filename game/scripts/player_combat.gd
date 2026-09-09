@@ -117,6 +117,8 @@ func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 		launch(p,type,p.aim,amount,radius+(2 if heavy else 0),config.speed,1.4 if type=="staff" else 0)
 		projectiles.back()["basic"]=not heavy
 		projectiles.back()["job"]=p.class_id
+		if not heavy and p.class_id=="gambler" and p.job_state.get("clean_card",false):
+			projectiles.back().speed+=jobs.passive(p,5);p.job_state.clean_card=false
 	else:
 		if heavy:radius+=0.8
 		for e in sim.enemies.values():

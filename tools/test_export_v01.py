@@ -1,10 +1,18 @@
 """Exercise the exported Windows executable, portable saves, and real rendering."""
 from pathlib import Path
-import subprocess,json,time,hashlib
+import subprocess,json,time,hashlib,shutil
 from engine_path import ROOT,hidden_options
-OUT=ROOT/'releases/V0.1/StelRPG-V0.1-Windows';EXE=OUT/'StelRPG.exe'
+from release_version import VERSION,KEY
+OUT=ROOT/'releases'/VERSION/('StelRPG-'+VERSION+'-Windows')
 RUN=ROOT/'runtime/export-checks'/time.strftime('%Y%m%d-%H%M%S');RUN.mkdir(parents=True)
-save=OUT/'saves/slot-3.json'
+portable=RUN/'portable-build';portable.mkdir()
+manifest=json.loads((ROOT/('artifacts/export-'+KEY+'.json')).read_text('utf8'))
+assert manifest['version']==VERSION
+for row in manifest['files']:
+    source=OUT/row['name'];assert source.parent==OUT and hashlib.sha256(source.read_bytes()).hexdigest()==row['sha256']
+    shutil.copy2(source,portable/source.name)
+EXE=portable/'StelRPG.exe'
+save=portable/'saves/slot-3.json'
 assert not save.exists(),'Use a fresh output directory; do not overwrite a player save.'
 def run(name,args,graphics=False):
     cmd=[str(EXE),'--log-file',str(RUN/(name+'.log'))]
@@ -26,5 +34,24 @@ for key,value in saved_before.items():
 assert played['world_seed']==restored['world_seed']
 for name,flag in [('inventory','--show-bag'),('skills','--show-skills')]:
     run(name,['--play',flag,'--duration=4','--capture-at=2','--capture='+str(ROOT/'artifacts'/('export-'+name+'.png'))],True)
-report={'status':'PASS','version':'V0.1','kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
-(ROOT/'artifacts/export-check-v01.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8');print('V01_EXPORT_CHECK PASS',json.dumps(report,ensure_ascii=False),flush=True)
+catalog=json.loads((ROOT/'game/data/jobs/catalog.json').read_text('utf8'))
+tested_jobs=[]
+for job,definition in catalog['classes'].items():
+    if definition.get('starter',False):continue
+    isolated=RUN/('job-'+job);isolated.mkdir()
+    fixture=dict(saved_before);fixture.update(level=100,class_id=job,skill_ranks={},skill_loadout={})
+    for node in catalog['nodes'][job]:
+        if node['effect']=='active' and len(fixture['skill_loadout'])<6:
+            fixture['skill_ranks'][node['id']]=3
+            fixture['skill_loadout'][['skill_q','skill_f','skill_v','skill_c','skill_z','skill_x'][len(fixture['skill_loadout'])]]=node['id']
+    (isolated/'slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
+    output=RUN/(job+'.json')
+    run('job-'+job,['--play','--show-skills','--duration=1.4','--save-dir='+str(isolated),'--report='+str(output),'--capture-at=.5','--capture='+str(ROOT/'artifacts'/('export-job-'+job+'.png'))],True)
+    restored_job=json.loads(output.read_text('utf8'))['player']
+    assert restored_job['class_id']==job and restored_job['level']==100
+    assert restored_job['skill_ranks']==fixture['skill_ranks'] and restored_job['skill_loadout']==fixture['skill_loadout']
+    tested_jobs.append(job)
+report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
+report['exported_jobs_restored_and_rendered']=tested_jobs
+report['pck_sha256']=hashlib.sha256((portable/'StelRPG.pck').read_bytes()).hexdigest()
+(ROOT/('artifacts/export-check-'+KEY+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8');print('V01_EXPORT_CHECK PASS',json.dumps(report,ensure_ascii=False),flush=True)

@@ -12,6 +12,19 @@ static func texture(sheet:String,index:int)->AtlasTexture:
 		var tex=AtlasTexture.new();tex.atlas=load(data.sheet);tex.region=Rect2(r[0],r[1],r[2],r[3]);tex.filter_clip=true;cache[key]=tex
 	return cache[key]
 static func skill(node:Dictionary)->Texture2D:
+	if node.get("effect","")=="upgrade":
+		Content.initialize_jobs()
+		for group in Content.SKILLS.values():
+			for other in group:
+				if other.id==node.get("target",""):return skill(other)
+	if node.get("runtime","")=="job":
+		var mode=node.get("mode","")
+		var mapped={"heal":32,"regen":32,"field_heal":34,"shield":33,"guard":33,"fortress":33,"haste":34,"buff_attack":10,"buff_crit":17,"buff_crit_damage":16,"shot":13,"fan":15,"barrage":14,"field":29,"slow":24,"wall":24,"burst":28,"chain":30,"blink":26,"summon":31,"pet_command":30,"pet_recall":26,"pet_heal":32,"pet_buff":34,"pet_haste":34,"pet_sacrifice":33,"bleed":7,"blind":25,"mark":13,"root":31,"trap":21,"trap_bleed":21,"bleed_shot":19,"pull_shot":23,"execute_shot":16,"slow_shot":24,"root_shot":21,"heavy":4,"heavy_dash":2,"heavy_execute":4,"charge":4,"charge_area":1,"charge_spin":1,"charge_execute":11,"parry":9,"parry_counter":9,"parry_knee":9,"combo":1,"finisher":11,"rush":2,"retreat":12,"weave":26,"teleport":26,"teleport_chain":30,"chain_pull":23,"chain_dash":2,"chain_group":30,"chain_retreat":12,"settle":27,"settle_fan":27,"settle_heavy":28,"settle_barrage":29}
+		if mapped.has(mode):return texture("active",mapped[mode])
+	if node.get("effect","")=="passive":
+		var family=Content.base_class(str(node.id).get_slice("_",0));var index=int(str(node.id).right(2))-1
+		var indices={"warrior":[5,22,2,3,6,7],"mage":[26,1,24,3,11,28],"ranger":[18,25,22,17,4,14],"rogue":[4,25,20,9,26,24],"fighter":[3,2,6,5,15,8]}
+		return texture("support",indices.get(family,[0,1,2,3,4,5])[clampi(index,0,5)])
 	return texture("active",ACTIVE.get(node.get("id",""),int(node.get("index",0))%36)) if node.get("effect","")=="active" else texture("support",SUPPORT.get(node.get("effect",""),28))
 static func function_icon(key:String)->Texture2D:return texture("support",SUPPORT[key])
 static func action(p:Dictionary,key:String,weapon:String)->Texture2D:

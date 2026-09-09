@@ -16,6 +16,7 @@ var portrait:Texture2D
 var bag_button:Button
 var growth_button:Button
 var boss_hud:Control
+var job_resource:Control
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
 	material=preload("res://scripts/gat_art.gd").material()
@@ -27,8 +28,8 @@ func setup(owner_game):
 	region.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT;region.add_theme_font_override("font",game.serif)
 	var quest_panel=game.panel(self,Vector2(1082,246),Vector2(322,163),Color("22464cb0"))
 	quest_panel.add_theme_stylebox_override("panel",game.style(Color("22464cb0"),Color("c5b67c60"),4))
-	quest_title=white_label("◆ 정원의 소란",Vector2(1098,254),Vector2(290,34),23,Color("f5df9b"))
-	quest=white_label("",Vector2(1100,297),Vector2(289,105),16)
+	quest_title=game.label(self,"◆ 정원의 소란",Vector2(1120,271),Vector2(265,28),21,Color("29434a"))
+	quest=game.label(self,"",Vector2(1120,310),Vector2(265,83),15,Color("29434a"))
 	bag_button=preload("res://scripts/hud_sprite_button.gd").new()
 	bag_button.setup(game,preload("res://scripts/icon_art.gd").function_icon("satchel"),"가방","I",game.toggle_bag);bag_button.position=Vector2(1047,23);add_child(bag_button)
 	var book=preload("res://scripts/icon_art.gd").function_icon("growth")
@@ -37,16 +38,16 @@ func setup(owner_game):
 	var definitions=[
 		["attack","기본 공격","LMB",Vector2(1270,733),102],
 		["heavy","충전 강공격","RMB",Vector2(1157,760),84],
-		["skill_q","기술","Q",Vector2(1278,611),78],
-		["skill_f","기술","F",Vector2(1168,611),78],
-		["skill_v","기술","V",Vector2(1058,611),78],
-		["skill_c","기술","C",Vector2(948,611),78],
-		["skill_z","기술","Z",Vector2(838,611),78],
-		["skill_x","기술","X",Vector2(728,611),78],
+		["skill_q","기술","Q",Vector2(490,783),66],
+		["skill_f","기술","F",Vector2(582,783),66],
+		["skill_v","기술","V",Vector2(674,783),66],
+		["skill_c","기술","C",Vector2(766,783),66],
+		["skill_z","기술","Z",Vector2(858,783),66],
+		["skill_x","기술","X",Vector2(950,783),66],
 		["dodge","회피","SPACE",Vector2(1045,764),78],
-		["potion","물약","1",Vector2(661,776),62],
-		["interact","줍기 / 보급","E",Vector2(741,776),62],
-		["return","쉼터 귀환","R",Vector2(821,776),62]]
+		["potion","물약","1",Vector2(563,685),55],
+		["interact","줍기 / 보급","E",Vector2(643,685),55],
+		["return","쉼터 귀환","R",Vector2(723,685),55]]
 	for entry in definitions:
 		var control=Circle.new();control.setup(game,entry[0],entry[1],entry[2]);control.position=entry[3];control.size=Vector2.ONE*entry[4]
 		add_child(control);circles[entry[0]]=control
@@ -57,8 +58,9 @@ func setup(owner_game):
 		else:control.pressed.connect(func():game.session.act(action))
 		game.action_buttons[action]=control
 		var badge=Label.new();badge.hide();control.add_child(badge);game.action_badges[action]=badge
-	charge_label=white_label("",Vector2(440,705),Vector2(640,65),17,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	white_label("WASD 이동   ·   SHIFT 달리기   ·   ESC 메뉴",Vector2(46,845),Vector2(530,26),15,Color("e6f0dc"))
+	charge_label=white_label("",Vector2(998,697),Vector2(365,27),16,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	job_resource=preload("res://scripts/job_resource_hud.gd").new();job_resource.setup(game);job_resource.position=Vector2(34,652);add_child(job_resource)
+	white_label("WASD 이동   ·   SHIFT 달리기   ·   ESC 메뉴",Vector2(38,841),Vector2(445,26),13,Color("e6f0dc"))
 	toast=white_label("",Vector2(371,160),Vector2(685,54),20,Color("fff5cd"));toast.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	game.region_label=region;game.quest_label=quest;game.hud_stats=money_label;game.health_label=hp_label;game.toast=toast
 	game.connection_label=white_label("",Vector2(44,874),Vector2(660,20),12,Color("e6f0dc"))
@@ -93,13 +95,20 @@ func refresh():
 			var node=Content.active_node(p,key);var trained=Content.action_rank(p,key)>0
 			control.caption=node.get("name","미장착") if trained else "K · "+node.get("name","미장착")
 			control.modulate=Color.WHITE if trained else Color(0.7,0.8,0.85,0.7)
-			control.max_cooldown=maxf(1,node.get("cooldown",7.0)-Content.skill_bonus(p,"skill_haste"))
+			if trained:
+				control.max_cooldown=preload("res://scripts/job_balance.gd").profile(p,node,Content.action_rank(p,key),game.session.sim.damage_for(p),p.max_hp,p.skill_ranks.get(node.id+"_upgrade",0)>0).cooldown if Content.job(p) else preload("res://scripts/skill_scaling.gd").profile(node,Content.action_rank(p,key),preload("res://scripts/active_skills.gd").bonuses(p)).cooldown
+			control.cooldown=p.skill_cooldowns.get(node.get("id",""),0.)
+			control.rank_text=str(Content.action_rank(p,key))+"/"+str(Content.max_rank(node)) if trained else ""
 		control.picture=preload("res://scripts/icon_art.gd").action(p,key,game.session.sim.combat.weapon_type(p))
 		control.tooltip_text=control.caption+" ("+control.hotkey+")"
 		control.queue_redraw()
 		game.action_badges[key].text="%.1fs" % control.cooldown if control.cooldown>0 else ""
 	charge_label.text="강공격 충전  %d%%" % int(p.charge_time/0.9*100) if p.charge_time>=0 else ""
-	if p.charge_time<0:charge_label.text=game.session.sim.combat.jobs.resource_text(p)
+	if p.charge_time<0:
+		var state=p.job_state
+		charge_label.text="회피 %d/%d"%[state.dash_charges,2 if p.class_id=="infighter" else 1] if Content.job(p) else ""
+		if Content.job(p) and state.dash_timer>0:charge_label.text+=" · 충전 %.1f초"%state.dash_timer
+	job_resource.refresh(p)
 	queue_redraw()
 
 func _draw():
@@ -112,11 +121,11 @@ func _draw():
 			var height=portrait.get_height()*0.53;var width=portrait.get_width()
 			draw_texture_rect_region(portrait,Rect2(center-Vector2(29,33),Vector2(58,64)),Rect2(0,0,width,height))
 	draw_circle(Vector2(116,112),16,Color("eed279"))
-	draw_string(game.bold_font,Vector2(107,118),str(p.level),HORIZONTAL_ALIGNMENT_CENTER,21,16,Color("264743"))
+	draw_string(game.bold_font,Vector2(99,118),str(p.level),HORIZONTAL_ALIGNMENT_CENTER,35,14,Color("264743"))
 	bar(Rect2(143,80,277,14),float(p.hp)/p.max_hp,Color("5ad18c"),10)
 	bar(Rect2(143,105,277,8),p.stamina/p.max_stamina,Color("67cde2"),10)
 	bar(Rect2(46,897,1350,3),float(p.xp)/preload("res://scripts/progression.gd").xp_required(p.level),Color("efd45c"),0)
-	if p.charge_time>=0:bar(Rect2(653,758,164,5),p.charge_time/0.9,Color("f6ce70"),0)
+	if p.charge_time>=0:bar(Rect2(1047,727,289,5),p.charge_time/0.9,Color("f6ce70"),0)
 func bar(rect:Rect2,ratio:float,color:Color,segments:int):
 	draw_rect(rect,Color("1b3543cf"));draw_rect(Rect2(rect.position,Vector2(rect.size.x*clampf(ratio,0,1),rect.size.y)),color)
 	for i in range(1,segments):
