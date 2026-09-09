@@ -24,30 +24,28 @@ func setup(owner_game):
 	white_label("별빛을 따라 걷는 모험가",Vector2(140,18),Vector2(450,23),13,Color("d4e6d4"))
 	hp_label=white_label("",Vector2(148,78),Vector2(264,21),13)
 	money_label=white_label("",Vector2(51,156),Vector2(420,30),18)
-	region=white_label("",Vector2(1149,194),Vector2(265,31),23)
+	region=white_label("",Vector2(1080,194),Vector2(322,44),19)
 	region.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT;region.add_theme_font_override("font",game.serif)
-	var quest_panel=game.panel(self,Vector2(1082,246),Vector2(322,163),Color("22464cb0"))
+	var quest_panel=game.panel(self,Vector2(1082,252),Vector2(322,223),Color("22464cb0"))
 	quest_panel.add_theme_stylebox_override("panel",game.style(Color("22464cb0"),Color("c5b67c60"),4))
-	quest_title=game.label(self,"◆ 정원의 소란",Vector2(1120,271),Vector2(265,28),21,Color("29434a"))
-	quest=game.label(self,"",Vector2(1120,310),Vector2(265,83),15,Color("29434a"))
+	quest_title=game.label(self,"◆ 정원의 소란",Vector2(1138,298),Vector2(231,31),19,Color("29434a"))
+	quest=game.label(self,"",Vector2(1138,346),Vector2(233,90),16,Color("29434a"))
+	quest.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	bag_button=preload("res://scripts/hud_sprite_button.gd").new()
 	bag_button.setup(game,preload("res://scripts/icon_art.gd").function_icon("satchel"),"가방","I",game.toggle_bag);bag_button.position=Vector2(1047,23);add_child(bag_button)
 	var book=preload("res://scripts/icon_art.gd").function_icon("growth")
 	growth_button=preload("res://scripts/hud_sprite_button.gd").new()
 	growth_button.setup(game,book,"성장","K",game.toggle_skills);growth_button.position=Vector2(1136,23);add_child(growth_button)
 	var definitions=[
-		["attack","기본 공격","LMB",Vector2(1270,733),102],
-		["heavy","충전 강공격","RMB",Vector2(1157,760),84],
-		["skill_q","기술","Q",Vector2(490,783),66],
-		["skill_f","기술","F",Vector2(582,783),66],
-		["skill_v","기술","V",Vector2(674,783),66],
-		["skill_c","기술","C",Vector2(766,783),66],
-		["skill_z","기술","Z",Vector2(858,783),66],
-		["skill_x","기술","X",Vector2(950,783),66],
-		["dodge","회피","SPACE",Vector2(1045,764),78],
-		["potion","물약","1",Vector2(563,685),55],
-		["interact","줍기 / 보급","E",Vector2(643,685),55],
-		["return","쉼터 귀환","R",Vector2(723,685),55]]
+		["skill_q","기술","Q",Vector2(1080,650),76],
+		["skill_f","기술","F",Vector2(1190,650),76],
+		["skill_v","기술","V",Vector2(1300,650),76],
+		["skill_c","기술","C",Vector2(1080,773),76],
+		["skill_z","기술","Z",Vector2(1190,773),76],
+		["skill_x","기술","X",Vector2(1300,773),76],
+		["potion","물약","1",Vector2(640,791),54],
+		["interact","상호작용","E",Vector2(735,791),54],
+		["return","마을 귀환","R",Vector2(830,791),54]]
 	for entry in definitions:
 		var control=Circle.new();control.setup(game,entry[0],entry[1],entry[2]);control.position=entry[3];control.size=Vector2.ONE*entry[4]
 		add_child(control);circles[entry[0]]=control
@@ -58,7 +56,7 @@ func setup(owner_game):
 		else:control.pressed.connect(func():game.session.act(action))
 		game.action_buttons[action]=control
 		var badge=Label.new();badge.hide();control.add_child(badge);game.action_badges[action]=badge
-	charge_label=white_label("",Vector2(998,697),Vector2(365,27),16,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	charge_label=white_label("",Vector2(998,697),Vector2(365,27),16,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;charge_label.hide()
 	job_resource=preload("res://scripts/job_resource_hud.gd").new();job_resource.setup(game);job_resource.position=Vector2(34,652);add_child(job_resource)
 	white_label("WASD 이동   ·   SHIFT 달리기   ·   ESC 메뉴",Vector2(38,841),Vector2(445,26),13,Color("e6f0dc"))
 	toast=white_label("",Vector2(371,160),Vector2(685,54),20,Color("fff5cd"));toast.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
@@ -77,13 +75,16 @@ func refresh():
 	name_label.text="%s  ·  Lv.%d" % [p.name,p.level]
 	hp_label.text="%d / %d" % [p.hp,p.max_hp]
 	money_label.text="● %d 금화    ·    %s" % [p.gold,Content.CLASSES[p.class_id].name]
-	region.text="햇살 마을" if game.dungeon.zone=="town" else preload("res://scripts/world_catalog.gd").DUNGEONS[game.dungeon.zone].name
-	quest.text="정원 친구들 구하기   %d / 5\n정원지기 진정시키기   %d / 1\n보상 · 금화 100" % [mini(5,p.kills),mini(1,p.boss_kills)]
-	if p.quest_done:quest.text="✓ 정원에 웃음이 돌아왔어요.\n의뢰 완료 · 보상 지급 완료\n마을 원정의 문에서 다시 출발하세요."
-	if game.dungeon.zone=="town":quest.text="E 시설 이용 · I 가방 · K 성장\n대장간·상점·공방·길드·여관\n원정의 문에서 던전을 고르세요."
-	if not p.get("guild_contract",{}).is_empty():quest.text="길드 토벌 · %s\n%d / %d마리\n보상: 180금화 / 정수 1" % [preload("res://scripts/world_catalog.gd").DUNGEONS[p.guild_contract.zone].name,p.guild_contract.progress,p.guild_contract.target]
-	quest_title.text="◆ 햇살 마을" if game.dungeon.zone=="town" else "◆ 정원의 소란"
-	if not p.get("guild_contract",{}).is_empty():quest_title.text="◆ 길드 토벌 의뢰"
+	var floor_number=game.dungeon.floor_number
+	region.text="햇살 마을" if game.dungeon.zone=="town" else preload("res://scripts/abyss_catalog.gd").config(floor_number).name if floor_number>0 else "꽃바람 숲 · 튜토리얼"
+	quest_title.text="◆ 100층으로 향하는 길"
+	if not p.tutorial_done:
+		quest_title.text="◆ 첫 모험 · 꽃바람 숲";quest.text="숲의 적 처치   %d / 5\n보상 · 금화 100\n%s"%[mini(5,p.tutorial_kills),"R로 마을에 도착하세요." if p.tutorial_kills>=5 else "WASD 이동 · 좌클릭 공격"]
+	elif game.dungeon.zone=="town":quest.text="최고 돌파   B%d / B100\n원정의 문에서 다음 층에 도전\nE 시설 · I 가방 · K 성장"%p.cleared_floor
+	else:
+		var clear=not game.session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
+		quest_title.text="◆ B%d · %s"%[floor_number,"레이드" if floor_number%10==0 else "던전 탐사"]
+		quest.text="100층 레이드 완료!\n마력핵을 잠재웠습니다.\nR로 마을 귀환" if floor_number==100 and clear else "출구에서 E · 다음 층\n전리품을 먼저 챙기세요.\nR · 마을 귀환" if clear else "최종 보스를 격파하세요.\n붉은 공격 예고를 피하세요.\nR · 마을 귀환" if floor_number==100 else "보스를 격파하고 다음 층 해금\n붉은 공격 예고를 피하세요.\nR · 마을 귀환" if floor_number%10==0 else "최심부 수문장을 격파하세요.\n출구 E · 다음 층 해금\nR · 마을 귀환"
 	game.connection_label.text="개인 모험 · 기록 %d · 자동 저장" % game.session.slot
 	portrait=preload("res://scripts/gat_art.gd").portrait(p) if Content.gat_appearance(p) else game.textures[Content.costume_role(p)].idle[0]
 	for key in circles:
@@ -99,7 +100,7 @@ func refresh():
 				control.max_cooldown=preload("res://scripts/job_balance.gd").profile(p,node,Content.action_rank(p,key),game.session.sim.damage_for(p),p.max_hp,p.skill_ranks.get(node.id+"_upgrade",0)>0).cooldown if Content.job(p) else preload("res://scripts/skill_scaling.gd").profile(node,Content.action_rank(p,key),preload("res://scripts/active_skills.gd").bonuses(p)).cooldown
 			control.cooldown=p.skill_cooldowns.get(node.get("id",""),0.)
 			control.rank_text=str(Content.action_rank(p,key))+"/"+str(Content.max_rank(node)) if trained else ""
-		control.picture=preload("res://scripts/icon_art.gd").action(p,key,game.session.sim.combat.weapon_type(p))
+		control.picture=null if key in Content.ACTIONS and Content.action_rank(p,key)<=0 else preload("res://scripts/icon_art.gd").action(p,key,game.session.sim.combat.weapon_type(p))
 		control.tooltip_text=control.caption+" ("+control.hotkey+")"
 		control.queue_redraw()
 		game.action_badges[key].text="%.1fs" % control.cooldown if control.cooldown>0 else ""
@@ -125,7 +126,7 @@ func _draw():
 	bar(Rect2(143,80,277,14),float(p.hp)/p.max_hp,Color("5ad18c"),10)
 	bar(Rect2(143,105,277,8),p.stamina/p.max_stamina,Color("67cde2"),10)
 	bar(Rect2(46,897,1350,3),float(p.xp)/preload("res://scripts/progression.gd").xp_required(p.level),Color("efd45c"),0)
-	if p.charge_time>=0:bar(Rect2(1047,727,289,5),p.charge_time/0.9,Color("f6ce70"),0)
+
 func bar(rect:Rect2,ratio:float,color:Color,segments:int):
 	draw_rect(rect,Color("1b3543cf"));draw_rect(Rect2(rect.position,Vector2(rect.size.x*clampf(ratio,0,1),rect.size.y)),color)
 	for i in range(1,segments):

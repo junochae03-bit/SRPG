@@ -23,7 +23,7 @@ func run():
 		assert(Inventory.can_place(p,item.id,Vector2i(pos.x,pos.y),pos.rotated))
 	assert(p.skill_ranks==old.get("skill_ranks",{}))
 	assert(Content.available_points(p)==Content.available_points(old))
-	session.save_game();var migrated=session.parse_save(session.save_path());assert(migrated!=null and migrated.schema_version==5)
+	session.save_game();var migrated=session.parse_save(session.save_path());assert(migrated!=null and migrated.schema_version==6)
 	session.disconnect_game();session.start_game("재시작",1);session.paused=true
 	assert(session.sim.players[1].inventory==p.inventory)
 	assert(session.sim.players[1].bag_positions==p.bag_positions)

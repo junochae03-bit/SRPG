@@ -19,28 +19,28 @@ func run():
 	check(p.inventory.size()==4 and p.equipped=="training-sword","four distinct starter weapons")
 	var bag=game.bag
 	bag.select_item("training-bow")
-	check(bag.detail_name.text.contains("사냥활"),"selected detail names bow")
+	check(bag.detail_name.text.contains("전사"),"selected detail names class armor")
 	bag.primary.pressed.emit()
-	check(p.equipped=="training-bow","detail button equips bow")
-	check(not p.bag_positions.has("training-bow") and p.bag_positions.has("training-sword"),"equipment frees grid space and returns old gear")
-	var data={"kind":"inventory_item","id":"training-bow","slot":"weapon","rotated":false}
+	check(p.equipment.chest=="training-bow","detail button equips bow")
+	check(not p.bag_positions.has("training-bow") and not p.bag_positions.has("training-sword"),"equipment frees grid space and returns old gear")
+	var data={"kind":"inventory_item","id":"training-bow","slot":"chest","rotated":false}
 	check(not bag.grid._can_drop_data(Vector2(-20,0),data),"equipped drag rejects bounds")
-	var staged=p.duplicate(true);staged.equipment.weapon=""
+	var staged=p.duplicate(true);staged.equipment.chest=""
 	var fit=Inventory.first_fit(staged,"training-bow")
 	data.rotated=fit.rotated
 	var at=Vector2(fit.x,fit.y)*bag.grid.CELL+Vector2.ONE*3
 	check(bag.grid._can_drop_data(at,data),"equipment can be dropped into free grid region")
 	bag.grid._drop_data(at,data)
-	check(p.equipped=="" and p.bag_positions["training-bow"].x==fit.x,"grid drop unequips at chosen cell")
+	check(p.equipment.chest=="" and p.bag_positions["training-bow"].x==fit.x,"grid drop unequips at chosen cell")
 	var before=p.bag_positions.duplicate(true)
 	check(not session.act("move_item",JSON.stringify({"id":"training-bow","x":10,"y":5,"rotated":false})),"invalid placement rejected through session")
 	check(p.bag_positions==before,"failed drop keeps all item positions")
 	bag.filter_index=2;bag.refresh(true)
-	check(bag.grid.get_child_count()==4+1,"filter preserves equipment and potion controls")
+	check(bag.grid.get_child_count()==3+1,"filter preserves equipment and potion controls")
 	var faded=0
 	for child in bag.grid.get_children():
 		if child.faded:faded+=1
-	check(faded==4,"consumable filter dims all four weapons")
+	check(faded==3,"consumable filter dims all four weapons")
 	bag.filter_index=0;bag.refresh(true)
 	var drag={"kind":"inventory_item","id":"training-bow","slot":"","rotated":false}
 	bag.grid.force_drag(drag,null)
@@ -75,7 +75,7 @@ func run():
 	await process_frame
 	session.save_game()
 	var saved=session.parse_save(session.save_path())
-	check(saved!=null and saved.schema_version==5 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
+	check(saved!=null and saved.schema_version==6 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
 	game.stop_audio();session.disconnect_game();await create_timer(0.5).timeout;surface.queue_free();await process_frame
 	print("INVENTORY_UI_TESTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

@@ -1,0 +1,298 @@
+{
+  "status": "PASS",
+  "version": "V0.2",
+  "baseline_commit": "d627a6e",
+  "source": {
+    "status": "PASS",
+    "checks": 24486,
+    "results": [
+      {
+        "test": "forest_stability",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "FOREST_STABILITY_PASS fixed_changes=0 smooth_fade=PASS"
+        ]
+      },
+      {
+        "test": "rules",
+        "status": "PASS",
+        "checks": 91,
+        "markers": [
+          "RULE_TESTS checks=91 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_grid",
+        "status": "PASS",
+        "checks": 83,
+        "markers": [
+          "INVENTORY_GRID_TESTS checks=83 failures=0"
+        ]
+      },
+      {
+        "test": "inventory_ui",
+        "status": "PASS",
+        "checks": 17,
+        "markers": [
+          "INVENTORY_UI_TESTS checks=17 failures=0"
+        ]
+      },
+      {
+        "test": "combat",
+        "status": "PASS",
+        "checks": 42,
+        "markers": [
+          "COMBAT_TESTS checks=42 failures=0"
+        ]
+      },
+      {
+        "test": "skills_v04",
+        "status": "PASS",
+        "checks": 204,
+        "markers": [
+          "SKILLS_V04_TESTS checks=204 failures=0"
+        ]
+      },
+      {
+        "test": "loot_v04",
+        "status": "PASS",
+        "checks": 302,
+        "markers": [
+          "LOOT_V04_TESTS checks=302 failures=0"
+        ]
+      },
+      {
+        "test": "single_player",
+        "status": "PASS",
+        "checks": 30,
+        "markers": [
+          "SINGLE_PLAYER_TESTS checks=30 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_ui",
+        "status": "PASS",
+        "checks": 43,
+        "markers": [
+          "EXPANSION_UI_TESTS checks=43 failures=0"
+        ]
+      },
+      {
+        "test": "appearance_v041",
+        "status": "PASS",
+        "checks": 138,
+        "markers": [
+          "APPEARANCE_V041_TESTS checks=138 failures=0"
+        ]
+      },
+      {
+        "test": "expansion_v05",
+        "status": "PASS",
+        "checks": 876,
+        "markers": [
+          "V05_TESTS checks=876 failures=0"
+        ]
+      },
+      {
+        "test": "polish_v05",
+        "status": "PASS",
+        "checks": 1124,
+        "markers": [
+          "POLISH_V05_TESTS checks=1124 failures=0"
+        ]
+      },
+      {
+        "test": "monsters_v05",
+        "status": "PASS",
+        "checks": 410,
+        "markers": [
+          "MONSTERS_V05_TESTS checks=410 failures=0"
+        ]
+      },
+      {
+        "test": "skills_v01",
+        "status": "PASS",
+        "checks": 1026,
+        "markers": [
+          "SKILLS_V01_TESTS checks=1026 failures=0"
+        ]
+      },
+      {
+        "test": "ui_v01",
+        "status": "PASS",
+        "checks": 227,
+        "markers": [
+          "UI_V01_TESTS checks=227 failures=0"
+        ]
+      },
+      {
+        "test": "jobs",
+        "status": "PASS",
+        "checks": 242,
+        "markers": []
+      },
+      {
+        "test": "job_balance",
+        "status": "PASS",
+        "checks": 1408,
+        "markers": [
+          "JOB_BALANCE_TESTS checks=1408 failures=0"
+        ]
+      },
+      {
+        "test": "job_ui",
+        "status": "PASS",
+        "checks": 1564,
+        "markers": [
+          "JOB_UI_TESTS checks=1564 failures=0"
+        ]
+      },
+      {
+        "test": "progression_v02",
+        "status": "PASS",
+        "checks": 112,
+        "markers": [
+          "PROGRESSION_V02_TESTS checks=112 failures=0"
+        ]
+      },
+      {
+        "test": "equipment_v02",
+        "status": "PASS",
+        "checks": 872,
+        "markers": [
+          "EQUIPMENT_V02_TESTS checks=872 failures=0"
+        ]
+      },
+      {
+        "test": "dungeon_v02",
+        "status": "PASS",
+        "checks": 15293,
+        "markers": [
+          "DUNGEON_V02_TESTS checks=15293 failures=0"
+        ]
+      },
+      {
+        "test": "floor_balance_v02",
+        "status": "PASS",
+        "checks": 335,
+        "markers": [
+          "FLOOR_BALANCE_V02_TESTS checks=335 failures=0"
+        ]
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "LEGACY_SAVE_PASS level=5 items=0 gold=57"
+        ]
+      },
+      {
+        "test": "visual_v05",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V05_PASS"
+        ]
+      },
+      {
+        "test": "visual_v01",
+        "status": "PASS",
+        "checks": 0,
+        "markers": [
+          "VISUAL_V01_PASS"
+        ]
+      },
+      {
+        "test": "visual_jobs",
+        "status": "PASS",
+        "checks": 0,
+        "markers": []
+      },
+      {
+        "test": "job_benchmark",
+        "status": "PASS",
+        "checks": 0,
+        "markers": []
+      },
+      {
+        "test": "ui_v02",
+        "status": "PASS",
+        "checks": 47,
+        "markers": [
+          "UI_V02_TESTS checks=47 failures=0"
+        ]
+      }
+    ],
+    "save_integrity": "not present in this checkout",
+    "runtime_files": 209,
+    "runtime_mib": 206.36,
+    "verified_at": "2026-09-09 18:29:39"
+  },
+  "export": {
+    "status": "PASS",
+    "version": "V0.2",
+    "kills": 6,
+    "distance": 52.4400477409363,
+    "portable_save": "saves/slot-3.json beside the executable",
+    "restart_persistence": "all persistent player fields identical",
+    "rendered_screens": [
+      "export-inventory.png",
+      "export-skills.png"
+    ],
+    "executable_sha256": "f9cb815a32a1ae3a73ad8699ed2b068cb76fe01636d7e8538243056fac05f37b",
+    "abyss": {
+      "rendered_floor": 100,
+      "boss_name": "심연의 왕 · 아스트라",
+      "boss_hp": 400478,
+      "five_stats_restored": true,
+      "completed_save_fixture_restored": 100,
+      "saved_raid_clears": 10,
+      "all_100_floors_cleared_by_source_gate": true
+    },
+    "exported_jobs_restored_and_rendered": [
+      "tank",
+      "runesword",
+      "swordsman",
+      "summoner",
+      "elementalist",
+      "healer",
+      "sniper",
+      "hunter",
+      "explorer",
+      "thief",
+      "reaper",
+      "gambler",
+      "infighter",
+      "breaker",
+      "martialist"
+    ],
+    "pck_sha256": "388b9834c8415d84ec9ec1073ad68c25a594c3f7007980becb40a2fad20c1809"
+  },
+  "user_save_copy_migration": {
+    "status": "PASS",
+    "previous_schema": 5,
+    "new_schema": 6,
+    "level": 20,
+    "items_preserved": 27,
+    "original_sha256_unchanged": true
+  },
+  "package": {
+    "allowlist_count": 6,
+    "zip_crc": "PASS",
+    "sha256": "406fcf110182871a1fb55ea5f3ea301be23a8a5846cafc03619bf832d04cbf18"
+  },
+  "limitations": [
+    "Offline single-player; no multiplayer server.",
+    "Stationary combat benchmark is not a human playtest.",
+    "Ten raid encounters share three boss art sets."
+  ],
+  "local_sync": {
+    "runtime_hashes_matching": 209,
+    "owned_files_synced": 78,
+    "original_saves_unchanged": true,
+    "previous_files_backed_up": true
+  },
+  "isolated_release": "Frozen separately from concurrent skill effects and environment work; only V0.2 changes are included."
+}

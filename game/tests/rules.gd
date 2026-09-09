@@ -85,7 +85,9 @@ func run():
 	check(sim.action(101,"interact") and p.inventory.size()==1,"owner collects guaranteed weapon")
 	while sim.action(101,"interact"):pass
 	check(not sim.action(101,"interact") and p.inventory.size()==1,"drop cannot be collected twice")
-	check(sim.damage_for(p)>18,"equipped loot increases attack")
+	check(p.equipped=="" and not sim.action(101,"equip",drop.item.id),"high level drop waits in bag")
+	p.level=drop.item.required_level;sim.recalculate(p);var naked=sim.damage_for(p)
+	check(sim.action(101,"equip",drop.item.id) and sim.damage_for(p)>naked,"eligible loot increases attack")
 	check(not sim.action(101,"equip","forged-id"),"forged item cannot equip")
 	var visible=sim.snapshot(202)
 	var packed=var_to_bytes(visible).compress(FileAccess.COMPRESSION_DEFLATE)

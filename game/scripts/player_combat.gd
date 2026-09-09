@@ -14,7 +14,7 @@ func _init(owner_sim):
 
 func weapon_type(p:Dictionary)->String:
 	if Content.job(p):return Content.CLASSES[p.class_id].weapon
-	return Inventory.find_item(p,p.equipped).get("weapon_type","sword")
+	return Inventory.find_item(p,p.equipped).get("weapon_type",Content.CLASSES[p.class_id].weapon)
 
 func initialize(p:Dictionary):
 	jobs.reset(p)
@@ -32,7 +32,7 @@ func tick_player(p:Dictionary,delta:float):
 		p.regen_fraction+=Content.skill_bonus(p,"health_regen")*delta
 		if p.regen_fraction>=1:p.hp=mini(p.max_hp,p.hp+int(p.regen_fraction));p.regen_fraction=fposmod(p.regen_fraction,1)
 	if p.charge_time>=0:p.charge_time=minf(0.9,p.charge_time+delta)
-	var speed=sim.balance.player.speed+Content.skill_bonus(p,"speed")
+	var speed=(sim.balance.player.speed+Content.skill_bonus(p,"speed"))*preload("res://scripts/progression.gd").move_speed(p)
 	if p.haste_time>0:speed*=1+p.get("haste_speed",.25)
 	if p.enemy_slow_time>0:speed*=.65
 	if p.has("job_state"):
@@ -103,7 +103,7 @@ func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 		var cls=Content.CLASSES[p.class_id];config.cooldown=cls.cooldown;config.range=cls.range;config.projectile=cls.projectile
 		if not heavy:jobs.basic(p)
 		config.cooldown/=jobs.attack_speed(p)
-	p.attack_cd=maxf(0.15,config.cooldown-Content.skill_bonus(p,"attack_haste"))*(1.5 if heavy else 1.0);p.swing=0.32
+	p.attack_cd=maxf(0.15,(config.cooldown-Content.skill_bonus(p,"attack_haste"))/preload("res://scripts/progression.gd").attack_speed(p))*(1.5 if heavy else 1.0);p.swing=0.32
 	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
@@ -136,7 +136,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null):
 	if e.kind=="sentinel" and e.windup<=0:amount=maxi(1,roundi(amount*.70))
 	if float(e.hp)/e.max_hp<.3:amount=roundi(amount*(1+Content.skill_bonus(p,"execute")))
 	if e.kind in ["warden","golem","sentinel"] or e.get("elite",false):amount=roundi(amount*(1+Content.skill_bonus(p,"elite_damage")))
-	var critical=Content.skill_bonus(p,"critical")+preload("res://scripts/progression.gd").bonus(p,"dexterity")*.003
+	var critical=Content.skill_bonus(p,"critical")
 	if critical>0 and sim.rng.randf()<minf(.65,critical):amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")))
 	p.hp=mini(p.max_hp,p.hp+floori(amount*Content.skill_bonus(p,"lifesteal")))
 	amount=jobs.outgoing(p,e,amount)

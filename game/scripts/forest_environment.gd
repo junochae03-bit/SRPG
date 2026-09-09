@@ -40,6 +40,7 @@ func rebuild(dungeon):
 	material.set_shader_parameter("camp",map.spawn)
 	material.set_shader_parameter("theme",1 if map.zone=="cave" else 2 if map.zone=="ruins" else 0)
 	material.set_shader_parameter("town",map.zone=="town")
+	material.set_shader_parameter("biome",int((map.floor_number-1)/10) if map.floor_number>0 else -1)
 	props.clear()
 	var rng=RandomNumberGenerator.new()
 	rng.seed=map.seed_value+419
@@ -118,5 +119,25 @@ func draw_prop(prop: Dictionary):
 	game.draw_set_transform(Vector2.ZERO)
 	game.draw_set_transform(point,0,Vector2(-1 if prop.flip else 1,1))
 	var tint=Color(.75,.92,1,alpha) if map.zone=="cave" else Color(1,1,1,alpha)
+	if map.floor_number>0:
+		var biome=int((map.floor_number-1)/10)
+		if biome==4:tint=Color(.65,.52,.44,alpha)
+		elif biome==5:tint=Color(.68,.88,1.08,alpha)
+		elif biome==3:tint=Color(.8,.78,1.,alpha)
+		elif biome==7:tint=Color(1.05,.83,.6,alpha)
+		elif biome>=8:tint=Color(.85,.78,1.,alpha)
 	game.draw_texture_rect(sprites[prop.sprite],Rect2(-Vector2(dimensions.x*0.5,dimensions.y*0.97),dimensions),false,tint)
 	game.draw_set_transform(Vector2.ZERO)
+	if map.floor_number>0:draw_crystals(prop)
+
+func draw_crystals(prop:Dictionary):
+	var biome=int((map.floor_number-1)/10)
+	if biome not in [1,5,8,9] or prop.sprite!=2 or int(prop.render_id)%3!=0:return
+	var foot=game.world_point(prop.pos);var height=prop.size*.75
+	var color=Color("70cad4") if biome==1 else Color("b9e6ef") if biome==5 else Color("bfb0df")
+	for i in range(3):
+		var x=(i-1)*16.;var top=foot+Vector2(x,-height*(.65+.18*i))
+		var left=foot+Vector2(x-12,-12);var right=foot+Vector2(x+12,-8)
+		game.draw_colored_polygon(PackedVector2Array([top,left,right]),color.darkened(.25))
+		game.draw_colored_polygon(PackedVector2Array([top,foot+Vector2(x,0),right]),color)
+		game.draw_line(top,foot+Vector2(x,-2),color.lightened(.28),1.5,true)

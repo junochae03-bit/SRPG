@@ -47,7 +47,7 @@ static func pattern(kind:String,origin:Vector2,target:Vector2,sequence:int=0)->A
 			a.append(area("circle",origin,target,1.4,.65,1.2));a.back().sound="heavy"
 	return a
 func begin(e:Dictionary,target:Vector2):
-	e.attack_pos=target;e.attack_areas=pattern(e.kind,e.pos,target,int(e.pattern))
+	e.attack_pos=target;e.attack_areas=raid_pattern(e,target) if e.get("raid",false) else pattern(e.kind,e.pos,target,int(e.pattern))
 func release(e:Dictionary):
 	var areas=e.get("attack_areas",pattern(e.kind,e.pos,e.attack_pos,int(e.get("pattern",0))))
 	if e.kind in ["shade","bat","fox","cave_bat"] and sim.map.line_clear(e.pos,e.attack_pos):e.pos=sim.map.move(e.pos,e.pos.direction_to(e.attack_pos)*minf(2.5,e.pos.distance_to(e.attack_pos)))
@@ -78,10 +78,10 @@ func impact(zone:Dictionary,e:Dictionary):
 	for p in sim.players.values():
 		if contains(zone,p.pos) and sim.map.line_clear(zone.from,p.pos):damage(e,p,zone)
 		for pet in p.get("job_state",{}).get("pets",[]):
-			if contains(zone,pet.pos) and sim.map.line_clear(zone.from,pet.pos):pet.hp-=sim.balance.enemies[e.kind].damage*zone.multiplier*(1-sim.combat.jobs.value(p,"pet_guard"))
+			if contains(zone,pet.pos) and sim.map.line_clear(zone.from,pet.pos):pet.hp-=e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.)*(1-sim.combat.jobs.value(p,"pet_guard"))
 func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	if p.invulnerable>0 or sim.map.in_town(p.pos):return
-	var amount=maxi(1,roundi(sim.balance.enemies[e.kind].damage*zone.multiplier)-p.defense)
+	var amount=preload("res://scripts/progression.gd").received(p,e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.),e.kind in ["ember_slime","frost_slime","goblin_shaman","spellbook","spider","golem","warden"])
 	if p.barrier_time>0:amount=maxi(1,roundi(amount*(1-p.barrier_strength)))
 	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
 	if amount<=0:return
@@ -112,3 +112,22 @@ static func draw_area(canvas,zone:Dictionary,color:Color):
 		points=PackedVector2Array()
 		for i in range(41):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.inner))
 		canvas.draw_polyline(points,color,2.0,true)
+
+static func raid_pattern(e:Dictionary,target:Vector2)->Array:
+	var origin:Vector2=e.pos;var direction=origin.direction_to(target)
+	if direction==Vector2.ZERO:direction=Vector2.RIGHT
+	var chapter=int((int(e.get("floor",10))-1)/10);var sequence=(int(e.pattern)+chapter)%3;var result=[]
+	if sequence==0:
+		result=[area("cone",origin,origin+direction,3.1+chapter*.06,0,1.15)]
+		result[0].angle=.8;result[0].sound="heavy"
+		if chapter>=3:result.append(area("circle",origin,target,1.3,.65,.7));result.back().sound="nova"
+	elif sequence==1:
+		for i in range(2+int(chapter/3)):
+			result.append(area("circle",origin,target+direction.orthogonal()*(i-(1+int(chapter/3))*.5)*1.8,1.1,.3*i,.65));result.back().sound="staff"
+	else:
+		result=[area("ring",origin,origin,3.6,0,1.)];result[0].inner=1.25;result[0].sound="nova"
+		if chapter>=5:
+			for i in range(2):result.append(area("line",origin,origin+direction.rotated(PI*i)*4.8,.36,.6,.65));result.back().sound="heavy"
+	if e.phase==2 and chapter>=2:
+		result.append(area("circle",origin,target,1.1,1.1,.6));result.back().sound="nova"
+	return result

@@ -42,13 +42,13 @@ func run():
 	p.pos=boss.pos+Vector2(0.4,0)
 	p.aim=Vector2.LEFT
 	var boss_before=boss.hp
-	p.level=10;p.skill_ranks={"blade":1,"heavy_training":1,"blade_wave":1};p.skill_loadout={"skill_q":"blade_wave"};session.refresh()
+	p.level=30;p.skill_ranks={"blade":1,"heavy_training":1,"blade_wave":1};p.skill_loadout={"skill_q":"blade_wave"};session.refresh()
 	game.action_buttons.skill_q.pressed.emit()
 	session.sim.combat.tick_projectiles(.1)
 	check(boss.hp<boss_before and p.skill_q_cd>0 and not game.action_badges.skill_q.text.is_empty(),"icon skill button damages and displays cooldown")
 	p.kills=4
 	boss.hp=1
-	game.action_buttons.attack.pressed.emit()
+	session.act("attack")
 	var weapon_drop=session.sim.drops.values().filter(func(d):return d.item.category=="weapon")[0]
 	p.pos=weapon_drop.pos
 	var key=InputEventKey.new()
@@ -69,7 +69,7 @@ func run():
 	game.toggle_bag()
 	var saved=session.sim.persistent(1)
 	var old_seed=session.world_seed
-	p.pos=session.sim.map.spawn
+	p.tutorial_done=true;session.travel("town")
 	session.new_expedition()
 	check(session.world_seed!=old_seed,"new expedition changes map seed")
 	check(session.sim.players[1].inventory==saved.inventory,"new expedition retains inventory")

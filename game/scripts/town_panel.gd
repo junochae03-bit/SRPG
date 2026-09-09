@@ -21,6 +21,8 @@ var operation=""
 var shop_mode="buy"
 var selected_index=0
 var selected_zone="forest"
+var selected_floor=1
+var chapter=0
 var last_receipt=""
 var confirm_button:Button
 var preview={}
@@ -43,6 +45,7 @@ func setup(owner_game):
 func player()->Dictionary:return game.session.sim.players[game.session.local_id]
 func open(key:String):
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt=""
+	selected_floor=int(player().get("highest_floor",1));chapter=int((selected_floor-1)/10)
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel"}[key]
 	game.bag.hide();game.skill_tree.hide();game.help_panel.hide();show();game.session.paused=true;refresh()
 func close():hide();game.session.paused=false
@@ -84,8 +87,10 @@ func list_surface(at:Vector2,dimensions:Vector2,height:float)->Control:
 	var list=Control.new();list.custom_minimum_size=Vector2(dimensions.x-16,height);scroll.add_child(list);return list
 func item_card(parent:Node,item:Dictionary,at:Vector2,caption:String,callback:Callable,chosen=false)->Button:
 	var b=game.button(parent,"",at,Vector2(263,106),callback)
-	Art.picture(b,Art.texture("equipped" if chosen else ["socket","magic","rare"][int(item.rarity)]),Vector2(12,15),Vector2(66,72))
+	Art.picture(b,Art.texture("equipped" if chosen else ["socket","magic","rare","rare","rare"][clampi(int(item.rarity),0,4)]),Vector2(12,15),Vector2(66,72))
 	Art.picture(b,Content.icon_texture(item),Vector2(20,24),Vector2(50,52))
+	if item.get("category","") in ["weapon","armor","accessory"]:
+		var edge=Line2D.new();edge.points=PackedVector2Array([Vector2(19,23),Vector2(71,23),Vector2(71,79),Vector2(19,79),Vector2(19,23)]);edge.width=2;edge.default_color=Equipment.COLORS[clampi(int(item.rarity),0,4)];b.add_child(edge)
 	var name=game.label(b,item.name,Vector2(91,17),Vector2(160,49),18);name.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	game.label(b,caption,Vector2(91,71),Vector2(161,24),16);return b
 func shop(p:Dictionary):
@@ -93,7 +98,7 @@ func shop(p:Dictionary):
 	game.button(body,"판매 · 내 장비",Vector2(277,0),Vector2(263,43),func():shop_mode="sell";operation="sell";selected_item="";refresh())
 	var items=[]
 	if shop_mode=="buy":
-		for key in Equipment.BASES:items.append(Equipment.make(key,mini(4,int(p.level/5)),0,"preview"))
+		for key in Equipment.SHOP_TYPES:items.append(Equipment.make(key,mini(9,int(p.level/10)),0,"preview","none",p.class_id))
 	else:items=p.inventory.filter(func(item):return not Inventory.is_equipped(p,item.id))
 	var list=list_surface(Vector2(0,58),Vector2(556,580),maxf(570,ceil((items.size()+1)/2.0)*117))
 	for i in range(items.size()):
@@ -148,17 +153,30 @@ func inn(p:Dictionary):
 	Art.picture(body,Art.facility("inn"),Vector2(37,0),Vector2(467,390))
 	game.label(body,"따뜻한 불가에서 쉬어가세요",Vector2(20,423),Vector2(520,41),28)
 	game.label(body,"생명력   %d / %d\n기력       %d / %d\n\n숙박하면 생명력과 기력이 모두 회복됩니다." % [p.hp,p.max_hp,p.stamina,p.max_stamina],Vector2(20,485),Vector2(520,148),21)
-func portal(_p:Dictionary):
-	var i=0
-	for zone in World.DUNGEONS:
-		var data=World.DUNGEONS[zone];var b=game.button(body,"",Vector2(0,i*188),Vector2(543,170),func():selected_zone=zone;refresh())
-		var image=preload("res://scripts/world_art.gd").frame("bosses",["warden","golem","sentinel"].find(data.boss)*3).texture
-		var picture=Art.picture(b,image,Vector2(20,17),Vector2(91,129));picture.material=preload("res://scripts/gat_art.gd").material()
-		game.label(b,data.name,Vector2(129,26),Vector2(398,37),25)
-		var text=game.label(b,"권장 LV."+str(data.level)+"\n"+data.description,Vector2(130,77),Vector2(386,76),17);text.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;products[zone]=b;i+=1
+func portal(p:Dictionary):
+	var abyss=preload("res://scripts/abyss_catalog.gd")
+	game.label(body,"심층 탐사 기록   B%d / B100"%p.get("cleared_floor",0),Vector2(8,0),Vector2(533,36),25)
+	for i in range(10):
+		var b=game.button(body,"%d–%d층"%[i*10+1,i*10+10],Vector2(i%5*109,48+int(i/5)*48),Vector2(103,41),func():chapter=i;selected_floor=chapter*10+1;refresh())
+		b.add_theme_font_size_override("font_size",15)
+	var data=abyss.BIOMES[chapter]
+	game.label(body,data.name,Vector2(10,158),Vector2(528,35),27)
+	var lore=game.label(body,data.lore,Vector2(10,200),Vector2(528,51),17);lore.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	for i in range(10):
+		var f=chapter*10+i+1;var locked=not abyss.locked_reason(p,f).is_empty();var cfg=abyss.config(f)
+		var b=game.button(body,"",Vector2(i%2*275,267+int(i/2)*71),Vector2(267,64),func():selected_floor=f;refresh())
+		var icon=Icons.function_icon("portal" if not cfg.raid else "guild")
+		Art.picture(b,icon,Vector2(10,9),Vector2(45,45))
+		game.label(b,"B%d  ·  %s"%[f,"레이드 보스" if cfg.raid else "던전 탐사"],Vector2(68,12),Vector2(185,24),18)
+		game.label(b,"잠김" if locked else "돌파 완료" if f<=p.cleared_floor else "도전 가능",Vector2(68,37),Vector2(185,20),14,Color("905e49") if locked else Color("267d6c"))
+		b.tooltip_text=abyss.locked_reason(p,f) if locked else "권장 LV.%d · 클릭하여 입장 준비"%cfg.level;products[str(f)]=b
+
 func review(p:Dictionary):
 	var panel=Art.panel(body,Vector2(572,0),Vector2(403,646),"paper",26)
-	preview=Quote.quote(p,facility,operation,extra()) if facility!="portal" else {"title":World.DUNGEONS[selected_zone].name,"cost":0,"materials":{},"item":{},"icon":"portal","reason":"","result":"일반 적 21개체\n엘리트 1개체 / 보스 1개체\n\n전리품을 챙겨 R로 마을에 돌아오세요."}
+	preview=Quote.quote(p,facility,operation,extra())
+	if facility=="portal":
+		var cfg=preload("res://scripts/abyss_catalog.gd").config(selected_floor)
+		preview={"title":cfg.name,"cost":0,"materials":{},"item":{},"icon":"portal","reason":preload("res://scripts/abyss_catalog.gd").locked_reason(p,selected_floor),"result":"권장 LV.%d\n%s\n%s"%[cfg.level,"레이드: "+cfg.title if cfg.raid else "일반 적 21 · 엘리트 · 수문장","유니크 보장 / 에픽 이상 확률 드랍" if cfg.raid else "수문장 격파 후 출구 E로 다음 층"]}
 	game.label(panel,"원정 준비" if facility=="portal" else "거래 · 작업 확인",Vector2(43,27),Vector2(327,34),25)
 	var tex=Content.icon_texture(preview.item) if not preview.item.is_empty() else Icons.function_icon(preview.icon)
 	Art.picture(panel,tex,Vector2(28,89),Vector2(84,89))
@@ -172,6 +190,7 @@ func review(p:Dictionary):
 	var feedback=game.label(panel,preview.reason if not preview.reason.is_empty() else last_receipt,Vector2(28,470),Vector2(350,71),18,Color("8b432e") if not preview.reason.is_empty() else Color("247660"));feedback.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	var caption={"buy":"구매하기","sell":"선택 장비 판매","potion":"조제하기" if facility=="alchemy" else "물약 구매","essence":"합성하기","upgrade":"장비 강화하기","reforge":"옵션 재련하기","accept":"의뢰 수락","claim":"완료 보상 받기","rest":"숙박하고 회복","travel":"원정 시작"}.get(operation,"실행")
 	confirm_button=game.button(panel,caption,Vector2(28,566),Vector2(349,50),func():
-		if facility=="portal":close();game.session.travel(selected_zone)
+		if facility=="portal":
+			if game.session.enter_floor(selected_floor):close()
 		else:request(operation,extra()),true)
 	confirm_button.disabled=not preview.reason.is_empty()
