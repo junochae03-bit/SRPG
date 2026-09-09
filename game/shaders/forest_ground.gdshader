@@ -4,6 +4,9 @@ render_mode unshaded;
 // One unchanged image_gen atlas. Filtering never crosses a panel's 16px inset.
 uniform sampler2D material_atlas : source_color, filter_linear, repeat_disable;
 uniform sampler2D walk_mask : filter_linear, repeat_disable;
+uniform sampler2D accent_mask : filter_linear, repeat_disable;
+uniform vec2 accent_panel = vec2(0.0);
+uniform float accent_strength = 0.0;
 uniform vec2 ground_panel = vec2(0.0);
 uniform vec2 path_panel = vec2(2.0,0.0);
 uniform vec3 ground_tint = vec3(1.0);
@@ -31,6 +34,10 @@ void fragment() {
 	float path=smoothstep(0.40,0.64,mask);
 	vec3 ground=surface(world,ground_panel)*ground_tint;
 	vec3 paving=surface(world,path_panel);
+	// Optional floor-local clearings use another existing material panel. The
+	// mask is built once per map; it never drifts or adds animated tile noise.
+	float accent=texture(accent_mask,(world+vec2(mask_offset+0.5))/mask_size).r;
+	paving=mix(paving,surface(world,accent_panel),accent*accent_strength);
 	float luminance=dot(paving,vec3(0.299,0.587,0.114));
 	paving=mix(vec3(luminance),paving,path_saturation)*path_tint;
 	// A narrow soil contact shade makes the existing walkable path legible.

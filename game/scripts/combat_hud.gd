@@ -101,13 +101,46 @@ func setup(owner_game):
 
 func refresh_chrome():
 	var hidden=false
-	for property in ["bag","skill_tree","town_panel","codex","help_panel","character_sheet"]:
+	for property in ["bag","skill_tree","town_panel","codex","help_panel","settings_panel","character_sheet"]:
 		var panel=game.get(property)
 		if panel!=null and panel.visible:hidden=true;break
 	if hidden==chrome_hidden:return
 	chrome_hidden=hidden;chrome.visible=not hidden;queue_redraw()
 
 func _process(_delta):refresh_chrome()
+
+func world_label_regions()->Array[Rect2]:
+	var regions:Array[Rect2]=[]
+	if not is_visible_in_tree() or chrome==null or not chrome.is_visible_in_tree():return regions
+	var transform=get_global_transform_with_canvas()
+	regions.append(transform*Rect2(19,20,400,145))
+	for control in [bag_button,growth_button,codex_button,quest_panel,job_resource]:
+		if control.is_visible_in_tree():regions.append(control.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,control.size).grow(4))
+	for label in [name_label,class_label,hp_label,money_label,region,toast]:
+		if label.is_visible_in_tree() and not label.text.is_empty():regions.append(label.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,label.size).grow(3))
+	for control in circles.values():
+		if not control.is_visible_in_tree():continue
+		# 액션 버튼 바깥에 그리는 기술명과 키 글자도 점유 영역에 포함합니다.
+		var text=control.caption_text();var pixels=15;var dimensions=game.fonts.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels)
+		var baseline=Vector2(control.size.x*.5,control.size.y+21)
+		var caption=Rect2(baseline-Vector2(dimensions.x*.5,game.fonts.get_ascent(pixels)),Vector2(dimensions.x,game.fonts.get_height(pixels)))
+		var bounds=Rect2(Vector2.ZERO,control.size).merge(caption).merge(control.hotkey_layout().rect).grow(4)
+		regions.append(control.get_global_transform_with_canvas()*bounds)
+	if boss_hud.is_visible_in_tree() and not boss_hud.boss.is_empty():
+		var boss=boss_hud.boss;var boss_transform=boss_hud.get_global_transform_with_canvas()
+		if boss.get("training",false):regions.append(boss_transform*Rect2(481,0,480,92))
+		else:
+			var frame=preload("res://scripts/world_art.gd").frame("boss_bars",["warden","golem","sentinel"].find(boss.kind))
+			regions.append(boss_transform*Rect2(Vector2(461,32),frame.texture.get_size()*(520./frame.texture.get_width())))
+			regions.append(boss_transform*Rect2(461,0,520,32))
+		if not boss.get("stagger",{}).is_empty():regions.append(boss_transform*Rect2(481,102 if boss.get("training",false) else 146,480,82))
+	if game.map_overlay!=null and game.map_overlay.can_show():regions.append(game.map_overlay.get_global_transform_with_canvas()*Rect2(1244,26,160,160))
+	var feedback=game.get("combat_feedback")
+	if feedback!=null and feedback.is_visible_in_tree():
+		for slot in feedback.slots:
+			if slot.holder.is_visible_in_tree():regions.append(slot.holder.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,slot.holder.size).grow(4))
+		if feedback.charge_visible:regions.append(feedback.get_global_transform_with_canvas()*feedback.charge_rect.grow(3))
+	return regions
 
 func key_label(action:String)->String:
 	return game.keybindings.label(action) if game.get("keybindings")!=null else preload("res://scripts/key_bindings.gd").key_name(preload("res://scripts/key_bindings.gd").DEFAULTS[action])
@@ -225,8 +258,7 @@ func refresh():
 	elif game.dungeon.floor_number>0 and p.pos.distance_to(game.dungeon.exit_position)<2.8:interact.caption="출구"
 	elif game.dungeon.in_town(p.pos):interact.caption="회복 · 보급"
 	interact.tooltip_text=interact.caption+" ("+interact.hotkey+")"
-	charge_label.text="강공격 충전  %d%%" % clampi(p.charge_time/0.9*100,0,100) if p.charge_time>=0 else ""
-	charge_label.visible=p.charge_time>=0
+	charge_label.text="";charge_label.hide()
 	job_resource.refresh(p)
 	queue_redraw()
 

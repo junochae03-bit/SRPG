@@ -23,6 +23,17 @@ func run():
 			if id=="none":continue
 			sheet.costume=id;check(not Creation.reason(sheet).is_empty(),cls+" refuses creator costume "+id)
 		check(Wardrobe.options(cls).all(func(id):return Wardrobe.valid_id(id)),cls+" shop uses stable valid IDs")
+		var duplicate="avatar:"+Wardrobe.default_avatar_id(cls)
+		check(duplicate not in Wardrobe.options(cls),cls+" free default is not sold again as an avatar")
+		var buyer={"class_id":cls,"gold":5000,"owned_appearances":[]}
+		check(not Wardrobe.purchase(buyer,duplicate) and buyer.gold==5000 and buyer.owned_appearances.is_empty(),cls+" duplicate default purchase cannot spend gold")
+	for cls in Content.CLASSES:
+		if not load("res://scripts/job_art.gd").has_sprite({"class_id":cls,"avatar":"auto","costume":"none"}):continue
+		check(Wardrobe.default_avatar_id(cls)=="",cls+" distinct advanced job defaults do not hide family avatar art")
+	var legacy_default={"class_id":"warrior","gold":731,"avatar":"gat_role_tank_2","costume":"none","owned_appearances":["avatar:gat_role_tank_2"]}
+	Wardrobe.normalize(legacy_default,legacy_default.duplicate(true))
+	check(legacy_default.owned_appearances==["avatar:gat_role_tank_2"] and legacy_default.avatar=="gat_role_tank_2" and legacy_default.gold==731,"previously owned default appearance remains intact")
+	check(Wardrobe.equip(legacy_default,"base:warrior") and Wardrobe.equip(legacy_default,"avatar:gat_role_tank_2") and legacy_default.gold==731,"legacy owned duplicate can still be worn without purchase")
 	var sim=Sim.new(551,"town");var p=sim.add_player(1,"구매 검사")
 	var available=Wardrobe.options(p.class_id);var id=available.filter(func(value):return value.begins_with("costume:"))[0]
 	p.pos=World.FACILITIES.shop.pos;p.gold=Wardrobe.price(id)-1

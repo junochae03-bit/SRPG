@@ -3,11 +3,19 @@ const Content=preload("res://scripts/content.gd")
 const Names=preload("res://scripts/sprite_names.gd")
 static func options(class_id:String)->Array:
 	var result=["base:"+class_id]
+	var default_avatar=default_avatar_id(class_id)
 	for id in Content.avatar_options(class_id):
-		if id!="auto":result.append("avatar:"+id)
+		if id!="auto" and id!=default_avatar:result.append("avatar:"+id)
 	for id in Content.costume_options(class_id):
 		if id!="none":result.append("costume:"+id)
 	return result
+static func default_avatar_id(class_id:String)->String:
+	var sheet={"class_id":class_id,"avatar":"auto","costume":"none"}
+	# Runtime loads avoid introducing a Content -> Wardrobe -> art preload cycle.
+	# Advanced jobs have their own default illustration, so their family GAT art
+	# remains a distinct appearance and may still be sold.
+	if load("res://scripts/job_art.gd").has_sprite(sheet):return ""
+	return str(load("res://scripts/gat_art.gd").avatar(sheet))
 static func valid_id(id:String)->bool:
 	Content.initialize_jobs()
 	var parts=id.split(":",true,1)
@@ -45,7 +53,8 @@ static func purchase(p:Dictionary,id:String)->bool:
 	if id not in options(p.class_id) or owned(p,id) or int(p.gold)<price(id):return false
 	p.gold-=price(id);p.owned_appearances.append(id);return true
 static func equip(p:Dictionary,id:String)->bool:
-	if id not in options(p.class_id) or not owned(p,id):return false
+	var legacy_default=id=="avatar:"+default_avatar_id(p.class_id) and id in p.get("owned_appearances",[])
+	if (id not in options(p.class_id) and not legacy_default) or not owned(p,id):return false
 	var value=preview(p,id);p.avatar=value.avatar;p.costume=value.costume;return true
 static func owned_avatars(p:Dictionary)->Array:
 	return Content.avatar_options(p.class_id).filter(func(id):return id=="auto" or owned(p,"avatar:"+id))

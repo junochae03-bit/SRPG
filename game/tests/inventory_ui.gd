@@ -71,6 +71,9 @@ func run():
 		for y in range(Inventory.HEIGHT):
 			for x in range(Inventory.WIDTH):
 				if Inventory.can_place(p,active.id,Vector2i(x,y),active.rotated):destination=Vector2i(x,y)
+		# The expanded lower rows are real storage. Scroll to expose the drop
+		# destination before sending the same actual pointer-release interaction.
+		bag.grid_scroll.scroll_vertical=maxi(0,(destination.y-5)*bag.grid.CELL);await process_frame
 		var drop_at=bag.grid.get_global_transform_with_canvas()*(Vector2(destination)*bag.grid.CELL+Vector2.ONE*10)
 		motion=InputEventMouseMotion.new();motion.position=drop_at;motion.relative=drop_at-start;motion.button_mask=MOUSE_BUTTON_MASK_LEFT;surface.push_input(motion,true)
 		release.position=drop_at;surface.push_input(release,true)

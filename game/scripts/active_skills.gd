@@ -39,6 +39,7 @@ func _cast(p:Dictionary,action:String,profile:Dictionary)->bool:
 	var power=combat.sim.damage_for(p)*s.multiplier;var before=combat.projectiles.size()
 	p.motion_time=.5;p.motion_duration=.5;p.swing=.5;p.casting_rank=rank
 	p["casting_vfx"]={"skill_id":node.id,"skill_mode":s.mode,"rank":rank,"origin":p.pos,"count":s.count}
+	if s.mode=="pull":p.casting_vfx["ground_shape"]="circle"
 	if node.has("mode"):cast_extended(p,node,power,s)
 	else:
 		match s.mode:
@@ -52,7 +53,7 @@ func _cast(p:Dictionary,action:String,profile:Dictionary)->bool:
 				for i in range(ceili(s.distance/.12)):
 					p.pos=combat.sim.map.move(p.pos,p.aim*minf(.12,s.distance-i*.12))
 					for enemy in combat.sim.enemies.values():
-						if HitGeometry.circle(enemy,p.pos,s.radius) and not hit_ids.has(enemy.id):combat.hit(p,enemy,roundi(power));hit_ids.append(enemy.id)
+						if HitGeometry.circle(enemy,p.pos,s.radius) and not hit_ids.has(enemy.id) and combat.hit(p,enemy,roundi(power)):hit_ids.append(enemy.id)
 				p.motion="dash";p.invulnerable=maxf(p.invulnerable,.20);fx(p,"rush",start,.45,s.radius,p.pos)
 			"piercing":
 				combat.launch(p,"piercing",p.aim,roundi(power),s.range,18,0);combat.projectiles.back().pierce=6+rank-1;p.motion="shoot";fx(p,"piercing",p.pos,.5,s.radius)
@@ -90,19 +91,23 @@ func cast_extended(p:Dictionary,node:Dictionary,power:float,s:Dictionary):
 			add_zone(p,node.fx,center,radius,power,[.35],0,s.stun);return
 		"field":add_zone(p,node.fx,center,radius,power,pulses(s.count,.2,.5),s.slow);return
 		"chain":
-			var previous=p.pos;var used=[]
-			for i in range(s.count):
+			var previous=p.pos;var examined=[];var remaining=int(s.count)
+			while remaining>0:
 				var best={};var distance=s.range
 				for e in combat.sim.enemies.values():
-					if e.hp>0 and e.id not in used and HitGeometry.edge_distance(e,previous)<distance and combat.sim.map.line_clear(previous,e.pos):best=e;distance=HitGeometry.edge_distance(e,previous)
+					if e.hp>0 and e.id not in examined and HitGeometry.edge_distance(e,previous)<distance and combat.sim.map.line_clear(previous,e.pos):best=e;distance=HitGeometry.edge_distance(e,previous)
 				if best.is_empty():break
-				fx(p,node.fx,previous,.6,1,best.pos,{"origin":previous});combat.hit(p,best,roundi(power),previous);used.append(best.id);previous=best.pos
+				examined.append(best.id)
+				var impact:Vector2=best.pos
+				if not combat.hit(p,best,roundi(power),previous):continue
+				fx(p,node.fx,previous,.6,1,impact,{"origin":previous});previous=best.pos;remaining-=1
 			return
 		"pull":
 			for e in combat.sim.enemies.values():
 				if e.hp<=0 or not HitGeometry.circle(e,center,radius) or not combat.sim.map.line_clear(e.pos,center):continue
-				for i in range(12+4*(s.rank-1)):e.pos=combat.sim.map.move(e.pos,e.pos.direction_to(center)*.12)
-				combat.hit(p,e,roundi(power),center)
+				if not combat.hit(p,e,roundi(power),center):continue
+				if e.hp>0 and not e.get("training",false):
+					for i in range(12+4*(s.rank-1)):e.pos=combat.sim.map.move(e.pos,e.pos.direction_to(center)*.12)
 		"heal":p.hp=mini(p.max_hp,p.hp+roundi(p.max_hp*s.heal));center=p.pos
 		"barrier":p.barrier_time=s.duration;p.barrier_strength=s.barrier;center=p.pos
 		"haste":p.haste_time=s.duration;p.haste_speed=s.haste_speed;p.haste_attack=s.haste_attack;center=p.pos
@@ -120,6 +125,7 @@ func fx(p:Dictionary,kind:String,at:Vector2,duration:float,radius:float,end:Vect
 func add_zone(p:Dictionary,kind:String,at:Vector2,radius:float,power:float,times:Array,slow:float=0,stun:float=0,visual:Dictionary={}):
 	zones.append({"owner":p.id,"fx":kind,"pos":at,"radius":radius,"amount":roundi(power),"pulses":times.duplicate(),"elapsed":0.0,"slow":slow,"stun":stun,"stagger":combat.stagger_context})
 	var details=visual.duplicate();details["pulse_times"]=times.duplicate()
+	details["ground_shape"]="circle"
 	fx(p,kind,at,float(times.back())+.65,radius,Vector2.INF,details)
 func tick(delta:float):
 	for zone in zones:
@@ -131,7 +137,7 @@ func tick(delta:float):
 			zone.pulses.pop_front();var p=combat.sim.players[zone.owner]
 			for e in combat.sim.enemies.values():
 				if e.hp<=0 or not HitGeometry.circle(e,zone.pos,zone.radius) or not combat.sim.map.line_clear(zone.pos,e.pos):continue
-				combat.hit(p,e,zone.amount,zone.pos,zone.get("stagger",{}))
+				if not combat.hit(p,e,zone.amount,zone.pos,zone.get("stagger",{})):continue
 				if not zone.get("hit_any",false) and zone.has("job_node"):
 					zone.hit_any=true
 					if p.class_id=="martialist":combat.jobs.combo(p,zone.job_node)

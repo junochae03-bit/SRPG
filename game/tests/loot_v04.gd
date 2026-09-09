@@ -37,7 +37,10 @@ func run():
 	check(sim.action(1,"interact") and p.potions==20 and sim.drops.p.item.amount==2,"partial potion pickup keeps excess on ground")
 	check(not sim.action(1,"interact") and sim.drops.p.item.amount==2,"full stack cannot consume remaining drop")
 	p.potions=18;check(sim.action(1,"interact") and p.potions==20 and sim.drops.is_empty(),"remaining potion stack collected exactly once")
-	for i in range(59):Inventory.add_gear(p,{"id":"fill-"+str(i),"name":"test","category":"accessory","slot":"accessory","rarity":0,"bonus":1})
+	Inventory.initialize(p)
+	var remaining=Inventory.CAPACITY-Inventory.bag_items(p).size()
+	for i in range(remaining):check(Inventory.add_gear(p,{"id":"fill-"+str(i),"name":"test","category":"accessory","slot":"accessory","rarity":0,"bonus":1}),"fill actual loot capacity "+str(i))
+	check(Inventory.bag_items(p).size()==Inventory.CAPACITY and p.bag_positions.size()==Inventory.CAPACITY,"full loot fixture includes existing potion and owned items")
 	sim.drops["seed"]={"owner":1,"pos":p.pos,"expires":99,"item":{"id":"seed","name":"별씨앗","category":"material","material":"seed","rarity":0,"amount":2}}
 	check(not sim.action(1,"interact") and sim.drops.has("seed") and not p.materials.has("seed"),"new material at full capacity remains on ground")
 	sim.action(1,"discard","fill-0");check(sim.action(1,"interact") and p.materials.seed==2,"freed cell accepts material stack")

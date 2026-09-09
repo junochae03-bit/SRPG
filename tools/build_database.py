@@ -16,11 +16,13 @@ from pathlib import Path
 
 from engine_path import engine, hidden_options
 import art_registry
+import game_db_rules
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs/database"
 TABLES = ["classes", "equipment", "monsters", "raids", "floors", "appearances", "drops", "raid_drops", "skills", "skill_parents", "skill_ranks", "build_nodes", "constellations", "constellation_edges", "exclusive_groups", "effect_definitions", "constellation_effects", "constellation_exclusions"]
 TABLES += art_registry.TABLES
+TABLES += game_db_rules.TABLES
 RELATIONS = {"skill_parents", "skill_ranks", "constellation_edges", "constellation_effects", "constellation_exclusions"}
 
 
@@ -40,6 +42,7 @@ def canonical(value):
 
 
 def normalize(data):
+    data = game_db_rules.enrich(data, ROOT)
     data = art_registry.enrich(data, ROOT)
     data = canonical(data)
     for skill in data["skills"] + data["constellations"]:
@@ -53,7 +56,8 @@ def normalize(data):
         data[table].sort(key=lambda r: (str(r.get("id", r.get("skill_id", r.get("node_id", r.get("left_id", ""))))), str(r.get("parent_id", r.get("effect_id", r.get("right_id", "")))), int(r.get("rank", 0))))
     # Follow script/data dependencies and used texture paths; source edits or art
     # region edits invalidate a snapshot even if display text happens to match.
-    todo = [ROOT / "game/scripts/game_database.gd", Path(__file__).resolve(), Path(art_registry.__file__).resolve()]
+    todo = [ROOT / "game/scripts/game_database.gd", Path(__file__).resolve(), Path(art_registry.__file__).resolve(), Path(game_db_rules.__file__).resolve()]
+    todo += [ROOT / path for path in game_db_rules.SOURCES.values()]
     todo += [art_registry.local(ROOT, row["path"]) for table in ("art_files", "art_sources") for row in data[table]]
     todo += [art_registry.local(ROOT, catalog) for catalog in sorted({row["catalog"] for row in data["art_assets"]})]
     consumers = {row["consumer"].split(":", 1)[0] if not row["consumer"].startswith("res://") else row["consumer"] for row in data["art_uses"]}
@@ -80,6 +84,7 @@ def normalize(data):
 
 
 def validate(data):
+    game_db_rules.validate(data)
     art_registry.validate(data, ROOT)
     assert len(data["classes"]) == 20
     assert len(data["equipment"]) == 2500
@@ -211,6 +216,7 @@ CREATE VIEW equipment_raid_sources AS
 
 
 SCHEMA += art_registry.SCHEMA
+SCHEMA += game_db_rules.SCHEMA
 
 
 def build_sqlite(path, data):
@@ -273,6 +279,7 @@ def build_sqlite(path, data):
     for r in data["constellation_exclusions"]:
         con.execute("INSERT INTO constellation_exclusions VALUES (?,?)", (r["left_id"], r["right_id"]))
     art_registry.insert_sqlite(con, data)
+    game_db_rules.insert(con, data)
     assert not con.execute("PRAGMA foreign_key_check").fetchall()
     con.commit()
     assert con.execute("PRAGMA integrity_check").fetchone()[0] == "ok"

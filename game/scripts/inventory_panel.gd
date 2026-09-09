@@ -27,6 +27,18 @@ var detail_scroll:ScrollContainer
 var appearance_status:Label
 var avatar_keys:Array=[]
 var costume_keys:Array=[]
+var grid_scroll:ScrollContainer
+var storage_buttons:Array=[]
+var comparison_panel:VBoxContainer
+var comparison_grid:GridContainer
+var comparison_values:Array=[]
+var comparison_current_icon:TextureRect
+var comparison_current_name:Label
+var comparison_notice:Label
+var comparison_rows:Array=[]
+var comparison_current_id=""
+var comparison_selected_id=""
+var pending_storage_scroll:Dictionary={}
 func setup(owner_game):
 	game=owner_game;size=Vector2(1560,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	fit_viewport()
@@ -52,16 +64,40 @@ func setup(owner_game):
 	var storage=Art.panel(self,Vector2(420,103),Vector2(680,725),"paper",25)
 	game.label(storage,"여행 가방",Vector2(44,38),Vector2(330,36),27)
 	Library.picture(storage,"bag",Vector2(471,42),Vector2(26,26));capacity=game.label(storage,"",Vector2(508,40),Vector2(129,30),20)
-	for i in range(4):filter_buttons.append(game.button(storage,["전체","장비","소모품","재료"][i],Vector2(44+i*150,103),Vector2(142,46),func():filter_index=i;refresh(true)))
-	grid=preload("res://scripts/inventory_grid_ui.gd").new();grid.setup(self);grid.position=Vector2(20,187);storage.add_child(grid)
+	for i in range(4):filter_buttons.append(game.button(storage,["전체","장비","소모품","재료"][i],Vector2(44+i*150,103),Vector2(142,46),func():show_storage_filter(i)))
+	grid_scroll=ScrollContainer.new();grid_scroll.position=Vector2(12,187);grid_scroll.size=Vector2(656,384);grid_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;grid_scroll.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_SHOW_ALWAYS;grid_scroll.mouse_filter=Control.MOUSE_FILTER_STOP;storage.add_child(grid_scroll)
+	grid=preload("res://scripts/inventory_grid_ui.gd").new();grid.setup(self);grid.custom_minimum_size=grid.size;grid_scroll.add_child(grid)
+	for i in range(2):
+		var page=game.button(storage,"",Vector2(44+i*307,606),Vector2(293,43),func():show_storage_page(i));storage_buttons.append(page)
+		page.mouse_entered.connect(func():if get_viewport().gui_is_dragging():show_storage_page(i))
+	grid_scroll.get_v_scroll_bar().value_changed.connect(func(_value):refresh_storage_buttons())
+	grid_scroll.sort_children.connect(finish_storage_scroll,CONNECT_DEFERRED)
+	visibility_changed.connect(func():
+		if not is_visible_in_tree():pending_storage_scroll.clear()
+		elif not pending_storage_scroll.is_empty():grid_scroll.queue_sort())
+	refresh_storage_buttons()
 	var detail=Art.panel(self,Vector2(1116,103),Vector2(420,725),"paper",25)
 	Art.picture(detail,Art.texture("medallion"),Vector2(35,32),Vector2(112,112))
 	detail_icon=Art.picture(detail,null,Vector2(49,46),Vector2(84,84))
 	game.label(detail,"선택한 전리품",Vector2(163,40),Vector2(213,32),22)
 	item_grade=game.label(detail,"",Vector2(164,84),Vector2(212,56),18);item_grade.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	detail_scroll=ScrollContainer.new();detail_scroll.position=Vector2(44,164);detail_scroll.size=Vector2(332,413);detail_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;detail.add_child(detail_scroll)
-	var content=VBoxContainer.new();content.size_flags_horizontal=Control.SIZE_EXPAND_FILL;content.add_theme_constant_override("separation",23);detail_scroll.add_child(content)
-	detail_name=flow_label(content,24);detail_name.add_theme_constant_override("line_spacing",5)
+	var content=VBoxContainer.new();content.size_flags_horizontal=Control.SIZE_EXPAND_FILL;content.add_theme_constant_override("separation",8);detail_scroll.add_child(content)
+	detail_name=flow_label(content,22);detail_name.add_theme_constant_override("line_spacing",1)
+	comparison_notice=flow_label(content,17)
+	comparison_panel=VBoxContainer.new();comparison_panel.add_theme_constant_override("separation",6);content.add_child(comparison_panel)
+	var current_row=HBoxContainer.new();current_row.add_theme_constant_override("separation",12);comparison_panel.add_child(current_row)
+	comparison_current_icon=TextureRect.new();comparison_current_icon.custom_minimum_size=Vector2(44,44);comparison_current_icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;comparison_current_icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;comparison_current_icon.mouse_filter=Control.MOUSE_FILTER_IGNORE;current_row.add_child(comparison_current_icon)
+	var current_text=VBoxContainer.new();current_text.size_flags_horizontal=Control.SIZE_EXPAND_FILL;current_row.add_child(current_text)
+	flow_label(current_text,16).text="현재 장착";comparison_current_name=flow_label(current_text,17)
+	comparison_grid=GridContainer.new();comparison_grid.columns=4;comparison_grid.add_theme_constant_override("h_separation",5);comparison_grid.add_theme_constant_override("v_separation",3);comparison_panel.add_child(comparison_grid)
+	for entry in [["능력치",92],["현재",50],["교체 후",50],["변화",88]]:
+		var label=flow_label(comparison_grid,14);label.custom_minimum_size.x=entry[1];label.text=entry[0]
+	for _i in range(5):
+		var title=flow_label(comparison_grid,16);title.vertical_alignment=VERTICAL_ALIGNMENT_CENTER;title.custom_minimum_size.y=30
+		var before=flow_label(comparison_grid,17);before.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+		var after=flow_label(comparison_grid,17);after.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+		var delta=flow_label(comparison_grid,15);delta.vertical_alignment=VERTICAL_ALIGNMENT_CENTER;comparison_values.append([title,before,after,delta])
 	detail_body=flow_label(content,18);detail_body.add_theme_constant_override("line_spacing",6)
 	primary=game.button(detail,"장착하기",Vector2(36,596),Vector2(348,52),activate_selected,true)
 	discard_button=game.button(detail,"정리 · 금화 +3",Vector2(36,661),Vector2(348,40),func():game.session.act("discard",selected_id);refresh(true))
@@ -94,11 +130,37 @@ func picker(parent:Node,at:Vector2)->OptionButton:
 	parent.add_child(result);Art.decorate(result,"paper",9);return result
 func player()->Dictionary:return game.session.state.players.get(game.session.local_id,{})
 func item_by_id(id:String)->Dictionary:return Inventory.find_item(player(),id)
+func show_storage_page(index:int):
+	pending_storage_scroll={"offset":clampi(index,0,1)*6*grid.CELL};apply_storage_scroll();grid_scroll.queue_sort()
+func show_storage_filter(index:int):
+	# 직접 고른 구간과 필터는 이전 아이템 선택의 예약 스크롤보다 우선합니다.
+	pending_storage_scroll={"offset":grid_scroll.scroll_vertical}
+	filter_index=clampi(index,0,filter_buttons.size()-1);refresh(true);grid_scroll.queue_sort()
+func apply_storage_scroll():
+	if pending_storage_scroll.has("offset"):
+		grid_scroll.scroll_vertical=int(pending_storage_scroll.offset)
+	elif pending_storage_scroll.has("item"):
+		var id=str(pending_storage_scroll.item);var positions=player().get("bag_positions",{})
+		if id!=selected_id or not positions.has(id):return
+		var row=int(positions[id].y)*grid.CELL
+		if row<grid_scroll.scroll_vertical:grid_scroll.scroll_vertical=row
+		elif row+grid.CELL>grid_scroll.scroll_vertical+grid_scroll.size.y:grid_scroll.scroll_vertical=int(row+grid.CELL-grid_scroll.size.y)
+	refresh_storage_buttons()
+func finish_storage_scroll():
+	if pending_storage_scroll.is_empty() or not is_visible_in_tree():return
+	# 처음 표시할 때는 컨테이너가 스크롤 범위를 계산한 뒤 적용해야 합니다.
+	if not get_viewport().gui_is_dragging():apply_storage_scroll()
+	pending_storage_scroll.clear()
+func refresh_storage_buttons():
+	for i in range(storage_buttons.size()):
+		var active=(grid_scroll.scroll_vertical>=3*grid.CELL)==(i==1)
+		storage_buttons[i].text=("◆ " if active else "")+("1–60" if i==0 else "61–120")
 func matches_filter(item:Dictionary)->bool:
 	return filter_index==0 or filter_index==1 and item.category in ["weapon","armor","accessory"] or filter_index==2 and item.category=="consumable" or filter_index==3 and item.category=="material"
 func select_item(id:String):
 	if selected_id!=id:detail_scroll.scroll_vertical=0
-	selected_id=id;refresh(true)
+	selected_id=id;pending_storage_scroll={"item":id};refresh(true)
+	apply_storage_scroll();grid_scroll.queue_sort()
 func quick_activate(id:String):
 	select_item(id)
 	var item=item_by_id(id)
@@ -127,10 +189,11 @@ func refresh(force=false):
 	portrait.material=preload("res://scripts/gat_art.gd").material() if Content.gat_appearance(p) else null
 	refresh_appearance(p)
 	wallet.text="보유 금화   %s G" % p.gold
-	capacity.text="%d / 60 칸" % Inventory.bag_items(p).size()
+	capacity.text="%d / %d" % [Inventory.bag_items(p).size(),Inventory.CAPACITY]
 	for i in range(filter_buttons.size()):
 		filter_buttons[i].text=["전체","장비","소모품","재료"][i];Library.attach(filter_buttons[i],"selected" if i==filter_index else ["filter","equip","consumable","material"][i],20)
 	var item=item_by_id(selected_id)
+	comparison_panel.hide();comparison_notice.hide();comparison_rows=[];comparison_current_id="";comparison_selected_id=""
 	primary.visible=not item.is_empty() and item.category!="material"
 	discard_button.visible=not item.is_empty() and item.category in ["weapon","armor","accessory"] and not Inventory.is_equipped(p,selected_id)
 	detail_icon.texture=null if item.is_empty() else Content.icon_texture(item)
@@ -144,11 +207,23 @@ func refresh(force=false):
 		var trial=p.duplicate(true);trial.equipment[item.slot]=item.id
 		if item.slot=="weapon":trial.equipped=item.id
 		game.session.sim.recalculate(trial)
-		var damage=game.session.sim.damage_for(p);var next_damage=game.session.sim.damage_for(trial)
 		var eq=preload("res://scripts/equipment_catalog.gd")
 		var reason=eq.reason(p,item)
-		detail_body.text=eq.restriction_text(item)+("\n"+reason if not reason.is_empty() else "")+"\n\n장착 시 능력치\n공격  %d → %d (%+d)\n방어  %d → %d (%+d)\n생명  %d → %d\n\n추가 옵션\n%s"%[damage,next_damage,next_damage-damage,p.defense,trial.defense,trial.defense-p.defense,p.max_hp,trial.max_hp,eq.option_text(item)]
+		var worn=Inventory.is_equipped(p,selected_id);comparison_current_id=str(p.equipment.get(item.slot,""));comparison_selected_id=str(item.id)
+		var current_item=Inventory.find_item(p,comparison_current_id)
+		comparison_notice.show();comparison_notice.text="현재 장착 중" if worn else reason if not reason.is_empty() else "같은 부위의 장비와 비교"
+		comparison_notice.add_theme_color_override("font_color",Color("963c32") if not reason.is_empty() else game.PALE)
+		if not worn and reason.is_empty():
+			comparison_panel.show();comparison_current_name.text=str(current_item.get("name","장착한 장비 없음"));comparison_current_icon.texture=Content.icon_texture(current_item) if not current_item.is_empty() else Library.texture(item.slot);comparison_current_icon.material=Art.icon_material(comparison_current_icon.texture)
+			comparison_rows=[["물리 공격",game.session.sim.damage_for(p,"physical"),game.session.sim.damage_for(trial,"physical")],["마법 공격",game.session.sim.damage_for(p,"magic"),game.session.sim.damage_for(trial,"magic")],["방어",p.defense,trial.defense],["마법 방어",p.magic_defense,trial.magic_defense],["최대 생명력",p.max_hp,trial.max_hp]]
+			for i in range(comparison_rows.size()):
+				var row=comparison_rows[i];var labels=comparison_values[i];var difference=int(row[2])-int(row[1])
+				labels[0].text=row[0];labels[1].text=str(int(row[1]));labels[2].text=str(int(row[2]));labels[3].text=("▲ +%d"%difference if difference>0 else "▼ %d"%difference if difference<0 else "— 동일")
+				labels[3].add_theme_color_override("font_color",Color("287243") if difference>0 else Color("a33f35") if difference<0 else Color("697269"))
+		var current_options=eq.option_text(current_item) if not current_item.is_empty() else "없음"
+		detail_body.text=eq.restriction_text(item)+"\n\n"+("추가 옵션\n"+eq.option_text(item) if worn else "추가 옵션 · 현재 → 선택\n\n현재 장착\n"+current_options+"\n\n선택한 장비\n"+eq.option_text(item))
 		primary.disabled=not Inventory.is_equipped(p,selected_id) and not reason.is_empty()
+		if worn and Inventory.bag_items(p).size()>=Inventory.CAPACITY:primary.disabled=true;reason="가방이 가득 찼습니다"
 		primary.tooltip_text=reason
 		primary.text="장착 해제" if Inventory.is_equipped(p,selected_id) else "장착하기"
 		Library.attach(primary,"unequip" if Inventory.is_equipped(p,selected_id) else "locked" if primary.disabled else "equip",22)

@@ -353,13 +353,17 @@ const FACILITIES={
 	"alchemy":{"name":"연금술 공방","pos":Vector2(27,17),"art":2,"height":460.0},
 	"guild":{"name":"모험가 길드","pos":Vector2(9,27),"art":3,"height":500.0},
 	"inn":{"name":"초승달 여관","pos":Vector2(21,31),"art":4,"height":470.0},
-	"portal":{"name":"원정의 문","pos":Vector2(29,26),"art":5,"height":260.0}}
+	"portal":{"name":"원정의 문","pos":Vector2(25,37),"art":5,"height":260.0},
+	"costume":{"name":"별실 부티크","pos":Vector2(9,8),"art":1,"height":400.0},
+	"training":{"name":"모험가 수련장","pos":Vector2(34,33),"art":5,"height":0.0,"footprint":false}}
 const RESIDENTS={
 	"smith":{"name":"대장장이 루아","avatar":"gat_blade_combat","greeting":"날이 무뎌졌나요? 광석을 가져오면 단단하게 벼려드릴게요."},
 	"shop":{"name":"상인 밀리","avatar":"gat_addition_04_1","greeting":"여행에 필요한 물건이라면 여기 있어요. 안 쓰는 장비도 받아요!"},
 	"alchemy":{"name":"연금술사 로제","avatar":"gat_role_healer_2","greeting":"별씨앗 한 줌에는 뜻밖의 힘이 숨어 있답니다."},
 	"guild":{"name":"길드 안내원 세온","avatar":"gat_addition_11_1","greeting":"모험가님, 토벌 의뢰를 확인해 보세요. 무사히 돌아오길 바라요."},
-	"inn":{"name":"여관지기 아멜","avatar":"gat_addition_01_2","greeting":"어서 오세요. 따뜻한 식사와 포근한 침대가 준비됐어요."}}
+	"inn":{"name":"여관지기 아멜","avatar":"gat_addition_01_2","greeting":"어서 오세요. 따뜻한 식사와 포근한 침대가 준비됐어요."},
+	"costume":{"name":"재단사 세라","avatar":"gat_addition_04_2","greeting":"모험가님에게 어울리는 옷을 골라 보세요."},
+	"training":{"name":"수련 교관 레나","avatar":"gat_role_tank_1","greeting":"허수아비를 상대로 새 기술을 시험해 보세요. 수련 기록은 제가 정리해 드릴게요."}}
 static func resident_pos(key:String)->Vector2:return FACILITIES[key].pos+Vector2(1.25,.35)
 static func nearest(pos:Vector2)->String:
 	var best="";var distance=2.7

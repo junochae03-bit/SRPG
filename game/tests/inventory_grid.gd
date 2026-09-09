@@ -47,10 +47,10 @@ func run():
 	check(q.bag_positions.size()==12,"all eleven bag weapons and potion stack fit after migration")
 	var full={"inventory":[gear("equipped","bow")],"potions":0,"equipped":"equipped"}
 	Inventory.initialize(full)
-	for i in range(60):
+	for i in range(Inventory.CAPACITY):
 		check(Inventory.add_gear(full,{"id":"ring-"+str(i),"name":"반지","category":"accessory","slot":"accessory","bonus":1,"rarity":0}),"fill cell "+str(i))
 	check(not Inventory.unequip(full,"weapon") and full.equipped=="equipped","full bag prevents equipment loss on unequip")
-	check(not Inventory.add_gear(full,gear("overflow","axe")) and full.inventory.size()==61,"failed pickup leaves ownership unchanged")
+	check(not Inventory.add_gear(full,gear("overflow","axe")) and full.inventory.size()==Inventory.CAPACITY+1,"failed pickup leaves ownership unchanged")
 	var saved=var_to_bytes(full)
 	check(not Inventory.move_item(full,"ring-0",Vector2i(-1,0),false) and var_to_bytes(full)==saved,"negative placement is atomic")
 	print("INVENTORY_GRID_TESTS checks=",checks," failures=",failures)

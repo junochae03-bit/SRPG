@@ -78,9 +78,11 @@ func collect(db:Dictionary):
 	# Base monsters still appear in the codex and tutorial independently of variants.
 	for m in db.monsters:legacy_monster(m.id,"monsters",m.id,{"base_catalog":true})
 	for key in Creatures.FACILITIES:
+		if not Creatures.FACILITIES[key].get("footprint",true):continue
 		var facility=Creatures.FACILITIES[key];var i=int(facility.art);var entry=World.catalog.town;var f=entry.frames[i]
-		var id=add("art:town:"+str(i),"environment",facility.name,entry.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/world/catalog.json",{"foot":f.foot},i,"building")
-		use(id,"runtime","town:"+key,"game/scripts/main.gd:draw_building")
+		var id=add("art:town:"+str(i),"environment","마을 건물 원화 "+str(i),entry.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/world/catalog.json",{"foot":f.foot},i,"building")
+		use(id,"facilities",key,"game/scripts/main.gd:draw_building",{"facility_name":facility.name})
+	training_art()
 	characters(db)
 	companions()
 	ui_icons()
@@ -111,7 +113,15 @@ func render_cache_metadata():
 		assert(not entry.is_empty(),"Missing prepared art metadata: "+a.id)
 		if not entry.is_empty():a.metadata["render_cache"]={"catalog":prepared.CATALOG,"path":entry.path,"source":a.path,"key":chroma}
 
+func training_art():
+	const TrainingArt=preload("res://scripts/training_art.gd")
+	var texture=TrainingArt.texture();var rect=texture.region
+	var id=add("art:training:scarecrow","monster","거대 훈련 허수아비",TrainingArt.SOURCE,[rect.position.x,rect.position.y,rect.size.x,rect.size.y],"game/assets/town_v052/PROVENANCE.md","res://scripts/training_art.gd",{"display_height":TrainingArt.HEIGHT,"source_dimensions":[texture.atlas.get_width(),texture.atlas.get_height()],"alpha":"original_preserved","crop":"Image.get_used_rect","training_only":true},-1,"stationary_training_target")
+	use(id,"training_rules","training","game/scripts/training_art.gd:draw",{"role":"world_target"})
+	use(id,"facilities","training","game/scripts/town_panel.gd:refresh",{"role":"facility_portrait"})
+
 func icon(key:String,table:String,target:String,consumer:String):
+	key=Library.canonical(key)
 	assert(Library.entries.has(key),"Unmapped semantic icon: "+key)
 	var entry=Library.entries[key]
 	var id=add("art:icon:"+key,"icon",key,entry.path,entry.rect,"docs/ICON_ART_PROMPTS.json",Library.CATALOG_PATH,{"semantic_key":key})
@@ -230,6 +240,14 @@ func ui_icons():
 	for key in ["enrage","stagger","stagger_check","stagger_broken","stagger_immune"]:icon(key,"runtime","boss_status","game/scripts/boss_hud.gd:draw_stagger")
 
 func available_catalog():
+	# 배치 목록과 별개로 완성된 배경 원화 전체를 보존한다.
+	for key in Env.catalog.objects:
+		var id="art:environment:"+key
+		if assets.has(id):continue
+		var entry=Env.catalog.objects[key]
+		var catalog_path="res://assets/environment/biomes-v04/catalog.json"
+		add(id,"environment",entry.name,entry.sheet,entry.rect,"docs/ENVIRONMENT_V04_PROVENANCE.json",catalog_path,{"foot":entry.foot,"source_cell":entry.source_cell,"source_pack":entry.source_pack})
+		use(id,"catalog",catalog_path,"game/assets/environment/biomes-v04/catalog.json",{"environment_id":key},"catalog_available")
 	# Finished regions already present in shipped source sheets remain searchable,
 	# but a catalog entry is explicitly NOT a runtime/render consumer.
 	for key in Library.keys():

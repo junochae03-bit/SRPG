@@ -3,9 +3,12 @@ from pathlib import Path
 import subprocess,json,time,shutil,hashlib,re,struct,sys
 from engine_path import ROOT,engine,hidden_options
 from asset_inventory import inventory
+from godot_test_completion import completion_evidence
 RUN=ROOT/'runtime/v01-checks'/time.strftime('%Y%m%d-%H%M%S');RUN.mkdir(parents=True)
 (ROOT/'artifacts').mkdir(exist_ok=True)
 results=[];checks=0
+from check_text_encoding import audit as audit_text_encoding
+assert audit_text_encoding(),'Invalid Unicode or unresolved merge text'
 imported=subprocess.run([engine(),'--headless','--path',str(ROOT/'game'),'--editor','--import','--quit'],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=90,**hidden_options())
 import_log=imported.stdout+imported.stderr;(RUN/'import.log').write_text(import_log,'utf8')
 assert imported.returncode==0 and not any(t in import_log for t in ['ERROR:','SCRIPT ERROR','WARNING:']),import_log[-8000:]
@@ -23,18 +26,20 @@ def run(test,args=None,graphics=False):
         (RUN/(test+'-'+str(len(results))+'.log')).write_text(output,'utf8')
         raise RuntimeError('Test timed out: '+test+'; log directory '+str(RUN)) from failure
     output=process.stdout+process.stderr;(RUN/(test+'-'+str(len(results))+'.log')).write_text(output,'utf8')
-    assert process.returncode==0 and not any(t in output for t in ['ERROR:','SCRIPT ERROR','WARNING:']),output[-8000:]
-    matches=re.findall(r'checks=(\d+)\s+failures=(\d+)',output)
-    checks+=sum(int(a) for a,b in matches)
-    assert all(int(b)==0 for a,b in matches)
-    markers=[line for line in output.splitlines() if any(t in line for t in ['TESTS checks=','LEGACY_SAVE_PASS','FOREST_STABILITY','VISUAL_V05_PASS','VISUAL_V01_PASS'])]
-    results.append({'test':test,'status':'PASS','checks':sum(int(a) for a,b in matches),'markers':markers})
+    try:
+        evidence=completion_evidence(test,output,process.returncode)
+    except ValueError as failure:
+        raise RuntimeError(str(failure)+'\n로그 위치: '+str(RUN)+'\n'+output[-8000:]) from failure
+    checks+=evidence['checks'];markers=evidence['markers']
+    results.append({'test':test,'status':'PASS','checks':evidence['checks'],'markers':markers})
     print(test, 'PASS', '; '.join(markers),flush=True)
     return output
 for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
 for test in ['database_v03','boss_stagger_v03','skill_vfx','skill_build_v04','database_v04','constellation_combat_v04','character_creation_v04','skill_build_session_v04','icons','environment_v04','dungeon_entry_v04','costume_art_v04','battle_camera_v04','appearance_matching_v04']:run(test)
+run('database_world_rules_v052')
 for test in ['prepared_art_v05','wardrobe_v05','database_metadata_v05','performance_environment_v05','enemy_hit_geometry_v05']:run(test)
+for test in ['combat_reach_v052','dungeon_variety_v052','town_services_v052','training_ground_v052','qa_combat_v052','qa_inventory_v052','qa_skill_rejection_v052']:run(test)
 if user_save.is_file():
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
     assert hashlib.sha256(user_save.read_bytes()).hexdigest()==before,'Original save changed during check'
@@ -68,6 +73,7 @@ run('wardrobe_shop_ui_v05',graphics=True)
 run('client_flow_v051',graphics=True)
 run('keyboard_ui_v051',graphics=True)
 run('performance_ui_v05',graphics=True)
+for test in ['settings_v052','skill_clarity_v052','dungeon_variety_visual_v052','town_clarity_ui_v052','combat_reach_visual_v052','inventory_expansion_v052','combat_feedback_v052','town_renewal_visual_v052','qa_save_v052','hud_world_labels_v052']:run(test,graphics=True)
 from check_icons import audit_assets as audit_icon_assets, audit_rendered_captures
 icon_assets=audit_icon_assets()
 assert icon_assets['status']=='PASS',icon_assets['failures']
@@ -107,9 +113,18 @@ results.append({'test':'art_registry_portable','status':'PASS','checks':portable
 print(portable_log.strip(),flush=True)
 cache_check=subprocess.run([sys.executable,str(ROOT/'tools/test_art_registry_cache.py')],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60,**hidden_options())
 cache_log=cache_check.stdout+cache_check.stderr;(RUN/'art_registry_cache.log').write_text(cache_log,'utf8')
-assert cache_check.returncode==0,cache_log[-8000:]
-results.append({'test':'art_registry_cache','status':'PASS','checks':16,'markers':cache_log.splitlines()});checks+=16
+cache_marker=re.search(r'^ART_REGISTRY_CACHE PASS checks=(\d+)\b[^\r\n]*$',cache_log,re.MULTILINE)
+assert cache_check.returncode==0 and cache_marker,cache_log[-8000:]
+cache_count=int(cache_marker.group(1))
+results.append({'test':'art_registry_cache','status':'PASS','checks':cache_count,'markers':[cache_marker.group(0)]});checks+=cache_count
 print(cache_log.strip(),flush=True)
+completion_check=subprocess.run([sys.executable,'-X','utf8',str(ROOT/'tools/test_godot_test_completion.py')],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60,**hidden_options())
+completion_log=completion_check.stdout+completion_check.stderr;(RUN/'godot_test_completion.log').write_text(completion_log,'utf8')
+completion_marker=re.search(r'^GODOT_COMPLETION_TESTS tests=(\d+) failures=0 errors=0$',completion_log,re.MULTILINE)
+assert completion_check.returncode==0 and completion_marker,completion_log[-8000:]
+completion_count=int(completion_marker.group(1));checks+=completion_count
+results.append({'test':'godot_test_completion','status':'PASS','checks':completion_count,'markers':[completion_marker.group(0)]})
+print(completion_marker.group(0),flush=True)
 install_check=subprocess.run([sys.executable,str(ROOT/'tools/test_install_client.py')],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60,**hidden_options())
 install_log=install_check.stdout+install_check.stderr;(RUN/'install_client.log').write_text(install_log,'utf8')
 assert install_check.returncode==0,install_log[-8000:]

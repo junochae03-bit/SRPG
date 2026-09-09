@@ -23,7 +23,7 @@ func _initialize():
 	if not OS.get_cmdline_user_args().is_empty():suffix=OS.get_cmdline_user_args()[0]
 	var path=ProjectSettings.globalize_path("res://../artifacts/job-benchmark-"+suffix+".json")
 	DirAccess.make_dir_recursive_absolute(path.get_base_dir());FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify(report,"  "))
-	print(JSON.stringify(report));quit()
+	print(JSON.stringify(report));print("JOB_BENCHMARK_PASS");quit()
 static func measure(job:String,count:int,seed_value:int,level:int=60,prepared:bool=false)->Dictionary:
 	var sim=Simulation.new(seed_value);sim.enemies.clear()
 	var p=sim.add_player(1,"측정");p.class_id=job;p.level=level;p.stats={"strength":0,"endurance":77,"technique":0,"agility":0,"magic":0}

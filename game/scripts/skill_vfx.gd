@@ -4,6 +4,41 @@ const Catalog=preload("res://scripts/skill_vfx_catalog.gd")
 const Dungeon=preload("res://scripts/dungeon.gd")
 const GROUND=Vector2(1,.5)
 
+static func projected_radius(radius:float)->float:
+	# iso(x,y)=(48(x-y),24(x+y)): a world circle projects to an
+	# ellipse with horizontal radius 48*sqrt(2), not the old 47px.
+	return maxf(0.,radius)*48.*sqrt(2.)
+
+static func ground_contour(e:Dictionary)->PackedVector2Array:
+	var points=PackedVector2Array();var radius=maxf(0.,float(e.get("radius",0)))
+	var shape=str(e.get("ground_shape",""))
+	if shape not in ["circle","arc"] or not is_finite(radius) or radius<=0:return points
+	var angle:float=e.get("dir",Vector2.RIGHT).angle()
+	var half=PI if shape=="circle" else acos(clampf(float(e.get("arc_dot",0.)),-1.,1.))
+	if shape=="arc":points.append(Vector2.ZERO)
+	for i in range(65):points.append(Dungeon.iso(Vector2.from_angle(angle-half+2.*half*i/64.)*radius))
+	if shape=="arc":points.append(Vector2.ZERO)
+	return points
+
+static func render_ground(g,e:Dictionary):
+	if e.get("skill_phase","")=="windup":return
+	var points=ground_contour(e)
+	if points.is_empty():return
+	var at:Vector2=g.world_point(e.get("pos",Vector2.ZERO))
+	if e.get("follow_owner",false) and g.get("session")!=null:
+		var p=g.session.state.get("players",{}).get(e.get("owner",-1),{})
+		if not p.is_empty():at=g.world_point(p.pos+p.aim*float(e.get("follow_offset",0)))
+	var duration=maxf(.001,float(e.get("max_life",e.get("duration",.8))))
+	var remaining=clampf(float(e.get("life",duration))/duration,0.,1.)
+	var alpha=minf(1.,remaining*4.)
+	var color:Color=Catalog.profile(e).get("color",Color("c7b9ef"))
+	for i in range(points.size()):points[i]+=at
+	# A quiet, exact contact boundary stays visible even when decorative sparks
+	# spread or contract. Fixed 65 segments; no extra particle nodes or RNG.
+	var fill=points.duplicate();fill.remove_at(fill.size()-1)
+	g.draw_colored_polygon(fill,tint(color,.025*alpha))
+	g.draw_polyline(points,tint(color,.45*alpha),1.6,true)
+
 static func tint(color:Color,alpha:float)->Color:
 	return Color(color,clampf(alpha,0,1))
 
@@ -51,7 +86,7 @@ static func render(g,e:Dictionary)->bool:
 	var alpha=clampf(t/.10,0,1)*pow(clampf((1-t)/.38,0,1),1.3)
 	if alpha<=.001:return true
 	var at:Vector2=g.world_point(e.get("pos",Vector2.ZERO))
-	var r=clampf(float(e.get("radius",1.5))*47,26,185)
+	var r=clampf(projected_radius(float(e.get("radius",1.5))),26,360)
 	var c=tint(style.get("color",Color("9eadff")),alpha)
 	var core=tint(style.get("accent",Color("f4fbff")),alpha)
 	var rank=clampi(int(e.get("rank",1)),1,3)

@@ -34,8 +34,23 @@ func audit_buttons(control:Control,context:String):
 		check(width+icon_space+arrow_space<=button.size.x-left-right+1,"full caption + icon + arrow fit inside ornament: "+context+" / "+button.text)
 		check(maxf(font.get_height(font_size),button.get_theme_constant("icon_max_width") if button.icon!=null else 0)<=button.size.y-maxf(0,style.content_margin_top)-maxf(0,style.content_margin_bottom)+1,"button glyph vertical inset: "+context+" / "+button.text)
 func audit_review(panel,context:String):
+	if panel.review_panel==null:
+		# The dedicated boutique retains its existing wardrobe transaction view.
+		# Audit its own name/portrait/price/input/action layout, rather than impose
+		# the ordinary material recipe's unrelated result-scroll contract on it.
+		check(panel.wardrobe_view!=null and (panel.facility=="costume" or panel.shop_mode=="costume"),"custom review exists only for boutique: "+context)
+		if panel.wardrobe_view==null:return
+		var view=panel.wardrobe_view;var safe=Rect2(Vector2(32,22),view.details.size-Vector2(64,42))
+		for child in view.details.get_children():
+			if child is Label or child is Button or child is LineEdit:check(safe.encloses(child.get_rect()),"boutique controls remain inside paper: "+context)
+		check(view.selected_name.get_rect().end.y+14<=view.portrait.position.y,"boutique name never covers portrait: "+context)
+		check(view.portrait.get_rect().end.y+12<=view.price_label.position.y,"portrait clear of price: "+context)
+		check(view.name_field.get_rect().end.y+12<=view.feedback.position.y and view.feedback.get_rect().end.y+12<=view.action_button.position.y,"name editor, receipt and purchase have separate rows: "+context)
+		check(Rect2(Vector2.ZERO,panel.body.size).encloses(view.get_rect()),"boutique fits expanded work area: "+context)
+		return
 	# The actual gold leaf corners extend 26 px. Insets include another 6 px of paper.
-	var safe=Rect2(32,26,339,588)
+	# V0.5.2 widens the transaction panel; preserve the same safe inner margins.
+	var safe=Rect2(Vector2(32,26),panel.review_panel.size-Vector2(64,52))
 	for child in panel.review_panel.get_children():
 		if child is Label and not child.text.is_empty():check(safe.encloses(child.get_rect()),"review content remains on inner paper: "+context+" / "+child.text)
 	check(safe.encloses(panel.confirm_button.get_rect()),"transaction button clear of outer frame: "+context)

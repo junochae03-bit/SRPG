@@ -8,6 +8,7 @@ const Art=preload("res://scripts/ui_art.gd")
 const Icons=preload("res://scripts/icon_art.gd")
 const Stagger=preload("res://scripts/boss_stagger.gd")
 const Library=preload("res://scripts/icon_library.gd")
+const Presentation=preload("res://scripts/skill_presentation.gd")
 var game
 var nodes={}
 var points:Label
@@ -63,6 +64,13 @@ var overview_button:Button
 var mode_buttons={}
 var content_refreshes=0
 var search_applications=0
+var branch_buttons:Array=[]
+var branch_labels:Array=[]
+var impact_summary:Control
+var impact_labels:Array=[]
+var headline_rows:Array=[]
+var route_target=""
+var next_step_button:Button
 const DETAIL_WIDTH=360
 
 func setup(owner_game):
@@ -70,7 +78,10 @@ func setup(owner_game):
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",38)
 	Library.picture(self,"skills",Vector2(26,18),Vector2(66,66));game.label(self,"별자리의 길",Vector2(109,26),Vector2(418,43),32)
 	Library.picture(self,"skill_points",Vector2(555,35),Vector2(29,29));points=game.label(self,"",Vector2(600,30),Vector2(720,38),24);Library.attach(game.button(self,"닫기",Vector2(1400,26),Vector2(125,43),game.toggle_skills),"close",22)
-	role_label=game.label(self,"",Vector2(36,88),Vector2(650,38),20)
+	role_label=game.label(self,"",Vector2(109,69),Vector2(760,24),16)
+	for i in range(5):
+		var b=game.button(self,"",Vector2(31+i*184,96),Vector2(174,37),func():show_branch(i));branch_buttons.append(b);view_controls.append(b)
+		var label=game.label(b,"",Vector2(13,6),Vector2(150,27),17);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;branch_labels.append(label)
 	for i in range(3):
 		var key=["skills","stats","class"][i];mode_buttons[key]=game.button(self,["스킬 지도","능력치","직업"][i],Vector2(974+i*182,87),Vector2(171,43),func():change_mode(key));Library.attach(mode_buttons[key],["skills","stat_points","class_warrior"][i],22)
 	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(value):pending_search=.16 if value!=applied_search_text else 0.);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
@@ -89,7 +100,8 @@ func setup(owner_game):
 	view_controls.append(game.button(self,"+",Vector2(1019,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1.2)))
 	loadout_strip=Control.new();loadout_strip.position=Vector2(31,790);loadout_strip.size=Vector2(1045,44);add_child(loadout_strip)
 	notice=game.label(self,"",Vector2(319,731),Vector2(562,44),16);notice.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	reset_button=game.button(self,"스킬 초기화",Vector2(706,88),Vector2(237,43),func():game.session.act("reset_skills" if mode=="skills" else "reset_stats");refresh(true))
+	reset_button=game.button(self,"스킬 초기화",Vector2(318,736),Vector2(171,37),func():game.session.act("reset_skills" if mode=="skills" else "reset_stats");refresh(true));reset_button.add_theme_font_size_override("font_size",16)
+	notice.position=Vector2(501,733);notice.size=Vector2(383,43)
 	details=Art.panel(self,Vector2(1096,146),Vector2(432,688),"paper",25)
 	Art.picture(details,Art.texture("medallion"),Vector2(17,19),Vector2(91,91));selected_icon=Art.picture(details,null,Vector2(30,32),Vector2(65,65))
 	selected=game.label(details,"",Vector2(119,26),Vector2(287,72),26);selected.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
@@ -98,10 +110,16 @@ func setup(owner_game):
 	invest=game.button(details,"",Vector2(23,217),Vector2(386,49),invest_selected,true)
 	comparison_scroll=ScrollContainer.new();comparison_scroll.position=Vector2(25,282);comparison_scroll.size=Vector2(382,239);comparison_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;details.add_child(comparison_scroll)
 	comparison=Control.new();comparison.custom_minimum_size=Vector2(DETAIL_WIDTH,239);comparison_scroll.add_child(comparison)
+	impact_summary=Control.new();impact_summary.size=Vector2(DETAIL_WIDTH,147);comparison.add_child(impact_summary)
+	for i in range(3):
+		var label=game.label(impact_summary,"",Vector2(2,i*47),Vector2(132,42),16);label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		var value=game.label(impact_summary,"",Vector2(137,i*47+2),Vector2(219,39),22);value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
+		impact_labels.append([label,value])
 	detail_body=RichTextLabel.new();detail_body.size=Vector2(DETAIL_WIDTH,239);detail_body.fit_content=true;detail_body.scroll_active=false;detail_body.bbcode_enabled=true;detail_body.add_theme_font_override("normal_font",game.fonts);detail_body.add_theme_font_override("bold_font",game.bold_font);detail_body.add_theme_font_size_override("normal_font_size",18);detail_body.add_theme_font_size_override("bold_font_size",20);detail_body.add_theme_color_override("default_color",game.PALE);detail_body.add_theme_constant_override("line_separation",5);comparison.add_child(detail_body)
 	prerequisites=Control.new();prerequisites.position=Vector2(24,535);prerequisites.size=Vector2(386,40);details.add_child(prerequisites)
-	path_button=game.button(details,"경로 보기",Vector2(23,583),Vector2(184,36),show_path)
+	path_button=game.button(details,"경로 보기",Vector2(23,583),Vector2(184,36),navigate_selected_path)
 	refund_button=game.button(details,"선택 회수",Vector2(216,583),Vector2(193,36),preview_refund)
+	next_step_button=game.button(self,"",Vector2(501,736),Vector2(383,37),choose_next_step);next_step_button.add_theme_font_size_override("font_size",16);next_step_button.hide()
 	for i in range(6):
 		var action=Content.ACTIONS[i];var b=game.button(details,key_label(action)+" 배치",Vector2(23+(i%3)*130,628+int(i/3)*29),Vector2(126,27),func():game.session.act("bind_skill",action+":"+choice);refresh(true));b.add_theme_font_size_override("font_size",15);bind_buttons.append(b)
 	stats_panel=Art.panel(self,Vector2(29,149),Vector2(1054,685),"paper",24);stats_text=game.label(stats_panel,"",Vector2(54,48),Vector2(966,74),25)
@@ -152,7 +170,7 @@ func matches(node:Dictionary,p:Dictionary)->bool:
 	var query=search.text.strip_edges().to_lower();var definition=graph.definitions.get(node.id,node)
 	var text=str(definition.get("name",""))+" "+str(definition.get("description",""))+" "+str(definition.get("tags",[]))+" "+str(definition.get("synergy",""))
 	return (query.is_empty() or text.to_lower().contains(query)) and (tag_filter.is_empty() or tag_filter in definition.get("tags",[])) and (filter_index==0 or filter_index==1 and definition.get("effect","")=="active" or filter_index==2 and Rules.node_state(p,node.id).get("can_invest",false))
-func select_node(id:String):choice=id;refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text="";refresh(true)
+func select_node(id:String):choice=id;route_target="";refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text="";refresh(true)
 func show_branch(cluster:int):
 	graph.set_scope(cluster);refund_mode=false
 	if cluster>=0:
@@ -162,7 +180,11 @@ func show_branch(cluster:int):
 func refresh_branch_picker():
 	if branch_picker==null:return
 	branch_picker.clear();branch_picker.add_item("전체 지도 · %d개"%node_list.size())
-	for i in range(5):branch_picker.add_item(str(graph.cluster_names.get(i,"가지 "+str(i+1)))+" · %d개"%node_list.filter(func(n):return int(n.get("cluster",0))==i).size())
+	for i in range(5):
+		var keys=node_list.filter(func(n):return int(n.get("cluster",0))==i and n.get("type","")=="keystone")
+		var purpose=Presentation.branch(keys[0]) if not keys.is_empty() else [str(graph.cluster_names.get(i,"성장")),""]
+		branch_picker.add_item(str(purpose[0])+" · "+str(purpose[1]))
+		branch_labels[i].text=("◆ " if graph.scope_cluster==i else "")+str(purpose[0]);branch_buttons[i].tooltip_text=str(graph.cluster_names.get(i,""))+"\n"+str(purpose[1]);branch_buttons[i].set_meta("branch_outcome",purpose[1])
 	branch_picker.select(graph.scope_cluster+1);overview_button.text="전체 지도" if graph.scope_cluster>=0 else "가지 보기"
 func focus_choice():graph.focus_node(choice)
 func focus_match():
@@ -191,6 +213,24 @@ func show_path():
 	var plan=Rules.path_plan(player(),choice);graph.planned_ids=[]
 	for step in plan.get("steps",[]):graph.planned_ids.append(str(step.id))
 	notice.text="필요 %d SP · %d개 경로"%[int(plan.get("cost",0)),plan.get("steps",[]).size()] if plan.get("ok",false) else str(plan.get("reason","경로가 잠겨 있습니다."));graph.reveal_plan()
+	route_target=choice
+	if plan.get("ok",false) and not plan.get("steps",[]).is_empty():
+		var first=Rules.definition(str(plan.steps[0].id));next_step_button.text="다음: "+Presentation.short_label(first)+"  →";next_step_button.show();notice.hide()
+
+func choose_next_step():
+	var target=route_target
+	if target.is_empty():return
+	var plan=Rules.path_plan(player(),target)
+	if not plan.get("ok",false) or plan.get("steps",[]).is_empty():return
+	select_node(str(plan.steps[0].id));route_target=target;graph.focus_node(choice)
+	for step in plan.steps:graph.planned_ids.append(str(step.id))
+	graph.queue_redraw()
+	notice.text="목표 · "+str(Rules.definition(target).get("name",""))
+
+func navigate_selected_path():
+	var missing=str(Rules.node_state(player(),choice).get("reason","")).begins_with("선행")
+	show_path()
+	if missing and next_step_button.visible:choose_next_step()
 
 func refresh(force=false):
 	var p=player()
@@ -211,11 +251,16 @@ func refresh(force=false):
 		tags.sort()
 		for tag in tags:tag_picker.add_item(localized_tag(str(tag)));tag_picker.set_item_metadata(tag_picker.item_count-1,tag)
 		tag_picker.set_meta("class",p.class_id)
-	if not node_list.any(func(n):return n.id==choice):choice=node_list[0].id
+	if not node_list.any(func(n):return n.id==choice):
+		var initial=node_list.filter(func(n):return n.get("effect","")=="active" and int(n.get("cluster",0))==0 and Rules.node_state(p,n.id).can_invest)
+		if initial.is_empty():initial=node_list.filter(func(n):return int(n.get("cluster",0))==0 and Rules.node_state(p,n.id).can_invest)
+		if initial.is_empty():initial=node_list.filter(func(n):return n.get("effect","")=="active" and int(n.get("cluster",0))==0)
+		choice=initial[0].id if not initial.is_empty() else node_list[0].id
 	graph.rebuild(node_list,p);nodes=graph.node_controls;refresh_branch_picker()
 	var context=p.class_id+":"+choice+":"+mode
 	if context!=comparison_context:comparison_context=context;comparison_scroll.scroll_vertical=0
 	show_details(node_list.filter(func(n):return n.id==choice)[0],p)
+	next_step_button.hide();notice.show()
 	clear(loadout_strip)
 	for i in range(6):
 		var equipped=Content.active_node(p,Content.ACTIONS[i]);var trained=Content.action_rank(p,Content.ACTIONS[i])>0
@@ -226,11 +271,13 @@ func refresh(force=false):
 		caption.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;caption.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;caption.tooltip_text=caption.text;caption.clip_text=true
 		b.tooltip_text=equipped.get("name","") if trained else "배운 사용 기술을 선택해 배치할 수 있습니다."
 	reset_button.disabled=game.dungeon.zone!="town";reset_button.text="스킬 초기화" if mode=="skills" else "능력치 초기화";reset_button.tooltip_text="마을에서 사용할 수 있습니다." if reset_button.disabled else "현재 배분을 되돌립니다."
+	reset_button.position=Vector2(318,736) if mode=="skills" else Vector2(706,88);reset_button.size=Vector2(171,37) if mode=="skills" else Vector2(237,43)
 	if mode=="stats":show_stats(p)
 	elif mode=="class":refresh_class()
 	for b in bind_buttons:b.visible=mode=="skills"
 	invest.visible=mode=="skills";path_button.visible=mode=="skills";refund_button.visible=mode=="skills"
 	comparison_scroll.position.y=282 if mode=="skills" else 226;comparison_scroll.size.y=239 if mode=="skills" else 295
+	impact_summary.visible=mode=="skills";detail_body.position.y=147 if mode=="skills" else 0
 	selected_icon.material=Art.icon_material(selected_icon.texture)
 	Library.attach(mode_buttons["class"],"class_"+p.class_id,22)
 	Library.attach(reset_button,"reset",21);Library.attach(invest,"stat_points" if mode=="stats" else "reset" if refund_mode else "success" if invest.text=="최대 성장" else "locked" if invest.disabled else "skill_points",22)
@@ -243,15 +290,24 @@ func show_details(skill:Dictionary,p:Dictionary):
 	var state=Rules.node_state(p,skill.id);var rank=int(state.get("rank",0));var maximum=int(skill.max_rank)
 	selected.text=str(skill.name).get_slice(" · ",0) if skill.get("type","")=="minor" else str(skill.name);selected.tooltip_text=skill.name;selected_icon.texture=Icons.skill(skill)
 	description.text="LV.%d · "%int(skill.get("level",1))+("선행 없음" if skill.get("parents",[]).is_empty() else ("모든 선행" if skill.get("parent_mode","any")=="all" else "선행 중 하나")+" %d랭크"%int(skill.get("required_rank",1)));description.tooltip_text=description.text
-	status.text=("핵심 선택" if skill.get("type","")=="keystone" else "주요 특성" if skill.get("type","")=="notable" else "기반" if skill.get("type","")=="minor" else "사용 기술" if skill.effect=="active" else "원기술 강화")+" · %d/%d · %d SP"%[rank,maximum,int(state.get("cost",skill.get("cost",1)))]
-	if not state.get("can_invest",false) and rank<maximum and not str(state.get("reason","")).begins_with("선행"):status.text+="\n"+str(state.get("reason","선행 필요"))
+	status.text=("핵심 · 공격 방식 변화" if skill.get("type","")=="keystone" else "조건부 강화" if skill.get("type","")=="notable" else "패시브" if skill.get("type","")=="minor" else "액티브" if skill.effect=="active" else "기술 강화" if skill.effect=="upgrade" else "패시브")+" · %d/%d · %d SP"%[rank,maximum,int(state.get("cost",skill.get("cost",1)))]
+	status.tooltip_text=str(state.get("reason",""))
+	if not state.get("can_invest",false) and rank<maximum and not str(state.get("reason","")).begins_with("선행"):
+		var reason=str(state.get("reason","선행 필요"))
+		if reason.begins_with("배타") and not state.get("locked_by",[]).is_empty():reason="배타 · "+Presentation.short_label(Rules.definition(str(state.locked_by[0])))+" 해제 필요"
+		elif reason.begins_with("핵심 별자리"):reason="핵심 선택은 최대 2개"
+		status.text+="\n"+reason
 	comparison_rows=[];var text=""
 	if skill.get("type","original")!="original":
 		var effect_text=str(skill.get("effects_text",skill.get("description","")))
 		text+=paragraph("얻는 변화",effect_text)+paragraph("선택의 대가",str(skill.get("tradeoff","")))+paragraph("함께 쓰는 방식",str(skill.get("synergy","")))
 		text+=paragraph("적용 범위",str(skill.get("description","")).trim_prefix(effect_text).trim_prefix(". "))
-		var preview=Rules.preview(p,skill.id,mini(maximum,rank+1));var before:Dictionary=preview.get("before",{});var after:Dictionary=preview.get("after",{})
-		for effect in skill.get("effects",{}):comparison_rows.append([effect,str(before.get(effect,0)),str(after.get(effect,before.get(effect,0)))])
+		# A locked node still previews its potential next rank. Rules.preview may
+		# reject allocation; that must not turn the displayed improvement into 0→0.
+		var hypothetical=p.duplicate(true);hypothetical.constellation_allocations[skill.id]=mini(maximum,rank+1)
+		var before=Rules.effects(p);var after=Rules.effects(hypothetical)
+		for effect in skill.get("effects",{}):comparison_rows.append([Rules.effect_label(effect),effect_amount(effect,float(before.get(effect,0))),effect_amount(effect,float(after.get(effect,0)))])
+		if skill.get("type","")=="keystone":comparison_rows=[["공격 방식","적용 중" if rank>0 else "기존",str(Presentation.branch(skill)[0])]]
 		if str(state.get("reason","")).begins_with("배타"):
 			var names=[]
 			for id in state.locked_by:
@@ -270,10 +326,11 @@ func show_details(skill:Dictionary,p:Dictionary):
 		var bonuses=preload("res://scripts/active_skills.gd").bonuses(p)
 		var current=Balance.metrics(p,combat_skill,rank,game.session.sim.damage_for(p),p.max_hp) if Content.job(p) else Scaling.metrics(combat_skill,rank,game.session.sim.damage_for(p),p.max_hp,bonuses)
 		var upgraded=Balance.metrics(p,combat_skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp) if Content.job(p) else Scaling.metrics(combat_skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp,bonuses)
+		current.append_array(Presentation.shape_rows(p,skill,rank,game.session.sim.damage_for(p),p.max_hp));upgraded.append_array(Presentation.shape_rows(p,skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp))
 		if skill.effect=="active":current.append(["시전당 무력화","%.1f"%Stagger.skill_profile(combat_skill,rank,p).value]);upgraded.append(["시전당 무력화","%.1f"%Stagger.skill_profile(combat_skill,mini(maximum,rank+1),p).value])
 		var rows=PackedStringArray()
 		for i in range(current.size()):comparison_rows.append([current[i][0],current[i][1],upgraded[i][1]]);rows.append("%s\n%s  →  %s"%[current[i][0],current[i][1],upgraded[i][1]])
-		text+=paragraph("현재 → 다음" if rank<maximum else "최대 성장 효과","\n".join(rows))+paragraph("기술 효과",str(skill.get("description","")))+paragraph("함께 쓰는 방식",str(skill.get("synergy","")))+paragraph("비교 기준","현재 장비와 능력치를 적용합니다. 직업 자원·치명타·적 상태에 따라 실제 결과가 달라집니다.")
+		text+=paragraph("전체 수치","\n".join(rows))+paragraph("기술 효과",str(skill.get("description","")))+paragraph("함께 쓰는 방식",str(skill.get("synergy","")))
 	var tags=PackedStringArray()
 	for tag in skill.get("tags",[]):tags.append(localized_tag(str(tag)))
 	text+=paragraph("성격"," · ".join(tags));clear(prerequisites)
@@ -282,15 +339,31 @@ func show_details(skill:Dictionary,p:Dictionary):
 		if row.is_empty():continue
 		var b=game.button(prerequisites,str(row[0].name).get_slice(" · ",0),Vector2(i*197,0),Vector2(189,38),func():select_node(id);focus_choice());b.add_theme_font_size_override("font_size",14);b.tooltip_text="선행 "+str(skill.get("required_rank",1))+"랭크 · "+row[0].name
 	invest.disabled=not state.get("can_invest",false);invest.text="최대 성장" if rank>=maximum else ("배우기" if rank==0 else "강화")+" · %d SP"%int(state.get("cost",skill.get("cost",1)));invest.tooltip_text=str(state.get("reason",""));path_button.disabled=rank>=maximum
+	path_button.text="선행으로" if str(state.get("reason","")).begins_with("선행") else "경로 보기"
 	refund_button.disabled=rank<=0 or game.dungeon.zone!="town"
 	if refund_mode:
 		var preview=Rules.preview(p,skill.id,maxi(0,rank-1));var names=PackedStringArray()
 		for id in preview.get("removed",[]):names.append(str(Rules.definition(str(id)).get("name",id)))
 		text=paragraph("회수 미리보기","%d SP 반환\n함께 해제: %s"%[int(preview.get("refund",0))," / ".join(names)])+text;invest.text="회수 적용";invest.disabled=not preview.get("ok",false) or game.dungeon.zone!="town"
-	detail_body.text=text;detail_body.size.x=DETAIL_WIDTH;comparison.custom_minimum_size.y=maxf(239,detail_body.get_content_height()+12)
+	refresh_impact();detail_body.text=text;detail_body.position.y=147;detail_body.size.x=DETAIL_WIDTH;comparison.custom_minimum_size.y=maxf(239,147+detail_body.get_content_height()+12)
 	for i in range(bind_buttons.size()):
 		var action=Content.ACTIONS[i];var assigned=Content.active_node(p,action).get("id","")==skill.id
 		bind_buttons[i].disabled=skill.effect!="active" or rank<=0 or not game.dungeon.in_town(p.pos);bind_buttons[i].text=key_label(Content.ACTIONS[i])+(" 사용 중" if assigned and rank>0 else " 배치");fit_bind_label(bind_buttons[i])
+
+func effect_amount(key:String,value:float)->String:
+	if key in ["slow_on_followup"]:return Scaling.number(value)+"초"
+	return Scaling.number(value*100)+"%"
+
+func refresh_impact():
+	headline_rows=Presentation.headline_rows(comparison_rows)
+	for i in range(3):
+		var label:Label=impact_labels[i][0];var value:Label=impact_labels[i][1]
+		label.visible=i<headline_rows.size();value.visible=label.visible
+		if not label.visible:continue
+		var row:Array=headline_rows[i];label.text=Presentation.compact_metric(str(row[0]));label.tooltip_text=str(row[0]);value.text=str(row[1])+" → "+str(row[2]);value.tooltip_text=value.text
+		var pixels=22
+		while pixels>15 and value.get_theme_font("font").get_string_size(value.text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x>value.size.x:pixels-=1
+		value.add_theme_font_size_override("font_size",pixels)
 
 func show_stats(p:Dictionary):
 	stats_text.text="사용 가능한 능력치 %d\n힘 %d · 내구 %d · 기술 %d · 민첩 %d · 마력 %d"%[Progression.available(p),Progression.bonus(p,"strength"),Progression.bonus(p,"endurance"),Progression.bonus(p,"technique"),Progression.bonus(p,"agility"),Progression.bonus(p,"magic")]

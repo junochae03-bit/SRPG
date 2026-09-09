@@ -21,6 +21,10 @@ var serif: Font
 var textures: Dictionary = {}
 var camera_pos = Vector2.ZERO
 var smooth_positions: Dictionary = {}
+var monster_aim_frames:Dictionary={}
+var hover_enemy_id=0
+var aim_pointer_viewport=Vector2.ZERO
+var aim_pointer_received=false
 var art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 var visual_time = 0.0
 var effects: Array = []
@@ -29,6 +33,9 @@ var title_backdrop:TextureRect
 var hud: Control
 var bag: Control
 var help_panel: Control
+var settings_panel:Control
+var combat_feedback:Control
+var preferences=preload("res://scripts/game_options.gd").new()
 var skill_tree: Control
 var town_panel:Control
 var codex:Control
@@ -74,11 +81,18 @@ func stop_audio():
 
 func finish_run():
 	if quitting: return
-	quitting=true
-	if options.has("report"): write_bot_report()
+	var previously_paused=session.paused
 	if session.connected:
 		session.paused=true
-		session.save_game()
+		if not session.save_game():
+			if not settings_panel.visible:
+				session.paused=previously_paused;settings_panel.open()
+			settings_panel.status.text="저장 실패 · 종료하지 않고 기록을 유지합니다."
+			return
+	quitting=true
+	session.paused=previously_paused
+	if options.has("report"): write_bot_report()
+	if session.connected:session.paused=true
 	if is_instance_valid(audio_director) and not await audio_director.shutdown():
 		push_error("Audio playback did not drain before shutdown")
 		get_tree().quit(1)
@@ -114,6 +128,8 @@ func _ready():
 	audio_director=preload("res://scripts/audio_director.gd").new()
 	add_child(audio_director)
 	audio_director.setup(self)
+	preferences.values.music=audio_director.music_gain;preferences.values.effects=audio_director.effects_gain
+	if preferences.load_file(session.save_directory.path_join("game-options.json")):preferences.apply(self)
 	build_interface()
 	var overlay_layer = CanvasLayer.new()
 	overlay_layer.layer = 2
@@ -159,6 +175,11 @@ func toggle_help():
 		help_panel.close();return
 	if session.connected:session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 	help_panel.open()
+	if toast!=null:toast.hide()
+
+func toggle_settings():
+	if settings_panel.visible:settings_panel.close()
+	else:settings_panel.open()
 	if toast!=null:toast.hide()
 
 func continue_game():
@@ -288,6 +309,8 @@ func build_interface():
 	npc_dialogue=preload("res://scripts/npc_dialogue.gd").new();hud.add_child(npc_dialogue);npc_dialogue.setup(self)
 	character_sheet=preload("res://scripts/character_sheet_ui.gd").new();canvas.add_child(character_sheet);character_sheet.setup(self)
 	help_panel=preload("res://scripts/keyboard_panel.gd").new();canvas.add_child(help_panel);help_panel.setup(self)
+	settings_panel=preload("res://scripts/settings_panel.gd").new();canvas.add_child(settings_panel);settings_panel.setup(self)
+	combat_feedback=preload("res://scripts/combat_feedback.gd").new();canvas.add_child(combat_feedback);combat_feedback.setup(self)
 
 func on_status(message: String):
 	status_text = message
@@ -304,6 +327,7 @@ func on_status(message: String):
 func on_entered():
 	art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide();npc_dialogue.hide();character_sheet.hide()
+	settings_panel.hide()
 	dungeon = session.sim.map
 	forest.rebuild(dungeon)
 	camera_pos = Dungeon.iso(dungeon.spawn)
@@ -380,13 +404,16 @@ func _unhandled_input(event: InputEvent):
 		if key_escape(event):character_sheet.cancel();get_viewport().set_input_as_handled()
 		return
 	if help_panel.visible:return
+	if settings_panel.visible:
+		if key_escape(event):settings_panel.close();get_viewport().set_input_as_handled()
+		return
 	if key_escape(event):
 		if npc_dialogue.visible:npc_dialogue.close()
 		elif codex.visible:codex.close()
 		elif town_panel.visible:town_panel.close()
 		elif bag.visible:toggle_bag()
 		elif skill_tree.visible:toggle_skills()
-		else:toggle_help()
+		else:toggle_settings()
 		get_viewport().set_input_as_handled();return
 	if not session.connected: return
 	if npc_dialogue.visible or text_input_focused():return
@@ -404,6 +431,9 @@ func _unhandled_input(event: InputEvent):
 		session.act("heavy_begin" if event.pressed else "heavy")
 
 func _input(event:InputEvent):
+	if event is InputEventMouseMotion or event is InputEventMouseButton:
+		aim_pointer_viewport=event.position
+		aim_pointer_received=true
 	if character_sheet!=null and character_sheet.visible and event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
 		character_sheet.cancel();get_viewport().set_input_as_handled();return
 	if help_panel!=null and not help_panel.visible and key_escape(event):
@@ -414,6 +444,12 @@ func _input(event:InputEvent):
 			if session.paused or text_input_focused():session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 			else:session.act("heavy")
 			get_viewport().set_input_as_handled()
+
+func aim_mouse_position()->Vector2:
+	# Input events already contain logical viewport coordinates. Reapply the
+	# current camera transform each tick, even when the pointer stays still.
+	if aim_pointer_received:return get_viewport().canvas_transform.affine_inverse()*aim_pointer_viewport
+	return get_global_mouse_position()
 
 func _physics_process(delta: float):
 	if session == null: return
@@ -431,8 +467,10 @@ func _physics_process(delta: float):
 		direction = Vector2(float(keybindings.is_pressed("move_right"))-float(keybindings.is_pressed("move_left")),float(keybindings.is_pressed("move_down"))-float(keybindings.is_pressed("move_up")))
 		# Keyboard axes follow screen directions; convert to logical isometric coordinates.
 		direction = Dungeon.from_iso(direction).normalized()
-	var logical_mouse = Dungeon.from_iso(get_global_mouse_position() - screen_center() + camera_pos)
-	var aim = (logical_mouse - p.pos).normalized()
+	var logical_mouse = Dungeon.from_iso(aim_mouse_position() - screen_center() + camera_pos)
+	var aimed=preload("res://scripts/monster_aim.gd").target_at(aim_mouse_position(),session.state.enemies,monster_aim_frames,p.pos,session.sim.map) if can_act else {}
+	hover_enemy_id=int(aimed.get("id",0))
+	var aim=p.pos.direction_to(aimed.pos if not aimed.is_empty() else logical_mouse)
 	session.send_input(direction, aim, can_act and keybindings.is_pressed("sprint"))
 	if can_act:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and get_viewport().gui_get_hovered_control() == null:
@@ -458,6 +496,7 @@ func _process(delta: float):
 		var p=session.state.players[session.local_id];var body=world_point(p.pos)-Vector2(0,55)
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
 			var building=preload("res://scripts/world_catalog.gd").FACILITIES[key]
+			if float(building.get("height",0))<=0:continue
 			var sprite=preload("res://scripts/world_art.gd").frame("town",building.art)
 			var dimensions=sprite.texture.get_size()*(building.height/sprite.height)
 			var rect=Rect2(world_point(building.pos)-Vector2(dimensions.x*.5,dimensions.y),dimensions).grow(-20)
@@ -472,8 +511,10 @@ func _process(delta: float):
 		if options.has("show-bag") and not bag.visible: toggle_bag()
 		if options.has("show-skills") and not skill_tree.visible:toggle_skills()
 		if options.has("show-keys") and not help_panel.visible:toggle_help()
+		if options.has("show-settings") and not settings_panel.visible:toggle_settings()
 		if options.has("show-codex"):toggle_codex(str(options.get("codex-tab","equipment")))
 		if options.has("show-dialogue") and session.connected:npc_dialogue.open(str(options.get("show-dialogue","smith")))
+		preload("res://scripts/export_capture_v052.gd").prepare(self)
 		capture.call_deferred()
 	if options.has("duration") and visual_time > float(options.duration):
 		finish_run()
@@ -507,13 +548,34 @@ func world_point(pos: Vector2) -> Vector2:
 func diamond(center: Vector2, width: float, height: float) -> PackedVector2Array:
 	return PackedVector2Array([center+Vector2(0,-height),center+Vector2(width,0),center+Vector2(0,height),center+Vector2(-width,0)])
 
-func text_at(point: Vector2, value: String, font_size: int, color: Color, centered: bool = false):
+var world_label_regions:Array[Rect2]=[]
+var hidden_world_labels:PackedStringArray=[]
+var visible_world_labels:PackedStringArray=[]
+
+func refresh_world_label_regions():
+	world_label_regions=hud.world_label_regions() if hud!=null else []
+
+func world_label_rect(point:Vector2,value:String,font_size:int,centered:bool=false)->Rect2:
+	var width=fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
+	var origin=point-Vector2(width*.5 if centered else 0,fonts.get_ascent(font_size))
+	return get_global_transform_with_canvas()*Rect2(origin,Vector2(width,fonts.get_height(font_size))).grow(2)
+
+func world_label_hidden(point:Vector2,value:String,font_size:int,centered:bool=false)->bool:
+	var bounds=world_label_rect(point,value,font_size,centered)
+	return world_label_regions.any(func(region):return region.intersects(bounds))
+
+func text_at(point: Vector2, value: String, font_size: int, color: Color, centered: bool = false, world_label:bool=true):
+	if world_label:
+		if world_label_hidden(point,value,font_size,centered):hidden_world_labels.append(value);return
+		visible_world_labels.append(value)
 	if centered: point.x -= fonts.get_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x / 2
 	for off in [Vector2(-1,0),Vector2(1,0),Vector2(0,-1),Vector2(0,1)]:
 		draw_string(fonts,point+off,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,Color("233b2bd9"))
 	draw_string(fonts, point, value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
 
 func _draw():
+	monster_aim_frames.clear()
+	hidden_world_labels.clear();visible_world_labels.clear();refresh_world_label_regions()
 	if session == null or dungeon == null: return
 	if not session.connected:
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
@@ -566,7 +628,13 @@ func _draw():
 	for e in effects:
 		var point = world_point(e.pos)
 		if e.type == "damage":
-			text_at(point+Vector2(0,-85-(0.7-e.life)*65),str(e.amount),23,GOLD if e.enemy else Color("ff776b"),true)
+			if not preferences.values.damage_numbers:continue
+			var damage_pos=point+Vector2(0,-85-(0.7-e.life)*65)
+			if e.get("critical",false):
+				var value=str(e.amount);damage_pos.x-=bold_font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,30).x*.5
+				draw_string_outline(bold_font,damage_pos,value,HORIZONTAL_ALIGNMENT_LEFT,-1,30,5,Color("361914"))
+				draw_string(bold_font,damage_pos,value,HORIZONTAL_ALIGNMENT_LEFT,-1,30,Color("ff4545"))
+			else:text_at(damage_pos,str(e.amount),23,GOLD if e.enemy else Color("ff776b"),true,false)
 		elif e.type=="monster_attack":
 			preload("res://scripts/monster_attacks.gd").draw_area(self,e.area,Color(1,.73,.35,e.life/e.max_life))
 		elif e.type in ["nova","skill_fx"]:
@@ -600,6 +668,8 @@ func draw_actor(actor: Dictionary):
 		point = smooth_positions[key].lerp(target,0.45)
 	smooth_positions[key] = point
 	var is_hero = role == "hero"
+	if p.get("training",false):
+		preload("res://scripts/training_art.gd").draw(self,p,point);return
 	var boss=not is_hero and p.get("boss",role=="warden")
 	var is_self = is_hero and p.id == session.local_id
 	var size_scale = 2.2 if is_hero else (3.7 if role=="warden" else 2.0)
@@ -614,6 +684,7 @@ func draw_actor(actor: Dictionary):
 		for area in p.get("attack_areas",[]):preload("res://scripts/monster_attacks.gd").draw_area(self,area,Color("ed8268"))
 	draw_set_transform(point,0,Vector2(1,0.42))
 	draw_circle(Vector2.ZERO,66 if boss else 37 if p.get("elite",false) else 24,Color("32574a40"))
+	if not is_hero and int(p.id)==hover_enemy_id:draw_arc(Vector2.ZERO,72 if boss else 42 if p.get("elite",false) else 32,0,TAU,48,Color("ffda73"),3,true)
 	if is_self: draw_arc(Vector2.ZERO,30,0,TAU,40,GOLD,2,true)
 	draw_set_transform(Vector2.ZERO)
 	var animation = "idle"
@@ -672,6 +743,7 @@ func draw_actor(actor: Dictionary):
 	if not is_hero and p.get("slow_time",0)>0:tint=Color("97d9ff")
 	if is_hero and p.get("invulnerable",0)>0:tint=Color(0.6,0.9,1,0.6)
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
+	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
 	if is_self and not rendered_costume.is_empty():record_art_usage("costume",rendered_costume.costume_id,int(rendered_costume.index),str(rendered_costume.get("frame_source_path","")))
@@ -693,14 +765,15 @@ func draw_actor(actor: Dictionary):
 		if not is_hero and not boss:
 			var elite=bool(p.get("elite",false))
 			var width=115 if elite else 55
-			if elite:text_at(point+Vector2(0,-dimensions.y-25),"◆ LV.%d %s" % [p.level,p.name],16,Color("ffe0a2"),true)
+			if elite and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-25),"◆ LV.%d %s" % [p.level,p.name],16,Color("ffe0a2"),true)
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width,7 if elite else 5)),Color("e4b96c") if elite else Color("e8d5c7"))
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width*float(p.hp)/p.max_hp,5)),Color("d8787d"))
-			if role=="warden": text_at(point+Vector2(0,-dimensions.y-28),p.name,18,GOLD,true)
+			if role=="warden" and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-28),p.name,18,GOLD,true)
 		elif is_hero:
 			text_at(point+Vector2(0,-dimensions.y-13),p.name,15,Color("fff4d0") if is_self else Color("8dd9d8"),true)
 
 func draw_building(data:Dictionary):
+	if float(data.get("height",0))<=0:return
 	var frame=preload("res://scripts/world_art.gd").frame("town",data.art)
 	var height=float(data.height);var scale=height/frame.height
 	var point=world_point(data.pos);var dimensions=frame.texture.get_size()*scale
@@ -792,6 +865,7 @@ func write_bot_report():
 	report.art_usage["equipment_consumers"]=equipment_ui_evidence()
 	report.art_usage["prepared"]=preload("res://scripts/prepared_art_v05.gd").loads.duplicate()
 	report["capture_view"]=str(options.get("capture-view","player"))
+	if options.has("v052-audit"):report["v052"]=preload("res://scripts/export_capture_v052.gd").evidence(self)
 	var file=FileAccess.open(options.report,FileAccess.WRITE)
 	if file:file.store_string(JSON.stringify(report,"\t"));file.close()
 

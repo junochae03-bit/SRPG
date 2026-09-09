@@ -16,7 +16,7 @@ const PERCENT=["heavy_power","skill_power","critical","critical_damage","lifeste
 static func profile(node:Dictionary,rank:int,bonuses:Dictionary={})->Dictionary:
 	var level=clampi(rank,1,3);var base=LEGACY.get(node.id,node)
 	var action=str(node.get("action","skill_f"));var mode=str(base.get("mode","fan"))
-	var radius=float(base.get("radius",3.5 if mode=="nova_ring" else 2.6))
+	var radius=preload("res://scripts/skill_reach.gd").base_radius(mode,float(base.get("radius",3.5 if mode=="nova_ring" else 2.6)))
 	var count=int(base.get("count",1))
 	if mode in ["fan","chain","retreat"]:count+=level-1
 	elif mode in ["spin","rain","field","nova_ring"]:count+=1 if level==3 else 0

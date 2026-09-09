@@ -41,10 +41,10 @@ func open(key:String):
 	game.session.sim.set_input(game.session.local_id,Vector2.ZERO,game.session.sim.players[game.session.local_id].aim)
 	speaker.text=npc.name;dialogue.text=npc.greeting
 	portrait.texture=Gat.portrait({"avatar":npc.avatar,"class_id":"warrior"})
-	service_button.text={"smith":"장비를 맡긴다","shop":"물건을 살펴본다","alchemy":"조합을 부탁한다","guild":"의뢰를 확인한다","inn":"쉬어 간다"}[key]
+	service_button.text={"smith":"장비를 맡긴다","shop":"물건을 살펴본다","alchemy":"조합을 부탁한다","guild":"의뢰를 확인한다","inn":"쉬어 간다","costume":"코스튬을 살펴본다","training":"훈련 기록을 본다"}.get(key,"이용하기")
 	story_button.disabled=false;game.session.paused=true;game.toast.hide();show()
 func tell_story():
-	dialogue.text=STORIES[facility];story_button.disabled=true
+	dialogue.text=STORIES.get(facility,{"costume":"옷의 이름도 모험가님이 직접 정하실 수 있어요. 마음에 드는 모습으로 입어 보세요.","training":"허수아비는 언제든 다시 일어납니다. 피해와 타격 기록을 보며 기술을 바꿔 시험해 보세요."}.get(facility,"편하게 둘러보세요."));story_button.disabled=true
 func open_service():
 	if not visible:return
 	hide();game.town_panel.open(facility)

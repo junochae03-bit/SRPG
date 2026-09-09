@@ -14,14 +14,17 @@ func run():
 	Env.initialize();Art.dungeon_initialize()
 	check(Env.catalog.objects.size()==108,"all completed environment props")
 	check(Art.dungeon_catalog.objects.size()==48,"all completed monster key poses")
-	var used={};var species={};var boss_species={};var host=Node2D.new();root.add_child(host);var renderer=Forest.new(host)
+	var used={};var expected_environment={};var species={};var boss_species={};var host=Node2D.new();root.add_child(host);var renderer=Forest.new(host)
 	for id in Env.catalog.objects:
 		var data=Env.frame(id);check(data.texture!=null and data.foot.y<=data.height,"valid environment texture and foot "+id)
 	for f in range(1,101):
 		var config=Abyss.config(f);var map=Dungeon.new(20260909+f,config.terrain,f);renderer.rebuild(map)
+		var allowed=Env.ids(config.terrain,f)
+		for id in allowed:expected_environment[id]=true;check(Env.catalog.objects.has(id),"curated art stays registered")
 		check(not renderer.props.is_empty(),"scenery populated B%d"%f)
 		for prop in renderer.props:
 			used[prop.art_id]=true
+			check(prop.art_id in allowed,"only biome-selected illustrations are placed B%d"%f)
 			check(renderer.clear_for_prop(prop.pos) and not map.walkable(prop.pos),"walkable and entrance clear B%d"%f)
 		for kind in config.mobs+[config.elite]:
 			var idle=Art.variant_frame(kind,f);var attack=Art.variant_frame(kind,f,false,true)
@@ -34,8 +37,13 @@ func run():
 			if not boss.is_empty():boss_species[boss.species]=true
 	for zone in ["town","forest"]:
 		var map=Dungeon.new(20260909,zone);renderer.rebuild(map)
+		for id in Env.ids(zone,0):expected_environment[id]=true
 		for prop in renderer.props:used[prop.art_id]=true;check(renderer.clear_for_prop(prop.pos),zone+" entrance safe")
-	check(used.size()==108,"every imported prop used on live maps")
+	check(used.size()==expected_environment.size() and used.keys().all(func(id):return expected_environment.has(id)),"live maps use exactly curated biome selections, not all available art")
+	check(used.size()<108 and Env.catalog.objects.size()==108,"unused furniture remains registered without forced placement")
+	for id in Env.ids("forest",1):check(id in ["forest_oak_tree","forest_birch_tree","forest_mossy_boulders","forest_flower_shrub","forest_hollow_log"],"forest uses reviewed natural silhouettes")
+	for id in Env.ids("snow",51):check(id in ["snow_snow_fir","snow_frost_birch","snow_ice_boulders","snow_snow_shrub","snow_stone_cairn"],"glacier uses reviewed natural silhouettes")
+	for id in used:check(not id.begins_with("ice_") and not id.begins_with("bamboo_") and not id.begins_with("desert_") and not id.begins_with("sky_") and not id.begins_with("graveyard_") and not id.begins_with("dragon_"),"unrelated indoor and ceremonial art is not scattered "+id)
 	check(species.size()==18,"every new common monster appearance reachable")
 	check(boss_species.size()==6,"every new raid appearance reachable")
 	var db=preload("res://scripts/game_database.gd").snapshot()

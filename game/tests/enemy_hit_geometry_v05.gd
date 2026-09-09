@@ -51,7 +51,7 @@ func run():
 	var original_enemy_balance=World.ENEMIES.duplicate(true)
 	for kind in World.ENEMIES:
 		var e={"kind":kind,"pos":Vector2.ZERO};var r=Geometry.radius(e)
-		check(r>=.65 and r<=1.55,"finite receiving radius "+kind)
+		check(r>=1. and r<=2.15,"finite receiving radius "+kind)
 		check(Geometry.circle(e,Vector2(r+2.-.001,0),2.) and not Geometry.circle(e,Vector2(r+2.+.001,0),2.),"circle boundary includes body edge "+kind)
 		check(Geometry.segment(e,Vector2(-2,r+.42-.001),Vector2(2,r+.42-.001),.42) and not Geometry.segment(e,Vector2(-2,r+.42+.001),Vector2(2,r+.42+.001),.42),"projectile capsule edge "+kind)
 		check(Geometry.segment(e,Vector2(r+.2-.001,0),Vector2(r+.2-.001,0),.2),"zero-length segment still has receiving volume")

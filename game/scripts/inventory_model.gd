@@ -2,8 +2,10 @@ extends RefCounted
 
 const Content = preload("res://scripts/content.gd")
 const WIDTH = 10
-const HEIGHT = 6
+const HEIGHT = 12
+const CAPACITY = WIDTH * HEIGHT
 const MAX_POTIONS = 20
+const MAX_MATERIALS = 999999
 
 static func find_item(p: Dictionary, id: String) -> Dictionary:
 	for item in all_items(p):
@@ -112,18 +114,44 @@ static func unequip(p: Dictionary, slot: String) -> bool:
 	p.equipped=p.equipment.weapon
 	return true
 
-static func add_stack(p: Dictionary, kind: String, amount: int) -> bool:
-	if amount<=0 or (kind!="potion" and not Content.MATERIALS.has(kind)):return false
+static func stack_limit(kind:String)->int:
+	return MAX_POTIONS if kind=="potion" else MAX_MATERIALS if Content.MATERIALS.has(kind) else 0
+
+static func whole_count(value:Variant,maximum:int)->bool:
+	return (value is int or value is float) and is_finite(float(value)) and value>=0 and value<=maximum and value==floor(float(value))
+
+static func _stack_quantity_valid(p:Dictionary,kind:String,amount:Variant)->bool:
+	var limit=stack_limit(kind)
+	if limit<=0 or not whole_count(amount,limit) or amount<=0:return false
+	var current=p.get("potions",0) if kind=="potion" else p.get("materials",{}).get(kind,0)
+	# 남은 수량과 먼저 비교해 정수 넘침이나 임의 수량 축소를 막습니다.
+	return whole_count(current,limit) and int(amount)<=limit-int(current)
+
+static func _stage_stack(p:Dictionary,kind:String,amount:Variant)->Dictionary:
+	if not _stack_quantity_valid(p,kind,amount):return {}
 	var staged=p.duplicate(true)
 	var id="@potion" if kind=="potion" else "@mat:"+kind
 	if kind=="potion":
-		if p.potions+amount>MAX_POTIONS:return false
-		staged.potions=p.potions+amount
-	else:staged.materials[kind]=int(staged.materials.get(kind,0))+amount
+		staged.potions=int(p.potions)+int(amount)
+	else:staged.materials[kind]=int(staged.materials.get(kind,0))+int(amount)
 	if not staged.bag_positions.has(id):
 		var fit=first_fit(staged,id)
-		if fit.is_empty():return false
+		if fit.is_empty():return {}
 		staged.bag_positions[id]=fit
+	return staged
+
+static func can_add_stack(p:Dictionary,kind:String,amount:Variant)->bool:
+	return not _stage_stack(p,kind,amount).is_empty()
+
+static func stack_failure_reason(p:Dictionary,kind:String,amount:Variant)->String:
+	var limit=stack_limit(kind)
+	if limit<=0 or not (amount is int or amount is float) or not is_finite(float(amount)) or amount<=0 or amount!=floor(float(amount)):return "수량을 확인하세요."
+	if not _stack_quantity_valid(p,kind,amount):return ("물약" if kind=="potion" else Content.MATERIALS[kind])+"은 최대 %d개까지 보관할 수 있습니다."%limit
+	return "" if can_add_stack(p,kind,amount) else "완성품을 보관할 가방 공간이 필요합니다."
+
+static func add_stack(p:Dictionary,kind:String,amount:Variant)->bool:
+	var staged=_stage_stack(p,kind,amount)
+	if staged.is_empty():return false
 	p.potions=staged.potions
 	p.materials=staged.materials
 	p.bag_positions=staged.bag_positions

@@ -99,6 +99,7 @@ static func snapshot(include_art:bool=false)->Dictionary:
 				effect_ids[effect_id]={"id":effect_id,"name":Build.effect_label(effect_id)}
 				db.constellation_effects.append({"node_id":n.id,"effect_id":effect_id,"value":n.effects[effect_id]})
 	db.exclusive_groups=groups.values();db.effect_definitions=effect_ids.values()
+	_append_world_rules(db)
 	_cache=db
 	return _with_art() if include_art else _cache
 
@@ -313,3 +314,57 @@ static func asset_texture(row:Dictionary)->Texture2D:
 	if not _textures.has(key):
 		var texture=AtlasTexture.new();texture.atlas=load(a.path);texture.region=Rect2(a.rect[0],a.rect[1],a.rect[2],a.rect[3]);texture.filter_clip=true;_textures[key]=texture
 	return _textures[key]
+
+# Content definitions and isolated quote samples; never instantiate a simulation
+# or inspect the player's save while opening the encyclopedia.
+static func _append_world_rules(db:Dictionary):
+	const Inv=preload("res://scripts/inventory_model.gd")
+	const Town=preload("res://scripts/town_operations.gd")
+	const Dungeon=preload("res://scripts/dungeon.gd")
+	const Training=preload("res://scripts/training_ground.gd")
+	for table in ["facilities","service_operations","service_inputs","service_outputs","service_effects","service_samples","dungeon_layouts","training_rules","inventory_rules","item_definitions"]:db[table]=[]
+	for key in World.FACILITIES:
+		var definition=World.FACILITIES[key].duplicate(true)
+		definition["id"]=key;definition["position"]=[definition.pos.x,definition.pos.y];definition.erase("pos")
+		definition["resident"]=World.RESIDENTS.get(key,{}).duplicate(true)
+		db.facilities.append(definition)
+	for key in Town.LABELS:db.item_definitions.append({"id":key,"name":Town.LABELS[key]})
+	db.inventory_rules.append({"id":"inventory","width":Inv.WIDTH,"height":Inv.HEIGHT,"capacity":Inv.CAPACITY,"max_potions":Inv.MAX_POTIONS,"max_materials":Inv.MAX_MATERIALS})
+	var layout_order=0
+	for key in Dungeon.LAYOUTS:
+		var layout=Dungeon.LAYOUTS[key].duplicate(true)
+		layout.merge({"id":key,"selection_order":layout_order,"size":Dungeon.SIZE});db.dungeon_layouts.append(layout);layout_order+=1
+	var area=Training.AREA
+	db.training_rules.append({"id":"training","facility_id":"training","area":[area.position.x,area.position.y,area.size.x,area.size.y],"position":[Training.POSITION.x,Training.POSITION.y],"health":Training.HEALTH,"blank_stats":Training.blank(),"empty_summary":Training.summary({})})
+	for key in Town.OPERATIONS:
+		var parts=key.split(":")
+		db.service_operations.append({"id":key,"facility_id":parts[0],"operation":parts[1],"route":"town_operations","evaluation":"reference_samples_not_universal_prices"})
+		# Probe the actual quantity validator. Unsupported values are not published.
+		for quantity in range(1,11):
+			var p=_service_reference_player()
+			if parts[1]=="salvage":
+				if quantity!=1:continue
+				for rarity in range(Equipment.GRADES.size()):
+					for upgrade in range(6):
+						var gear=Equipment.make("head",0,rarity,"@db-gear","none","warrior");gear["upgrade"]=upgrade
+						p.inventory=[gear]
+						_service_sample(db,key,p,{"quantity":1,"item":gear.id},{"rarity":rarity,"upgrade":upgrade})
+			elif parts[1]=="resupply":
+				if quantity!=1:continue
+				for potions in range(Inv.MAX_POTIONS+1):
+					p.potions=potions;_service_sample(db,key,p,{"quantity":1},{"potions":potions})
+			else:_service_sample(db,key,p,{"quantity":quantity},{})
+
+static func _service_reference_player()->Dictionary:
+	return {"class_id":"warrior","level":100,"gold":1000000,"materials":{"seed":10000,"ore":10000,"essence":10000},"potions":0,"hp":1,"max_hp":1000,"stamina":1,"max_stamina":100,"guild_contract":{"zone":"forest","progress":0,"target":10},"inventory":[],"equipment":{},"equipped":"","bag_positions":{}}
+
+static func _service_sample(db:Dictionary,key:String,p:Dictionary,extra:Dictionary,context:Dictionary):
+	var parts=key.split(":")
+	var quote=preload("res://scripts/town_operations.gd").describe(p,parts[0],parts[1],extra)
+	if not quote.reason.is_empty():return
+	var id=key+":sample:"+str(db.service_samples.size())
+	db.service_samples.append({"id":id,"operation_id":key,"quantity":extra.quantity,"context":context.duplicate(true),"gold_cost":maxi(0,int(quote.cost)),"gold_reward":maxi(0,-int(quote.cost)),"result":quote.result,"reference":"전사 100레벨, 금화 1000000, 재료별 10000, 생명력 1/1000, 기력 1/100, 숲 의뢰 진행 중. 물약은 조건에 별도 값이 없으면 0개. 분해는 미장착 0단계 머리 장비 기준.","storage_checked":false})
+	for direction in ["inputs","outputs"]:
+		var amounts=quote.materials if direction=="inputs" else quote.outputs
+		for item_id in amounts:
+			db["service_"+direction].append({"id":id+":"+direction+":"+item_id,"operation_id":key,"sample_id":id,"item_id":item_id,"amount":int(amounts[item_id])})

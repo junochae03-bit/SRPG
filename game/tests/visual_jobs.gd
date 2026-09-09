@@ -30,4 +30,4 @@ func run():
 			game.session.sim.combat.skills.fx(p,"breaker:1",p.pos,1.,3.);game.session.flush_events();await capture("breaker-effect")
 		if cls=="summoner":
 			assert(game.session.act("skill_q"));game.session.sim.combat.jobs.tick(p,.1);assert(not p.job_state.pets.is_empty());p.job_state.pets[0].pos=p.pos+Vector2(1.5,-1.5);game.session.refresh();await capture("summoner-pet")
-	game.stop_audio();await create_timer(.5).timeout;game.session.disconnect_game();game.queue_free();await process_frame;await process_frame;quit()
+	game.stop_audio();await create_timer(.5).timeout;game.session.disconnect_game();game.queue_free();await process_frame;await process_frame;print("VISUAL_JOBS_PASS");quit()

@@ -67,6 +67,9 @@ class ClientInstallTests(unittest.TestCase):
         self.write(self.source / "slot-3.json", {**self.save, "name": "셋째"})
         self.write(self.source / "sprite-names.json", {"costume:example": "나의 별빛 의상"})
         self.write(self.source / "keybindings.json", {"schema_version": 1, "bindings": {"move_up": 87, "bag": 73}})
+        self.write(self.source / "game-options.json", {"version": 1, "values": {"music": 0.2, "effects": 0.8,
+                   "window_mode": "windowed", "resolution": 0, "fps": 60, "vsync": True,
+                   "damage_numbers": True, "enemy_names": False}})
         (self.source / "audio-settings.json").write_text("not requested", "utf8")
         (self.source / "slot-2.json.corrupt-old").write_text("for recovery only", "utf8")
         before = self.fingerprints(self.workspace)

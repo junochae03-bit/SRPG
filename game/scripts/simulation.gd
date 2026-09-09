@@ -27,9 +27,21 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0):
 	balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance.json"))
 	balance.enemies=preload("res://scripts/world_catalog.gd").ENEMIES.duplicate(true)
 	rng.seed = seed_value + 93
-	if zone=="town":return
+	if zone=="town":
+		preload("res://scripts/training_ground.gd").spawn(self)
+		return
 	var dungeon_config=preload("res://scripts/world_catalog.gd").DUNGEONS[zone]
 	if floor_number>0:dungeon_config=preload("res://scripts/abyss_catalog.gd").config(floor_number)
+	if floor_number>0:
+		for placement in map.encounters:
+			var guardian=placement.role=="guardian"
+			var raid=guardian and floor_number%10==0
+			var kind=(dungeon_config.boss if raid else dungeon_config.elite) if guardian else dungeon_config.elite if placement.role=="elite" else dungeon_config.mobs[int(placement.mob_index)%dungeon_config.mobs.size()]
+			var enemy=spawn_enemy(kind,placement.pos,dungeon_config.level+(3 if placement.role=="elite" else 0),raid)
+			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation
+			if guardian:enemy["guardian"]=true
+			if raid:enemy.name=dungeon_config.title
+		return
 	for i in range(1, map.rooms.size()):
 		var center = Vector2(map.rooms[i])
 		for j in range(3 if i < 8 else 1):
@@ -142,6 +154,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 	if not players.has(id):
 		return false
 	var p = players[id]
+	if kind=="training_reset":return preload("res://scripts/training_ground.gd").reset(self,p)
 	if kind=="stat":
 		if argument not in Progression.NAMES or Progression.available(p)<=0:return false
 		p.stats[argument]+=1;gear_changed(p);return true
@@ -152,11 +165,11 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		if not success:notice(id,"재료·금화·가방 공간과 시설 위치를 확인하세요.")
 		return success
 	if kind=="reset_stats":
-		if not map.in_town(p.pos):return false
+		if map.zone!="town" and not map.in_town(p.pos):return false
 		p.stats={};Progression.initialize(p);gear_changed(p);return true
 	if kind=="bind_skill":
 		var parts=argument.split(":")
-		if parts.size()!=2 or parts[0] not in Content.ACTIONS or not map.in_town(p.pos):return false
+		if parts.size()!=2 or parts[0] not in Content.ACTIONS or (map.zone!="town" and not map.in_town(p.pos)):return false
 		for node in Content.SKILLS[p.class_id]:
 			if node.id==parts[1] and node.effect=="active" and int(p.skill_ranks.get(node.id,0))>0:
 				for slot in p.skill_loadout.keys():
@@ -261,7 +274,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		gear_changed(p);notice(id,"스킬 포인트 %d 반환"%preview.refund);return true
 	if kind=="reset_skills" or kind=="class":
 		if map.zone!="town":notice(id,"전직과 특성 재분배는 마을에서 가능합니다.");return false
-		if not map.in_town(p.pos):
+		if map.zone!="town" and not map.in_town(p.pos):
 			notice(id,"직업 변경과 스킬 초기화는 쉼터에서 가능합니다.")
 			return false
 		if kind=="class":
@@ -294,7 +307,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		p.avatar=argument;p.costume="none";dirty[id]=true
 		return true
 	if kind in ["buy_appearance","wear_appearance"]:
-		if map.zone!="town" or preload("res://scripts/world_catalog.gd").nearest(p.pos)!="shop":return false
+		if map.zone!="town" or preload("res://scripts/world_catalog.gd").nearest(p.pos) not in ["shop","costume"]:return false
 		var wardrobe=preload("res://scripts/wardrobe.gd")
 		var accepted=wardrobe.purchase(p,argument) if kind=="buy_appearance" else wardrobe.equip(p,argument)
 		if accepted:dirty[id]=true
@@ -329,6 +342,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 	return false
 
 func kill(id: int, enemy: Dictionary):
+	if enemy.get("training",false):enemy.hp=enemy.max_hp;return
 	if enemy.get("rewarded",false):return
 	enemy["rewarded"]=true
 	var p = players[id]
@@ -396,6 +410,7 @@ func tick(delta: float):
 	combat.skills.tick(delta)
 	monster_attacks.tick(delta)
 	for e in enemies.values():
+		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
 		var config = balance.enemies[e.kind]
 		e.attack_motion=maxf(0,e.get("attack_motion",0)-delta)
 		if e.hp <= 0:

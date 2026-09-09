@@ -13,7 +13,8 @@ const ALIASES={
 	"attack_haste":"attack_speed","skill_haste":"cooldown","skill_radius":"area",
 	"skill_power":"arcane","melee_range":"range","dodge":"dash",
 	"break_armor":"armor_break","crit":"critical","crit_damage":"critical_damage",
-	"attack":"physical_attack","stand":"card_hold","buff":"haste","effects":"sound"
+	"attack":"physical_attack","stand":"card_hold","buff":"haste","effects":"sound",
+	"costume":"chest","training":"physical_attack"
 }
 static func initialize():
 	if not entries.is_empty():return

@@ -18,15 +18,17 @@ func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);push_error(label)
 
-func original_props(renderer)->Array:
-	var result:Array=[];var ids=Art.ids(renderer.map.zone,renderer.map.floor_number)
+func original_props(renderer,curated:bool=true)->Array:
+	var result:Array=[];var ids=Art.available_ids(renderer.map.zone,renderer.map.floor_number)
+	var allowed=Art.ids(renderer.map.zone,renderer.map.floor_number);var candidate_index=0
 	var rng=RandomNumberGenerator.new();rng.seed=renderer.map.seed_value+419
 	for x in range(-10,Dungeon.SIZE+12,3):
 		for y in range(-10,Dungeon.SIZE+12,3):
 			var pos=Vector2(x,y)
 			if not renderer.clear_for_prop(pos):continue
-			var id=ids[result.size()%ids.size()]
-			result.append({"pos":pos,"art_id":id,"size":Art.height(id)*rng.randf_range(.92,1.08),"flip":rng.randf()<.5})
+			var id=ids[candidate_index%ids.size()];candidate_index+=1
+			var prop={"pos":pos,"art_id":id,"size":Art.height(id)*rng.randf_range(.92,1.08),"flip":rng.randf()<.5}
+			if not curated or id in allowed:result.append(prop)
 	return result
 
 func reference_alpha(host:Host,renderer,previous:Array,delta:float):
@@ -48,13 +50,20 @@ func original_visible(host:Host,renderer)->Array:
 func run():
 	root.size=Vector2i(1920,1080)
 	var host=Host.new();root.add_child(host);var renderer=Forest.new(host)
-	var all_ids:Dictionary={};var original_count=0;var retained_count=0;var faded=0
+	var all_ids:Dictionary={};var expected_ids:Dictionary={};var original_count=0;var retained_count=0;var faded=0
 	for floor_number in range(0,102):
 		var floor_id=mini(floor_number,100)
 		var zone="town" if floor_number==101 else "forest" if floor_id==0 else Abyss.config(floor_id).terrain
 		if floor_number==101:floor_id=0
 		var map=Dungeon.new(20260909+floor_number,zone,floor_id);renderer.rebuild(map)
 		var old=original_props(renderer);original_count+=old.size();retained_count+=renderer.props.size()
+		var unfiltered=original_props(renderer,false)
+		for id in Art.ids(zone,floor_id):expected_ids[id]=true
+		check(old.size()<=unfiltered.size(),"curation leaves rejected prop positions empty without replacement")
+		if Art.ids(zone,floor_id).size()<Art.available_ids(zone,floor_id).size():check(old.size()<unfiltered.size(),"curated biome has strictly fewer decoration candidates")
+		var legacy_by_position={}
+		for prop in unfiltered:legacy_by_position[prop.pos]=prop
+		check(old.all(func(prop):return legacy_by_position.get(prop.pos,{})==prop),"curation preserves accepted source position scale and flip")
 		var by_position:Dictionary={};var old_ids:Dictionary={};var kept_ids:Dictionary={}
 		for prop in old:by_position[prop.pos]=prop;old_ids[prop.art_id]=true
 		check(renderer.props.size()==ceili(old.size()*.55),"45 percent density reduction floor %d"%floor_number)
@@ -91,7 +100,8 @@ func run():
 		for i in range(renderer.props.size()):
 			var current=renderer.props[i].duplicate();current.alpha=1.
 			check(current==immutable[i],"camera updates never mutate layout or source IDs")
-	check(all_ids.size()==108 and faded>0,"all 108 source decorations retained and actual coverage exercised")
+	check(all_ids.size()==expected_ids.size() and all_ids.keys().all(func(id):return expected_ids.has(id)) and faded>0,"curated scenery identities retained and actual coverage exercised")
+	check(all_ids.size()<Art.catalog.objects.size() and Art.catalog.objects.size()==108,"available registry is preserved without forcing unused art into scenes")
 	# Rebuilding the same seed restores alpha and creates the identical sparse
 	# arrangement without carrying geometry from the previous biome.
 	var snapshot=renderer.props.duplicate(true)

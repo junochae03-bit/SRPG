@@ -2,6 +2,7 @@ extends Control
 const Art=preload("res://scripts/ui_art.gd")
 const Icons=preload("res://scripts/icon_art.gd")
 const Rules=preload("res://scripts/skill_build.gd")
+const Presentation=preload("res://scripts/skill_presentation.gd")
 var owner_tree
 var definitions:Dictionary={}
 var positions:Dictionary={}
@@ -31,6 +32,8 @@ class Medal extends Button:
 	var datum:Dictionary={}
 	var status:Dictionary={}
 	var name_label:Label
+	func active_badge()->bool:return Presentation.active(datum)
+	func shape()->String:return "crest" if datum.get("type","")=="keystone" else "active_square" if active_badge() else "passive_round"
 	func icon_rect()->Rect2:
 		var margin=size.x*(.21 if datum.get("type","")=="keystone" else .17)
 		return Rect2(Vector2.ONE*margin,size-Vector2.ONE*margin*2)
@@ -40,15 +43,24 @@ class Medal extends Button:
 	func _draw():
 		if datum.is_empty():return
 		var chosen=graph.owner_tree.choice==id;var learned=int(status.get("rank",0))>0;var blocked=str(status.get("reason","")).begins_with("배타");var kind=datum.get("type","original")
-		var frame="crest" if kind=="keystone" else "equipped" if learned else "magic" if kind=="notable" or datum.get("effect","")=="active" else "socket"
+		var frame="crest" if kind=="keystone" else "magic" if active_badge() else "medallion"
 		draw_texture_rect(Art.texture(frame),Rect2(Vector2.ZERO,size),false)
-		draw_texture_rect(icon,icon_rect(),false)
+		var enabled=learned or bool(status.get("can_invest",false));draw_texture_rect(icon,icon_rect(),false,Color.WHITE if enabled else Color(.72,.76,.73,1.))
+		if active_badge() and graph.scope_cluster>=0:
+			var badge=Rect2(Vector2(size.x*.5-30,0),Vector2(60,18));draw_texture_rect(Art.texture("paper"),badge,false)
+			var font=graph.owner_tree.game.fonts;var label="액티브";var width=font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x
+			draw_string(font,Vector2((size.x-width)*.5,14),label,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("284c56"))
 		if chosen:draw_arc(size*.5,size.x*.49,0,TAU,40,Color("e6b848"),3,true)
 		elif int(status.get("rank",0))>0:draw_arc(size*.5,size.x*.44,-PI*.5,TAU*float(status.rank)/maxi(1,int(datum.max_rank))-PI*.5,32,Color("70cbb5"),2,true)
 		if blocked:
 			draw_line(size*Vector2(.20,.78),size*Vector2(.80,.22),Color("ba775c"),3,true);draw_line(size*Vector2(.20,.22),size*Vector2(.80,.78),Color("ba775c"),3,true)
 		elif bool(status.get("can_invest",false)):
-			var point=Vector2(size.x*.84,size.y*.17);draw_colored_polygon(PackedVector2Array([point+Vector2(0,-4),point+Vector2(4,0),point+Vector2(0,4),point+Vector2(-4,0)]),Color("e9c66b"))
+			var point=Vector2(size.x*.85,size.y*.76);draw_circle(point,9,Color("735729"));draw_circle(point,7,Color("f8e3a6"));draw_line(point-Vector2(4,0),point+Vector2(4,0),Color("375c4e"),2,true);draw_line(point-Vector2(0,4),point+Vector2(0,4),Color("375c4e"),2,true)
+		elif not learned and graph.scope_cluster>=0:
+			var caption="LV.%d"%int(datum.get("level",1)) if str(status.get("reason","")).begins_with("LV.") else "선행" if str(status.get("reason","")).begins_with("선행") else ""
+			if not caption.is_empty():
+				var font=graph.owner_tree.game.fonts;var width=font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
+				draw_texture_rect(Art.texture("paper"),Rect2(Vector2(size.x*.5-width*.5-5,size.y-17),Vector2(width+10,17)),false);draw_string(font,Vector2(size.x*.5-width*.5,size.y-4),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("635a43"))
 		if int(status.get("rank",0))>0 and graph.zoom>.55:
 			var caption="%d/%d"%[int(status.rank),int(datum.max_rank)];var at=Vector2(size.x*.72,size.y-2)
 			draw_texture_rect(Art.texture("scroll"),Rect2(at-Vector2(25,15),Vector2(50,22)),false)
@@ -94,7 +106,7 @@ func rebuild(list:Array,p:Dictionary):
 					b.pressed.connect(func():owner_tree.select_node(node.id))
 					b.mouse_entered.connect(func():hover_id=node.id;queue_redraw());b.mouse_exited.connect(func():hover_id="";queue_redraw())
 					add_child(b);node_controls[node.id]=b
-					b.name_label=owner_tree.game.label(b,str(node.name).get_slice(" · ",0) if category=="special" else str(node.name),Vector2.ZERO,Vector2(158,39),16)
+					b.name_label=owner_tree.game.label(b,Presentation.short_label(node),Vector2.ZERO,Vector2(158,39),14)
 					b.name_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;b.name_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.name_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 					b.name_label.add_theme_color_override("font_outline_color",Color("fff5dc"));b.name_label.add_theme_constant_override("outline_size",4)
 		bounds=Rect2(Vector2(0,0),Vector2(3320,1420));fit_scope()
@@ -102,7 +114,7 @@ func rebuild(list:Array,p:Dictionary):
 	for id in definitions:
 		states[id]=Rules.node_state(p,id);var b=node_controls[id];b.status=states[id]
 		b.modulate=Color.WHITE if owner_tree.matches(definitions[id],p) else Color(.60,.64,.62,.35)
-		b.tooltip_text=definitions[id].name+"\n"+str(definitions[id].get("description",""))+"\n"+str(states[id].get("reason",""));b.queue_redraw()
+		b.tooltip_text=definitions[id].name+"\n"+("액티브 · " if Presentation.active(definitions[id]) else "")+Presentation.short_label(definitions[id])+"\n"+str(definitions[id].get("description",""))+"\n"+str(states[id].get("reason",""));b.queue_redraw()
 	if scope_cluster>=0 and definitions.has(owner_tree.choice) and not in_scope(owner_tree.choice):
 		scope_cluster=int(definitions[owner_tree.choice].get("cluster",0));scope_extra.clear();fit_scope()
 	layout_controls()
@@ -150,13 +162,16 @@ func focus_node(id:String,near=true):
 	offset=size*.5-positions[id]*zoom;layout_controls()
 func layout_controls():
 	for id in node_controls:
-		var b=node_controls[id];var type=definitions[id].get("type","original");var base=124. if type=="keystone" else 105. if type=="notable" else 103. if definitions[id].get("effect","")=="active" else 96.
+		# A sparse branch must not inflate its medals into the next row's text.
+		# Manual zoom still enlarges both spacing and art; fit view keeps readable gaps.
+		var b=node_controls[id];var type=definitions[id].get("type","original");var base=124. if type=="keystone" else 80. if type=="notable" else 84. if definitions[id].get("effect","")=="active" else 78.
 		var readable=scope_cluster>=0 and scope_extra.is_empty()
-		var minimum=104. if type=="keystone" else 86. if type=="notable" else 84. if definitions[id].get("effect","")=="active" else 78.
+		var minimum=104. if type=="keystone" else 80. if type=="notable" else 84. if definitions[id].get("effect","")=="active" else 78.
 		var diameter=clampf(base*zoom,minimum if readable else 42. if type=="keystone" else 30.,base*1.24)
 		b.size=Vector2.ONE*ceilf(diameter);b.position=(world_to_view(positions[id])-b.size*.5).round();b.visible=in_scope(id) and Rect2(-b.size,size+b.size*2).has_point(b.position);b.queue_redraw()
 		b.name_label.visible=readable or id in [owner_tree.choice,hover_id] and zoom>.6
 		b.name_label.position=Vector2((b.size.x-158)*.5,b.size.y+3);b.name_label.size=Vector2(158,39)
+		b.name_label.add_theme_font_override("font",owner_tree.game.bold_font if Presentation.active(definitions[id]) else owner_tree.game.fonts)
 	queue_redraw()
 	if owner_tree!=null and owner_tree.zoom_label!=null:owner_tree.zoom_label.text="%d%%"%roundi(zoom*100)
 
@@ -188,13 +203,14 @@ func _draw():
 			var a=world_to_view(positions[parent]);var b=world_to_view(positions[id]);var direction=(b-a).normalized();a+=direction*(node_controls[parent].size.x*.52);b-=direction*(node_controls[id].size.x*.52)
 			var learned=int(states.get(id,{}).get("rank",0))>0 and int(states.get(parent,{}).get("rank",0))>0
 			var focus=id==chosen or parent==chosen;var planned=id in planned_ids and (parent in planned_ids or int(states.get(parent,{}).get("rank",0))>0)
+			var frontier=bool(states.get(id,{}).get("can_invest",false)) and int(states.get(parent,{}).get("rank",0))>0
 			var blocked=str(states.get(id,{}).get("reason","")).begins_with("배타")
 			if planned or blocked:draw_dashed_line(a,b,Color("bd7e4d") if blocked else Color("ba8a26"),2 if planned else 1,7,true)
 			else:
-				draw_line(a,b,Color("338e7f") if learned else Color("b68c41") if focus else Color("89948242"),3.2 if learned or focus else 1,true)
+				draw_line(a,b,Color("338e7f") if learned else Color("b68c41") if focus or frontier else Color("89948225"),3.2 if learned or focus else 2. if frontier else 1.,true)
 				if learned:
 					var side=(b-a).orthogonal().normalized()*2;draw_line(a+side,b+side,Color("69b6a180"),1,true)
-			if focus or planned:
+			if focus or planned or frontier:
 				var tip=a.lerp(b,.70);draw_colored_polygon(PackedVector2Array([tip,tip-direction.rotated(.45)*8,tip-direction.rotated(-.45)*8]),Color("aa772c"))
 	if definitions.has(chosen):
 		var tags:Array=definitions[chosen].get("tags",[])

@@ -14,6 +14,7 @@ var apply_button:Button
 var title_button:Button
 var was_paused=false
 var changed=false
+var return_panel:Control
 
 class ActionButton extends Button:
 	var host
@@ -67,15 +68,19 @@ func setup(owner_game):
 	apply_button=game.button(self,"적용",Vector2(1344,774),Vector2(166,43),apply)
 	hide()
 func open():
+	return_panel=null
 	draft=game.keybindings.bindings.duplicate();selected_action="";changed=false;status.text="기본 공격 · 마우스 왼쪽    강공격 · 마우스 오른쪽"
 	was_paused=game.session.paused if game.session.connected else false
 	if game.session.connected:game.session.paused=true
 	title_button.visible=game.session.connected
 	show();refresh();grab_focus()
 func return_to_title():
-	game.session.disconnect_game();close()
+	if game.session.disconnect_game():close()
+	else:status.text="저장 실패 · 기록은 유지됩니다. 다시 시도하세요."
 func close():
 	hide();selected_action=""
+	if return_panel!=null:
+		var target=return_panel;return_panel=null;target.return_from_keys();return
 	if game.session.connected:game.session.paused=was_paused
 func select_action(action:String):
 	selected_action=action;status.text=Keys.NAMES[action]+"에 사용할 키를 선택하세요.";refresh()

@@ -97,7 +97,7 @@ func run():
 	check(not visible.players[101].has("gold"),"other gold is private")
 	var item_id=p.inventory[0].id
 	var bag_model=preload("res://scripts/inventory_model.gd")
-	for i in range(60):
+	for i in range(bag_model.CAPACITY):
 		if not bag_model.add_gear(p,{"id":"test-"+str(i),"name":"test","category":"accessory","slot":"accessory","rarity":0,"bonus":1}):break
 	sim.drops["full"]={"item":{"id":"overflow","name":"overflow","rarity":0,"bonus":1},"pos":p.pos,"owner":101,"expires":99.0}
 	check(not sim.action(101,"interact") and sim.drops.has("full"),"full bag preserves ground drop")

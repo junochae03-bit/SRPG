@@ -44,6 +44,7 @@ func run():
 	var view=town.wardrobe_view
 	check(town.shop_mode=="costume" and view!=null and town.review_panel==null,"wardrobe uses full body without generic transaction review")
 	check(view.options==Wardrobe.options("mage") and view.cards.size()==4,"only compatible paged options")
+	check("avatar:gat_role_aoe_1" not in view.options and view.options.count("base:mage")==1,"shop shows the free mage default once and offers no duplicate purchase")
 	check(view.action_button.disabled and view.action_button.text=="착용 중","free base appearance is identified as current")
 	var id=view.options.filter(func(value):return value.begins_with("costume:"))[0]
 	town.wardrobe_selection=id;town.wardrobe_page=int(view.options.find(id)/view.PAGE_SIZE);town.refresh();await process_frame;view=town.wardrobe_view
