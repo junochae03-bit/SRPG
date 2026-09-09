@@ -1,0 +1,102 @@
+{
+  "engine": "Godot 4.6 stable Linux x86_64",
+  "date": "2026-09-09",
+  "checks": 4835,
+  "suites": [
+    {
+      "suite": "appearance_v041",
+      "checks": 138,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "combat",
+      "checks": 42,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "expansion_ui",
+      "checks": 43,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "expansion_v05",
+      "checks": 877,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "inventory_grid",
+      "checks": 83,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "inventory_ui",
+      "checks": 17,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "jobs",
+      "checks": 242,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "loot_v04",
+      "checks": 302,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "monsters_v05",
+      "checks": 410,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "polish_v05",
+      "checks": 1100,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "rules",
+      "checks": 90,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "single_player",
+      "checks": 30,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "skills_v01",
+      "checks": 1026,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "skills_v04",
+      "checks": 204,
+      "failures": 0,
+      "script_errors": false
+    },
+    {
+      "suite": "ui_v01",
+      "checks": 231,
+      "failures": 0,
+      "script_errors": false
+    }
+  ],
+  "visual": "Software OpenGL: growth UI, seven new jobs, breaker effect and summoner companion; source sprites use measured atlas boundaries.",
+  "limitations": [
+    "Conditional advanced upgrades adapted to existing ground combat; see JOBS_INTEGRATION.md.",
+    "Windows binary and external PC synchronization not tested."
+  ]
+}

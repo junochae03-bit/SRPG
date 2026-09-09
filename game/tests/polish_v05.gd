@@ -15,7 +15,7 @@ func run():
 	var p=session.sim.players[1]
 	for cls in Content.CLASSES:
 		p.class_id=cls;p.skill_ranks={};p.skill_loadout={};p.level=100;session.refresh();game.skill_tree.choice="";game.skill_tree.refresh(true)
-		check(game.skill_tree.nodes.size()==50,"50 illustrated nodes "+cls)
+		check(game.skill_tree.nodes.size()==Content.SKILLS[cls].size(),"all illustrated nodes "+cls)
 		for node in Content.SKILLS[cls]:
 			check(game.skill_tree.nodes[node.id].icon==Icons.skill(node) and Icons.skill(node).region.size.x>80,"skill has readable raster icon "+node.id)
 			if node.effect=="active":

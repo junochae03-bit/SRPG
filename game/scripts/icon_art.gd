@@ -12,10 +12,10 @@ static func texture(sheet:String,index:int)->AtlasTexture:
 		var tex=AtlasTexture.new();tex.atlas=load(data.sheet);tex.region=Rect2(r[0],r[1],r[2],r[3]);tex.filter_clip=true;cache[key]=tex
 	return cache[key]
 static func skill(node:Dictionary)->Texture2D:
-	return texture("active",ACTIVE[node.id]) if node.effect=="active" else texture("support",SUPPORT[node.effect])
+	return texture("active",ACTIVE.get(node.get("id",""),int(node.get("index",0))%36)) if node.get("effect","")=="active" else texture("support",SUPPORT.get(node.get("effect",""),28))
 static func function_icon(key:String)->Texture2D:return texture("support",SUPPORT[key])
 static func action(p:Dictionary,key:String,weapon:String)->Texture2D:
-	if key in ["skill_f","skill_v","skill_c"]:return skill(Content.active_node(p,key))
+	if key in Content.ACTIONS:return skill(Content.active_node(p,key))
 	if key=="nova":return texture("active",{"warrior":11,"ranger":15,"mage":26}[p.class_id])
 	if key=="attack":return texture("active",{"sword":0,"axe":1,"bow":13,"staff":27}[weapon])
 	if key=="heavy":return texture("active",{"sword":4,"axe":1,"bow":16,"staff":28}[weapon])

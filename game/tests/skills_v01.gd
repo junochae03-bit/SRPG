@@ -9,7 +9,7 @@ func check(ok:bool,label:String):
 	if not ok:failures.append(label);push_error(label)
 func _initialize():run.call_deferred()
 func run():
-	for cls in Content.CLASSES:
+	for cls in ["warrior","ranger","mage"]:
 		for node in Content.SKILLS[cls]:
 			var impacts=[];var times=[]
 			for rank in [1,2,3]:

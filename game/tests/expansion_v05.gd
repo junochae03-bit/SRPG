@@ -34,7 +34,7 @@ func run():
 		var before=p.boss_kills;sim.combat.hit(p,boss,999999)
 		check(boss.hp<=0 and p.boss_kills==before+1 and p.dungeon_clears[zone]==1,"boss defeat recorded "+zone)
 		check(sim.drops.values().any(func(d):return d.item.category=="weapon" and d.item.rarity==2),"boss rare weapon guaranteed "+zone)
-	for cls in Content.CLASSES:
+	for cls in ["warrior","ranger","mage"]:
 		var list=Content.SKILLS[cls];check(list.size()==50,"50 nodes "+cls)
 		check(list.filter(func(n):return n.effect=="active").size()==12,"12 active skills "+cls)
 		var ids=[]
@@ -55,7 +55,7 @@ func run():
 			check(sim.action(1,"skill_f"),"cast active "+node.id)
 			check(p.stamina<100 and not sim.events.is_empty(),"cast costs and effects "+node.id)
 			check(not sim.action(1,"skill_f"),"skill cooldown enforced "+node.id)
-			check(sim.action(1,"bind_skill","skill_v:"+node.id) and not sim.action(1,"skill_v"),"rebind cannot bypass cooldown "+node.id)
+			check(not sim.action(1,"bind_skill","skill_v:"+node.id) and not sim.action(1,"skill_f"),"rebind cannot bypass cooldown "+node.id)
 			if node.get("mode","")=="heal":check(p.hp>30,"healing skill "+cls)
 			elif node.get("mode","")=="barrier":check(p.barrier_time>0 and p.barrier_strength>0,"barrier skill "+cls)
 			elif node.get("mode","")=="haste":check(p.haste_time>0,"haste skill "+cls)

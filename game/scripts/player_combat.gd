@@ -6,23 +6,28 @@ var sim:
 	get:return sim_ref.get_ref()
 var projectiles:Array=[]
 var skills
+var jobs
 func _init(owner_sim):
 	sim_ref=weakref(owner_sim)
+	jobs=preload("res://scripts/job_combat.gd").new(self)
 	skills=preload("res://scripts/active_skills.gd").new(self)
 
 func weapon_type(p:Dictionary)->String:
+	if Content.job(p):return Content.CLASSES[p.class_id].weapon
 	return Inventory.find_item(p,p.equipped).get("weapon_type","sword")
 
 func initialize(p:Dictionary):
+	jobs.reset(p)
 	p.merge({"sprint":false,"dodge_cd":0.0,"dodge_time":0.0,"dodge_dir":Vector2.ZERO,"invulnerable":0.0,"charge_time":-1.0})
 	p.merge({"skill_f_cd":0.0,"skill_v_cd":0.0,"skill_c_cd":0.0,"motion":"idle","motion_time":0.0,"motion_duration":0.4,"hurt_time":0.0})
 	p.merge({"skill_cooldowns":{},"barrier_time":0.0,"barrier_strength":0.0,"haste_time":0.0,"regen_fraction":0.0,"combat_time":0.0,"enemy_slow_time":0.0})
 
 func tick_player(p:Dictionary,delta:float):
+	jobs.tick(p,delta)
 	for key in ["dodge_cd","dodge_time","invulnerable","skill_f_cd","skill_v_cd","skill_c_cd","motion_time","hurt_time"]:p[key]=maxf(0,p[key]-delta)
 	for key in ["barrier_time","haste_time","combat_time","enemy_slow_time"]:p[key]=maxf(0,p[key]-delta)
 	for key in p.skill_cooldowns:p.skill_cooldowns[key]=maxf(0,p.skill_cooldowns[key]-delta)
-	for action in ["skill_f","skill_v","skill_c"]:p[action+"_cd"]=p.skill_cooldowns.get(Content.active_node(p,action).get("id",""),0)
+	for action in Content.ACTIONS:p[action+"_cd"]=p.skill_cooldowns.get(Content.active_node(p,action).get("id",""),0)
 	if p.combat_time<=0:
 		p.regen_fraction+=Content.skill_bonus(p,"health_regen")*delta
 		if p.regen_fraction>=1:p.hp=mini(p.max_hp,p.hp+int(p.regen_fraction));p.regen_fraction=fposmod(p.regen_fraction,1)
@@ -30,8 +35,14 @@ func tick_player(p:Dictionary,delta:float):
 	var speed=sim.balance.player.speed+Content.skill_bonus(p,"speed")
 	if p.haste_time>0:speed*=1+p.get("haste_speed",.25)
 	if p.enemy_slow_time>0:speed*=.65
+	if p.has("job_state"):
+		speed*=1+jobs.value(p,"speed")
+		if not p.job_state.casting.is_empty():speed*=.2+(jobs.passive(p,4)*.04 if p.class_id=="sniper" else 0)
+		if p.job_state.get("channel",0)>0:speed*=.25 if p.skill_ranks.get("infighter_a01_upgrade",0)>0 and p.job_state.rush>=10 else 0.
+		if jobs.value(p,"stand")>0:speed=0.
+		if p.job_state.get("lock",0)>0 and p.job_state.get("channel",0)<=0:speed*=.35
 	if p.dodge_time>0:
-		p.pos=sim.map.move(p.pos,p.dodge_dir*11.5*delta)
+		p.pos=sim.map.move(p.pos,p.dodge_dir*p.get("dash_speed",11.5)*delta)
 	elif p.sprint and p.dir.length()>0.1 and p.stamina>0 and p.charge_time<0:
 		p.pos=sim.map.move(p.pos,p.dir*speed*1.65*delta)
 		p.stamina=maxf(0,p.stamina-maxf(5,23-Content.skill_bonus(p,"sprint_discount"))*delta)
@@ -40,6 +51,10 @@ func tick_player(p:Dictionary,delta:float):
 		if p.charge_time<0:p.stamina=minf(p.max_stamina,p.stamina+(18+Content.skill_bonus(p,"stamina_regen"))*delta)
 
 func act(p:Dictionary,kind:String)->bool:
+	if kind=="card_next":return jobs.select_card(p)
+	if kind=="nova":kind="skill_q"
+	if Content.job(p):return jobs.act(p,kind)
+	if kind in Content.ACTIONS:return skills.cast(p,kind)
 	if kind=="dodge":
 		var cost=maxf(5,25-Content.skill_bonus(p,"dodge_discount"))
 		if p.dodge_cd>0 or p.stamina<cost:return false
@@ -83,24 +98,33 @@ func act(p:Dictionary,kind:String)->bool:
 	return false
 
 func attack(p:Dictionary,heavy:bool,charge:float)->bool:
-	var type=weapon_type(p);var config=Content.WEAPONS[type]
+	var type=weapon_type(p);var config=Content.WEAPONS[type].duplicate()
+	if Content.job(p):
+		var cls=Content.CLASSES[p.class_id];config.cooldown=cls.cooldown;config.range=cls.range;config.projectile=cls.projectile
+		if not heavy:jobs.basic(p)
+		config.cooldown/=jobs.attack_speed(p)
 	p.attack_cd=maxf(0.15,config.cooldown-Content.skill_bonus(p,"attack_haste"))*(1.5 if heavy else 1.0);p.swing=0.32
 	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
 	p.motion_time=0.5 if heavy else 0.32;p.motion_duration=p.motion_time
 	var multiplier=(1.6+charge*1.4)*(1+Content.skill_bonus(p,"heavy_power")) if heavy else 1.0
+	if Content.job(p):multiplier*=jobs.attack_multiplier(p,heavy)
 	var amount=roundi(sim.damage_for(p)*config.multiplier*multiplier)
 	var radius=config.range+Content.skill_bonus(p,"range" if config.projectile else "melee_range")
 	sim.events.append({"type":"heavy" if heavy else "attack","pos":p.pos,"dir":p.aim,"owner":p.id,"weapon":type})
 	if config.projectile:
 		launch(p,type,p.aim,amount,radius+(2 if heavy else 0),config.speed,1.4 if type=="staff" else 0)
+		projectiles.back()["basic"]=not heavy
+		projectiles.back()["job"]=p.class_id
 	else:
 		if heavy:radius+=0.8
 		for e in sim.enemies.values():
 			var delta:Vector2=e.pos-p.pos
 			if delta.length()>radius or (delta.length()>0.7 and p.aim.dot(delta.normalized())<(-0.45 if type=="axe" or heavy else -0.05)):continue
 			hit(p,e,amount)
+			if not heavy:jobs.basic_hit(p,e)
+	if heavy:jobs.after_heavy(p)
 	return true
 
 func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null):
@@ -113,6 +137,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null):
 	var critical=Content.skill_bonus(p,"critical")+preload("res://scripts/progression.gd").bonus(p,"dexterity")*.003
 	if critical>0 and sim.rng.randf()<minf(.65,critical):amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")))
 	p.hp=mini(p.max_hp,p.hp+floori(amount*Content.skill_bonus(p,"lifesteal")))
+	amount=jobs.outgoing(p,e,amount)
 	e.hp-=amount
 	var push=Content.skill_bonus(p,"knockback")
 	if push>0:e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
@@ -145,6 +170,8 @@ func tick_projectiles(delta:float):
 			var p=sim.players[shot.owner]
 			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount)
 			else:hit(p,e,shot.amount,origin)
+			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.)
+			if shot.get("basic",false):jobs.basic_hit(p,e)
 			shot.hit.append(e.id)
 			if shot.hit.size()>shot.pierce:shot.remaining=0;break
 	projectiles=projectiles.filter(func(shot):return shot.remaining>0)

@@ -13,10 +13,10 @@ func run():
 	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v01/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false)
 	var p=session.sim.players[1];p.level=100;p.gold=5000;p.materials={"seed":100,"ore":100,"essence":100};session.act("claim_starters");session.refresh()
 	game.toggle_skills();var tree=game.skill_tree
-	for cls in Content.CLASSES:
-		session.act("class",cls);tree.choice="";tree.refresh(true)
+	for cls in ["warrior","ranger","mage"]:
+		session.act("class",cls);tree.filter_index=0;tree.choice="";tree.refresh(true)
 		check(tree.nodes.size()==50 and tree.scroll.size.y>=500,"large scrollable fifty-node web "+cls)
-		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=160 and tree.nodes[node.id].get_child_count()>=4,"named illustrated node "+node.id)
+		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=160 and tree.nodes[node.id].icon!=null,"named illustrated node "+node.id)
 		var active=Content.SKILLS[cls].filter(func(n):return n.effect=="active")[0]
 		tree.search.text=active.name;tree.search.text_changed.emit(active.name)
 		check(tree.choice==active.id,"search selects and reveals matching skill "+cls)
@@ -26,7 +26,7 @@ func run():
 		tree.invest.pressed.emit();check(p.skill_ranks[active.id]==1,"real UI learns selected skill "+cls)
 		var current=tree.comparison_rows.duplicate(true);tree.invest.pressed.emit()
 		check(p.skill_ranks[active.id]==2 and tree.comparison_rows!=current,"investment updates current and next effect values "+cls)
-		tree.bind_buttons[0].pressed.emit();check(Content.active_node(p,"skill_f").id==active.id,"explicit hotbar assignment "+cls)
+		tree.bind_buttons[1].pressed.emit();check(Content.active_node(p,"skill_f").id==active.id,"explicit hotbar assignment "+cls)
 	game.toggle_skills();game.toggle_bag();game.bag.select_item("training-axe")
 	check(game.bag.detail_body.text.contains("착용 전 → 착용 후") and game.bag.portrait.size.y>=200,"equipment comparison and large character display")
 	check(game.bag.grid.CELL==50 and game.bag.size.x>1300,"larger illustrated inventory")

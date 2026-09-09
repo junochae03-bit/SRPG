@@ -37,10 +37,12 @@ func setup(owner_game):
 	var definitions=[
 		["attack","기본 공격","LMB",Vector2(1270,733),102],
 		["heavy","충전 강공격","RMB",Vector2(1157,760),84],
-		["nova","직업 기술","Q",Vector2(1278,611),84],
+		["skill_q","기술","Q",Vector2(1278,611),78],
 		["skill_f","기술","F",Vector2(1168,611),78],
 		["skill_v","기술","V",Vector2(1058,611),78],
 		["skill_c","기술","C",Vector2(948,611),78],
+		["skill_z","기술","Z",Vector2(838,611),78],
+		["skill_x","기술","X",Vector2(728,611),78],
 		["dodge","회피","SPACE",Vector2(1045,764),78],
 		["potion","물약","1",Vector2(661,776),62],
 		["interact","줍기 / 보급","E",Vector2(741,776),62],
@@ -55,7 +57,7 @@ func setup(owner_game):
 		else:control.pressed.connect(func():game.session.act(action))
 		game.action_buttons[action]=control
 		var badge=Label.new();badge.hide();control.add_child(badge);game.action_badges[action]=badge
-	charge_label=white_label("",Vector2(560,720),Vector2(350,35),17,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	charge_label=white_label("",Vector2(440,705),Vector2(640,65),17,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	white_label("WASD 이동   ·   SHIFT 달리기   ·   ESC 메뉴",Vector2(46,845),Vector2(530,26),15,Color("e6f0dc"))
 	toast=white_label("",Vector2(371,160),Vector2(685,54),20,Color("fff5cd"));toast.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	game.region_label=region;game.quest_label=quest;game.hud_stats=money_label;game.health_label=hp_label;game.toast=toast
@@ -87,16 +89,17 @@ func refresh():
 		if key=="heavy":control.cooldown=p.attack_cd
 		if key=="potion":control.count=str(p.potions)
 		if key=="nova":control.caption=Content.CLASSES[p.class_id].skill
-		if key in ["skill_f","skill_v","skill_c"]:
+		if key in Content.ACTIONS:
 			var node=Content.active_node(p,key);var trained=Content.action_rank(p,key)>0
-			control.caption=node.name if trained else "K · "+node.name
+			control.caption=node.get("name","미장착") if trained else "K · "+node.get("name","미장착")
 			control.modulate=Color.WHITE if trained else Color(0.7,0.8,0.85,0.7)
-			control.max_cooldown=maxf(1,node.get("cooldown",{"skill_f":7.0,"skill_v":11.0,"skill_c":9.0}[key])-Content.skill_bonus(p,"skill_haste"))
+			control.max_cooldown=maxf(1,node.get("cooldown",7.0)-Content.skill_bonus(p,"skill_haste"))
 		control.picture=preload("res://scripts/icon_art.gd").action(p,key,game.session.sim.combat.weapon_type(p))
 		control.tooltip_text=control.caption+" ("+control.hotkey+")"
 		control.queue_redraw()
 		game.action_badges[key].text="%.1fs" % control.cooldown if control.cooldown>0 else ""
 	charge_label.text="강공격 충전  %d%%" % int(p.charge_time/0.9*100) if p.charge_time>=0 else ""
+	if p.charge_time<0:charge_label.text=game.session.sim.combat.jobs.resource_text(p)
 	queue_redraw()
 
 func _draw():

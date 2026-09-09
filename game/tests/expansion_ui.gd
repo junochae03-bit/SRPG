@@ -23,9 +23,9 @@ func run():
 	game.skill_tree.invest.pressed.emit()
 	check(p.skill_ranks.blade==1 and session.sim.damage_for(p)==before+2,"skill investment UI changes actual damage")
 	check(game.audio_director.last_played=="invest","investment triggers recovered audio")
-	game.skill_tree.class_buttons.ranger.pressed.emit()
+	game.skill_tree.class_picker.item_selected.emit(Content.CLASSES.keys().find("ranger"))
 	check(p.class_id=="ranger" and p.skill_ranks.is_empty(),"class button changes role and refunds")
-	check(game.hud.circles.nova.caption=="바람 화살","HUD skill caption follows class")
+	check(game.hud.circles.skill_q.caption.contains("미장착"),"HUD skill caption follows class")
 	game.toggle_skills();game.toggle_bag()
 	for id in Content.COSTUMES:
 		game.bag.costume_picker.item_selected.emit(Content.COSTUMES.keys().find(id))

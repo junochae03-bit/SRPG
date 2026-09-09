@@ -96,11 +96,21 @@ func add_zone(p:Dictionary,kind:String,at:Vector2,radius:float,power:float,times
 func tick(delta:float):
 	for zone in zones:
 		zone.elapsed+=delta
+		var owner_player=combat.sim.players[zone.owner]
+		if zone.get("follow",false):zone.pos=owner_player.pos+owner_player.aim*1.1
+		if zone.get("mode","")=="barrage" and owner_player.job_state.get("channel",0)<=0:zone.pulses=[]
 		while not zone.pulses.is_empty() and zone.elapsed>=zone.pulses[0]:
 			zone.pulses.pop_front();var p=combat.sim.players[zone.owner]
 			for e in combat.sim.enemies.values():
 				if e.hp<=0 or e.pos.distance_to(zone.pos)>zone.radius or not combat.sim.map.line_clear(zone.pos,e.pos):continue
 				combat.hit(p,e,zone.amount,zone.pos)
+				if not zone.get("hit_any",false) and zone.has("job_node"):
+					zone.hit_any=true
+					if p.class_id=="martialist":combat.jobs.combo(p,zone.job_node)
+					if p.class_id=="infighter":p.job_state.rush=mini(10,p.job_state.rush+1);p.job_state.rush_time=2.
+				if zone.get("mode","") in ["trap","trap_bleed"]:combat.jobs.status(p,e,"root",2.)
+				if p.class_id=="martialist" and zone.get("mode","")=="combo" and zone.pulses.is_empty():combat.jobs.status(p,e,"stun",.1*combat.jobs.passive(p,3))
+				if zone.get("mode","")=="trap_bleed":combat.jobs.status(p,e,"bleed",4.)
 				if e.hp<=0:continue
 				e.slow_time=maxf(e.get("slow_time",0),zone.slow);e.stun_time=maxf(e.get("stun_time",0),zone.stun)
 	zones=zones.filter(func(zone):return not zone.pulses.is_empty())

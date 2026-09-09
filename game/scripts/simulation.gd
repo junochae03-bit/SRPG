@@ -19,6 +19,7 @@ var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
 
 func _init(seed_value: int = 20260908,zone:String="forest"):
+	Content.initialize_jobs()
 	combat=preload("res://scripts/player_combat.gd").new(self)
 	monster_attacks=preload("res://scripts/monster_attacks.gd").new(self)
 	map = Dungeon.new(seed_value,zone)
@@ -122,12 +123,14 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		p.stats={};Progression.initialize(p);gear_changed(p);return true
 	if kind=="bind_skill":
 		var parts=argument.split(":")
-		if parts.size()!=2 or parts[0] not in ["skill_f","skill_v","skill_c"]:return false
+		if parts.size()!=2 or parts[0] not in Content.ACTIONS or not map.in_town(p.pos):return false
 		for node in Content.SKILLS[p.class_id]:
 			if node.id==parts[1] and node.effect=="active" and int(p.skill_ranks.get(node.id,0))>0:
+				for slot in p.skill_loadout.keys():
+					if p.skill_loadout[slot]==node.id:p.skill_loadout.erase(slot)
 				p.skill_loadout[parts[0]]=node.id;dirty[id]=true;return true
 		return false
-	if kind in ["attack","nova","dodge","heavy_begin","heavy","cancel_charge","skill_f","skill_v","skill_c"]:
+	if kind in ["attack","nova","dodge","heavy_begin","heavy","cancel_charge","card_next"] or kind in Content.ACTIONS:
 		return combat.act(p,kind)
 	if kind == "potion":
 		if p.potion_cd > 0 or p.potions <= 0 or p.hp >= p.max_hp:
@@ -205,7 +208,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		return false
 	if kind=="invest":
 		if not Content.can_invest(p,argument):
-			notice(id,"스킬 포인트와 선행 스킬을 확인하세요. 최대 3랭크입니다.")
+			notice(id,"스킬 포인트와 선행 스킬을 확인하세요. 해금 레벨과 최대 랭크를 확인하세요.")
 			return false
 		p.skill_ranks[argument]=int(p.skill_ranks.get(argument,0))+1
 		gear_changed(p)
@@ -217,7 +220,11 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		if kind=="class":
 			if not Content.CLASSES.has(argument):return false
 			if p.class_id==argument:return true
+			var target=Content.CLASSES[argument]
+			if target.has("base") and not target.get("starter",false):
+				if p.level<30 or Content.base_class(p.class_id)!=target.base:return false
 			p.class_id=argument
+			combat.jobs.reset(p)
 		p.skill_ranks.clear()
 		p.skill_loadout.clear()
 		gear_changed(p)
@@ -267,7 +274,7 @@ func kill(id: int, enemy: Dictionary):
 	enemy.hp = 0
 	enemy.respawn = config.respawn
 	enemy.windup = 0.0
-	enemy["slow_time"]=0.0;enemy["stun_time"]=0.0
+	enemy["slow_time"]=0.0;enemy["stun_time"]=0.0;enemy["job_status"]={};enemy.erase("taunt_owner");enemy.erase("taunt_time")
 	p.xp += roundi(config.xp*(1+Content.skill_bonus(p,"xp_bonus")))
 	p.gold += roundi(config.gold*(1+Content.skill_bonus(p,"gold_bonus")+preload("res://scripts/equipment_catalog.gd").bonus(p,"gold_bonus")))
 	p.kills += 1
@@ -285,7 +292,7 @@ func kill(id: int, enemy: Dictionary):
 		p.quest_done = true
 		p.gold += 100
 		notice(id, "의뢰 완료 · 정원의 소란 · 금화 +100")
-	for entry in loot_tables.roll(enemy.kind,rng):
+	for entry in loot_tables.roll(enemy.kind,rng,combat.jobs.passive(p,4)*.03 if p.class_id=="hunter" and not p.job_state.pets.is_empty() else 0.0):
 		serial += 1
 		var item_id = str(Time.get_unix_time_from_system()).replace(".", "") + "-" + str(serial)
 		var item=loot_tables.item(entry,item_id,rng,balance)
@@ -346,6 +353,7 @@ func tick(delta: float):
 						p.combat_time=4.0
 						var reflected=int(Content.skill_bonus(p,"thorns"))
 						if reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected)
+						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
 						p.hp -= received
 						p.hurt_time=.16
 						if config.ai=="spore":p.stamina=maxf(0,p.stamina-12)
@@ -355,13 +363,16 @@ func tick(delta: float):
 							p.hp = p.max_hp
 							p.pos = map.spawn
 							p.dir = Vector2.ZERO
+							combat.jobs.reset(p);p.charge_time=-1.
 							dirty[p.id] = true
 							notice(p.id, "쓰러졌습니다. 금화 10%를 잃고 마을에서 회복했습니다.")
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
 			continue
+		e["taunt_time"]=maxf(0,e.get("taunt_time",0)-delta)
 		var target: Dictionary = {}
 		var best = 6.5
 		for p in players.values():
+			if e.taunt_time>0 and players.has(e.get("taunt_owner",0)) and p.id!=e.taunt_owner:continue
 			var distance = e.pos.distance_to(p.pos)
 			if distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < 8 and map.line_clear(e.pos, p.pos):
 				best = distance

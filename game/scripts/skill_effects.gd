@@ -12,6 +12,7 @@ static func star(game,at:Vector2,radius:float,color:Color,angle:float=0):
 	game.draw_colored_polygon(points,color)
 
 static func render(game,e:Dictionary):
+	if preload("res://scripts/job_art.gd").render(game,e):return
 	var t=clampf(1.0-e.life/e.max_life,0,1)
 	var at=game.world_point(e.pos)
 	var radius=float(e.get("radius",2))*47

@@ -30,3 +30,7 @@
 - `game/assets/ui/facility-counters-v01.png`: 대장간·상점·연금술·길드·여관·원정의 문 작업 공간 6개. [최종 프롬프트](FACILITIES_V01_PROMPT.txt)
 - 내장 image_gen이 만든 RGBA 원본을 변경 없이 복사했다. 이미지 재가공 없이 AtlasTexture 영역과 NinePatchRect로 소비한다. [원본 식별자·해시·적용 기록](UI_V01_PROVENANCE.json)
 - Windows 패키지의 Godot 4.6 엔진은 [MIT 라이선스](GODOT_LICENSE.txt)와 [제3자 저작권 고지](GODOT_COPYRIGHT.txt)를 함께 제공한다. 공식 출처는 [Godot 4.6 소스](https://github.com/godotengine/godot/tree/4.6-stable)다.
+
+## 직업 확장 이미지 (2026-09-09)
+
+`game/assets/jobs/`는 이 대화에서 제작한 직업별 스프라이트·스킬 이펙트와 제공 원화 기반 파생 이미지다. `catalog.json`에 원본 시트 경로, 셀 위치, 발 기준점을 기록했다. 시프는 인형사 대체 콘셉트로 새로 생성했고, 소환수·사냥개 시트도 별도 생성했다. 스킬 아이콘은 기존 프로젝트의 아이콘을 재사용한다.

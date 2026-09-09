@@ -73,7 +73,7 @@ func finish_run():
 
 func _notification(what: int):
 	if what==NOTIFICATION_WM_CLOSE_REQUEST and session!=null: finish_run()
-	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and session!=null and session.connected:session.sim.players[session.local_id].charge_time=-1.0
+	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and session!=null and session.connected:session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 
 func _ready():
 	get_tree().auto_accept_quit=false
@@ -114,7 +114,7 @@ func join_game():
 	if options.has("bot"):session.travel("forest")
 
 func toggle_help():
-	session.sim.players[session.local_id].charge_time=-1.0
+	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 	help_panel.visible=not help_panel.visible
 	session.paused=help_panel.visible or bag.visible or skill_tree.visible
 	toast.visible=not session.paused
@@ -263,7 +263,7 @@ func build_interface():
 	help_panel = panel(hud, Vector2(428, 125), Vector2(586, 650), Color("fffbedfc"))
 	help_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	label(help_panel, "잠깐 쉬어 가요", Vector2(28, 22), Vector2(520, 49), 30)
-	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격 · Q 직업 기술\nF / V / C                배운 직업 기술\nShift / Space           달리기 / 회피\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K                      가방 / 직업과 스킬 트리\n가방과 이 메뉴가 열려 있으면 시간이 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
+	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격\nQ / F / V / C / Z / X   장착한 스킬 6개\nShift / Space           달리기 / 회피 · TAB 카드 선택\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K                      가방 / 직업과 스킬 트리\n가방과 이 메뉴가 열려 있으면 시간이 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
 	button(help_panel, "계속하기", Vector2(28, 390), Vector2(247, 49), continue_game, true)
 	button(help_panel, "저장하고 타이틀", Vector2(295, 390), Vector2(261, 49), func(): session.disconnect_game(); help_panel.hide())
 	button(help_panel,"새로운 원정 시작",Vector2(28,454),Vector2(528,49),func(): help_panel.hide(); bag.hide(); session.new_expedition())
@@ -315,7 +315,7 @@ func on_event(event: Dictionary):
 func toggle_bag():
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
-	session.sim.players[session.local_id].charge_time=-1.0
+	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 	skill_tree.hide()
 	bag.visible = not bag.visible
 	session.paused=bag.visible or help_panel.visible or skill_tree.visible
@@ -325,7 +325,7 @@ func toggle_bag():
 func toggle_skills():
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
-	session.sim.players[session.local_id].charge_time=-1.0
+	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 	bag.hide()
 	skill_tree.visible=not skill_tree.visible
 	session.paused=skill_tree.visible or help_panel.visible
@@ -351,7 +351,10 @@ func _unhandled_input(event: InputEvent):
 				elif bag.visible:toggle_bag()
 				elif skill_tree.visible:toggle_skills()
 				else:toggle_help()
-			KEY_Q: session.act("nova")
+			KEY_Q: session.act("skill_q")
+			KEY_Z: session.act("skill_z")
+			KEY_X: session.act("skill_x")
+			KEY_TAB: session.act("card_next")
 			KEY_F: session.act("skill_f")
 			KEY_V: session.act("skill_v")
 			KEY_C: session.act("skill_c")
@@ -490,6 +493,7 @@ func _draw():
 		elif actor.type=="resident":draw_resident(actor.data)
 		else:draw_actor(actor)
 	if dungeon.zone!="town":shrine(world_point(dungeon.spawn))
+	for hero in session.state.players.values():preload("res://scripts/job_art.gd").pets(self,hero,visual_time)
 	for e in effects:
 		var point = world_point(e.pos)
 		if e.type == "damage":

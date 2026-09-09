@@ -77,18 +77,23 @@ func impact(zone:Dictionary,e:Dictionary):
 	sim.events.append({"type":"monster_attack","pos":zone.pos,"area":zone.duplicate(true),"sound":zone.sound,"duration":.3,"owner":1})
 	for p in sim.players.values():
 		if contains(zone,p.pos) and sim.map.line_clear(zone.from,p.pos):damage(e,p,zone)
+		for pet in p.get("job_state",{}).get("pets",[]):
+			if contains(zone,pet.pos) and sim.map.line_clear(zone.from,pet.pos):pet.hp-=sim.balance.enemies[e.kind].damage*zone.multiplier*(1-sim.combat.jobs.value(p,"pet_guard"))
 func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	if p.invulnerable>0 or sim.map.in_town(p.pos):return
 	var amount=maxi(1,roundi(sim.balance.enemies[e.kind].damage*zone.multiplier)-p.defense)
 	if p.barrier_time>0:amount=maxi(1,roundi(amount*(1-p.barrier_strength)))
+	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
+	if amount<=0:return
 	p.combat_time=4;p.hp-=amount;p.hurt_time=.16;p.stamina=maxf(0,p.stamina-zone.drain)
 	p.enemy_slow_time=maxf(p.enemy_slow_time,zone.slow)
-	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock)
+	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock*(1-sim.combat.jobs.passive(p,1)*.12 if p.class_id=="breaker" and (p.charge_time>=0 or not p.job_state.casting.is_empty()) else 1))
 	var reflected=int(Content.skill_bonus(p,"thorns"))
 	if reflected>0 and e.hp>0 and e.pos.distance_to(p.pos)<2:sim.combat.hit(p,e,reflected)
 	sim.events.append({"type":"damage","pos":p.pos,"amount":amount,"enemy":false,"owner":p.id})
 	if p.hp<=0:
 		p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=sim.map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0
+		sim.combat.jobs.reset(p);p.charge_time=-1.
 		sim.dirty[p.id]=true;sim.notice(p.id,"쓰러졌습니다. 금화 10%를 잃고 안전지대에서 회복했습니다.")
 const Content=preload("res://scripts/content.gd")
 static func draw_area(canvas,zone:Dictionary,color:Color):
@@ -101,7 +106,7 @@ static func draw_area(canvas,zone:Dictionary,color:Color):
 		for i in range(21):points.append(canvas.world_point(zone.from+direction.rotated(lerpf(-angle,angle,i/20.0))*zone.radius))
 	else:
 		for i in range(40):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.radius))
-	if zone.shape!="ring":canvas.draw_colored_polygon(points,Color(color,.15))
+	if zone.get("shape","circle")!="ring":canvas.draw_colored_polygon(points,Color(color,.15))
 	points.append(points[0]);canvas.draw_polyline(points,color,2.0,true)
 	if zone.shape=="ring":
 		points=PackedVector2Array()

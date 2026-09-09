@@ -92,6 +92,7 @@ func save_path() -> String:
 	return save_directory.path_join("slot-%d.json" % slot)
 
 func parse_save(path: String) -> Variant:
+	Content.initialize_jobs()
 	if not FileAccess.file_exists(path):return null
 	var parser=JSON.new()
 	if parser.parse(FileAccess.get_file_as_string(path))!=OK:return null
@@ -121,6 +122,8 @@ func parse_save(path: String) -> Variant:
 	if not value.get("legacy_costume","") is String:return null
 	if value.get("class_id","warrior") not in Content.CLASSES or value.get("costume","none") not in Content.COSTUMES:return null
 	if not value.get("training_given",false) is bool:return null
+	var cls=Content.CLASSES[value.get("class_id","warrior")]
+	if cls.has("base") and not cls.get("starter",false) and value.level<30:return null
 	for field in ["equipment","bag_positions","materials","skill_ranks"]:
 		if not value.get(field,{}) is Dictionary:return null
 	for slot in value.get("equipment",{}):
@@ -139,13 +142,15 @@ func parse_save(path: String) -> Variant:
 			place[axis]=int(place[axis])
 		if place.x<0 or place.x>=10 or place.y<0 or place.y>=6:return null
 	Content.migrate_skills(value)
-	var allowed=[]
-	for node in Content.SKILLS[value.get("class_id","warrior")]:allowed.append(node.id)
+	var allowed=[];var definitions={}
+	for node in Content.SKILLS[value.get("class_id","warrior")]:allowed.append(node.id);definitions[node.id]=node
 	var spent=0
 	for key in value.get("skill_ranks",{}):
 		var rank=value.skill_ranks[key]
-		if key not in allowed or (not rank is float and not rank is int) or rank<0 or rank>3:return null
+		if key not in allowed or (not rank is float and not rank is int) or rank<0 or rank>Content.max_rank(definitions[key]) or rank!=floor(rank):return null
+		if rank>0 and int(value.level)<definitions[key].get("level",1):return null
 		value.skill_ranks[key]=int(rank)
+		if rank>0 and definitions[key].effect=="upgrade" and not definitions[key].parents.any(func(parent):return value.skill_ranks.get(parent,0)>=definitions[key].get("required_rank",1)):return null
 		spent+=int(rank)
 	if spent>int(value.level)-1:return null
 	if not value.get("stats",{}) is Dictionary or not value.get("skill_loadout",{}) is Dictionary:return null
@@ -156,8 +161,11 @@ func parse_save(path: String) -> Variant:
 		if (not amount is float and not amount is int) or amount<0 or amount!=floor(amount):return null
 		value.stats[key]=int(amount);stats_spent+=int(amount)
 	if stats_spent>(int(value.level)-1)*3:return null
+	var equipped_skills=[]
 	for action in value.get("skill_loadout",{}):
-		if action not in ["skill_f","skill_v","skill_c"]:return null
+		if value.skill_loadout[action] in equipped_skills:return null
+		equipped_skills.append(value.skill_loadout[action])
+		if action not in Content.ACTIONS:return null
 		var valid=false
 		for node in Content.SKILLS[value.get("class_id","warrior")]:
 			if node.id==value.skill_loadout[action] and node.effect=="active" and value.get("skill_ranks",{}).get(node.id,0)>0:valid=true

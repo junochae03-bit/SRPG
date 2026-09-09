@@ -9,7 +9,7 @@ func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);push_error(label)
 func run():
-	for class_id in Content.CLASSES:
+	for class_id in ["warrior","ranger","mage"]:
 		var sim=Simulation.new();var p=sim.add_player(1,"기술 검증");p.class_id=class_id;p.level=40
 		check(Content.SKILLS[class_id].size()==50,"fifty nodes "+class_id)
 		for node in Content.SKILLS[class_id].slice(0,15):

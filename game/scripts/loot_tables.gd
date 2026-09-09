@@ -3,11 +3,11 @@ const Content=preload("res://scripts/content.gd")
 var tables:Dictionary
 func _init():tables=JSON.parse_string(FileAccess.get_file_as_string("res://data/drop_tables.json")).monsters
 
-func roll(kind:String,rng:RandomNumberGenerator)->Array:
+func roll(kind:String,rng:RandomNumberGenerator,chance_bonus:float=0.0)->Array:
 	var result=[]
 	for entry in tables.get(kind,[]):
 		var draw=rng.randf()
-		if float(entry.chance)>=1.0 or draw<float(entry.chance):result.append(entry.duplicate(true))
+		if float(entry.chance)>=1.0 or draw<minf(1.0,float(entry.chance)*(1+chance_bonus)):result.append(entry.duplicate(true))
 	return result
 
 func item(entry:Dictionary,id:String,rng:RandomNumberGenerator,balance:Dictionary)->Dictionary:

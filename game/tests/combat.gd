@@ -63,7 +63,7 @@ func run():
 	enemy.pos=room;enemy.attack_pos=room;enemy.windup=0.01;before=p.hp
 	sim.tick(0.03);check(p.hp==before-int(sim.balance.enemies.shade.damage)+3,"armor defense reduces incoming damage")
 	p.pos=sim.map.spawn;p.level=10;p.stamina=100;p.dodge_time=0
-	for type in Content.CLASSES:
+	for type in ["warrior","ranger","mage"]:
 		check(sim.action(1,"class",type),"class change at camp "+type)
 		var nodes=Content.SKILLS[type]
 		check(not sim.action(1,"invest",nodes[4].id),"final node requires parents "+type)
@@ -73,10 +73,7 @@ func run():
 		check(not sim.action(1,"invest",nodes[0].id),"rank caps at three "+type)
 		p.pos=room;p.nova_cd=0;p.stamina=100;p.aim=Vector2.RIGHT
 		before=enemy.hp;enemy.pos=room+Vector2(1,0);enemy.home=enemy.pos
-		check(sim.action(1,"nova"),"class skill activates "+type)
-		if type=="ranger":check(sim.combat.projectiles.size()==5,"ranger fires five arrows")
-		elif type=="warrior":check(enemy.hp<before,"warrior cleaves nearby enemy")
-		else:check(sim.events.any(func(e):return e.type=="nova" and e.pos.distance_to(room)>1),"mage explosion placed ahead")
+		check(not sim.action(1,"skill_q"),"unassigned sixth-slot system has no free signature "+type)
 		check(not sim.action(1,"reset_skills"),"field respec rejected "+type)
 		p.pos=sim.map.spawn
 		check(sim.action(1,"reset_skills") and Content.available_points(p)==9,"camp reset refunds points "+type)

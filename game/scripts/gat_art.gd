@@ -13,7 +13,7 @@ static func material()->ShaderMaterial:
 static func avatar(p:Dictionary)->String:
 	if p.get("costume","") in Content.GAT_COSTUMES:return p.costume
 	var selected=p.get("avatar","auto")
-	return {"warrior":"gat_role_tank_2","ranger":"gat_role_single_1","mage":"gat_role_aoe_1"}[p.get("class_id","warrior")] if selected=="auto" else selected
+	return {"warrior":"gat_role_tank_2","ranger":"gat_role_single_1","mage":"gat_role_aoe_1"} .get(Content.base_class(p.get("class_id","warrior")),"gat_role_tank_2") if selected=="auto" else selected
 static func texture(key:String,index:int)->AtlasTexture:
 	initialize();var cache_key=key+str(index)
 	if not textures.has(cache_key):
@@ -21,6 +21,7 @@ static func texture(key:String,index:int)->AtlasTexture:
 		var atlas=AtlasTexture.new();atlas.atlas=load(entry.sheet);atlas.region=Rect2(r[0],r[1],r[2],r[3]);atlas.filter_clip=true;textures[cache_key]=atlas
 	return textures[cache_key]
 static func frame(p:Dictionary,time:float)->Dictionary:
+	if preload("res://scripts/job_art.gd").has_sprite(p):return preload("res://scripts/job_art.gd").frame(p,time)
 	initialize();var key=avatar(p);var entry=catalog[key];var index=1 if fposmod(time,4.0)>3.82 else 0
 	if preload("res://scripts/combat_sprite_art.gd").AVATARS.has(key):return preload("res://scripts/combat_sprite_art.gd").frame(key,p,time)
 	if p.get("motion_time",0)>0:
@@ -29,6 +30,7 @@ static func frame(p:Dictionary,time:float)->Dictionary:
 	var foot=entry.frames[index].foot
 	return {"texture":texture(key,index),"foot":Vector2(foot[0],foot[1]),"height":float(entry.get("body_height",entry.height)),"index":index,"animated":false}
 static func portrait(p:Dictionary)->AtlasTexture:
+	if preload("res://scripts/job_art.gd").has_sprite(p):return preload("res://scripts/job_art.gd").portrait(p)
 	initialize();var key=avatar(p);var cache_key=key+"portrait"
 	if not textures.has(cache_key):
 		var entry=catalog[key];var base=entry.frames[0];var h=float(entry.height);var r=base.rect

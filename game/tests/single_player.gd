@@ -42,8 +42,10 @@ func run():
 	p.pos=boss.pos+Vector2(0.4,0)
 	p.aim=Vector2.LEFT
 	var boss_before=boss.hp
-	game.action_buttons.nova.pressed.emit()
-	check(boss.hp<boss_before and p.nova_cd>0 and not game.action_badges.nova.text.is_empty(),"icon skill button damages and displays cooldown")
+	p.level=10;p.skill_ranks={"blade":1,"heavy_training":1,"blade_wave":1};p.skill_loadout={"skill_q":"blade_wave"};session.refresh()
+	game.action_buttons.skill_q.pressed.emit()
+	session.sim.combat.tick_projectiles(.1)
+	check(boss.hp<boss_before and p.skill_q_cd>0 and not game.action_badges.skill_q.text.is_empty(),"icon skill button damages and displays cooldown")
 	p.kills=4
 	boss.hp=1
 	game.action_buttons.attack.pressed.emit()
