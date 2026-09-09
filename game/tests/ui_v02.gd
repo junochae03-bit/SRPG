@@ -28,10 +28,15 @@ func run():
 	for action in ["attack","heavy","dodge"]:check(not game.action_buttons.has(action),"no basic/heavy/dodge HUD "+action)
 	for i in range(6):
 		var b=game.action_buttons[C.ACTIONS[i]]
-		check(b.position==Vector2(1080+i%3*110,650+int(i/3)*123),"3 by 2 alignment")
+		check(b.position==Vector2(1028+i%3*124,618+int(i/3)*132) and b.size==Vector2(96,96),"large 3 by 2 alignment")
 		check(b.position.x+b.size.x<1400 and b.position.y+b.size.y+20<875,"safe skill bounds")
 	await capture("hud")
-	game.toggle_bag();game.bag.select_item("grade-4");check(game.bag.item_grade.text.begins_with("레전드리"),"legendary visible name");check("개방" in game.bag.detail_body.text,"option state visible");await capture("inventory");game.toggle_bag()
+	game.toggle_bag();game.bag.select_item("grade-4");check(game.bag.item_grade.text.begins_with("레전드리"),"legendary visible name");check("개방" in game.bag.detail_body.text,"option state visible")
+	var labels=game.bag.find_children("*","Label",true,false);var buttons=game.bag.find_children("*","Button",true,false)
+	for removed in ["모든 물건은 한 칸","끌어서 이동하거나","일반 · 레어 · 유니크","장착품은 가방 칸","한 묶음으로 보관","소지품을 살피는 동안","I / ESC로 닫기"]:
+		check(not labels.any(func(label):return removed in label.text),"removed redundant bag instruction: "+removed)
+	check(not buttons.any(func(button):return "입문 장비" in button.text or "연습 무기" in button.text),"starter claim button removed from inventory")
+	await capture("inventory");game.toggle_bag()
 	game.toggle_skills();game.skill_tree.mode="stats";game.skill_tree.refresh(true);check(game.skill_tree.stat_buttons.size()==5,"five stats in UI");await capture("stats");game.skill_tree.mode="skills";game.skill_tree.choice=actives[4].id;game.skill_tree.refresh(true);await capture("skills");game.toggle_skills()
 	game.town_panel.open("portal");await capture("portal");check(game.town_panel.products.size()==10,"ten floors visible per biome");game.town_panel.close()
 	p.pos=preload("res://scripts/world_catalog.gd").FACILITIES.smith.pos;game.town_panel.open("smith");game.town_panel.choose("upgrade",{"item":"grade-2"});await capture("smith");game.town_panel.close()

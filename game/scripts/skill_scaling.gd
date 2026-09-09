@@ -32,7 +32,7 @@ static func profile(node:Dictionary,rank:int,bonuses:Dictionary={})->Dictionary:
 		"heal":[.22,.32,.45][level-1],"duration":[5.0,6.5,8.0][level-1],"barrier":[.4,.5,.6][level-1],"haste_speed":[.25,.4,.55][level-1],"haste_attack":[.3,.4,.5][level-1],"width":.42+.12*(level-1)}
 	result.multiplier*=1.+gear.force;result.heal*=1.+gear.force;result.barrier=minf(.8,result.barrier*(1.+gear.force))
 	result.radius*=1.+gear.reach;result.range*=1.+gear.reach;result.duration*=1.+gear.echo;result.haste_speed*=1.+gear.echo;result.haste_attack=minf(.7,result.haste_attack*(1.+gear.echo))
-	return result
+	return preload("res://scripts/constellation_effects.gd").resolve(bonuses.get("player",{}),node,result)
 static func passive_text(node:Dictionary,rank:int)->String:
 	var value=float(node.value)*rank
 	return ("+%s%%" % number(value*100)) if node.effect in PERCENT else "+"+number(value)
@@ -53,6 +53,7 @@ static func metrics(node:Dictionary,rank:int,damage:float,max_hp:int,bonuses:Dic
 		if s.slow>0:rows.append(["감속 지속",number(s.slow)+"초"])
 		if s.stun>0:rows.append(["기절 지속",number(s.stun)+"초"])
 	rows.append(["재사용 시간",number(s.cooldown)+"초"]);rows.append(["소모 기력",number(s.cost)])
+	rows.append_array(preload("res://scripts/constellation_effects.gd").metrics(s))
 	if rank==0:
 		for row in rows:row[1]="미습득"
 	return rows

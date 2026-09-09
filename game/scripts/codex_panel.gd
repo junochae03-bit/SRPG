@@ -4,7 +4,7 @@ const DB=preload("res://scripts/game_database.gd")
 const Content=preload("res://scripts/content.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
 const Art=preload("res://scripts/ui_art.gd")
-const Icons=preload("res://scripts/icon_art.gd")
+const Library=preload("res://scripts/icon_library.gd")
 const PAGE_SIZE=8
 const TABS=["equipment","monsters","drops","skills"]
 const TAB_NAMES=["장비 도감","몬스터 도감","드랍 정보","스킬 DB"]
@@ -18,6 +18,7 @@ var result:Dictionary={}
 var row_buttons:Dictionary={}
 var tab_buttons:Array=[]
 var search:LineEdit
+var clear_search_button:Button
 var filter_a:OptionButton
 var filter_b:OptionButton
 var filter_c:OptionButton
@@ -46,41 +47,64 @@ var link_target:Dictionary={}
 func setup(owner_game):
 	game=owner_game;position=Vector2(24,24);size=Vector2(1392,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",38)
-	Art.picture(self,Icons.function_icon("growth"),Vector2(30,16),Vector2(73,73))
+	Library.picture(self,"codex",Vector2(30,16),Vector2(73,73))
 	game.label(self,"모험 도감",Vector2(118,20),Vector2(700,42),32)
 	game.label(self,"장비부터 100층 보스까지 · 모험에 필요한 기록",Vector2(120,65),Vector2(1034,27),17)
-	game.button(self,"닫기  B",Vector2(1210,27),Vector2(148,44),close)
+	Library.attach(game.button(self,"닫기",Vector2(1210,27),Vector2(148,44),close),"close")
 	for i in range(TABS.size()):
 		var key=TABS[i]
 		var b=game.button(self,TAB_NAMES[i],Vector2(27+i*336,109),Vector2(326,47),func():switch_tab(key))
+		Library.attach(b,["equip","monster","pickup","skills"][i])
 		tab_buttons.append(b)
-	search=game.line_edit(self,"",Vector2(27,176),Vector2(650,45));search.placeholder_text="이름·설명으로 찾기";search.clear_button_enabled=true
+	Library.picture(self,"search",Vector2(30,185),Vector2(26,26))
+	search=game.line_edit(self,"",Vector2(65,176),Vector2(580,45));search.placeholder_text="이름·설명으로 찾기";search.clear_button_enabled=false
+	clear_search_button=game.button(self,"",Vector2(651,181),Vector2(28,34),func():search.text="";apply_search());Library.attach(clear_search_button,"cancel",22);clear_search_button.tooltip_text="검색어 지우기"
+	clear_search_button.get_meta("rpg_frame").hide();clear_search_button.icon_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	search.text_changed.connect(func(_value):pending_search=.22)
 	search.text_submitted.connect(func(_value):apply_search())
 	reset_button=game.button(self,"조건 초기화",Vector2(692,176),Vector2(141,45),reset_filters)
+	Library.attach(reset_button,"reset",21);reset_button.add_theme_font_size_override("font_size",16)
 	filter_a=picker(self,Vector2(28,231),Vector2(286,39))
 	filter_b=picker(self,Vector2(326,231),Vector2(214,39))
 	filter_c=picker(self,Vector2(553,231),Vector2(280,39))
 	count_label=game.label(self,"",Vector2(43,280),Vector2(780,28),17);count_label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	list=Control.new();list.position=Vector2(25,314);list.size=Vector2(813,468);add_child(list)
-	previous_button=game.button(self,"← 이전",Vector2(30,791),Vector2(123,38),func():change_page(-1))
+	previous_button=game.button(self,"이전",Vector2(30,791),Vector2(123,38),func():change_page(-1));Library.attach(previous_button,"previous",22)
 	page_label=game.label(self,"",Vector2(165,796),Vector2(510,28),17);page_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	next_button=game.button(self,"다음 →",Vector2(694,791),Vector2(137,38),func():change_page(1))
+	next_button=game.button(self,"다음",Vector2(694,791),Vector2(137,38),func():change_page(1));Library.attach(next_button,"next",22)
 	var detail=Art.panel(self,Vector2(853,171),Vector2(509,612),"paper",25)
 	detail_crest=Art.picture(detail,Art.texture("medallion"),Vector2(20,19),Vector2(136,140))
 	detail_icon=Art.picture(detail,null,Vector2(37,35),Vector2(101,107))
-	detail_name=game.label(detail,"",Vector2(170,32),Vector2(306,87),26);detail_name.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	detail_subtitle=game.label(detail,"",Vector2(171,124),Vector2(303,47),16);detail_subtitle.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	rank_picker=picker(detail,Vector2(27,181),Vector2(139,36));rank_picker.item_selected.connect(func(index):rank_index=index;refresh_detail())
-	reference_picker=picker(detail,Vector2(177,181),Vector2(300,36));reference_picker.add_item("무력화 · 기술 0 기준");reference_picker.add_item("무력화 · 내 기술 적용")
+	detail_name=game.label(detail,"",Vector2(170,32),Vector2(306,87),24);detail_name.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	detail_name.max_lines_visible=2;detail_name.clip_text=true;detail_name.clip_contents=true;detail_name.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;detail_name.mouse_filter=Control.MOUSE_FILTER_PASS
+	detail_subtitle=game.label(detail,"",Vector2(171,123),Vector2(303,52),16);detail_subtitle.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	detail_subtitle.max_lines_visible=2;detail_subtitle.clip_text=true;detail_subtitle.clip_contents=true;detail_subtitle.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;detail_subtitle.mouse_filter=Control.MOUSE_FILTER_PASS
+	rank_picker=picker(detail,Vector2(27,181),Vector2(161,36));rank_picker.item_selected.connect(func(index):rank_index=index;refresh_detail())
+	reference_picker=picker(detail,Vector2(200,181),Vector2(277,36));reference_picker.add_item("무력화 · 기술 0 기준");reference_picker.add_item("무력화 · 내 기술 적용")
+	Library.attach(reference_picker,"technique",20)
 	reference_picker.item_selected.connect(func(index):use_player_stats=index==1;refresh_detail())
 	detail_scroll=ScrollContainer.new();detail_scroll.position=Vector2(29,231);detail_scroll.size=Vector2(452,288);detail_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;detail.add_child(detail_scroll)
 	detail_body=RichTextLabel.new();detail_body.custom_minimum_size=Vector2(430,284);detail_body.size_flags_horizontal=Control.SIZE_EXPAND_FILL;detail_body.fit_content=true;detail_body.scroll_active=false;detail_body.bbcode_enabled=true
 	detail_body.add_theme_font_override("normal_font",game.fonts);detail_body.add_theme_font_override("bold_font",game.bold_font);detail_body.add_theme_font_size_override("normal_font_size",18);detail_body.add_theme_font_size_override("bold_font_size",19);detail_body.add_theme_color_override("default_color",game.PALE);detail_body.add_theme_constant_override("line_separation",5)
 	detail_scroll.add_child(detail_body)
 	link_button=game.button(detail,"",Vector2(28,533),Vector2(452,46),follow_link,true)
-	source_note=game.label(self,"상세 기록은 마우스 휠로 더 읽을 수 있습니다.\n열람은 소지품·성장 포인트에 영향을 주지 않습니다.",Vector2(868,791),Vector2(484,42),14);source_note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	Library.attach(link_button,"next")
+	source_note=game.label(self,"",Vector2(868,791),Vector2(484,42),14);source_note.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	inset_buttons(self)
 	hide()
+
+func inset_buttons(parent:Node):
+	for button in parent.find_children("*","Button",true,false):
+		if button is OptionButton or button.text.is_empty() or not button.has_meta("rpg_frame") or not button.get_meta("rpg_frame").visible:continue
+		var dimensions=button.size
+		button.clip_text=true;button.add_theme_constant_override("h_separation",8)
+		for state in ["normal","hover","pressed","disabled","focus"]:
+			var style=StyleBoxEmpty.new();style.content_margin_left=18;style.content_margin_right=18;style.content_margin_top=5;style.content_margin_bottom=5
+			button.add_theme_stylebox_override(state,style)
+		var font=button.get_theme_font("font");var font_size=button.get_theme_font_size("font_size")
+		var icon_space=button.get_theme_constant("icon_max_width")+8 if button.icon!=null else 0
+		while font_size>14 and font.get_string_size(button.text,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+icon_space>dimensions.x-36:font_size-=1
+		button.add_theme_font_size_override("font_size",font_size);button.size=dimensions
 
 func picker(parent:Node,at:Vector2,dimensions:Vector2)->OptionButton:
 	var p=OptionButton.new();p.position=at;p.size=dimensions;p.fit_to_longest_item=false;p.clip_text=true
@@ -121,6 +145,7 @@ func fill_picker(p:OptionButton,key:String,entries:Array):
 		if filters.get(key,entries[0][1])==entry[1]:p.select(p.item_count-1)
 	p.item_selected.connect(func(index):
 		if not refreshing_filters:set_filter(key,p.get_item_metadata(index)))
+	Library.attach(p,{"class_id":"class_warrior","rarity":"upgrade","slot":"equip","floor":"floor","role":"monster","effect":"skills"}.get(key,"filter"),21)
 
 func configure_filters():
 	refreshing_filters=true
@@ -139,7 +164,7 @@ func configure_filters():
 		"monsters":
 			fill_picker(filter_a,"role",[["모든 몬스터",""] ,["일반 몬스터","normal"],["엘리트","elite"],["보스 기본형","boss"],["던전 레이드","raid"]]);fill_picker(filter_b,"floor",floors);filter_c.hide()
 		"drops":fill_picker(filter_a,"floor",floors);fill_picker(filter_b,"rarity",grades);fill_picker(filter_c,"slot",slots)
-		"skills":fill_picker(filter_a,"class_id",classes);fill_picker(filter_b,"effect",[["모든 스킬",""] ,["사용 스킬","active"],["지속 효과","passive"],["강화 노드","upgrade"]]);filter_c.hide()
+		"skills":fill_picker(filter_a,"class_id",classes);fill_picker(filter_b,"effect",[["모든 스킬",""] ,["사용 스킬","active"],["지속 효과","passive"],["강화 노드","upgrade"],["별자리 특화","constellation"]]);filter_c.hide()
 	refreshing_filters=false
 
 func _process(delta:float):
@@ -161,11 +186,16 @@ func select_record(id:String):
 
 func refresh():
 	result=DB.query(selected_tab,filters,page,PAGE_SIZE);page=int(result.page)
+	Library.attach(filter_a,"class_"+str(filters.class_id) if filters.has("class_id") else "floor" if selected_tab=="drops" else "monster" if selected_tab=="monsters" else "filter",21)
+	Library.attach(filter_b,"floor" if selected_tab=="monsters" else "skills" if selected_tab=="skills" else "upgrade",21)
+	Library.attach(filter_c,str(filters.get("slot","equip")),21)
 	if selected_id.is_empty():
 		detail_scroll.scroll_vertical=0;rank_index=0
 		if not result.items.is_empty():selected_id=str(result.items[0].id)
 	for i in range(tab_buttons.size()):
-		tab_buttons[i].text=("◆ " if TABS[i]==selected_tab else "")+TAB_NAMES[i]
+		tab_buttons[i].text=TAB_NAMES[i]
+		Library.attach(tab_buttons[i],"selected" if TABS[i]==selected_tab else ["equip","monster","pickup","skills"][i])
+	clear_search_button.disabled=search.text.is_empty()
 	count_label.text="%s  ·  %s개 기록"%[TAB_NAMES[TABS.find(selected_tab)],int(result.total)]
 	if filters.has("monster_id"):
 		var source=DB.detail("monsters",str(filters.monster_id));count_label.text=str(source.get("name","선택한 몬스터"))+"의 전리품  ·  %s개 기록"%int(result.total)
@@ -179,7 +209,7 @@ func refresh_cards():
 	for child in list.get_children():list.remove_child(child);child.queue_free()
 	row_buttons.clear()
 	if result.get("items",[]).is_empty():
-		Art.picture(list,Art.texture("scroll"),Vector2(283,54),Vector2(235,216))
+		Library.picture(list,"search",Vector2(319,90),Vector2(160,160))
 		var empty=game.label(list,"일치하는 기록이 없습니다.\n검색어나 필터를 바꾸어 보세요.",Vector2(73,301),Vector2(660,77),22);empty.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;return
 	for i in range(result.items.size()):
 		var row=result.items[i];var id=str(row.id);var selected=id==selected_id
@@ -189,8 +219,11 @@ func refresh_cards():
 		if selected_tab=="monsters":icon.material=preload("res://scripts/gat_art.gd").material()
 		if selected_tab=="equipment":
 			var edge=Line2D.new();edge.points=PackedVector2Array([Vector2(21,23),Vector2(74,23),Vector2(74,79),Vector2(21,79),Vector2(21,23)]);edge.width=2;edge.default_color=Equipment.COLORS[clampi(int(row.get("rarity",0)),0,4)];edge.z_index=2;b.add_child(edge)
-		var title=game.label(b,str(row.get("name","")),Vector2(97,15),Vector2(285,51),19);title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		var caption=game.label(b,row_caption(row),Vector2(98,72),Vector2(284,25),15);caption.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;b.tooltip_text=str(row.get("name",""))+"\n"+row_caption(row)
+		var title=game.label(b,"",Vector2(97,15),Vector2(285,57),18);title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		title.max_lines_visible=2;title.clip_text=true;title.clip_contents=true;title.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;title.text=str(row.get("name",""));title.size=Vector2(285,57)
+		var caption=game.label(b,"",Vector2(98,77),Vector2(284,23),15);caption.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;caption.clip_text=true;caption.text=row_caption(row);b.tooltip_text=str(row.get("name",""))+"\n"+row_caption(row)
+		var badge=str(row.get("slot","equip")) if selected_tab=="equipment" else {"normal":"monster","elite":"elite","boss":"boss","raid":"boss"}.get(row.get("role","normal"),"monster") if selected_tab=="monsters" else "pickup" if selected_tab=="drops" else "upgrade" if row.get("node",{}).get("effect","")=="upgrade" else "skills"
+		Library.picture(b,badge,Vector2(64,68),Vector2(21,21))
 
 func row_caption(row:Dictionary)->String:
 	match selected_tab:
@@ -200,7 +233,7 @@ func row_caption(row:Dictionary)->String:
 			var source_name=str(row.get("monster_name",row.get("subtitle","")))
 			if str(filters.get("monster_id","")).begins_with("raid:"):source_name=str(DB.detail("monsters",str(filters.monster_id)).get("name",source_name))
 			return "%s · %s"%[probability(row),source_name]
-		"skills":return "%s · %s"%[row.get("class_name",""),"사용" if row.get("node",{}).get("effect","")=="active" else "지속 / 강화"]
+		"skills":return "%s · %s"%[row.get("class_name",""),"%d SP 특화"%int(row.get("cost",0)) if row.get("effect","")=="constellation" else "사용" if row.get("node",{}).get("effect","")=="active" else "지속 / 강화"]
 	return str(row.get("subtitle",""))
 
 func probability(row:Dictionary)->String:
@@ -217,26 +250,30 @@ func refresh_detail():
 	var row=DB.detail(selected_tab,selected_id);link_target={};link_button.hide();rank_picker.hide();reference_picker.hide()
 	for candidate in result.get("items",[]):
 		if candidate.id==selected_id:row=candidate;break
-	detail_name.text=str(row.get("name","기록을 선택하세요"));detail_subtitle.text="";detail_icon.texture=null if row.is_empty() else DB.asset_texture(row)
-	detail_icon.material=preload("res://scripts/gat_art.gd").material() if selected_tab=="monsters" else null
+	if selected_tab=="monsters" and int(filters.get("floor",0))>0:row=DB.monster_on_floor(row,int(filters.floor))
+	detail_name.text=str(row.get("name","기록을 선택하세요"));detail_subtitle.text="";detail_icon.texture=Library.texture("unknown") if row.is_empty() else DB.asset_texture(row)
+	detail_name.tooltip_text=detail_name.text;detail_name.size=Vector2(306,87)
+	detail_icon.material=preload("res://scripts/gat_art.gd").material() if selected_tab=="monsters" and not row.is_empty() else Art.icon_material(detail_icon.texture)
 	detail_icon.position=Vector2(20,17) if selected_tab=="monsters" else Vector2(37,35);detail_icon.size=Vector2(139,153) if selected_tab=="monsters" else Vector2(101,107)
 	detail_scroll.position.y=184;detail_scroll.size.y=334;detail_body.custom_minimum_size.y=330
 	if row.is_empty():
 		detail_body.text="이 등급·단계 조합은 현재 드랍 규칙에 획득처가 없습니다.\n\n장비 도감은 가능한 모든 조합을 보여 줍니다. 다른 단계나 등급을 선택해 획득처를 확인하세요." if filters.has("equipment_id") else "왼쪽에서 장비, 몬스터, 전리품 또는 스킬의 그림을 선택하세요.\n\n필터를 바꾸면 전체 모험 기록을 탐색할 수 있습니다.";return
 	detail_subtitle.text=row_caption(row)
+	detail_subtitle.tooltip_text=detail_subtitle.text;detail_subtitle.size=Vector2(303,52)
 	match selected_tab:
 		"equipment":equipment_detail(row)
 		"monsters":monster_detail(row)
 		"drops":drop_detail(row)
 		"skills":skill_detail(row)
 	link_button.visible=not link_target.is_empty()
+	inset_buttons(self)
 
 func equipment_detail(row:Dictionary):
 	var text=section("착용 조건",str(row.get("restriction",Equipment.restriction_text(row))))
 	text+=section("기본 성능","%s\n장비 보너스 +%d · 강화 +0 기준"%[str(row.get("description","")),int(row.get("bonus",0))])
 	text+=section("강화와 추가 옵션",str(row.get("option_summary",Equipment.option_text(row))))
 	text+=section("획득 안내","에픽·레전드리는 레이드 보스의 확정 추가 장비 보상에서 추첨합니다.\n무기는 현재 직업 전용, 방어구는 1차 직업 계열에 맞춰 생성됩니다." if int(row.get("rarity",0))>=3 else "몬스터 전리품에서 등급과 부위를 추첨합니다. 같은 부위도 획득 시점의 직업·층수에 따라 장비가 달라집니다.")
-	detail_body.text=text;link_button.text="이 장비의 드랍 경로 →"
+	detail_body.text=text;link_button.text="이 장비의 드랍 경로";Library.attach(link_button,"pickup")
 	link_target={"tab":"drops","filters":{"equipment_id":str(row.id)}}
 
 func monster_detail(row:Dictionary):
@@ -263,7 +300,7 @@ func monster_detail(row:Dictionary):
 		var stagger:Dictionary=row.get("stagger",{});var body="공격을 적중시켜 HP 피해와 별도로 무력화를 축적합니다. 기술 능력치는 스킬 무력화 피해를 높입니다."
 		if not stagger.is_empty():body+="\n\n일반 게이지  %s\n제한시간 체크  %s / %.0f초\n성공 시 %.0f초 넘어짐 · 받는 피해 +%.0f%%\n회복 후 %.0f초 재무력화 유예"%[stagger.get("max_value",0),stagger.get("check_max",0),float(stagger.get("check_seconds",0)),float(stagger.get("down_seconds",0)),(float(stagger.get("down_damage_multiplier",1))-1)*100,float(stagger.get("immunity_seconds",0))]
 		text+=section("무력화",body)
-	detail_body.text=text;link_button.text="이 몬스터의 전리품 보기 →";link_target={"tab":"drops","filters":{"monster_id":row.id}}
+	detail_body.text=text;link_button.text="이 몬스터의 전리품 보기";Library.attach(link_button,"pickup");link_target={"tab":"drops","filters":{"monster_id":row.id}}
 
 func floor_text(row:Dictionary)->String:
 	if row.has("floor"):return str(preload("res://scripts/abyss_catalog.gd").config(int(row.floor)).name).replace("B%d ·"%int(row.floor),"%d층 ·"%int(row.floor))
@@ -287,15 +324,17 @@ func drop_detail(row:Dictionary):
 	if row.get("kind","") in ["weapon","armor","accessory","equipment"] or conditional:text+=section("장비 생성 규칙","직업에 맞는 무기 또는 1차 계열 방어구가 생성됩니다. 표의 확률은 전리품 항목의 확률이며 특정 이름의 장비 1개를 얻을 확률과 다릅니다.\n추가 옵션은 필요한 강화 단계에 도달하면 개방됩니다.")
 	if row.has("source_floors"):text+=section("이 장비가 나오는 층",floor_text({"floors":row.source_floors}))
 	if row.has("joint_slot_chance"):text+=section("선택 장비의 부위까지 맞을 확률","등급 × 부위: %s%%\n추가 장비 1개에서 선택한 등급과 부위가 함께 맞을 확률입니다."%snappedf(float(row.joint_slot_chance)*100,.001))
-	detail_body.text=text;link_button.text="획득처 몬스터 살펴보기 →";link_target={"tab":"monsters","id":source_id}
+	detail_body.text=text;link_button.text="획득처 몬스터 살펴보기";Library.attach(link_button,"monster");link_target={"tab":"monsters","id":source_id}
 	if conditional:link_target.id="raid:%03d"%int(row.get("floor",10))
 
 func skill_detail(row:Dictionary):
+	if row.get("effect","")=="constellation":specialization_detail(row);return
 	var ranks:Array=row.get("ranks",[]);var node:Dictionary=row.get("node",{});var maximum=int(row.get("max_rank",Content.max_rank(node)))
 	if rank_picker.item_count!=maximum or rank_picker.get_meta("skill","")!=selected_id:
 		rank_picker.clear();rank_picker.set_meta("skill",selected_id)
 		for r in range(1,maximum+1):rank_picker.add_item("랭크 %d / %d"%[r,maximum])
 	rank_index=clampi(rank_index,0,maxi(0,maximum-1));rank_picker.select(rank_index);rank_picker.show();reference_picker.show();reference_picker.select(1 if use_player_stats else 0)
+	Library.attach(rank_picker,"upgrade",18);Library.attach(reference_picker,"technique",20)
 	detail_scroll.position.y=231;detail_scroll.size.y=288;detail_body.custom_minimum_size.y=284
 	var rank:Dictionary=ranks[rank_index] if rank_index<ranks.size() else {}
 	var stagger:Dictionary=rank.get("stagger",{})
@@ -313,6 +352,25 @@ func skill_detail(row:Dictionary):
 	text+=section("습득 조건","%s · LV.%d 이상\n%s"%[row.get("class_name",""),int(node.get("level",1)),"선행 없음" if parent_names.is_empty() else ("선행 모두: " if node.get("parent_mode","any")=="all" else "선행 중 하나: ")+" / ".join(parent_names)+" (랭크 %d)"%int(node.get("required_rank",1))])
 	text+=section("랭크 %d 수치"%(rank_index+1),lines(metrics) if not metrics.is_empty() else "설명에 표시된 효과가 랭크에 따라 강화됩니다.")
 	text+=section("수치 기준",str(DB.REFERENCE.note)+"\n내 기술 선택은 무력화 수치에만 적용합니다.")
+	detail_body.text=text
+	if not row.get("parents",[]).is_empty():link_button.text="첫 선행 스킬 살펴보기";Library.attach(link_button,"chain");link_target={"tab":"skills","id":str(row.parents[0])}
+
+func specialization_detail(row:Dictionary):
+	var text=section("공유 스킬 포인트","%d SP · 최대 %d회\n원기술과 같은 포인트를 사용합니다."%[int(row.cost),int(row.max_rank)])
+	text+=section("얻는 변화",str(row.get("effects_text","")))
+	if not str(row.get("tradeoff","")).is_empty():text+=section("선택의 대가",str(row.tradeoff))
+	if not str(row.get("synergy","")).is_empty():text+=section("함께 쓰는 방식",str(row.synergy))
+	var scope=str(row.get("node",{}).get("description","")).trim_prefix(str(row.get("effects_text",""))).trim_prefix(". ")
+	if not scope.is_empty():text+=section("적용 범위",scope)
+	var parents=PackedStringArray()
+	for id in row.get("parents",[]):parents.append(str(DB.detail("skills",id).get("name",id)))
+	text+=section("선행 조건",("모두" if row.get("parent_mode","any")=="all" else "중 하나")+" %d랭크 · LV.%d\n"%[int(row.get("required_rank",1)),int(row.get("level",1))]+" / ".join(parents))
+	if row.get("type","")=="keystone":
+		var conflicts=PackedStringArray()
+		for other in preload("res://scripts/skill_build.gd").nodes_for(str(row.class_id)):
+			if other.id==row.id:continue
+			if not str(row.get("exclusive_group","")).is_empty() and row.exclusive_group==other.get("exclusive_group","") or other.id in row.get("exclusive_with",[]):conflicts.append(str(other.name))
+		text+=section("선택 제한","핵심 별자리는 동시에 2개까지.\n"+("함께 선택 불가: "+" / ".join(conflicts) if not conflicts.is_empty() else "다른 핵심 선택의 선행 조건도 충족해야 합니다."))
 	detail_body.text=text
 	if not row.get("parents",[]).is_empty():link_button.text="첫 선행 스킬 살펴보기 →";link_target={"tab":"skills","id":str(row.parents[0])}
 

@@ -11,6 +11,7 @@ static func bonuses(p:Dictionary)->Dictionary:
 	for key in ["skill_power","skill_radius","skill_haste","skill_discount","slow_duration","stun_duration"]:result[key]=Content.skill_bonus(p,key)
 	result["gear"]=preload("res://scripts/equipment_catalog.gd").skill_modifiers(p)
 	result["cooldown_factor"]=preload("res://scripts/progression.gd").cooldown_factor(p)
+	result["player"]=p
 	return result
 func cast(p:Dictionary,action:String)->bool:
 	if action not in Content.ACTIONS:return false
@@ -21,18 +22,19 @@ func cast(p:Dictionary,action:String)->bool:
 		combat.sim.notice(p.id,"K에서 이 기술을 배운 뒤 사용할 수 있습니다.");return false
 	var profile=Scaling.profile(node,rank,bonuses(p))
 	var previous=combat.stagger_context
-	combat.stagger_context=combat.BossStagger.context(combat.BossStagger.token(node,rank,p,combat.sim.clock,int(profile.count)))
-	var result=_cast(p,action)
+	combat.stagger_context=combat.constellation.prepare(p,node,profile)
+	var result=_cast(p,action,profile)
 	combat.stagger_context=previous
 	return result
 
-func _cast(p:Dictionary,action:String)->bool:
+func _cast(p:Dictionary,action:String,profile:Dictionary)->bool:
 	var rank=Content.action_rank(p,action)
 	if rank<=0:
 		combat.sim.notice(p.id,"K에서 이 기술을 배운 뒤 사용할 수 있습니다.");return false
-	var node=Content.active_node(p,action);var s=Scaling.profile(node,rank,bonuses(p))
+	var node=Content.active_node(p,action);var s=profile
 	if p.skill_cooldowns.get(node.id,0)>0 or p.stamina<s.cost:return false
 	p.stamina-=s.cost;p[action+"_cd"]=s.cooldown;p.skill_cooldowns[node.id]=s.cooldown
+	combat.constellation.committed(p,node,s)
 	var power=combat.sim.damage_for(p)*s.multiplier;var before=combat.projectiles.size()
 	p.motion_time=.5;p.motion_duration=.5;p.swing=.5;p.casting_rank=rank
 	p["casting_vfx"]={"skill_id":node.id,"skill_mode":s.mode,"rank":rank,"origin":p.pos,"count":s.count}
@@ -69,6 +71,7 @@ func _cast(p:Dictionary,action:String)->bool:
 		combat.projectiles[i].merge(p.casting_vfx,true);combat.projectiles[i]["class_id"]=p.class_id;combat.projectiles[i]["fx"]=node.get("fx",node.id);combat.projectiles[i]["origin"]=combat.projectiles[i].pos
 	p.erase("casting_rank")
 	p.erase("casting_vfx")
+	if s.mode in combat.constellation.MOVEMENT:combat.constellation.moved(p)
 	return true
 static func pulses(count:int,start:float,interval:float)->Array:
 	var result=[]
@@ -138,3 +141,4 @@ func tick(delta:float):
 				if e.hp<=0:continue
 				e.slow_time=maxf(e.get("slow_time",0),zone.slow);e.stun_time=maxf(e.get("stun_time",0),zone.stun)
 	zones=zones.filter(func(zone):return not zone.pulses.is_empty())
+	combat.constellation.tick(delta)

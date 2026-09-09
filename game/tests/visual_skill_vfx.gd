@@ -131,7 +131,7 @@ func capture_case(game, entry: Array) -> void:
 	await RenderingServer.frame_post_draw
 	var path = ProjectSettings.globalize_path("res://../artifacts/skill-effects-combat-" + entry[0] + ".png")
 	var image = root.get_texture().get_image()
-	if check(not image.is_empty() and image.get_width() == 1440 and image.get_height() == 900, "combat capture dimensions: " + entry[0]):
+	if check(not image.is_empty() and image.get_size() == Vector2i(1920,1080), "Full HD combat capture dimensions: " + entry[0]):
 		if check(image.save_png(path) == OK, "write combat capture: " + entry[0]):
 			captures += 1
 			print("SKILL_VFX_COMBAT_CAPTURE ", path)

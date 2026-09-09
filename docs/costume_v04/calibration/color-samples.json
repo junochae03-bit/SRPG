@@ -1,0 +1,3076 @@
+{
+  "schema_version": 1,
+  "base_path": "res://assets/costume_v04",
+  "coordinate_convention": "point=[x,y] indexes the unchanged full source PNG at integer pixels; no atlas/crop/padding offset has been applied.",
+  "method": "Original sheets were visually inspected. Interior hair, iris and garment points were chosen manually, raw RGB values read with Pillow, and the exact specified integer reader key predicates evaluated independently. Expected values are reader fixture expectations, not a claim that the game reader or rendered screen was already tested.",
+  "key_rules": {
+    "blue": "R <= 63 AND G <= 63 AND B >= 166",
+    "magenta": "R >= 166 AND B >= 166 AND G <= 89"
+  },
+  "expected_reader_behavior": "Keyed source pixels receive alpha 0. All other source pixels retain exact RGB with alpha 255. The reader adds one transparent pixel around each crop; fixture source-point mapping must account for that padding separately. Global shader appearance is not tested here.",
+  "summary": {
+    "source_pngs_unchanged_verified": 35,
+    "sampled_sheets": 19,
+    "interior_sample_count": 109,
+    "samples_per_category": {
+      "cobalt_blue_hair": 12,
+      "aqua_blue_iris": 12,
+      "lavender_purple_hair": 11,
+      "amethyst_purple_hair": 11,
+      "pink_pink_hair": 14,
+      "raven_blue_iris": 16,
+      "white_clothes": 33
+    },
+    "interior_key_collisions": 0,
+    "all_sample_3x3_neighborhoods_key_free": true,
+    "raven_iris_rois": 16,
+    "raven_iris_roi_pixels": 1053,
+    "raven_iris_roi_key_pixels": 0
+  },
+  "boundary_scope": "Background-colored edge pixels are not included as interior evidence. A color-only reader cannot distinguish a genuine outline pixel whose RGB matches the key from background. Such boundary ambiguity is not classified as proved interior color loss, and this sampling is not exhaustive proof for every artwork pixel.",
+  "source_sha256": {
+    "cobalt-black-ribbon-maid-sheet.png": "3fee4ea917e3b90478cb270e5e810683296d7fc3ff07ccc26e73ecb8ad517fc5",
+    "cobalt-navy-hanbok-sheet.png": "468bdeafbf11a7a04673796056e43dc9fdd955eb39fce79cdacb6eacd2e0b02e",
+    "cobalt-broom-maid-sheet.png": "e7f848bd53f3e46e1c5f638881e824baf70e42ad002ceb058e59dfc00487b761",
+    "aqua-goggles-explorer-sheet.png": "d2b0db9d9328615803af2319f8c33bf4ca5d198db57d0be6ab8d91b427108601",
+    "aqua-rabbit-stage-sheet.png": "335c37486cf203e5793d9ad6809533fe3d29f7846503fdb5d88b92a78cd28075",
+    "lavender-sailor-sheet.png": "bcae4f6178ab86c2a76fc7d1e65a525276550c66d7a2fbd972e266fdeffe6778",
+    "lavender-shrine-maiden-sheet.png": "61c97fe967d977d5769d39097d01aac1edca025433950fcdbf9f0ef93b12af03",
+    "amethyst-purple-dress-sheet.png": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8",
+    "amethyst-summer-shawl-sheet.png": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2",
+    "pink-bunny-hoodie-sheet.png": "25b9b555faac1db096257154dca29522ab458f520322174685473172ec189129",
+    "pink-black-veil-hanbok-sheet.png": "1d40c4b3825eecaa7358ec7d0236f838dc3b759f558c8acdc9cbc6a1eb9b66c2",
+    "raven-school-uniform-sheet.png": "ca6a8c6cfd985e80903b4a235028701d140f5a643dec834e494f84e84264307e",
+    "raven-black-punk-sheet.png": "1231ba97262120875d34b97994723b67b64c990ff7c1f2b7f09c90f3e45b3c94",
+    "mint-silver-knight-sheet.png": "d7c8530cafc4ebf7509bdb136533d52c971ac6e84cefc36cefa15882bbb6a0fc",
+    "silvercat-summer-resort-sheet.png": "dda5a6e1e8f5ead8bbab607176b4ff5fcff7ade94506bb6da5b28b6ee4a8860d",
+    "pearlcat-sailor-sheet.png": "79a51b522657a8c22fcfb6d591124eb44c4a4e411124dabd99c6d39d62d20393",
+    "crimson-pastel-rabbit-sheet.png": "a7f732e15056c6fe28cc6fc8ccd85773f5026f18c69cc0ed7dea2a0e0e72e45d",
+    "mint-summer-attacks-v04.png": "1280135536aea64778e427e0caeb1663417fcadc03ad0ba1e107ba68cd2d53f3",
+    "mint-silver-knight-attacks-v04.png": "a9b9c91e6319cbc17b7ef5619ac7f71824708804e8bb5663b84ab40f55a5e6c7"
+  },
+  "samples": [
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        188,
+        107
+      ],
+      "rgb": [
+        76,
+        141,
+        254
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        76,
+        141,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        189,
+        116
+      ],
+      "rgb": [
+        46,
+        106,
+        252
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        46,
+        106,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        184,
+        127
+      ],
+      "rgb": [
+        15,
+        96,
+        252
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        15,
+        96,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        102,
+        160
+      ],
+      "rgb": [
+        23,
+        94,
+        242
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        23,
+        94,
+        242,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        175,
+        83
+      ],
+      "rgb": [
+        18,
+        66,
+        246
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        18,
+        66,
+        246,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        173,
+        94
+      ],
+      "rgb": [
+        11,
+        59,
+        238
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        11,
+        59,
+        238,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        169,
+        105
+      ],
+      "rgb": [
+        13,
+        57,
+        250
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        13,
+        57,
+        250,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        91,
+        198
+      ],
+      "rgb": [
+        7,
+        59,
+        222
+      ],
+      "semantic": "앞머리/옆머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        7,
+        59,
+        222,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        187,
+        102
+      ],
+      "rgb": [
+        3,
+        82,
+        243
+      ],
+      "semantic": "앞머리/긴 묶은 머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        3,
+        82,
+        243,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        181,
+        114
+      ],
+      "rgb": [
+        7,
+        46,
+        231
+      ],
+      "semantic": "앞머리/긴 묶은 머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        7,
+        46,
+        231,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        76,
+        181
+      ],
+      "rgb": [
+        14,
+        87,
+        246
+      ],
+      "semantic": "앞머리/긴 묶은 머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        14,
+        87,
+        246,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        53,
+        215
+      ],
+      "rgb": [
+        12,
+        49,
+        182
+      ],
+      "semantic": "앞머리/긴 묶은 머리 내부의 코발트 파란 줄무늬",
+      "category": "cobalt_blue_hair",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        12,
+        49,
+        182,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        177,
+        151
+      ],
+      "rgb": [
+        88,
+        182,
+        236
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        88,
+        182,
+        236,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        212,
+        150
+      ],
+      "rgb": [
+        28,
+        177,
+        230
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        28,
+        177,
+        230,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        497,
+        151
+      ],
+      "rgb": [
+        69,
+        171,
+        240
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        69,
+        171,
+        240,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        531,
+        151
+      ],
+      "rgb": [
+        123,
+        214,
+        253
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        123,
+        214,
+        253,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        160,
+        465
+      ],
+      "rgb": [
+        69,
+        165,
+        233
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        69,
+        165,
+        233,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        776,
+        468
+      ],
+      "rgb": [
+        66,
+        143,
+        226
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        66,
+        143,
+        226,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        151,
+        157
+      ],
+      "rgb": [
+        156,
+        230,
+        254
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        156,
+        230,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        189,
+        157
+      ],
+      "rgb": [
+        18,
+        93,
+        191
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        18,
+        93,
+        191,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        465,
+        158
+      ],
+      "rgb": [
+        76,
+        179,
+        249
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        76,
+        179,
+        249,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        505,
+        158
+      ],
+      "rgb": [
+        76,
+        158,
+        216
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        76,
+        158,
+        216,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        771,
+        158
+      ],
+      "rgb": [
+        140,
+        219,
+        251
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        140,
+        219,
+        251,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        810,
+        158
+      ],
+      "rgb": [
+        36,
+        161,
+        242
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "aqua_blue_iris",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        36,
+        161,
+        242,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        161,
+        136
+      ],
+      "rgb": [
+        229,
+        201,
+        247
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        229,
+        201,
+        247,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        185,
+        133
+      ],
+      "rgb": [
+        209,
+        176,
+        237
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        209,
+        176,
+        237,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        132,
+        157
+      ],
+      "rgb": [
+        229,
+        200,
+        247
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        229,
+        200,
+        247,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        221,
+        146
+      ],
+      "rgb": [
+        208,
+        153,
+        228
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        208,
+        153,
+        228,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        451,
+        140
+      ],
+      "rgb": [
+        215,
+        183,
+        244
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        215,
+        183,
+        244,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        473,
+        138
+      ],
+      "rgb": [
+        217,
+        186,
+        242
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        217,
+        186,
+        242,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        523,
+        143
+      ],
+      "rgb": [
+        164,
+        108,
+        208
+      ],
+      "semantic": "얼굴과 고글을 제외한 연보라 앞머리/옆머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        164,
+        108,
+        208,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        178,
+        123
+      ],
+      "rgb": [
+        197,
+        147,
+        228
+      ],
+      "semantic": "귀·장식과 얼굴을 제외한 연보라 앞머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        197,
+        147,
+        228,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        206,
+        119
+      ],
+      "rgb": [
+        230,
+        206,
+        245
+      ],
+      "semantic": "귀·장식과 얼굴을 제외한 연보라 앞머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        230,
+        206,
+        245,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        150,
+        144
+      ],
+      "rgb": [
+        166,
+        115,
+        201
+      ],
+      "semantic": "귀·장식과 얼굴을 제외한 연보라 앞머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        166,
+        115,
+        201,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        484,
+        122
+      ],
+      "rgb": [
+        230,
+        203,
+        247
+      ],
+      "semantic": "귀·장식과 얼굴을 제외한 연보라 앞머리 내부",
+      "category": "lavender_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        230,
+        203,
+        247,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        181,
+        104
+      ],
+      "rgb": [
+        149,
+        94,
+        189
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        149,
+        94,
+        189,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        209,
+        113
+      ],
+      "rgb": [
+        154,
+        99,
+        184
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        154,
+        99,
+        184,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        162,
+        116
+      ],
+      "rgb": [
+        151,
+        97,
+        180
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        151,
+        97,
+        180,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        193,
+        85
+      ],
+      "rgb": [
+        152,
+        95,
+        188
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        152,
+        95,
+        188,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        485,
+        111
+      ],
+      "rgb": [
+        122,
+        70,
+        157
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        122,
+        70,
+        157,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        513,
+        111
+      ],
+      "rgb": [
+        151,
+        95,
+        187
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        151,
+        95,
+        187,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        793,
+        110
+      ],
+      "rgb": [
+        137,
+        85,
+        170
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        137,
+        85,
+        170,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        827,
+        112
+      ],
+      "rgb": [
+        145,
+        84,
+        188
+      ],
+      "semantic": "뿔·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        145,
+        84,
+        188,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-summer-shawl-sheet.png",
+      "point": [
+        188,
+        109
+      ],
+      "rgb": [
+        131,
+        74,
+        167
+      ],
+      "semantic": "뿔·꽃장식·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        131,
+        74,
+        167,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-summer-shawl-sheet.png",
+      "point": [
+        209,
+        111
+      ],
+      "rgb": [
+        187,
+        129,
+        212
+      ],
+      "semantic": "뿔·꽃장식·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        187,
+        129,
+        212,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-summer-shawl-sheet.png",
+      "point": [
+        165,
+        94
+      ],
+      "rgb": [
+        122,
+        72,
+        160
+      ],
+      "semantic": "뿔·꽃장식·피부와 분리된 보라 앞머리 내부",
+      "category": "amethyst_purple_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        122,
+        72,
+        160,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        170,
+        112
+      ],
+      "rgb": [
+        248,
+        129,
+        146
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        248,
+        129,
+        146,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        195,
+        115
+      ],
+      "rgb": [
+        252,
+        158,
+        168
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        158,
+        168,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        181,
+        95
+      ],
+      "rgb": [
+        251,
+        126,
+        149
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        251,
+        126,
+        149,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        146,
+        123
+      ],
+      "rgb": [
+        252,
+        138,
+        156
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        138,
+        156,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        85,
+        132
+      ],
+      "rgb": [
+        250,
+        122,
+        149
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        250,
+        122,
+        149,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        241,
+        176
+      ],
+      "rgb": [
+        254,
+        191,
+        199
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        191,
+        199,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        470,
+        111
+      ],
+      "rgb": [
+        252,
+        148,
+        162
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        148,
+        162,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        510,
+        127
+      ],
+      "rgb": [
+        248,
+        112,
+        151
+      ],
+      "semantic": "토끼 귀·옷·피부를 제외한 분홍 앞머리/묶은 머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        248,
+        112,
+        151,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        161,
+        143
+      ],
+      "rgb": [
+        250,
+        123,
+        144
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        250,
+        123,
+        144,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        199,
+        123
+      ],
+      "rgb": [
+        234,
+        99,
+        123
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        234,
+        99,
+        123,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        230,
+        125
+      ],
+      "rgb": [
+        249,
+        141,
+        150
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        249,
+        141,
+        150,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        143,
+        156
+      ],
+      "rgb": [
+        241,
+        85,
+        122
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        241,
+        85,
+        122,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        444,
+        151
+      ],
+      "rgb": [
+        243,
+        108,
+        140
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        243,
+        108,
+        140,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        503,
+        122
+      ],
+      "rgb": [
+        252,
+        135,
+        144
+      ],
+      "semantic": "검은 베일과 눈을 제외한 분홍 앞머리/옆머리 내부",
+      "category": "pink_pink_hair",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        135,
+        144,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        175,
+        145
+      ],
+      "rgb": [
+        146,
+        199,
+        229
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        146,
+        199,
+        229,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        213,
+        145
+      ],
+      "rgb": [
+        61,
+        114,
+        178
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        61,
+        114,
+        178,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        485,
+        145
+      ],
+      "rgb": [
+        134,
+        197,
+        218
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        134,
+        197,
+        218,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        522,
+        145
+      ],
+      "rgb": [
+        44,
+        87,
+        147
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        44,
+        87,
+        147,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        155,
+        463
+      ],
+      "rgb": [
+        138,
+        204,
+        235
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        138,
+        204,
+        235,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        194,
+        463
+      ],
+      "rgb": [
+        2,
+        37,
+        117
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        2,
+        37,
+        117,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        773,
+        468
+      ],
+      "rgb": [
+        181,
+        216,
+        227
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        181,
+        216,
+        227,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        812,
+        468
+      ],
+      "rgb": [
+        60,
+        103,
+        162
+      ],
+      "semantic": "열린 눈 홍채 내부; 밝은 청록과 어두운 파란 그림자 포함",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        60,
+        103,
+        162,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        169,
+        149
+      ],
+      "rgb": [
+        133,
+        191,
+        223
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        133,
+        191,
+        223,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        209,
+        149
+      ],
+      "rgb": [
+        104,
+        182,
+        209
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        104,
+        182,
+        209,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        485,
+        149
+      ],
+      "rgb": [
+        58,
+        123,
+        175
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        58,
+        123,
+        175,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        526,
+        149
+      ],
+      "rgb": [
+        157,
+        235,
+        238
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        157,
+        235,
+        238,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        800,
+        149
+      ],
+      "rgb": [
+        65,
+        143,
+        198
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        65,
+        143,
+        198,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        841,
+        149
+      ],
+      "rgb": [
+        118,
+        182,
+        206
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        118,
+        182,
+        206,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        150,
+        470
+      ],
+      "rgb": [
+        146,
+        216,
+        230
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        146,
+        216,
+        230,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "point": [
+        192,
+        470
+      ],
+      "rgb": [
+        140,
+        213,
+        231
+      ],
+      "semantic": "열린 눈 홍채 내부의 파란/청록 색면",
+      "category": "raven_blue_iris",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        140,
+        213,
+        231,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        121,
+        221
+      ],
+      "rgb": [
+        253,
+        252,
+        248
+      ],
+      "semantic": "메이드 흰 소매의 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        253,
+        252,
+        248,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-black-ribbon-maid-sheet.png",
+      "point": [
+        207,
+        219
+      ],
+      "rgb": [
+        252,
+        252,
+        252
+      ],
+      "semantic": "메이드 흰 소매의 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        252,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        124,
+        209
+      ],
+      "rgb": [
+        249,
+        248,
+        249
+      ],
+      "semantic": "한복 흰 소매의 밝은 면과 연보라 그림자",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        249,
+        248,
+        249,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        206,
+        218
+      ],
+      "rgb": [
+        214,
+        211,
+        234
+      ],
+      "semantic": "한복 흰 소매의 밝은 면과 연보라 그림자",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        214,
+        211,
+        234,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        113,
+        198
+      ],
+      "rgb": [
+        253,
+        254,
+        253
+      ],
+      "semantic": "메이드 흰 허리 리본/장갑 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        253,
+        254,
+        253,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "cobalt-broom-maid-sheet.png",
+      "point": [
+        112,
+        225
+      ],
+      "rgb": [
+        225,
+        228,
+        242
+      ],
+      "semantic": "메이드 흰 허리 리본/장갑 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        225,
+        228,
+        242,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-goggles-explorer-sheet.png",
+      "point": [
+        207,
+        233
+      ],
+      "rgb": [
+        252,
+        251,
+        252
+      ],
+      "semantic": "탐험가 흰 코트 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        251,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        85,
+        230
+      ],
+      "rgb": [
+        252,
+        252,
+        247
+      ],
+      "semantic": "흰 발바닥 장갑의 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        252,
+        247,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "aqua-rabbit-stage-sheet.png",
+      "point": [
+        210,
+        224
+      ],
+      "rgb": [
+        253,
+        252,
+        249
+      ],
+      "semantic": "흰 발바닥 장갑의 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        253,
+        252,
+        249,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        124,
+        230
+      ],
+      "rgb": [
+        254,
+        252,
+        253
+      ],
+      "semantic": "흰 세일러 재킷/상의 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        252,
+        253,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-sailor-sheet.png",
+      "point": [
+        177,
+        246
+      ],
+      "rgb": [
+        254,
+        254,
+        254
+      ],
+      "semantic": "흰 세일러 재킷/상의 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        254,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        151,
+        231
+      ],
+      "rgb": [
+        248,
+        248,
+        253
+      ],
+      "semantic": "흰 무녀복 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        248,
+        248,
+        253,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "lavender-shrine-maiden-sheet.png",
+      "point": [
+        235,
+        242
+      ],
+      "rgb": [
+        230,
+        229,
+        254
+      ],
+      "semantic": "흰 무녀복 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        230,
+        229,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        160,
+        191
+      ],
+      "rgb": [
+        254,
+        253,
+        252
+      ],
+      "semantic": "보라 드레스의 흰 소매/흰 가슴 장식 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        253,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-purple-dress-sheet.png",
+      "point": [
+        190,
+        191
+      ],
+      "rgb": [
+        254,
+        252,
+        252
+      ],
+      "semantic": "보라 드레스의 흰 소매/흰 가슴 장식 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        252,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "amethyst-summer-shawl-sheet.png",
+      "point": [
+        224,
+        226
+      ],
+      "rgb": [
+        249,
+        237,
+        240
+      ],
+      "semantic": "흰 숄의 밝은 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        249,
+        237,
+        240,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-bunny-hoodie-sheet.png",
+      "point": [
+        156,
+        252
+      ],
+      "rgb": [
+        235,
+        229,
+        243
+      ],
+      "semantic": "흰 반바지의 연한 회보라 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        235,
+        229,
+        243,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pink-black-veil-hanbok-sheet.png",
+      "point": [
+        199,
+        302
+      ],
+      "rgb": [
+        255,
+        255,
+        254
+      ],
+      "semantic": "흰 발목 양말 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        255,
+        255,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        136,
+        210
+      ],
+      "rgb": [
+        254,
+        247,
+        244
+      ],
+      "semantic": "크림 조끼를 제외한 흰 블라우스 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        247,
+        244,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        221,
+        226
+      ],
+      "rgb": [
+        252,
+        238,
+        236
+      ],
+      "semantic": "크림 조끼를 제외한 흰 블라우스 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        238,
+        236,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-silver-knight-sheet.png",
+      "point": [
+        153,
+        147
+      ],
+      "rgb": [
+        249,
+        246,
+        248
+      ],
+      "semantic": "은빛 흰 어깨 갑옷/흰 치마 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        249,
+        246,
+        248,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-silver-knight-sheet.png",
+      "point": [
+        168,
+        196
+      ],
+      "rgb": [
+        249,
+        246,
+        243
+      ],
+      "semantic": "은빛 흰 어깨 갑옷/흰 치마 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        249,
+        246,
+        243,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "silvercat-summer-resort-sheet.png",
+      "point": [
+        127,
+        219
+      ],
+      "rgb": [
+        248,
+        244,
+        245
+      ],
+      "semantic": "흰 여름 재킷 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        248,
+        244,
+        245,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "silvercat-summer-resort-sheet.png",
+      "point": [
+        211,
+        235
+      ],
+      "rgb": [
+        252,
+        243,
+        243
+      ],
+      "semantic": "흰 여름 재킷 소매 면 안쪽",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        243,
+        243,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pearlcat-sailor-sheet.png",
+      "point": [
+        104,
+        234
+      ],
+      "rgb": [
+        251,
+        247,
+        225
+      ],
+      "semantic": "흰 홀로그램 재킷 소매의 밝은 색면",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        251,
+        247,
+        225,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "pearlcat-sailor-sheet.png",
+      "point": [
+        218,
+        230
+      ],
+      "rgb": [
+        254,
+        252,
+        253
+      ],
+      "semantic": "흰 홀로그램 재킷 소매의 밝은 색면",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        252,
+        253,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "crimson-pastel-rabbit-sheet.png",
+      "point": [
+        209,
+        218
+      ],
+      "rgb": [
+        252,
+        249,
+        254
+      ],
+      "semantic": "파스텔 재킷 소매의 흰 밝은 면",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        252,
+        249,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "crimson-pastel-rabbit-sheet.png",
+      "point": [
+        203,
+        221
+      ],
+      "rgb": [
+        250,
+        245,
+        248
+      ],
+      "semantic": "파스텔 재킷 소매의 흰 밝은 면",
+      "category": "white_clothes",
+      "key": "blue",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        250,
+        245,
+        248,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-summer-attacks-v04.png",
+      "point": [
+        377,
+        430
+      ],
+      "rgb": [
+        253,
+        253,
+        254
+      ],
+      "semantic": "교체 공격 원화의 흰 재킷 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        253,
+        253,
+        254,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-summer-attacks-v04.png",
+      "point": [
+        1318,
+        442
+      ],
+      "rgb": [
+        233,
+        225,
+        252
+      ],
+      "semantic": "교체 공격 원화의 흰 재킷 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        233,
+        225,
+        252,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-silver-knight-attacks-v04.png",
+      "point": [
+        367,
+        442
+      ],
+      "rgb": [
+        254,
+        254,
+        245
+      ],
+      "semantic": "교체 공격 원화의 흰 가슴 갑옷/팔 갑옷 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        254,
+        254,
+        245,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-silver-knight-attacks-v04.png",
+      "point": [
+        448,
+        405
+      ],
+      "rgb": [
+        255,
+        255,
+        255
+      ],
+      "semantic": "교체 공격 원화의 흰 가슴 갑옷/팔 갑옷 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    },
+    {
+      "sheet": "mint-silver-knight-attacks-v04.png",
+      "point": [
+        1388,
+        463
+      ],
+      "rgb": [
+        248,
+        248,
+        245
+      ],
+      "semantic": "교체 공격 원화의 흰 가슴 갑옷/팔 갑옷 면 안쪽",
+      "category": "white_clothes",
+      "key": "magenta",
+      "matches_key": false,
+      "result": "preserve_rgba_exact",
+      "expected_rgba": [
+        248,
+        248,
+        245,
+        255
+      ],
+      "neighborhood_3x3_key_pixels": 0,
+      "selection": "원본을 보고 정한 실색 내부 좌표; 전신/배경/외곽선 자동 색상 검색으로 선택하지 않음"
+    }
+  ],
+  "raven_iris_regions": [
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        171,
+        141,
+        9,
+        9
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 81,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        210,
+        142,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        480,
+        141,
+        9,
+        10
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 90,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        519,
+        142,
+        7,
+        9
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 63,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        151,
+        459,
+        8,
+        10
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 80,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        190,
+        459,
+        8,
+        11
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 88,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        770,
+        464,
+        8,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 64,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "rect": [
+        810,
+        463,
+        6,
+        10
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 60,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        165,
+        145,
+        8,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 64,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        206,
+        144,
+        7,
+        9
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 63,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        481,
+        145,
+        8,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 64,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        522,
+        145,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        797,
+        145,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        838,
+        145,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        147,
+        466,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    },
+    {
+      "sheet": "raven-black-punk-sheet.png",
+      "rect": [
+        190,
+        466,
+        7,
+        8
+      ],
+      "semantic": "수동 지정 열린 눈 홍채 내부 작은 영역",
+      "key": "blue",
+      "pixel_count": 56,
+      "key_pixel_count": 0,
+      "colliding_points": []
+    }
+  ],
+  "background_controls": [
+    {
+      "sheet": "raven-school-uniform-sheet.png",
+      "point": [
+        10,
+        10
+      ],
+      "rgb": [
+        0,
+        3,
+        254
+      ],
+      "semantic": "캐릭터에서 떨어진 명백한 바깥 배경",
+      "key": "blue",
+      "matches_key": true,
+      "result": "background_alpha_zero",
+      "expected_alpha": 0
+    },
+    {
+      "sheet": "cobalt-navy-hanbok-sheet.png",
+      "point": [
+        10,
+        10
+      ],
+      "rgb": [
+        249,
+        3,
+        248
+      ],
+      "semantic": "캐릭터에서 떨어진 명백한 바깥 배경",
+      "key": "magenta",
+      "matches_key": true,
+      "result": "background_alpha_zero",
+      "expected_alpha": 0
+    },
+    {
+      "sheet": "mint-summer-attacks-v04.png",
+      "point": [
+        10,
+        10
+      ],
+      "rgb": [
+        249,
+        3,
+        249
+      ],
+      "semantic": "캐릭터에서 떨어진 명백한 바깥 배경",
+      "key": "magenta",
+      "matches_key": true,
+      "result": "background_alpha_zero",
+      "expected_alpha": 0
+    },
+    {
+      "sheet": "mint-silver-knight-attacks-v04.png",
+      "point": [
+        10,
+        10
+      ],
+      "rgb": [
+        249,
+        3,
+        249
+      ],
+      "semantic": "캐릭터에서 떨어진 명백한 바깥 배경",
+      "key": "magenta",
+      "matches_key": true,
+      "result": "background_alpha_zero",
+      "expected_alpha": 0
+    }
+  ],
+  "collisions": []
+}

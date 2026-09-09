@@ -1,9 +1,20 @@
 {
   "counts": {
     "appearances": 620,
+    "art_assets": 1700,
+    "art_files": 181,
+    "art_sources": 8,
+    "art_uses": 10628,
+    "build_nodes": 1510,
     "classes": 20,
+    "constellation_edges": 1280,
+    "constellation_effects": 900,
+    "constellation_exclusions": 4,
+    "constellations": 900,
     "drops": 132,
+    "effect_definitions": 33,
     "equipment": 2500,
+    "exclusive_groups": 40,
     "floors": 100,
     "monsters": 24,
     "raid_drops": 24,
@@ -14,17 +25,17 @@
   },
   "files": {
     "schema.sql": {
-      "bytes": 5063,
-      "sha256": "ff611e4dd57b1811777e34347dde4470df732f301bcb2cdd5e2cf2fcba914922"
+      "bytes": 12209,
+      "sha256": "1ebff61ccaeacbfcf8d1462a8fef62bf6fba2a8b62a3d4c4aadaf111c43d04bf"
     },
     "stelrpg-database.json": {
-      "bytes": 6044417,
-      "sha256": "04c927e646ee27a3598060d4cecbc12868c04b4ba827459d2bcb2a766ad691ae"
+      "bytes": 13766316,
+      "sha256": "e9e8c506eff72d92e5eb90eb105370f179e06f2c80030f6bef4b881ff6235d45"
     },
     "stelrpg.sqlite": {
-      "bytes": 2322432,
-      "sha256": "1d0d52a195d43cc8a00cc72a150df59e0706aa41243aede4cca43afadb9db190"
+      "bytes": 8364032,
+      "sha256": "0e4ca1c9d478cb26cfc1c27dadb150c6e10ed286a7d6d588a23ed05d8c484277"
     }
   },
-  "schema_version": 1
+  "schema_version": 3
 }

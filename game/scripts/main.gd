@@ -5,6 +5,8 @@ const LocalSession = preload("res://scripts/local_session.gd")
 const ForestEnvironment = preload("res://scripts/forest_environment.gd")
 const Content=preload("res://scripts/content.gd")
 const GatArt=preload("res://scripts/gat_art.gd")
+const SemanticIcons=preload("res://scripts/icon_library.gd")
+const EquipmentArt=preload("res://scripts/equipment_art.gd")
 const GOLD = Color("237c70")
 const PALE = Color("29494c")
 const MUTED = Color("617b78")
@@ -17,15 +19,21 @@ var serif: Font
 var textures: Dictionary = {}
 var camera_pos = Vector2.ZERO
 var smooth_positions: Dictionary = {}
+var art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 var visual_time = 0.0
 var effects: Array = []
 var menu: Control
+var title_backdrop:TextureRect
 var hud: Control
 var bag: Control
 var help_panel: Control
 var skill_tree: Control
 var town_panel:Control
 var codex:Control
+var character_sheet:Control
+var npc_dialogue:Control
+var start_button:Button
+var slot_summary:Label
 var menu_status: Label
 var name_input: LineEdit
 var slot_picker: OptionButton
@@ -57,6 +65,7 @@ var quitting = false
 var audio_director
 var building_alphas:Dictionary={}
 var battle_anchor_y=438.0
+var world_zoom=1.0
 
 func stop_audio():
 	if is_instance_valid(audio_director):audio_director.stop_all()
@@ -64,12 +73,14 @@ func stop_audio():
 func finish_run():
 	if quitting: return
 	quitting=true
+	if options.has("report"): write_bot_report()
 	if session.connected:
-		if options.has("report"): write_bot_report()
 		session.paused=true
 		session.save_game()
-	stop_audio()
-	await get_tree().create_timer(0.2).timeout
+	if is_instance_valid(audio_director) and not await audio_director.shutdown():
+		push_error("Audio playback did not drain before shutdown")
+		get_tree().quit(1)
+		return
 	get_tree().quit()
 
 func _notification(what: int):
@@ -96,6 +107,7 @@ func _ready():
 	build_interface()
 	var overlay_layer = CanvasLayer.new()
 	overlay_layer.layer = 2
+	overlay_layer.offset=ui_offset()
 	add_child(overlay_layer)
 	map_overlay = Node2D.new()
 	map_overlay.set_script(preload("res://scripts/minimap.gd"))
@@ -105,10 +117,31 @@ func _ready():
 	session.changed.connect(update_hud)
 	session.event_received.connect(on_event)
 	session.entered.connect(on_entered)
-	session.facility_requested.connect(func(key):town_panel.open(key))
+	session.facility_requested.connect(func(key):npc_dialogue.open(key))
 	if options.has("name"): name_input.text=options.name
 	slot_picker.select(clampi(int(options.get("slot","1"))-1,0,2))
-	if options.has("play") or options.has("bot"): join_game()
+	refresh_slot_summary()
+	if options.has("bot"):join_game()
+	elif options.has("play") or options.has("show-creation"):begin_adventure()
+
+func begin_adventure():
+	var state=session.slot_state(slot_picker.selected+1)
+	if state=="empty":
+		menu.hide();character_sheet.open(slot_picker.selected+1)
+	elif state=="saved":join_game()
+	else:menu_status.text="이 모험 기록을 읽을 수 없습니다. 다른 슬롯을 선택해 주세요. 기존 파일은 보존됩니다."
+
+func refresh_slot_summary():
+	if slot_summary==null:return
+	var state=session.slot_state(slot_picker.selected+1)
+	start_button.text="모험 시작" if state=="empty" else "이어서 하기"
+	slot_summary.text="새 모험가" if state=="empty" else "읽을 수 없는 기록" if state=="damaged" else ""
+	if state=="saved":
+		var path=session.save_directory.path_join("slot-%d.json"%(slot_picker.selected+1));var saved=session.parse_save(path)
+		if saved==null:saved=session.parse_save(path+".bak")
+		slot_summary.text="%s  ·  Lv.%d"%[saved.name,saved.level]
+	start_button.disabled=state=="damaged"
+	menu.refresh_records()
 
 func join_game():
 	session.start_game(name_input.text, slot_picker.selected+1)
@@ -116,6 +149,7 @@ func join_game():
 	elif options.has("floor"):session.enter_floor(int(options.floor))
 
 func toggle_help():
+	npc_dialogue.hide()
 	codex.hide()
 	town_panel.hide()
 	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
@@ -175,7 +209,7 @@ func panel(parent: Node, pos: Vector2, dimensions: Vector2, _background: Color =
 	preload("res://scripts/ui_art.gd").decorate(control,"paper",18)
 	return control
 
-func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2, callback: Callable, accent: bool = false) -> Button:
+func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2, callback: Callable, accent: bool = false, icon_key:String = "") -> Button:
 	var control = Button.new()
 	control.text = text_value
 	control.position = pos
@@ -196,6 +230,7 @@ func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2,
 	if accent:frame.modulate=Color(1.05,.98,.80)
 	control.mouse_entered.connect(func():frame.modulate=Color(1.12,1.06,.9))
 	control.mouse_exited.connect(func():frame.modulate=Color(1.05,.98,.80) if accent else Color.WHITE)
+	if not icon_key.is_empty():SemanticIcons.attach(control,icon_key)
 	return control
 
 func line_edit(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2) -> LineEdit:
@@ -218,41 +253,11 @@ func line_edit(parent: Node, text_value: String, pos: Vector2, dimensions: Vecto
 
 func build_interface():
 	var canvas = CanvasLayer.new()
+	canvas.offset=ui_offset()
 	add_child(canvas)
-	menu = Control.new()
-	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	menu=preload("res://scripts/title_screen.gd").new()
 	canvas.add_child(menu)
-	panel(menu, Vector2(64, 74), Vector2(552, 746), Color("fffbedf5"))
-	label(menu, "나만의 작은 모험   /   SINGLE PLAYER", Vector2(110, 113), Vector2(460, 30), 16, GOLD)
-	var title = label(menu, "스텔알피지", Vector2(103, 161), Vector2(480, 94), 64)
-	title.add_theme_font_override("font", bold_font)
-	label(menu, "S T E L   R P G", Vector2(112, 266), Vector2(470, 35), 19, GOLD)
-	label(menu, "햇살을 따라, 새로운 보물을 찾아서.\n숲길을 탐험하고 나만의 장비를 모아 보세요.", Vector2(110, 329), Vector2(450, 65), 18, MUTED)
-	label(menu, "모험가의 이름", Vector2(110, 429), Vector2(430, 28), 16, GOLD)
-	name_input = line_edit(menu, "모험가", Vector2(110, 465), Vector2(455, 50))
-	name_input.max_length = 16
-	label(menu, "저장 슬롯", Vector2(110, 536), Vector2(430, 28), 16, GOLD)
-	slot_picker=OptionButton.new()
-	slot_picker.position=Vector2(110,572)
-	slot_picker.size=Vector2(455,50)
-	slot_picker.add_theme_font_override("font",fonts)
-	slot_picker.add_theme_font_size_override("font_size",19)
-	slot_picker.add_theme_color_override("font_color",PALE)
-	for state_name in ["font_hover_color","font_pressed_color","font_focus_color"]:
-		slot_picker.add_theme_color_override(state_name,PALE)
-	slot_picker.add_theme_stylebox_override("normal",style(Color("faffee"),Color("b5c9b8")))
-	slot_picker.add_theme_stylebox_override("hover",style(Color("e8f4dc"),GOLD))
-	slot_picker.add_theme_stylebox_override("pressed",style(Color("e8f4dc"),GOLD))
-	for i in range(1,4):slot_picker.add_item("모험 기록  %d" % i)
-	menu.add_child(slot_picker)
-	button(menu, "모험 시작 / 계속   →", Vector2(110, 654), Vector2(455, 58), join_game, true)
-	menu_status = label(menu, "저장 슬롯을 고르면 이어서 모험할 수 있습니다.", Vector2(110, 728), Vector2(455, 68), 15, MUTED)
-	menu_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label(menu, "PRE-ALPHA  " + str(ProjectSettings.get_setting("application/config/version", "0.3.0")), Vector2(1140, 50), Vector2(260, 35), 16, GOLD)
-	panel(menu, Vector2(781, 690), Vector2(558, 140), Color("fffbedeb"))
-	label(menu, "햇살 쉼터", Vector2(805, 705), Vector2(510, 38), 30, PALE).add_theme_font_override("font",serif)
-	label(menu, "별빛 정원으로 떠나는 모험의 시작", Vector2(806, 755), Vector2(510, 30), 18, PALE)
-	label(menu, "느긋하게 탐험하고, 신나게 성장하세요.", Vector2(806, 792), Vector2(510, 28), 15, MUTED)
+	menu.setup(self)
 	hud=preload("res://scripts/combat_hud.gd").new()
 	canvas.add_child(hud)
 	hud.setup(self)
@@ -269,39 +274,49 @@ func build_interface():
 	help_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	label(help_panel, "잠깐 쉬어 가요", Vector2(28, 22), Vector2(520, 49), 30)
 	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격\nQ / F / V / C / Z / X   장착한 스킬 6개\nShift / Space           달리기 / 회피 · TAB 카드 선택\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K / B                  가방 / 성장 / 모험 도감\n도감·가방·성장·메뉴를 열면 전투가 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
-	button(help_panel, "계속하기", Vector2(28, 390), Vector2(247, 49), continue_game, true)
-	button(help_panel, "저장하고 타이틀", Vector2(295, 390), Vector2(261, 49), func(): session.disconnect_game(); help_panel.hide())
-	button(help_panel,"새로운 원정 시작",Vector2(28,454),Vector2(528,49),func(): help_panel.hide(); bag.hide(); session.new_expedition())
+	button(help_panel, "계속하기", Vector2(28, 390), Vector2(247, 49), continue_game, true,"play")
+	button(help_panel, "저장하고 타이틀", Vector2(295, 390), Vector2(261, 49), func(): session.disconnect_game(); help_panel.hide(),false,"save")
+	button(help_panel,"새로운 원정 시작",Vector2(28,454),Vector2(528,49),func(): help_panel.hide(); bag.hide(); session.new_expedition(),false,"reset")
 	for i in range(2):
 		var kind="music" if i==0 else "effects"
-		label(help_panel,"BGM" if i==0 else "효과음",Vector2(30,529+i*52),Vector2(108,30),18)
+		SemanticIcons.picture(help_panel,"music" if i==0 else "sound",Vector2(25,529+i*52),Vector2(28,28))
+		label(help_panel,"BGM" if i==0 else "효과음",Vector2(59,529+i*52),Vector2(80,30),18)
 		var slider=HSlider.new();slider.position=Vector2(148,533+i*52);slider.size=Vector2(393,27);slider.min_value=0;slider.max_value=100
 		slider.value=(audio_director.music_gain if i==0 else audio_director.effects_gain)*100
 		slider.value_changed.connect(func(value):audio_director.set_gain(kind,value/100.0))
 		help_panel.add_child(slider)
 	help_panel.visible = false
+	npc_dialogue=preload("res://scripts/npc_dialogue.gd").new();hud.add_child(npc_dialogue);npc_dialogue.setup(self)
+	character_sheet=preload("res://scripts/character_sheet_ui.gd").new();canvas.add_child(character_sheet);character_sheet.setup(self)
 
 func on_status(message: String):
 	status_text = message
-	menu_status.text = message
+	menu_status.text = ""
 	if not session.connected:
+		world_zoom=1.0;battle_anchor_y=438.0;get_viewport().canvas_transform=Transform2D.IDENTITY
 		menu.show()
+		title_backdrop.show()
+		if character_sheet!=null:character_sheet.hide()
 		hud.hide()
 		bag.hide()
+		refresh_slot_summary()
 
 func on_entered():
-	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide()
+	art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
+	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide();npc_dialogue.hide();character_sheet.hide()
 	dungeon = session.sim.map
 	forest.rebuild(dungeon)
 	camera_pos = Dungeon.iso(dungeon.spawn)
+	if session.state.players.has(session.local_id):update_battle_camera(session.state.players[session.local_id],1.0,true)
 	smooth_positions.clear()
 	menu.hide()
+	title_backdrop.hide()
 	hud.show()
 	name_input.release_focus()
 	slot_picker.release_focus()
 	bag_signature=""
 	update_hud()
-	show_toast("햇살 마을 · E로 시설 이용 · 원정의 문에서 던전 선택" if dungeon.zone=="town" else (preload("res://scripts/abyss_catalog.gd").config(dungeon.floor_number).name if dungeon.floor_number>0 else "꽃바람 숲 · 적 5마리 처치 후 R로 마을 이동"))
+	show_toast("햇살 마을" if dungeon.zone=="town" else (preload("res://scripts/abyss_catalog.gd").config(dungeon.floor_number).name if dungeon.floor_number>0 else "꽃바람 숲"))
 	bot_route = make_route(dungeon.spawn, Vector2(dungeon.rooms[1])) if dungeon.rooms.size()>1 else []
 	bot_last_pos = dungeon.spawn
 
@@ -318,6 +333,7 @@ func on_event(event: Dictionary):
 		effects.append(event)
 
 func toggle_bag():
+	npc_dialogue.hide()
 	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
@@ -329,6 +345,7 @@ func toggle_bag():
 	update_hud()
 
 func toggle_skills():
+	npc_dialogue.hide()
 	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
@@ -339,6 +356,7 @@ func toggle_skills():
 	skill_tree.refresh(true)
 
 func toggle_codex(tab:String=""):
+	npc_dialogue.hide()
 	if codex.visible and tab.is_empty():
 		codex.close()
 		return
@@ -358,8 +376,16 @@ func rarity_color(rarity: int) -> Color:
 	return preload("res://scripts/equipment_catalog.gd").COLORS[clampi(rarity,0,4)]
 
 func _unhandled_input(event: InputEvent):
+	if character_sheet.visible:
+		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:character_sheet.cancel();get_viewport().set_input_as_handled()
+		return
 	if not session.connected: return
-	if codex.visible and not (event is InputEventKey and event.physical_keycode in [KEY_I,KEY_K,KEY_B,KEY_ESCAPE]):return
+	if npc_dialogue.visible:
+		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:npc_dialogue.close();get_viewport().set_input_as_handled()
+		return
+	# Modal controls submit their own actions; combat hotkeys must not consume
+	# items or act through a paused inventory, growth, service or settings panel.
+	if session.paused and not (event is InputEventKey and event.physical_keycode in [KEY_I,KEY_K,KEY_B,KEY_ESCAPE]):return
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
 			KEY_I: toggle_bag()
@@ -386,6 +412,8 @@ func _unhandled_input(event: InputEvent):
 		session.act("heavy_begin" if event.pressed else "heavy")
 
 func _input(event:InputEvent):
+	if character_sheet!=null and character_sheet.visible and event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
+		character_sheet.cancel();get_viewport().set_input_as_handled();return
 	if session==null or not session.connected:return
 	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_RIGHT and not event.pressed:
 		if session.sim.players[session.local_id].charge_time>=0:
@@ -419,14 +447,16 @@ func _process(delta: float):
 	visual_time += delta
 	toast_time -= delta
 	if toast_time <= 0: toast.text = ""
-	toast.visible = not bag.visible and not help_panel.visible and not skill_tree.visible and not town_panel.visible and not codex.visible
+	toast.visible = not bag.visible and not help_panel.visible and not skill_tree.visible and not town_panel.visible and not codex.visible and not npc_dialogue.visible
 	if session.state.players.has(session.local_id):
 		var p=session.state.players[session.local_id]
-		var encounter=session.state.enemies.values().any(func(e):return e.get("boss",false) and e.hp>0 and e.pos.distance_to(p.pos)<8.5)
-		battle_anchor_y=lerpf(battle_anchor_y,590.0 if encounter else 438.0,1-exp(-5*delta))
-		var target = Dungeon.iso(session.state.players[session.local_id].pos)
-		if target.distance_to(camera_pos) > 450: camera_pos = target
-		camera_pos = camera_pos.lerp(target, 1.0 - exp(-8.0 * delta))
+		update_battle_camera(p,delta)
+		if options.has("capture") and options.get("capture-view","")=="encounter" and dungeon.rooms.size()>1:camera_pos=Dungeon.iso(Vector2(dungeon.rooms[1]))
+		if options.has("capture") and options.get("capture-view","")=="raid":
+			var guardians=session.state.enemies.values().filter(func(e):return e.get("raid",false) and e.hp>0)
+			if not guardians.is_empty():
+				# Screenshot framing only; the player, boss and combat state stay untouched.
+				update_battle_camera({"pos":guardians[0].pos+Vector2(2.2,2.2)},delta,true)
 	forest.update_camera(delta)
 	if session.connected and dungeon.zone=="town":
 		var p=session.state.players[session.local_id];var body=world_point(p.pos)-Vector2(0,55)
@@ -446,6 +476,7 @@ func _process(delta: float):
 		if options.has("show-bag") and not bag.visible: toggle_bag()
 		if options.has("show-skills") and not skill_tree.visible:toggle_skills()
 		if options.has("show-codex"):toggle_codex(str(options.get("codex-tab","equipment")))
+		if options.has("show-dialogue") and session.connected:npc_dialogue.open(str(options.get("show-dialogue","smith")))
 		capture.call_deferred()
 	if options.has("duration") and visual_time > float(options.duration):
 		finish_run()
@@ -458,7 +489,20 @@ func capture():
 	print("CAPTURE ", path, " ", error_string(err))
 
 func screen_center() -> Vector2:
-	return Vector2(683, battle_anchor_y) if session.connected else Vector2(1060, 446)
+	return Vector2(763, battle_anchor_y) if session.connected else Vector2(1140, 446)
+
+func ui_offset()->Vector2:
+	return Vector2(maxf(0,(get_viewport().get_visible_rect().size.x-1440)*.5),0)
+
+func update_battle_camera(player:Dictionary,delta:float,snap:bool=false):
+	var frame=preload("res://scripts/battle_camera.gd").framing(player,session.state.enemies.values())
+	var blend=1.0 if snap else 1.0-exp(-8.0*delta)
+	battle_anchor_y=lerpf(battle_anchor_y,frame.anchor,blend)
+	world_zoom=lerpf(world_zoom,frame.zoom,blend)
+	if frame.position.distance_to(camera_pos)>700:camera_pos=frame.position
+	camera_pos=camera_pos.lerp(frame.position,blend)
+	var anchor=screen_center()
+	get_viewport().canvas_transform=Transform2D(Vector2(world_zoom,0),Vector2(0,world_zoom),anchor*(1.0-world_zoom))
 
 func world_point(pos: Vector2) -> Vector2:
 	return Dungeon.iso(pos) - camera_pos + screen_center()
@@ -475,16 +519,17 @@ func text_at(point: Vector2, value: String, font_size: int, color: Color, center
 func _draw():
 	if session == null or dungeon == null: return
 	if not session.connected:
-		draw_rect(Rect2(0,0,1440,900),Color("c3dfbc"))
+		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		draw_texture_rect(scenery.forest_background,Rect2(550,0,1200,900),false,Color(1.12,1.10,1.04))
 		return
 	var actors = forest.visible_props()
 	if dungeon.floor_number>0:
 		var exit_at=world_point(dungeon.exit_position);var clear=not session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
-		draw_texture_rect(preload("res://scripts/icon_art.gd").function_icon("portal"),Rect2(exit_at-Vector2(38,58),Vector2(76,76)),false,Color.WHITE if clear else Color(.7,.7,.7,.65))
+		SemanticIcons.draw(self,"trophy" if dungeon.floor_number==100 else "stairs" if clear else "locked",Rect2(exit_at-Vector2(38,58),Vector2(76,76)),Color.WHITE if clear else Color(.7,.7,.7,.65))
 		text_at(exit_at+Vector2(0,35),"100층 최종 제단" if dungeon.floor_number==100 else "E · 다음 층" if clear else "수문장 봉인",17,Color("f7e3ab"),true)
 	if dungeon.zone=="town":
 		var index=0
+		for visitor in preload("res://scripts/town_visitors.gd").RESIDENTS:actors.append({"type":"visitor","data":visitor})
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
 			var data=preload("res://scripts/world_catalog.gd").FACILITIES[key].duplicate();data["key"]=key;data["render_id"]=index;actors.append({"type":"building","data":data});index+=1
 			if preload("res://scripts/world_catalog.gd").RESIDENTS.has(key):
@@ -508,7 +553,8 @@ func _draw():
 			var point=world_point(nearest.pos)
 			var amount=int(nearest.item.get("amount",1))
 			text_at(point+Vector2(0,-49),nearest.item.name+(" ×"+str(amount) if amount>1 else ""),14,Color("ffefb5"),true)
-			text_at(point+Vector2(0,17),"E  줍기",12,Color("fff1c3"),true)
+			SemanticIcons.draw(self,"pickup",Rect2(point+Vector2(-41,-1),Vector2(20,20)))
+			text_at(point+Vector2(8,17),"E  줍기",12,Color("fff1c3"),true)
 	else:
 		actors.append({"type":"hero","data":{"id":0,"pos":dungeon.spawn+Vector2(1.2,0.4),"name":"","hp":120,"max_hp":120,"dir":Vector2.ZERO,"swing":0.0}})
 	actors.sort_custom(ForestEnvironment.actor_before)
@@ -517,8 +563,8 @@ func _draw():
 		if actor.type=="scenery":forest.draw_prop(actor.data)
 		elif actor.type=="building":draw_building(actor.data)
 		elif actor.type=="resident":draw_resident(actor.data)
+		elif actor.type=="visitor":preload("res://scripts/town_visitors.gd").draw(self,actor.data)
 		else:draw_actor(actor)
-	if dungeon.zone!="town":shrine(world_point(dungeon.spawn))
 	for hero in session.state.players.values():preload("res://scripts/job_art.gd").pets(self,hero,visual_time)
 	for e in effects:
 		var point = world_point(e.pos)
@@ -542,15 +588,9 @@ func _draw():
 		draw_rect(Rect2(0,0,690,900),Color("fff9e440"))
 	# Sparse embers keep the environment alive without obscuring combat.
 	for i in range(25):
-		var x = fposmod(i*197.0 + sin(visual_time*0.21+i)*25,1440)
+		var x = fposmod(i*197.0 + sin(visual_time*0.21+i)*25,1600)
 		var y = fposmod(i*97.0 - visual_time*(9+i%7),900)
 		draw_circle(Vector2(x,y),1.2,Color(1.0,0.98,0.75,0.5+0.15*sin(i+visual_time)))
-
-func shrine(point: Vector2):
-	if point.x < -200 or point.x > 1640 or point.y < -50 or point.y > 1150:return
-	text_at(point+Vector2(0,-225),"햇살 쉼터",18,Color("fff0b8"),true)
-	if session.connected and dungeon.in_town(session.state.players[session.local_id].pos):
-		text_at(point+Vector2(0,85),"E  회복 · 물약 보급",16,Color("fff4d0"),true)
 
 func draw_actor(actor: Dictionary):
 	var p = actor.data
@@ -585,6 +625,7 @@ func draw_actor(actor: Dictionary):
 	var fallback=textures.get(role,textures.hero)
 	if not fallback.has(animation): animation="move"
 	var base_actor=is_hero and Content.gat_appearance(p)
+	var rendered_costume={};var rendered_monster=""
 	var art_role=Content.costume_role(p) if is_hero and not base_actor else role
 	var frames = textures.get(art_role,fallback)[animation]
 	var pose=preload("res://scripts/character_motion.gd").pose(p) if is_hero else {"offset":Vector2.ZERO,"angle":0.0,"scale":Vector2.ONE,"weapon":0.0,"hand":Vector2(16,-30),"progress":0.0}
@@ -598,13 +639,20 @@ func draw_actor(actor: Dictionary):
 		size_scale=112.0/rest.get_height()
 	if base_actor:
 		var data=GatArt.frame(p,visual_time);frame=data.texture;size_scale=112.0/data.height;foot=data.foot
+		if data.has("costume_id"):rendered_costume=data
 		facing=-1.0 if Dungeon.iso(p.get("aim",Vector2.RIGHT)).x<0 else 1.0
 		if data.get("animated",false):pose.scale=Vector2.ONE;pose.angle*=.35
 		elif p.get("dir",Vector2.ZERO).length()>.1 and p.get("motion_time",0)<=0:pose.offset.y=-absf(sin(visual_time*11))*3
 	if not is_hero:
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var data:Dictionary
-		if boss:
+		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0)
+		if not themed.is_empty():
+			data=themed
+			rendered_monster=themed.art_id
+			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role))/data.height
+			if boss and p.get("stagger",{}).get("state","")=="down":pose.scale=Vector2(1.04,.84);pose.angle=.10
+		elif boss:
 			var boss_index=["warden","golem","sentinel"].find(role)
 			var index=1 if p.windup>0 else 2 if p.get("attack_motion",0)>0 else 0
 			data=preload("res://scripts/world_art.gd").frame("bosses",boss_index*3+index)
@@ -629,8 +677,11 @@ func draw_actor(actor: Dictionary):
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
+	if is_self and not rendered_costume.is_empty():record_art_usage("costume",rendered_costume.costume_id,int(rendered_costume.index),str(rendered_costume.get("frame_source_path","")))
+	if not is_hero:record_art_usage("monsters" if not rendered_monster.is_empty() else "monster_fallback",rendered_monster if not rendered_monster.is_empty() else role)
 	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):
 		for i in range(3):preload("res://scripts/skill_effects.gd").star(self,point+Vector2(sin(visual_time*5+i*TAU/3)*18,-dimensions.y-26),5,Color("fff3a6"))
+	if session.connected:preload("res://scripts/status_markers.gd").draw(self,p,point+Vector2(0,-dimensions.y-54),is_hero)
 	if is_hero and session.connected and not base_actor:
 		var weapon_type=session.sim.combat.weapon_type(p)
 		var weapon_art:Texture2D=preload("res://scripts/item_art.gd").texture(weapon_type)
@@ -657,7 +708,7 @@ func draw_building(data:Dictionary):
 	var height=float(data.height);var scale=height/frame.height
 	var point=world_point(data.pos);var dimensions=frame.texture.get_size()*scale
 	draw_texture_rect(frame.texture,Rect2(point-Vector2(dimensions.x*.5,dimensions.y),dimensions),false,Color(1,1,1,building_alphas.get(data.key,1.0)))
-	text_at(point+Vector2(0,22),data.name,18,Color("fff0bf"),true)
+	if data.key not in preload("res://scripts/world_catalog.gd").RESIDENTS:text_at(point+Vector2(0,22),data.name,18,Color("fff0bf"),true)
 
 func draw_resident(data:Dictionary):
 	var resident=preload("res://scripts/world_catalog.gd").RESIDENTS[data.key]
@@ -666,10 +717,11 @@ func draw_resident(data:Dictionary):
 	var scale=112.0/frame.height
 	draw_set_transform(point,0,Vector2(1,.42));draw_circle(Vector2.ZERO,24,Color("32574a40"));draw_set_transform(Vector2.ZERO)
 	draw_texture_rect(frame.texture,Rect2(point-frame.foot*scale,frame.texture.get_size()*scale),false)
-	text_at(point+Vector2(0,-130),resident.name,16,Color("ffeda9"),true)
-	if session.state.players[session.local_id].pos.distance_to(data.pos)<2.7:
-		text_at(point+Vector2(0,25),"E 대화 · 시설 이용",15,Color("fff5dc"),true)
-	if session.state.players[session.local_id].pos.distance_to(data.pos)<2.7:text_at(point+Vector2(0,45),"E  이용하기",15,Color("ffffff"),true)
+	var near_player=session.state.players[session.local_id].pos.distance_to(data.pos)<.9
+	if not near_player and not (npc_dialogue.visible and npc_dialogue.facility==data.key):text_at(point+Vector2(0,-130),resident.name,16,Color("ffeda9"),true)
+	if not session.paused and session.state.players[session.local_id].pos.distance_to(data.pos)<2.7:
+		SemanticIcons.draw(self,"interact",Rect2(point+Vector2(-58,6),Vector2(22,22)))
+		text_at(point+Vector2(8,25),"E 대화",15,Color("fff5dc"),true)
 
 
 func make_route(start: Vector2, goal: Vector2) -> Array:
@@ -733,8 +785,53 @@ func bot_step(delta: float):
 func write_bot_report():
 	var p=session.state.players.get(session.local_id,{})
 	var report={"world_seed":session.world_seed,"paused":session.paused,"connected":session.connected,"status":status_text,"snapshots":session.received_snapshots,"max_peers":bot_max_peers,"kills":bot_kills,"distance":bot_distance,"player":p}
-	report["floor"]=session.sim.map.floor_number
+	report["floor"]=session.sim.map.floor_number if session.sim!=null else 0
 	report["codex"]={"visible":codex.visible,"tab":codex.selected_tab,"total":codex.result.get("total",0)}
-	report["guardians"]=session.sim.enemies.values().filter(func(e):return e.get("guardian",false))
+	report["guardians"]=session.sim.enemies.values().filter(func(e):return e.get("guardian",false)) if session.sim!=null else []
+	report["ui"]={"title":menu.visible,"creator":character_sheet.visible,"dialogue":npc_dialogue.visible,"speaker":npc_dialogue.speaker.text,"skill_tree":skill_tree.visible}
+	report["art_usage"]=art_usage.duplicate(true);report.art_usage["icons"]=SemanticIcons.audit()
+	report.art_usage["ground"]=forest.ground_evidence()
+	report.art_usage["equipment"]=EquipmentArt.audit()
+	report.art_usage["equipment_consumers"]=equipment_ui_evidence()
+	report["capture_view"]=str(options.get("capture-view","player"))
 	var file=FileAccess.open(options.report,FileAccess.WRITE)
 	if file:file.store_string(JSON.stringify(report,"\t"));file.close()
+
+func equipment_ui_evidence()->Dictionary:
+	var result={"bag_visible":bag.is_visible_in_tree(),"bag_items":[],"codex_visible":codex.is_visible_in_tree(),"codex_detail":{},"codex_rows":[]}
+	if result.bag_visible:
+		var controls=bag.grid.get_children()+bag.equipment_controls.values()
+		for control in controls:
+			if not control.is_visible_in_tree():continue
+			var asset=EquipmentArt.describe_texture(control.picture)
+			if asset.is_empty():continue
+			asset["item_id"]=str(control.item.get("id",""));asset["slot"]=control.equip_slot
+			result.bag_items.append(asset)
+	if result.codex_visible and codex.selected_tab=="equipment":
+		result.codex_detail=EquipmentArt.describe_texture(codex.detail_icon.texture)
+		for id in codex.row_buttons:
+			var button=codex.row_buttons[id]
+			if not button.is_visible_in_tree():continue
+			for child in button.get_children():
+				if not child is TextureRect or not child.is_visible_in_tree():continue
+				var asset=EquipmentArt.describe_texture(child.texture)
+				if not asset.is_empty():
+					asset["record_id"]=str(id);result.codex_rows.append(asset)
+	return result
+
+func record_art_usage(kind:String,id:String,index:int=-1,source:String=""):
+	if not options.has("report"):return
+	if kind=="costume":
+		var record=art_usage.costume;record.id=id;record.draws+=1
+		if index not in record.frame_indices:record.frame_indices.append(index)
+		if not source.is_empty() and source not in record.source_sheets:record.source_sheets.append(source)
+	elif kind=="environment":
+		art_usage.environment.theme=preload("res://scripts/environment_art.gd").theme(dungeon.zone,dungeon.floor_number)
+		if id not in art_usage.environment.drawn_ids:art_usage.environment.drawn_ids.append(id)
+	elif kind=="monsters":
+		if id not in art_usage.monsters.drawn_ids:art_usage.monsters.drawn_ids.append(id)
+	elif kind=="monster_fallback":
+		if id not in art_usage.monsters.fallback_kinds:art_usage.monsters.fallback_kinds.append(id)
+	elif kind=="npc":
+		if not art_usage.has("npcs"):art_usage["npcs"]=[]
+		if id not in art_usage.npcs:art_usage.npcs.append(id)

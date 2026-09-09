@@ -1,0 +1,1432 @@
+{
+  "version": 1,
+  "objects": {
+    "flood_rustclaw_crab_idle": {
+      "id": "flood_rustclaw_crab_idle",
+      "name": "녹갑옷 집게게 대기",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        27,
+        138,
+        482,
+        335
+      ],
+      "foot": [
+        240.5,
+        332
+      ],
+      "source_cell": [
+        0,
+        0,
+        536,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "flood_rustclaw_crab",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 331
+    },
+    "flood_bell_nautilus_idle": {
+      "id": "flood_bell_nautilus_idle",
+      "name": "종껍질 앵무조개 대기",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        564,
+        68,
+        380,
+        399
+      ],
+      "foot": [
+        189.5,
+        396
+      ],
+      "source_cell": [
+        536,
+        0,
+        431,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "flood_bell_nautilus",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 395
+    },
+    "flood_bastion_tortoise_idle": {
+      "id": "flood_bastion_tortoise_idle",
+      "name": "성채등 거북 대기",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        990,
+        29,
+        526,
+        455
+      ],
+      "foot": [
+        262.5,
+        452
+      ],
+      "source_cell": [
+        967,
+        0,
+        569,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "flood_bastion_tortoise",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 451
+    },
+    "flood_rustclaw_crab_attack": {
+      "id": "flood_rustclaw_crab_attack",
+      "name": "녹갑옷 집게게 공격",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        18,
+        567,
+        496,
+        389
+      ],
+      "foot": [
+        247.5,
+        386
+      ],
+      "source_cell": [
+        0,
+        500,
+        531,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "flood_rustclaw_crab",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 385
+    },
+    "flood_bell_nautilus_attack": {
+      "id": "flood_bell_nautilus_attack",
+      "name": "종껍질 앵무조개 공격",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        548,
+        552,
+        396,
+        395
+      ],
+      "foot": [
+        197.5,
+        392
+      ],
+      "source_cell": [
+        531,
+        500,
+        426,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "flood_bell_nautilus",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 391
+    },
+    "flood_bastion_tortoise_attack": {
+      "id": "flood_bastion_tortoise_attack",
+      "name": "성채등 거북 공격",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-monsters.png",
+      "rect": [
+        971,
+        516,
+        552,
+        460
+      ],
+      "foot": [
+        275.5,
+        457
+      ],
+      "source_cell": [
+        957,
+        500,
+        579,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "flood_bastion_tortoise",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 456
+    },
+    "spore_blade_cricket_idle": {
+      "id": "spore_blade_cricket_idle",
+      "name": "칼턱 동굴귀뚜라미 대기",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        38,
+        106,
+        481,
+        366
+      ],
+      "foot": [
+        240.0,
+        363
+      ],
+      "source_cell": [
+        0,
+        0,
+        532,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "spore_blade_cricket",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 362
+    },
+    "spore_lantern_moth_idle": {
+      "id": "spore_lantern_moth_idle",
+      "name": "포자등 나방 대기",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        545,
+        31,
+        435,
+        441
+      ],
+      "foot": [
+        217.0,
+        438
+      ],
+      "source_cell": [
+        532,
+        0,
+        462,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "spore_lantern_moth",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 437
+    },
+    "spore_crown_toad_idle": {
+      "id": "spore_crown_toad_idle",
+      "name": "균관 두꺼비 대기",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        1008,
+        81,
+        498,
+        395
+      ],
+      "foot": [
+        248.5,
+        392
+      ],
+      "source_cell": [
+        994,
+        0,
+        542,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "spore_crown_toad",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 391
+    },
+    "spore_blade_cricket_attack": {
+      "id": "spore_blade_cricket_attack",
+      "name": "칼턱 동굴귀뚜라미 공격",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        20,
+        603,
+        515,
+        344
+      ],
+      "foot": [
+        257.0,
+        341
+      ],
+      "source_cell": [
+        0,
+        500,
+        538,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "spore_blade_cricket",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 340
+    },
+    "spore_lantern_moth_attack": {
+      "id": "spore_lantern_moth_attack",
+      "name": "포자등 나방 공격",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        542,
+        525,
+        430,
+        431
+      ],
+      "foot": [
+        214.5,
+        428
+      ],
+      "source_cell": [
+        538,
+        500,
+        435,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "spore_lantern_moth",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 427
+    },
+    "spore_crown_toad_attack": {
+      "id": "spore_crown_toad_attack",
+      "name": "균관 두꺼비 공격",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-monsters.png",
+      "rect": [
+        974,
+        555,
+        542,
+        409
+      ],
+      "foot": [
+        270.5,
+        406
+      ],
+      "source_cell": [
+        973,
+        500,
+        563,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "spore_crown_toad",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 405
+    },
+    "lava_coal_salamander_idle": {
+      "id": "lava_coal_salamander_idle",
+      "name": "석탄등 도롱뇽 대기",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        54,
+        185,
+        421,
+        286
+      ],
+      "foot": [
+        210.0,
+        283
+      ],
+      "source_cell": [
+        0,
+        0,
+        500,
+        495
+      ],
+      "source_pack": "expansion",
+      "species": "lava_coal_salamander",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 282
+    },
+    "lava_vent_snail_idle": {
+      "id": "lava_vent_snail_idle",
+      "name": "분화구 달팽이 대기",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        526,
+        81,
+        380,
+        374
+      ],
+      "foot": [
+        189.5,
+        371
+      ],
+      "source_cell": [
+        500,
+        0,
+        442,
+        495
+      ],
+      "source_pack": "expansion",
+      "species": "lava_vent_snail",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 370
+    },
+    "lava_obsidian_rhino_idle": {
+      "id": "lava_obsidian_rhino_idle",
+      "name": "흑요각 코뿔소 대기",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        979,
+        63,
+        518,
+        404
+      ],
+      "foot": [
+        258.5,
+        401
+      ],
+      "source_cell": [
+        942,
+        0,
+        594,
+        495
+      ],
+      "source_pack": "expansion",
+      "species": "lava_obsidian_rhino",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 400
+    },
+    "lava_coal_salamander_attack": {
+      "id": "lava_coal_salamander_attack",
+      "name": "석탄등 도롱뇽 공격",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        35,
+        597,
+        441,
+        313
+      ],
+      "foot": [
+        220.0,
+        310
+      ],
+      "source_cell": [
+        0,
+        495,
+        504,
+        529
+      ],
+      "source_pack": "expansion",
+      "species": "lava_coal_salamander",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 309
+    },
+    "lava_vent_snail_attack": {
+      "id": "lava_vent_snail_attack",
+      "name": "분화구 달팽이 공격",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        532,
+        533,
+        385,
+        345
+      ],
+      "foot": [
+        192.0,
+        342
+      ],
+      "source_cell": [
+        504,
+        495,
+        435,
+        529
+      ],
+      "source_pack": "expansion",
+      "species": "lava_vent_snail",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 341
+    },
+    "lava_obsidian_rhino_attack": {
+      "id": "lava_obsidian_rhino_attack",
+      "name": "흑요각 코뿔소 공격",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-monsters.png",
+      "rect": [
+        961,
+        519,
+        547,
+        385
+      ],
+      "foot": [
+        273.0,
+        382
+      ],
+      "source_cell": [
+        939,
+        495,
+        597,
+        529
+      ],
+      "source_pack": "expansion",
+      "species": "lava_obsidian_rhino",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 381
+    },
+    "machine_saw_wheel_idle": {
+      "id": "machine_saw_wheel_idle",
+      "name": "톱니바퀴 추격자 대기",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        66,
+        180,
+        316,
+        271
+      ],
+      "foot": [
+        157.5,
+        268
+      ],
+      "source_cell": [
+        0,
+        0,
+        447,
+        474
+      ],
+      "source_pack": "expansion",
+      "species": "machine_saw_wheel",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 267
+    },
+    "machine_mortar_tripod_idle": {
+      "id": "machine_mortar_tripod_idle",
+      "name": "삼각포대 감시기 대기",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        512,
+        117,
+        402,
+        336
+      ],
+      "foot": [
+        200.5,
+        333
+      ],
+      "source_cell": [
+        447,
+        0,
+        488,
+        474
+      ],
+      "source_pack": "expansion",
+      "species": "machine_mortar_tripod",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 332
+    },
+    "machine_foundry_ogre_idle": {
+      "id": "machine_foundry_ogre_idle",
+      "name": "주조장 철거수 대기",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        957,
+        15,
+        562,
+        454
+      ],
+      "foot": [
+        280.5,
+        451
+      ],
+      "source_cell": [
+        935,
+        0,
+        601,
+        474
+      ],
+      "source_pack": "expansion",
+      "species": "machine_foundry_ogre",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 450
+    },
+    "machine_saw_wheel_attack": {
+      "id": "machine_saw_wheel_attack",
+      "name": "톱니바퀴 추격자 공격",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        29,
+        666,
+        357,
+        258
+      ],
+      "foot": [
+        178.0,
+        255
+      ],
+      "source_cell": [
+        0,
+        474,
+        435,
+        550
+      ],
+      "source_pack": "expansion",
+      "species": "machine_saw_wheel",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 254
+    },
+    "machine_mortar_tripod_attack": {
+      "id": "machine_mortar_tripod_attack",
+      "name": "삼각포대 감시기 공격",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        485,
+        605,
+        475,
+        332
+      ],
+      "foot": [
+        237.0,
+        329
+      ],
+      "source_cell": [
+        435,
+        474,
+        563,
+        550
+      ],
+      "source_pack": "expansion",
+      "species": "machine_mortar_tripod",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 328
+    },
+    "machine_foundry_ogre_attack": {
+      "id": "machine_foundry_ogre_attack",
+      "name": "주조장 철거수 공격",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-monsters.png",
+      "rect": [
+        1036,
+        479,
+        464,
+        477
+      ],
+      "foot": [
+        231.5,
+        474
+      ],
+      "source_cell": [
+        998,
+        474,
+        538,
+        550
+      ],
+      "source_pack": "expansion",
+      "species": "machine_foundry_ogre",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 473
+    },
+    "nebula_quartz_scorpion_idle": {
+      "id": "nebula_quartz_scorpion_idle",
+      "name": "석영꼬리 전갈 대기",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        18,
+        48,
+        444,
+        451
+      ],
+      "foot": [
+        221.5,
+        448
+      ],
+      "source_cell": [
+        0,
+        0,
+        502,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_quartz_scorpion",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 447
+    },
+    "nebula_comet_cuttlefish_idle": {
+      "id": "nebula_comet_cuttlefish_idle",
+      "name": "혜성 갑오징어 대기",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        542,
+        59,
+        389,
+        408
+      ],
+      "foot": [
+        194.0,
+        405
+      ],
+      "source_cell": [
+        502,
+        0,
+        449,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_comet_cuttlefish",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 404
+    },
+    "nebula_crown_manta_idle": {
+      "id": "nebula_crown_manta_idle",
+      "name": "성관 만타 대기",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        972,
+        42,
+        552,
+        418
+      ],
+      "foot": [
+        275.5,
+        415
+      ],
+      "source_cell": [
+        951,
+        0,
+        585,
+        500
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_crown_manta",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 414
+    },
+    "nebula_quartz_scorpion_attack": {
+      "id": "nebula_quartz_scorpion_attack",
+      "name": "석영꼬리 전갈 공격",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        21,
+        529,
+        449,
+        424
+      ],
+      "foot": [
+        224.0,
+        421
+      ],
+      "source_cell": [
+        0,
+        500,
+        496,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_quartz_scorpion",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 420
+    },
+    "nebula_comet_cuttlefish_attack": {
+      "id": "nebula_comet_cuttlefish_attack",
+      "name": "혜성 갑오징어 공격",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        523,
+        541,
+        426,
+        371
+      ],
+      "foot": [
+        212.5,
+        368
+      ],
+      "source_cell": [
+        496,
+        500,
+        476,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_comet_cuttlefish",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 367
+    },
+    "nebula_crown_manta_attack": {
+      "id": "nebula_crown_manta_attack",
+      "name": "성관 만타 공격",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-monsters.png",
+      "rect": [
+        996,
+        501,
+        518,
+        416
+      ],
+      "foot": [
+        258.5,
+        413
+      ],
+      "source_cell": [
+        972,
+        500,
+        564,
+        524
+      ],
+      "source_pack": "expansion",
+      "species": "nebula_crown_manta",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 412
+    },
+    "core_rune_leech_idle": {
+      "id": "core_rune_leech_idle",
+      "name": "룬갑 거머리 대기",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        42,
+        115,
+        437,
+        363
+      ],
+      "foot": [
+        218.0,
+        360
+      ],
+      "source_cell": [
+        0,
+        0,
+        523,
+        509
+      ],
+      "source_pack": "expansion",
+      "species": "core_rune_leech",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 359
+    },
+    "core_bound_grimoire_idle": {
+      "id": "core_bound_grimoire_idle",
+      "name": "봉인 파쇄마도서 대기",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        568,
+        52,
+        347,
+        431
+      ],
+      "foot": [
+        173.0,
+        428
+      ],
+      "source_cell": [
+        523,
+        0,
+        446,
+        509
+      ],
+      "source_pack": "expansion",
+      "species": "core_bound_grimoire",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 427
+    },
+    "core_horned_ram_idle": {
+      "id": "core_horned_ram_idle",
+      "name": "마력핵 뿔산양 대기",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        1023,
+        35,
+        494,
+        455
+      ],
+      "foot": [
+        246.5,
+        452
+      ],
+      "source_cell": [
+        969,
+        0,
+        567,
+        509
+      ],
+      "source_pack": "expansion",
+      "species": "core_horned_ram",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 451
+    },
+    "core_rune_leech_attack": {
+      "id": "core_rune_leech_attack",
+      "name": "룬갑 거머리 공격",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        25,
+        593,
+        468,
+        360
+      ],
+      "foot": [
+        233.5,
+        357
+      ],
+      "source_cell": [
+        0,
+        509,
+        500,
+        515
+      ],
+      "source_pack": "expansion",
+      "species": "core_rune_leech",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 356
+    },
+    "core_bound_grimoire_attack": {
+      "id": "core_bound_grimoire_attack",
+      "name": "봉인 파쇄마도서 공격",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        508,
+        539,
+        464,
+        417
+      ],
+      "foot": [
+        231.5,
+        414
+      ],
+      "source_cell": [
+        500,
+        509,
+        490,
+        515
+      ],
+      "source_pack": "expansion",
+      "species": "core_bound_grimoire",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 413
+    },
+    "core_horned_ram_attack": {
+      "id": "core_horned_ram_attack",
+      "name": "마력핵 뿔산양 공격",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-monsters.png",
+      "rect": [
+        1008,
+        528,
+        519,
+        435
+      ],
+      "foot": [
+        259.0,
+        432
+      ],
+      "source_cell": [
+        990,
+        509,
+        546,
+        515
+      ],
+      "source_pack": "expansion",
+      "species": "core_horned_ram",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 431
+    },
+    "boss_flood_anchor_admiral_idle": {
+      "id": "boss_flood_anchor_admiral_idle",
+      "name": "침몰 제독 네레온",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-bosses.png",
+      "rect": [
+        16,
+        253,
+        790,
+        650
+      ],
+      "foot": [
+        394.5,
+        647
+      ],
+      "source_cell": [
+        0,
+        0,
+        833,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_flood_anchor_admiral",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 646
+    },
+    "boss_flood_anchor_admiral_attack": {
+      "id": "boss_flood_anchor_admiral_attack",
+      "name": "침몰 제독 네레온",
+      "theme": "flood",
+      "sheet": "res://assets/world/dungeon-v04/flood-bosses.png",
+      "rect": [
+        860,
+        53,
+        661,
+        870
+      ],
+      "foot": [
+        330.0,
+        867
+      ],
+      "source_cell": [
+        833,
+        0,
+        703,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_flood_anchor_admiral",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 866
+    },
+    "boss_spore_threefold_hydra_idle": {
+      "id": "boss_spore_threefold_hydra_idle",
+      "name": "균관의 삼두왕 미코라",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-bosses.png",
+      "rect": [
+        77,
+        248,
+        598,
+        534
+      ],
+      "foot": [
+        298.5,
+        531
+      ],
+      "source_cell": [
+        0,
+        0,
+        743,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_spore_threefold_hydra",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 530
+    },
+    "boss_spore_threefold_hydra_attack": {
+      "id": "boss_spore_threefold_hydra_attack",
+      "name": "균관의 삼두왕 미코라",
+      "theme": "spore",
+      "sheet": "res://assets/world/dungeon-v04/spore-bosses.png",
+      "rect": [
+        812,
+        249,
+        668,
+        533
+      ],
+      "foot": [
+        333.5,
+        530
+      ],
+      "source_cell": [
+        743,
+        0,
+        793,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_spore_threefold_hydra",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 529
+    },
+    "boss_lava_caldera_drake_idle": {
+      "id": "boss_lava_caldera_drake_idle",
+      "name": "화구군주 바르칸",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-bosses.png",
+      "rect": [
+        34,
+        180,
+        655,
+        715
+      ],
+      "foot": [
+        327.0,
+        712
+      ],
+      "source_cell": [
+        0,
+        0,
+        728,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_lava_caldera_drake",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 711
+    },
+    "boss_lava_caldera_drake_attack": {
+      "id": "boss_lava_caldera_drake_attack",
+      "name": "화구군주 바르칸",
+      "theme": "lava",
+      "sheet": "res://assets/world/dungeon-v04/lava-bosses.png",
+      "rect": [
+        767,
+        79,
+        763,
+        817
+      ],
+      "foot": [
+        381.0,
+        814
+      ],
+      "source_cell": [
+        728,
+        0,
+        808,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_lava_caldera_drake",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 813
+    },
+    "boss_machine_siege_engine_idle": {
+      "id": "boss_machine_siege_engine_idle",
+      "name": "철도살자 헤카톤",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-bosses.png",
+      "rect": [
+        34,
+        321,
+        706,
+        593
+      ],
+      "foot": [
+        352.5,
+        590
+      ],
+      "source_cell": [
+        0,
+        0,
+        774,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_machine_siege_engine",
+      "pose": "idle",
+      "hovering": false,
+      "body_height": 589
+    },
+    "boss_machine_siege_engine_attack": {
+      "id": "boss_machine_siege_engine_attack",
+      "name": "철도살자 헤카톤",
+      "theme": "machine",
+      "sheet": "res://assets/world/dungeon-v04/machine-bosses.png",
+      "rect": [
+        808,
+        58,
+        698,
+        857
+      ],
+      "foot": [
+        348.5,
+        854
+      ],
+      "source_cell": [
+        774,
+        0,
+        762,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_machine_siege_engine",
+      "pose": "attack",
+      "hovering": false,
+      "body_height": 853
+    },
+    "boss_nebula_starwhale_idle": {
+      "id": "boss_nebula_starwhale_idle",
+      "name": "별을 삼키는 고래 오르비온",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-bosses.png",
+      "rect": [
+        11,
+        122,
+        715,
+        781
+      ],
+      "foot": [
+        357.0,
+        778
+      ],
+      "source_cell": [
+        0,
+        0,
+        736,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_nebula_starwhale",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 777
+    },
+    "boss_nebula_starwhale_attack": {
+      "id": "boss_nebula_starwhale_attack",
+      "name": "별을 삼키는 고래 오르비온",
+      "theme": "nebula",
+      "sheet": "res://assets/world/dungeon-v04/nebula-bosses.png",
+      "rect": [
+        746,
+        124,
+        776,
+        814
+      ],
+      "foot": [
+        387.5,
+        811
+      ],
+      "source_cell": [
+        736,
+        0,
+        800,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_nebula_starwhale",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 810
+    },
+    "boss_core_crowned_wraith_idle": {
+      "id": "boss_core_crowned_wraith_idle",
+      "name": "마력왕 카이르",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-bosses.png",
+      "rect": [
+        31,
+        30,
+        650,
+        937
+      ],
+      "foot": [
+        324.5,
+        934
+      ],
+      "source_cell": [
+        0,
+        0,
+        708,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_core_crowned_wraith",
+      "pose": "idle",
+      "hovering": true,
+      "body_height": 933
+    },
+    "boss_core_crowned_wraith_attack": {
+      "id": "boss_core_crowned_wraith_attack",
+      "name": "마력왕 카이르",
+      "theme": "core",
+      "sheet": "res://assets/world/dungeon-v04/core-bosses.png",
+      "rect": [
+        735,
+        27,
+        792,
+        944
+      ],
+      "foot": [
+        395.5,
+        941
+      ],
+      "source_cell": [
+        708,
+        0,
+        828,
+        1024
+      ],
+      "source_pack": "bosses",
+      "species": "boss_core_crowned_wraith",
+      "pose": "attack",
+      "hovering": true,
+      "body_height": 940
+    }
+  },
+  "themes": {
+    "flood": {
+      "monsters": [
+        "flood_rustclaw_crab_idle",
+        "flood_bell_nautilus_idle",
+        "flood_bastion_tortoise_idle",
+        "flood_rustclaw_crab_attack",
+        "flood_bell_nautilus_attack",
+        "flood_bastion_tortoise_attack"
+      ],
+      "bosses": [
+        "boss_flood_anchor_admiral_idle",
+        "boss_flood_anchor_admiral_attack"
+      ]
+    },
+    "spore": {
+      "monsters": [
+        "spore_blade_cricket_idle",
+        "spore_lantern_moth_idle",
+        "spore_crown_toad_idle",
+        "spore_blade_cricket_attack",
+        "spore_lantern_moth_attack",
+        "spore_crown_toad_attack"
+      ],
+      "bosses": [
+        "boss_spore_threefold_hydra_idle",
+        "boss_spore_threefold_hydra_attack"
+      ]
+    },
+    "lava": {
+      "monsters": [
+        "lava_coal_salamander_idle",
+        "lava_vent_snail_idle",
+        "lava_obsidian_rhino_idle",
+        "lava_coal_salamander_attack",
+        "lava_vent_snail_attack",
+        "lava_obsidian_rhino_attack"
+      ],
+      "bosses": [
+        "boss_lava_caldera_drake_idle",
+        "boss_lava_caldera_drake_attack"
+      ]
+    },
+    "machine": {
+      "monsters": [
+        "machine_saw_wheel_idle",
+        "machine_mortar_tripod_idle",
+        "machine_foundry_ogre_idle",
+        "machine_saw_wheel_attack",
+        "machine_mortar_tripod_attack",
+        "machine_foundry_ogre_attack"
+      ],
+      "bosses": [
+        "boss_machine_siege_engine_idle",
+        "boss_machine_siege_engine_attack"
+      ]
+    },
+    "nebula": {
+      "monsters": [
+        "nebula_quartz_scorpion_idle",
+        "nebula_comet_cuttlefish_idle",
+        "nebula_crown_manta_idle",
+        "nebula_quartz_scorpion_attack",
+        "nebula_comet_cuttlefish_attack",
+        "nebula_crown_manta_attack"
+      ],
+      "bosses": [
+        "boss_nebula_starwhale_idle",
+        "boss_nebula_starwhale_attack"
+      ]
+    },
+    "core": {
+      "monsters": [
+        "core_rune_leech_idle",
+        "core_bound_grimoire_idle",
+        "core_horned_ram_idle",
+        "core_rune_leech_attack",
+        "core_bound_grimoire_attack",
+        "core_horned_ram_attack"
+      ],
+      "bosses": [
+        "boss_core_crowned_wraith_idle",
+        "boss_core_crowned_wraith_attack"
+      ]
+    }
+  },
+  "variants": {
+    "flood": {
+      "spider": "flood_rustclaw_crab",
+      "frost_slime": "flood_rustclaw_crab",
+      "goblin_shaman": "flood_bell_nautilus",
+      "skeleton": "flood_bastion_tortoise",
+      "centurion": "flood_bastion_tortoise"
+    },
+    "spore": {
+      "spider": "spore_blade_cricket",
+      "ember_slime": "spore_blade_cricket",
+      "fairy": "spore_lantern_moth",
+      "goblin_shaman": "spore_crown_toad",
+      "goblin_captain": "spore_crown_toad"
+    },
+    "lava": {
+      "ember_slime": "lava_coal_salamander",
+      "bat": "lava_vent_snail",
+      "orc_axeman": "lava_obsidian_rhino",
+      "beetle": "lava_obsidian_rhino",
+      "orc_champion": "lava_obsidian_rhino"
+    },
+    "machine": {
+      "clockwork": "machine_saw_wheel",
+      "beetle": "machine_saw_wheel",
+      "spellbook": "machine_mortar_tripod",
+      "skeleton": "machine_foundry_ogre",
+      "centurion": "machine_foundry_ogre"
+    },
+    "nebula": {
+      "spider": "nebula_quartz_scorpion",
+      "clockwork": "nebula_quartz_scorpion",
+      "spellbook": "nebula_comet_cuttlefish",
+      "frost_slime": "nebula_crown_manta",
+      "centurion": "nebula_crown_manta"
+    },
+    "core": {
+      "clockwork": "core_rune_leech",
+      "skeleton": "core_rune_leech",
+      "spellbook": "core_bound_grimoire",
+      "goblin_shaman": "core_bound_grimoire",
+      "orc_axeman": "core_horned_ram",
+      "centurion": "core_horned_ram"
+    }
+  }
+}

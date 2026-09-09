@@ -1,0 +1,2709 @@
+{
+  "version": 1,
+  "objects": {
+    "forest_oak_tree": {
+      "id": "forest_oak_tree",
+      "name": "참나무",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        42,
+        40,
+        466,
+        530
+      ],
+      "foot": [
+        233.0,
+        529
+      ],
+      "source_cell": [
+        0,
+        0,
+        545,
+        572
+      ],
+      "source_pack": "biomes"
+    },
+    "forest_birch_tree": {
+      "id": "forest_birch_tree",
+      "name": "자작나무",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        582,
+        19,
+        358,
+        544
+      ],
+      "foot": [
+        187.0,
+        543
+      ],
+      "source_cell": [
+        545,
+        0,
+        436,
+        572
+      ],
+      "source_pack": "biomes"
+    },
+    "forest_mossy_boulders": {
+      "id": "forest_mossy_boulders",
+      "name": "이끼 바위",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        1023,
+        203,
+        476,
+        354
+      ],
+      "foot": [
+        265.0,
+        353
+      ],
+      "source_cell": [
+        981,
+        0,
+        555,
+        572
+      ],
+      "source_pack": "biomes"
+    },
+    "forest_flower_shrub": {
+      "id": "forest_flower_shrub",
+      "name": "꽃 덤불",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        48,
+        630,
+        418,
+        338
+      ],
+      "foot": [
+        216.0,
+        337
+      ],
+      "source_cell": [
+        0,
+        572,
+        498,
+        452
+      ],
+      "source_pack": "biomes"
+    },
+    "forest_hollow_log": {
+      "id": "forest_hollow_log",
+      "name": "속 빈 통나무",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        531,
+        663,
+        493,
+        276
+      ],
+      "foot": [
+        136.5,
+        275
+      ],
+      "source_cell": [
+        498,
+        572,
+        580,
+        452
+      ],
+      "source_pack": "biomes"
+    },
+    "forest_signpost": {
+      "id": "forest_signpost",
+      "name": "나무 표지판",
+      "theme": "forest",
+      "sheet": "res://assets/environment/biomes-v04/forest.png",
+      "rect": [
+        1180,
+        576,
+        299,
+        415
+      ],
+      "foot": [
+        98.0,
+        414
+      ],
+      "source_cell": [
+        1078,
+        572,
+        458,
+        452
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_cyan_crystals": {
+      "id": "cave_cyan_crystals",
+      "name": "청색 수정",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        50,
+        38,
+        435,
+        467
+      ],
+      "foot": [
+        214.0,
+        466
+      ],
+      "source_cell": [
+        0,
+        0,
+        537,
+        524
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_stalagmites": {
+      "id": "cave_stalagmites",
+      "name": "석순",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        590,
+        31,
+        378,
+        487
+      ],
+      "foot": [
+        147.0,
+        486
+      ],
+      "source_cell": [
+        537,
+        0,
+        469,
+        524
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_amethyst_geode": {
+      "id": "cave_amethyst_geode",
+      "name": "자수정 정동",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        1045,
+        137,
+        458,
+        374
+      ],
+      "foot": [
+        291.0,
+        373
+      ],
+      "source_cell": [
+        1006,
+        0,
+        530,
+        524
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_glowing_mushrooms": {
+      "id": "cave_glowing_mushrooms",
+      "name": "발광 버섯",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        44,
+        568,
+        451,
+        408
+      ],
+      "foot": [
+        184.0,
+        407
+      ],
+      "source_cell": [
+        0,
+        524,
+        525,
+        500
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_ore_boulders": {
+      "id": "cave_ore_boulders",
+      "name": "광석 바위",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        556,
+        607,
+        443,
+        362
+      ],
+      "foot": [
+        183.0,
+        361
+      ],
+      "source_cell": [
+        525,
+        524,
+        505,
+        500
+      ],
+      "source_pack": "biomes"
+    },
+    "cave_mine_arch": {
+      "id": "cave_mine_arch",
+      "name": "갱도 지지대",
+      "theme": "cave",
+      "sheet": "res://assets/environment/biomes-v04/cave.png",
+      "rect": [
+        1062,
+        529,
+        445,
+        449
+      ],
+      "foot": [
+        339.0,
+        448
+      ],
+      "source_cell": [
+        1030,
+        524,
+        506,
+        500
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_ivy_arch": {
+      "id": "ruins_ivy_arch",
+      "name": "덩굴 아치",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        40,
+        56,
+        446,
+        437
+      ],
+      "foot": [
+        106.0,
+        436
+      ],
+      "source_cell": [
+        0,
+        0,
+        554,
+        545
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_obelisk": {
+      "id": "ruins_obelisk",
+      "name": "오벨리스크",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        646,
+        38,
+        261,
+        460
+      ],
+      "foot": [
+        130.0,
+        459
+      ],
+      "source_cell": [
+        554,
+        0,
+        464,
+        545
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_broken_column": {
+      "id": "ruins_broken_column",
+      "name": "부서진 기둥",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        1121,
+        52,
+        337,
+        442
+      ],
+      "foot": [
+        138.0,
+        441
+      ],
+      "source_cell": [
+        1018,
+        0,
+        518,
+        545
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_wall_corner": {
+      "id": "ruins_wall_corner",
+      "name": "돌담 모서리",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        31,
+        604,
+        471,
+        351
+      ],
+      "foot": [
+        350.0,
+        350
+      ],
+      "source_cell": [
+        0,
+        545,
+        561,
+        479
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_stone_basin": {
+      "id": "ruins_stone_basin",
+      "name": "돌 수반",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        623,
+        592,
+        310,
+        366
+      ],
+      "foot": [
+        128.0,
+        365
+      ],
+      "source_cell": [
+        561,
+        545,
+        428,
+        479
+      ],
+      "source_pack": "biomes"
+    },
+    "ruins_rubble": {
+      "id": "ruins_rubble",
+      "name": "석재 잔해",
+      "theme": "ruins",
+      "sheet": "res://assets/environment/biomes-v04/ruins.png",
+      "rect": [
+        1045,
+        641,
+        467,
+        305
+      ],
+      "foot": [
+        176.0,
+        304
+      ],
+      "source_cell": [
+        989,
+        545,
+        547,
+        479
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_maple_tree": {
+      "id": "autumn_maple_tree",
+      "name": "단풍나무",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        39,
+        20,
+        459,
+        500
+      ],
+      "foot": [
+        223.0,
+        499
+      ],
+      "source_cell": [
+        0,
+        0,
+        522,
+        521
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_ginkgo_tree": {
+      "id": "autumn_ginkgo_tree",
+      "name": "은행나무",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        547,
+        20,
+        441,
+        500
+      ],
+      "foot": [
+        211.0,
+        499
+      ],
+      "source_cell": [
+        522,
+        0,
+        482,
+        521
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_leafy_boulders": {
+      "id": "autumn_leafy_boulders",
+      "name": "낙엽 바위",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        1021,
+        151,
+        485,
+        346
+      ],
+      "foot": [
+        281.0,
+        345
+      ],
+      "source_cell": [
+        1004,
+        0,
+        532,
+        521
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_berry_shrub": {
+      "id": "autumn_berry_shrub",
+      "name": "열매 덤불",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        62,
+        577,
+        438,
+        378
+      ],
+      "foot": [
+        211.0,
+        377
+      ],
+      "source_cell": [
+        0,
+        521,
+        527,
+        503
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_mushroom_stump": {
+      "id": "autumn_mushroom_stump",
+      "name": "버섯 그루터기",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        554,
+        627,
+        434,
+        325
+      ],
+      "foot": [
+        181.0,
+        324
+      ],
+      "source_cell": [
+        527,
+        521,
+        533,
+        503
+      ],
+      "source_pack": "biomes"
+    },
+    "autumn_lantern_post": {
+      "id": "autumn_lantern_post",
+      "name": "가을 등불",
+      "theme": "autumn",
+      "sheet": "res://assets/environment/biomes-v04/autumn.png",
+      "rect": [
+        1144,
+        522,
+        279,
+        452
+      ],
+      "foot": [
+        92.0,
+        451
+      ],
+      "source_cell": [
+        1060,
+        521,
+        476,
+        503
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_snow_fir": {
+      "id": "snow_snow_fir",
+      "name": "눈 전나무",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        50,
+        20,
+        423,
+        502
+      ],
+      "foot": [
+        205.0,
+        501
+      ],
+      "source_cell": [
+        0,
+        0,
+        523,
+        533
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_frost_birch": {
+      "id": "snow_frost_birch",
+      "name": "서리 자작나무",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        574,
+        21,
+        383,
+        497
+      ],
+      "foot": [
+        219.0,
+        496
+      ],
+      "source_cell": [
+        523,
+        0,
+        487,
+        533
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_ice_boulders": {
+      "id": "snow_ice_boulders",
+      "name": "얼음 바위",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        1063,
+        182,
+        428,
+        338
+      ],
+      "foot": [
+        226.0,
+        337
+      ],
+      "source_cell": [
+        1010,
+        0,
+        526,
+        533
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_snow_shrub": {
+      "id": "snow_snow_shrub",
+      "name": "눈 덤불",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        72,
+        646,
+        373,
+        318
+      ],
+      "foot": [
+        172.0,
+        317
+      ],
+      "source_cell": [
+        0,
+        533,
+        533,
+        491
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_snow_lantern": {
+      "id": "snow_snow_lantern",
+      "name": "설원 등불",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        638,
+        544,
+        262,
+        437
+      ],
+      "foot": [
+        90.0,
+        436
+      ],
+      "source_cell": [
+        533,
+        533,
+        484,
+        491
+      ],
+      "source_pack": "biomes"
+    },
+    "snow_stone_cairn": {
+      "id": "snow_stone_cairn",
+      "name": "눈 돌탑",
+      "theme": "snow",
+      "sheet": "res://assets/environment/biomes-v04/snow.png",
+      "rect": [
+        1120,
+        614,
+        314,
+        349
+      ],
+      "foot": [
+        195.0,
+        348
+      ],
+      "source_cell": [
+        1017,
+        533,
+        519,
+        491
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_willow_tree": {
+      "id": "marsh_willow_tree",
+      "name": "버드나무",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        33,
+        32,
+        454,
+        482
+      ],
+      "foot": [
+        226.5,
+        481
+      ],
+      "source_cell": [
+        0,
+        0,
+        529,
+        540
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_hollow_cypress": {
+      "id": "marsh_hollow_cypress",
+      "name": "속 빈 고목",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        571,
+        22,
+        388,
+        506
+      ],
+      "foot": [
+        153.0,
+        505
+      ],
+      "source_cell": [
+        529,
+        0,
+        462,
+        540
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_fern_boulders": {
+      "id": "marsh_fern_boulders",
+      "name": "고사리 바위",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        1023,
+        178,
+        484,
+        337
+      ],
+      "foot": [
+        253.0,
+        336
+      ],
+      "source_cell": [
+        991,
+        0,
+        545,
+        540
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_cattails": {
+      "id": "marsh_cattails",
+      "name": "부들",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        47,
+        550,
+        406,
+        414
+      ],
+      "foot": [
+        205.0,
+        413
+      ],
+      "source_cell": [
+        0,
+        540,
+        507,
+        484
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_shelf_mushrooms": {
+      "id": "marsh_shelf_mushrooms",
+      "name": "선반 버섯",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        562,
+        614,
+        390,
+        324
+      ],
+      "foot": [
+        198.0,
+        323
+      ],
+      "source_cell": [
+        507,
+        540,
+        493,
+        484
+      ],
+      "source_pack": "biomes"
+    },
+    "marsh_boardwalk": {
+      "id": "marsh_boardwalk",
+      "name": "나무 보행로",
+      "theme": "marsh",
+      "sheet": "res://assets/environment/biomes-v04/marsh.png",
+      "rect": [
+        1049,
+        594,
+        446,
+        352
+      ],
+      "foot": [
+        262.0,
+        351
+      ],
+      "source_cell": [
+        1000,
+        540,
+        536,
+        484
+      ],
+      "source_pack": "biomes"
+    },
+    "flood_coral_arch": {
+      "id": "flood_coral_arch",
+      "name": "산호 아치",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        45,
+        61,
+        443,
+        417
+      ],
+      "foot": [
+        101.0,
+        414
+      ],
+      "source_cell": [
+        0,
+        0,
+        548,
+        497
+      ],
+      "source_pack": "expansion"
+    },
+    "flood_sunken_column": {
+      "id": "flood_sunken_column",
+      "name": "침식된 기둥",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        609,
+        24,
+        306,
+        469
+      ],
+      "foot": [
+        143.0,
+        466
+      ],
+      "source_cell": [
+        548,
+        0,
+        427,
+        497
+      ],
+      "source_pack": "expansion"
+    },
+    "flood_rust_gate": {
+      "id": "flood_rust_gate",
+      "name": "녹슨 수문",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        1035,
+        74,
+        457,
+        406
+      ],
+      "foot": [
+        363.0,
+        403
+      ],
+      "source_cell": [
+        975,
+        0,
+        561,
+        497
+      ],
+      "source_pack": "expansion"
+    },
+    "flood_tidal_basin": {
+      "id": "flood_tidal_basin",
+      "name": "조수 수반",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        50,
+        582,
+        443,
+        345
+      ],
+      "foot": [
+        215.0,
+        342
+      ],
+      "source_cell": [
+        0,
+        497,
+        536,
+        527
+      ],
+      "source_pack": "expansion"
+    },
+    "flood_shipwreck_crate": {
+      "id": "flood_shipwreck_crate",
+      "name": "난파선 상자",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        580,
+        572,
+        387,
+        378
+      ],
+      "foot": [
+        201.0,
+        375
+      ],
+      "source_cell": [
+        536,
+        497,
+        490,
+        527
+      ],
+      "source_pack": "expansion"
+    },
+    "flood_bronze_beacon": {
+      "id": "flood_bronze_beacon",
+      "name": "청동 등대등",
+      "theme": "flood",
+      "sheet": "res://assets/environment/biomes-v04/flood.png",
+      "rect": [
+        1086,
+        502,
+        353,
+        473
+      ],
+      "foot": [
+        182.0,
+        470
+      ],
+      "source_cell": [
+        1026,
+        497,
+        510,
+        527
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_canopy_mushroom": {
+      "id": "spore_canopy_mushroom",
+      "name": "거대 우산버섯",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        31,
+        46,
+        448,
+        456
+      ],
+      "foot": [
+        242.0,
+        453
+      ],
+      "source_cell": [
+        0,
+        0,
+        520,
+        519
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_root_nest": {
+      "id": "spore_root_nest",
+      "name": "포자 뿌리둥지",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        562,
+        55,
+        438,
+        436
+      ],
+      "foot": [
+        124.0,
+        433
+      ],
+      "source_cell": [
+        520,
+        0,
+        511,
+        519
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_shelf_log": {
+      "id": "spore_shelf_log",
+      "name": "군락 통나무",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        1063,
+        138,
+        440,
+        336
+      ],
+      "foot": [
+        289.0,
+        333
+      ],
+      "source_cell": [
+        1031,
+        0,
+        505,
+        519
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_puffball_cluster": {
+      "id": "spore_puffball_cluster",
+      "name": "포자 주머니 군락",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        45,
+        599,
+        418,
+        345
+      ],
+      "foot": [
+        282.0,
+        342
+      ],
+      "source_cell": [
+        0,
+        519,
+        500,
+        505
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_mycelium_stone": {
+      "id": "spore_mycelium_stone",
+      "name": "균사 바위",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        538,
+        572,
+        460,
+        384
+      ],
+      "foot": [
+        242.0,
+        381
+      ],
+      "source_cell": [
+        500,
+        519,
+        545,
+        505
+      ],
+      "source_pack": "expansion"
+    },
+    "spore_spore_lantern": {
+      "id": "spore_spore_lantern",
+      "name": "균광 등주",
+      "theme": "spore",
+      "sheet": "res://assets/environment/biomes-v04/spore.png",
+      "rect": [
+        1092,
+        536,
+        380,
+        431
+      ],
+      "foot": [
+        175.0,
+        428
+      ],
+      "source_cell": [
+        1045,
+        519,
+        491,
+        505
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_basalt_arch": {
+      "id": "lava_basalt_arch",
+      "name": "현무암 아치",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        37,
+        52,
+        462,
+        439
+      ],
+      "foot": [
+        100.0,
+        436
+      ],
+      "source_cell": [
+        0,
+        0,
+        550,
+        532
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_fumarole_pillar": {
+      "id": "lava_fumarole_pillar",
+      "name": "분기공 돌기둥",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        602,
+        42,
+        341,
+        446
+      ],
+      "foot": [
+        151.0,
+        443
+      ],
+      "source_cell": [
+        550,
+        0,
+        458,
+        532
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_ember_crystals": {
+      "id": "lava_ember_crystals",
+      "name": "잿불 광물",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        1074,
+        63,
+        414,
+        425
+      ],
+      "foot": [
+        221.0,
+        422
+      ],
+      "source_cell": [
+        1008,
+        0,
+        528,
+        532
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_scorched_cart": {
+      "id": "lava_scorched_cart",
+      "name": "불탄 광차",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        65,
+        589,
+        408,
+        345
+      ],
+      "foot": [
+        174.0,
+        342
+      ],
+      "source_cell": [
+        0,
+        532,
+        515,
+        492
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_slag_boulders": {
+      "id": "lava_slag_boulders",
+      "name": "용재 바위",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        557,
+        580,
+        429,
+        362
+      ],
+      "foot": [
+        282.0,
+        359
+      ],
+      "source_cell": [
+        515,
+        532,
+        513,
+        492
+      ],
+      "source_pack": "expansion"
+    },
+    "lava_forge_brazier": {
+      "id": "lava_forge_brazier",
+      "name": "화산 화로",
+      "theme": "lava",
+      "sheet": "res://assets/environment/biomes-v04/lava.png",
+      "rect": [
+        1070,
+        573,
+        412,
+        374
+      ],
+      "foot": [
+        206.0,
+        371
+      ],
+      "source_cell": [
+        1028,
+        532,
+        508,
+        492
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_gear_tower": {
+      "id": "machine_gear_tower",
+      "name": "기어 탑",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        49,
+        30,
+        415,
+        463
+      ],
+      "foot": [
+        204.0,
+        460
+      ],
+      "source_cell": [
+        0,
+        0,
+        508,
+        511
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_pipe_junction": {
+      "id": "machine_pipe_junction",
+      "name": "증기 배관",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        552,
+        104,
+        437,
+        386
+      ],
+      "foot": [
+        271.0,
+        383
+      ],
+      "source_cell": [
+        508,
+        0,
+        530,
+        511
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_dormant_boiler": {
+      "id": "machine_dormant_boiler",
+      "name": "휴면 보일러",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        1087,
+        22,
+        363,
+        471
+      ],
+      "foot": [
+        216.0,
+        468
+      ],
+      "source_cell": [
+        1038,
+        0,
+        498,
+        511
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_gear_scrap": {
+      "id": "machine_gear_scrap",
+      "name": "톱니 고철더미",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        24,
+        618,
+        467,
+        337
+      ],
+      "foot": [
+        177.0,
+        334
+      ],
+      "source_cell": [
+        0,
+        511,
+        513,
+        513
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_repair_bench": {
+      "id": "machine_repair_bench",
+      "name": "정비 작업대",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        535,
+        618,
+        467,
+        343
+      ],
+      "foot": [
+        330.0,
+        340
+      ],
+      "source_cell": [
+        513,
+        511,
+        541,
+        513
+      ],
+      "source_pack": "expansion"
+    },
+    "machine_broken_lamppost": {
+      "id": "machine_broken_lamppost",
+      "name": "고장난 가로등",
+      "theme": "machine",
+      "sheet": "res://assets/environment/biomes-v04/machine.png",
+      "rect": [
+        1107,
+        530,
+        337,
+        445
+      ],
+      "foot": [
+        117.0,
+        442
+      ],
+      "source_cell": [
+        1054,
+        511,
+        482,
+        513
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_moonstone_arch": {
+      "id": "nebula_moonstone_arch",
+      "name": "월석 아치",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        46,
+        24,
+        425,
+        467
+      ],
+      "foot": [
+        100.0,
+        464
+      ],
+      "source_cell": [
+        0,
+        0,
+        510,
+        524
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_star_geode": {
+      "id": "nebula_star_geode",
+      "name": "별빛 정동",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        550,
+        78,
+        444,
+        422
+      ],
+      "foot": [
+        328.5,
+        419
+      ],
+      "source_cell": [
+        510,
+        0,
+        539,
+        524
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_celestial_orrery": {
+      "id": "nebula_celestial_orrery",
+      "name": "천구 관측기",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        1104,
+        36,
+        337,
+        485
+      ],
+      "foot": [
+        189.0,
+        482
+      ],
+      "source_cell": [
+        1049,
+        0,
+        487,
+        524
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_astral_lantern": {
+      "id": "nebula_astral_lantern",
+      "name": "성광 등석",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        101,
+        528,
+        315,
+        448
+      ],
+      "foot": [
+        164.0,
+        445
+      ],
+      "source_cell": [
+        0,
+        524,
+        477,
+        500
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_quartz_boulders": {
+      "id": "nebula_quartz_boulders",
+      "name": "유성석 바위",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        538,
+        597,
+        453,
+        352
+      ],
+      "foot": [
+        330.0,
+        349
+      ],
+      "source_cell": [
+        477,
+        524,
+        567,
+        500
+      ],
+      "source_pack": "expansion"
+    },
+    "nebula_crystal_monolith": {
+      "id": "nebula_crystal_monolith",
+      "name": "성운 수정비",
+      "theme": "nebula",
+      "sheet": "res://assets/environment/biomes-v04/nebula.png",
+      "rect": [
+        1097,
+        543,
+        349,
+        440
+      ],
+      "foot": [
+        235.0,
+        437
+      ],
+      "source_cell": [
+        1044,
+        524,
+        492,
+        500
+      ],
+      "source_pack": "expansion"
+    },
+    "core_fractured_pylon": {
+      "id": "core_fractured_pylon",
+      "name": "분열 마력기둥",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        106,
+        27,
+        311,
+        473
+      ],
+      "foot": [
+        161.0,
+        470
+      ],
+      "source_cell": [
+        0,
+        0,
+        508,
+        515
+      ],
+      "source_pack": "expansion"
+    },
+    "core_bound_core": {
+      "id": "core_bound_core",
+      "name": "구속된 마력핵",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        599,
+        85,
+        334,
+        414
+      ],
+      "foot": [
+        166.0,
+        411
+      ],
+      "source_cell": [
+        508,
+        0,
+        478,
+        515
+      ],
+      "source_pack": "expansion"
+    },
+    "core_broken_ring_gate": {
+      "id": "core_broken_ring_gate",
+      "name": "부서진 고리문",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        1040,
+        39,
+        455,
+        447
+      ],
+      "foot": [
+        354.0,
+        444
+      ],
+      "source_cell": [
+        986,
+        0,
+        550,
+        515
+      ],
+      "source_pack": "expansion"
+    },
+    "core_core_altar": {
+      "id": "core_core_altar",
+      "name": "핵 제단",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        29,
+        601,
+        483,
+        337
+      ],
+      "foot": [
+        184.0,
+        334
+      ],
+      "source_cell": [
+        0,
+        515,
+        537,
+        509
+      ],
+      "source_pack": "expansion"
+    },
+    "core_core_fragments": {
+      "id": "core_core_fragments",
+      "name": "마력핵 파편",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        562,
+        602,
+        413,
+        323
+      ],
+      "foot": [
+        238.0,
+        320
+      ],
+      "source_cell": [
+        537,
+        515,
+        482,
+        509
+      ],
+      "source_pack": "expansion"
+    },
+    "core_chained_obelisk": {
+      "id": "core_chained_obelisk",
+      "name": "봉쇄 오벨리스크",
+      "theme": "core",
+      "sheet": "res://assets/environment/biomes-v04/core.png",
+      "rect": [
+        1063,
+        530,
+        409,
+        433
+      ],
+      "foot": [
+        177.5,
+        430
+      ],
+      "source_cell": [
+        1019,
+        515,
+        517,
+        509
+      ],
+      "source_pack": "expansion"
+    },
+    "desert_sarcophagus": {
+      "id": "desert_sarcophagus",
+      "name": "황금 석관",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        140,
+        19,
+        234,
+        461
+      ],
+      "foot": [
+        108.0,
+        458
+      ],
+      "source_cell": [
+        0,
+        0,
+        453,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "desert_sphinx": {
+      "id": "desert_sphinx",
+      "name": "모래 스핑크스",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        533,
+        55,
+        454,
+        413
+      ],
+      "foot": [
+        135.0,
+        410
+      ],
+      "source_cell": [
+        453,
+        0,
+        582,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "desert_canopic_cabinet": {
+      "id": "desert_canopic_cabinet",
+      "name": "성수 항아리장",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        1084,
+        20,
+        387,
+        478
+      ],
+      "foot": [
+        269.0,
+        475
+      ],
+      "source_cell": [
+        1035,
+        0,
+        501,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "desert_sun_dial": {
+      "id": "desert_sun_dial",
+      "name": "태양 원반",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        38,
+        528,
+        438,
+        446
+      ],
+      "foot": [
+        348.0,
+        443
+      ],
+      "source_cell": [
+        0,
+        513,
+        509,
+        511
+      ],
+      "source_pack": "fantasy"
+    },
+    "desert_scarab_reliquary": {
+      "id": "desert_scarab_reliquary",
+      "name": "풍뎅이 성물함",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        543,
+        609,
+        432,
+        324
+      ],
+      "foot": [
+        269.0,
+        321
+      ],
+      "source_cell": [
+        509,
+        513,
+        497,
+        511
+      ],
+      "source_pack": "fantasy"
+    },
+    "desert_funeral_barge": {
+      "id": "desert_funeral_barge",
+      "name": "장례용 나룻배",
+      "theme": "desert",
+      "sheet": "res://assets/environment/biomes-v04/desert.png",
+      "rect": [
+        1037,
+        541,
+        487,
+        417
+      ],
+      "foot": [
+        274.0,
+        414
+      ],
+      "source_cell": [
+        1006,
+        513,
+        530,
+        511
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_wind_harp": {
+      "id": "sky_wind_harp",
+      "name": "바람의 하프",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        157,
+        20,
+        265,
+        484
+      ],
+      "foot": [
+        169.0,
+        481
+      ],
+      "source_cell": [
+        0,
+        0,
+        516,
+        506
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_winged_hourglass": {
+      "id": "sky_winged_hourglass",
+      "name": "날개 모래시계",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        611,
+        20,
+        305,
+        460
+      ],
+      "foot": [
+        155.0,
+        457
+      ],
+      "source_cell": [
+        516,
+        0,
+        473,
+        506
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_celestial_bell": {
+      "id": "sky_celestial_bell",
+      "name": "천상의 종",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        1062,
+        4,
+        409,
+        493
+      ],
+      "foot": [
+        151.0,
+        490
+      ],
+      "source_cell": [
+        989,
+        0,
+        547,
+        506
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_cloud_cistern": {
+      "id": "sky_cloud_cistern",
+      "name": "구름 물항아리",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        103,
+        539,
+        353,
+        450
+      ],
+      "foot": [
+        167.0,
+        447
+      ],
+      "source_cell": [
+        0,
+        506,
+        527,
+        518
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_wind_vanes": {
+      "id": "sky_wind_vanes",
+      "name": "바람 측정기",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        599,
+        509,
+        345,
+        474
+      ],
+      "foot": [
+        239.0,
+        471
+      ],
+      "source_cell": [
+        527,
+        506,
+        473,
+        518
+      ],
+      "source_pack": "fantasy"
+    },
+    "sky_star_lectern": {
+      "id": "sky_star_lectern",
+      "name": "별자리 독서대",
+      "theme": "sky",
+      "sheet": "res://assets/environment/biomes-v04/sky.png",
+      "rect": [
+        1056,
+        542,
+        431,
+        436
+      ],
+      "foot": [
+        165.0,
+        433
+      ],
+      "source_cell": [
+        1000,
+        506,
+        536,
+        518
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_frozen_throne": {
+      "id": "ice_frozen_throne",
+      "name": "얼음 왕좌",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        75,
+        18,
+        297,
+        475
+      ],
+      "foot": [
+        189.0,
+        472
+      ],
+      "source_cell": [
+        0,
+        0,
+        473,
+        505
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_pipe_organ": {
+      "id": "ice_pipe_organ",
+      "name": "서리 파이프 오르간",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        575,
+        15,
+        370,
+        474
+      ],
+      "foot": [
+        270.0,
+        471
+      ],
+      "source_cell": [
+        473,
+        0,
+        547,
+        505
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_swan_basin": {
+      "id": "ice_swan_basin",
+      "name": "백조 물수반",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        1095,
+        38,
+        378,
+        450
+      ],
+      "foot": [
+        290.0,
+        447
+      ],
+      "source_cell": [
+        1020,
+        0,
+        516,
+        505
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_candelabrum": {
+      "id": "ice_candelabrum",
+      "name": "눈꽃 촛대",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        61,
+        517,
+        359,
+        472
+      ],
+      "foot": [
+        177.0,
+        469
+      ],
+      "source_cell": [
+        0,
+        505,
+        476,
+        519
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_royal_sleigh": {
+      "id": "ice_royal_sleigh",
+      "name": "왕실 썰매",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        532,
+        561,
+        455,
+        385
+      ],
+      "foot": [
+        197.0,
+        382
+      ],
+      "source_cell": [
+        476,
+        505,
+        550,
+        519
+      ],
+      "source_pack": "fantasy"
+    },
+    "ice_chime_rack": {
+      "id": "ice_chime_rack",
+      "name": "고드름 풍경",
+      "theme": "ice",
+      "sheet": "res://assets/environment/biomes-v04/ice.png",
+      "rect": [
+        1066,
+        524,
+        440,
+        446
+      ],
+      "foot": [
+        363.0,
+        443
+      ],
+      "source_cell": [
+        1026,
+        505,
+        510,
+        519
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_skull_ossuary": {
+      "id": "graveyard_skull_ossuary",
+      "name": "해골 납골함",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        60,
+        43,
+        407,
+        447
+      ],
+      "foot": [
+        203.0,
+        444
+      ],
+      "source_cell": [
+        0,
+        0,
+        547,
+        510
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_weeping_statue": {
+      "id": "graveyard_weeping_statue",
+      "name": "애도하는 석상",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        627,
+        18,
+        271,
+        482
+      ],
+      "foot": [
+        136.0,
+        479
+      ],
+      "source_cell": [
+        547,
+        0,
+        395,
+        510
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_coffin_cart": {
+      "id": "graveyard_coffin_cart",
+      "name": "관 운반 수레",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        986,
+        115,
+        532,
+        333
+      ],
+      "foot": [
+        441.0,
+        330
+      ],
+      "source_cell": [
+        942,
+        0,
+        594,
+        510
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_raven_perch": {
+      "id": "graveyard_raven_perch",
+      "name": "까마귀 횃대",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        60,
+        521,
+        399,
+        468
+      ],
+      "foot": [
+        205.0,
+        465
+      ],
+      "source_cell": [
+        0,
+        510,
+        509,
+        514
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_gravedigger_rack": {
+      "id": "graveyard_gravedigger_rack",
+      "name": "묘지 도구걸이",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        560,
+        537,
+        389,
+        424
+      ],
+      "foot": [
+        333.0,
+        421
+      ],
+      "source_cell": [
+        509,
+        510,
+        486,
+        514
+      ],
+      "source_pack": "fantasy"
+    },
+    "graveyard_bone_gate": {
+      "id": "graveyard_bone_gate",
+      "name": "뼈살 철문",
+      "theme": "graveyard",
+      "sheet": "res://assets/environment/biomes-v04/graveyard.png",
+      "rect": [
+        1041,
+        537,
+        462,
+        434
+      ],
+      "foot": [
+        392.0,
+        431
+      ],
+      "source_cell": [
+        995,
+        510,
+        541,
+        514
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_waterwheel": {
+      "id": "bamboo_waterwheel",
+      "name": "대나무 물레방아",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        49,
+        42,
+        418,
+        435
+      ],
+      "foot": [
+        182.0,
+        432
+      ],
+      "source_cell": [
+        0,
+        0,
+        516,
+        492
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_deer_scarer": {
+      "id": "bamboo_deer_scarer",
+      "name": "대나무 물받이",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        566,
+        54,
+        412,
+        404
+      ],
+      "foot": [
+        187.0,
+        401
+      ],
+      "source_cell": [
+        516,
+        0,
+        513,
+        492
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_incense_burner": {
+      "id": "bamboo_incense_burner",
+      "name": "청동 향로",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        1081,
+        44,
+        382,
+        425
+      ],
+      "foot": [
+        266.0,
+        422
+      ],
+      "source_cell": [
+        1029,
+        0,
+        507,
+        492
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_ceremonial_drum": {
+      "id": "bamboo_ceremonial_drum",
+      "name": "성소 큰북",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        59,
+        515,
+        411,
+        462
+      ],
+      "foot": [
+        249.0,
+        459
+      ],
+      "source_cell": [
+        0,
+        492,
+        509,
+        532
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_bamboo_grove": {
+      "id": "bamboo_bamboo_grove",
+      "name": "성소 대나무 군락",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        549,
+        507,
+        438,
+        468
+      ],
+      "foot": [
+        199.0,
+        465
+      ],
+      "source_cell": [
+        509,
+        492,
+        504,
+        532
+      ],
+      "source_pack": "fantasy"
+    },
+    "bamboo_woven_screen": {
+      "id": "bamboo_woven_screen",
+      "name": "대나무 병풍",
+      "theme": "bamboo",
+      "sheet": "res://assets/environment/biomes-v04/bamboo.png",
+      "rect": [
+        1040,
+        530,
+        462,
+        421
+      ],
+      "foot": [
+        168.0,
+        418
+      ],
+      "source_cell": [
+        1013,
+        492,
+        523,
+        532
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_cracked_egg": {
+      "id": "dragon_cracked_egg",
+      "name": "금이 간 용알",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        41,
+        51,
+        427,
+        432
+      ],
+      "foot": [
+        242.0,
+        429
+      ],
+      "source_cell": [
+        0,
+        0,
+        499,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_rib_arch": {
+      "id": "dragon_rib_arch",
+      "name": "용갈비 아치",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        530,
+        22,
+        477,
+        452
+      ],
+      "foot": [
+        158.0,
+        449
+      ],
+      "source_cell": [
+        499,
+        0,
+        539,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_horn_trophy": {
+      "id": "dragon_horn_trophy",
+      "name": "거대한 뿔 전시대",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        1070,
+        23,
+        426,
+        469
+      ],
+      "foot": [
+        184.0,
+        466
+      ],
+      "source_cell": [
+        1038,
+        0,
+        498,
+        513
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_scale_rack": {
+      "id": "dragon_scale_rack",
+      "name": "용비늘 갑옷걸이",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        23,
+        535,
+        455,
+        451
+      ],
+      "foot": [
+        342.0,
+        448
+      ],
+      "source_cell": [
+        0,
+        513,
+        509,
+        511
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_treasure_cauldron": {
+      "id": "dragon_treasure_cauldron",
+      "name": "황금 보물솥",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        540,
+        560,
+        442,
+        401
+      ],
+      "foot": [
+        67.5,
+        398
+      ],
+      "source_cell": [
+        509,
+        513,
+        507,
+        511
+      ],
+      "source_pack": "fantasy"
+    },
+    "dragon_feeding_bowl": {
+      "id": "dragon_feeding_bowl",
+      "name": "용의 먹이그릇",
+      "theme": "dragon",
+      "sheet": "res://assets/environment/biomes-v04/dragon.png",
+      "rect": [
+        1050,
+        572,
+        475,
+        373
+      ],
+      "foot": [
+        101.0,
+        370
+      ],
+      "source_cell": [
+        1016,
+        513,
+        520,
+        511
+      ],
+      "source_pack": "fantasy"
+    }
+  },
+  "themes": {
+    "forest": [
+      "forest_oak_tree",
+      "forest_birch_tree",
+      "forest_mossy_boulders",
+      "forest_flower_shrub",
+      "forest_hollow_log",
+      "forest_signpost",
+      "bamboo_waterwheel",
+      "bamboo_deer_scarer",
+      "bamboo_incense_burner",
+      "bamboo_ceremonial_drum",
+      "bamboo_bamboo_grove",
+      "bamboo_woven_screen"
+    ],
+    "cave": [
+      "cave_cyan_crystals",
+      "cave_stalagmites",
+      "cave_amethyst_geode",
+      "cave_glowing_mushrooms",
+      "cave_ore_boulders",
+      "cave_mine_arch"
+    ],
+    "ruins": [
+      "ruins_ivy_arch",
+      "ruins_obelisk",
+      "ruins_broken_column",
+      "ruins_wall_corner",
+      "ruins_stone_basin",
+      "ruins_rubble"
+    ],
+    "autumn": [
+      "autumn_maple_tree",
+      "autumn_ginkgo_tree",
+      "autumn_leafy_boulders",
+      "autumn_berry_shrub",
+      "autumn_mushroom_stump",
+      "autumn_lantern_post"
+    ],
+    "snow": [
+      "snow_snow_fir",
+      "snow_frost_birch",
+      "snow_ice_boulders",
+      "snow_snow_shrub",
+      "snow_snow_lantern",
+      "snow_stone_cairn",
+      "ice_frozen_throne",
+      "ice_pipe_organ",
+      "ice_swan_basin",
+      "ice_candelabrum",
+      "ice_royal_sleigh",
+      "ice_chime_rack"
+    ],
+    "marsh": [
+      "marsh_willow_tree",
+      "marsh_hollow_cypress",
+      "marsh_fern_boulders",
+      "marsh_cattails",
+      "marsh_shelf_mushrooms",
+      "marsh_boardwalk"
+    ],
+    "flood": [
+      "flood_coral_arch",
+      "flood_sunken_column",
+      "flood_rust_gate",
+      "flood_tidal_basin",
+      "flood_shipwreck_crate",
+      "flood_bronze_beacon",
+      "ruins_ivy_arch",
+      "ruins_obelisk",
+      "ruins_broken_column",
+      "ruins_wall_corner",
+      "ruins_stone_basin",
+      "ruins_rubble",
+      "desert_sarcophagus",
+      "desert_sphinx",
+      "desert_canopic_cabinet",
+      "desert_sun_dial",
+      "desert_scarab_reliquary",
+      "desert_funeral_barge"
+    ],
+    "spore": [
+      "spore_canopy_mushroom",
+      "spore_root_nest",
+      "spore_shelf_log",
+      "spore_puffball_cluster",
+      "spore_mycelium_stone",
+      "spore_spore_lantern",
+      "marsh_willow_tree",
+      "marsh_hollow_cypress",
+      "marsh_fern_boulders",
+      "marsh_cattails",
+      "marsh_shelf_mushrooms",
+      "marsh_boardwalk"
+    ],
+    "lava": [
+      "lava_basalt_arch",
+      "lava_fumarole_pillar",
+      "lava_ember_crystals",
+      "lava_scorched_cart",
+      "lava_slag_boulders",
+      "lava_forge_brazier",
+      "dragon_cracked_egg",
+      "dragon_rib_arch",
+      "dragon_horn_trophy",
+      "dragon_scale_rack",
+      "dragon_treasure_cauldron",
+      "dragon_feeding_bowl"
+    ],
+    "machine": [
+      "machine_gear_tower",
+      "machine_pipe_junction",
+      "machine_dormant_boiler",
+      "machine_gear_scrap",
+      "machine_repair_bench",
+      "machine_broken_lamppost"
+    ],
+    "nebula": [
+      "nebula_moonstone_arch",
+      "nebula_star_geode",
+      "nebula_celestial_orrery",
+      "nebula_astral_lantern",
+      "nebula_quartz_boulders",
+      "nebula_crystal_monolith",
+      "sky_wind_harp",
+      "sky_winged_hourglass",
+      "sky_celestial_bell",
+      "sky_cloud_cistern",
+      "sky_wind_vanes",
+      "sky_star_lectern"
+    ],
+    "core": [
+      "core_fractured_pylon",
+      "core_bound_core",
+      "core_broken_ring_gate",
+      "core_core_altar",
+      "core_core_fragments",
+      "core_chained_obelisk",
+      "graveyard_skull_ossuary",
+      "graveyard_weeping_statue",
+      "graveyard_coffin_cart",
+      "graveyard_raven_perch",
+      "graveyard_gravedigger_rack",
+      "graveyard_bone_gate"
+    ],
+    "desert": [
+      "desert_sarcophagus",
+      "desert_sphinx",
+      "desert_canopic_cabinet",
+      "desert_sun_dial",
+      "desert_scarab_reliquary",
+      "desert_funeral_barge"
+    ],
+    "sky": [
+      "sky_wind_harp",
+      "sky_winged_hourglass",
+      "sky_celestial_bell",
+      "sky_cloud_cistern",
+      "sky_wind_vanes",
+      "sky_star_lectern"
+    ],
+    "ice": [
+      "ice_frozen_throne",
+      "ice_pipe_organ",
+      "ice_swan_basin",
+      "ice_candelabrum",
+      "ice_royal_sleigh",
+      "ice_chime_rack"
+    ],
+    "graveyard": [
+      "graveyard_skull_ossuary",
+      "graveyard_weeping_statue",
+      "graveyard_coffin_cart",
+      "graveyard_raven_perch",
+      "graveyard_gravedigger_rack",
+      "graveyard_bone_gate"
+    ],
+    "bamboo": [
+      "bamboo_waterwheel",
+      "bamboo_deer_scarer",
+      "bamboo_incense_burner",
+      "bamboo_ceremonial_drum",
+      "bamboo_bamboo_grove",
+      "bamboo_woven_screen"
+    ],
+    "dragon": [
+      "dragon_cracked_egg",
+      "dragon_rib_arch",
+      "dragon_horn_trophy",
+      "dragon_scale_rack",
+      "dragon_treasure_cauldron",
+      "dragon_feeding_bowl"
+    ],
+    "town": [
+      "forest_oak_tree",
+      "forest_birch_tree",
+      "forest_mossy_boulders",
+      "forest_flower_shrub",
+      "forest_hollow_log",
+      "forest_signpost",
+      "ruins_ivy_arch",
+      "ruins_obelisk",
+      "ruins_broken_column",
+      "ruins_wall_corner",
+      "ruins_stone_basin",
+      "ruins_rubble"
+    ]
+  },
+  "chapters": [
+    "forest",
+    "cave",
+    "flood",
+    "spore",
+    "lava",
+    "snow",
+    "machine",
+    "autumn",
+    "nebula",
+    "core"
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "amethyst-purple-dress": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "amethyst-summer-shawl": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "aqua-goggles-explorer": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "aqua-pajama": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "aqua-rabbit-stage": {
+    "allowed_base_classes": [
+      "mage",
+      "fighter"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "paw_gauntlets_and_ice_magic"
+  },
+  "aqua-winter-hanbok": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "cobalt-black-ribbon-maid": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "cobalt-broom-maid": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "magic_broom"
+  },
+  "cobalt-navy-hanbok": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "crimson-black-dress": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "crimson-black-jacket": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "crimson-pastel-rabbit": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "crimson-rose-gothic": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "closed_parasol_and_hand_magic"
+  },
+  "gat_addition_01_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_01_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_02_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_02_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_03_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_03_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_04_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_04_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_05_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_05_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_06_1": {
+    "allowed_base_classes": [],
+    "allowed_classes": []
+  },
+  "gat_addition_06_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_07_1": {
+    "allowed_base_classes": [
+      "rogue"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_07_2": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_08_1": {
+    "allowed_base_classes": [
+      "rogue"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_08_2": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_09_1": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_09_2": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_10_1": {
+    "allowed_base_classes": [],
+    "allowed_classes": []
+  },
+  "gat_addition_10_2": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_11_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_11_2": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_12_1": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": []
+  },
+  "gat_addition_12_2": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": []
+  },
+  "lavender-sailor": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "lavender-shrine-maiden": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "lavender-winter-hanbok": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "mint-hanbok": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "sword"
+  },
+  "mint-silver-knight": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "sword"
+  },
+  "mint-summer": {
+    "allowed_base_classes": [
+      "warrior"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "sword"
+  },
+  "pearlcat-sailor": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "pink-beret-gunner": {
+    "allowed_base_classes": [],
+    "allowed_classes": [],
+    "runtime_role": "town_npc",
+    "weapon_subtype": "gun"
+  },
+  "pink-black-veil-hanbok": {
+    "allowed_base_classes": [],
+    "allowed_classes": [],
+    "runtime_role": "town_npc",
+    "weapon_subtype": "gun"
+  },
+  "pink-bunny-hoodie": {
+    "allowed_base_classes": [],
+    "allowed_classes": [],
+    "runtime_role": "town_npc",
+    "weapon_subtype": "gun"
+  },
+  "raven-black-punk": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "raven-navy-hanbok": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "raven-pink-dress": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "raven-school-uniform": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "raven-summer-resort": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "silvercat-black-uniform": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "silvercat-blossom-hanbok": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "silvercat-pink-maid": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "silvercat-street": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  },
+  "silvercat-summer-resort": {
+    "allowed_base_classes": [
+      "mage"
+    ],
+    "allowed_classes": [],
+    "runtime_role": "player_costume",
+    "weapon_subtype": "hand_cast_magic"
+  }
+}

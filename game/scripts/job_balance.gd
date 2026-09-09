@@ -92,7 +92,7 @@ static func profile(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:fl
 	s.power*=1.+gear.force;s.heal*=1.+gear.force;s.regen*=1.+gear.force;s.shield*=1.+gear.force;s.pet_power*=1.+gear.force;s.counter_power*=1.+gear.force
 	n.radius*=1.+gear.reach;n.range*=1.+gear.reach;n.duration*=1.+gear.echo;s.buff*=1.+gear.echo;s.pet_buff*=1.+gear.echo;s.meditate_rate*=1.+gear.echo;s.recall_heal*=1.+gear.echo;s.parry*=1.+gear.echo
 	s.cooldown=maxf(.5,s.cooldown*preload("res://scripts/progression.gd").cooldown_factor(p));s.cost=maxf(5,s.cost)
-	return s
+	return preload("res://scripts/constellation_effects.gd").resolve(p,node,s,true)
 static func metrics(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:float)->Array:
 	if node.effect=="upgrade":
 		var context=p.duplicate(true);context.skill_ranks[node.id]=rank
@@ -127,6 +127,7 @@ static func metrics(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:fl
 	if BUFF_KEYS.has(mode) or mode in ["shield","ally_dash","wall","regen","field_heal","cleanse","distribute","dice","reroll","pet_buff","pet_haste","pet_heal","pet_guard","pet_sacrifice","slow","stun","root","bleed","blind","vulnerable","weaken","break_armor"]:rows.append(["지속시간","%.1f초"%s.node.duration])
 	if s.time>0:rows.append(["시전 시간","%.2f초"%s.time])
 	rows.append(["재사용 시간","%.2f초"%s.cooldown]);rows.append(["소모 기력","%.0f"%s.cost])
+	rows.append_array(preload("res://scripts/constellation_effects.gd").metrics(s))
 	if node.get("rune_cost",0)>0:rows.append(["소모 룬",str(node.rune_cost)])
 	if rank==0:
 		for row in rows:row[1]="미습득"

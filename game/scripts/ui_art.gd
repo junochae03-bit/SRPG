@@ -23,6 +23,12 @@ static func decorate(control:Control,kind:String="paper",corner:float=18)->NineP
 	control.resized.connect(func():frame.size=control.size/factor)
 	return frame
 static func picture(parent:Node,tex:Texture2D,at:Vector2,dimensions:Vector2)->TextureRect:
-	var image=TextureRect.new();image.position=at;image.size=dimensions;image.texture=tex;image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(image);return image
+	var image=TextureRect.new();image.position=at;image.size=dimensions;image.texture=tex;image.material=icon_material(tex);image.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;image.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(image);return image
+static func icon_material(tex:Texture2D)->ShaderMaterial:
+	if tex is AtlasTexture and tex.atlas!=null:
+		var path=tex.atlas.resource_path
+		if path.contains("/icons/wood-") or path.contains("/assets/equipment/"):
+			return preload("res://scripts/gat_art.gd").material()
+	return null
 static func panel(parent:Node,at:Vector2,dimensions:Vector2,kind:String="paper",corner:float=24)->Control:
 	var surface=Control.new();surface.position=at;surface.size=dimensions;surface.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(surface);decorate(surface,kind,corner);return surface

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "atlas": "res://assets/floor_tiles_v04/ground.png",
+  "atlas_size": [1536, 1024],
+  "sha256": "53122ee4ab0894b320b63e7ffea4591d5fd6a5751adc0a15bd7dc8599e730877",
+  "source": "RPG2/art/tiles/fantasy-tiles-20260909/sources/ground.png",
+  "provenance": "Built-in image_gen, 2026-09-09; original ground atlas copied byte-for-byte. Original generation.json retained in source pack. No wall assets or TileSet physics are consumed.",
+  "consumer": "forest_environment.gd -> floor_tile_art_v04.gd -> shaders/forest_ground.gdshader",
+  "sampling": {"projection": [96,48], "mirror_period_cells": 5.0, "panel_inset": 16, "filter": "linear without mipmaps; clamp inside each source panel"},
+  "materials": {
+    "forest": {"name":"이끼 숲", "rect":[0,0,512,512], "sample_rect":[16,16,480,480]},
+    "dungeon": {"name":"석조 동굴", "rect":[512,0,512,512], "sample_rect":[528,16,480,480]},
+    "desert": {"name":"모래 길", "rect":[1024,0,512,512], "sample_rect":[1040,16,480,480]},
+    "ice": {"name":"빙하", "rect":[0,512,512,512], "sample_rect":[16,528,480,480]},
+    "lava": {"name":"용암 지각", "rect":[512,512,512,512], "sample_rect":[528,528,480,480]},
+    "sky": {"name":"천공 대리석", "rect":[1024,512,512,512], "sample_rect":[1040,528,480,480]}
+  },
+  "chapters": ["forest","cave","flood","spore","lava","snow","machine","autumn","nebula","core"],
+  "mappings": {
+    "tutorial": {"ground":"forest","path":"desert","ground_tint":[0.93,1.0,0.9],"path_tint":[0.88,0.96,0.88],"path_saturation":0.6},
+    "town": {"ground":"forest","path":"sky","ground_tint":[0.93,1.0,0.9],"path_tint":[0.9,0.91,0.82],"path_saturation":0.75},
+    "forest": {"ground":"forest","path":"desert","ground_tint":[0.92,1.0,0.9],"path_tint":[0.88,0.95,0.85],"path_saturation":0.6},
+    "cave": {"ground":"dungeon","path":"dungeon","ground_tint":[0.48,0.58,0.68],"path_tint":[0.95,1.03,1.1],"path_saturation":0.9},
+    "flood": {"ground":"ice","path":"desert","ground_tint":[0.39,0.69,0.7],"path_tint":[0.85,0.95,0.85],"path_saturation":0.28},
+    "spore": {"ground":"forest","path":"dungeon","ground_tint":[0.63,0.8,0.73],"path_tint":[0.9,0.96,0.79],"path_saturation":0.5},
+    "lava": {"ground":"lava","path":"dungeon","ground_tint":[1.0,0.86,0.8],"path_tint":[0.88,0.83,0.76],"path_saturation":0.25},
+    "snow": {"ground":"ice","path":"ice","ground_tint":[0.67,0.87,0.98],"path_tint":[1.02,1.02,1.04],"path_saturation":0.42},
+    "machine": {"ground":"dungeon","path":"dungeon","ground_tint":[0.5,0.57,0.56],"path_tint":[1.04,1.08,1.05],"path_saturation":0.3},
+    "autumn": {"ground":"forest","path":"desert","ground_tint":[1.05,0.82,0.56],"path_tint":[0.94,0.91,0.77],"path_saturation":0.65},
+    "nebula": {"ground":"sky","path":"sky","ground_tint":[0.42,0.47,0.72],"path_tint":[0.86,0.9,1.04],"path_saturation":0.65},
+    "core": {"ground":"dungeon","path":"sky","ground_tint":[0.58,0.51,0.72],"path_tint":[0.7,0.72,0.89],"path_saturation":0.38}
+  }
+}

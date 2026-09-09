@@ -48,7 +48,7 @@ func run():
 	check(not E.active(I.find_item(p,"rare")),"+1 remains locked")
 	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}) and p.gear_stats.strength==3,"+2 unlock applies stat")
 	var local=preload("res://scripts/local_session.gd").new();root.add_child(local);local.sim=sim;local.connected=true;local.slot=3;local.save_directory=ProjectSettings.globalize_path("res://../runtime/equipment-v02");local.save_game()
-	var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==6,"new gear save parsed")
+	var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==7,"new gear save parsed")
 	if saved!=null:
 		var restored=Sim.new(31,"town");var r=restored.add_player(1,"",saved);check(r.gear_stats.strength==3 and r.equipped=="rare","gear options persist")
 	local.connected=false;local.queue_free()

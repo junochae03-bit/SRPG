@@ -1,4 +1,5 @@
 extends Control
+const Icons=preload("res://scripts/icon_library.gd")
 var game
 var boss:Dictionary={}
 var target_id=-1
@@ -16,7 +17,7 @@ func _process(delta:float):
 	for enemy in game.session.state.enemies.values():
 		var distance=p.pos.distance_to(enemy.pos)
 		if enemy.get("boss",false) and enemy.hp>0 and distance<best:boss=enemy;best=distance
-	visible=not boss.is_empty() and not game.bag.visible and not game.skill_tree.visible and not game.help_panel.visible and not game.town_panel.visible and not game.codex.visible
+	visible=not boss.is_empty() and not game.bag.visible and not game.skill_tree.visible and not game.help_panel.visible and not game.town_panel.visible and not game.codex.visible and not game.npc_dialogue.visible
 	if boss.is_empty():target_id=-1;return
 	var ratio=clampf(float(boss.hp)/boss.max_hp,0,1)
 	if target_id!=boss.id:target_id=boss.id;trail=ratio;previous=ratio;lag=0
@@ -28,7 +29,7 @@ func _draw():
 	if boss.is_empty():return
 	var index=["warden","golem","sentinel"].find(boss.kind)
 	var data=preload("res://scripts/world_art.gd").frame("boss_bars",index)
-	var scale=590.0/data.texture.get_width();var origin=Vector2(426,38)
+	var scale=520.0/data.texture.get_width();var origin=Vector2(461,32)
 	draw_texture_rect(data.texture,Rect2(origin,data.texture.get_size()*scale),false)
 	var track=data.track;var rect=Rect2(origin+Vector2(track[0],track[1])*scale,Vector2(track[2],track[3])*scale)
 	draw_rect(Rect2(rect.position,Vector2(rect.size.x*trail,rect.size.y)),Color("f6d69a"))
@@ -37,9 +38,8 @@ func _draw():
 	draw_rect(Rect2(rect.position,Vector2(rect.size.x*ratio,rect.size.y*.28)),Color("ff787e"))
 	var title="LV.%d  ·  %s" % [boss.get("level",1),boss.name]
 	if boss.get("phase",1)==2:title+="  ·  격노"
-	text_center(title,Vector2(721,27),20,Color("fff2ca"))
-	text_center("%d / %d" % [maxi(0,boss.hp),boss.max_hp],Vector2(721,rect.end.y+16),13,Color("fff1d5"))
-	draw_stagger(rect.end.y+27)
+	text_center(title,Vector2(721,27),20,Color("fff2ca"),"enrage" if boss.get("phase",1)==2 else "boss")
+	draw_stagger(146)
 
 func draw_stagger(top:float):
 	var s=boss.get("stagger",{})
@@ -58,19 +58,23 @@ func draw_stagger(top:float):
 	backdrop.texture_margin_left=64;backdrop.texture_margin_right=64;backdrop.texture_margin_top=64;backdrop.texture_margin_bottom=64
 	# Match UiArt.decorate's border scale so the ornamental corners fit this narrow meter.
 	var border_scale=12./64.
-	draw_set_transform(Vector2(481,top-4),0,Vector2.ONE*border_scale)
-	draw_style_box(backdrop,Rect2(Vector2.ZERO,Vector2(480,65)/border_scale))
+	draw_set_transform(Vector2(481,top),0,Vector2.ONE*border_scale)
+	draw_style_box(backdrop,Rect2(Vector2.ZERO,Vector2(480,82)/border_scale))
 	draw_set_transform(Vector2.ZERO)
-	var meter=Rect2(509,top,424,22)
+	var meter=Rect2(509,top+18,424,22)
 	draw_rect(Rect2(meter.position+Vector2(4,5),Vector2(416,12)),Color("192c34"))
 	draw_rect(Rect2(meter.position+Vector2(4,5),Vector2(416*progress,12)),color)
 	draw_rect(Rect2(meter.position+Vector2(4,5),Vector2(416*progress,3)),color.lightened(.35))
 	for i in range(1,5):draw_line(meter.position+Vector2(4+416*i/5.,5),meter.position+Vector2(4+416*i/5.,17),Color("40342690"),1)
-	text_center(caption,Vector2(721,top+42),14,Color("fff2ce"))
+	text_center(caption,Vector2(721,top+60),14,Color("fff2ce"),{"check":"stagger_check","down":"stagger_broken","immune":"stagger_immune"}.get(state,"stagger"))
 	if state=="check":
 		var remaining=clampf(float(s.time_left)/s.time_max,0,1)
-		draw_line(Vector2(549,top+52),Vector2(549+344*remaining,top+52),Color("ff9076") if s.time_left<3 else Color("d8f8ff"),3)
-func text_center(value:String,at:Vector2,font_size:int,color:Color):
-	var font=game.bold_font;at.x-=font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x*.5
+		draw_line(Vector2(549,top+68),Vector2(549+344*remaining,top+68),Color("ff9076") if s.time_left<3 else Color("d8f8ff"),3)
+func text_center(value:String,at:Vector2,font_size:int,color:Color,icon_key:String=""):
+	var font=game.bold_font;var icon_width=font_size+8 if not icon_key.is_empty() else 0
+	at.x-=(font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x+icon_width)*.5
+	if not icon_key.is_empty():
+		Icons.draw(self,icon_key,Rect2(at+Vector2(0,-font_size-2),Vector2.ONE*(font_size+3)))
+		at.x+=icon_width
 	font.draw_string_outline(get_canvas_item(),at,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,4,Color("2e292bd9"))
 	draw_string(font,at,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)

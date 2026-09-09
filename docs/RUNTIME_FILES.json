@@ -195,6 +195,191 @@
     "sha256": "704c5b6db82dbaa43ef30e095af03bd5e48201774363f07a81a6926e4b2cae0d"
   },
   {
+    "path": "game/assets/costume_v04/amethyst-purple-dress-sheet.png",
+    "bytes": 2121626,
+    "sha256": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8"
+  },
+  {
+    "path": "game/assets/costume_v04/amethyst-summer-shawl-sheet.png",
+    "bytes": 2256545,
+    "sha256": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2"
+  },
+  {
+    "path": "game/assets/costume_v04/aqua-goggles-explorer-sheet.png",
+    "bytes": 2089640,
+    "sha256": "d2b0db9d9328615803af2319f8c33bf4ca5d198db57d0be6ab8d91b427108601"
+  },
+  {
+    "path": "game/assets/costume_v04/aqua-pajama-sheet.png",
+    "bytes": 2096256,
+    "sha256": "f735f329121728d2278d3e731c98b2a415f724e24ae188b0da963d6372726137"
+  },
+  {
+    "path": "game/assets/costume_v04/aqua-rabbit-stage-sheet.png",
+    "bytes": 1915123,
+    "sha256": "335c37486cf203e5793d9ad6809533fe3d29f7846503fdb5d88b92a78cd28075"
+  },
+  {
+    "path": "game/assets/costume_v04/aqua-winter-hanbok-sheet.png",
+    "bytes": 2070479,
+    "sha256": "780eb5b746cdd631e1bc28d7056dfb83fe33048f81d57e6cdf6cae42bde492cc"
+  },
+  {
+    "path": "game/assets/costume_v04/catalog.json",
+    "bytes": 318420,
+    "sha256": "8b35996899db1cd185f3fa2aff8a20c6e7333b7fa0fe4691c8c0524ec7bff7b6"
+  },
+  {
+    "path": "game/assets/costume_v04/class_matching.json",
+    "bytes": 8996,
+    "sha256": "6a91bff0239826a906847da27a98edbbcc23f0b68a8778d136779a24d1461a6d"
+  },
+  {
+    "path": "game/assets/costume_v04/cobalt-black-ribbon-maid-sheet.png",
+    "bytes": 2294003,
+    "sha256": "3fee4ea917e3b90478cb270e5e810683296d7fc3ff07ccc26e73ecb8ad517fc5"
+  },
+  {
+    "path": "game/assets/costume_v04/cobalt-broom-maid-sheet.png",
+    "bytes": 2365728,
+    "sha256": "e7f848bd53f3e46e1c5f638881e824baf70e42ad002ceb058e59dfc00487b761"
+  },
+  {
+    "path": "game/assets/costume_v04/cobalt-navy-hanbok-sheet.png",
+    "bytes": 2283985,
+    "sha256": "468bdeafbf11a7a04673796056e43dc9fdd955eb39fce79cdacb6eacd2e0b02e"
+  },
+  {
+    "path": "game/assets/costume_v04/crimson-black-dress-sheet.png",
+    "bytes": 2134427,
+    "sha256": "53eaefede0fd0e9ab728e24831f69313ab46c7b318a10674ba9cca3f71d68fcb"
+  },
+  {
+    "path": "game/assets/costume_v04/crimson-black-jacket-sheet.png",
+    "bytes": 1948871,
+    "sha256": "a1d9c747730843de4a474e97220ff84a4fcb8461bbfa3e953f4cd726da8e5ccd"
+  },
+  {
+    "path": "game/assets/costume_v04/crimson-pastel-rabbit-sheet.png",
+    "bytes": 2193079,
+    "sha256": "a7f732e15056c6fe28cc6fc8ccd85773f5026f18c69cc0ed7dea2a0e0e72e45d"
+  },
+  {
+    "path": "game/assets/costume_v04/crimson-rose-gothic-sheet.png",
+    "bytes": 2259683,
+    "sha256": "e8ff9dfa38670211aa4d6812d6c7497a41eacb1cda075f76926326947dbd8597"
+  },
+  {
+    "path": "game/assets/costume_v04/lavender-sailor-sheet.png",
+    "bytes": 1989380,
+    "sha256": "bcae4f6178ab86c2a76fc7d1e65a525276550c66d7a2fbd972e266fdeffe6778"
+  },
+  {
+    "path": "game/assets/costume_v04/lavender-shrine-maiden-sheet.png",
+    "bytes": 2074916,
+    "sha256": "61c97fe967d977d5769d39097d01aac1edca025433950fcdbf9f0ef93b12af03"
+  },
+  {
+    "path": "game/assets/costume_v04/lavender-winter-hanbok-sheet.png",
+    "bytes": 1995188,
+    "sha256": "1706348a89df7af80c5c6c99488bc149a95d76f1ea92465b179407e422ed30c8"
+  },
+  {
+    "path": "game/assets/costume_v04/mint-hanbok-sheet.png",
+    "bytes": 1869356,
+    "sha256": "4971c06409b32a814cea6784cd20450263fa080bba1c0b6905660ea0a24a344a"
+  },
+  {
+    "path": "game/assets/costume_v04/mint-silver-knight-attacks-v04.png",
+    "bytes": 1278429,
+    "sha256": "a9b9c91e6319cbc17b7ef5619ac7f71824708804e8bb5663b84ab40f55a5e6c7"
+  },
+  {
+    "path": "game/assets/costume_v04/mint-silver-knight-sheet.png",
+    "bytes": 1913808,
+    "sha256": "d7c8530cafc4ebf7509bdb136533d52c971ac6e84cefc36cefa15882bbb6a0fc"
+  },
+  {
+    "path": "game/assets/costume_v04/mint-summer-attacks-v04.png",
+    "bytes": 1282228,
+    "sha256": "1280135536aea64778e427e0caeb1663417fcadc03ad0ba1e107ba68cd2d53f3"
+  },
+  {
+    "path": "game/assets/costume_v04/mint-summer-sheet.png",
+    "bytes": 1935795,
+    "sha256": "6a57f04d50b2e9df1db35fd1a258ea77ebc1c264cbe8002496dd259ae71fe177"
+  },
+  {
+    "path": "game/assets/costume_v04/pearlcat-sailor-sheet.png",
+    "bytes": 2069309,
+    "sha256": "79a51b522657a8c22fcfb6d591124eb44c4a4e411124dabd99c6d39d62d20393"
+  },
+  {
+    "path": "game/assets/costume_v04/pink-beret-gunner-sheet.png",
+    "bytes": 1972760,
+    "sha256": "513119a2db90897e7be2716f024c0086cdf55fa2828aad884910c42fe7442aad"
+  },
+  {
+    "path": "game/assets/costume_v04/pink-black-veil-hanbok-sheet.png",
+    "bytes": 2050964,
+    "sha256": "1d40c4b3825eecaa7358ec7d0236f838dc3b759f558c8acdc9cbc6a1eb9b66c2"
+  },
+  {
+    "path": "game/assets/costume_v04/pink-bunny-hoodie-sheet.png",
+    "bytes": 1900147,
+    "sha256": "25b9b555faac1db096257154dca29522ab458f520322174685473172ec189129"
+  },
+  {
+    "path": "game/assets/costume_v04/raven-black-punk-sheet.png",
+    "bytes": 2123769,
+    "sha256": "1231ba97262120875d34b97994723b67b64c990ff7c1f2b7f09c90f3e45b3c94"
+  },
+  {
+    "path": "game/assets/costume_v04/raven-navy-hanbok-sheet.png",
+    "bytes": 2114788,
+    "sha256": "17bb573c8a1ae93be666fcf6652af582391111b520930b6d593e89a946effaaa"
+  },
+  {
+    "path": "game/assets/costume_v04/raven-pink-dress-sheet.png",
+    "bytes": 1975727,
+    "sha256": "2c2969c3f788217679a9264ab41fffe7397fc700ba40bd967c865c0c078a5be3"
+  },
+  {
+    "path": "game/assets/costume_v04/raven-school-uniform-sheet.png",
+    "bytes": 1949802,
+    "sha256": "ca6a8c6cfd985e80903b4a235028701d140f5a643dec834e494f84e84264307e"
+  },
+  {
+    "path": "game/assets/costume_v04/raven-summer-resort-sheet.png",
+    "bytes": 2122965,
+    "sha256": "ac87cdec41cd7053c6ef0f114aeba3aae1de098e6a007867e67ae98377cbdf97"
+  },
+  {
+    "path": "game/assets/costume_v04/silvercat-black-uniform-sheet.png",
+    "bytes": 1986292,
+    "sha256": "979ef0d99107479e3dfa163719a6f3de73a154f6c9636232a0b0ea0e847068bb"
+  },
+  {
+    "path": "game/assets/costume_v04/silvercat-blossom-hanbok-sheet.png",
+    "bytes": 2120868,
+    "sha256": "6b1fe0fd1a66acbb421ad318492462b1be3065b83735dd2645c6b833aaa5ca45"
+  },
+  {
+    "path": "game/assets/costume_v04/silvercat-pink-maid-sheet.png",
+    "bytes": 2161118,
+    "sha256": "4749725bd09b4b251b3aceb645c76d4ededd3faef6431eeaea351ead4ae224d8"
+  },
+  {
+    "path": "game/assets/costume_v04/silvercat-street-sheet.png",
+    "bytes": 2132264,
+    "sha256": "e6846ea94ff5f3a5ed6fee28f2c7862d63c2c47747c93926247c0052c6e426b6"
+  },
+  {
+    "path": "game/assets/costume_v04/silvercat-summer-resort-sheet.png",
+    "bytes": 2145267,
+    "sha256": "dda5a6e1e8f5ead8bbab607176b4ff5fcff7ade94506bb6da5b28b6ee4a8860d"
+  },
+  {
     "path": "game/assets/costumes/animations.json",
     "bytes": 1809,
     "sha256": "6dad8f0f7640ec14d43e658e879b1de37722126418ded39fdbfae0009f685717"
@@ -355,14 +540,144 @@
     "sha256": "256bc7ddb0c3ddd9e5776d18fbc10d667f7c0bd44628b21696570ba709407d76"
   },
   {
-    "path": "game/assets/environment/atlas_regions.json",
-    "bytes": 611,
-    "sha256": "5cd2aeeabb4bb8670e2715b558344393f6202847a786e5c87e857f1a33e7814b"
+    "path": "game/assets/environment/biomes-v04/autumn.png",
+    "bytes": 2136647,
+    "sha256": "bf46f4b57b21b8c0542898be453e4aa0a4097097c77b18f14af2947fd37e3e52"
   },
   {
-    "path": "game/assets/environment/forest_props.png",
-    "bytes": 2253488,
-    "sha256": "8de2cfc82e23d490a70a715c95f3b7867eb97598748e0062dc08cc8d5dd0b40b"
+    "path": "game/assets/environment/biomes-v04/bamboo.png",
+    "bytes": 2436618,
+    "sha256": "939df64e22dac89df25832c09e74b89d87b4126f4fccd7a426cc7db93032ddb0"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/catalog.json",
+    "bytes": 51921,
+    "sha256": "f751be51bce76ed2b6efd5f6499c90e23a0b74137f91f5dbb33bfebce1d97fea"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/cave.png",
+    "bytes": 2104269,
+    "sha256": "31aeca39ea5d25ec9f36aaa1f3a1cad4785ce023f55ae86d4f090fa45483aa3c"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/core.png",
+    "bytes": 2052115,
+    "sha256": "d0b9f3c570db045fb67661928d108bbd95bf8dd3eee7484578be2bfd60c5df7c"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/desert.png",
+    "bytes": 2353267,
+    "sha256": "2263ae6aadab84b0b916a3839aae8f6bdb649909fc03cf3d0abf01d7a1307e0f"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/dragon.png",
+    "bytes": 2481078,
+    "sha256": "4074d7228718134eb5112f049ba77541161b921cc4549db380f97834c93785e4"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/flood.png",
+    "bytes": 2298030,
+    "sha256": "16270efe722a04435dccfd6ab5fd608a90ea14cbaeb513dbd7f01afb7f8db8c8"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/forest.png",
+    "bytes": 2136338,
+    "sha256": "c3beba3599f958cb3861a95849ca596e15488f625cf29a54bdf4ba24a85cdfb3"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/graveyard.png",
+    "bytes": 2312048,
+    "sha256": "80759fc104d15a8e187bb63ea22f37f05e27a2a470abb9574d08d6d6569ac6b2"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/ice.png",
+    "bytes": 2180848,
+    "sha256": "6830bb7c49eee0d577d60474763a145334e3404cba2e7b5c92e133949b0c3663"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/lava.png",
+    "bytes": 2089297,
+    "sha256": "58e2e25e2073f39938efaf44fa31454a37010ef417f657479531e90cc5b57efb"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/machine.png",
+    "bytes": 2144987,
+    "sha256": "c9ed2aa139b8bc8d9a497a1d980a8c5615fff066eb53c4c5a623a61cb3f1598f"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/marsh.png",
+    "bytes": 2225993,
+    "sha256": "da60035ed3f220b01dea809709199e5a6ff847450b201b5f2fa9239126a705c2"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/nebula.png",
+    "bytes": 2268435,
+    "sha256": "4cc1f125d3a3eeecce7f2d2df74f0a0adf314ea8ebbaf64b612d173addbdc298"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/ruins.png",
+    "bytes": 1948651,
+    "sha256": "bc4f93cc30fabe265b3a0080918f74a643aebddc316677f12fb05a975b707d8f"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/sky.png",
+    "bytes": 2154113,
+    "sha256": "1ca6ce678242805ba3fbc84f893a6c4ce1b39e6372999248801134ce5b13e72e"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/snow.png",
+    "bytes": 1876821,
+    "sha256": "863a72bd776de1fab57cae3f346702a6a0123da4d1091306b25a045d23f7b166"
+  },
+  {
+    "path": "game/assets/environment/biomes-v04/spore.png",
+    "bytes": 2296431,
+    "sha256": "50ee204d87429178e385fe14c155681a6fde3b17b1629d64a1860088ee0bbda6"
+  },
+  {
+    "path": "game/assets/equipment/accessories.png",
+    "bytes": 1462562,
+    "sha256": "426eb64ca3a5dac3fd681bf0de8bf949ad5055c4fd4a47963ef4b8d6bc67626c"
+  },
+  {
+    "path": "game/assets/equipment/armor-relic.png",
+    "bytes": 2349231,
+    "sha256": "02658fa26f852ad7dfa754d79d59f98ec4b7879fa309a7246674f1fd5a900ee1"
+  },
+  {
+    "path": "game/assets/equipment/armor-trail.png",
+    "bytes": 2296321,
+    "sha256": "b654bff87f1dd80a00c217a3a83427791720a83f4cb61679b5697b3b95880774"
+  },
+  {
+    "path": "game/assets/equipment/items.json",
+    "bytes": 47426,
+    "sha256": "09216f1db0134e689adb86974d0142416e691e33cf37429deeeada825c41a03a"
+  },
+  {
+    "path": "game/assets/equipment/weapons-adept.png",
+    "bytes": 1687811,
+    "sha256": "454733f8ccb5f3554107dcff9686eb914e3a115a7dd883e12bd9dd38f3cba74e"
+  },
+  {
+    "path": "game/assets/equipment/weapons-relic.png",
+    "bytes": 1680758,
+    "sha256": "54ead574f44c956d980400e568a1b8c79cc2c4fbbbd908d60332dc1f35fb3523"
+  },
+  {
+    "path": "game/assets/equipment/weapons-trail.png",
+    "bytes": 1923313,
+    "sha256": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2"
+  },
+  {
+    "path": "game/assets/floor_tiles_v04/catalog.json",
+    "bytes": 2974,
+    "sha256": "11839c3c8396b08c1745add842556804360dd5f7c765e7d4ceba37c25bc215e9"
+  },
+  {
+    "path": "game/assets/floor_tiles_v04/ground.png",
+    "bytes": 3534127,
+    "sha256": "53122ee4ab0894b320b63e7ffea4591d5fd6a5751adc0a15bd7dc8599e730877"
   },
   {
     "path": "game/assets/fonts/dnf_bitbit_v2.ttf",
@@ -525,24 +840,49 @@
     "sha256": "f74ec98dc5222f47766739ed203e8e51f6f2099ce4f4619b9a031405d2b5b70c"
   },
   {
-    "path": "game/assets/icons/active-v05.png",
-    "bytes": 2868190,
-    "sha256": "550aa1e1afec05a71909f0c4a7d743b505b5956078ef41d01b838cc7d87f782b"
-  },
-  {
-    "path": "game/assets/icons/catalog.json",
-    "bytes": 5517,
-    "sha256": "229872eac7f2b870d2a054fbeb4a5e48f6dc1f75c5ce967fb24e2bbb430f367e"
-  },
-  {
     "path": "game/assets/icons/job-weapons-v02.png",
     "bytes": 1672588,
     "sha256": "743de35015683091295811ecff8a84b905d7d2900a82cf37994fe831d67d666d"
   },
   {
-    "path": "game/assets/icons/support-v05.png",
-    "bytes": 2750082,
-    "sha256": "1f102623875fb74e3c85c052dbd200319588e4a685bb5a83f0210af063e93b60"
+    "path": "game/assets/icons/semantic_catalog.json",
+    "bytes": 19164,
+    "sha256": "529ec9ba7b477cab2b2da4508a48a63d39c7229a3192de84411586d6d01de209"
+  },
+  {
+    "path": "game/assets/icons/wood-abilities.png",
+    "bytes": 1801197,
+    "sha256": "805741ad27d837acc0d9617404c1612f5624c92ce5598152ca907031e29ad4d1"
+  },
+  {
+    "path": "game/assets/icons/wood-adventure.png",
+    "bytes": 1758246,
+    "sha256": "e03ae05f9c11425e7c23003f78d2f7027df8c602d06b4ef29d7b9014fa1b6eb7"
+  },
+  {
+    "path": "game/assets/icons/wood-combat.png",
+    "bytes": 1792985,
+    "sha256": "5aa470d0a024476f0f54e59a69d8a818ab9e4798c2df575404e6a19f0826686e"
+  },
+  {
+    "path": "game/assets/icons/wood-identity.png",
+    "bytes": 1838609,
+    "sha256": "d4d6671355e104e58e5f1d6d5086cc58e27417a9dd13056b5d8cdf941cc79ce1"
+  },
+  {
+    "path": "game/assets/icons/wood-interface.png",
+    "bytes": 1731576,
+    "sha256": "204c7b855b3b9559d0a5c03235fc73b80678ec9e0234579038dcaa7eb47193f4"
+  },
+  {
+    "path": "game/assets/icons/wood-inventory.png",
+    "bytes": 1811991,
+    "sha256": "33163f55a00eba814076d5296799e6113e0d0c42330c0e743f7d3d7b5ca483d5"
+  },
+  {
+    "path": "game/assets/icons/wood-status.png",
+    "bytes": 1826368,
+    "sha256": "46f6cff3fd3d327afbcfe3bf5822238de39c37dbefe1d63ddcb0aca618c2f7e9"
   },
   {
     "path": "game/assets/jobs/breaker-effects.png",
@@ -760,6 +1100,11 @@
     "sha256": "46bff77e67fdafe42e0d0bbf93c454bad6a83508095d4101887dac983d7ac9f9"
   },
   {
+    "path": "game/assets/ui/title-storybook-v04.png",
+    "bytes": 2516273,
+    "sha256": "b19912b6326b4db32b2da54418bbc05e26eed0e5eb47adfff548386901cb5a39"
+  },
+  {
     "path": "game/assets/world/boss_bars-v05.png",
     "bytes": 1667775,
     "sha256": "07a94018659340586ea8f53a07957057880761ec6b66f3c82aa02da19094f746"
@@ -773,6 +1118,71 @@
     "path": "game/assets/world/catalog.json",
     "bytes": 7641,
     "sha256": "687d100cbfa221ecdae11ffb995393df5ac7bb96d6c1fe831535377ac7b94bea"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/catalog.json",
+    "bytes": 31435,
+    "sha256": "21437698e6edcf689a129f5381c8bbf671957d8811ed779c9decb66f141e4195"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/core-bosses.png",
+    "bytes": 2128539,
+    "sha256": "4326e90c5c418275ea4bca8b2024b1f3593ae1a0d7f17a3c37ba90e7dd27109a"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/core-monsters.png",
+    "bytes": 2157627,
+    "sha256": "d573997a69b1619a93e66e8cb33029c0d053afc65a5b71ff34401d88f4e3c95b"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/flood-bosses.png",
+    "bytes": 2198484,
+    "sha256": "428ad5d547c8cc699dc580c0bdcb42abb5aea4fdd8c7c1998ca6475ae942b2a3"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/flood-monsters.png",
+    "bytes": 2241009,
+    "sha256": "1673f863164228d38c06882ab99fafb75775919ed841ac5772114375f984371f"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/lava-bosses.png",
+    "bytes": 2127520,
+    "sha256": "eae2756ec37a6d0ec285398840bf8d4029ca3185659d07fb9d304220dc783a5e"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/lava-monsters.png",
+    "bytes": 1982835,
+    "sha256": "462b3a8a69f35b011723679ffba51a43afb0e3b1b4de32fc6cf7fd54ed9f0192"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/machine-bosses.png",
+    "bytes": 2223447,
+    "sha256": "b35f3fa28ca645a044212ab241794bf9d992db55a9e3110cf9b2d667f9a7f312"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/machine-monsters.png",
+    "bytes": 2034136,
+    "sha256": "02e47c775a69f1039af7d36066b3623d17a3f37b40752a4b46ac5f299f31cf87"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/nebula-bosses.png",
+    "bytes": 2037020,
+    "sha256": "18e3915103097c1c329c1da96048d0d6623b8790a81d6c90d46c52ac3d340ca2"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/nebula-monsters.png",
+    "bytes": 2027606,
+    "sha256": "3229ced03397f3c58c7c3c9f78a24fb1bb7727014feeded69aa8dfaf77d8cae1"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/spore-bosses.png",
+    "bytes": 1820377,
+    "sha256": "79d6b7291f625b599cdc25d80e863b3ab92983ebbb29098cb5f712ff5a8561c0"
+  },
+  {
+    "path": "game/assets/world/dungeon-v04/spore-monsters.png",
+    "bytes": 2203163,
+    "sha256": "e797d23f8def72626f5b2b3a69b5ab2c4f86285bde9654e8fa79f977d61681fe"
   },
   {
     "path": "game/assets/world/enemies-classic-v05.png",
@@ -811,8 +1221,8 @@
   },
   {
     "path": "game/project.godot",
-    "bytes": 756,
-    "sha256": "f661fac39051be41ab79153f4d64d50b96ac706ba4fafe67198dd937d43dc7ff"
+    "bytes": 761,
+    "sha256": "e05457158533f4f27758de956e5c88de458f83cff09999196a61780a362e6c42"
   },
   {
     "path": "game/scripts/abyss_catalog.gd",
@@ -821,28 +1231,48 @@
   },
   {
     "path": "game/scripts/action_circle.gd",
-    "bytes": 1830,
-    "sha256": "1f9f24e1fd6afd9ce2fae41d81c4aaf37070d289d55559550b5bd8203b45f994"
+    "bytes": 2512,
+    "sha256": "60357e54928757bf6a0f42ca2405eeec037b2c70d8df46d98d21ac9e941f1a0a"
   },
   {
     "path": "game/scripts/active_skills.gd",
-    "bytes": 9142,
-    "sha256": "3dc16e485703b40742744e0f7d6755dec2d3a51643eeb1d5398aff03347271fc"
+    "bytes": 9252,
+    "sha256": "8c2c3dea492725183e62ea6d379fd320e15047a20caaf068b47ff71d52b19b19"
+  },
+  {
+    "path": "game/scripts/appearance_rules.gd",
+    "bytes": 1432,
+    "sha256": "5f5e15b41d5d1a5ddca84da8fab8821a7d7d04b1b27d1a58c8265105d4e00f05"
+  },
+  {
+    "path": "game/scripts/art_registry.gd",
+    "bytes": 17957,
+    "sha256": "a23ea280d0017b0535fb9fccae469d5eaf06956bee7ebd895909471ae6168044"
   },
   {
     "path": "game/scripts/audio_director.gd",
-    "bytes": 5891,
-    "sha256": "62523df312a15911b8a56e0e5570fee856685c677888a8250472ed214d33522e"
+    "bytes": 6717,
+    "sha256": "3a2b8b7cc7bb2b55877532ba29e11c47ca92204884473d2be6660ba4be6845d5"
+  },
+  {
+    "path": "game/scripts/battle_camera.gd",
+    "bytes": 2402,
+    "sha256": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce"
   },
   {
     "path": "game/scripts/boss_hud.gd",
-    "bytes": 4516,
-    "sha256": "3190523c1ebc2ed181ff2cd0268a5dbb70dd3d5ff18a4da0b2df12fa3acc1982"
+    "bytes": 4866,
+    "sha256": "3a7569abe57cfd0a368a88388b55214f855caf68f7620be9d60c776556f97da0"
   },
   {
     "path": "game/scripts/boss_stagger.gd",
-    "bytes": 7247,
-    "sha256": "dd43e50a33befc46de52252503b2a5003bb2ea64f5d7e65b7e023d3112e58a08"
+    "bytes": 7385,
+    "sha256": "b78b6861d8b1ed1148f8f2c5e4f8d4ef3981c7802c41c5b981e3b39ef61b6798"
+  },
+  {
+    "path": "game/scripts/character_creation.gd",
+    "bytes": 3204,
+    "sha256": "b214ae41b19fdb2906312d0c0ab84c0993948c238c0af52acc1b2a0883e3c5c3"
   },
   {
     "path": "game/scripts/character_motion.gd",
@@ -850,14 +1280,24 @@
     "sha256": "8c424545f767509dd6e06cc6024b90a8dd89a8252d14867739a6fe7b95b5228b"
   },
   {
+    "path": "game/scripts/character_preview.gd",
+    "bytes": 1680,
+    "sha256": "841a9c94b95f78e6ac999b5f2937a79b5d656c5cb9d37d106c4457df5ea504a3"
+  },
+  {
+    "path": "game/scripts/character_sheet_ui.gd",
+    "bytes": 8320,
+    "sha256": "300a587129c10e319a5b2ec1b14258d1ca7fc305bea20ef248cc94fd2abb4f2f"
+  },
+  {
     "path": "game/scripts/codex_panel.gd",
-    "bytes": 23864,
-    "sha256": "4f271b2f277c751fb07c98a3067b619f6e16ffa8df59a016325d55ba5411fb73"
+    "bytes": 29737,
+    "sha256": "c118d309d26581b48f7075e9b94391e20e3a7f09e0c42fa1efe979fa85d1657e"
   },
   {
     "path": "game/scripts/combat_hud.gd",
-    "bytes": 9759,
-    "sha256": "60ce5483039b3fcfaea9e040ae8f31cf24c87ff63f37888f451cff090b0c4516"
+    "bytes": 11825,
+    "sha256": "2d4e66eb4c3838a13511766b7fd22b8180c3c4c094813dbf857eadf116c9d2dd"
   },
   {
     "path": "game/scripts/combat_sprite_art.gd",
@@ -865,9 +1305,24 @@
     "sha256": "2ecd285af6a7c9892ac09d3828fdbf8e542709f8046a7e40e6191cc29c2a1582"
   },
   {
+    "path": "game/scripts/constellation_catalog.gd",
+    "bytes": 12301,
+    "sha256": "f7234db401bab65e28e6f719c08458bd00b245c5994878fde2ee29e934286529"
+  },
+  {
+    "path": "game/scripts/constellation_effects.gd",
+    "bytes": 13855,
+    "sha256": "5eab2d8674bdf96ce6fddfac6c3ea6849844a06b68e165e64b0eae4233e00505"
+  },
+  {
     "path": "game/scripts/content.gd",
-    "bytes": 6302,
-    "sha256": "6f76f967d14c44edaad9a0c722a723ff2541d96ae4bf94edb9aba5456a419628"
+    "bytes": 7109,
+    "sha256": "7549c17236a59cec324c7a5cc20cf8fb6ab63c3b32ebc17a1703daec8447e8e0"
+  },
+  {
+    "path": "game/scripts/costume_art_v04.gd",
+    "bytes": 8187,
+    "sha256": "271ba45458e50fc8f9842ea1e6e65c9527688057515c60f607749325cc7109d6"
   },
   {
     "path": "game/scripts/dungeon.gd",
@@ -875,24 +1330,39 @@
     "sha256": "c08c1be75c9e2f99d7dbf53ae07c02e0cc92f37a862f2f1d553b28deb983d7d8"
   },
   {
+    "path": "game/scripts/environment_art.gd",
+    "bytes": 1467,
+    "sha256": "982ec6a5307a831789be0b6d12cae6ad90b21c1251bfc81c44bc1bcaf6b1db54"
+  },
+  {
+    "path": "game/scripts/equipment_art.gd",
+    "bytes": 7963,
+    "sha256": "529fb96156c15cd69dc9be317d54571246d3596963ab1fea1e1d713b84492b1c"
+  },
+  {
     "path": "game/scripts/equipment_catalog.gd",
     "bytes": 6850,
     "sha256": "715f13c3fda83b7f40eae6708075246717ac3551a540148803ecaf63a61e0b4b"
   },
   {
+    "path": "game/scripts/floor_tile_art_v04.gd",
+    "bytes": 1947,
+    "sha256": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40"
+  },
+  {
     "path": "game/scripts/forest_environment.gd",
-    "bytes": 6752,
-    "sha256": "374a28990024abc271b964bb73f274cc7727b03da26faf17c6f7d1527192fc49"
+    "bytes": 5170,
+    "sha256": "29e3767749d5ac4cc74a2a7e9409b47ee1b02c643368f25f838d166926e77246"
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 16645,
-    "sha256": "b8ae80c5268a28c123b76104ae9e28ee489f1d9cf7be691172a5de3a45b53f88"
+    "bytes": 21476,
+    "sha256": "0cd1aa0746bd0d04e5343e6da51299f5c90fd54efc1549e4f99260f3f3a9db53"
   },
   {
     "path": "game/scripts/gat_art.gd",
-    "bytes": 2555,
-    "sha256": "ff9323af40e5ba69bfd870a568496cf000a6d3a28178450a28d6ddbd010e899d"
+    "bytes": 2807,
+    "sha256": "94a95a9f97d6c6910e3c6db126e393bb28267bf540aa5f94f3f25668dccdffe7"
   },
   {
     "path": "game/scripts/gat_catalog.gd",
@@ -901,23 +1371,28 @@
   },
   {
     "path": "game/scripts/hud_sprite_button.gd",
-    "bytes": 924,
-    "sha256": "6f7524fdea5f683076ae8ab0f84e66d40b02153eee48612d3118cbd9bb8af302"
+    "bytes": 1366,
+    "sha256": "2de660556e9b91a7459e841fac3973cf42570695601ebb6f0cf7805504d49613"
   },
   {
     "path": "game/scripts/icon_art.gd",
-    "bytes": 4259,
-    "sha256": "effab2553a8e62c71a6e6747dc4b7b1a73c59f82c8edba97cc8c91fbe47532e2"
+    "bytes": 9351,
+    "sha256": "07fd7e9563a490540e74b97a1802cea7733d828a097a2eaaeadb81f55cc790a7"
+  },
+  {
+    "path": "game/scripts/icon_library.gd",
+    "bytes": 3328,
+    "sha256": "6e4ee2d11d16bbe456d24eef20fa35c00c1b7b65db0867dad1e1e12a7c9e1387"
   },
   {
     "path": "game/scripts/inventory_grid_ui.gd",
-    "bytes": 2336,
-    "sha256": "b1cbaca676e3815e1f9a7424a8483a9b151d58d08f9a9a4a9ab1962a267b4807"
+    "bytes": 2524,
+    "sha256": "d89b43e412c48731ddccc98badf9925d918b8c956880b6741a6ffb3b32c50d58"
   },
   {
     "path": "game/scripts/inventory_item_ui.gd",
-    "bytes": 3548,
-    "sha256": "00756b582bb58934666c80ce1650a513d9a9a756ac3fd2aad96b532a824a7254"
+    "bytes": 4286,
+    "sha256": "c83f98727d4e15aaaeceb008a75a6be91c3c34b59f474972f12027c4c3391fa1"
   },
   {
     "path": "game/scripts/inventory_model.gd",
@@ -926,8 +1401,8 @@
   },
   {
     "path": "game/scripts/inventory_panel.gd",
-    "bytes": 10735,
-    "sha256": "c9ca404670004692ea3d2c044433439d2914fdddf397ef79a4a7b2ba3f826673"
+    "bytes": 12577,
+    "sha256": "c5c945f9d9c3e10274bc856c9f4f67a1bb8bb40a568527ae828cb3a012a0baf6"
   },
   {
     "path": "game/scripts/item_art.gd",
@@ -941,13 +1416,13 @@
   },
   {
     "path": "game/scripts/job_balance.gd",
-    "bytes": 15368,
-    "sha256": "d9daddfd674e52e281eb348fcad60c34899b9c8bbce2cf9f81038b94cd29660e"
+    "bytes": 15520,
+    "sha256": "480db4018362bf0bef34c6310fa0f8b529552212235296f5bb4502329ec5a205"
   },
   {
     "path": "game/scripts/job_combat.gd",
-    "bytes": 34052,
-    "sha256": "995c34f00b40c7eaf30d13ab637da0de407c317047eff7c69ac2d5613b0fc0b4"
+    "bytes": 34844,
+    "sha256": "286f99acda1a7b0653f9eb6d34f0d39c45d9d96aab094e173c1bd695a8599e53"
   },
   {
     "path": "game/scripts/job_item_art.gd",
@@ -956,13 +1431,13 @@
   },
   {
     "path": "game/scripts/job_resource_hud.gd",
-    "bytes": 4587,
-    "sha256": "68dea61c8e29d26db28f90f3af8293ec5af4cb79f5baa1aa3d87aaf273666bc2"
+    "bytes": 6432,
+    "sha256": "c198daab16c04627ce9e38f6ff65d4d144574fde6c61e686f5b20a138edbcb00"
   },
   {
     "path": "game/scripts/local_session.gd",
-    "bytes": 14186,
-    "sha256": "084dc5154da50267d9665d31926d777accbf080799436f282d5e5f5c725c8fab"
+    "bytes": 16539,
+    "sha256": "2a0da2878802da2ef6816252948d7eaeca0599c461888f52c1b4a1874b1b34dc"
   },
   {
     "path": "game/scripts/loot_tables.gd",
@@ -971,13 +1446,13 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 37397,
-    "sha256": "b0409df796fc016fe005528effafc8d75cd7746f168c90bf8d20dc081af8a778"
+    "bytes": 43141,
+    "sha256": "35f033c1cbf45fa03883fba0ec5e9ec7437bd999412282cf0ae69f1099faea53"
   },
   {
     "path": "game/scripts/minimap.gd",
-    "bytes": 1157,
-    "sha256": "71d9678f6a5d69e524f933f839a779ff31060b1c4813d1e6de41cf70ebae9146"
+    "bytes": 2016,
+    "sha256": "d562e1965169ab025aa41587ec386b1ca2420ba2fbf046baad9d4c5fab549f50"
   },
   {
     "path": "game/scripts/monster_attacks.gd",
@@ -985,14 +1460,19 @@
     "sha256": "2cf795f2e856b6c64f4988074e3fbc134a14305afd7f2507621e9e49e12728be"
   },
   {
+    "path": "game/scripts/npc_dialogue.gd",
+    "bytes": 4578,
+    "sha256": "468bc6de20d34f084babd42fd001eaaa531e45835ea1275d4bb40972a99e48fc"
+  },
+  {
     "path": "game/scripts/player_combat.gd",
-    "bytes": 11270,
-    "sha256": "1c0e93fd6d4393a2b00ff4bcecb12db5b8c64a7d4fc5431ed1120154fb894779"
+    "bytes": 11799,
+    "sha256": "e8cb3fe84b3b9e2fa64956ccc507aa51c2a3c9f1198acd53b7bba812f298aa56"
   },
   {
     "path": "game/scripts/progression.gd",
-    "bytes": 2049,
-    "sha256": "0fda713ec05b7af57b6fafa6b278d8b479e202e0797f1cafafd56efee7c660ed"
+    "bytes": 2081,
+    "sha256": "57f842deae7215cb3eefce8fe8f20938769da9c38d853012c7f4be2c52db2219"
   },
   {
     "path": "game/scripts/service_quote.gd",
@@ -1001,8 +1481,13 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 24911,
-    "sha256": "f840f71b06dca30e129ed44297d6fe13b2c46036cb8cab7c8316db2bacac3d76"
+    "bytes": 27216,
+    "sha256": "878e329e6e7e39324fdfe333423f1b9675846fdd21054e1fd25b6c21dbfa77f4"
+  },
+  {
+    "path": "game/scripts/skill_build.gd",
+    "bytes": 10916,
+    "sha256": "5933e03beedba8682659ce2fd41573a5b6811fdd8c5612959e09ee99687dd8d5"
   },
   {
     "path": "game/scripts/skill_catalog.gd",
@@ -1015,14 +1500,19 @@
     "sha256": "f86ba117316798b3774977fb6cf96fe79ba5b1de3b524a2f2afe0e3b140be79a"
   },
   {
+    "path": "game/scripts/skill_graph_view.gd",
+    "bytes": 13302,
+    "sha256": "bc5cc780a97c8473140025215cae30871983dc4f45e50b5f29691e35d6ba9c9f"
+  },
+  {
     "path": "game/scripts/skill_scaling.gd",
-    "bytes": 5785,
-    "sha256": "bf0be13f27eb7e96ed7898c36287425cf975d3e3a977372c9ec0ead7afec3c34"
+    "bytes": 5955,
+    "sha256": "74ea0acff1490e944b601968cbe698506bc6db02084cedbafedc1558b7d29762"
   },
   {
     "path": "game/scripts/skill_tree_ui.gd",
-    "bytes": 18826,
-    "sha256": "218aa636c73687e8adac1dfaaed9ead483c52a60f810e31799b4c7adaeff3bc1"
+    "bytes": 26494,
+    "sha256": "bb070d10b3971039a38cc2351aecf9893fcdb93bf5d30938ba56fd97d1f1d127"
   },
   {
     "path": "game/scripts/skill_vfx.gd",
@@ -1035,9 +1525,19 @@
     "sha256": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c"
   },
   {
+    "path": "game/scripts/status_markers.gd",
+    "bytes": 2450,
+    "sha256": "2a562c6d194015c08664ed74a0a99577ea28d4fdddaa3f68107b0bf16fae5ed8"
+  },
+  {
+    "path": "game/scripts/title_screen.gd",
+    "bytes": 3902,
+    "sha256": "67a122a27c5468137fb3a7e477f1a16ef69c506e95828683d5d667479ccb4e5a"
+  },
+  {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 16168,
-    "sha256": "92e44aab95ab568c9f9c6483405ae1a42b1fdbf8f22b6a703c31e78b77bc23e3"
+    "bytes": 20967,
+    "sha256": "8fdec0139ff39e072fae8378a43761c3c759f22056649bf77b01cc5d004de505"
   },
   {
     "path": "game/scripts/town_services.gd",
@@ -1045,9 +1545,14 @@
     "sha256": "007e4b24e74128624569a1bdaf235a8fd63a275a9cf2c79bc33418b50ac62626"
   },
   {
+    "path": "game/scripts/town_visitors.gd",
+    "bytes": 932,
+    "sha256": "ee7b7f7185783504ae5597da3dde1838e90ddf319d2c5be0733e6ecc47536f13"
+  },
+  {
     "path": "game/scripts/ui_art.gd",
-    "bytes": 1993,
-    "sha256": "0b315b2a05929499678e27a9d56b331936b424ab850c1f2691b9bd0e6b7dc291"
+    "bytes": 2310,
+    "sha256": "5a31b52e4ded196e07a60f1ea998290561879912faa36f4cab63dbe0d36e7001"
   },
   {
     "path": "game/scripts/vfx_gallery.gd",
@@ -1056,8 +1561,8 @@
   },
   {
     "path": "game/scripts/world_art.gd",
-    "bytes": 653,
-    "sha256": "a51c74e50384df6c030d2676bd72c1bb9cc1b40a9bc7f96f0115b0fdfb75f974"
+    "bytes": 2206,
+    "sha256": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085"
   },
   {
     "path": "game/scripts/world_catalog.gd",
@@ -1066,12 +1571,12 @@
   },
   {
     "path": "game/shaders/forest_ground.gdshader",
-    "bytes": 3650,
-    "sha256": "16c4ed86c80c784db644ae10411239502a731758c8eccb107d362000272144e8"
+    "bytes": 1773,
+    "sha256": "a511357a5fcd7873110edbdb8dde66e93d4eaaa5ff6da3c944120e5e69e332e1"
   },
   {
     "path": "game/shaders/gat_chroma.gdshader",
-    "bytes": 684,
-    "sha256": "2eb37c40fcb6010c20cf7c94d657e63d79d94a41714aae8336bfef43fae94614"
+    "bytes": 2067,
+    "sha256": "f2d998bb9534629e025e3d8934649d5548437fdec86bd208db17ee44a2d0d81d"
   }
 ]

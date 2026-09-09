@@ -16,6 +16,24 @@ var step_clock=0.0
 var last_pos=Vector2.ZERO
 var settings_path=""
 var stopped=false
+var playback_refs:Array[WeakRef]=[]
+
+func track_playback(player:AudioStreamPlayer):
+	pending_playbacks()
+	if player.has_stream_playback():playback_refs.append(weakref(player.get_stream_playback()))
+
+func pending_playbacks()->int:
+	playback_refs=playback_refs.filter(func(reference):return reference.get_ref()!=null)
+	return playback_refs.size()
+
+func shutdown(timeout_seconds:float=3.0)->bool:
+	# stop() schedules audio-thread retirement; a fixed frame/time delay does
+	# not prove that AudioServer released its playback and looping WAV refs.
+	stop_all()
+	var deadline=Time.get_ticks_msec()+int(timeout_seconds*1000)
+	while pending_playbacks()>0 and Time.get_ticks_msec()<deadline:
+		await get_tree().process_frame
+	return pending_playbacks()==0
 
 func setup(owner_game):
 	game=owner_game
@@ -57,7 +75,7 @@ func set_music(key:String):
 	if current_fade and current_fade.is_running():current_fade.kill()
 	var previous=music_players[music_index]
 	music_index=1-music_index
-	var next=music_players[music_index];next.stream=streams[key][0];next.volume_db=-80;next.play()
+	var next=music_players[music_index];next.stream=streams[key][0];next.volume_db=-80;next.play();track_playback(next)
 	current_fade=create_tween().set_parallel(true)
 	current_fade.tween_property(previous,"volume_db",-80.0,1.4)
 	current_fade.tween_property(next,"volume_db",music_volume(),1.4)
@@ -73,7 +91,7 @@ func play_sound(key:String,quiet:float=0.0):
 	player.stream=streams[key][index%streams[key].size()]
 	player.volume_db=-80 if game.options.has("mute") or effects_gain<=0 else linear_to_db(effects_gain)-12+quiet
 	player.pitch_scale=1.0+float(index%3-1)*0.025 if key in ["sword","axe","step"] else 1.0
-	player.play();last_played=key;play_counts[key]=int(play_counts.get(key,0))+1
+	player.play();track_playback(player);last_played=key;play_counts[key]=int(play_counts.get(key,0))+1
 func index_for_pool()->int:
 	for i in range(pool.size()):
 		if not pool[i].playing:return i
@@ -127,7 +145,7 @@ func _process(delta:float):
 	last_pos=p.pos
 func stop_all():
 	stopped=true
-	if current_fade:current_fade.kill()
+	if current_fade:current_fade.kill();current_fade=null
 	for player in pool+music_players:
 		player.stop()
 		player.stream=null
