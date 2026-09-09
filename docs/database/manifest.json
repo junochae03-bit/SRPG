@@ -1,0 +1,30 @@
+{
+  "counts": {
+    "appearances": 620,
+    "classes": 20,
+    "drops": 132,
+    "equipment": 2500,
+    "floors": 100,
+    "monsters": 24,
+    "raid_drops": 24,
+    "raids": 10,
+    "skill_parents": 651,
+    "skill_ranks": 2030,
+    "skills": 610
+  },
+  "files": {
+    "schema.sql": {
+      "bytes": 5063,
+      "sha256": "ff611e4dd57b1811777e34347dde4470df732f301bcb2cdd5e2cf2fcba914922"
+    },
+    "stelrpg-database.json": {
+      "bytes": 6044417,
+      "sha256": "04c927e646ee27a3598060d4cecbc12868c04b4ba827459d2bcb2a766ad691ae"
+    },
+    "stelrpg.sqlite": {
+      "bytes": 2322432,
+      "sha256": "1d0d52a195d43cc8a00cc72a150df59e0706aa41243aede4cca43afadb9db190"
+    }
+  },
+  "schema_version": 1
+}

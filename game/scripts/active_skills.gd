@@ -13,6 +13,20 @@ static func bonuses(p:Dictionary)->Dictionary:
 	result["cooldown_factor"]=preload("res://scripts/progression.gd").cooldown_factor(p)
 	return result
 func cast(p:Dictionary,action:String)->bool:
+	if action not in Content.ACTIONS:return false
+	var rank=Content.action_rank(p,action);var node=Content.active_node(p,action)
+	# Reject an empty or unlearned slot before constructing cast metadata. Empty
+	# dictionaries are not valid Scaling nodes and must never allocate a budget.
+	if node.is_empty() or rank<=0:
+		combat.sim.notice(p.id,"K에서 이 기술을 배운 뒤 사용할 수 있습니다.");return false
+	var profile=Scaling.profile(node,rank,bonuses(p))
+	var previous=combat.stagger_context
+	combat.stagger_context=combat.BossStagger.context(combat.BossStagger.token(node,rank,p,combat.sim.clock,int(profile.count)))
+	var result=_cast(p,action)
+	combat.stagger_context=previous
+	return result
+
+func _cast(p:Dictionary,action:String)->bool:
 	var rank=Content.action_rank(p,action)
 	if rank<=0:
 		combat.sim.notice(p.id,"K에서 이 기술을 배운 뒤 사용할 수 있습니다.");return false
@@ -21,6 +35,7 @@ func cast(p:Dictionary,action:String)->bool:
 	p.stamina-=s.cost;p[action+"_cd"]=s.cooldown;p.skill_cooldowns[node.id]=s.cooldown
 	var power=combat.sim.damage_for(p)*s.multiplier;var before=combat.projectiles.size()
 	p.motion_time=.5;p.motion_duration=.5;p.swing=.5;p.casting_rank=rank
+	p["casting_vfx"]={"skill_id":node.id,"skill_mode":s.mode,"rank":rank,"origin":p.pos,"count":s.count}
 	if node.has("mode"):cast_extended(p,node,power,s)
 	else:
 		match s.mode:
@@ -51,7 +66,9 @@ func cast(p:Dictionary,action:String)->bool:
 				fx(p,"blink",start,.55,s.radius,p.pos);add_zone(p,"starburst",p.pos,s.radius,power,[.10])
 	for i in range(before,combat.projectiles.size()):
 		combat.projectiles[i].width=s.width;combat.projectiles[i].visual_scale=1+.25*(rank-1);combat.projectiles[i].skill_rank=rank
+		combat.projectiles[i].merge(p.casting_vfx,true);combat.projectiles[i]["class_id"]=p.class_id;combat.projectiles[i]["fx"]=node.get("fx",node.id);combat.projectiles[i]["origin"]=combat.projectiles[i].pos
 	p.erase("casting_rank")
+	p.erase("casting_vfx")
 	return true
 static func pulses(count:int,start:float,interval:float)->Array:
 	var result=[]
@@ -62,6 +79,7 @@ func cast_extended(p:Dictionary,node:Dictionary,power:float,s:Dictionary):
 	p.motion={"warrior":"cleave","ranger":"shoot","mage":"cast"}[p.class_id]
 	match node.mode:
 		"fan":
+			center=p.pos
 			for i in range(s.count):combat.launch(p,"wave" if p.class_id=="warrior" else "bow" if p.class_id=="ranger" else "staff",p.aim.rotated((i-(s.count-1)*.5)*.20),roundi(power),s.range,12,.7+.15*(s.rank-1) if p.class_id=="mage" else 0)
 		"burst":
 			p.motion="slam" if p.class_id=="warrior" else "shoot_high" if p.class_id=="ranger" else "cast_high"
@@ -74,7 +92,7 @@ func cast_extended(p:Dictionary,node:Dictionary,power:float,s:Dictionary):
 				for e in combat.sim.enemies.values():
 					if e.hp>0 and e.id not in used and previous.distance_to(e.pos)<distance and combat.sim.map.line_clear(previous,e.pos):best=e;distance=previous.distance_to(e.pos)
 				if best.is_empty():break
-				fx(p,node.fx,previous,.6,1,best.pos);combat.hit(p,best,roundi(power),previous);used.append(best.id);previous=best.pos
+				fx(p,node.fx,previous,.6,1,best.pos,{"origin":previous});combat.hit(p,best,roundi(power),previous);used.append(best.id);previous=best.pos
 			return
 		"pull":
 			for e in combat.sim.enemies.values():
@@ -90,11 +108,15 @@ func target(p:Dictionary,distance:float)->Vector2:
 	var result:Vector2=p.pos
 	for i in range(ceil(distance/.1)):result=combat.sim.map.move(result,p.aim*minf(.1,distance-i*.1))
 	return result
-func fx(p:Dictionary,kind:String,at:Vector2,duration:float,radius:float,end:Vector2=Vector2.INF):
-	combat.sim.events.append({"type":"skill_fx","fx":kind,"pos":at,"dir":p.aim,"owner":p.id,"duration":duration,"radius":radius,"rank":p.get("casting_rank",1),"end":at if end==Vector2.INF else end,"sound":"heavy" if p.class_id=="warrior" else "bow" if p.class_id=="ranger" else "nova"})
-func add_zone(p:Dictionary,kind:String,at:Vector2,radius:float,power:float,times:Array,slow:float=0,stun:float=0):
-	zones.append({"owner":p.id,"fx":kind,"pos":at,"radius":radius,"amount":roundi(power),"pulses":times.duplicate(),"elapsed":0.0,"slow":slow,"stun":stun})
-	fx(p,kind,at,float(times.back())+.65,radius)
+func fx(p:Dictionary,kind:String,at:Vector2,duration:float,radius:float,end:Vector2=Vector2.INF,visual:Dictionary={})->Dictionary:
+	var event={"type":"skill_fx","fx":kind,"pos":at,"dir":p.aim,"owner":p.id,"class_id":p.class_id,"origin":p.pos,"duration":duration,"radius":radius,"rank":p.get("casting_rank",1),"end":at if end==Vector2.INF else end,"sound":"heavy" if p.class_id=="warrior" else "bow" if p.class_id=="ranger" else "nova"}
+	event.merge(p.get("casting_vfx",{}),true);event.merge(visual,true)
+	combat.sim.events.append(event)
+	return event
+func add_zone(p:Dictionary,kind:String,at:Vector2,radius:float,power:float,times:Array,slow:float=0,stun:float=0,visual:Dictionary={}):
+	zones.append({"owner":p.id,"fx":kind,"pos":at,"radius":radius,"amount":roundi(power),"pulses":times.duplicate(),"elapsed":0.0,"slow":slow,"stun":stun,"stagger":combat.stagger_context})
+	var details=visual.duplicate();details["pulse_times"]=times.duplicate()
+	fx(p,kind,at,float(times.back())+.65,radius,Vector2.INF,details)
 func tick(delta:float):
 	for zone in zones:
 		zone.elapsed+=delta
@@ -105,14 +127,14 @@ func tick(delta:float):
 			zone.pulses.pop_front();var p=combat.sim.players[zone.owner]
 			for e in combat.sim.enemies.values():
 				if e.hp<=0 or e.pos.distance_to(zone.pos)>zone.radius or not combat.sim.map.line_clear(zone.pos,e.pos):continue
-				combat.hit(p,e,zone.amount,zone.pos)
+				combat.hit(p,e,zone.amount,zone.pos,zone.get("stagger",{}))
 				if not zone.get("hit_any",false) and zone.has("job_node"):
 					zone.hit_any=true
 					if p.class_id=="martialist":combat.jobs.combo(p,zone.job_node)
 					if p.class_id=="infighter":p.job_state.rush=mini(10,p.job_state.rush+1);p.job_state.rush_time=2.
 				if zone.get("mode","") in ["trap","trap_bleed"]:combat.jobs.status(p,e,"root",2.)
 				if p.class_id=="martialist" and zone.get("mode","")=="combo" and zone.pulses.is_empty():combat.jobs.status(p,e,"stun",.1*combat.jobs.passive(p,3))
-				if zone.get("mode","")=="trap_bleed":combat.jobs.status(p,e,"bleed",4.)
+				if zone.get("mode","")=="trap_bleed":combat.jobs.status(p,e,"bleed",4.,zone.get("stagger",{}))
 				if e.hp<=0:continue
 				e.slow_time=maxf(e.get("slow_time",0),zone.slow);e.stun_time=maxf(e.get("stun_time",0),zone.stun)
 	zones=zones.filter(func(zone):return not zone.pulses.is_empty())

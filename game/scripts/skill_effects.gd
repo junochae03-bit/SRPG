@@ -12,6 +12,7 @@ static func star(game,at:Vector2,radius:float,color:Color,angle:float=0):
 	game.draw_colored_polygon(points,color)
 
 static func render(game,e:Dictionary):
+	if preload("res://scripts/skill_vfx.gd").render(game,e):return
 	if preload("res://scripts/job_art.gd").render(game,e):return
 	var t=clampf(1.0-e.life/e.max_life,0,1)
 	var at=game.world_point(e.pos)
@@ -85,6 +86,7 @@ static func render(game,e:Dictionary):
 				star(game,at+offset+Vector2(0,-20*(1-t)),(8 if i%2 else 14)*(1-t*.6),Color(.95,.88,1,alpha),t*2+i)
 
 static func projectile(game,shot:Dictionary):
+	if preload("res://scripts/skill_vfx.gd").projectile(game,shot):return
 	var at=game.world_point(shot.pos)+Vector2(0,-28)
 	var direction=Dungeon.iso(shot.dir).normalized()
 	var angle=direction.angle()

@@ -4,6 +4,7 @@ const Progression=preload("res://scripts/progression.gd")
 const Scaling=preload("res://scripts/skill_scaling.gd")
 const Balance=preload("res://scripts/job_balance.gd")
 const Art=preload("res://scripts/ui_art.gd")
+const Stagger=preload("res://scripts/boss_stagger.gd")
 var game
 var nodes={}
 var points:Label
@@ -33,7 +34,9 @@ var filters=[]
 var status:Label
 var prerequisites:Control
 var comparison:Control
+var comparison_scroll:ScrollContainer
 var comparison_rows=[]
+var comparison_context=""
 var notice:Label
 class Web extends Control:
 	var owner_tree
@@ -84,7 +87,8 @@ func setup(owner_game):
 	status=game.label(details,"",Vector2(22,96),Vector2(343,28),18)
 	description=game.label(details,"",Vector2(22,130),Vector2(343,56),16);description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	description.max_lines_visible=3;description.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
-	comparison=Control.new();comparison.position=Vector2(22,193);comparison.size=Vector2(342,230);details.add_child(comparison)
+	comparison_scroll=ScrollContainer.new();comparison_scroll.position=Vector2(22,193);comparison_scroll.size=Vector2(342,230);comparison_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;details.add_child(comparison_scroll)
+	comparison=Control.new();comparison.custom_minimum_size=Vector2(322,230);comparison_scroll.add_child(comparison)
 	prerequisites=Control.new();prerequisites.position=Vector2(22,430);prerequisites.size=Vector2(342,78);details.add_child(prerequisites)
 	invest=game.button(details,"",Vector2(22,517),Vector2(342,49),invest_selected,true)
 	for i in range(6):
@@ -148,6 +152,8 @@ func refresh(force=false):
 	var list=Content.SKILLS[p.class_id]
 	plot.custom_minimum_size.y=92*(1+list.map(func(n):return int(n.column)).max())+24
 	if not list.any(func(n):return n.id==choice):choice=list[0].id
+	var next_context=mode+":"+choice
+	if comparison_context!=next_context:comparison_scroll.scroll_vertical=0;comparison_context=next_context
 	for skill in list:
 		var rank=int(p.skill_ranks.get(skill.id,0));var ready=Content.can_invest(p,skill.id);var active=skill.effect=="active"
 		if mode=="skills":
@@ -173,7 +179,9 @@ func refresh(force=false):
 		description.text="얻은 포인트를 직접 배분하면 능력치가 강해집니다. 마을에서 무료로 초기화할 수 있습니다."
 		clear(comparison);clear(prerequisites);comparison_rows=[]
 		var rows=[["물리 / 마법 공격","%d / %d"%[game.session.sim.damage_for(p,"physical"),game.session.sim.damage_for(p,"magic")]],["물리 / 마법 방어","%d / %d"%[p.defense,p.magic_defense]],["받는 피해 감소","%.1f%%"%(Progression.mitigation(p)*100)],["스킬 재사용 감소","%.1f%%"%((1.-Progression.cooldown_factor(p))*100)],["공격 / 이동 속도","+%.1f%% / +%.1f%%"%[(Progression.attack_speed(p)-1)*100,(Progression.move_speed(p)-1)*100]],["최대 생명력",str(p.max_hp)],["최대 레벨" if p.level>=100 else "다음 레벨 경험치","완성" if p.level>=100 else "%d / %d" % [p.xp,Progression.xp_required(p.level)]]]
-		for i in range(rows.size()):game.label(comparison,rows[i][0]+"    "+rows[i][1],Vector2(0,i*31),Vector2(340,29),17)
+		rows.insert(4,["스킬 무력화 피해","+%.1f%%"%((Stagger.skill_profile({},1,p).multiplier-1.)*100)])
+		comparison.custom_minimum_size.y=rows.size()*28
+		for i in range(rows.size()):game.label(comparison,rows[i][0]+"    "+rows[i][1],Vector2(0,i*28),Vector2(322,27),16)
 		invest.text="왼쪽에서 능력치를 배분하세요";invest.disabled=true
 		for b in bind_buttons:b.disabled=true
 	for key in class_buttons:class_buttons[key].disabled=not game.dungeon.in_town(p.pos) or p.class_id==key
@@ -189,15 +197,22 @@ func show_details(skill:Dictionary,p:Dictionary,rank:int):
 	var bonuses=preload("res://scripts/active_skills.gd").bonuses(p)
 	var current=Balance.metrics(p,skill,rank,game.session.sim.damage_for(p),p.max_hp) if Content.job(p) else Scaling.metrics(skill,rank,game.session.sim.damage_for(p),p.max_hp,bonuses)
 	var upgraded=Balance.metrics(p,skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp) if Content.job(p) else Scaling.metrics(skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp,bonuses)
+	if skill.effect=="active":
+		var now_stagger=Stagger.skill_profile(skill,rank,p)
+		var next_stagger=Stagger.skill_profile(skill,mini(maximum,rank+1),p)
+		current.append(["시전당 무력화", "%.1f" % now_stagger.value])
+		upgraded.append(["시전당 무력화", "%.1f" % next_stagger.value])
+		description.tooltip_text+="\n무력화는 실제 명중 시에만 적용되며, 다단히트·지속 피해는 시전당 총량을 나눠 적용합니다."
+	comparison.custom_minimum_size.y=maxi(230,31+current.size()*27)
 	comparison_rows=[]
-	game.label(comparison,"효과",Vector2.ZERO,Vector2(166,26),16)
-	game.label(comparison,"현재",Vector2(168,0),Vector2(72,26),16)
-	game.label(comparison,"다음" if rank<maximum else "최대",Vector2(255,0),Vector2(86,26),16)
+	game.label(comparison,"효과",Vector2.ZERO,Vector2(148,26),16)
+	game.label(comparison,"현재",Vector2(148,0),Vector2(78,26),16)
+	game.label(comparison,"다음" if rank<maximum else "최대",Vector2(237,0),Vector2(85,26),16)
 	for i in range(current.size()):
 		comparison_rows.append([current[i][0],current[i][1],upgraded[i][1]])
-		game.label(comparison,current[i][0],Vector2(0,31+i*27),Vector2(166,26),15)
-		game.label(comparison,current[i][1],Vector2(168,31+i*27),Vector2(81,26),15)
-		game.label(comparison,upgraded[i][1],Vector2(255,31+i*27),Vector2(89,26),15,Color("217d65"))
+		game.label(comparison,current[i][0],Vector2(0,31+i*27),Vector2(148,26),15)
+		game.label(comparison,current[i][1],Vector2(148,31+i*27),Vector2(85,26),15)
+		game.label(comparison,upgraded[i][1],Vector2(237,31+i*27),Vector2(85,26),15,Color("217d65"))
 	if not skill.parents.is_empty():
 		game.label(prerequisites,"선행 중 하나 %d랭크 · 눌러서 이동"%skill.get("required_rank",1),Vector2.ZERO,Vector2(343,23),14)
 		for i in range(skill.parents.size()):

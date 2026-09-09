@@ -26,6 +26,7 @@ def run(test,args=None,graphics=False):
     print(test, 'PASS', '; '.join(markers),flush=True)
 for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
+for test in ['database_v03','boss_stagger_v03','skill_vfx']:run(test)
 if user_save.is_file():
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
     assert hashlib.sha256(user_save.read_bytes()).hexdigest()==before,'Original save changed during check'
@@ -50,6 +51,9 @@ run('visual_v01',graphics=True)
 run('visual_jobs',graphics=True)
 run('job_benchmark')
 run('ui_v02',graphics=True)
+run('codex_ui_v03',graphics=True)
+run('stagger_ui_v03',graphics=True)
+run('visual_skill_vfx',graphics=True)
 report={'status':'PASS','checks':checks,'results':results,'save_integrity':save_integrity,'runtime_files':len(rows),'runtime_mib':round(sum(x['bytes'] for x in rows)/1048576,2),'verified_at':time.strftime('%Y-%m-%d %H:%M:%S'),'run_directory':str(RUN)}
 (ROOT/'artifacts/v01_verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
 print('V01_GATE PASS checks='+str(checks),flush=True)

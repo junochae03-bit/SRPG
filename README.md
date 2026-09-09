@@ -1,10 +1,19 @@
-# 스텔알피지 · V0.2
+# 스텔알피지 · V0.3
 
 밝은 판타지 분위기의 개인용 던전 탐사 액션 RPG입니다. Godot 4.6으로 100층 탐사 → 레이드 보스 → 전리품 → 직업·장비 성장을 구현했습니다. MMORPG식 성장 구조를 사용하는 오프라인 싱글 플레이 빌드입니다.
 
+## V0.3 변경
+
+**실제 온라인 멀티플레이는 후속 단계이며 현재는 싱글 플레이**로 진행합니다. B 모험 도감에 장비 2,500개 등급 변형, 몬스터 원형24종·레이드10종, 층별 드랍 확률, 스킬610개를 실제 게임 데이터로 연결했습니다. 검색·필터·획득처·선행 스킬·랭크 비교를 제공합니다. [SQLite/JSON 및 SQL 예제](docs/GAME_DATABASE.ko.md) · [도감·무력화 설계](docs/GDD_V03.ko.md)
+
+보스에게 무력화를 축적하면 4초 공격 기회와 받는 피해 +20%가 적용됩니다. 레이드의 HP70%·40% 무력화 체크는 12초이며 실패 범위 공격을 피할 수 있습니다. 기술 능력치는 기존 쿨타임 감소에 스킬 무력화 증가를 더합니다. 다른 작업의18종 스킬 VFX를 통합했으며, 배경·장비·코스튬의 확인 및 인계 상태는 [공유 기록](docs/TEAM_INTEGRATION_V03.ko.md)에 구분했습니다.
+
+![검색·랭크·무력화 정보를 제공하는 스킬 도감](docs/screenshots/codex-v03.png)
+![100층 보스 무력화 체크](docs/screenshots/stagger-v03.png)
+
 ## 실행
 
-[V0.2 Windows 테스트 빌드](https://github.com/junochae03-bit/SRPG/releases/tag/V0.2)를 모두 풀고 **StelRPG.exe**를 실행하세요. PCK 파일을 같은 폴더에 둡니다. Godot 설치는 필요 없습니다. [시작 안내](docs/PLAY_CURRENT.ko.md)
+[V0.3 Windows 테스트 빌드](https://github.com/junochae03-bit/SRPG/releases/tag/V0.3)를 모두 풀고 **StelRPG.exe**를 실행하세요. PCK 파일을 같은 폴더에 둡니다. Godot 설치는 필요 없습니다. [시작 안내](docs/PLAY_CURRENT.ko.md)
 
 소스는 Godot 4.6으로 `game/project.godot`을 열어 F5를 누르거나, `GODOT_EXE`를 지정한 뒤 **Play.cmd**를 실행합니다. 엔진·추출 원본·로그·개인 저장은 저장소에 포함하지 않습니다.
 
@@ -44,9 +53,9 @@
 | Q / F / V / C / Z / X | 장착 액티브 6칸 |
 | TAB | 도박사 카드·후보 선택 |
 | 1 / E / R | 물약 / 줍기·시설 대화 / 마을 귀환 |
-| I / K / Esc | 가방·장비·외형 / 스킬·능력치 / 닫기·설정 |
+| I / K / B / Esc | 가방·장비·외형 / 스킬·능력치 / 도감 / 닫기·설정 |
 
-기본 공격·강공격·회피는 HUD 버튼을 숨기고 입력은 유지합니다. 스킬은 위 Q/F/V, 아래 C/Z/X로 정렬합니다. 가방·성장·시설·메뉴를 열면 전투가 멈춥니다. 공통 콤보 배율은 사용하지 않습니다. 무도가의 연무와 인파이터의 몰아침은 해당 전직의 자원입니다.
+기본 공격·강공격·회피는 HUD 버튼을 숨기고 입력은 유지합니다. 스킬은 위 Q/F/V, 아래 C/Z/X로 정렬합니다. 도감·가방·성장·시설·메뉴를 열면 전투가 멈춥니다. 공통 콤보 배율은 사용하지 않습니다. 무도가의 연무와 인파이터의 몰아침은 해당 전직의 자원입니다.
 
 Windows 빌드는 실행 파일 옆 `saves`, 소스는 `runtime/saves`에 3개 슬롯을 저장합니다. 기존 게임을 종료한 뒤 슬롯 JSON을 새 폴더로 복사하면 이어할 수 있습니다. 이전 저장 v1~v5를 v6으로 이행하며 **이전 능력치 투자 포인트를 전액 반환**합니다. 기존 장비는 현재 직업/계열 기준으로 이행합니다. 기존 모험은 튜토리얼 완료·1층부터 시작하며, 이후 층 해금과 레이드 기록을 저장합니다. 자동 저장과 정상본 `.bak` 복구를 지원합니다. 검사에는 격리한 저장만 사용합니다.
 
@@ -55,13 +64,16 @@ Windows 빌드는 실행 파일 옆 `saves`, 소스는 `runtime/saves`에 3개 �
 Python 3.10 이상과 Godot 4.6에서 실행합니다.
 
 ```text
+python tools/build_database.py
+python tools/build_database.py --check
 python tools/verify_v01.py
 python tools/fetch_windows_template.py
-python tools/build_v01.py --version V0.2
-python tools/test_export_v01.py --version V0.2
-python tools/package_v01.py --version V0.2
+python tools/build_v01.py --version V0.3
+python tools/test_export_v01.py --version V0.3
+python tools/package_v01.py --version V0.3
+python tools/package_database.py --version V0.3
 ```
 
-[최신 검증 기록](docs/VERIFICATION_V02.json), [직업 확장 설계](docs/JOBS_INTEGRATION.md), [현재 GDD](docs/GDD_V02.ko.md)를 확인할 수 있습니다. 패키지는 승인된 실행 파일·PCK·안내·출처·Godot 라이선스만 포함하며, 검사 저장은 제외합니다. V0.1과 V0.1.1은 이전 릴리스로 별도 보관합니다.
+[최신 검증 기록](docs/VERIFICATION_V03.json), [직업 확장 설계](docs/JOBS_INTEGRATION.md), [현재 GDD](docs/GDD_V03.ko.md)를 확인할 수 있습니다. 패키지는 승인된 실행 파일·PCK·안내·출처·Godot 라이선스만 포함하며, 검사 저장은 제외합니다. V0.1과 V0.1.1은 이전 릴리스로 별도 보관합니다.
 
 개인용 프로토타입입니다. 고정 표적 밸런스 검사는 실전 회피·사거리·최적 빌드를 모두 대표하지 않습니다. 원본 4포즈를 사용하는 일부 외형과 정지 원화에 이동·공격 변형을 적용하는 몬스터가 있습니다. 장비 변경에 따른 무기 그림 교체도 모든 코스튬에 구현된 것은 아닙니다.

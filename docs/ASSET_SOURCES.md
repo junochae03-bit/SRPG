@@ -38,3 +38,7 @@
 ## V0.2 직업 무기·상호작용 아이콘
 
 `game/assets/icons/job-weapons-v02.png`: 내장 image_gen으로 생성한 투명 RGBA 아틀라스(실제 1254×1254). 15개 전직 무기와 상호작용 손을 같은 화풍으로 제작했다. PNG를 재가공하지 않고 AtlasTexture로 표시한다. [최종 생성 프롬프트와 적용 경로](ART_V02.md).
+
+## V0.3 도감·무력화·스킬 VFX
+
+도감과 보스 무력화 HUD는 기존 양피지·금속 프레임·아이콘 원화를 재사용한다. `skill_vfx.gd`의 18계열 스킬 효과는 이 프로젝트의 별도 작업에서 만든 Godot CanvasItem 절차형 애니메이션이며 새로운 외부 그림을 사용하지 않는다. [VFX 인계](TEAM_HANDOFF_VFX.md), [배경·코스튬 작업과 적용 구분](TEAM_INTEGRATION_V03.ko.md). 게임에 연결하지 않은 배경·코스튬 원본 팩은 배포 파일에 포함하지 않았다.

@@ -9,7 +9,7 @@ const LOADOUTS={
 	"infighter":[0,1,2,3,4,8],"breaker":[0,1,3,4,8,10],"martialist":[0,2,4,5,7,9]}
 func _initialize():
 	Content.initialize_jobs()
-	var report={"scenario":"LV60, 177 stats (100 primary / 77 endurance), 36 SP (all actives and passives rank2), six equipped, default gear, 30 seconds, three seeds, stationary targets; movement restored to melee range; no enemy AI or incoming damage; cooldown/stamina/resources real","jobs":{}}
+	var report={"scenario":"LV60, 177 stats (100 primary / 77 endurance), 36 SP (all actives and passives rank2), six equipped, default gear, 30 seconds, three seeds, stationary targets; movement restored to melee range; no enemy AI or incoming damage; cooldown/stamina/resources and boss stagger/down/immunity timers real","jobs":{}}
 	for job in LOADOUTS:
 		var row={"single_dps":0.,"five_dps":0.,"casts":0.,"minimum_stamina":0.}
 		for seed_value in [123,456,789]:
@@ -52,6 +52,7 @@ static func measure(job:String,count:int,seed_value:int,level:int=60,prepared:bo
 		var e=sim.spawn_enemy("shade",pos,60,count==1);e.hp=10000000;e.max_hp=e.hp
 	var casts=0;var minimum_stamina=p.stamina;var cursor=0
 	for tick in range(750):
+		sim.clock+=.04
 		p.pos=origin;p.aim=Vector2.RIGHT;p.attack_cd=maxf(0,p.attack_cd-.04)
 		for i in range(count):sim.enemies[i+1].pos=positions[i]
 		for offset in range(6):
@@ -61,7 +62,9 @@ static func measure(job:String,count:int,seed_value:int,level:int=60,prepared:bo
 			if node.mode in ["heal","regen"] and p.hp>p.max_hp*.85:continue
 			if sim.action(1,Content.ACTIONS[index]):casts+=1;cursor=(index+1)%6;break
 		sim.action(1,"attack");minimum_stamina=minf(minimum_stamina,p.stamina)
-		sim.combat.tick_player(p,.04);sim.combat.tick_projectiles(.04);sim.combat.skills.tick(.04);sim.events.clear()
+		sim.combat.tick_player(p,.04);sim.combat.tick_projectiles(.04);sim.combat.skills.tick(.04)
+		for enemy in sim.enemies.values():preload("res://scripts/boss_stagger.gd").tick(sim,enemy,.04)
+		sim.events.clear()
 	var damage=0
 	for e in sim.enemies.values():damage+=10000000-e.hp
 	return {"damage":damage,"casts":casts,"minimum_stamina":minimum_stamina,"max_hp":p.max_hp,"defense":p.defense,"mitigation":preload("res://scripts/progression.gd").mitigation(p),"attack":sim.damage_for(p)}

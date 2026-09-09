@@ -47,7 +47,7 @@ func open(key:String):
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt=""
 	selected_floor=int(player().get("highest_floor",1));chapter=int((selected_floor-1)/10)
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel"}[key]
-	game.bag.hide();game.skill_tree.hide();game.help_panel.hide();show();game.session.paused=true;refresh()
+	game.bag.hide();game.skill_tree.hide();game.help_panel.hide();game.codex.hide();show();game.session.paused=true;refresh()
 func close():hide();game.session.paused=false
 func request(kind:String,extra:Dictionary={})->bool:
 	var before=player().gold;var q=Quote.quote(player(),facility,kind,extra)

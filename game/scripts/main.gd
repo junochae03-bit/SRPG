@@ -25,6 +25,7 @@ var bag: Control
 var help_panel: Control
 var skill_tree: Control
 var town_panel:Control
+var codex:Control
 var menu_status: Label
 var name_input: LineEdit
 var slot_picker: OptionButton
@@ -115,6 +116,8 @@ func join_game():
 	elif options.has("floor"):session.enter_floor(int(options.floor))
 
 func toggle_help():
+	codex.hide()
+	town_panel.hide()
 	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
 	help_panel.visible=not help_panel.visible
 	session.paused=help_panel.visible or bag.visible or skill_tree.visible
@@ -245,7 +248,7 @@ func build_interface():
 	button(menu, "모험 시작 / 계속   →", Vector2(110, 654), Vector2(455, 58), join_game, true)
 	menu_status = label(menu, "저장 슬롯을 고르면 이어서 모험할 수 있습니다.", Vector2(110, 728), Vector2(455, 68), 15, MUTED)
 	menu_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label(menu, "PRE-ALPHA  0.4", Vector2(1140, 50), Vector2(240, 35), 16, GOLD)
+	label(menu, "PRE-ALPHA  " + str(ProjectSettings.get_setting("application/config/version", "0.3.0")), Vector2(1140, 50), Vector2(260, 35), 16, GOLD)
 	panel(menu, Vector2(781, 690), Vector2(558, 140), Color("fffbedeb"))
 	label(menu, "햇살 쉼터", Vector2(805, 705), Vector2(510, 38), 30, PALE).add_theme_font_override("font",serif)
 	label(menu, "별빛 정원으로 떠나는 모험의 시작", Vector2(806, 755), Vector2(510, 30), 18, PALE)
@@ -261,10 +264,11 @@ func build_interface():
 	hud.add_child(skill_tree)
 	skill_tree.setup(self)
 	town_panel=preload("res://scripts/town_panel.gd").new();hud.add_child(town_panel);town_panel.setup(self)
+	codex=preload("res://scripts/codex_panel.gd").new();hud.add_child(codex);codex.setup(self)
 	help_panel = panel(hud, Vector2(428, 125), Vector2(586, 650), Color("fffbedfc"))
 	help_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	label(help_panel, "잠깐 쉬어 가요", Vector2(28, 22), Vector2(520, 49), 30)
-	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격\nQ / F / V / C / Z / X   장착한 스킬 6개\nShift / Space           달리기 / 회피 · TAB 카드 선택\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K                      가방 / 직업과 스킬 트리\n가방과 이 메뉴가 열려 있으면 시간이 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
+	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격\nQ / F / V / C / Z / X   장착한 스킬 6개\nShift / Space           달리기 / 회피 · TAB 카드 선택\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K / B                  가방 / 성장 / 모험 도감\n도감·가방·성장·메뉴를 열면 전투가 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
 	button(help_panel, "계속하기", Vector2(28, 390), Vector2(247, 49), continue_game, true)
 	button(help_panel, "저장하고 타이틀", Vector2(295, 390), Vector2(261, 49), func(): session.disconnect_game(); help_panel.hide())
 	button(help_panel,"새로운 원정 시작",Vector2(28,454),Vector2(528,49),func(): help_panel.hide(); bag.hide(); session.new_expedition())
@@ -286,7 +290,7 @@ func on_status(message: String):
 		bag.hide()
 
 func on_entered():
-	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide()
+	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide()
 	dungeon = session.sim.map
 	forest.rebuild(dungeon)
 	camera_pos = Dungeon.iso(dungeon.spawn)
@@ -314,6 +318,7 @@ func on_event(event: Dictionary):
 		effects.append(event)
 
 func toggle_bag():
+	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
 	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
@@ -324,6 +329,7 @@ func toggle_bag():
 	update_hud()
 
 func toggle_skills():
+	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
 	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
@@ -331,6 +337,17 @@ func toggle_skills():
 	skill_tree.visible=not skill_tree.visible
 	session.paused=skill_tree.visible or help_panel.visible
 	skill_tree.refresh(true)
+
+func toggle_codex(tab:String=""):
+	if codex.visible and tab.is_empty():
+		codex.close()
+		return
+	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide()
+	audio_director.play_sound("inventory",-5)
+	codex.open(tab)
+	session.paused=true
+	toast.hide()
 
 func update_hud():
 	if not session.state.players.has(session.local_id):return
@@ -342,13 +359,16 @@ func rarity_color(rarity: int) -> Color:
 
 func _unhandled_input(event: InputEvent):
 	if not session.connected: return
+	if codex.visible and not (event is InputEventKey and event.physical_keycode in [KEY_I,KEY_K,KEY_B,KEY_ESCAPE]):return
 	if event is InputEventKey and event.pressed and not event.echo:
 		match event.physical_keycode:
 			KEY_I: toggle_bag()
 			KEY_K: toggle_skills()
+			KEY_B: toggle_codex()
 			KEY_SPACE: session.act("dodge")
 			KEY_ESCAPE:
-				if town_panel.visible:town_panel.close()
+				if codex.visible:codex.close()
+				elif town_panel.visible:town_panel.close()
 				elif bag.visible:toggle_bag()
 				elif skill_tree.visible:toggle_skills()
 				else:toggle_help()
@@ -399,7 +419,7 @@ func _process(delta: float):
 	visual_time += delta
 	toast_time -= delta
 	if toast_time <= 0: toast.text = ""
-	toast.visible = not bag.visible and not help_panel.visible and not skill_tree.visible and not town_panel.visible
+	toast.visible = not bag.visible and not help_panel.visible and not skill_tree.visible and not town_panel.visible and not codex.visible
 	if session.state.players.has(session.local_id):
 		var p=session.state.players[session.local_id]
 		var encounter=session.state.enemies.values().any(func(e):return e.get("boss",false) and e.hp>0 and e.pos.distance_to(p.pos)<8.5)
@@ -425,6 +445,7 @@ func _process(delta: float):
 		capture_done = true
 		if options.has("show-bag") and not bag.visible: toggle_bag()
 		if options.has("show-skills") and not skill_tree.visible:toggle_skills()
+		if options.has("show-codex"):toggle_codex(str(options.get("codex-tab","equipment")))
 		capture.call_deferred()
 	if options.has("duration") and visual_time > float(options.duration):
 		finish_run()
@@ -589,6 +610,7 @@ func draw_actor(actor: Dictionary):
 			data=preload("res://scripts/world_art.gd").frame("bosses",boss_index*3+index)
 			var standing=preload("res://scripts/world_art.gd").frame("bosses",boss_index*3)
 			size_scale=335.0/standing.height
+			if p.get("stagger",{}).get("state","")=="down":pose.scale=Vector2(1.04,.84);pose.angle=.10
 		else:
 			data=preload("res://scripts/world_art.gd").frame(config.get("art_sheet","enemies"),config.art)
 			size_scale=preload("res://scripts/world_catalog.gd").display_height(role)/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
@@ -607,7 +629,7 @@ func draw_actor(actor: Dictionary):
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
-	if not is_hero and p.get("stun_time",0)>0:
+	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):
 		for i in range(3):preload("res://scripts/skill_effects.gd").star(self,point+Vector2(sin(visual_time*5+i*TAU/3)*18,-dimensions.y-26),5,Color("fff3a6"))
 	if is_hero and session.connected and not base_actor:
 		var weapon_type=session.sim.combat.weapon_type(p)
@@ -712,6 +734,7 @@ func write_bot_report():
 	var p=session.state.players.get(session.local_id,{})
 	var report={"world_seed":session.world_seed,"paused":session.paused,"connected":session.connected,"status":status_text,"snapshots":session.received_snapshots,"max_peers":bot_max_peers,"kills":bot_kills,"distance":bot_distance,"player":p}
 	report["floor"]=session.sim.map.floor_number
+	report["codex"]={"visible":codex.visible,"tab":codex.selected_tab,"total":codex.result.get("total",0)}
 	report["guardians"]=session.sim.enemies.values().filter(func(e):return e.get("guardian",false))
 	var file=FileAccess.open(options.report,FileAccess.WRITE)
 	if file:file.store_string(JSON.stringify(report,"\t"));file.close()
