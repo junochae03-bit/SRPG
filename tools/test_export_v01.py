@@ -34,6 +34,13 @@ for key,value in saved_before.items():
 assert played['world_seed']==restored['world_seed']
 for name,flag in [('inventory','--show-bag'),('skills','--show-skills')]:
     run(name,['--play',flag,'--duration=4','--capture-at=2','--capture='+str(ROOT/'artifacts'/('export-'+name+'.png'))],True)
+codex_screens=[]
+for tab,minimum in [('equipment',2500),('monsters',34),('drops',1),('skills',610)]:
+    report_path=RUN/('codex-'+tab+'.json')
+    run('codex-'+tab,['--play','--show-codex','--codex-tab='+tab,'--duration=4','--capture-at=1','--capture='+str(ROOT/'artifacts'/('export-codex-'+tab+'.png')),'--report='+str(report_path)],True)
+    codex=json.loads(report_path.read_text('utf8'))['codex']
+    assert codex['visible'] and codex['tab']==tab and codex['total']>=minimum,codex
+    codex_screens.append(tab)
 catalog=json.loads((ROOT/'game/data/jobs/catalog.json').read_text('utf8'))
 tested_jobs=[]
 for job,definition in catalog['classes'].items():
@@ -60,6 +67,7 @@ assert final_floor['floor']==100 and len(final_floor['guardians'])==1
 boss=final_floor['guardians'][0]
 assert boss['raid'] and boss['level']==100 and boss['max_hp']>=400000 and '아스트라' in boss['name'],boss
 assert final_floor['player']['stats']==fixture['stats']
+assert boss['stagger']['state']=='ready' and boss['stagger']['max_value']==260 and boss['stagger']['check_max']==85
 # The release template disables script/path overrides. Exercise persisted completion
 # through the public game entry point; the source gate separately clears all 100 floors.
 fixture.update(cleared_floor=100,raid_clears={str(f):1 for f in range(10,101,10)})
@@ -71,5 +79,7 @@ assert completed['player']['raid_clears']==fixture['raid_clears']
 report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
 report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['max_hp'],'five_stats_restored':True,'completed_save_fixture_restored':100,'saved_raid_clears':10,'all_100_floors_cleared_by_source_gate':True}
 report['exported_jobs_restored_and_rendered']=tested_jobs
+report['codex_tabs_restored_and_rendered']=codex_screens
+report['boss_stagger_state_present']=True
 report['pck_sha256']=hashlib.sha256((portable/'StelRPG.pck').read_bytes()).hexdigest()
 (ROOT/('artifacts/export-check-'+KEY+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8');print('V01_EXPORT_CHECK PASS',json.dumps(report,ensure_ascii=False),flush=True)

@@ -48,10 +48,19 @@ static func pattern(kind:String,origin:Vector2,target:Vector2,sequence:int=0)->A
 	return a
 func begin(e:Dictionary,target:Vector2):
 	e.attack_pos=target;e.attack_areas=raid_pattern(e,target) if e.get("raid",false) else pattern(e.kind,e.pos,target,int(e.pattern))
+
+func stagger_punishment(e:Dictionary):
+	# A stationary circle gives every class time to leave on foot; a successful
+	# dodge also works. This uses the same red telegraph renderer as other attacks.
+	e.windup=1.8;e.attack_pos=e.pos
+	e.attack_areas=[area("circle",e.pos,e.pos,3.6,0,1.35)]
+	e.attack_areas[0].sound="heavy"
+	e.attack_areas[0]["damage_cap"]=.70
 func release(e:Dictionary):
 	var areas=e.get("attack_areas",pattern(e.kind,e.pos,e.attack_pos,int(e.get("pattern",0))))
 	if e.kind in ["shade","bat","fox","cave_bat"] and sim.map.line_clear(e.pos,e.attack_pos):e.pos=sim.map.move(e.pos,e.pos.direction_to(e.attack_pos)*minf(2.5,e.pos.distance_to(e.attack_pos)))
 	for z in areas:
+		if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:break
 		var zone=z.duplicate(true);zone.enemy=e.id;zone.timer=float(zone.delay)
 		if zone.timer<=0:impact(zone,e)
 		else:zones.append(zone)
@@ -60,7 +69,7 @@ func tick(delta:float):
 	var keep=[]
 	for zone in zones:
 		var e=sim.enemies.get(zone.enemy,{})
-		if e.is_empty() or e.hp<=0 or e.get("stun_time",0)>0:continue
+		if e.is_empty() or e.hp<=0 or e.get("stun_time",0)>0 or e.get("stagger",{}).get("state","") in ["check","down"]:continue
 		zone.timer-=delta
 		if zone.timer<=0:impact(zone,e)
 		else:keep.append(zone)
@@ -74,14 +83,17 @@ static func contains(zone:Dictionary,point:Vector2)->bool:
 		"ring":return point.distance_to(zone.pos)<=zone.radius and point.distance_to(zone.pos)>=float(zone.inner)
 	return point.distance_to(zone.pos)<=zone.radius
 func impact(zone:Dictionary,e:Dictionary):
+	if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:return
 	sim.events.append({"type":"monster_attack","pos":zone.pos,"area":zone.duplicate(true),"sound":zone.sound,"duration":.3,"owner":1})
 	for p in sim.players.values():
 		if contains(zone,p.pos) and sim.map.line_clear(zone.from,p.pos):damage(e,p,zone)
 		for pet in p.get("job_state",{}).get("pets",[]):
 			if contains(zone,pet.pos) and sim.map.line_clear(zone.from,pet.pos):pet.hp-=e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.)*(1-sim.combat.jobs.value(p,"pet_guard"))
 func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
+	if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:return
 	if p.invulnerable>0 or sim.map.in_town(p.pos):return
 	var amount=preload("res://scripts/progression.gd").received(p,e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.),e.kind in ["ember_slime","frost_slime","goblin_shaman","spellbook","spider","golem","warden"])
+	if zone.has("damage_cap"):amount=mini(amount,maxi(1,roundi(p.max_hp*float(zone.damage_cap))))
 	if p.barrier_time>0:amount=maxi(1,roundi(amount*(1-p.barrier_strength)))
 	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
 	if amount<=0:return
@@ -89,11 +101,12 @@ func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	p.enemy_slow_time=maxf(p.enemy_slow_time,zone.slow)
 	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock*(1-sim.combat.jobs.passive(p,1)*.12 if p.class_id=="breaker" and (p.charge_time>=0 or not p.job_state.casting.is_empty()) else 1))
 	var reflected=int(Content.skill_bonus(p,"thorns"))
-	if reflected>0 and e.hp>0 and e.pos.distance_to(p.pos)<2:sim.combat.hit(p,e,reflected)
+	if reflected>0 and e.hp>0 and e.pos.distance_to(p.pos)<2:sim.combat.hit(p,e,reflected,null,{})
 	sim.events.append({"type":"damage","pos":p.pos,"amount":amount,"enemy":false,"owner":p.id})
 	if p.hp<=0:
 		p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=sim.map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0
 		sim.combat.jobs.reset(p);p.charge_time=-1.
+		sim.reset_after_defeat(p.id)
 		sim.dirty[p.id]=true;sim.notice(p.id,"쓰러졌습니다. 금화 10%를 잃고 안전지대에서 회복했습니다.")
 const Content=preload("res://scripts/content.gd")
 static func draw_area(canvas,zone:Dictionary,color:Color):

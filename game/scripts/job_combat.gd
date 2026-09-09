@@ -120,7 +120,7 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 		s.parry=0;s.counter=5.;
 		p.stamina=minf(p.max_stamina,p.stamina+passive(p,2)*2)
 		if s.get("parry_kind","") in ["parry_counter","parry_knee"]:
-			combat.hit(p,e,roundi(sim.damage_for(p)*s.get("counter_power",2.)));status(p,e,"stun",.5)
+			combat.hit(p,e,roundi(sim.damage_for(p)*s.get("counter_power",2.)),null,s.get("parry_stagger",{}));status(p,e,"stun",.5)
 		s.momentum=minf(100,s.momentum+25+minf(20,amount*.05*passive(p,3)));fx(p,"breaker:2",p.pos)
 		return 0
 	for ally in allies(p):
@@ -174,7 +174,10 @@ func target(p:Dictionary,distance:float=8.,marked:bool=false)->Dictionary:
 	return best
 func move(p:Dictionary,direction:Vector2,distance:float):
 	for i in range(ceili(distance/.1)):p.pos=sim.map.move(p.pos,direction.normalized()*minf(.1,distance-i*.1))
-func fx(p:Dictionary,key:String,at:Vector2,radius:float=1.5):combat.skills.fx(p,key,at,.45,radius)
+func fx(p:Dictionary,key:String,at:Vector2,radius:float=1.5,visual:Dictionary={})->Dictionary:
+	return combat.skills.fx(p,key,at,.45,radius,Vector2.INF,visual)
+func cast_visual(p:Dictionary,cast:Dictionary)->Dictionary:
+	return {"skill_id":cast.node.id,"skill_mode":cast.node.mode,"rank":cast.rank,"class_id":p.class_id,"origin":p.pos,"count":cast.count,"skill_index":cast.node.index}
 func act(p:Dictionary,kind:String)->bool:
 	var s=p.job_state
 	if kind=="cancel_charge":s.casting={};p.charge_time=-1.;s.heavy_grit=0.;return true
@@ -220,6 +223,7 @@ func act(p:Dictionary,kind:String)->bool:
 	if mode in ["reroll","dice_buff"] and s.dice_time<=0:return false
 	if mode=="hit_card" and s.hand.size()>=5:return false
 	p.stamina-=cast.cost;p.skill_cooldowns[n.id]=cast.cooldown;s.runes-=int(n.get("rune_cost",0))
+	cast["stagger"]=combat.BossStagger.context(combat.BossStagger.token(n,rank,p,sim.clock,int(cast.count)))
 	cast.merge({"target":t.get("id",-1),"origin":p.pos,"aim":p.aim})
 	configure(p,cast)
 	if mode.begins_with("settle"):
@@ -235,19 +239,26 @@ func act(p:Dictionary,kind:String)->bool:
 	if p.class_id=="infighter" and n.index==3:var used=mini(5,s.rush);s.rush-=used;cast.power*=1+used*.1
 	if mode=="finisher":cast.power*=1+s.combo*.3;s.combo=0;s.combo_time=0
 	p.motion="cast_high" if cast.time>0 else "cleave";p.motion_time=maxf(.4,cast.time);p.motion_duration=p.motion_time
-	if cast.time>0:s.casting=cast;fx(p,p.class_id+":0",p.pos)
+	if cast.time>0:
+		s.casting=cast
+		var visual=cast_visual(p,cast);visual["skill_phase"]="windup";visual["duration"]=cast.time;visual["follow_owner"]=true;visual["follow_offset"]=0.0
+		fx(p,p.class_id+":0",p.pos,1.5,visual)
 	else:execute(p,cast)
 	return true
 func allies(p:Dictionary,radius:float=6.)->Array:
 	if p.class_id=="thief":radius+=passive(p,4)*.4
 	return sim.players.values().filter(func(a):return a.hp>0 and a.pos.distance_to(p.pos)<=radius)
-func status(p:Dictionary,e:Dictionary,key:String,duration:float):
+func status(p:Dictionary,e:Dictionary,key:String,duration:float,attribution:Variant=null):
 	if e.hp<=0:return
 	if not e.has("job_status"):e.job_status={}
 	if p.class_id=="explorer" and key in ["root","stun"]:
 		duration+=passive(p,2)*.15
 		if e.get("boss",false):e.job_status["vulnerable"]={"time":duration,"owner":p.id,"tick":0.}
 	e.job_status[key]={"time":duration,"owner":p.id,"tick":0.0}
+	if key=="bleed":
+		var source=combat.stagger_context if attribution==null else attribution
+		var budget=source.get("budget",{})
+		e.job_status[key]["stagger"]=combat.BossStagger.context(budget,.25/maxi(1,floori(duration))) if budget.get("dot",false) else {}
 	if key=="slow":e.slow_time=maxf(e.get("slow_time",0),duration)
 	if key in ["root","stun"] and not e.get("boss",false):e.stun_time=maxf(e.get("stun_time",0),minf(duration,1.5))
 	if p.class_id=="thief":
@@ -258,6 +269,14 @@ func status(p:Dictionary,e:Dictionary,key:String,duration:float):
 		if mapping.has(key):
 			for a in allies(p):buff(a,mapping[key],.15,5.);fx(a,"thief:5",a.pos)
 func execute(p:Dictionary,cast:Dictionary):
+	var previous=combat.stagger_context
+	combat.stagger_context=cast.get("stagger",{})
+	if cast.node.mode in ["pet_command","pet_burst","pet_pull"] and not combat.stagger_context.is_empty():
+		combat.stagger_context["weight"]=.75/maxi(1,p.job_state.pets.size())
+	_execute(p,cast)
+	combat.stagger_context=previous
+
+func _execute(p:Dictionary,cast:Dictionary):
 	var s=p.job_state;var n=cast.node;var mode=n.mode;var damage=roundi(sim.damage_for(p)*cast.power);var t=sim.enemies.get(cast.target,{})
 	var point=combat.skills.target(p,3.);var upgraded=cast.up;var duration=float(n.duration)
 	# Ground skills land on the acquired target; empty ground still follows aim.
@@ -271,7 +290,13 @@ func execute(p:Dictionary,cast:Dictionary):
 	s["direct_cast"]=n.id
 	s["support_sent"]=[]
 	if p.level>=100:master(p,cast)
-	fx(p,n.fx,p.pos if mode in ["guard","parry","haste","shield"] else point,n.radius)
+	var visual=cast_visual(p,cast);visual["skill_phase"]="release"
+	var effect={}
+	# Ground and moving skills share the same coordinates as their combat result.
+	if mode not in ["field","trap","trap_bleed","barrage","combo","settle_barrage"]:
+		var effect_point=point if mode in ["burst","root","slow","pull","wall"] else p.pos
+		effect=fx(p,n.fx,effect_point,n.radius,visual)
+		if mode=="chain":effect["end"]=combat.skills.target(p,minf(1.,n.radius))
 	if mode in ["haste","buff_attack","buff_crit","buff_crit_damage","stance","empower","enchant","guard","fortress","share","chant","stand_card","dice_buff"]:
 		var key=Balance.BUFF_KEYS.get(mode,"attack")
 		for a in allies(p) if p.class_id in ["healer","tank"] else [p]:buff(a,key,cast.buff,duration)
@@ -284,6 +309,7 @@ func execute(p:Dictionary,cast:Dictionary):
 			var friends=allies(p).filter(func(a):return a.id!=p.id)
 			if not friends.is_empty():move(p,p.pos.direction_to(friends[0].pos),p.pos.distance_to(friends[0].pos))
 			else:move(p,p.aim,2.5)
+			effect["end"]=p.pos
 			buff(p,"defense",.03*passive(p,1)+(.15 if upgraded else 0),3.)
 		for a in allies(p) if p.class_id in ["tank","healer"] else [p]:
 			var power=cast.shield
@@ -314,8 +340,9 @@ func execute(p:Dictionary,cast:Dictionary):
 		else:
 			if p.pos.distance_to(s.anchor[0])<cast.anchor_range and sim.map.line_clear(p.pos,s.anchor[0]):p.pos=s.anchor[0]
 			s.anchor.clear()
+		effect["end"]=p.pos
 		return
-	if mode in ["parry","parry_counter","parry_knee"]:s.parry=cast.parry;s.parry_kind=mode;s.counter_power=cast.counter_power;return
+	if mode in ["parry","parry_counter","parry_knee"]:s.parry=cast.parry;s.parry_kind=mode;s.counter_power=cast.counter_power;s.parry_stagger=combat.stagger_context;return
 	if mode=="meditate":s["meditate"]=1.2;s["meditate_rate"]=cast.meditate_rate;s.lock=1.2;return
 	if mode=="hit_card":
 		draw_cards(p,1)
@@ -330,7 +357,7 @@ func execute(p:Dictionary,cast:Dictionary):
 	if mode=="summon":
 		s.pets=s.pets.filter(func(pet):return pet.source!=n.id)
 		if s.pets.size()>=2+(1 if passive(p,0)>=3 else 0):s.pets.pop_front()
-		s.pets.append({"source":n.id,"pos":p.pos,"hp":cast.pet_hp,"max_hp":cast.pet_hp,"cd":0.,"power":cast.pet_power,"kind":n.index});return
+		s.pets.append({"source":n.id,"pos":p.pos,"hp":cast.pet_hp,"max_hp":cast.pet_hp,"cd":0.,"power":cast.pet_power,"kind":n.index,"stagger":combat.BossStagger.context(cast.get("stagger",{}).get("budget",{}),1./6.)});return
 	if mode.begins_with("pet_"):
 		for pet in s.pets:
 			match mode:
@@ -348,15 +375,20 @@ func execute(p:Dictionary,cast:Dictionary):
 		var destination=sim.map.move(t.pos,p.aim*.7)
 		if sim.map.walkable(destination) and sim.map.line_clear(p.pos,destination):p.pos=destination
 		else:return
+		effect["end"]=p.pos
 		buff(p,"speed",passive(p,0)*.04,2.)
 	if mode.begins_with("chain_"):
 		if t.is_empty() or t.hp<=0:return
-		if mode=="chain_dash" or t.get("boss",false):move(p,p.pos.direction_to(t.pos),maxf(0,p.pos.distance_to(t.pos)-1))
+		effect["end"]=t.pos
+		if mode=="chain_dash" or t.get("boss",false):
+			move(p,p.pos.direction_to(t.pos),maxf(0,p.pos.distance_to(t.pos)-1))
+			effect["end"]=p.pos
 		else:
 			for i in range(30):t.pos=sim.map.move(t.pos,t.pos.direction_to(p.pos)*.1)
 		s.instant=5.+passive(p,3)*.4;buff(p,"speed",passive(p,1)*.04,2.);combat.hit(p,t,damage);return
 	if mode in ["dash","rush","weave","retreat","flank","blink","card_retreat","heavy_dash"]:
 		move(p,-p.aim if mode in ["retreat","card_retreat"] else p.aim.orthogonal() if mode in ["weave","flank"] else p.aim,n.distance)
+		effect["end"]=p.pos
 		if mode=="weave":p.invulnerable=.1
 		if mode=="retreat" and p.class_id=="sniper":buff(p,"speed",passive(p,5)*.03,2.)
 		if mode=="card_retreat":basic(p)
@@ -366,10 +398,14 @@ func execute(p:Dictionary,cast:Dictionary):
 			combat.launch(p,"bow" if Content.CLASSES[p.class_id].weapon=="bow" else "staff",p.aim.rotated((i-(count-1)*.5)*.15),damage,n.range,14.,0)
 			combat.projectiles.back()["status"]=mode.trim_suffix("_shot") if mode.ends_with("_shot") else ""
 			combat.projectiles.back()["pierce"]=2 if p.class_id=="sniper" else 0
+			combat.projectiles.back().merge(visual,true);combat.projectiles.back()["fx"]=n.fx;combat.projectiles.back()["origin"]=combat.projectiles.back().pos
+			combat.projectiles.back()["skill_rank"]=cast.rank;combat.projectiles.back()["visual_scale"]=1.+.18*(cast.rank-1)
 		return
 	if mode in ["field","trap","trap_bleed","barrage","combo","settle_barrage"]:
 		var count=int(cast.count)
-		combat.skills.add_zone(p,n.fx,point if mode in ["field","trap","trap_bleed"] else p.pos+p.aim*1.1,n.radius,damage,combat.skills.pulses(count,.05,.12 if mode in ["barrage","combo","settle_barrage"] else .5),2. if mode=="trap" else 0.)
+		visual["follow_owner"]=mode in ["barrage","combo"] and not Content.CLASSES[p.class_id].projectile
+		visual["follow_offset"]=1.1
+		combat.skills.add_zone(p,n.fx,point if mode in ["field","trap","trap_bleed"] else p.pos+p.aim*1.1,n.radius,damage,combat.skills.pulses(count,.05,.12 if mode in ["barrage","combo","settle_barrage"] else .5),2. if mode=="trap" else 0.,0.,visual)
 		var zone=combat.skills.zones.back();zone["job_node"]=n.id;zone["mode"]=mode;zone["follow"]=mode in ["barrage","combo"] and not Content.CLASSES[p.class_id].projectile;zone["hit_any"]=false
 		if mode=="barrage":s["channel"]=.8;s.lock=.8
 		return
@@ -379,6 +415,9 @@ func execute(p:Dictionary,cast:Dictionary):
 		if e.hp<=0 or e.pos.distance_to(center)>n.radius or not sim.map.line_clear(center,e.pos):continue
 		if center==p.pos and p.aim.dot(p.pos.direction_to(e.pos))<0:continue
 		var amount=damage
+		# This job's chain uses the existing close-range hit loop, so its beam
+		# must terminate on an enemy accepted by that loop, not a remote aim target.
+		if mode=="chain":effect["end"]=e.pos
 		if mode in ["execute","heavy_execute","charge_execute"]:amount=roundi(amount*(1+(1-float(e.hp)/e.max_hp)))
 		combat.hit(p,e,amount);any_hit=true
 		if mode in ["slow","stun","root","bleed","blind","vulnerable","weaken","break_armor"]:status(p,e,mode,duration)
@@ -449,7 +488,7 @@ func tick(p:Dictionary,delta:float):
 		else:
 			pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(t.pos)*delta*4)
 			if pet.cd<=0 and pet.pos.distance_to(t.pos)<(5. if pet.kind==1 else 1.6):
-				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos);pet.cd=.8/(1+value(p,"pet_haste"))
+				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos,pet.get("stagger",{}));pet.cd=.8/(1+value(p,"pet_haste"))
 	if p.class_id=="hunter" and s.pets.any(func(pet):return pet.hp<=0):s.hound_respawn=8.
 	s.pets=s.pets.filter(func(pet):return pet.hp>0)
 	if p.class_id=="hunter":
@@ -459,10 +498,11 @@ func tick(p:Dictionary,delta:float):
 	# One owner ticks each applied status; periodic damage cannot generate class resources.
 	for e in sim.enemies.values():
 		for key in e.get("job_status",{}).keys():
-			var st=e.job_status[key]
+			var st=e.get("job_status",{}).get(key,{})
+			if st.is_empty():continue
 			if st.owner!=p.id:continue
 			st.time-=delta;st.tick+=delta
-			if key=="bleed" and st.tick>=1 and e.hp>0:st.tick=0.;combat.hit(p,e,roundi(sim.damage_for(p)*.25*(1+passive(p,0)*.08 if p.class_id=="hunter" else 1)),e.pos)
+			if key=="bleed" and st.tick>=1 and e.hp>0:st.tick=0.;combat.hit(p,e,roundi(sim.damage_for(p)*.25*(1+passive(p,0)*.08 if p.class_id=="hunter" else 1)),e.pos,st.get("stagger",{}))
 			if st.time<=0:e.job_status.erase(key)
 func resource_text(p:Dictionary)->String:
 	var s=p.job_state

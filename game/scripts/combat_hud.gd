@@ -15,6 +15,7 @@ var charge_label:Label
 var portrait:Texture2D
 var bag_button:Button
 var growth_button:Button
+var codex_button:Button
 var boss_hud:Control
 var job_resource:Control
 func setup(owner_game):
@@ -36,6 +37,8 @@ func setup(owner_game):
 	var book=preload("res://scripts/icon_art.gd").function_icon("growth")
 	growth_button=preload("res://scripts/hud_sprite_button.gd").new()
 	growth_button.setup(game,book,"성장","K",game.toggle_skills);growth_button.position=Vector2(1136,23);add_child(growth_button)
+	codex_button=preload("res://scripts/hud_sprite_button.gd").new()
+	codex_button.setup(game,preload("res://scripts/ui_art.gd").texture("crest"),"도감","B",game.toggle_codex);codex_button.position=Vector2(958,23);add_child(codex_button)
 	var definitions=[
 		["skill_q","기술","Q",Vector2(1080,650),76],
 		["skill_f","기술","F",Vector2(1190,650),76],

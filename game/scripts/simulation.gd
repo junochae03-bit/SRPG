@@ -4,6 +4,7 @@ const Dungeon = preload("res://scripts/dungeon.gd")
 const Content = preload("res://scripts/content.gd")
 const Inventory = preload("res://scripts/inventory_model.gd")
 const Progression=preload("res://scripts/progression.gd")
+const BossStagger=preload("res://scripts/boss_stagger.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -45,6 +46,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 	if map.floor_number>0:
 		var scaled=preload("res://scripts/abyss_catalog.gd").enemy_stats(kind,map.floor_number,boss)
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
+	BossStagger.initialize(e,clock)
 	enemies[id]=e;return e
 
 func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Dictionary:
@@ -342,6 +344,7 @@ func kill(id: int, enemy: Dictionary):
 	dirty[id]=true
 
 func tick(delta: float):
+	if delta<=0:return
 	clock += delta
 	for p in players.values():
 		p.input_age += delta
@@ -361,7 +364,10 @@ func tick(delta: float):
 			if e.respawn <= 0:
 				e.hp = e.max_hp;e["rewarded"]=false
 				e.pos = e.home
+				BossStagger.initialize(e,clock)
 			continue
+		if e.get("raid",false):e["stun_time"]=0.
+		if BossStagger.tick(self,e,delta):continue
 		e.cooldown = maxf(0, e.cooldown - delta)
 		e.ability_cd=maxf(0,e.get("ability_cd",4)-delta)
 		e.phase=2 if e.get("boss",false) and e.hp<e.max_hp*.5 else 1
@@ -384,13 +390,14 @@ func tick(delta: float):
 				if e.get("boss",false):
 					events.append({"type":"skill_fx","fx":{"warden":"ranger_field","golem":"mage_burst","sentinel":"warrior_nova_ring"}[e.kind],"pos":e.attack_pos,"dir":Vector2.RIGHT,"owner":1,"duration":.8,"radius":config.range,"sound":"heavy"})
 				for p in players.values():
+					if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:break
 					var impact=.9 if config.ai in ["ranged","healer"] else config.range
 					if p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):
 						var received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind=="golem")
 						if p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))
 						p.combat_time=4.0
 						var reflected=int(Content.skill_bonus(p,"thorns"))
-						if reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected)
+						if reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})
 						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
 						p.hp -= received
 						p.hurt_time=.16
@@ -402,6 +409,7 @@ func tick(delta: float):
 							p.pos = map.spawn
 							p.dir = Vector2.ZERO
 							combat.jobs.reset(p);p.charge_time=-1.
+							reset_after_defeat(p.id)
 							dirty[p.id] = true
 							notice(p.id, "쓰러졌습니다. 금화 10%를 잃고 마을에서 회복했습니다.")
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
@@ -433,6 +441,16 @@ func tick(delta: float):
 		if config.ai=="charger" and e.ability_cd<=0:e.ability_cd=3.0
 	for key in drops.keys():
 		if drops[key].expires <= clock: drops.erase(key)
+
+func reset_after_defeat(player_id:int):
+	# Defeat removes the owner's pending attacks. The encounter resets only when
+	# nobody remains in its arena, so this also has sensible future party behavior.
+	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=player_id)
+	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=player_id)
+	for e in enemies.values():
+		for key in e.get("job_status",{}).keys():
+			if e.job_status[key].owner==player_id:e.job_status.erase(key)
+		if e.get("boss",false) and e.hp>0 and BossStagger.engaged_players(self,e).is_empty():BossStagger.reset(self,e)
 
 func snapshot(for_id: int) -> Dictionary:
 	var visible_players = {}

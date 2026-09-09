@@ -1,12 +1,14 @@
 extends RefCounted
 const Content=preload("res://scripts/content.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
+const BossStagger=preload("res://scripts/boss_stagger.gd")
 var sim_ref:WeakRef
 var sim:
 	get:return sim_ref.get_ref()
 var projectiles:Array=[]
 var skills
 var jobs
+var stagger_context:Dictionary={}
 func _init(owner_sim):
 	sim_ref=weakref(owner_sim)
 	jobs=preload("res://scripts/job_combat.gd").new(self)
@@ -98,6 +100,13 @@ func act(p:Dictionary,kind:String)->bool:
 	return false
 
 func attack(p:Dictionary,heavy:bool,charge:float)->bool:
+	var previous=stagger_context
+	stagger_context=BossStagger.context(BossStagger.basic_token(heavy,charge,sim.clock))
+	var result=_attack(p,heavy,charge)
+	stagger_context=previous
+	return result
+
+func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	var type=weapon_type(p);var config=Content.WEAPONS[type].duplicate()
 	if Content.job(p):
 		var cls=Content.CLASSES[p.class_id];config.cooldown=cls.cooldown;config.range=cls.range;config.projectile=cls.projectile
@@ -129,8 +138,10 @@ func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	if heavy:jobs.after_heavy(p)
 	return true
 
-func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null):
-	if e.hp<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return
+func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Variant=null):
+	if e.hp<=0 or amount<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return
+	var hit_context:Dictionary=stagger_context if attribution==null else attribution
+	if not hit_context.is_empty() and float(hit_context.get("budget",{}).get("created",sim.clock))<float(e.get("stagger",{}).get("reset_at",0)):return
 	p.combat_time=4.0
 	if sim.balance.enemies[e.kind].get("ai","")=="armored":amount=maxi(1,roundi(amount*.75))
 	if e.kind=="sentinel" and e.windup<=0:amount=maxi(1,roundi(amount*.70))
@@ -140,21 +151,24 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null):
 	if critical>0 and sim.rng.randf()<minf(.65,critical):amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")))
 	p.hp=mini(p.max_hp,p.hp+floori(amount*Content.skill_bonus(p,"lifesteal")))
 	amount=jobs.outgoing(p,e,amount)
+	if e.get("stagger",{}).get("state","")=="down":amount=roundi(amount*BossStagger.DOWN_DAMAGE)
 	e.hp-=amount
+	BossStagger.check_threshold(sim,e)
+	BossStagger.apply(sim,p,e,hit_context)
 	var push=Content.skill_bonus(p,"knockback")
 	if push>0:e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
 	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"owner":p.id})
 	if e.hp<=0:sim.kill(p.id,e)
 
-func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="star_impact"):
+func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="star_impact",attribution:Variant=null):
 	sim.events.append({"type":"nova","fx":fx_kind,"pos":center,"dir":p.aim,"owner":p.id,"duration":0.6,"radius":radius})
 	for e in sim.enemies.values():
-		if e.pos.distance_to(center)<=radius and sim.map.line_clear(center,e.pos):hit(p,e,amount,center)
+		if e.pos.distance_to(center)<=radius and sim.map.line_clear(center,e.pos):hit(p,e,amount,center,attribution)
 
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
 	if direction.length()<0.1:direction=Vector2.RIGHT
-	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[]})
+	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context})
 
 func tick_projectiles(delta:float):
 	for shot in projectiles:
@@ -170,9 +184,9 @@ func tick_projectiles(delta:float):
 			if e.hp<=0 or shot.hit.has(e.id):continue
 			if e.pos.distance_to(Geometry2D.get_closest_point_to_segment(e.pos,origin,next))>shot.get("width",.42):continue
 			var p=sim.players[shot.owner]
-			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount)
-			else:hit(p,e,shot.amount,origin)
-			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.)
+			if shot.splash>0:area(p,e.pos,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}))
+			else:hit(p,e,shot.amount,origin,shot.get("stagger",{}))
+			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.,shot.get("stagger",{}))
 			if shot.get("basic",false):jobs.basic_hit(p,e)
 			shot.hit.append(e.id)
 			if shot.hit.size()>shot.pierce:shot.remaining=0;break

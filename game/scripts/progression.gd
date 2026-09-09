@@ -1,6 +1,6 @@
 extends RefCounted
 const NAMES={"strength":"힘","endurance":"내구","technique":"기술","agility":"민첩","magic":"마력"}
-const HELP={"strength":"물리 공격력 +2 / 활·단검·권격 포함","endurance":"물리·마법 방어력 각각 +2","technique":"스킬 재사용 시간 감소 / 최대 40%에 점감","agility":"공격 속도·이동 속도 증가 / 점감 적용","magic":"마법 공격력 +2 / 마법사 계열·룬소드"}
+const HELP={"strength":"물리 공격력 +2 / 활·단검·권격 포함","endurance":"물리·마법 방어력 각각 +2","technique":"스킬 재사용 시간 감소 · 무력화 피해 증가\n각각 최대 40% / 60%에 점감","agility":"공격 속도·이동 속도 증가 / 점감 적용","magic":"마법 공격력 +2 / 마법사 계열·룬소드"}
 static func xp_required(level:int)->int:return 120+80*level+25*level*level
 static func migrate(p:Dictionary):
 	if int(p.get("schema_version",6))<6:
