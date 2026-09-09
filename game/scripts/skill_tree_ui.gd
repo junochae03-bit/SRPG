@@ -61,7 +61,8 @@ func setup(owner_game):
 	class_picker=OptionButton.new();class_picker.position=Vector2(30,90);class_picker.size=Vector2(265,43)
 	class_picker.add_theme_font_override("font",game.fonts);class_picker.get_popup().add_theme_font_override("font",game.fonts);class_picker.add_theme_font_size_override("font_size",18)
 	add_child(class_picker)
-	for state in ["normal","hover","pressed","focus"]:class_picker.add_theme_stylebox_override(state,StyleBoxEmpty.new())
+	for state in ["normal","hover","pressed","focus"]:
+		var margin=StyleBoxEmpty.new();margin.content_margin_left=20;margin.content_margin_right=22;class_picker.add_theme_stylebox_override(state,margin)
 	class_picker.add_theme_color_override("font_color",Color("25454b"));Art.decorate(class_picker,"paper",15)
 	for key in Content.CLASSES:
 		var c=Content.CLASSES[key];class_picker.add_item(c.name+(" · 전직" if c.has("base") and not c.get("starter",false) else " · 기초"));class_picker.set_item_metadata(class_picker.item_count-1,key)
@@ -96,9 +97,9 @@ func setup(owner_game):
 	stats_text=game.label(stats_panel,"",Vector2(30,26),Vector2(865,76),24)
 	var index=0
 	for key in Progression.NAMES:
-		game.label(stats_panel,Progression.NAMES[key],Vector2(35,139+index*96),Vector2(96,34),25)
-		game.label(stats_panel,Progression.HELP[key],Vector2(149,141+index*96),Vector2(560,56),18)
-		stat_buttons[key]=game.button(stats_panel,"+1",Vector2(744,129+index*96),Vector2(140,50),func():game.session.act("stat",key);refresh(true));index+=1
+		game.label(stats_panel,Progression.NAMES[key],Vector2(35,122+index*83),Vector2(96,34),25)
+		game.label(stats_panel,Progression.HELP[key],Vector2(149,124+index*83),Vector2(560,56),18)
+		stat_buttons[key]=game.button(stats_panel,"+1",Vector2(744,113+index*83),Vector2(140,50),func():game.session.act("stat",key);refresh(true));index+=1
 	hide()
 func player()->Dictionary:return game.session.state.players.get(game.session.local_id,{})
 func _process(_delta):
@@ -166,13 +167,13 @@ func refresh(force=false):
 			b.tooltip_text=skill.get("path","")+" · 해금 Lv."+str(skill.get("level",1))+"\n"+skill.name+" · "+("사용 기술" if active else "상시 효과")+"\n"+skill.description;nodes[skill.id]=b
 		if choice==skill.id:show_details(skill,p,rank)
 	if mode=="stats":
-		stats_text.text="사용 가능한 능력치 %d\n힘 %d  ·  민첩 %d  ·  지능 %d  ·  체력 %d" % [Progression.available(p),p.stats.strength,p.stats.dexterity,p.stats.intelligence,p.stats.vitality]
+		stats_text.text="사용 가능한 능력치 %d\n힘 %d · 내구 %d · 기술 %d · 민첩 %d · 마력 %d" % [Progression.available(p),Progression.bonus(p,"strength"),Progression.bonus(p,"endurance"),Progression.bonus(p,"technique"),Progression.bonus(p,"agility"),Progression.bonus(p,"magic")]
 		for key in stat_buttons:stat_buttons[key].disabled=Progression.available(p)<=0
 		selected.text="모험가의 성장";selected_icon.texture=Art.texture("crest");status.text="레벨마다 능력치 +3 / 스킬 +1"
 		description.text="얻은 포인트를 직접 배분하면 능력치가 강해집니다. 마을에서 무료로 초기화할 수 있습니다."
 		clear(comparison);clear(prerequisites);comparison_rows=[]
-		var rows=[["공격력",str(game.session.sim.damage_for(p))],["최대 생명력",str(p.max_hp)],["방어력",str(p.defense)],["최대 기력",str(int(p.max_stamina))],["다음 레벨 경험치","%d / %d" % [p.xp,Progression.xp_required(p.level)]]]
-		for i in range(rows.size()):game.label(comparison,rows[i][0]+"    "+rows[i][1],Vector2(0,i*37),Vector2(340,31),19)
+		var rows=[["물리 / 마법 공격","%d / %d"%[game.session.sim.damage_for(p,"physical"),game.session.sim.damage_for(p,"magic")]],["물리 / 마법 방어","%d / %d"%[p.defense,p.magic_defense]],["받는 피해 감소","%.1f%%"%(Progression.mitigation(p)*100)],["스킬 재사용 감소","%.1f%%"%((1.-Progression.cooldown_factor(p))*100)],["공격 / 이동 속도","+%.1f%% / +%.1f%%"%[(Progression.attack_speed(p)-1)*100,(Progression.move_speed(p)-1)*100]],["최대 생명력",str(p.max_hp)],["최대 레벨" if p.level>=100 else "다음 레벨 경험치","완성" if p.level>=100 else "%d / %d" % [p.xp,Progression.xp_required(p.level)]]]
+		for i in range(rows.size()):game.label(comparison,rows[i][0]+"    "+rows[i][1],Vector2(0,i*31),Vector2(340,29),17)
 		invest.text="왼쪽에서 능력치를 배분하세요";invest.disabled=true
 		for b in bind_buttons:b.disabled=true
 	for key in class_buttons:class_buttons[key].disabled=not game.dungeon.in_town(p.pos) or p.class_id==key

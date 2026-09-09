@@ -59,6 +59,7 @@ static func normalize_item(item: Dictionary):
 	item["rarity"]=int(item.get("rarity",0))
 
 static func icon_texture(item:Dictionary)->Texture2D:
+	if item.get("category","")=="weapon" and item.get("job_lock","") in preload("res://scripts/job_item_art.gd").JOBS:return preload("res://scripts/job_item_art.gd").texture(item.job_lock)
 	var key=item.get("weapon_type","sword")
 	match item.get("category","weapon"):
 		"armor","accessory":key=item.get("slot","chest")

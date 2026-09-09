@@ -6,12 +6,14 @@ var floor_cells: Dictionary = {}
 var rooms: Array[Vector2i] = []
 var spawn = Vector2.ZERO
 var zone="forest"
+var floor_number=0
+var exit_position=Vector2.ZERO
 var path_cells:Dictionary={}
 var facility_cells:Dictionary={}
 
-func _init(value: int = 20260908,zone_name:String="forest"):
+func _init(value: int = 20260908,zone_name:String="forest",depth:int=0):
 	seed_value = value
-	zone=zone_name
+	zone=zone_name;floor_number=clampi(depth,0,100)
 	if zone=="town":
 		spawn=Vector2(19,23)
 		for x in range(5,34):
@@ -54,6 +56,7 @@ func _init(value: int = 20260908,zone_name:String="forest"):
 				if cursor.y!=end.y:cursor.y+=signi(end.y-cursor.y)
 				else:cursor.x+=signi(end.x-cursor.x)
 				floor_cells[cursor]=true;floor_cells[cursor+Vector2i.RIGHT]=true
+	exit_position=Vector2(rooms.back())
 	path_cells=floor_cells
 
 func walkable(pos: Vector2) -> bool:

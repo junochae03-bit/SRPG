@@ -62,24 +62,26 @@ func run():
 	var sim=Sim.new(321);var p=sim.add_player(1,"성장");p.level=10
 	check(Progression.available(p)==27,"retroactive stats 3 per level")
 	var old_damage=sim.damage_for(p);check(sim.action(1,"stat","strength") and sim.damage_for(p)==old_damage+2,"strength changes melee damage")
-	var hp=p.max_hp;check(sim.action(1,"stat","vitality") and p.max_hp==hp+10,"vitality health")
+	sim.recalculate(p);var hp=p.max_hp;check(sim.action(1,"stat","endurance") and p.defense==2 and p.magic_defense==2 and p.max_hp==hp,"endurance boosts both defenses")
 	check(sim.action(1,"reset_stats") and Progression.available(p)==27,"town stats reset")
 	check(not sim.action(1,"stat","forged"),"invalid stat rejected")
 	check(Progression.xp_required(1)>60 and Progression.xp_required(10)>600 and Progression.xp_required(20)>Progression.xp_required(10)*2,"slower progressive XP")
 	p.level=1;p.xp=0;p.pos=Vector2(sim.map.rooms[1]);var victim=sim.enemies[1]
 	sim.kill(1,victim);check(p.level==1,"one enemy cannot level character")
-	p.xp=Progression.xp_required(1)-1;sim.kill(1,victim);check(p.level==2 and Progression.available(p)==3,"level awards allocatable stats")
+	p.xp=Progression.xp_required(1)-1;victim.rewarded=false;sim.kill(1,victim);check(p.level==2 and Progression.available(p)==3,"level awards allocatable stats")
 	sim=Sim.new(321,"town");p=sim.add_player(1,"시설");p.gold=5000;p.materials={"seed":100,"ore":100,"essence":10};Inventory.initialize(p)
 	check(not sim.action(1,"attack") and sim.enemies.is_empty(),"safe independent town")
 	for f in World.FACILITIES:check(sim.map.walkable(World.FACILITIES[f].pos),"facility entrance walkable "+f)
-	for i in range(10):check(service(sim,p,"shop","buy",{"index":i}),"buy equipment family "+str(i))
-	check(p.inventory.size()==10,"ten equipment families stocked")
+	for i in range(7):check(service(sim,p,"shop","buy",{"index":i}),"buy equipment family "+str(i))
+	check(p.inventory.size()==7,"seven class equipment slots stocked")
 	var first=p.inventory[0];Inventory.equip(p,first.id);var old=first.bonus
 	check(service(sim,p,"smith","upgrade",{"item":first.id}),"blacksmith upgrade succeeds")
 	first=Inventory.find_item(p,first.id);check(first.bonus==old+2 and first.upgrade==1,"upgrade actual stats")
 	for i in range(4):check(service(sim,p,"smith","upgrade",{"item":first.id}),"upgrade to cap")
 	check(not service(sim,p,"smith","upgrade",{"item":first.id}),"upgrade cap")
-	check(service(sim,p,"smith","reforge",{"item":first.id}),"reforge actual affix")
+	check(not service(sim,p,"smith","reforge",{"item":first.id}),"normal gear cannot gain affix")
+	Inventory.find_item(p,first.id).rarity=1
+	check(service(sim,p,"smith","reforge",{"item":first.id}),"rare reforge actual affix")
 	check(Inventory.find_item(p,first.id).affix!="none","reforge changes equipment")
 	check(not service(sim,p,"shop","sell",{"item":first.id}),"equipped sale protected")
 	var count=p.inventory.size();check(service(sim,p,"shop","sell",{"item":p.inventory[1].id}) and p.inventory.size()==count-1,"shop sale removes exactly one")
@@ -99,20 +101,23 @@ func run():
 	for id in ["@potion","@mat:seed","@mat:ore","@mat:essence"]:
 		check(not service(sim,p,"shop","sell",{"item":id}) and sim.persistent(1)==before,"virtual stack cannot duplicate sale gold "+id)
 	var battle=Sim.new(321,"forest");var fighter=battle.add_player(1,"행운 검증")
-	var fortune=Gear.make("accessory",0,0,"fortune-test","fortune");Inventory.add_gear(fighter,fortune);Inventory.equip(fighter,fortune.id)
+	var fortune=Gear.make("accessory",0,1,"fortune-test","fortune");Inventory.add_gear(fighter,fortune);Inventory.equip(fighter,fortune.id)
+	fortune.upgrade=2;battle.recalculate(fighter);check(fighter.gear_stats.magic==3,"magic option applies after enhancement")
 	var previous_gold=fighter.gold;var target=battle.enemies.values().back()
-	battle.kill(1,target);check(fighter.gold-previous_gold==94,"fortune equipment increases actual kill gold")
+	battle.kill(1,target);check(fighter.gold-previous_gold==90,"stat option does not multiply currency")
 	var names={}
-	for type in Gear.BASES:
-		for tier in range(5):names[Gear.make(type,tier,0,"test").name]=true
-	check(names.size()==50,"50 equipment base names")
+	for job in Content.CLASSES:
+		for type in Gear.SHOP_TYPES:
+			for tier in range(10):names[Gear.make(type,tier,0,"test","none",job).name]=true
+	check(names.size()==500,"200 job weapons and 300 family armor/accessory base names")
 	var session=preload("res://scripts/local_session.gd").new();root.add_child(session);session.set_physics_process(false);session.save_directory=ProjectSettings.globalize_path("res://../runtime/v05-model/"+str(Time.get_ticks_usec()));session.start_game("저장",1)
-	check(session.sim.map.zone=="town","game starts in independent town")
+	check(session.sim.map.zone=="forest","game starts in tutorial")
+	session.sim.players[1].tutorial_done=true;session.sim.players[1].highest_floor=11;session.sim.players[1].cleared_floor=10;session.sim.players[1].level=10;session.travel("town")
 	check(session.travel("cave") and session.sim.map.zone=="cave","travel to selected dungeon")
 	p=session.sim.players[1];p.pos=Vector2(session.sim.map.rooms[1]);check(not session.travel("ruins"),"cannot change dungeon in combat field")
 	check(session.act("return") and session.sim.map.zone=="town","R returns to town")
-	p=session.sim.players[1];p.level=10;session.act("stat","vitality");session.save_game();var loaded=session.parse_save(session.save_path())
-	check(loaded!=null and loaded.schema_version==5 and loaded.stats.vitality==1,"v5 stats saved and validated")
+	p=session.sim.players[1];p.level=10;session.act("stat","endurance");session.save_game();var loaded=session.parse_save(session.save_path())
+	check(loaded!=null and loaded.schema_version==6 and loaded.stats.endurance==1,"v5 stats saved and validated")
 	session.disconnect_game();session.queue_free();await process_frame
 	print("V05_TESTS checks=",checks," failures=",failed.size())
 	quit(0 if failed.is_empty() else 1)

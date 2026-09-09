@@ -22,13 +22,17 @@ static func profile(node:Dictionary,rank:int,bonuses:Dictionary={})->Dictionary:
 	elif mode in ["spin","rain","field","nova_ring"]:count+=1 if level==3 else 0
 	var slow=float(base.get("slow",1.5 if mode=="field" else 0))
 	var stun=float(base.get("stun",.6 if mode=="burst" else 0))
-	return {"rank":level,"mode":mode,"multiplier":float(base.get("power",1))*[1.0,1.5,2.2][level-1]*(1+bonuses.get("skill_power",0)),
+	var gear=bonuses.get("gear",{"force":0.,"reach":0.,"echo":0.})
+	var result={"rank":level,"mode":mode,"multiplier":float(base.get("power",1))*[1.0,1.5,2.2][level-1]*(1+bonuses.get("skill_power",0)),
 		"radius":radius+[0.0,.45,.95][level-1]+bonuses.get("skill_radius",0),"range":float(base.get("range",6 if mode=="chain" else 8))+level-1,"count":count,
 		"distance":float(base.get("distance",0))+(level-1)*.5,"slow":(slow*[1.0,1.35,1.7][level-1]+bonuses.get("slow_duration",0)) if slow>0 else 0.0,
 		"stun":(stun*[1.0,1.35,1.7][level-1]+bonuses.get("stun_duration",0)) if stun>0 else 0.0,
 		"cost":maxf(5,float(node.get("cost",{"skill_f":20,"skill_v":30,"skill_c":25}.get(action,20)))-bonuses.get("skill_discount",0)),
-		"cooldown":maxf(1,float(node.get("cooldown",{"skill_f":7,"skill_v":11,"skill_c":9}.get(action,7)))*[1.0,.94,.88][level-1]-bonuses.get("skill_haste",0)),
+		"cooldown":bonuses.get("cooldown_factor",1.)*maxf(1,float(node.get("cooldown",{"skill_f":7,"skill_v":11,"skill_c":9}.get(action,7)))*[1.0,.94,.88][level-1]-bonuses.get("skill_haste",0)),
 		"heal":[.22,.32,.45][level-1],"duration":[5.0,6.5,8.0][level-1],"barrier":[.4,.5,.6][level-1],"haste_speed":[.25,.4,.55][level-1],"haste_attack":[.3,.4,.5][level-1],"width":.42+.12*(level-1)}
+	result.multiplier*=1.+gear.force;result.heal*=1.+gear.force;result.barrier=minf(.8,result.barrier*(1.+gear.force))
+	result.radius*=1.+gear.reach;result.range*=1.+gear.reach;result.duration*=1.+gear.echo;result.haste_speed*=1.+gear.echo;result.haste_attack=minf(.7,result.haste_attack*(1.+gear.echo))
+	return result
 static func passive_text(node:Dictionary,rank:int)->String:
 	var value=float(node.value)*rank
 	return ("+%s%%" % number(value*100)) if node.effect in PERCENT else "+"+number(value)

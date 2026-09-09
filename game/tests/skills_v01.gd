@@ -34,12 +34,12 @@ func run():
 					impacts.append(100-(before-p.hp));check(is_equal_approx(p.barrier_time,s.duration),"barrier duration "+str(rank))
 				elif s.mode=="haste":
 					p.dir=Vector2.RIGHT;var before=p.pos;sim.combat.tick_player(p,.1);impacts.append(p.pos.distance_to(before))
-					sim.combat.attack(p,false,0);check(is_equal_approx(p.attack_cd,.48*(1-s.haste_attack)),"haste changes real attack delay "+str(rank))
+					sim.combat.attack(p,false,0);check(is_equal_approx(p.attack_cd,Content.WEAPONS[sim.combat.weapon_type(p)].cooldown*(1-s.haste_attack)),"haste changes real attack delay "+str(rank))
 				else:
 					var damage=0
 					for e in sim.enemies.values():damage+=100000-e.hp
 					impacts.append(damage);check(damage>0,"rank damages real targets "+node.id+str(rank))
-					if node.id=="blade_wave":check(100000-sim.enemies.values()[0].hp==[32,49,71][rank-1],"blade wave exact damage 32/49/71")
+					if node.id=="blade_wave":check(100000-sim.enemies.values()[0].hp==roundi(sim.damage_for(p)*[1.8,2.7,3.96][rank-1]),"blade wave exact damage including level growth")
 			check(impacts[1]>impacts[0] and impacts[2]>impacts[1],"each investment strengthens actual effect "+node.id)
 			if node.effect=="active":check(times[2]<times[1] and times[1]<times[0],"rank improves real cooldown "+node.id)
 	print("SKILLS_V01_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

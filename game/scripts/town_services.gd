@@ -2,19 +2,19 @@ extends RefCounted
 const World=preload("res://scripts/world_catalog.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
-static func price(p:Dictionary,index:int)->int:return 35+mini(4,int(p.level/5))*45+(10 if index<4 else 0)
+static func price(p:Dictionary,index:int)->int:return 35+mini(9,int(p.level/10))*45+(10 if index<4 else 0)
 static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	var facility=str(request.get("facility",""));var operation=str(request.get("operation",""))
 	if sim.map.zone!="town" or World.nearest(p.pos)!=facility:return false
 	var staged=p.duplicate(true);var success=false;var message=""
 	match facility+":"+operation:
 		"shop:buy":
-			var index=int(request.get("index",-1));var keys=Equipment.BASES.keys()
+			var index=int(request.get("index",-1));var keys=Equipment.SHOP_TYPES
 			if index<0 or index>=keys.size():return false
 			var cost=price(p,index)
 			if staged.gold<cost:return false
 			var id="shop-"+str(Time.get_ticks_usec())+"-"+str(sim.serial);sim.serial+=1
-			var item=Equipment.make(keys[index],mini(4,int(p.level/5)),0,id)
+			var item=Equipment.make(keys[index],mini(9,int(p.level/10)),0,id,"none",p.class_id)
 			if not Inventory.add_gear(staged,item):return false
 			staged.gold-=cost;success=true;message=item.name+" 구매"
 		"shop:potion":
@@ -30,13 +30,16 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 			if item.is_empty() or item.get("category","") not in ["weapon","armor","accessory"]:return false
 			var rank=int(item.get("upgrade",0));var upgrading=operation=="upgrade"
 			if upgrading and rank>=5:return false
+			if not upgrading and item.rarity==0:return false
 			var cost=(rank+1)*50 if upgrading else 80;var material="ore" if upgrading else "essence";var quantity=rank+1 if upgrading else 1
 			if staged.gold<cost or staged.materials.get(material,0)<quantity:return false
 			staged.gold-=cost;staged.materials[material]-=quantity
 			if upgrading:item.upgrade=rank+1;item.bonus+=2 if item.slot=="weapon" else 1
 			else:
 				var choices=Equipment.AFFIXES.keys().filter(func(k):return k!="none" and k!=item.get("affix","none"))
-				item.affix=choices[sim.rng.randi_range(0,choices.size()-1)]
+				if item.rarity>=3:
+					var options=Equipment.RESONANCE.keys().filter(func(k):return k!=item.resonance);item.resonance=options[sim.rng.randi_range(0,options.size()-1)]
+				else:item.affix=choices[sim.rng.randi_range(0,choices.size()-1)]
 			item.base_name=item.get("base_name",item.name);item.name=Equipment.AFFIXES[item.get("affix","none")].name+item.base_name+(" +"+str(item.upgrade) if item.get("upgrade",0)>0 else "")
 			success=true;message="장비 "+("강화" if upgrading else "재련")+" 완료 · "+item.name
 		"alchemy:potion":

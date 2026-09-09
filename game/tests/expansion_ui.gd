@@ -49,8 +49,9 @@ func run():
 	check(not session.act("skill_f") and p.skill_f_cd==frozen,"skill tree pauses new cooldowns and prevents cast")
 	game.toggle_skills();p.pos=Vector2(session.sim.map.rooms[1]);p.stamina=p.max_stamina
 	for type in Content.WEAPONS:
-		session.act("equip","training-"+type);p.attack_cd=0
-		game.action_buttons.attack.pressed.emit()
+		var item={"id":"audio-"+type,"name":"검증 무기","category":"weapon","slot":"weapon","weapon_type":type,"bonus":0,"rarity":0};preload("res://scripts/inventory_model.gd").add_gear(p,item)
+		session.act("equip",item.id);p.attack_cd=0
+		session.act("attack")
 		check(game.audio_director.play_counts.get(type,0)>0,"weapon attack maps audio "+type)
 	var event=InputEventKey.new();event.physical_keycode=KEY_SPACE;event.pressed=true
 	# The preceding retreat uses the same sample; allow its intentional 70 ms audio gate to expire.

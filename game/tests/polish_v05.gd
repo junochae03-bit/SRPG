@@ -11,7 +11,7 @@ func check(ok:bool,label:String):
 func _initialize():run.call_deferred()
 func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
-	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/polish-v05/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false)
+	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/polish-v05/"+str(Time.get_ticks_usec()));game.join_game();session.sim.players[1].tutorial_done=true;session.travel("town");session.set_physics_process(false)
 	var p=session.sim.players[1]
 	for cls in Content.CLASSES:
 		p.class_id=cls;p.skill_ranks={};p.skill_loadout={};p.level=100;session.refresh();game.skill_tree.choice="";game.skill_tree.refresh(true)

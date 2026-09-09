@@ -30,7 +30,12 @@ func _draw():
 	var rarity=int(item.get("rarity",0))
 	var alpha=0.30 if faded else 1.0
 	var art=preload("res://scripts/ui_art.gd")
-	draw_texture_rect(art.texture("equipped" if selected else ["socket","magic","rare"][clampi(rarity,0,2)]),r,false,Color(1,1,1,alpha))
+	draw_texture_rect(art.texture("equipped" if selected else ["socket","magic","rare","rare","rare"][clampi(rarity,0,4)]),r,false,Color(1,1,1,alpha))
+	if not item.is_empty():
+		var color=preload("res://scripts/equipment_catalog.gd").COLORS[clampi(rarity,0,4)];color.a=alpha
+		draw_rect(r.grow(-3),color,false,2.)
+		if rarity>=3:
+			for corner in [Vector2(7,7),Vector2(size.x-7,7),Vector2(7,size.y-7),size-Vector2(7,7)]:draw_circle(corner,2.3,color)
 	var display=picture
 	if display==null and equip_slot!="":display=Content.icon_texture({"category":"weapon" if equip_slot=="weapon" else "armor","slot":equip_slot,"weapon_type":"sword"})
 	if display!=null:
@@ -63,7 +68,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if equip_slot=="" or not data is Dictionary or data.get("kind")!="inventory_item":return false
 	var incoming=panel.item_by_id(data.id)
-	return not incoming.is_empty() and incoming.get("slot","")==equip_slot
+	return not incoming.is_empty() and incoming.get("slot","")==equip_slot and preload("res://scripts/equipment_catalog.gd").reason(panel.player(),incoming).is_empty()
 
 func _drop_data(_at_position: Vector2, data: Variant):
 	panel.game.session.act("equip",data.id)

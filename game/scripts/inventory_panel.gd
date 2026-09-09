@@ -52,8 +52,8 @@ func setup(owner_game):
 	for i in range(4):filter_buttons.append(game.button(storage,["전체","장비","소모품","재료"][i],Vector2(25+i*127,77),Vector2(121,42),func():filter_index=i;refresh(true)))
 	grid=preload("res://scripts/inventory_grid_ui.gd").new();grid.setup(self);grid.position=Vector2(25,139);storage.add_child(grid)
 	game.label(storage,"모든 물건은 한 칸 · 끌어서 이동하거나 장착하세요",Vector2(26,455),Vector2(506,29),16)
-	game.label(storage,"일반     ◆ 마법     ◆ 희귀     ✦ 선택한 아이템",Vector2(26,494),Vector2(506,29),16)
-	starter_button=game.button(storage,"연습 무기 4종 받기",Vector2(25,606),Vector2(501,45),func():game.session.act("claim_starters");refresh(true))
+	game.label(storage,"일반 · 레어 · 유니크 · 에픽 · 레전드리",Vector2(26,494),Vector2(506,29),16)
+	starter_button=game.button(storage,"입문 장비 4종 받기",Vector2(25,606),Vector2(501,45),func():game.session.act("claim_starters");refresh(true))
 	Art.picture(storage,Art.texture("crest"),Vector2(28,540),Vector2(47,48))
 	game.label(storage,"장착품은 가방 칸을 쓰지 않습니다.\n물약과 같은 재료는 한 묶음으로 보관합니다.",Vector2(88,543),Vector2(438,48),16)
 	var detail=Art.panel(self,Vector2(993,103),Vector2(366,676),"paper",25)
@@ -62,7 +62,7 @@ func setup(owner_game):
 	game.label(detail,"선택한 전리품",Vector2(135,28),Vector2(204,31),21)
 	item_grade=game.label(detail,"",Vector2(136,72),Vector2(208,38),16)
 	detail_name=game.label(detail,"",Vector2(25,141),Vector2(318,76),25);detail_name.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	detail_body=game.label(detail,"",Vector2(25,229),Vector2(318,305),18);detail_body.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	detail_body=game.label(detail,"",Vector2(25,229),Vector2(318,305),16);detail_body.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	primary=game.button(detail,"장착하기",Vector2(25,552),Vector2(317,49),activate_selected,true)
 	discard_button=game.button(detail,"정리 · 금화 +3",Vector2(25,618),Vector2(317,39),func():game.session.act("discard",selected_id);refresh(true))
 	game.label(self,"소지품을 살피는 동안 모험은 잠시 멈춥니다.  I / ESC로 닫기",Vector2(70,793),Vector2(1228,25),17)
@@ -97,29 +97,33 @@ func refresh(force=false):
 		var control=equipment_controls[slot];var item=item_by_id(p.equipment.get(slot,""))
 		control.item=item;control.picture=null if item.is_empty() else Content.icon_texture(item);control.selected=selected_id!="" and item.get("id")==selected_id;control.queue_redraw()
 	stat_label.text="%s · LV.%d\n공격 %d   방어 %d   생명력 %d" % [Content.CLASSES[p.class_id].name,p.level,game.session.sim.damage_for(p),p.defense,p.max_hp]
-	portrait.texture=preload("res://scripts/gat_art.gd").texture(preload("res://scripts/gat_art.gd").avatar(p),0) if Content.gat_appearance(p) else game.textures[Content.costume_role(p)].idle[0]
+	portrait.texture=(preload("res://scripts/job_art.gd").frame(p,0.).texture if preload("res://scripts/job_art.gd").has_sprite(p) else preload("res://scripts/gat_art.gd").texture(preload("res://scripts/gat_art.gd").avatar(p),0)) if Content.gat_appearance(p) else game.textures[Content.costume_role(p)].idle[0]
 	portrait.material=preload("res://scripts/gat_art.gd").material() if Content.gat_appearance(p) else null
 	avatar_picker.select(0 if p.get("avatar","auto")=="auto" else Content.AVATARS.keys().find(p.avatar)+1);costume_picker.select(Content.COSTUMES.keys().find(p.costume))
 	wallet.text="보유 금화   %s G" % p.gold
 	capacity.text="%d / 60 칸" % Inventory.bag_items(p).size()
 	for i in range(filter_buttons.size()):filter_buttons[i].text=("• " if i==filter_index else "")+["전체","장비","소모품","재료"][i]
 	starter_button.disabled=p.training_given or not game.dungeon.in_town(p.pos)
-	starter_button.text="연습 무기 수령 완료" if p.training_given else "연습 무기 4종 받기" if game.dungeon.in_town(p.pos) else "마을에서 연습 무기 받기"
+	starter_button.text="연습 무기 수령 완료" if p.training_given else "입문 장비 4종 받기" if game.dungeon.in_town(p.pos) else "마을에서 연습 무기 받기"
 	var item=item_by_id(selected_id)
 	primary.visible=not item.is_empty() and item.category!="material"
 	discard_button.visible=not item.is_empty() and item.category in ["weapon","armor","accessory"] and not Inventory.is_equipped(p,selected_id)
 	detail_icon.texture=null if item.is_empty() else Content.icon_texture(item)
 	if item.is_empty():
 		detail_name.text="전리품을 살펴보세요";item_grade.text="아이템 선택 대기";detail_body.text="가방이나 장비의 그림을 선택하면 현재 장비와 능력치를 비교합니다.\n\n무기와 방어구는 캐릭터 옆의 알맞은 자리에 끌어 놓아도 장착됩니다.";return
-	detail_name.text=item.name;item_grade.text=["일반","마법","희귀"][int(item.rarity)]+" · "+Content.SLOT_NAMES.get(item.get("slot",""),"소모품" if item.category=="consumable" else "제작 재료")
+	primary.disabled=false
+	detail_name.text=item.name;item_grade.text=preload("res://scripts/equipment_catalog.gd").GRADES[int(item.rarity)]+" · "+Content.SLOT_NAMES.get(item.get("slot",""),"소모품" if item.category=="consumable" else "제작 재료")
 	if item.category in ["weapon","armor","accessory"]:
 		var trial=p.duplicate(true);trial.equipment[item.slot]=item.id
 		if item.slot=="weapon":trial.equipped=item.id
 		game.session.sim.recalculate(trial)
 		var damage=game.session.sim.damage_for(p);var next_damage=game.session.sim.damage_for(trial)
-		detail_body.text="착용 전 → 착용 후\n공격력  %d → %d  (%+d)\n방어력  %d → %d  (%+d)\n생명력  %d → %d  (%+d)\n기력     %d → %d\n\n강화  +%d / +5\n%s" % [damage,next_damage,next_damage-damage,p.defense,trial.defense,trial.defense-p.defense,p.max_hp,trial.max_hp,trial.max_hp-p.max_hp,p.max_stamina,trial.max_stamina,item.get("upgrade",0),preload("res://scripts/equipment_catalog.gd").AFFIXES.get(item.get("affix","none"),{}).get("name","")]
-		if item.category=="weapon":detail_body.text+="\n"+Content.WEAPONS[item.weapon_type].description
+		var eq=preload("res://scripts/equipment_catalog.gd")
+		var reason=eq.reason(p,item)
+		detail_body.text=eq.restriction_text(item)+"\n\n공격  %d → %d (%+d)\n방어  %d → %d (%+d)\n생명  %d → %d\n\n강화 +%d / +5\n%s"%[damage,next_damage,next_damage-damage,p.defense,trial.defense,trial.defense-p.defense,p.max_hp,trial.max_hp,item.get("upgrade",0),eq.option_text(item)]
+		primary.disabled=not Inventory.is_equipped(p,selected_id) and not reason.is_empty()
+		primary.tooltip_text=reason
 		primary.text="장착 해제" if Inventory.is_equipped(p,selected_id) else "장착하기"
 	elif item.category=="consumable":
-		detail_body.text="생명력 %d 회복\n보유 %d개 / 최대 20개\n재사용 대기 2초\n\n전투 중에는 1키로 빠르게 사용할 수 있습니다." % [60+Content.skill_bonus(p,"potion_power"),item.count];primary.text="물약 사용하기"
+		detail_body.text="생명력 %d 회복\n보유 %d개 / 최대 20개\n재사용 대기 2초\n\n전투 중에는 1키로 빠르게 사용할 수 있습니다." % [60+roundi(p.max_hp*.20)+Content.skill_bonus(p,"potion_power"),item.count];primary.text="물약 사용하기"
 	else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다.\n\n별씨앗 · 물약 조제\n광석 · 장비 강화\n정수 · 장비 옵션 재련" % item.count

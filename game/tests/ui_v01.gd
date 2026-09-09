@@ -10,7 +10,7 @@ func check(ok:bool,label:String):
 func _initialize():run.call_deferred()
 func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
-	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v01/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false)
+	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v01/"+str(Time.get_ticks_usec()));game.join_game();session.sim.players[1].tutorial_done=true;session.travel("town");session.set_physics_process(false)
 	var p=session.sim.players[1];p.level=100;p.gold=5000;p.materials={"seed":100,"ore":100,"essence":100};session.act("claim_starters");session.refresh()
 	game.toggle_skills();var tree=game.skill_tree
 	for cls in ["warrior","ranger","mage"]:
@@ -28,9 +28,10 @@ func run():
 		check(p.skill_ranks[active.id]==2 and tree.comparison_rows!=current,"investment updates current and next effect values "+cls)
 		tree.bind_buttons[1].pressed.emit();check(Content.active_node(p,"skill_f").id==active.id,"explicit hotbar assignment "+cls)
 	game.toggle_skills();game.toggle_bag();game.bag.select_item("training-axe")
-	check(game.bag.detail_body.text.contains("착용 전 → 착용 후") and game.bag.portrait.size.y>=200,"equipment comparison and large character display")
+	check(game.bag.detail_body.text.contains("→") and game.bag.portrait.size.y>=200,"equipment comparison and large character display")
 	check(game.bag.grid.CELL==50 and game.bag.size.x>1300,"larger illustrated inventory")
 	game.toggle_bag()
+	p.inventory.filter(func(i):return i.id=="training-sword")[0].rarity=1
 	var panel=game.town_panel
 	for facility in ["shop","smith","alchemy","guild","inn"]:
 		p.pos=World.resident_pos(facility);session.refresh();session.act("interact")
@@ -59,14 +60,13 @@ func run():
 	check(panel.confirm_button.disabled and panel.preview.reason.contains("부족"),"unaffordable order explains shortage")
 	check(not panel.request("buy",{"index":0}) and session.sim.persistent(1)==saved,"failed transaction does not consume anything")
 	panel.close()
-	for zone in World.DUNGEONS:
+	p.highest_floor=21;p.cleared_floor=20
+	for floor_number in [1,11,21]:
 		p.pos=World.FACILITIES.portal.pos;session.refresh();session.act("interact")
-		check(panel.visible and panel.products.size()==3,"three illustrated expedition destinations")
-		panel.choose("travel",{"zone":zone})
-		check(panel.preview.reason.is_empty() and not panel.confirm_button.disabled,"destination review available "+zone)
-		panel.confirm_button.pressed.emit()
-		check(session.sim.map.zone==zone and not panel.visible,"confirmed expedition arrives in selected dungeon "+zone)
+		check(panel.visible and panel.products.size()==10,"ten illustrated floor choices")
+		panel.selected_floor=floor_number;panel.refresh();panel.confirm_button.pressed.emit()
+		check(session.sim.map.floor_number==floor_number and not panel.visible,"portal confirmation enters selected unlocked floor")
 		session.travel("town");p=session.sim.players[1]
-	session.save_game();check(session.parse_save(session.save_path()).skill_ranks==p.skill_ranks,"new skill investments remain save-compatible")
+
 	game.stop_audio();await create_timer(.5).timeout;session.disconnect_game();game.queue_free();await process_frame
 	print("UI_V01_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

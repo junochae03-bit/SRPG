@@ -49,7 +49,7 @@ static func initialize(p: Dictionary):
 	if p.get("equipped","")!="":p.equipment.weapon=p.equipped
 	p["bag_positions"]=p.get("bag_positions",{})
 	p["materials"]=p.get("materials",{})
-	for item in p.inventory:Content.normalize_item(item)
+	for item in p.inventory:preload("res://scripts/equipment_catalog.gd").normalize(item,p)
 	var valid_ids=[]
 	for item in bag_items(p):valid_ids.append(item.id)
 	for id in p.bag_positions.keys():
@@ -72,7 +72,7 @@ static func move_item(p: Dictionary, id: String, at: Vector2i, rotated: bool) ->
 	return true
 
 static func add_gear(p: Dictionary, item: Dictionary) -> bool:
-	Content.normalize_item(item)
+	preload("res://scripts/equipment_catalog.gd").normalize(item,p)
 	p.inventory.append(item)
 	var place=first_fit(p,item.id)
 	if place.is_empty():
@@ -85,7 +85,7 @@ static func equip(p: Dictionary, id: String) -> bool:
 	var item=find_item(p,id)
 	if item.is_empty() or item.get("category","") not in ["weapon","armor","accessory"]:return false
 	var slot=item.get("slot","weapon")
-	if not Content.SLOTS.has(slot):return false
+	if not Content.SLOTS.has(slot) or not preload("res://scripts/equipment_catalog.gd").reason(p,item).is_empty():return false
 	if p.equipment[slot]==id:return true
 	var old=p.equipment[slot]
 	var staged=p.duplicate(true)

@@ -112,6 +112,7 @@ func _ready():
 func join_game():
 	session.start_game(name_input.text, slot_picker.selected+1)
 	if options.has("bot"):session.travel("forest")
+	elif options.has("floor"):session.enter_floor(int(options.floor))
 
 func toggle_help():
 	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
@@ -296,7 +297,7 @@ func on_entered():
 	slot_picker.release_focus()
 	bag_signature=""
 	update_hud()
-	show_toast("햇살 마을 · E로 시설 이용 · 원정의 문에서 던전 선택" if dungeon.zone=="town" else preload("res://scripts/world_catalog.gd").DUNGEONS[dungeon.zone].name+" · 탐험 후 R로 마을 귀환")
+	show_toast("햇살 마을 · E로 시설 이용 · 원정의 문에서 던전 선택" if dungeon.zone=="town" else (preload("res://scripts/abyss_catalog.gd").config(dungeon.floor_number).name if dungeon.floor_number>0 else "꽃바람 숲 · 적 5마리 처치 후 R로 마을 이동"))
 	bot_route = make_route(dungeon.spawn, Vector2(dungeon.rooms[1])) if dungeon.rooms.size()>1 else []
 	bot_last_pos = dungeon.spawn
 
@@ -337,7 +338,7 @@ func update_hud():
 	if bag.visible:bag.refresh()
 
 func rarity_color(rarity: int) -> Color:
-	return [Color("526859"),Color("267cab"),Color("aa6731")][clampi(rarity, 0, 2)]
+	return preload("res://scripts/equipment_catalog.gd").COLORS[clampi(rarity,0,4)]
 
 func _unhandled_input(event: InputEvent):
 	if not session.connected: return
@@ -457,6 +458,10 @@ func _draw():
 		draw_texture_rect(scenery.forest_background,Rect2(550,0,1200,900),false,Color(1.12,1.10,1.04))
 		return
 	var actors = forest.visible_props()
+	if dungeon.floor_number>0:
+		var exit_at=world_point(dungeon.exit_position);var clear=not session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
+		draw_texture_rect(preload("res://scripts/icon_art.gd").function_icon("portal"),Rect2(exit_at-Vector2(38,58),Vector2(76,76)),false,Color.WHITE if clear else Color(.7,.7,.7,.65))
+		text_at(exit_at+Vector2(0,35),"100층 최종 제단" if dungeon.floor_number==100 else "E · 다음 층" if clear else "수문장 봉인",17,Color("f7e3ab"),true)
 	if dungeon.zone=="town":
 		var index=0
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
@@ -540,14 +545,14 @@ func draw_actor(actor: Dictionary):
 	var boss=not is_hero and p.get("boss",role=="warden")
 	var is_self = is_hero and p.id == session.local_id
 	var size_scale = 2.2 if is_hero else (3.7 if role=="warden" else 2.0)
-	if not is_hero and p.windup > 0 and boss:
+	if not is_hero and p.windup > 0 and boss and not p.get("raid",false):
 		var telegraph = world_point(p.attack_pos)
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var radius=48.0*(.9 if config.ai in ["ranged","healer"] else config.range)
 		draw_colored_polygon(diamond(telegraph,radius,radius/2),Color(0.85,0.16,0.12,0.25))
 		var border = diamond(telegraph,radius,radius/2)
 		draw_polyline(PackedVector2Array([border[0],border[1],border[2],border[3],border[0]]),Color("ea7559"),2)
-	if not is_hero and not boss and p.windup>0:
+	if not is_hero and (not boss or p.get("raid",false)) and p.windup>0:
 		for area in p.get("attack_areas",[]):preload("res://scripts/monster_attacks.gd").draw_area(self,area,Color("ed8268"))
 	draw_set_transform(point,0,Vector2(1,0.42))
 	draw_circle(Vector2.ZERO,66 if boss else 37 if p.get("elite",false) else 24,Color("32574a40"))
@@ -586,7 +591,7 @@ func draw_actor(actor: Dictionary):
 			size_scale=335.0/standing.height
 		else:
 			data=preload("res://scripts/world_art.gd").frame(config.get("art_sheet","enemies"),config.art)
-			size_scale=float(config.get("height",86))/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
+			size_scale=preload("res://scripts/world_catalog.gd").display_height(role)/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
 		frame=data.texture;foot=data.foot
 		if not boss:
 			var recoil=sin(clampf(p.get("attack_motion",0)/.35,0,1)*PI)
@@ -706,5 +711,7 @@ func bot_step(delta: float):
 func write_bot_report():
 	var p=session.state.players.get(session.local_id,{})
 	var report={"world_seed":session.world_seed,"paused":session.paused,"connected":session.connected,"status":status_text,"snapshots":session.received_snapshots,"max_peers":bot_max_peers,"kills":bot_kills,"distance":bot_distance,"player":p}
+	report["floor"]=session.sim.map.floor_number
+	report["guardians"]=session.sim.enemies.values().filter(func(e):return e.get("guardian",false))
 	var file=FileAccess.open(options.report,FileAccess.WRITE)
 	if file:file.store_string(JSON.stringify(report,"\t"));file.close()

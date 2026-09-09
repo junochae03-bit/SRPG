@@ -8,9 +8,9 @@ static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary
 	var staged=p.duplicate(true)
 	match facility+":"+operation:
 		"shop:buy":
-			var index=int(extra.get("index",0));var keys=Equipment.BASES.keys()
+			var index=int(extra.get("index",0));var keys=Equipment.SHOP_TYPES
 			if index<0 or index>=keys.size():q.reason="상품을 선택하세요.";return q
-			q.item=Equipment.make(keys[index],mini(4,int(p.level/5)),0,"@quote");q.title=q.item.name;q.cost=preload("res://scripts/town_services.gd").price(p,index);q.result="가방에 상품 1개를 받습니다."
+			q.item=Equipment.make(keys[index],mini(9,int(p.level/10)),0,"@quote","none",p.class_id);q.title=q.item.name;q.cost=preload("res://scripts/town_services.gd").price(p,index);q.result="가방에 상품 1개를 받습니다."
 			if not Inventory.add_gear(staged,q.item):q.reason="가방에 빈 칸이 필요합니다."
 		"shop:sell":
 			q.item=Inventory.find_item(p,str(extra.get("item","")));q.title="장비 판매"
@@ -25,11 +25,18 @@ static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary
 			if q.item.is_empty() or q.item.get("category","") not in ["weapon","armor","accessory"]:q.reason="작업할 장비를 선택하세요.";return q
 			var level=int(q.item.get("upgrade",0));var upgrade=operation=="upgrade"
 			q.title="장비 강화" if upgrade else "옵션 재련"
+			if upgrade and level>=5:
+				q.reason="최대 강화 +5에 도달했습니다.";q.result="강화 +5 · 완성\n"+Equipment.option_text(q.item);return q
+			if not upgrade and q.item.rarity==0:
+				q.reason="레어 이상 장비만 재련할 수 있습니다.";q.result="일반 장비 · 추가 옵션 없음";return q
 			q.cost=(level+1)*50 if upgrade else 80;q.materials={"ore":level+1} if upgrade else {"essence":1}
 			if upgrade:
 				q.result="강화 +%d → +%d\n기본 능력 +%d → +%d\n확정 성공" % [level,level+1,q.item.bonus,q.item.bonus+(2 if q.item.slot=="weapon" else 1)]
 				if level>=5:q.reason="최대 강화 +5에 도달했습니다."
-			else:q.result="현재 옵션을 제외한 새 옵션 1개\n활력 · 집중 · 수호 · 숨결 · 행운\n장비 종류와 강화 단계는 유지됩니다."
+			else:
+				q.result="현재와 다른 옵션 1개로 재련\n"+Equipment.option_text(q.item)
+				if q.item.rarity==0:q.reason="레어 이상 장비만 재련할 수 있습니다."
+			if upgrade and q.item.rarity>0 and level<Equipment.UNLOCK[q.item.rarity] and level+1>=Equipment.UNLOCK[q.item.rarity]:q.result+="\n추가 옵션 개방!"
 		"alchemy:potion":
 			q.title="회복 물약 ×3";q.cost=10;q.materials={"seed":3};q.icon="potion";q.result="물약 3개를 조제합니다."
 			if p.potions+3>Inventory.MAX_POTIONS or not Inventory.add_stack(staged,"potion",3):q.reason="물약 3개를 모두 보관할 공간이 필요합니다."

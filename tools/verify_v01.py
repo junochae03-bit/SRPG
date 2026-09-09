@@ -24,7 +24,7 @@ def run(test,args=None,graphics=False):
     markers=[line for line in output.splitlines() if any(t in line for t in ['TESTS checks=','LEGACY_SAVE_PASS','FOREST_STABILITY','VISUAL_V05_PASS','VISUAL_V01_PASS'])]
     results.append({'test':test,'status':'PASS','checks':sum(int(a) for a,b in matches),'markers':markers})
     print(test, 'PASS', '; '.join(markers),flush=True)
-for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui']:run(test)
+for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
 if user_save.is_file():
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
@@ -33,7 +33,7 @@ if user_save.is_file():
 old={'schema_version':2,'name':'이전 저장 검증','level':5,'xp':13,'gold':57,'potions':4,'inventory':[],'equipped':'','kills':2,'boss_kills':0,'quest_done':False,'world_seed':20260908,'class_id':'warrior','skill_ranks':{'blade':1,'combo':3},'costume':'witch'}
 legacy=RUN/'legacy-combo';legacy.mkdir();(legacy/'slot-1.json').write_text(json.dumps(old,ensure_ascii=False),'utf8');run('legacy_save',['--save-dir='+str(legacy)])
 upgraded=json.loads((legacy/'slot-1.json').read_text('utf8'))
-assert upgraded['schema_version']==5 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
+assert upgraded['schema_version']==6 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
 rows=inventory();assert all(x['bytes']<100*1024*1024 for x in rows)
 for file in ['world/catalog.json','motions/catalog.json','gat/catalog.json','icons/catalog.json']:
     catalog=json.loads((ROOT/'game/assets'/file).read_text('utf8'))
@@ -49,6 +49,7 @@ run('visual_v05',graphics=True)
 run('visual_v01',graphics=True)
 run('visual_jobs',graphics=True)
 run('job_benchmark')
+run('ui_v02',graphics=True)
 report={'status':'PASS','checks':checks,'results':results,'save_integrity':save_integrity,'runtime_files':len(rows),'runtime_mib':round(sum(x['bytes'] for x in rows)/1048576,2),'verified_at':time.strftime('%Y-%m-%d %H:%M:%S'),'run_directory':str(RUN)}
 (ROOT/'artifacts/v01_verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
 print('V01_GATE PASS checks='+str(checks),flush=True)

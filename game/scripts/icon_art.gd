@@ -26,7 +26,7 @@ static func skill(node:Dictionary)->Texture2D:
 		var indices={"warrior":[5,22,2,3,6,7],"mage":[26,1,24,3,11,28],"ranger":[18,25,22,17,4,14],"rogue":[4,25,20,9,26,24],"fighter":[3,2,6,5,15,8]}
 		return texture("support",indices.get(family,[0,1,2,3,4,5])[clampi(index,0,5)])
 	return texture("active",ACTIVE.get(node.get("id",""),int(node.get("index",0))%36)) if node.get("effect","")=="active" else texture("support",SUPPORT.get(node.get("effect",""),28))
-static func function_icon(key:String)->Texture2D:return texture("support",SUPPORT[key])
+static func function_icon(key:String)->Texture2D:return preload("res://scripts/job_item_art.gd").texture("interact") if key=="interact" else texture("support",SUPPORT[key])
 static func action(p:Dictionary,key:String,weapon:String)->Texture2D:
 	if key in Content.ACTIONS:return skill(Content.active_node(p,key))
 	if key=="nova":return texture("active",{"warrior":11,"ranger":15,"mage":26}[p.class_id])

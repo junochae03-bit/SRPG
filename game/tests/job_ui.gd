@@ -45,7 +45,7 @@ func run():
 		var rect=c.get_rect();rect.size.y+=20
 		for other in rectangles:check(not rect.intersects(other),"combat buttons and captions do not overlap "+c.kind)
 		rectangles.append(rect)
-	for i in range(5):check(game.hud.circles[Content.ACTIONS[i]].position.x<game.hud.circles[Content.ACTIONS[i+1]].position.x,"Q F V C Z X visual order")
+	for i in range(6):check(game.hud.circles[Content.ACTIONS[i]].position==Vector2(1080+i%3*110,650+int(i/3)*123),"Q F V above C Z X visual order")
 	game.session.save_game();check(game.session.parse_save(game.session.save_path())!=null,"new starter and advanced investments remain readable")
 	game.stop_audio();game.session.disconnect_game();game.queue_free();await process_frame;await process_frame
 	print("JOB_UI_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

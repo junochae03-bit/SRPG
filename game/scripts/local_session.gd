@@ -25,7 +25,7 @@ func start_game(chosen_name: String, slot_number: int):
 	DirAccess.make_dir_recursive_absolute(save_directory)
 	var saved = load_slot()
 	world_seed = int(saved.get("world_seed",20260908+slot*137))
-	sim = Simulation.new(world_seed,"town")
+	sim = Simulation.new(world_seed,"town" if not saved.is_empty() and (int(saved.get("schema_version",0))<6 or saved.get("tutorial_done",false)) else "forest")
 	var display_name = saved.get("name",chosen_name.strip_edges().left(16))
 	if display_name.is_empty(): display_name="모험가"
 	sim.add_player(local_id,display_name,saved)
@@ -39,13 +39,29 @@ func start_game(chosen_name: String, slot_number: int):
 
 func new_expedition():
 	if not connected: return
-	travel("forest")
+	enter_floor(int(sim.players[local_id].get("highest_floor",1)))
 
 func travel(zone:String)->bool:
 	if not connected or zone not in ["town","forest","cave","ruins"]:return false
-	if zone!="town" and not sim.map.in_town(sim.players[local_id].pos):return false
+	if zone!="town":return enter_floor({"forest":1,"cave":11,"ruins":21}[zone])
+	var p=sim.players[local_id]
+	if not p.tutorial_done:
+		if p.tutorial_kills<5:sim.notice(local_id,"숲에서 적 5마리를 처치하고 마을로 향하세요.");flush_events();return false
+		p.gold+=0 if p.quest_done else 100;p.tutorial_done=true;p.quest_done=true;sim.notice(local_id,"꽃바람 숲 완료 · 햇살 마을에 도착했습니다. 금화 +100")
+	return change_map("town",0)
+
+func enter_floor(floor_number:int)->bool:
+	if not connected:return false
+	var p=sim.players[local_id];var reason=preload("res://scripts/abyss_catalog.gd").locked_reason(p,floor_number)
+	if not reason.is_empty():sim.notice(local_id,reason);flush_events();return false
+	if sim.map.zone!="town":
+		if floor_number!=sim.map.floor_number+1 or p.pos.distance_to(sim.map.exit_position)>2.8:return false
+		if sim.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0):return false
+	return change_map(preload("res://scripts/abyss_catalog.gd").config(floor_number).terrain,floor_number)
+
+func change_map(zone:String,floor_number:int)->bool:
 	var previous=sim.players[local_id];var saved=sim.persistent(local_id)
-	world_seed+=7919;sim=Simulation.new(world_seed,zone)
+	world_seed+=7919;sim=Simulation.new(world_seed,zone,floor_number)
 	var p=sim.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
 	paused=false;save_game();refresh();entered.emit();return true
 
@@ -63,6 +79,9 @@ func act(kind: String, argument: String = "") -> bool:
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
+	if kind=="interact" and sim.map.floor_number>0 and sim.players[local_id].pos.distance_to(sim.map.exit_position)<2.8:
+		var near_drop=sim.drops.values().any(func(d):return d.owner==local_id and d.pos.distance_to(sim.players[local_id].pos)<=1.8)
+		if not near_drop and sim.map.floor_number<100:return enter_floor(sim.map.floor_number+1)
 	if kind=="interact" and sim.map.zone=="town":
 		var facility=preload("res://scripts/world_catalog.gd").nearest(sim.players[local_id].pos)
 		if facility!="":facility_requested.emit(facility);return true
@@ -97,7 +116,7 @@ func parse_save(path: String) -> Variant:
 	var parser=JSON.new()
 	if parser.parse(FileAccess.get_file_as_string(path))!=OK:return null
 	var value=parser.data
-	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5]:return null
+	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6]:return null
 	for key in ["level","xp","gold","potions","kills","boss_kills","world_seed"]:
 		if not value.get(key) is float and not value.get(key) is int:return null
 		if value[key]<0:return null
@@ -112,7 +131,7 @@ func parse_save(path: String) -> Variant:
 		ids.append(item.id)
 		for key in ["bonus","rarity"]:
 			if not item.get(key) is float and not item.get(key) is int:return null
-		if item.bonus<0 or item.bonus>100 or item.rarity<0 or item.rarity>2:return null
+		if item.bonus<0 or item.bonus>100 or item.rarity<0 or item.rarity>(4 if int(value.schema_version)>=6 else 2):return null
 		if item.get("category","weapon") not in ["weapon","armor","accessory"]:return null
 		if item.get("slot","weapon") not in Content.SLOTS:return null
 		if item.get("weapon_type","sword") not in Content.WEAPONS:return null
@@ -156,11 +175,12 @@ func parse_save(path: String) -> Variant:
 	if not value.get("stats",{}) is Dictionary or not value.get("skill_loadout",{}) is Dictionary:return null
 	var stats_spent=0
 	for key in value.get("stats",{}):
-		if key not in preload("res://scripts/progression.gd").NAMES:return null
+		if key not in (preload("res://scripts/progression.gd").NAMES.keys() if int(value.schema_version)>=6 else ["strength","dexterity","intelligence","vitality"]):return null
 		var amount=value.stats[key]
 		if (not amount is float and not amount is int) or amount<0 or amount!=floor(amount):return null
 		value.stats[key]=int(amount);stats_spent+=int(amount)
 	if stats_spent>(int(value.level)-1)*3:return null
+	preload("res://scripts/progression.gd").migrate(value)
 	var equipped_skills=[]
 	for action in value.get("skill_loadout",{}):
 		if value.skill_loadout[action] in equipped_skills:return null
@@ -190,9 +210,28 @@ func parse_save(path: String) -> Variant:
 		item.rarity=int(item.rarity)
 		for field in ["tier","upgrade"]:
 			if item.has(field):
-				if (not item[field] is float and not item[field] is int) or item[field]<0 or item[field]>5:return null
+				if (not item[field] is float and not item[field] is int) or item[field]<0 or item[field]>(9 if field=="tier" else 5):return null
 				item[field]=int(item[field])
 		if item.get("affix","none") not in preload("res://scripts/equipment_catalog.gd").AFFIXES:return null
+	if int(value.schema_version)>=6:
+		if not value.get("tutorial_done") is bool or not value.get("raid_clears") is Dictionary:return null
+		for field in ["highest_floor","cleared_floor","tutorial_kills"]:
+			if not value.get(field) is float and not value.get(field) is int:return null
+			if value[field]<0 or value[field]!=floor(value[field]):return null
+			value[field]=int(value[field])
+		if value.highest_floor<1 or value.highest_floor>100 or value.cleared_floor>100 or value.highest_floor>value.cleared_floor+1:return null
+		for key in value.raid_clears:
+			if not key.is_valid_int() or int(key)<10 or int(key)>100 or int(key)%10!=0 or int(key)>value.cleared_floor:return null
+			if not value.raid_clears[key] is float and not value.raid_clears[key] is int:return null
+			if value.raid_clears[key]<1 or value.raid_clears[key]!=floor(value.raid_clears[key]):return null
+			value.raid_clears[key]=int(value.raid_clears[key])
+		for item in value.inventory:
+			if item.get("family","") not in preload("res://scripts/equipment_catalog.gd").FAMILY_NAMES:return null
+			if item.get("job_lock","") not in ([""] if item.category!="weapon" else Content.CLASSES.keys()):return null
+			if not item.get("required_level") is float and not item.get("required_level") is int:return null
+			if item.required_level<1 or item.required_level>100 or item.required_level!=floor(item.required_level):return null
+			item.required_level=int(item.required_level)
+			if item.get("resonance","") not in ([""] if item.rarity<3 else preload("res://scripts/equipment_catalog.gd").RESONANCE.keys()):return null
 	return value
 
 func load_slot() -> Dictionary:

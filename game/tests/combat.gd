@@ -59,9 +59,9 @@ func run():
 	check(not sim.action(1,"dodge"),"dodge cooldown enforced")
 	enemy.pos=room;enemy.attack_pos=room;enemy.windup=0.01;before=p.hp
 	sim.tick(0.03);check(p.hp==before and p.pos.distance_to(room)>0.3,"dodge moves and avoids telegraphed damage")
-	p.invulnerable=0;p.dodge_time=0;p.pos=room;p.dir=Vector2.ZERO;p.defense=3
+	p.invulnerable=0;p.dodge_time=0;p.pos=room;p.dir=Vector2.ZERO;p.defense=30
 	enemy.pos=room;enemy.attack_pos=room;enemy.windup=0.01;before=p.hp
-	sim.tick(0.03);check(p.hp==before-int(sim.balance.enemies.shade.damage)+3,"armor defense reduces incoming damage")
+	sim.tick(0.03);check(p.hp==before-preload("res://scripts/progression.gd").received(p,sim.balance.enemies.shade.damage),"armor defense reduces incoming damage")
 	p.pos=sim.map.spawn;p.level=10;p.stamina=100;p.dodge_time=0
 	for type in ["warrior","ranger","mage"]:
 		check(sim.action(1,"class",type),"class change at camp "+type)

@@ -368,3 +368,9 @@ static func nearest(pos:Vector2)->String:
 		if RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))
 		if d<distance:distance=d;best=key
 	return best
+static func display_height(kind:String)->float:
+	var c=ENEMIES[kind]
+	if c.ai=="boss":return 335.
+	if c.get("elite",false):return float(c.get("height",160))*1.12
+	# Preserve silhouettes: low creatures have broad bodies; humanoids stand near hero height.
+	return maxf(92.,float(c.get("height",86))*1.3)

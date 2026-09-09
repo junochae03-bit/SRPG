@@ -28,10 +28,10 @@ func run():
 		var e=sim.spawn_enemy(kind,p.pos-Vector2.RIGHT,5,kind in ["warden","golem","sentinel"])
 		# Force each concrete row individually through the real kill-to-item path.
 		for entry in tables.tables[kind]:
-			var forced=entry.duplicate(true);forced.chance=1;sim.loot_tables.tables[kind]=[forced];sim.drops.clear();e.hp=e.max_hp;sim.kill(1,e)
+			var forced=entry.duplicate(true);forced.chance=1;sim.loot_tables.tables[kind]=[forced];sim.drops.clear();e.hp=e.max_hp;e["rewarded"]=false;sim.kill(1,e)
 			check(sim.drops.size()==1,"independent entry creates one drop "+kind+entry.key)
 			var item=sim.drops.values()[0].item
-			if entry.kind=="weapon":check(item.weapon_type in entry.get("weapons",[entry.get("weapon","sword")]),"monster weapon family preserved "+kind+entry.key)
+			if entry.kind=="weapon":check(item.weapon_type==preload("res://scripts/content.gd").CLASSES[p.class_id].weapon and item.job_lock==p.class_id,"monster equipment drop tailored to class "+kind+entry.key)
 			elif entry.kind in ["armor","accessory"]:check(item.slot==entry.slot,"monster armor slot preserved "+kind+entry.key)
 			else:check(item.amount==entry.amount,"monster stack quantity preserved "+kind+entry.key)
 		if e.boss:continue

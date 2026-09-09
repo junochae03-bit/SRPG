@@ -1,0 +1,95 @@
+{
+  "jobs": {
+    "breaker": {
+      "casts": 29.0,
+      "five_dps": 7443.5,
+      "minimum_stamina": 63.8,
+      "single_dps": 1345.8
+    },
+    "elementalist": {
+      "casts": 31.0,
+      "five_dps": 6280.5,
+      "minimum_stamina": 84.0,
+      "single_dps": 1511.3
+    },
+    "explorer": {
+      "casts": 38.0,
+      "five_dps": 7637.5,
+      "minimum_stamina": 28.4,
+      "single_dps": 1816.7
+    },
+    "gambler": {
+      "casts": 38.0,
+      "five_dps": 1214.8,
+      "minimum_stamina": 25.1,
+      "single_dps": 1214.8
+    },
+    "healer": {
+      "casts": 22.0,
+      "five_dps": 4064.0,
+      "minimum_stamina": 53.6,
+      "single_dps": 812.8
+    },
+    "hunter": {
+      "casts": 39.0,
+      "five_dps": 4902.2,
+      "minimum_stamina": 41.9,
+      "single_dps": 1791.4
+    },
+    "infighter": {
+      "casts": 37.0,
+      "five_dps": 7899.5,
+      "minimum_stamina": 45.0,
+      "single_dps": 1579.9
+    },
+    "martialist": {
+      "casts": 34.0,
+      "five_dps": 7459.8,
+      "minimum_stamina": 29.3,
+      "single_dps": 1492.0
+    },
+    "reaper": {
+      "casts": 31.0,
+      "five_dps": 5710.1,
+      "minimum_stamina": 53.4,
+      "single_dps": 1286.4
+    },
+    "runesword": {
+      "casts": 35.0,
+      "five_dps": 6827.3,
+      "minimum_stamina": 59.0,
+      "single_dps": 1365.5
+    },
+    "sniper": {
+      "casts": 28.0,
+      "five_dps": 3690.2,
+      "minimum_stamina": 63.8,
+      "single_dps": 1309.2
+    },
+    "summoner": {
+      "casts": 35.0,
+      "five_dps": 2693.5,
+      "minimum_stamina": 30.4,
+      "single_dps": 1189.0
+    },
+    "swordsman": {
+      "casts": 40.0,
+      "five_dps": 7771.1,
+      "minimum_stamina": 29.4,
+      "single_dps": 1715.0
+    },
+    "tank": {
+      "casts": 30.0,
+      "five_dps": 4949.3,
+      "minimum_stamina": 21.4,
+      "single_dps": 989.9
+    },
+    "thief": {
+      "casts": 38.0,
+      "five_dps": 5716.5,
+      "minimum_stamina": 27.4,
+      "single_dps": 1716.1
+    }
+  },
+  "scenario": "LV60, 177 stats (100 primary / 77 endurance), 36 SP (all actives and passives rank2), six equipped, default gear, 30 seconds, three seeds, stationary targets; movement restored to melee range; no enemy AI or incoming damage; cooldown/stamina/resources real"
+}

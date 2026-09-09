@@ -60,7 +60,7 @@ func run():
 	p.class_id="ranger";p.skill_ranks={"eagle":3};sim.combat.launch(p,"bow",Vector2.RIGHT,10,8,13,0)
 	check(sim.combat.projectiles.back().speed==17.5,"projectile speed passive changes actual projectile")
 	p.class_id="mage";p.skill_ranks={"wisdom":3};sim.action(1,"attack")
-	check(is_equal_approx(p.attack_cd,.36),"haste changes actual cooldown")
+	check(is_equal_approx(p.attack_cd,Content.WEAPONS.staff.cooldown-Content.skill_bonus(p,"attack_haste")),"haste changes actual cooldown")
 	p.class_id="warrior";p.skill_ranks={"edge":3};p.attack_cd=0;sim.enemies.clear()
 	var e={"id":1,"pos":p.pos+Vector2(2.2,0),"hp":999,"max_hp":999,"kind":"shade"};sim.enemies[1]=e
 	sim.action(1,"attack");check(e.hp<999,"melee reach passive hits farther target")

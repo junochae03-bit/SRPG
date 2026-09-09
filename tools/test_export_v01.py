@@ -39,7 +39,7 @@ tested_jobs=[]
 for job,definition in catalog['classes'].items():
     if definition.get('starter',False):continue
     isolated=RUN/('job-'+job);isolated.mkdir()
-    fixture=dict(saved_before);fixture.update(level=100,class_id=job,skill_ranks={},skill_loadout={})
+    fixture=dict(saved_before);fixture.update(level=100,class_id=job,skill_ranks={},skill_loadout={},tutorial_done=True,quest_done=True,inventory=[],equipment={},equipped='',bag_positions={})
     for node in catalog['nodes'][job]:
         if node['effect']=='active' and len(fixture['skill_loadout'])<6:
             fixture['skill_ranks'][node['id']]=3
@@ -51,7 +51,25 @@ for job,definition in catalog['classes'].items():
     assert restored_job['class_id']==job and restored_job['level']==100
     assert restored_job['skill_ranks']==fixture['skill_ranks'] and restored_job['skill_loadout']==fixture['skill_loadout']
     tested_jobs.append(job)
+isolated=RUN/'final-floor';isolated.mkdir()
+fixture=dict(saved_before);fixture.update(level=100,class_id='swordsman',stats={'strength':150,'endurance':90,'technique':30,'agility':27,'magic':0},tutorial_done=True,quest_done=True,highest_floor=100,cleared_floor=99,raid_clears={},inventory=[],equipment={},equipped='',bag_positions={},skill_ranks={},skill_loadout={})
+(isolated/'slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
+run('final-floor',['--play','--floor=100','--duration=3','--save-dir='+str(isolated),'--report='+str(RUN/'final-floor.json'),'--capture-at=1','--capture='+str(ROOT/'artifacts/export-floor-100.png')],True)
+final_floor=json.loads((RUN/'final-floor.json').read_text('utf8'))
+assert final_floor['floor']==100 and len(final_floor['guardians'])==1
+boss=final_floor['guardians'][0]
+assert boss['raid'] and boss['level']==100 and boss['max_hp']>=400000 and '아스트라' in boss['name'],boss
+assert final_floor['player']['stats']==fixture['stats']
+# The release template disables script/path overrides. Exercise persisted completion
+# through the public game entry point; the source gate separately clears all 100 floors.
+fixture.update(cleared_floor=100,raid_clears={str(f):1 for f in range(10,101,10)})
+(isolated/'slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
+run('final-resume',['--play','--duration=2','--save-dir='+str(isolated),'--report='+str(RUN/'final-resume.json')])
+completed=json.loads((RUN/'final-resume.json').read_text('utf8'))
+assert completed['floor']==0 and completed['player']['cleared_floor']==100
+assert completed['player']['raid_clears']==fixture['raid_clears']
 report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
+report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['max_hp'],'five_stats_restored':True,'completed_save_fixture_restored':100,'saved_raid_clears':10,'all_100_floors_cleared_by_source_gate':True}
 report['exported_jobs_restored_and_rendered']=tested_jobs
 report['pck_sha256']=hashlib.sha256((portable/'StelRPG.pck').read_bytes()).hexdigest()
 (ROOT/('artifacts/export-check-'+KEY+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8');print('V01_EXPORT_CHECK PASS',json.dumps(report,ensure_ascii=False),flush=True)

@@ -88,7 +88,10 @@ static func profile(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:fl
 	s["sacrifice_ratio"]=(.6+.08*(r+1))*(1.15 if upgrade else 1.)
 	s["anchor_range"]=8.+.4*r+(1. if upgrade else 0.)
 	s["meditate_rate"]=(25.+5*r)*(1.15 if upgrade else 1.)
-	s.cooldown=maxf(.5,s.cooldown);s.cost=maxf(5,s.cost)
+	var gear=preload("res://scripts/equipment_catalog.gd").skill_modifiers(p)
+	s.power*=1.+gear.force;s.heal*=1.+gear.force;s.regen*=1.+gear.force;s.shield*=1.+gear.force;s.pet_power*=1.+gear.force;s.counter_power*=1.+gear.force
+	n.radius*=1.+gear.reach;n.range*=1.+gear.reach;n.duration*=1.+gear.echo;s.buff*=1.+gear.echo;s.pet_buff*=1.+gear.echo;s.meditate_rate*=1.+gear.echo;s.recall_heal*=1.+gear.echo;s.parry*=1.+gear.echo
+	s.cooldown=maxf(.5,s.cooldown*preload("res://scripts/progression.gd").cooldown_factor(p));s.cost=maxf(5,s.cost)
 	return s
 static func metrics(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:float)->Array:
 	if node.effect=="upgrade":

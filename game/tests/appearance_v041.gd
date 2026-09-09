@@ -33,7 +33,7 @@ func run():
 		check(p.costume==key and p.avatar==avatar,"costume does not erase base selection "+key)
 		if key!="none" and not Content.gat_appearance(p):check(game.bag.portrait.texture==game.textures[Content.costume_role(p)].idle[0],"Stellive costume uses original sprite "+key)
 	session.act("costume","none");session.save_game();var saved=session.parse_save(session.save_path())
-	check(saved.avatar==avatar and saved.costume=="none" and saved.schema_version==5,"base selection persisted in v5")
+	check(saved.avatar==avatar and saved.costume=="none" and saved.schema_version==6,"base selection persisted in v5")
 	session.disconnect_game();session.start_game("복원",1);check(session.sim.players[1].avatar==avatar,"base selection restored")
 	var old=saved.duplicate(true);old.schema_version=3;old.costume="witch";old.erase("avatar");old.erase("legacy_costume")
 	var migrated=session.sim.add_player(2,"이행",old)

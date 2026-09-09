@@ -8,7 +8,7 @@ func capture(name:String):
 	assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/"+name+".png"))==OK);print("CAPTURE ",name)
 func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
-	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/visual-v01/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false);game.set_physics_process(false)
+	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/visual-v01/"+str(Time.get_ticks_usec()));game.join_game();session.sim.players[1].tutorial_done=true;session.travel("town");session.set_physics_process(false);game.set_physics_process(false)
 	var p=session.sim.players[1];p.level=30;p.gold=1765;p.materials={"seed":32,"ore":16,"essence":4};session.act("claim_starters")
 	for type in Equipment.BASES:Inventory.add_gear(p,Equipment.make(type,2,2 if type in ["sword","head"] else 1,"sample-"+type,"vigor" if type=="chest" else "focus" if type=="sword" else "none"))
 	session.sim.recalculate(p);session.refresh();game.on_entered();game.camera_pos=preload("res://scripts/dungeon.gd").iso(p.pos)

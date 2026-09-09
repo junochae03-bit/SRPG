@@ -9,6 +9,8 @@ func _init(owner_combat):combat_ref=weakref(owner_combat)
 static func bonuses(p:Dictionary)->Dictionary:
 	var result={}
 	for key in ["skill_power","skill_radius","skill_haste","skill_discount","slow_duration","stun_duration"]:result[key]=Content.skill_bonus(p,key)
+	result["gear"]=preload("res://scripts/equipment_catalog.gd").skill_modifiers(p)
+	result["cooldown_factor"]=preload("res://scripts/progression.gd").cooldown_factor(p)
 	return result
 func cast(p:Dictionary,action:String)->bool:
 	var rank=Content.action_rank(p,action)
