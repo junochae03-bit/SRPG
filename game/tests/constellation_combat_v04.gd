@@ -7,6 +7,7 @@ const Balance=preload("res://scripts/job_balance.gd")
 const Scaling=preload("res://scripts/skill_scaling.gd")
 const Active=preload("res://scripts/active_skills.gd")
 const Stagger=preload("res://scripts/boss_stagger.gd")
+const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
 var checks=0
 var failures=[]
 var build_comparison={}
@@ -61,6 +62,20 @@ func total(f:Dictionary,id:int=-1)->float:
 		if event.type=="stagger_damage" and (id<0 or event.enemy==id):value+=event.amount
 	return value
 func hits(f:Dictionary)->Array:return f.sim.events.filter(func(ev):return ev.type=="damage" and ev.get("enemy",false))
+func leave_delayed_area(f:Dictionary,kind:String):
+	var areas=f.sim.combat.constellation.pending.filter(func(hit):return hit.kind==kind)
+	check(not areas.is_empty(),"delayed area exists before evasion "+kind)
+	if areas.is_empty():return
+	var area=areas[0];var required=float(area.radius)+HitGeometry.radius(f.e)+.2
+	var closest=INF;var destination=Vector2.INF
+	for cell in f.sim.map.floor_cells:
+		var point=Vector2(cell);var distance=point.distance_to(area.pos)
+		if distance>=required and distance<closest and f.sim.map.walkable(point) and f.sim.map.line_clear(area.pos,point):
+			closest=distance;destination=point
+	check(destination.is_finite(),"reachable escape beyond receiving body "+kind)
+	if not destination.is_finite():return
+	f.e.pos=destination
+	check(not HitGeometry.circle(f.e,area.pos,area.radius) and f.sim.map.line_clear(area.pos,f.e.pos),"entire receiving body outside delayed area with no wall hiding it "+kind)
 func run():
 	Content.initialize_jobs()
 	# Exhaust all original active IDs at both rank endpoints with each legal key.
@@ -96,7 +111,7 @@ func run():
 	check(close(total(f,f.e.id),Stagger.skill_profile(n,1,f.p).value),"multi-hit plus echo spends exact shared boss budget")
 	f=fixture("warrior",[1]);n=node_for("warrior","spin");second=enemy(f.sim,f.p.pos+Vector2(1.2,.8));cast(f,n);advance(f,2.)
 	check(f.e.hp<f.e.max_hp and second.hp==second.max_hp and total(f,second.id)==0,"focus rejects every hit on second target")
-	f=fixture("swordsman",[0]);n=node_for("swordsman","strike");cast(f,n);primary=f.e.hp;f.e.pos+=Vector2(0,3.);advance(f,.5)
+	f=fixture("swordsman",[0]);n=node_for("swordsman","strike");cast(f,n);primary=f.e.hp;leave_delayed_area(f,"echo");advance(f,.5)
 	check(f.e.hp==primary,"moving out of delayed echo avoids extra damage")
 	# A common + family pair retains both effects and a single token.
 	f=fixture("swordsman",[0,3]);n=node_for("swordsman","strike");var far=enemy(f.sim,f.p.pos+Vector2(4,0));s=cast(f,n)
@@ -108,7 +123,7 @@ func run():
 	f=fixture("sniper",[3]);n=node_for("sniper","shot");second=enemy(f.sim,f.p.pos+Vector2(1.2,1.5));far=enemy(f.sim,f.p.pos+Vector2(1.2,-1.5));cast(f,n);advance(f,2.)
 	check(second.hp<second.max_hp and far.hp<far.max_hp,"chain reaches two new real targets: %s / %s clear=%s"%[second.max_hp-second.hp,far.max_hp-far.hp,f.sim.map.line_clear(f.e.pos,far.pos)])
 	check(total(f,f.e.id)<Stagger.skill_profile(n,1,f.p).value,"chain loses single-target stagger share")
-	f=fixture("sniper",[4]);n=node_for("sniper","root_shot");cast(f,n);advance(f,.2);primary=f.e.hp;f.e.pos+=Vector2(0,3.);advance(f,1.3)
+	f=fixture("sniper",[4]);n=node_for("sniper","root_shot");cast(f,n);advance(f,.2);primary=f.e.hp;leave_delayed_area(f,"snare");advance(f,1.3)
 	check(f.e.hp==primary,"snare explosion can be avoided after direct projectile hit")
 	# Support-power tradeoff and anchored cross-skill activation are actual runtime.
 	f=fixture("healer",[4]);n=node_for("healer","heal");var blank=fixture("healer");var support_profile=profile(f,n)

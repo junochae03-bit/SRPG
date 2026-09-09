@@ -1,5 +1,6 @@
 extends RefCounted
 const Rules=preload("res://scripts/skill_build.gd")
+const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
 const SUPPORT=["heal","regen","field_heal","barrier","haste","shield","ally_dash","wall","cleanse","distribute","return_anchor","parry","parry_counter","parry_knee","meditate","hit_card","hold_card","cut_card","dice","reroll","summon","pet_heal","pet_recall","pet_buff","pet_haste","pet_guard","pet_sacrifice","buff_attack","buff_crit","buff_crit_damage","guard","fortress","share","chant","stand_card","dice_buff","enchant","stance","empower"]
 const MOVEMENT=["dash","rush","retreat","weave","flank","blink","teleport","teleport_chain","ally_dash","heavy_dash","card_retreat","chain_dash","chain_retreat","return_anchor"]
 var combat_ref:WeakRef
@@ -139,7 +140,7 @@ func after_hit(p:Dictionary,e:Dictionary,context:Dictionary):
 	for proc in info.procs:
 		var targets=[e]
 		if proc.kind=="chain":
-			targets=combat.sim.enemies.values().filter(func(other):return other.id!=e.id and other.hp>0 and other.pos.distance_to(e.pos)<=4. and combat.sim.map.line_clear(e.pos,other.pos))
+			targets=combat.sim.enemies.values().filter(func(other):return other.id!=e.id and other.hp>0 and HitGeometry.circle(other,e.pos,4.) and combat.sim.map.line_clear(e.pos,other.pos))
 			targets.sort_custom(func(a,b):return e.pos.distance_squared_to(a.pos)<e.pos.distance_squared_to(b.pos));targets=targets.slice(0,2)
 		for target in targets:
 			var pulses=4 if proc.kind in ["burn","venom"] else 1
@@ -186,8 +187,8 @@ func tick(delta:float):
 		var center:Vector2=p.pos+p.aim*.9 if hit.kind=="flurry" else hit.pos
 		for e in combat.sim.enemies.values():
 			if e.hp<=0:continue
-			var inside=e.pos.distance_to(center)<=hit.radius
-			if hit.kind=="wave":inside=e.pos.distance_to(Geometry2D.get_closest_point_to_segment(e.pos,hit.origin,hit.origin+hit.aim*5.5))<1.1
+			var inside=HitGeometry.circle(e,center,hit.radius)
+			if hit.kind=="wave":inside=HitGeometry.segment(e,hit.origin,hit.origin+hit.aim*5.5,1.1)
 			if inside and combat.sim.map.line_clear(center,e.pos):
 				var amount=int(hit.amount)
 				if hit.context.build.primary and hit.context.build.source_mode in ["execute","heavy_execute","charge_execute"]:amount=roundi(amount*(1.+(1.-float(e.hp)/e.max_hp)))

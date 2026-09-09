@@ -2,7 +2,8 @@ extends SceneTree
 const DB=preload("res://scripts/game_database.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);push_error(label)
@@ -15,6 +16,8 @@ func key(code:int,unicode_value:int=0):
 	var event=InputEventKey.new();event.keycode=code;event.physical_keycode=code;event.unicode=unicode_value;event.pressed=true;root.push_input(event,true)
 	event=event.duplicate();event.pressed=false;root.push_input(event,true)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/codex-v03/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;p.stats={"strength":80,"endurance":80,"technique":100,"agility":37,"magic":0};local.sim.recalculate(p);local.refresh()

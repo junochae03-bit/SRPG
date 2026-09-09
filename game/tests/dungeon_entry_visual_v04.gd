@@ -2,11 +2,14 @@ extends SceneTree
 const Dungeon=preload("res://scripts/dungeon.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,message:String):
 	checks+=1
 	if not ok:failures.append(message);push_error(message)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var folder="D:/SSRPG/publish/SRPG-v04/runtime/entry-visual-"+str(Time.get_ticks_usec());DirAccess.make_dir_recursive_absolute(folder)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;game.options["save-dir"]=folder;root.add_child(game)
 	game.set_physics_process(false);game.session.set_physics_process(false)

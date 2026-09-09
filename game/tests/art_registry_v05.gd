@@ -13,12 +13,14 @@ func run():
 	var start=Time.get_ticks_usec();var base=DB.snapshot();var base_ms=(Time.get_ticks_usec()-start)/1000.
 	check(not base.has("art_assets") and DB._art_cache.is_empty(),"PCK/game snapshot never enters management source scanner")
 	var costume_sheets=Costume._sheet_textures.size();var equipment_sheets=Equipment.sheets.size()
+	var prepared_loads=preload("res://scripts/prepared_art_v05.gd").loads.size()
 	start=Time.get_ticks_usec();var db=DB.snapshot(true);var art_ms=(Time.get_ticks_usec()-start)/1000.
 	check(Costume._sheet_textures.size()==costume_sheets,"management registry does not decode costume sheets")
 	check(Equipment.sheets.size()==equipment_sheets,"management registry does not decode additional equipment sheets")
+	check(preload("res://scripts/prepared_art_v05.gd").loads.size()==prepared_loads,"management registry does not decompress prepared RGBA")
 	check(DB.snapshot()==base and not DB.snapshot().has("art_assets"),"management cache does not mutate game snapshot")
 	check(db.equipment==base.equipment and db.skills==base.skills,"gameplay tables preserved")
-	var assets={};var categories={};var uses={};var equipment_links={};var skill_icons={};var npc_frames={};var floors={};var applied={}
+	var assets={};var categories={};var uses={};var equipment_links={};var skill_icons={};var npc_frames={};var floors={};var applied={};var prepared_paths={}
 	for a in db.art_assets:
 		check(not assets.has(a.id),"stable unique region "+a.id);assets[a.id]=a
 		categories[a.category]=int(categories.get(a.category,0))+1
@@ -27,6 +29,11 @@ func run():
 			check(a.rect.size()==4 and a.rect[2]>0 and a.rect[3]>0,"nonempty authored rectangle "+a.id)
 		else:check(a.rect.is_empty() and a.category=="vfx","procedural effects are not invented sprite sheets")
 		check(not a.path.contains("theme-") and not a.path.contains("/sources/") and not a.path.contains("/preview/"),"only integrated art "+a.id)
+		if a.metadata.has("render_cache"):
+			var ref=a.metadata.render_cache
+			check(ref.source==a.path and ref.key in ["blue","magenta"] and FileAccess.file_exists(ref.path),"prepared cache descriptor keeps authored source "+a.id)
+			prepared_paths[ref.path]=true
+	check(prepared_paths.size()==41,"35 costume sources and 6 equipment atlases have prepared cache mappings")
 	for u in db.art_uses:
 		check(assets.has(u.art_id),"use references asset "+u.id);uses[u.art_id]=true
 		if u.target_table not in ["runtime","catalog"]:check(db[u.target_table].any(func(r):return str(r.id)==u.target_id),"use references game owner "+u.id)

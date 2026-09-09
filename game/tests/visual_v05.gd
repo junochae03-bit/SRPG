@@ -20,7 +20,8 @@ class Gallery extends Node2D:
 				var scale=94.0/frame.height;var at=Vector2(90+(index%8)*178,130+row*292+int(index/8)*141)
 				draw_texture_rect(frame.texture,Rect2(at-frame.foot*scale,frame.texture.get_size()*scale),false)
 				draw_string(font,at+Vector2(-34,21),role+" "+str(index),HORIZONTAL_ALIGNMENT_LEFT,150,13,Color("29494c"))
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 class Collection extends Node2D:
 	var font:Font
 	var costumes=false
@@ -41,6 +42,8 @@ func capture(name):
 	await create_timer(.65).timeout;await process_frame;await RenderingServer.frame_post_draw
 	assert(root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/"+name+".png"))==OK);print("CAPTURE ",name)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/visual-v05/"+str(Time.get_ticks_usec()));game.join_game();session.set_physics_process(false);game.set_physics_process(false)
 	for zone in ["forest","cave","ruins"]:

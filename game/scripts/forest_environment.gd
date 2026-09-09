@@ -5,10 +5,14 @@ const Art=preload("res://scripts/environment_art.gd")
 const FloorTiles=preload("res://scripts/floor_tile_art_v04.gd")
 const MASK_SIZE=64
 const MASK_OFFSET=12
+const DECORATION_KEEP_RATIO=.55
 var game:Node2D
 var terrain:ColorRect
 var material:ShaderMaterial
 var props:Array=[]
+# Decoration geometry is immutable for the lifetime of a generated map. Keep
+# it separate from the public prop records, whose alpha changes during play.
+var _geometry:Array=[]
 var map
 var ground_profile:Dictionary={}
 var ground_draws=0
@@ -30,7 +34,7 @@ func rebuild(dungeon):
 	material.set_shader_parameter("camp",map.spawn)
 	ground_profile=FloorTiles.apply(material,map.zone,map.floor_number)
 	ground_draws=0;terrain.queue_redraw()
-	props.clear()
+	props.clear();_geometry.clear()
 	var ids=Art.ids(map.zone,map.floor_number);var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+419
 	# Stable art IDs replace old hard-coded forest-sheet slots. Every decorative
 	# origin remains outside walkable cells, with wider entrance/exit clearings.
@@ -41,7 +45,38 @@ func rebuild(dungeon):
 			var art_id=ids[props.size()%ids.size()]
 			var size_value=Art.height(art_id)*rng.randf_range(.92,1.08)
 			props.append({"pos":pos,"art_id":art_id,"size":size_value,"flip":rng.randf()<.5,"render_id":props.size(),"alpha":1.0})
+	thin_props()
+	var frames:Dictionary={}
+	for prop in props:
+		if not frames.has(prop.art_id):frames[prop.art_id]=Art.frame(prop.art_id)
+		var data:Dictionary=frames[prop.art_id]
+		var scale=prop.size/data.height
+		var point=Dungeon.iso(prop.pos)
+		var local_rect=Rect2(-data.foot*scale,data.texture.get_size()*scale)
+		_geometry.append({"point":point,"depth":prop.pos.x+prop.pos.y,"texture":data.texture,"local_rect":local_rect,
+			"bounds":Rect2(point+local_rect.position,local_rect.size),"shadow_radius":prop.size*.19})
 	# No decorative shelter/sign is inserted on the spawn or first passage.
+
+func thin_props():
+	# An independent seed preserves each retained prop's original art, size and
+	# flip. Sample across the whole map instead of deleting a band near one edge.
+	var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+8189
+	var ranked:Array=[]
+	for i in range(props.size()):ranked.append({"index":i,"score":rng.randf()})
+	ranked.sort_custom(func(a,b):return a.score<b.score if a.score!=b.score else a.index<b.index)
+	var selected:Dictionary={};var art_ids:Dictionary={}
+	for item in ranked:
+		var art_id=props[item.index].art_id
+		if not art_ids.has(art_id):selected[item.index]=true;art_ids[art_id]=true
+	var target=maxi(selected.size(),ceili(props.size()*DECORATION_KEEP_RATIO))
+	for item in ranked:
+		if selected.size()>=target:break
+		selected[item.index]=true
+	var retained:Array=[]
+	for i in range(props.size()):
+		if selected.has(i):
+			props[i].render_id=retained.size();retained.append(props[i])
+	props=retained
 
 func ground_evidence()->Dictionary:
 	var atlas_texture=material.get_shader_parameter("material_atlas")
@@ -75,28 +110,31 @@ func update_camera(delta:float=0.0167):
 	material.set_shader_parameter("screen_anchor",game.screen_center())
 	if not game.session.state.players.has(game.session.local_id):return
 	var player=game.session.state.players[game.session.local_id]
-	var body=game.world_point(player.pos)-Vector2(0,52)
-	for prop in props:
-		var data=Art.frame(prop.art_id);var scale=prop.size/data.height
-		var rect=Rect2(game.world_point(prop.pos)-data.foot*scale,data.texture.get_size()*scale)
-		var covered=prop.pos.x+prop.pos.y>player.pos.x+player.pos.y-1.0 and rect.has_point(body)
+	# Camera/anchor translation cancels between the body and the decoration.
+	# Preserve the original unflipped coverage bounds and offscreen fade updates.
+	var body=Dungeon.iso(player.pos)-Vector2(0,52)
+	var player_depth=player.pos.x+player.pos.y-1.0
+	for i in range(props.size()):
+		var prop:Dictionary=props[i];var geometry:Dictionary=_geometry[i]
+		var covered=geometry.depth>player_depth and geometry.bounds.has_point(body)
 		prop.alpha=approach_alpha(prop.alpha,.25 if covered else 1.,delta)
 
 func visible_props()->Array:
 	var result=[]
 	var viewport=game.get_viewport()
 	var view=(viewport.canvas_transform.affine_inverse()*viewport.get_visible_rect()).grow(300.0)
-	for prop in props:
-		var point=game.world_point(prop.pos)
-		if view.has_point(point):result.append({"type":"scenery","data":prop})
+	var camera:Vector2=game.camera_pos;var anchor:Vector2=game.screen_center()
+	for i in range(props.size()):
+		if view.has_point(_geometry[i].point-camera+anchor):result.append({"type":"scenery","data":props[i]})
 	return result
 
 func draw_prop(prop:Dictionary):
-	var point=game.world_point(prop.pos);var data=Art.frame(prop.art_id);var scale=prop.size/data.height
+	var geometry:Dictionary=_geometry[int(prop.render_id)]
+	var point:Vector2=geometry.point-game.camera_pos+game.screen_center()
 	var alpha=prop.get("alpha",1.)
 	game.draw_set_transform(point,0,Vector2(1,.44))
-	game.draw_circle(Vector2.ZERO,prop.size*.19,Color(.17,.25,.10,.15*alpha))
+	game.draw_circle(Vector2.ZERO,geometry.shadow_radius,Color(.17,.25,.10,.15*alpha))
 	game.draw_set_transform(point,0,Vector2(-1 if prop.flip else 1,1))
-	game.draw_texture_rect(data.texture,Rect2(-data.foot*scale,data.texture.get_size()*scale),false,Color(1,1,1,alpha))
+	game.draw_texture_rect(geometry.texture,geometry.local_rect,false,Color(1,1,1,alpha))
 	if game.has_method("record_art_usage"):game.record_art_usage("environment",prop.art_id)
 	game.draw_set_transform(Vector2.ZERO)

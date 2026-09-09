@@ -54,6 +54,8 @@ func capture(game,name:String,control:Control):
 		metrics.append({"screen":name,"text":label.text,"rect":str(label.get_rect()),"lines":label.get_line_count(),"line_height":label.get_line_height(),"visible_lines":label.get_visible_line_count(),"max_lines":label.max_lines_visible})
 		if control!=game.hud:audit_label(label,name)
 func run():
+	root.borderless = true
+	root.size = Vector2i(1920, 1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var session=game.session;session.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-legibility-v04/"+str(Time.get_ticks_usec()))
 	game.join_game();session.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false)

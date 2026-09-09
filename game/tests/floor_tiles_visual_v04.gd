@@ -35,6 +35,8 @@ func map_view(f:int,zoom:float=1.0,entry:bool=false):
 	check(local.sim.map.walkable(p.pos),"rendered player stands on valid floor "+name)
 	root.canvas_transform=Transform2D.IDENTITY
 func run():
+	root.borderless = true
+	root.size = Vector2i(1920, 1080)
 	game=load("res://main.tscn").instantiate();game.options.mute=true
 	game.options["save-dir"]=ProjectSettings.globalize_path("res://../runtime/floor-tiles-visual/"+str(Time.get_ticks_usec()))
 	root.add_child(game);await process_frame;game.join_game()

@@ -37,9 +37,9 @@ func setup(owner_game):
 	Art.panel(self,Vector2(483,124),Vector2(372,633),"paper",24)
 	Art.panel(self,Vector2(865,124),Vector2(499,633),"paper",24)
 	game.label(self,"외형",Vector2(76,162),Vector2(190,30),22)
-	appearance_label=game.label(self,"",Vector2(76,202),Vector2(350,30),17)
-	appearance_label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;appearance_label.clip_text=true
-	portrait=preload("res://scripts/character_preview.gd").new();portrait.position=Vector2(76,239);portrait.size=Vector2(343,243);add_child(portrait)
+	appearance_label=game.label(self,"",Vector2(76,202),Vector2(350,48),17)
+	appearance_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	portrait=preload("res://scripts/character_preview.gd").new();portrait.position=Vector2(76,260);portrait.size=Vector2(343,410);add_child(portrait)
 	avatar_grid=Control.new();avatar_grid.position=Vector2(53,495);avatar_grid.size=Vector2(390,171);add_child(avatar_grid)
 	previous_button=game.button(self,"‹",Vector2(63,694),Vector2(54,36),func():avatar_page-=1;refresh_avatars())
 	page_label=game.label(self,"",Vector2(124,702),Vector2(229,23),16);page_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
@@ -75,7 +75,7 @@ func open(slot_number:int):
 	name_field.text="";error_label.text="";show();refresh_avatars();refresh();name_field.grab_focus()
 func select_class(key:String):
 	sheet.class_id=key
-	Content.normalize_appearance(sheet);avatar_page=0;refresh_avatars()
+	sheet.avatar="auto";sheet.costume="none";avatar_page=0;refresh_avatars()
 	refresh()
 func spent()->int:
 	var result=0
@@ -87,7 +87,7 @@ func change_stat(key:String,amount:int):
 func refresh():
 	if sheet.is_empty():return
 	portrait.sheet=sheet
-	appearance_label.text=Content.COSTUMES[sheet.costume] if Costumes.has_sprite(sheet) else "직업 기본 외형" if sheet.avatar=="auto" else Content.AVATARS[sheet.avatar]
+	appearance_label.text=preload("res://scripts/wardrobe.gd").label("base:"+sheet.class_id)
 	appearance_label.tooltip_text=appearance_label.text
 	balance_label.text="남은 점수  %d"%(Creation.POINTS-spent())
 	for key in Stats.NAMES:
@@ -99,23 +99,10 @@ func refresh():
 	create_button.disabled=not Creation.reason(sheet).is_empty()
 	error_label.text=Creation.reason(sheet) if not sheet.name.is_empty() or spent()!=Creation.POINTS else ""
 func refresh_avatars():
-	avatar_keys=Content.avatar_options(sheet.get("class_id","warrior"))
-	for key in Content.costume_options(sheet.get("class_id","warrior")):
-		if Costumes.recognizes(key):avatar_keys.append(key)
+	avatar_keys=["auto"];avatar_page=0
+	sheet.avatar="auto";sheet.costume="none"
 	for child in avatar_grid.get_children():avatar_grid.remove_child(child);child.queue_free()
-	avatar_buttons.clear();var pages=ceili(avatar_keys.size()/10.0);avatar_page=clampi(avatar_page,0,pages-1)
-	for i in range(10):
-		var at=avatar_page*10+i
-		if at>=avatar_keys.size():break
-		var key=avatar_keys[at]
-		var custom=Costumes.recognizes(key)
-		var b=game.button(avatar_grid,"",Vector2(i%5*78,int(i/5)*83),Vector2(71,76),func():
-			sheet.avatar="auto" if custom else key;sheet.costume=key if custom else "none";refresh_avatars();refresh())
-		b.tooltip_text=Content.COSTUMES[key] if custom else "직업 기본 외형" if key=="auto" else Content.AVATARS[key]
-		var image=Art.picture(b,Gat.portrait({"avatar":"auto" if custom else key,"costume":key if custom else "none","class_id":sheet.get("class_id","warrior")}),Vector2(8,7),Vector2(55,55));image.material=Gat.material()
-		if (custom and key==sheet.costume) or (not custom and sheet.costume=="none" and key==sheet.avatar):game.label(b,"◆",Vector2(48,49),Vector2(23,22),16,game.GOLD)
-		avatar_buttons.append(b)
-	page_label.text="%d / %d"%[avatar_page+1,pages];previous_button.disabled=avatar_page==0;next_button.disabled=avatar_page==pages-1
+	avatar_buttons.clear();avatar_grid.hide();previous_button.hide();next_button.hide();page_label.hide()
 func submit():
 	error_label.text=Creation.reason(sheet)
 	if not error_label.text.is_empty():return

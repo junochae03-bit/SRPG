@@ -19,6 +19,10 @@ var counter:TextureRect
 var response:Label
 var operation=""
 var shop_mode="buy"
+var shop_tabs={}
+var wardrobe_selection=""
+var wardrobe_page=0
+var wardrobe_view
 var selected_index=0
 var selected_zone="forest"
 var selected_floor=1
@@ -91,7 +95,7 @@ func extra()->Dictionary:
 func refresh():
 	if not World.FACILITIES.has(facility):return
 	for child in body.get_children():body.remove_child(child);child.queue_free()
-	products.clear();var p=player()
+	products.clear();shop_tabs.clear();wardrobe_view=null;review_panel=null;confirm_button=null;review_labels.clear();var p=player()
 	title.text=World.FACILITIES[facility].name;facility_icon.texture=Library.texture(facility);counter.texture=Art.facility(facility)
 	facility_icon.material=Art.icon_material(facility_icon.texture)
 	resident_portrait.visible=World.RESIDENTS.has(facility)
@@ -112,7 +116,7 @@ func refresh():
 		"guild":guild(p)
 		"inn":inn(p)
 		"portal":portal(p)
-	review(p)
+	if facility!="shop" or shop_mode!="costume":review(p)
 	inset_buttons(body)
 func list_surface(at:Vector2,dimensions:Vector2,height:float)->Control:
 	var scroll=ScrollContainer.new();scroll.position=at;scroll.size=dimensions;scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;body.add_child(scroll)
@@ -129,8 +133,14 @@ func item_card(parent:Node,item:Dictionary,at:Vector2,caption:String,callback:Ca
 	Library.picture(b,"gold" if caption.ends_with("G") else "upgrade",Vector2(91,74),Vector2(21,21))
 	game.label(b,caption,Vector2(117,73),Vector2(135,24),16);return b
 func shop(p:Dictionary):
-	Library.attach(game.button(body,"구매 · 진열 상품",Vector2(0,0),Vector2(263,43),func():shop_mode="buy";operation="buy";refresh()),"buy")
-	Library.attach(game.button(body,"판매 · 내 장비",Vector2(277,0),Vector2(263,43),func():shop_mode="sell";operation="sell";selected_item="";refresh()),"sell")
+	var modes=["buy","sell","costume"]
+	for i in range(modes.size()):
+		var mode=modes[i]
+		var tab=game.button(body,{"buy":"구매","sell":"판매","costume":"코스튬"}[mode],Vector2(i*186,0),Vector2(174,43),func():select_shop_mode(mode),shop_mode==mode)
+		Library.attach(tab,{"buy":"buy","sell":"sell","costume":"chest"}[mode]);shop_tabs[mode]=tab
+	if shop_mode=="costume":
+		wardrobe_view=preload("res://scripts/wardrobe_shop.gd").new();body.add_child(wardrobe_view);wardrobe_view.setup(self,p)
+		return
 	var items=[]
 	if shop_mode=="buy":
 		for key in Equipment.SHOP_TYPES:items.append(Equipment.make(key,mini(9,int(p.level/10)),0,"preview","none",p.class_id))
@@ -144,6 +154,9 @@ func shop(p:Dictionary):
 	elif items.is_empty():
 		game.label(list,"판매할 장비가 없습니다.\n착용 중인 장비는 진열되지 않습니다.",Vector2(15,35),Vector2(514,94),21)
 		Library.picture(list,"bag",Vector2(225,153),Vector2(72,72))
+func select_shop_mode(mode:String):
+	if mode not in ["buy","sell","costume"]:return
+	shop_mode=mode;operation="buy" if mode=="costume" else mode;selected_item="";last_receipt="";refresh()
 func smith(p:Dictionary):
 	Library.attach(game.button(body,"확정 강화 · 최대 +5",Vector2.ZERO,Vector2(264,43),func():operation="upgrade";refresh()),"upgrade")
 	Library.attach(game.button(body,"옵션 재련",Vector2(278,0),Vector2(264,43),func():operation="reforge";refresh()),"reforge")

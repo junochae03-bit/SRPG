@@ -52,7 +52,7 @@ static func texture(item:Dictionary)->Texture2D:
 	var entry=catalog.get(appearance,{})
 	if not entry is Dictionary:return legacy_texture(item,"asset_failure")
 	var rect=entry.get("rect",[]);var path=str(entry.get("sheet",""))
-	if not rect is Array or rect.size()!=4 or path.is_empty() or not ResourceLoader.exists(path):return legacy_texture(item,"asset_failure")
+	if not rect is Array or rect.size()!=4 or path.is_empty():return legacy_texture(item,"asset_failure")
 	var source=sheet_texture(path)
 	if source==null:return legacy_texture(item,"asset_failure")
 	var region=Rect2(float(rect[0]),float(rect[1]),float(rect[2]),float(rect[3]))
@@ -91,6 +91,9 @@ static func rgba_image(source:Image)->Image:
 
 static func sheet_texture(path:String)->ImageTexture:
 	if sheets.has(path):return sheets[path]
+	var prepared=preload("res://scripts/prepared_art_v05.gd").texture(path,"magenta")
+	if prepared!=null:
+		sheets[path]=prepared;load_modes[path]="prepared_rgba";return prepared
 	var source=source_image(path);var image=rgba_image(source)
 	if image==null:
 		if path not in failed_assets:failed_assets.append(path)
@@ -124,7 +127,8 @@ static func audit()->Dictionary:
 	var records=[]
 	for path in sheets:
 		var texture=sheets[path]
-		records.append({"path":path,"load_mode":load_modes.get(path,"unknown"),"width":texture.get_width(),"height":texture.get_height(),"source_png_available":FileAccess.file_exists(path),"imported_available":ResourceLoader.exists(path)})
+		var prepared_path=str(texture.get_meta("prepared_path",""))
+		records.append({"path":path,"load_mode":load_modes.get(path,"unknown"),"width":texture.get_width(),"height":texture.get_height(),"source_png_available":FileAccess.file_exists(path),"imported_available":ResourceLoader.exists(path),"prepared_path":prepared_path,"prepared_available":not prepared_path.is_empty() and FileAccess.file_exists(prepared_path)})
 	return {"resolved_keys":cache.keys(),"sheets":records,"fallback_requests":fallback_requests.duplicate(),"failed_assets":failed_assets.duplicate()}
 
 static func legacy_texture(item:Dictionary,reason:String="legacy_appearance")->Texture2D:

@@ -147,7 +147,7 @@ func run():
 	var drop_axe={"id":"","key":"","category":"weapon","weapon_type":"axe","job_lock":"","reason":"legacy_appearance"}
 	check(audit.fallback_requests==[drop_axe],"only the generic drop-table axe uses authored legacy compatibility: "+str(audit.fallback_requests))
 	for row in audit.sheets:
-		check(row.load_mode=="source_png" and row.source_png_available and row.imported_available,"source run audit records actual source load mode "+row.path)
+		check(row.load_mode=="prepared_rgba" and row.source_png_available and row.imported_available,"source run uses prepared RGBA while preserving original source "+row.path)
 	for key in catalog:
 		var descriptor=Art.describe_texture(Art.cache[key]);var entry=catalog[key]
 		check(descriptor.key==key and descriptor.source_path==entry.sheet and descriptor.rect==entry.rect and descriptor.rgba_padded,"actual consumer texture descriptor "+key)

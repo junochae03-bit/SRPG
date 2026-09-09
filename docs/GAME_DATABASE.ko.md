@@ -2,7 +2,7 @@
 
 V0.5는 싱글 플레이로 개발하며 온라인 멀티플레이는 이후 단계다. 이 DB는 게임의 실제 장비·몬스터·던전·드랍·스킬·별자리 카탈로그와 완료된 원화의 파일·영역·사용 관계를 조회하는 읽기 전용 자료다. 세이브나 운영 서버 DB가 아니다. 관리 DB 스키마 3과 게임 저장 형식 v7은 서로 독립적이다.
 
-게임에서 **B**를 누르면 장비, 몬스터, 드랍, 스킬을 검색하고 필터링할 수 있다. 장비 상세에서 획득처를, 몬스터 상세에서 기본 드랍과 해당 레이드의 추가 드랍을 확인한다. 스킬 상세의 랭크 표는 포인트를 소비하지 않는다. 전투 수치를 수정할 때는 아래 원본을 수정한 뒤 DB를 재생성한다.
+게임에서 기본 키 **B**를 누르면 장비, 몬스터, 드랍, 스킬을 검색하고 필터링할 수 있다. 키 설정에서 바꾼 경우 지정한 도감 키를 사용한다. 장비 상세에서 획득처를, 몬스터 상세에서 기본 드랍과 해당 레이드의 추가 드랍을 확인한다. 스킬 상세의 랭크 표는 포인트를 소비하지 않는다. 전투 수치를 수정할 때는 아래 원본을 수정한 뒤 DB를 재생성한다.
 
 ## 파일과 수록 범위
 
@@ -79,8 +79,10 @@ python tools/build_database.py --check
 python tools/run_hidden_check.py database_v03
 python tools/run_hidden_check.py skill_build_v04
 python tools/run_hidden_check.py database_v04
+python tools/run_hidden_check.py database_metadata_v05
 python tools/run_hidden_check.py art_registry_v05
 python tools/test_art_registry.py
+python tools/test_art_registry_cache.py
 ```
 
 `--check`는 현재 Godot 모델에서 다시 추출하고 임시 SQLite를 생성해 JSON·SQLite·스키마·매니페스트의 바이트를 비교한다. 고유 ID, FK, 직업 계열, 확률 범위, 레이드 등급 합계, 전체 랭크 및 에셋 경로도 검사한다. 원본이나 원화 매핑이 바뀐 뒤 재생성하지 않은 DB는 실패한다. 시각 없는 DB 생성은 원화 제작이나 이미지 편집을 수행하지 않는다. 저장 파일을 읽거나 변경하지 않는다.
@@ -110,17 +112,35 @@ SQLite `assets` 또는 각 JSON 행의 `asset`에 실제 리소스 경로와 `[x
 | 테이블 | 내용 |
 |---|---|
 | `art_sources` | 저장소 출처 문서·카탈로그 경로와 SHA256 |
-| `art_files` | 실제 runtime PNG·절차형 VFX 소스 경로, SHA256, 크기·해상도, 원본 출처 근거 |
-| `art_assets` | 분류·이름·상태·프레임 번호·동작·원본 영역·발/몸체 정보와 파일 참조 |
+| `art_files` | 원본 PNG·절차형 VFX 소스·준비된 RGBA gzip 경로, SHA256, 크기·해상도, 파생 관계 |
+| `art_assets` | 분류·이름·상태·프레임 번호·동작·원본 영역·발/몸체 정보, 원본 및 로딩 캐시 파일 참조 |
 | `art_uses` | 장비·직업·스킬·층·몬스터 출현·드랍 또는 UI의 실제 소비 관계, 별도로 표시한 카탈로그 준비 관계 |
 
-`art_catalog`는 파일·출처를 결합한 목록, `art_usage`는 사용처까지 결합한 조회 뷰다. `art_uses`의 장비·직업·스킬·별자리·몬스터·레이드·출현·층·드랍 참조는 SQLite 외래키로도 검사한다. 현재 행 수는 매니페스트의 `art_*` 값을 따른다.
+`art_catalog`는 파일·출처를 결합한 목록, `art_usage`는 사용처까지 결합한 조회 뷰다. `art_uses`의 장비·직업·스킬·별자리·몬스터·레이드·출현·층·드랍 참조는 SQLite 외래키로도 검사한다. 상점·키 설정 연결 후 원화 영역 **1,700개**, 사용·준비 관계 **10,633개**를 관리한다. 준비 캐시를 포함한 파일 모델은 기존 181개와 파생 캐시 41개의 **222개**다. 최종 내보내기 파일의 행 수와 해시는 매니페스트의 `art_*` 값을 따르며, 소스 검사 수치를 이전 스냅샷이나 EXE의 검증 결과로 해석하지 않는다.
 
 완료된 아이콘 **168개**, 새 캐릭터 **33종 × 16 = 528프레임**, 새 장비 **115영역**, 배경 장식 **108개**, 새 몬스터·보스 **48키포즈**, 실제 바닥 **6재료**를 관리한다. 기존에 쓰는 캐릭터·건물·전리품·괴물, 타이틀, 18계열 절차형 VFX와 자동 효과·동료 원화도 함께 조회한다. 일부 추가 영역은 초상·동작별 소비를 따로 기록하므로 이 수량을 단순 합산한 값이 전체 행 수는 아니다.
 
 `art_assets.status='applied'`는 실제 게임 매핑이 있다는 뜻이다. `available_catalog`는 완료된 runtime 카탈로그에는 있지만 현재 사용하는 기능이 없는 준비 영역이다. 새 캐릭터 528프레임 중 플레이어용 480프레임과 NPC 대기 3프레임은 사용되고, NPC의 나머지 45프레임은 준비 상태다. `art_uses.usage_kind`도 각각 `runtime_mapping`과 `catalog_available`로 구분한다. 카탈로그 준비 관계를 플레이 중 그려졌다는 증거로 해석하지 않는다. 미완성 테마 장비·벽 타일·원본 추출 전체는 포함하지 않는다.
 
-관리 내보내기는 `GameDatabase.snapshot(true)`에서 수집한 메타데이터를 Python 표준 라이브러리로 검증하고 해시를 계산한다. 게임 도감은 기본 `snapshot()`을 계속 사용하므로 PCK의 `.gdc` 환경에서 개발 소스 스캔이나 전체 원화 관리 수집을 하지 않는다. 관리 수집도 코스튬 이미지를 추가로 RGBA 변환하지 않는다. 메모리에서 크로마를 제거하는 장비·코스튬은 원본 PNG 경로·원래 영역·원본 SHA256으로 기록한다.
+관리 내보내기는 `GameDatabase.snapshot(true)`에서 수집한 메타데이터를 Python 표준 라이브러리로 검증하고 해시를 계산한다. 게임 도감은 기본 `snapshot()`을 계속 사용하므로 PCK의 `.gdc` 환경에서 개발 소스 스캔이나 전체 원화 관리 수집을 하지 않는다. 장비 2,500개와 드랍의 그림 참조도 카탈로그의 경로·영역만 읽으며, 표시할 카드에서 `asset_texture()`를 요청할 때 해당 시트를 불러온다. 관리 수집은 장비·코스튬의 RGBA 변환이나 캐시 압축 해제를 추가로 실행하지 않는다.
+
+### 원본 그림과 준비된 로딩 캐시
+
+[캐시 카탈로그](../game/assets/render_cache_v05/catalog.json)는 코스튬 시트 33장·교정 이미지 2장·장비 시트 6장의 **41개** 로딩 캐시를 관리한다. 식별자는 `원본 res:// 경로|blue 또는 magenta`다. [생성 도구](../tools/prepare_render_cache.py)가 기존 reader와 같은 크로마 규칙을 적용해 RGBA8 바이트를 만들고 오른쪽·아래에 투명 1px을 덧붙여 gzip으로 저장한다. 원본 PNG 바이트와 원본 영역은 바꾸지 않으며 이 캐시를 새 원화 영역으로 중복 집계하지 않는다. 재생성에는 Pillow·NumPy가 필요하지만 DB 내보내기는 Python 표준 라이브러리만 사용한다.
+
+[prepared_art_v05.gd](../game/scripts/prepared_art_v05.gd)는 필요한 캐시만 Godot의 gzip 해제로 읽고 기존 `ImageTexture` 계약을 유지한다. 배포 PCK는 이 41개의 원본 PNG 대신 `.rgba.gz`를 포함한다. 원본 PNG는 저장소의 출처·개발용 참조로 보존한다. 따라서 논리 `asset.path`가 가리키는 원본 PNG가 PCK에 존재하는지 검사해서 카드 표시를 막으면 안 된다.
+
+`art_assets.file_id`와 기존 `runtime_path`·`runtime_sha256`은 호환성을 위해 **보존된 원본**을 뜻한다. `render_cache_file_id`는 `representation='rgba_gzip'`인 파생 파일을 참조한다. `art_catalog`·`art_usage`의 **`render_path`·`render_sha256`·`render_representation`**이 실제 로딩 파일을 나타내며, 캐시가 없는 자산에서는 원본 값과 같다. 원본 영역 `[x,y,width,height]`는 패딩과 무관하게 유지한다. 파생 파일의 `origin_json`에는 원본 파일 ID·SHA256, 크로마 키, 해제된 RGBA의 크기·SHA256, 패딩과 생성 도구를 남긴다.
+
+```powershell
+python tools/prepare_render_cache.py --check
+# 원화나 크로마 규칙을 의도적으로 바꿨을 때만 캐시를 다시 만든다.
+python tools/prepare_render_cache.py
+python tools/build_database.py
+python tools/build_database.py --check
+```
+
+캐시 검사에서는 gzip 바이트·해제된 RGBA 바이트·원본 SHA256·해상도·소비 관계를 확인한다. `database_metadata_v05`는 텍스처를 읽지 않는 최초 조회와 실제 카드의 지연 로딩을, `art_registry_v05`·`test_art_registry_cache.py`는 관리 수집 및 파생 파일의 FK를 검사한다.
 
 예를 들어 새 장비와 게임 정의의 연결을 다음처럼 확인한다.
 
@@ -136,6 +156,16 @@ FROM art_catalog GROUP BY category,status ORDER BY category,status;
 SELECT name,frame,action,status,runtime_path,x,y,width,height
 FROM art_catalog WHERE id LIKE 'art:character:costume:pink-beret-gunner:%'
 ORDER BY frame;
+
+SELECT id,runtime_path,render_path,render_representation,render_sha256
+FROM art_catalog WHERE render_cache_file_id IS NOT NULL
+ORDER BY id LIMIT 12;
 ```
 
 출처·영역·테마·소비 스크립트가 변경되면 `build_database.py --check`가 오래된 스냅샷을 거부한다. 범위 밖 좌표, 누락 파일, 출처 해시 불일치, 끊어진 소비 관계, 사용/준비 상태의 잘못된 표시도 검사한다. 상세 관리 절차는 [자산 DB 안내](ASSET_REGISTRY_V05.ko.md), 복사할 수 있는 SQL 예제는 [queries.sql](database/queries.sql)을 따른다. 이 관리 DB 검증은 전체 게임·EXE·릴리스 검증과 별도다.
+
+### 코스튬 상점과 사용자별 이름
+
+상인의 **코스튬** 탭은 `wardrobe.gd`의 현재 직업·무기별 허용 목록을 사용한다. 새 캐릭터는 기본 외형으로 시작하며 대체 기본 캐릭터는 500G, 코스튬은 1,200G다. 구매와 착용은 별도 동작이다. 가방에서는 기본 모습과 이미 소유한 호환 외형을 선택한다. 상점 도입 전 기록의 현재 착용 외형은 별도 비용 없이 소유 목록으로 이관하며, 구입 목록은 슬롯의 `owned_appearances`에 저장한다.
+
+상점의 **이름 저장**은 외형 표시 이름을 1~24자로 바꾼다. 미구매 외형에도 이름을 붙일 수 있고, 자산 ID·프레임·직업명·캐릭터 닉네임·장비·몬스터 이름은 바꾸지 않는다. `sprite_names.gd`가 저장 폴더의 `sprite-names.json`에 별칭을 기록하므로 같은 폴더의 모험 기록들이 이를 공유한다. 키 설정은 별도의 `keybindings.json`, 모험 진행과 소유권은 `slot-N.json`에 남는다. 이 개인 파일들을 공개 JSON·SQLite 카탈로그에 합치거나 배포용 DB에 포함하지 않는다. 관리 DB에는 기본 이름과 안정적인 자산 ID·소비 관계를 보존한다.

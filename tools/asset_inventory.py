@@ -12,7 +12,10 @@ def referenced_files():
         if not path.is_file():raise FileNotFoundError(path)
         seen.add(path)
         if path.suffix not in ['.gd','.gdshader','.tscn','.tres','.json','.godot']:continue
-        for relative in re.findall(r'res://([^"\s]+)',path.read_text('utf8')):
+        # Prepared-art manifests index a source as `res://file.png|chroma`.
+        # The discriminator is not part of the filename; source/path values
+        # independently retain both original and prepared dependencies.
+        for relative in re.findall(r'res://([^"\s|]+)',path.read_text('utf8')):
             target=(game/relative).resolve()
             if not target.is_relative_to(game.resolve()):continue
             if target.is_dir():raise ValueError('Unresolved dynamic asset directory: '+relative)

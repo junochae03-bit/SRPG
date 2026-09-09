@@ -3,7 +3,8 @@ const Creation=preload("res://scripts/character_creation.gd")
 const World=preload("res://scripts/world_catalog.gd")
 var checks=0
 var failures=[]
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);push_error(label)
@@ -18,6 +19,8 @@ func click(control:Control):
 	var event=InputEventMouseButton.new();event.button_index=MOUSE_BUTTON_LEFT;event.position=control.get_global_transform_with_canvas()*(control.size*.5);event.pressed=true;root.push_input(event,true)
 	event=event.duplicate();event.pressed=false;root.push_input(event,true)
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/creator-ui-v04/"+str(Time.get_ticks_usec()));game.refresh_slot_summary()
 	await capture("title")
@@ -29,8 +32,8 @@ func run():
 	check(not panel.visible and game.menu.visible and local.slot_state(1)=="empty","ESC cancel returns title without writing")
 	click(game.start_button);await process_frame
 	panel.name_field.text="새벽별";panel.name_field.text_changed.emit("새벽별");click(panel.job_buttons.mage);panel.sheet.stats=Creation.suggested("mage");panel.refresh()
-	click(panel.avatar_buttons[1]);await process_frame
-	check(panel.sheet.avatar!="auto" and panel.sheet.class_id=="mage","actual buttons select appearance and class")
+	await process_frame
+	check(panel.sheet.avatar=="auto" and panel.sheet.costume=="none" and panel.sheet.class_id=="mage" and not panel.avatar_grid.visible,"class selection keeps fixed default appearance")
 	check(not panel.create_button.disabled and panel.balance_label.text.ends_with("0"),"ready sheet")
 	for label in panel.stat_labels.values():check(label.get_line_height()<=label.size.y,"stat digits not clipped")
 	await capture("character-sheet")

@@ -1,6 +1,6 @@
 extends RefCounted
-## Original costume sheets stay unchanged. Chroma removal happens once per sheet
-## in memory, so callers can draw with an ordinary CanvasItem material.
+## Original sheets stay unchanged. Prefer lossless build-prepared RGBA data;
+## the original reader remains available for development fixtures/fallbacks.
 
 const CATALOG_PATH = "res://assets/costume_v04/catalog.json"
 const ID_FIELDS = ["costume_id", "costume", "skin_id", "custom_skin"]
@@ -129,6 +129,10 @@ static func _sheet_texture(path: String, key: String) -> ImageTexture:
 		return _sheet_textures[cache_key]
 	if _failed_sheets.has(cache_key):
 		return null
+	var prepared=preload("res://scripts/prepared_art_v05.gd").texture(path,key)
+	if prepared!=null:
+		_sheet_textures[cache_key]=prepared
+		return prepared
 	var keyed = _keyed_image(_source_image(path), key)
 	if keyed == null:
 		_failed_sheets[cache_key] = true

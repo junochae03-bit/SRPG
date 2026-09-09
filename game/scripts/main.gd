@@ -11,6 +11,8 @@ const GOLD = Color("237c70")
 const PALE = Color("29494c")
 const MUTED = Color("617b78")
 var session
+var keybindings=preload("res://scripts/key_bindings.gd").new()
+var keybindings_path=""
 var dungeon
 var forest
 var fonts
@@ -92,8 +94,16 @@ func _ready():
 	for argument in OS.get_cmdline_user_args():
 		var pair = argument.trim_prefix("--").split("=", true, 1)
 		options[pair[0]] = pair[1] if pair.size() > 1 else "true"
+	if options.has("capture") and DisplayServer.get_name() != "headless":
+		# Automated framebuffer captures need a full client area even when the
+		# desktop cannot fit a 1080p window plus its native title bar.
+		get_window().borderless = true
+		get_window().size = Vector2i(1920, 1080)
 	session = LocalSession.new()
 	if options.has("save-dir"): session.save_directory = options["save-dir"]
+	keybindings_path=session.save_directory.path_join("keybindings.json")
+	keybindings.load_file(keybindings_path)
+	preload("res://scripts/sprite_names.gd").configure(session.save_directory.path_join("sprite-names.json"))
 	add_child(session)
 	dungeon = Dungeon.new()
 	camera_pos = Dungeon.iso(dungeon.spawn)
@@ -135,11 +145,7 @@ func refresh_slot_summary():
 	if slot_summary==null:return
 	var state=session.slot_state(slot_picker.selected+1)
 	start_button.text="모험 시작" if state=="empty" else "이어서 하기"
-	slot_summary.text="새 모험가" if state=="empty" else "읽을 수 없는 기록" if state=="damaged" else ""
-	if state=="saved":
-		var path=session.save_directory.path_join("slot-%d.json"%(slot_picker.selected+1));var saved=session.parse_save(path)
-		if saved==null:saved=session.parse_save(path+".bak")
-		slot_summary.text="%s  ·  Lv.%d"%[saved.name,saved.level]
+	slot_summary.text="읽을 수 없는 기록" if state=="damaged" else ""
 	start_button.disabled=state=="damaged"
 	menu.refresh_records()
 
@@ -149,17 +155,26 @@ func join_game():
 	elif options.has("floor"):session.enter_floor(int(options.floor))
 
 func toggle_help():
-	npc_dialogue.hide()
-	codex.hide()
-	town_panel.hide()
-	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
-	help_panel.visible=not help_panel.visible
-	session.paused=help_panel.visible or bag.visible or skill_tree.visible
-	toast.visible=not session.paused
+	if help_panel.visible:
+		help_panel.close();return
+	if session.connected:session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	help_panel.open()
+	if toast!=null:toast.hide()
 
 func continue_game():
-	help_panel.hide()
-	session.paused=bag.visible or skill_tree.visible
+	help_panel.close()
+
+func on_keybindings_changed():
+	if hud.has_method("refresh_key_labels"):hud.refresh_key_labels()
+	if skill_tree.has_method("refresh_key_labels"):skill_tree.refresh_key_labels()
+	update_hud()
+
+func text_input_focused()->bool:
+	var focus=get_viewport().gui_get_focus_owner()
+	return focus is LineEdit or focus is TextEdit
+
+func key_escape(event:InputEvent)->bool:
+	return event is InputEventKey and event.pressed and not event.echo and (event.physical_keycode==KEY_ESCAPE or event.keycode==KEY_ESCAPE)
 
 func load_art():
 	serif = load("res://assets/fonts/dnf_forged_blade_medium.ttf")
@@ -270,24 +285,9 @@ func build_interface():
 	skill_tree.setup(self)
 	town_panel=preload("res://scripts/town_panel.gd").new();hud.add_child(town_panel);town_panel.setup(self)
 	codex=preload("res://scripts/codex_panel.gd").new();hud.add_child(codex);codex.setup(self)
-	help_panel = panel(hud, Vector2(428, 125), Vector2(586, 650), Color("fffbedfc"))
-	help_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	label(help_panel, "잠깐 쉬어 가요", Vector2(28, 22), Vector2(520, 49), 30)
-	label(help_panel, "WASD / 방향키     이동\n좌클릭                      기본 공격\n우클릭 누르기/떼기   충전 강공격\nQ / F / V / C / Z / X   장착한 스킬 6개\nShift / Space           달리기 / 회피 · TAB 카드 선택\n1                           물약 사용\nE                           전리품 줍기 / 마을에서 회복·보급\nR                           마을 귀환\nI / K / B                  가방 / 성장 / 모험 도감\n도감·가방·성장·메뉴를 열면 전투가 멈춥니다.", Vector2(30, 91), Vector2(530, 278), 19, PALE)
-	button(help_panel, "계속하기", Vector2(28, 390), Vector2(247, 49), continue_game, true,"play")
-	button(help_panel, "저장하고 타이틀", Vector2(295, 390), Vector2(261, 49), func(): session.disconnect_game(); help_panel.hide(),false,"save")
-	button(help_panel,"새로운 원정 시작",Vector2(28,454),Vector2(528,49),func(): help_panel.hide(); bag.hide(); session.new_expedition(),false,"reset")
-	for i in range(2):
-		var kind="music" if i==0 else "effects"
-		SemanticIcons.picture(help_panel,"music" if i==0 else "sound",Vector2(25,529+i*52),Vector2(28,28))
-		label(help_panel,"BGM" if i==0 else "효과음",Vector2(59,529+i*52),Vector2(80,30),18)
-		var slider=HSlider.new();slider.position=Vector2(148,533+i*52);slider.size=Vector2(393,27);slider.min_value=0;slider.max_value=100
-		slider.value=(audio_director.music_gain if i==0 else audio_director.effects_gain)*100
-		slider.value_changed.connect(func(value):audio_director.set_gain(kind,value/100.0))
-		help_panel.add_child(slider)
-	help_panel.visible = false
 	npc_dialogue=preload("res://scripts/npc_dialogue.gd").new();hud.add_child(npc_dialogue);npc_dialogue.setup(self)
 	character_sheet=preload("res://scripts/character_sheet_ui.gd").new();canvas.add_child(character_sheet);character_sheet.setup(self)
+	help_panel=preload("res://scripts/keyboard_panel.gd").new();canvas.add_child(help_panel);help_panel.setup(self)
 
 func on_status(message: String):
 	status_text = message
@@ -377,47 +377,42 @@ func rarity_color(rarity: int) -> Color:
 
 func _unhandled_input(event: InputEvent):
 	if character_sheet.visible:
-		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:character_sheet.cancel();get_viewport().set_input_as_handled()
+		if key_escape(event):character_sheet.cancel();get_viewport().set_input_as_handled()
 		return
+	if help_panel.visible:return
+	if key_escape(event):
+		if npc_dialogue.visible:npc_dialogue.close()
+		elif codex.visible:codex.close()
+		elif town_panel.visible:town_panel.close()
+		elif bag.visible:toggle_bag()
+		elif skill_tree.visible:toggle_skills()
+		else:toggle_help()
+		get_viewport().set_input_as_handled();return
 	if not session.connected: return
-	if npc_dialogue.visible:
-		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:npc_dialogue.close();get_viewport().set_input_as_handled()
-		return
+	if npc_dialogue.visible or text_input_focused():return
 	# Modal controls submit their own actions; combat hotkeys must not consume
 	# items or act through a paused inventory, growth, service or settings panel.
-	if session.paused and not (event is InputEventKey and event.physical_keycode in [KEY_I,KEY_K,KEY_B,KEY_ESCAPE]):return
-	if event is InputEventKey and event.pressed and not event.echo:
-		match event.physical_keycode:
-			KEY_I: toggle_bag()
-			KEY_K: toggle_skills()
-			KEY_B: toggle_codex()
-			KEY_SPACE: session.act("dodge")
-			KEY_ESCAPE:
-				if codex.visible:codex.close()
-				elif town_panel.visible:town_panel.close()
-				elif bag.visible:toggle_bag()
-				elif skill_tree.visible:toggle_skills()
-				else:toggle_help()
-			KEY_Q: session.act("skill_q")
-			KEY_Z: session.act("skill_z")
-			KEY_X: session.act("skill_x")
-			KEY_TAB: session.act("card_next")
-			KEY_F: session.act("skill_f")
-			KEY_V: session.act("skill_v")
-			KEY_C: session.act("skill_c")
-			KEY_1: session.act("potion")
-			KEY_E: session.act("interact")
-			KEY_R: session.act("return")
+	var action=keybindings.action_for_event(event)
+	if session.paused and action not in ["bag","skills","codex"]:return
+	match action:
+		"bag":toggle_bag()
+		"skills":toggle_skills()
+		"codex":toggle_codex()
+		"dodge","skill_q","skill_f","skill_v","skill_c","skill_z","skill_x","card_next","potion","interact","return":session.act(action)
+	if not action.is_empty():get_viewport().set_input_as_handled()
 	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_RIGHT:
 		session.act("heavy_begin" if event.pressed else "heavy")
 
 func _input(event:InputEvent):
 	if character_sheet!=null and character_sheet.visible and event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
 		character_sheet.cancel();get_viewport().set_input_as_handled();return
+	if help_panel!=null and not help_panel.visible and key_escape(event):
+		_unhandled_input(event);return
 	if session==null or not session.connected:return
 	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_RIGHT and not event.pressed:
 		if session.sim.players[session.local_id].charge_time>=0:
-			session.act("heavy")
+			if session.paused or text_input_focused():session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+			else:session.act("heavy")
 			get_viewport().set_input_as_handled()
 
 func _physics_process(delta: float):
@@ -431,14 +426,15 @@ func _physics_process(delta: float):
 	input_timer = 0.0
 	var p = session.state.players[session.local_id]
 	var direction = Vector2.ZERO
-	if not session.paused:
-		direction = Vector2(float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)), float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
+	var can_act=not session.paused and not text_input_focused()
+	if can_act:
+		direction = Vector2(float(keybindings.is_pressed("move_right"))-float(keybindings.is_pressed("move_left")),float(keybindings.is_pressed("move_down"))-float(keybindings.is_pressed("move_up")))
 		# Keyboard axes follow screen directions; convert to logical isometric coordinates.
 		direction = Dungeon.from_iso(direction).normalized()
 	var logical_mouse = Dungeon.from_iso(get_global_mouse_position() - screen_center() + camera_pos)
 	var aim = (logical_mouse - p.pos).normalized()
-	session.send_input(direction, aim, Input.is_physical_key_pressed(KEY_SHIFT))
-	if not session.paused:
+	session.send_input(direction, aim, can_act and keybindings.is_pressed("sprint"))
+	if can_act:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and get_viewport().gui_get_hovered_control() == null:
 			session.act("attack")
 
@@ -475,6 +471,7 @@ func _process(delta: float):
 		capture_done = true
 		if options.has("show-bag") and not bag.visible: toggle_bag()
 		if options.has("show-skills") and not skill_tree.visible:toggle_skills()
+		if options.has("show-keys") and not help_panel.visible:toggle_help()
 		if options.has("show-codex"):toggle_codex(str(options.get("codex-tab","equipment")))
 		if options.has("show-dialogue") and session.connected:npc_dialogue.open(str(options.get("show-dialogue","smith")))
 		capture.call_deferred()
@@ -788,11 +785,12 @@ func write_bot_report():
 	report["floor"]=session.sim.map.floor_number if session.sim!=null else 0
 	report["codex"]={"visible":codex.visible,"tab":codex.selected_tab,"total":codex.result.get("total",0)}
 	report["guardians"]=session.sim.enemies.values().filter(func(e):return e.get("guardian",false)) if session.sim!=null else []
-	report["ui"]={"title":menu.visible,"creator":character_sheet.visible,"dialogue":npc_dialogue.visible,"speaker":npc_dialogue.speaker.text,"skill_tree":skill_tree.visible}
+	report["ui"]={"title":menu.visible,"creator":character_sheet.visible,"dialogue":npc_dialogue.visible,"speaker":npc_dialogue.speaker.text,"skill_tree":skill_tree.visible,"keyboard":help_panel.visible,"title_records":menu.records.map(func(b):return b.text),"creator_appearance":character_sheet.sheet.duplicate(true) if character_sheet.visible else {}}
 	report["art_usage"]=art_usage.duplicate(true);report.art_usage["icons"]=SemanticIcons.audit()
 	report.art_usage["ground"]=forest.ground_evidence()
 	report.art_usage["equipment"]=EquipmentArt.audit()
 	report.art_usage["equipment_consumers"]=equipment_ui_evidence()
+	report.art_usage["prepared"]=preload("res://scripts/prepared_art_v05.gd").loads.duplicate()
 	report["capture_view"]=str(options.get("capture-view","player"))
 	var file=FileAccess.open(options.report,FileAccess.WRITE)
 	if file:file.store_string(JSON.stringify(report,"\t"));file.close()

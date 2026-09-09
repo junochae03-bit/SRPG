@@ -193,6 +193,8 @@ func capture_battle_states(game):
 		check(before == JSON.stringify(boss.stagger), "icon rendering preserves boss state " + stage)
 
 func run():
+	root.borderless = true
+	root.size = Vector2i(1920, 1080)
 	Content.initialize_jobs()
 	check(DisplayServer.get_name() != "headless", "visual test requires real rendering")
 	if not failures.is_empty():

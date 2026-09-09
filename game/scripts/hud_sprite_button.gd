@@ -10,12 +10,20 @@ func setup(owner_game,texture:Texture2D,title:String,key:String,callback:Callabl
 	for state in ["normal","hover","pressed","focus"]:add_theme_stylebox_override(state,StyleBoxEmpty.new())
 	pressed.connect(callback)
 	mouse_entered.connect(queue_redraw);mouse_exited.connect(queue_redraw)
-func _draw():
+func picture_rect()->Rect2:
 	var dimensions=picture.get_size();dimensions*=78/maxf(dimensions.x,dimensions.y)
+	return Rect2(Vector2(size.x*.5,42)-dimensions*.5,dimensions)
+func hotkey_layout()->Dictionary:
+	var pixels=19
+	while pixels>11 and game.bold_font.get_string_size(hotkey,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x>size.x-12:pixels-=1
+	var dimensions=game.bold_font.get_string_size(hotkey,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels)
+	var baseline=Vector2(maxf(13,dimensions.x*.5+6),maxf(23,game.bold_font.get_ascent(pixels)+4))
+	return {"at":baseline,"pixels":pixels,"rect":Rect2(baseline-Vector2(dimensions.x*.5+2,game.bold_font.get_ascent(pixels)+2),Vector2(dimensions.x+4,game.bold_font.get_height(pixels)+4))}
+func _draw():
 	var tint=Color(1.2,1.2,1.2) if is_hovered() else Color.WHITE
 	if is_pressed():tint=Color(.8,.9,.9)
-	draw_texture_rect(picture,Rect2(Vector2(size.x*.5,42)-dimensions*.5,dimensions),false,tint)
-	write(Vector2(13,23),hotkey,19,true)
+	draw_texture_rect(picture,picture_rect(),false,tint)
+	var key=hotkey_layout();write(key.at,hotkey,key.pixels,true)
 	write(Vector2(size.x*.5,103),caption,16)
 func write(at:Vector2,value:String,pixels:int,bold=false):
 	var font=game.bold_font if bold else game.fonts;at.x-=font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels).x*.5

@@ -28,9 +28,10 @@ func run():
 		check(not compatible.is_empty(),"reviewed GAT costume has a matching class "+key)
 		if compatible.is_empty():continue
 		p.class_id=compatible[0];p.avatar=Content.avatar_options(p.class_id).back();p.costume="none";session.sim.recalculate(p);session.refresh()
+		if "costume:"+key not in p.owned_appearances:p.owned_appearances.append("costume:"+key)
 		var original_avatar=p.avatar;var original_damage=session.sim.damage_for(p)
 		check(session.act("costume",key),"new costume selectable "+key);game.bag.refresh(true)
-		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and game.hud.portrait==Gat.portrait(p),"field bag and HUD agree "+key)
+		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and game.hud.portrait.atlas==Gat.frame(p,0.).texture.atlas and Rect2(36,37,72,72).encloses(game.hud.portrait_rect()),"field bag and HUD share selected appearance with full head fit "+key)
 		check(p.avatar==original_avatar and session.sim.damage_for(p)==original_damage,"cosmetic preserves base and combat stats "+key)
 		session.save_game();check(session.parse_save(session.save_path()).costume==key,"costume saved "+key)
 	var last=p.costume;session.disconnect_game();session.start_game("복원",1);p=session.sim.players[1]

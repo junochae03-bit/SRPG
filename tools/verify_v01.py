@@ -34,6 +34,7 @@ def run(test,args=None,graphics=False):
 for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
 for test in ['database_v03','boss_stagger_v03','skill_vfx','skill_build_v04','database_v04','constellation_combat_v04','character_creation_v04','skill_build_session_v04','icons','environment_v04','dungeon_entry_v04','costume_art_v04','battle_camera_v04','appearance_matching_v04']:run(test)
+for test in ['prepared_art_v05','wardrobe_v05','database_metadata_v05','performance_environment_v05','enemy_hit_geometry_v05']:run(test)
 if user_save.is_file():
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
     assert hashlib.sha256(user_save.read_bytes()).hexdigest()==before,'Original save changed during check'
@@ -63,6 +64,10 @@ run('stagger_ui_v03',graphics=True)
 run('visual_skill_vfx',graphics=True)
 run('skill_tree_ui_v04',graphics=True)
 run('character_dialogue_ui_v04',graphics=True)
+run('wardrobe_shop_ui_v05',graphics=True)
+run('client_flow_v051',graphics=True)
+run('keyboard_ui_v051',graphics=True)
+run('performance_ui_v05',graphics=True)
 from check_icons import audit_assets as audit_icon_assets, audit_rendered_captures
 icon_assets=audit_icon_assets()
 assert icon_assets['status']=='PASS',icon_assets['failures']
@@ -100,6 +105,17 @@ assert portable_db.returncode==0 and 'ART_REGISTRY_PORTABLE PASS' in portable_lo
 portable_count=int(re.search(r'PASS checks=(\d+)',portable_log).group(1));checks+=portable_count
 results.append({'test':'art_registry_portable','status':'PASS','checks':portable_count,'markers':portable_log.splitlines()})
 print(portable_log.strip(),flush=True)
+cache_check=subprocess.run([sys.executable,str(ROOT/'tools/test_art_registry_cache.py')],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60,**hidden_options())
+cache_log=cache_check.stdout+cache_check.stderr;(RUN/'art_registry_cache.log').write_text(cache_log,'utf8')
+assert cache_check.returncode==0,cache_log[-8000:]
+results.append({'test':'art_registry_cache','status':'PASS','checks':16,'markers':cache_log.splitlines()});checks+=16
+print(cache_log.strip(),flush=True)
+install_check=subprocess.run([sys.executable,str(ROOT/'tools/test_install_client.py')],capture_output=True,text=True,encoding='utf8',errors='replace',timeout=60,**hidden_options())
+install_log=install_check.stdout+install_check.stderr;(RUN/'install_client.log').write_text(install_log,'utf8')
+assert install_check.returncode==0,install_log[-8000:]
+install_count=int(re.search(r'INSTALL_CLIENT_TESTS tests=(\d+) failures=0 errors=0',install_log).group(1))
+results.append({'test':'install_client','status':'PASS','checks':install_count,'markers':install_log.splitlines()});checks+=install_count
+print('install_client PASS checks='+str(install_count),flush=True)
 report={'status':'PASS','checks':checks,'results':results,'save_integrity':save_integrity,'runtime_files':len(rows),'runtime_mib':round(sum(x['bytes'] for x in rows)/1048576,2),'verified_at':time.strftime('%Y-%m-%d %H:%M:%S'),'run_directory':str(RUN)}
 final_rows=inventory()
 assert final_rows==rows,'Runtime source changed while verification was running'

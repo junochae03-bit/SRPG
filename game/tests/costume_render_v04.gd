@@ -35,6 +35,8 @@ func _initialize():
 	run.call_deferred()
 
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	var output=ProjectSettings.globalize_path("res://../runtime/costume-v04-review")
 	DirAccess.make_dir_recursive_absolute(output)
 	var viewport=SubViewport.new()

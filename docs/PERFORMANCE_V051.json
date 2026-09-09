@@ -1,0 +1,1152 @@
+{
+  "version": "V0.5.1",
+  "status": "MEASURED",
+  "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+  "scope": "Godot 4.6 OpenGL compatibility, isolated copies of two existing records, 12 seconds per scenario. Final probes ignore physical UI input; non-bot cases hold the player stationary. World/HUD CPU work is compared, not the modified probe input routine.",
+  "capture_scope": "Visual QA separately uses an explicit 1920x1080 client area. Profiling requests the configured window; actual window_size and logical viewport_size are recorded per run.",
+  "limitations": [
+    "Hidden/background window frame timing varies with focus and GPU scheduling; no guaranteed foreground FPS claim.",
+    "Measurements are individual runs, not a statistical benchmark across devices.",
+    "First codex construction still takes about 0.73 seconds in this fixture."
+  ],
+  "comparison": [
+    {
+      "scenario": "town",
+      "first_world_draw_ms": {
+        "before": 1113.788,
+        "after": 187.813
+      },
+      "world_draw_p50_ms": {
+        "before": 1.351,
+        "after": 0.962
+      },
+      "hud_p50_ms": {
+        "before": 0.739,
+        "after": 0.296
+      }
+    },
+    {
+      "scenario": "floor",
+      "first_world_draw_ms": {
+        "before": 161.879,
+        "after": 49.746
+      },
+      "world_draw_p50_ms": {
+        "before": 2.018,
+        "after": 1.33
+      },
+      "hud_p50_ms": {
+        "before": 0.736,
+        "after": 0.291
+      }
+    },
+    {
+      "scenario": "skills",
+      "first_world_draw_ms": {
+        "before": 1004.301,
+        "after": 184.513
+      },
+      "world_draw_p50_ms": {
+        "before": 1.666,
+        "after": 1.035
+      },
+      "hud_updates": {
+        "before": 2,
+        "after": 2
+      },
+      "hud_scope": "Paused modal only refreshes HUD on changes; two startup samples are not a steady-state median."
+    }
+  ],
+  "scenarios": {
+    "final-town": {
+      "label": "final-town",
+      "wall_s": 13.67,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 210.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 1.382,
+      "process_ms": 32.798,
+      "frames": {
+        "n": 344,
+        "mean": 33.26,
+        "p50": 33.33,
+        "p95": 33.487,
+        "p99": 33.809,
+        "max": 36.758
+      },
+      "warm_frames": {
+        "n": 216,
+        "mean": 33.333,
+        "p50": 33.331,
+        "p95": 33.514,
+        "p99": 33.809,
+        "max": 36.758
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 286.869,
+          "p50": 286.869,
+          "p95": 286.869,
+          "p99": 286.869,
+          "max": 286.869
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 27.376,
+          "p50": 27.376,
+          "p95": 27.376,
+          "p99": 27.376,
+          "max": 27.376
+        },
+        "hud_ms": {
+          "n": 361,
+          "mean": 0.371,
+          "p50": 0.296,
+          "p95": 0.349,
+          "p99": 0.418,
+          "max": 28.135
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 61.134,
+          "p50": 61.134,
+          "p95": 61.134,
+          "p99": 61.134,
+          "max": 61.134
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 55.417,
+          "p50": 55.417,
+          "p95": 55.417,
+          "p99": 55.417,
+          "max": 55.417
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.02,
+          "p50": 0.021,
+          "p95": 0.023,
+          "p99": 0.026,
+          "max": 0.028
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.233,
+          "p50": 0.229,
+          "p95": 0.269,
+          "p99": 0.319,
+          "max": 0.43
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 530.036,
+          "p50": 530.036,
+          "p95": 530.036,
+          "p99": 530.036,
+          "max": 530.036
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 7.579,
+          "p50": 7.579,
+          "p95": 7.579,
+          "p99": 7.579,
+          "max": 7.579
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.517,
+          "p50": 0.962,
+          "p95": 1.084,
+          "p99": 1.241,
+          "max": 187.813
+        }
+      },
+      "first_world_draw_ms": 187.813
+    },
+    "final-floor": {
+      "label": "final-floor",
+      "wall_s": 13.65,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 274.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 1.97,
+      "process_ms": 32.086,
+      "frames": {
+        "n": 345,
+        "mean": 33.262,
+        "p50": 33.323,
+        "p95": 33.506,
+        "p99": 33.671,
+        "max": 36.783
+      },
+      "warm_frames": {
+        "n": 214,
+        "mean": 33.333,
+        "p50": 33.32,
+        "p95": 33.506,
+        "p99": 33.701,
+        "max": 36.783
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 293.462,
+          "p50": 293.462,
+          "p95": 293.462,
+          "p99": 293.462,
+          "max": 293.462
+        },
+        "enter_map_ms": {
+          "n": 2,
+          "mean": 15.838,
+          "p50": 4.274,
+          "p95": 4.274,
+          "p99": 4.274,
+          "max": 27.402
+        },
+        "hud_ms": {
+          "n": 363,
+          "mean": 0.36,
+          "p50": 0.291,
+          "p95": 0.337,
+          "p99": 0.385,
+          "max": 27.466
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 60.837,
+          "p50": 60.837,
+          "p95": 60.837,
+          "p99": 60.837,
+          "max": 60.837
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 55.044,
+          "p50": 55.044,
+          "p95": 55.044,
+          "p99": 55.044,
+          "max": 55.044
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.02,
+          "p50": 0.021,
+          "p95": 0.024,
+          "p99": 0.028,
+          "max": 0.067
+        },
+        "main_process_ms": {
+          "n": 345,
+          "mean": 0.202,
+          "p50": 0.202,
+          "p95": 0.232,
+          "p99": 0.269,
+          "max": 0.31
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 536.952,
+          "p50": 536.952,
+          "p95": 536.952,
+          "p99": 536.952,
+          "max": 536.952
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 7.3,
+          "p50": 7.3,
+          "p95": 7.3,
+          "p99": 7.3,
+          "max": 7.3
+        },
+        "world_draw_ms": {
+          "n": 346,
+          "mean": 1.474,
+          "p50": 1.33,
+          "p95": 1.48,
+          "p99": 1.624,
+          "max": 49.746
+        }
+      },
+      "first_world_draw_ms": 49.746
+    },
+    "final-skills": {
+      "label": "final-skills",
+      "wall_s": 13.73,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 322.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.052,
+      "process_ms": 33.262,
+      "frames": {
+        "n": 344,
+        "mean": 33.279,
+        "p50": 33.332,
+        "p95": 33.418,
+        "p99": 33.56,
+        "max": 34.391
+      },
+      "warm_frames": {
+        "n": 219,
+        "mean": 33.333,
+        "p50": 33.333,
+        "p95": 33.429,
+        "p99": 33.551,
+        "max": 34.391
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 291.145,
+          "p50": 291.145,
+          "p95": 291.145,
+          "p99": 291.145,
+          "max": 291.145
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 26.787,
+          "p50": 26.787,
+          "p95": 26.787,
+          "p99": 26.787,
+          "max": 26.787
+        },
+        "hud_ms": {
+          "n": 2,
+          "mean": 13.796,
+          "p50": 0.278,
+          "p95": 0.278,
+          "p99": 0.278,
+          "max": 27.315
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 59.871,
+          "p50": 59.871,
+          "p95": 59.871,
+          "p99": 59.871,
+          "max": 59.871
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 54.699,
+          "p50": 54.699,
+          "p95": 54.699,
+          "p99": 54.699,
+          "max": 54.699
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.009,
+          "p50": 0.01,
+          "p95": 0.011,
+          "p99": 0.013,
+          "max": 0.016
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.276,
+          "p50": 0.276,
+          "p95": 0.309,
+          "p99": 0.346,
+          "max": 0.378
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 531.657,
+          "p50": 531.657,
+          "p95": 531.657,
+          "p99": 531.657,
+          "max": 531.657
+        },
+        "skills_toggle_ms": {
+          "n": 1,
+          "mean": 72.216,
+          "p50": 72.216,
+          "p95": 72.216,
+          "p99": 72.216,
+          "max": 72.216
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 6.994,
+          "p50": 6.994,
+          "p95": 6.994,
+          "p99": 6.994,
+          "max": 6.994
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.575,
+          "p50": 1.035,
+          "p95": 1.181,
+          "p99": 1.308,
+          "max": 184.513
+        }
+      },
+      "first_world_draw_ms": 184.513
+    },
+    "final-bag": {
+      "label": "final-bag",
+      "wall_s": 13.71,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 272.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.045,
+      "process_ms": 33.297,
+      "frames": {
+        "n": 344,
+        "mean": 33.258,
+        "p50": 33.333,
+        "p95": 33.419,
+        "p99": 33.499,
+        "max": 34.263
+      },
+      "warm_frames": {
+        "n": 218,
+        "mean": 33.333,
+        "p50": 33.333,
+        "p95": 33.41,
+        "p99": 33.476,
+        "max": 33.599
+      },
+      "timings": {
+        "bag_toggle_ms": {
+          "n": 1,
+          "mean": 68.604,
+          "p50": 68.604,
+          "p95": 68.604,
+          "p99": 68.604,
+          "max": 68.604
+        },
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 292.307,
+          "p50": 292.307,
+          "p95": 292.307,
+          "p99": 292.307,
+          "max": 292.307
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 28.891,
+          "p50": 28.891,
+          "p95": 28.891,
+          "p99": 28.891,
+          "max": 28.891
+        },
+        "hud_ms": {
+          "n": 3,
+          "mean": 32.331,
+          "p50": 28.459,
+          "p95": 28.459,
+          "p99": 28.459,
+          "max": 68.216
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 63.407,
+          "p50": 63.407,
+          "p95": 63.407,
+          "p99": 63.407,
+          "max": 63.407
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 54.437,
+          "p50": 54.437,
+          "p95": 54.437,
+          "p99": 54.437,
+          "max": 54.437
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.009,
+          "p50": 0.009,
+          "p95": 0.011,
+          "p99": 0.013,
+          "max": 0.023
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.276,
+          "p50": 0.275,
+          "p95": 0.302,
+          "p99": 0.33,
+          "max": 0.373
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 533.269,
+          "p50": 533.269,
+          "p95": 533.269,
+          "p99": 533.269,
+          "max": 533.269
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 7.009,
+          "p50": 7.009,
+          "p95": 7.009,
+          "p99": 7.009,
+          "max": 7.009
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.574,
+          "p50": 1.009,
+          "p95": 1.158,
+          "p99": 1.298,
+          "max": 189.445
+        }
+      },
+      "first_world_draw_ms": 189.445
+    },
+    "final-codex": {
+      "label": "final-codex",
+      "wall_s": 14.44,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 258.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.05,
+      "process_ms": 33.261,
+      "frames": {
+        "n": 344,
+        "mean": 33.257,
+        "p50": 33.333,
+        "p95": 33.378,
+        "p99": 33.427,
+        "max": 33.484
+      },
+      "warm_frames": {
+        "n": 238,
+        "mean": 33.333,
+        "p50": 33.332,
+        "p95": 33.378,
+        "p99": 33.427,
+        "max": 33.484
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 292.881,
+          "p50": 292.881,
+          "p95": 292.881,
+          "p99": 292.881,
+          "max": 292.881
+        },
+        "codex_toggle_ms": {
+          "n": 1,
+          "mean": 732.664,
+          "p50": 732.664,
+          "p95": 732.664,
+          "p99": 732.664,
+          "max": 732.664
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 27.668,
+          "p50": 27.668,
+          "p95": 27.668,
+          "p99": 27.668,
+          "max": 27.668
+        },
+        "hud_ms": {
+          "n": 2,
+          "mean": 14.166,
+          "p50": 0.315,
+          "p95": 0.315,
+          "p99": 0.315,
+          "max": 28.017
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 61.461,
+          "p50": 61.461,
+          "p95": 61.461,
+          "p99": 61.461,
+          "max": 61.461
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 54.011,
+          "p50": 54.011,
+          "p95": 54.011,
+          "p99": 54.011,
+          "max": 54.011
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.009,
+          "p50": 0.009,
+          "p95": 0.011,
+          "p99": 0.013,
+          "max": 0.096
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.278,
+          "p50": 0.277,
+          "p95": 0.315,
+          "p99": 0.349,
+          "max": 0.358
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 534.395,
+          "p50": 534.395,
+          "p95": 534.395,
+          "p99": 534.395,
+          "max": 534.395
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 7.376,
+          "p50": 7.376,
+          "p95": 7.376,
+          "p99": 7.376,
+          "max": 7.376
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.556,
+          "p50": 1.012,
+          "p95": 1.122,
+          "p99": 1.171,
+          "max": 185.376
+        }
+      },
+      "first_world_draw_ms": 185.376
+    },
+    "final-active": {
+      "label": "final-active",
+      "wall_s": 13.65,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 206.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.973,
+      "process_ms": 32.562,
+      "frames": {
+        "n": 344,
+        "mean": 33.261,
+        "p50": 33.329,
+        "p95": 33.512,
+        "p99": 33.768,
+        "max": 35.912
+      },
+      "warm_frames": {
+        "n": 216,
+        "mean": 33.334,
+        "p50": 33.331,
+        "p95": 33.508,
+        "p99": 33.713,
+        "max": 35.912
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 294.043,
+          "p50": 294.043,
+          "p95": 294.043,
+          "p99": 294.043,
+          "max": 294.043
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 28.111,
+          "p50": 28.111,
+          "p95": 28.111,
+          "p99": 28.111,
+          "max": 28.111
+        },
+        "hud_ms": {
+          "n": 361,
+          "mean": 0.294,
+          "p50": 0.236,
+          "p95": 0.289,
+          "p99": 0.371,
+          "max": 20.518
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 53.34,
+          "p50": 53.34,
+          "p95": 53.34,
+          "p99": 53.34,
+          "max": 53.34
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 53.789,
+          "p50": 53.789,
+          "p95": 53.789,
+          "p99": 53.789,
+          "max": 53.789
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.021,
+          "p50": 0.021,
+          "p95": 0.024,
+          "p99": 0.03,
+          "max": 0.146
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.237,
+          "p50": 0.232,
+          "p95": 0.271,
+          "p99": 0.333,
+          "max": 0.414
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 524.748,
+          "p50": 524.748,
+          "p95": 524.748,
+          "p99": 524.748,
+          "max": 524.748
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 2.42,
+          "p50": 2.42,
+          "p95": 2.42,
+          "p99": 2.42,
+          "max": 2.42
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.52,
+          "p50": 0.966,
+          "p95": 1.094,
+          "p99": 1.309,
+          "max": 187.84
+        }
+      },
+      "first_world_draw_ms": 187.84
+    },
+    "final-active-bag": {
+      "label": "final-active-bag",
+      "wall_s": 13.77,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 220.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.047,
+      "process_ms": 33.307,
+      "frames": {
+        "n": 344,
+        "mean": 33.257,
+        "p50": 33.333,
+        "p95": 33.383,
+        "p99": 33.47,
+        "max": 33.901
+      },
+      "warm_frames": {
+        "n": 218,
+        "mean": 33.333,
+        "p50": 33.333,
+        "p95": 33.383,
+        "p99": 33.47,
+        "max": 33.901
+      },
+      "timings": {
+        "bag_toggle_ms": {
+          "n": 1,
+          "mean": 50.348,
+          "p50": 50.348,
+          "p95": 50.348,
+          "p99": 50.348,
+          "max": 50.348
+        },
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 303.297,
+          "p50": 303.297,
+          "p95": 303.297,
+          "p99": 303.297,
+          "max": 303.297
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 28.277,
+          "p50": 28.277,
+          "p95": 28.277,
+          "p99": 28.277,
+          "max": 28.277
+        },
+        "hud_ms": {
+          "n": 3,
+          "mean": 23.664,
+          "p50": 20.727,
+          "p95": 20.727,
+          "p99": 20.727,
+          "max": 50.014
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 53.854,
+          "p50": 53.854,
+          "p95": 53.854,
+          "p99": 53.854,
+          "max": 53.854
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 57.183,
+          "p50": 57.183,
+          "p95": 57.183,
+          "p99": 57.183,
+          "max": 57.183
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.009,
+          "p50": 0.01,
+          "p95": 0.011,
+          "p99": 0.013,
+          "max": 0.015
+        },
+        "main_process_ms": {
+          "n": 344,
+          "mean": 0.277,
+          "p50": 0.276,
+          "p95": 0.307,
+          "p99": 0.333,
+          "max": 0.401
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 541.829,
+          "p50": 541.829,
+          "p95": 541.829,
+          "p99": 541.829,
+          "max": 541.829
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 2.686,
+          "p50": 2.686,
+          "p95": 2.686,
+          "p99": 2.686,
+          "max": 2.686
+        },
+        "world_draw_ms": {
+          "n": 345,
+          "mean": 1.543,
+          "p50": 0.994,
+          "p95": 1.096,
+          "p99": 1.341,
+          "max": 187.281
+        }
+      },
+      "first_world_draw_ms": 187.281
+    },
+    "final-active-skills": {
+      "label": "final-active-skills",
+      "wall_s": 13.82,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 320.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 0.054,
+      "process_ms": 33.3,
+      "frames": {
+        "n": 2110,
+        "mean": 5.442,
+        "p50": 2.044,
+        "p95": 33.335,
+        "p99": 33.385,
+        "max": 33.674
+      },
+      "warm_frames": {
+        "n": 220,
+        "mean": 33.333,
+        "p50": 33.333,
+        "p95": 33.413,
+        "p99": 33.456,
+        "max": 33.674
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 281.111,
+          "p50": 281.111,
+          "p95": 281.111,
+          "p99": 281.111,
+          "max": 281.111
+        },
+        "enter_map_ms": {
+          "n": 1,
+          "mean": 27.996,
+          "p50": 27.996,
+          "p95": 27.996,
+          "p99": 27.996,
+          "max": 27.996
+        },
+        "hud_ms": {
+          "n": 2,
+          "mean": 9.962,
+          "p50": 0.228,
+          "p95": 0.228,
+          "p99": 0.228,
+          "max": 19.695
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 51.807,
+          "p50": 51.807,
+          "p95": 51.807,
+          "p99": 51.807,
+          "max": 51.807
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 54.727,
+          "p50": 54.727,
+          "p95": 54.727,
+          "p99": 54.727,
+          "max": 54.727
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.007,
+          "p50": 0.009,
+          "p95": 0.011,
+          "p99": 0.012,
+          "max": 0.017
+        },
+        "main_process_ms": {
+          "n": 2110,
+          "mean": 0.128,
+          "p50": 0.108,
+          "p95": 0.276,
+          "p99": 0.294,
+          "max": 0.456
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 507.471,
+          "p50": 507.471,
+          "p95": 507.471,
+          "p99": 507.471,
+          "max": 507.471
+        },
+        "skills_toggle_ms": {
+          "n": 1,
+          "mean": 75.088,
+          "p50": 75.088,
+          "p95": 75.088,
+          "p99": 75.088,
+          "max": 75.088
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 2.197,
+          "p50": 2.197,
+          "p95": 2.197,
+          "p99": 2.197,
+          "max": 2.197
+        },
+        "world_draw_ms": {
+          "n": 2111,
+          "mean": 0.826,
+          "p50": 0.7,
+          "p95": 1.014,
+          "p99": 1.085,
+          "max": 195.026
+        }
+      },
+      "first_world_draw_ms": 195.026
+    },
+    "final-active-combat": {
+      "label": "final-active-combat",
+      "wall_s": 13.57,
+      "gpu": "NVIDIA GeForce RTX 4070 SUPER",
+      "draw_calls": 247.0,
+      "window_size": [
+        1920,
+        1061
+      ],
+      "viewport_size": [
+        1600.0,
+        900.0
+      ],
+      "physics_ms": 1.359,
+      "process_ms": 32.222,
+      "frames": {
+        "n": 1084,
+        "mean": 10.619,
+        "p50": 2.394,
+        "p95": 33.433,
+        "p99": 34.052,
+        "max": 37.49
+      },
+      "warm_frames": {
+        "n": 214,
+        "mean": 33.333,
+        "p50": 33.33,
+        "p95": 33.512,
+        "p99": 33.67,
+        "max": 35.676
+      },
+      "timings": {
+        "build_interface_ms": {
+          "n": 1,
+          "mean": 286.505,
+          "p50": 286.505,
+          "p95": 286.505,
+          "p99": 286.505,
+          "max": 286.505
+        },
+        "enter_map_ms": {
+          "n": 3,
+          "mean": 11.614,
+          "p50": 3.966,
+          "p95": 3.966,
+          "p99": 3.966,
+          "max": 27.04
+        },
+        "hud_ms": {
+          "n": 407,
+          "mean": 0.259,
+          "p50": 0.225,
+          "p95": 0.252,
+          "p99": 0.278,
+          "max": 19.923
+        },
+        "join_game_ms": {
+          "n": 1,
+          "mean": 60.284,
+          "p50": 60.284,
+          "p95": 60.284,
+          "p99": 60.284,
+          "max": 60.284
+        },
+        "load_art_ms": {
+          "n": 1,
+          "mean": 52.865,
+          "p50": 52.865,
+          "p95": 52.865,
+          "p99": 52.865,
+          "max": 52.865
+        },
+        "main_physics_ms": {
+          "n": 359,
+          "mean": 0.103,
+          "p50": 0.025,
+          "p95": 0.892,
+          "p99": 1.179,
+          "max": 3.73
+        },
+        "main_process_ms": {
+          "n": 1084,
+          "mean": 0.126,
+          "p50": 0.099,
+          "p95": 0.208,
+          "p99": 0.225,
+          "max": 0.273
+        },
+        "ready_ms": {
+          "n": 1,
+          "mean": 520.06,
+          "p50": 520.06,
+          "p95": 520.06,
+          "p99": 520.06,
+          "max": 520.06
+        },
+        "slot_summary_ms": {
+          "n": 1,
+          "mean": 3.71,
+          "p50": 3.71,
+          "p95": 3.71,
+          "p99": 3.71,
+          "max": 3.71
+        },
+        "world_draw_ms": {
+          "n": 1085,
+          "mean": 1.096,
+          "p50": 0.988,
+          "p95": 1.417,
+          "p99": 1.578,
+          "max": 52.149
+        }
+      },
+      "first_world_draw_ms": 52.149
+    }
+  },
+  "prepared_rgba": {
+    "sheets": 41,
+    "checks": 247,
+    "all_legacy_rgba_bytes_equal": true,
+    "legacy_key_ms": 10810.36,
+    "prepared_decode_ms": 658.172,
+    "scope": "Headless CPU-side keying versus gzip decode/ImageTexture creation; this is not GPU upload bandwidth."
+  },
+  "prop_geometry": {
+    "props": 152,
+    "original_us": 384.522222222222,
+    "cached_us": 69.7444444444444,
+    "retained_map_prop_ratio": 0.55184157859626,
+    "scope": "Same 152 props isolate CPU geometry caching; retained ratio comes from 102 map checks."
+  }
+}

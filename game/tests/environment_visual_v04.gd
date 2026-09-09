@@ -21,7 +21,8 @@ class Gallery extends Node2D:
 			var foot=at+Vector2(cell.x*.5,cell.y-34)
 			draw_texture_rect(row.texture,Rect2(foot-row.foot*scale,row.texture.get_size()*scale),false)
 			draw_string(font,at+Vector2(5,cell.y-11),row.id,HORIZONTAL_ALIGNMENT_LEFT,cell.x-10,11,Color("284938"))
-func _initialize():run.call_deferred()
+func _initialize():
+	run.call_deferred()
 func capture(name:String):
 	await create_timer(.18).timeout;await process_frame;await RenderingServer.frame_post_draw
 	var image=root.get_texture().get_image()
@@ -38,6 +39,8 @@ func map_view(zone:String,floor_number:int=0,at_boss:bool=false):
 	game.visual_time=2.;game.set_process(false);game.forest.update_camera(1.)
 	game.queue_redraw();await capture("environment-v04-"+("boss-" if at_boss else "")+(str(floor_number) if floor_number>0 else zone))
 func run():
+	# Full HD client area, independent of desktop title-bar constraints.
+	root.borderless=true;root.size=Vector2i(1920,1080)
 	Env.initialize();Art.dungeon_initialize()
 	game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/environment-visual-v04/"+str(Time.get_ticks_usec()))

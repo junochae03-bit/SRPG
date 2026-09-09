@@ -67,6 +67,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:
 		if int(saved.get("schema_version",0))>=7 and saved.has(key):p[key]=saved[key]
 	Content.migrate_skills(p)
+	preload("res://scripts/wardrobe.gd").normalize(p,saved)
 	Progression.initialize(p)
 	if int(saved.get("schema_version",0))<3:p.bag_positions={}
 	combat.initialize(p)
@@ -78,6 +79,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:result[key]=players[id][key]
 	for key in ["name","level","xp","gold","potions","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
 		result[key] = players[id][key]
@@ -283,14 +285,20 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		notice(id,"스킬 포인트를 돌려받았습니다. "+Content.CLASSES[p.class_id].name)
 		return true
 	if kind=="costume":
-		if argument not in Content.costume_options(p.class_id):return false
+		if argument not in preload("res://scripts/wardrobe.gd").owned_costumes(p):return false
 		p.costume=argument
 		dirty[id]=true
 		return true
 	if kind=="avatar":
-		if argument not in Content.avatar_options(p.class_id):return false
+		if argument not in preload("res://scripts/wardrobe.gd").owned_avatars(p):return false
 		p.avatar=argument;p.costume="none";dirty[id]=true
 		return true
+	if kind in ["buy_appearance","wear_appearance"]:
+		if map.zone!="town" or preload("res://scripts/world_catalog.gd").nearest(p.pos)!="shop":return false
+		var wardrobe=preload("res://scripts/wardrobe.gd")
+		var accepted=wardrobe.purchase(p,argument) if kind=="buy_appearance" else wardrobe.equip(p,argument)
+		if accepted:dirty[id]=true
+		return accepted
 	if kind=="claim_starters":
 		if not map.in_town(p.pos) or p.training_given:return false
 		var staged=p.duplicate(true)

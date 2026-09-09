@@ -116,7 +116,7 @@ func _process(_delta):
 func refresh(force=false):
 	var p=player()
 	if p.is_empty() or get_viewport().gui_is_dragging():return
-	var next=JSON.stringify([p.inventory,p.equipment,p.bag_positions,p.materials,p.potions,p.class_id,p.costume,p.get("avatar","auto"),p.level,p.hp,p.gold,p.skill_ranks,p.stats,selected_id,filter_index])
+	var next=JSON.stringify([p.inventory,p.equipment,p.bag_positions,p.materials,p.potions,p.class_id,p.costume,p.get("avatar","auto"),p.get("owned_appearances",[]),preload("res://scripts/sprite_names.gd").revision,p.level,p.hp,p.gold,p.skill_ranks,p.stats,selected_id,filter_index])
 	if not force and next==signature:return
 	signature=next;grid.rebuild()
 	for slot in equipment_controls:
@@ -153,17 +153,21 @@ func refresh(force=false):
 		primary.text="장착 해제" if Inventory.is_equipped(p,selected_id) else "장착하기"
 		Library.attach(primary,"unequip" if Inventory.is_equipped(p,selected_id) else "locked" if primary.disabled else "equip",22)
 	elif item.category=="consumable":
-		detail_body.text="생명력 %d 회복\n보유 %d개 / 최대 20개\n재사용 대기 2초\n\n전투 중에는 1키로 빠르게 사용할 수 있습니다." % [60+roundi(p.max_hp*.20)+Content.skill_bonus(p,"potion_power"),item.count];primary.text="물약 사용하기"
+		detail_body.text="생명력 %d 회복\n보유 %d개 / 최대 20개\n재사용 대기 2초" % [60+roundi(p.max_hp*.20)+Content.skill_bonus(p,"potion_power"),item.count];primary.text="물약 사용하기"
 		Library.attach(primary,"consumable",22)
 	else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다.\n\n별씨앗 · 물약 조제\n광석 · 장비 강화\n정수 · 장비 옵션 재련" % item.count
 
 func refresh_appearance(p:Dictionary):
-	var allowed_avatars=Content.avatar_options(p.class_id);var allowed_costumes=Content.costume_options(p.class_id)
-	if avatar_keys!=allowed_avatars:
+	var wardrobe=preload("res://scripts/wardrobe.gd")
+	var allowed_avatars=wardrobe.owned_avatars(p);var allowed_costumes=wardrobe.owned_costumes(p)
+	if avatar_keys!=allowed_avatars or avatar_picker.get_meta("class_id","")!=p.class_id or int(avatar_picker.get_meta("name_revision",-1))!=preload("res://scripts/sprite_names.gd").revision:
 		avatar_keys=allowed_avatars;avatar_picker.clear()
-		for key in avatar_keys:avatar_picker.add_item("기본 · "+("직업에 맞춤" if key=="auto" else Content.AVATARS[key]))
-	if costume_keys!=allowed_costumes:
+		for key in avatar_keys:avatar_picker.add_item(wardrobe.label("base:"+p.class_id if key=="auto" else "avatar:"+key))
+		avatar_picker.set_meta("name_revision",preload("res://scripts/sprite_names.gd").revision)
+		avatar_picker.set_meta("class_id",p.class_id)
+	if costume_keys!=allowed_costumes or int(costume_picker.get_meta("name_revision",-1))!=preload("res://scripts/sprite_names.gd").revision:
 		costume_keys=allowed_costumes;costume_picker.clear()
-		for key in costume_keys:costume_picker.add_item("의상 · "+Content.COSTUMES[key])
+		for key in costume_keys:costume_picker.add_item("직업 기본 외형" if key=="none" else wardrobe.label("costume:"+key))
+		costume_picker.set_meta("name_revision",preload("res://scripts/sprite_names.gd").revision)
 	avatar_picker.select(avatar_keys.find(p.get("avatar","auto")));costume_picker.select(costume_keys.find(p.costume))
 	appearance_status.text="현재 외형 · "+("기본 캐릭터" if p.costume=="none" else "코스튬 착용 중")
