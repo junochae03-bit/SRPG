@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "feature_commit": "46095f71034c261aea21b7f7a52cf6c95cdaea65",
+  "merge_commit": "5eecdba4dc9a9f86ef4088baf592433050035add",
+  "tag_object": "c5f0f78ccdb49c75db6a77022cf6da7280b1ca03",
+  "tag_commit": "5eecdba4dc9a9f86ef4088baf592433050035add",
+  "original_v05_tag_preserved": "505b390cb9e24300f577029237bd8bca7641002c",
+  "original_v051_tag_preserved": "044787e3b2f45828e23777294153579c5f39a3c8",
+  "source_assertions": 374489,
+  "exported_executable_runs": 77,
+  "minimal_client": {
+    "status": "PASS",
+    "target": "D:/SRPG",
+    "runtime_and_notices": 5,
+    "personal_files_unchanged": 6,
+    "previous_version_backup": "기존 실행 파일은 개발 작업 폴더의 별도 복구본으로 보존"
+  },
+  "personal_save_copies": {
+    "status": "PASS",
+    "version": "V0.5.2",
+    "slots": [
+      {
+        "slot": 1,
+        "restored": true,
+        "original_unchanged": true
+      },
+      {
+        "slot": 2,
+        "restored": true,
+        "original_unchanged": true
+      },
+      {
+        "slot": 3,
+        "restored": true,
+        "original_unchanged": true
+      }
+    ],
+    "scope": "배포 실행 파일에서 복사한 기록을 불러온 뒤 주요 영속 필드와 원래 파일 보존을 검사했다. 개인 내용은 이 보고서에 포함하지 않는다."
+  },
+  "database_snapshot": {
+    "stelrpg-database.json": "49007470325231d24b10ae5a396987cf30b3ba067d35f6d50ed4e1531c158478",
+    "stelrpg.sqlite": "42bee50df593f3446197c04749acbf5b88c7cd82bf059e33962be0401fb41104",
+    "schema.sql": "cf5e7d22174ad32b908d3b0b998641f934dbdb4571f5ecc815f8932dc53cf36b",
+    "manifest.json": "e4b949eaa03d66a3ce3b082ac7932810cdf4da3009c87d0259c7c8e977344a4c"
+  },
+  "release": {
+    "assets": [
+      {
+        "name": "SHA256SUMS.txt",
+        "size": 94,
+        "digest": "sha256:d2d090cd918e6929b6d7f7a68fd071d91fe31e31d415c5cc35e4be0c03e3fa9a",
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.2/SHA256SUMS.txt"
+      },
+      {
+        "name": "StelRPG-V0.5.2-Database-SHA256.txt",
+        "size": 95,
+        "digest": "sha256:80a5428636bd6f8c05549656f3f95eaed25e031c870bda64fec62ae4723236c3",
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.2/StelRPG-V0.5.2-Database-SHA256.txt"
+      },
+      {
+        "name": "StelRPG-V0.5.2-Database.zip",
+        "size": 2391789,
+        "digest": "sha256:760f34f87c1770202439121551c5aa39425e1c04cfedc19e1b1d95a53478cf6c",
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.2/StelRPG-V0.5.2-Database.zip"
+      },
+      {
+        "name": "StelRPG-V0.5.2-Windows.zip",
+        "size": 323982653,
+        "digest": "sha256:db36246cc6e61fe24a836ad4f84d15a2b5c31332dc2a815c9c2d30d09083685e",
+        "state": "uploaded",
+        "url": "https://github.com/junochae03-bit/SRPG/releases/download/V0.5.2/StelRPG-V0.5.2-Windows.zip"
+      }
+    ],
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-09-09T19:14:29Z",
+    "tag": "V0.5.2",
+    "target": "main",
+    "url": "https://github.com/junochae03-bit/SRPG/releases/tag/V0.5.2"
+  },
+  "private_save_files_in_assets": false
+}
