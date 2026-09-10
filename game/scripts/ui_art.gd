@@ -15,7 +15,17 @@ static func facility(key:String)->Texture2D:
 		var index=["smith","shop","alchemy","guild","inn","portal"].find(key)
 		var atlas=AtlasTexture.new();atlas.atlas=load(data.facilities);atlas.region=Rect2(index%3*512,int(index/3)*512,512,512);atlas.filter_clip=true;cache[id]=atlas
 	return cache[id]
+static func plain_paper()->Texture2D:
+	if not cache.has("plain_paper"):
+		var paper:AtlasTexture=texture("paper").duplicate()
+		paper.region=paper.region.grow(-128);cache["plain_paper"]=paper
+	return cache["plain_paper"]
 static func decorate(control:Control,kind:String="paper",corner:float=18)->NinePatchRect:
+	if kind=="paper" and control is Button:
+		# Godot's default hover text is white, which disappears on light paper.
+		var ink=control.get_theme_color("font_color")
+		if ink.get_luminance()>.45:ink=Color("29434a")
+		for state in ["font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"]:control.add_theme_color_override(state,ink)
 	var frame=NinePatchRect.new();frame.texture=texture(kind)
 	# Keep the authored paper grain and a narrow rim; oversized corner flourishes
 	# must never compete with labels or dropdown entries.
@@ -58,3 +68,15 @@ static func icon_material(tex:Texture2D)->ShaderMaterial:
 	return null
 static func panel(parent:Node,at:Vector2,dimensions:Vector2,kind:String="paper",corner:float=24)->Control:
 	var surface=Control.new();surface.position=at;surface.size=dimensions;surface.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(surface);decorate(surface,kind,corner);return surface
+
+static func tooltip(game,value:String)->Control:
+	var surface=PanelContainer.new();var inset=StyleBoxTexture.new()
+	# Container children participate in minimum-size layout. A decorative
+	# NinePatch child would inflate this tooltip and cover its text.
+	inset.texture=plain_paper()
+	for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:inset.set_texture_margin(side,6)
+	for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:inset.set_content_margin(side,16)
+	surface.add_theme_stylebox_override("panel",inset)
+	var label=Label.new();label.custom_minimum_size=Vector2(280,0);label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_override("font",game.fonts);label.add_theme_font_size_override("font_size",18);label.add_theme_color_override("font_color",Color("29434a"));label.text=value
+	surface.add_child(label);return surface

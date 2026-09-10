@@ -25,6 +25,7 @@ static func make(type:String,tier:int,rarity:int,id:String,affix:String="none",j
 	if weapon:type=Content.CLASSES[job_id].weapon
 	var prefix=["여행자의","청동","수정","은빛","별자리","심층","화염문양","빙하","성운","마력핵"][tier]
 	var name=prefix+" "+WEAPON_NAMES[job_id] if weapon else prefix+" "+FAMILY_NAMES[family]+"의 "+BASES[type][mini(4,tier/2)]
+	name=preload("res://scripts/content_names.gd").equipment("weapon" if weapon else type,job_id if weapon else family,tier,name)
 	var item={"id":id,"name":name,"base_name":name,"category":"weapon" if weapon else "accessory" if type=="accessory" else "armor","slot":"weapon" if weapon else type,"weapon_type":type if weapon else "sword","bonus":(tier*6+rarity*4+4) if weapon else tier*3+rarity*2+2,"rarity":rarity,"tier":tier,"affix":"none" if rarity==0 else (affix if affix!="none" else "focus"),"upgrade":0,"family":family,"job_lock":job_id if weapon else "","required_level":maxi(1,tier*10),"resonance":["force","reach","echo"][absi(id.hash())%3] if rarity>=3 else ""}
 	return item
 static func normalize(item:Dictionary,p:Dictionary):
@@ -35,6 +36,10 @@ static func normalize(item:Dictionary,p:Dictionary):
 	if not item.has("resonance"):item.resonance="force" if item.rarity>=3 else ""
 	if item.rarity==0:item.affix="none"
 	elif item.rarity<3 and item.get("affix","none")=="none":item.affix="fortune" if item.family=="mage" else "focus"
+	if item.get("category","") in ["weapon","armor","accessory"]:
+		var base=preload("res://scripts/content_names.gd").equipment(str(item.get("slot","weapon")),str(item.job_lock if item.category=="weapon" else item.family),int(item.get("tier",0)),str(item.get("base_name",item.get("name",""))))
+		item.base_name=base
+		item.name=AFFIXES.get(item.get("affix","none"),AFFIXES.none).name+base+(" +"+str(item.upgrade) if int(item.get("upgrade",0))>0 else "")
 static func reason(p:Dictionary,item:Dictionary)->String:
 	if item.get("category","") not in ["weapon","armor","accessory"]:return "장비가 아닙니다."
 	if int(p.get("level",1))<int(item.get("required_level",1)):return "LV.%d부터 착용"%item.required_level

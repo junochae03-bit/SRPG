@@ -16,7 +16,11 @@ func run():
 	for field in ["name","level","xp","gold","potions","equipped","kills","boss_kills","quest_done"]:assert(p[field]==old[field],field)
 	assert(p.inventory.size()==old.inventory.size())
 	for i in range(old.inventory.size()):
-		for field in ["id","name","rarity","bonus"]:assert(p.inventory[i][field]==old.inventory[i][field])
+		for field in ["id","rarity","bonus"]:assert(p.inventory[i][field]==old.inventory[i][field])
+		# 장비 표시명은 현재 카탈로그로 이관되며 소유 ID와 전투 수치는 유지한다.
+		var expected=old.inventory[i].duplicate(true)
+		preload("res://scripts/equipment_catalog.gd").normalize(expected,old)
+		assert(p.inventory[i].name==expected.name,"저장 장비의 현재 카탈로그 이름")
 	assert(p.bag_positions.size()==Inventory.bag_items(p).size())
 	for item in Inventory.bag_items(p):
 		var pos=p.bag_positions[item.id]

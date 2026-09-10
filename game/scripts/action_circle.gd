@@ -1,4 +1,5 @@
 extends Button
+func _make_custom_tooltip(value:String)->Object:return preload("res://scripts/ui_art.gd").tooltip(game,value)
 var game
 var kind=""
 var caption=""

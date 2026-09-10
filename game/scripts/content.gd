@@ -27,6 +27,7 @@ static func initialize_jobs():
 	var data=JSON.parse_string(FileAccess.get_file_as_string("res://data/jobs/catalog.json"))
 	CLASSES.merge(data.classes)
 	SKILLS.merge(data.nodes)
+	preload("res://scripts/content_names.gd").rename_skills(SKILLS)
 	var costumes=preload("res://scripts/costume_art_v04.gd")
 	for key in costumes.ids():COSTUMES[key]=str(costumes.catalog()[key].get("name",key))
 	Build.initialize(SKILLS,CLASSES)

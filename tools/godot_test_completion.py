@@ -13,6 +13,7 @@ skill_build_v04 skill_tree_ui_v04 skill_vfx skills_v01 skills_v04 stagger_ui_v03
 ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v05
 """.split()
 _PLAIN = """
+progression_rewards_v053 codex_cache_v053 dungeon_tactics_v053 combat_polish_v053
 art_registry_v05 combat_feedback_v052 combat_reach_v052 combat_reach_visual_v052
 dungeon_entry_visual_v04 dungeon_variety_v052 dungeon_variety_visual_v052
 enemy_hit_geometry_v05 floor_tiles_v04 floor_tiles_visual_v04 inventory_expansion_v052
@@ -24,6 +25,8 @@ town_renewal_visual_v052 town_services_v052 training_ground_v052
 COUNTED_PREFIXES = {name: name.upper() + "_TESTS" for name in _STANDARD}
 COUNTED_PREFIXES.update({name: name.upper() for name in _PLAIN})
 COUNTED_PREFIXES.update({
+    "content_names": "CONTENT_NAMES",
+    "tree_balance": "TREE_BALANCE",
     "combat": "COMBAT_TESTS",
     "rules": "RULE_TESTS",
     "expansion_v05": "V05_TESTS",

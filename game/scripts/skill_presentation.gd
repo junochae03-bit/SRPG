@@ -12,7 +12,7 @@ const KEY_OUTCOMES={
 	"rogue_contract":["낙인 연계","다른 기술로 낙인 소비"],"rogue_venom":["독 회수","회피로 독 즉시 폭발"],
 	"fighter_flurry":["추적 연타","이동하는 적을 3타"],"fighter_crush":["한 방 압축","총 피해 +20%"]}
 const NOTABLE_OUTCOMES={
-	"followup_damage":"다른 공격 → 피해 +12%","stagger_followup":"다른 기술 → 무력화 +15%","execute_damage":"HP<30% 적 피해 +15%",
+	"followup_damage":"연결 → 대상 피해 +30%","stagger_followup":"연결 → 무력화 +40%","execute_damage":"HP<30% 적 피해 +15%",
 	"efficiency_followup":"다른 기술 → 기력 −10%","mobility_refund":"회피 → 적중 기력 회수","slow_on_followup":"다른 기술 → 적중 감속",
 	"support_followup":"지원 → 공격 피해 +15%","guard_on_followup":"다른 기술 → 적중 보호막","control_damage":"감속·속박 적 피해 +15%","heal_on_followup":"다른 기술 → 적중 회복"}
 const UPGRADE_LABELS={
@@ -52,6 +52,10 @@ const MODE_LABELS={
 static func mode(node:Dictionary)->String:
 	return str(Scaling.LEGACY.get(node.id,node.get("icon_node",node)).get("mode","fan"))
 static func active(node:Dictionary)->bool:return node.get("effect","")=="active"
+static func role(node:Dictionary)->String:
+	return str(node.get("node_kind","active" if active(node) else "active_module" if node.get("effect","")=="upgrade" else "character_passive" if node.get("type","") in ["notable","keystone"] else "stat_passive"))
+static func role_caption(node:Dictionary)->String:
+	return {"active":"사용 기술","active_module":"기술 강화","character_passive":"행동 변화","stat_passive":"능력치"}[role(node)]
 static func key_effect(node:Dictionary)->String:
 	for key in node.get("effects",{}):
 		if KEY_OUTCOMES.has(key):return key

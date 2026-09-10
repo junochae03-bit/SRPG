@@ -63,9 +63,10 @@ func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;surface.add_child(game);await process_frame
 	var session=game.session;session.save_directory=test_directory+"/client";game.join_game();session.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false)
 	var p=session.sim.players[1];p.level=100;p.tutorial_done=true;session.travel("town");p=session.sim.players[1];empty_bag(p)
+	var names=preload("res://scripts/content_names.gd");var saved_name=names.data.equipment["chest:warrior:1"]
+	names.data.equipment["chest:warrior:1"]="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국의 마력 갑옷"
 	var old=E.make("chest",1,1,"compare-current","focus","warrior");old.upgrade=2
 	var choice=E.make("chest",1,1,"compare-new","fortune","warrior");choice.upgrade=2
-	choice.name="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국의 마력 갑옷"
 	check(I.add_gear(p,old) and I.equip(p,old.id) and I.add_gear(p,choice),"comparison fixture retains worn and candidate armor")
 	check(I.move_item(p,choice.id,Vector2i(9,11),false),"최초 열기에서 선택할 장비를 실제 마지막 칸에 배치")
 	for index in range(65):check(I.add_gear(p,E.make("head",0,0,"client-%d"%index,"none","warrior")),"client expanded item "+str(index))
@@ -129,5 +130,6 @@ func run():
 	check(p.bag_positions["client-0"].x==9 and p.bag_positions["client-0"].y==11,"actual drop persists last expanded cell: actual=%s at=%s"%[p.bag_positions["client-0"],destination])
 	session.save_game();var restored=session.parse_save(session.save_path());check(restored!=null and restored.bag_positions["client-0"]==p.bag_positions["client-0"],"actual moved item survives save/load parsing")
 	await capture("last-cell")
+	names.data.equipment["chest:warrior:1"]=saved_name
 	var file=FileAccess.open("res://../artifacts/inventory-expansion-v052.json",FileAccess.WRITE);file.store_string(JSON.stringify({"suite":"inventory_expansion_v052","checks":checks,"failures":failures,"captures":images},"\t"));file.close()
 	game.stop_audio();session.disconnect_game();game.queue_free();await process_frame;await process_frame;print("INVENTORY_EXPANSION_V052 checks=%d failures=%d"%[checks,failures.size()]);quit(0 if failures.is_empty() else 1)

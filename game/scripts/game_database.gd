@@ -14,16 +14,52 @@ const REFERENCE={"damage":100.0,"max_hp":1000,"level":100,"technique":0,"note":"
 static var _cache:Dictionary={}
 static var _art_cache:Dictionary={}
 static var _textures:Dictionary={}
+const CODEX_CACHE="res://data/codex-v053.bin"
+static var cache_origin="none"
 
 static func reset_cache():
-	_cache.clear();_art_cache.clear();_textures.clear()
+	_cache.clear();_art_cache.clear();_textures.clear();cache_origin="none"
 
-static func snapshot(include_art:bool=false)->Dictionary:
+static func snapshot(include_art:bool=false,use_prepared:bool=true)->Dictionary:
+	# Prepared rows do not replace the live class/skill definitions used by callers.
+	Content.initialize_jobs()
+	if _cache.is_empty() and use_prepared:
+		_cache=read_prepared(CODEX_CACHE)
+		if not _cache.is_empty():cache_origin="prepared"
+	return _snapshot_live(include_art)
+
+static func digest(bytes:PackedByteArray)->PackedByteArray:
+	var hashing=HashingContext.new();hashing.start(HashingContext.HASH_SHA256);hashing.update(bytes);return hashing.finish()
+
+static func prepared_bytes(data:Dictionary)->PackedByteArray:
+	var raw=var_to_bytes({"format":1,"data":data});var payload=raw.compress(FileAccess.COMPRESSION_ZSTD)
+	var length=PackedByteArray();length.resize(4);length.encode_u32(0,raw.size())
+	return "STDB".to_ascii_buffer()+length+digest(payload)+payload
+
+static func read_prepared(path:String)->Dictionary:
+	if not FileAccess.file_exists(path):return {}
+	var bytes=FileAccess.get_file_as_bytes(path)
+	if bytes.size()<41 or bytes.slice(0,4)!="STDB".to_ascii_buffer():return {}
+	var length=bytes.decode_u32(4)
+	if length<4 or length>64*1024*1024:return {}
+	var payload=bytes.slice(40)
+	if digest(payload)!=bytes.slice(8,40):return {}
+	var raw=payload.decompress(length,FileAccess.COMPRESSION_ZSTD)
+	if raw.size()!=length:return {}
+	var packed=bytes_to_var(raw)
+	if not packed is Dictionary or packed.get("format",0)!=1 or not packed.get("data") is Dictionary:return {}
+	return packed.data
+
+static func _snapshot_live(include_art:bool=false)->Dictionary:
 	if not _cache.is_empty():return _with_art() if include_art else _cache
+	cache_origin="live"
 	Content.initialize_jobs()
 	if Build.nodes_for("warrior").is_empty():Build.initialize(Content.SKILLS,Content.CLASSES)
 	var db={"metadata":{"schema_version":2,"reference":REFERENCE,"drop_note":"기본 드랍은 항목별 독립 판정. 레이드 추가 장비 1개는 기본 드랍과 별도이며 등급 확률 합계만 100%.","build_policy":{"version":Build.BUILD_VERSION,"max_keystones":Build.MAX_KEYSTONES,"point_budget":"level-1, shared with original skill ranks","baseline_allocations":{}}},"classes":[],"equipment":[],"monsters":[],"raids":[],"floors":[],"appearances":[],"drops":[],"raid_drops":[],"skills":[],"skill_parents":[],"skill_ranks":[],"build_nodes":[],"constellations":[],"constellation_edges":[],"exclusive_groups":[],"effect_definitions":[],"constellation_effects":[],"constellation_exclusions":[]}
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
+	db["build_concepts"]=[]
+	db.metadata["node_role_version"]=1
+	db.metadata["character_balance"]={"revision":"tree-2026-09-10","status":"runtime_applied","roles":Jobs.ROLES,"minor_values":preload("res://scripts/constellation_catalog.gd").MINORS,"measurement":"docs/CHARACTER_BALANCE.ko.md"}
 	for class_id in class_ids:
 		var c=Content.CLASSES[class_id].duplicate(true)
 		c.merge({"id":class_id,"family":Content.base_class(class_id),"family_name":Equipment.FAMILY_NAMES[Content.base_class(class_id)]},true);db.classes.append(c)
@@ -78,13 +114,17 @@ static func snapshot(include_art:bool=false)->Dictionary:
 			var s=node.duplicate(true)
 			s.merge({"class_id":class_id,"class_name":Content.CLASSES[class_id].name,"family":Content.base_class(class_id),"node":node.duplicate(true),"max_rank":Content.max_rank(node),"asset":_texture_ref(preload("res://scripts/icon_art.gd").skill(node)),"ranks":[],"subtitle":Content.CLASSES[class_id].name+" · "+("액티브" if node.effect=="active" else "강화" if node.effect=="upgrade" else "패시브")},true)
 			for parent_id in node.parents:db.skill_parents.append({"skill_id":node.id,"parent_id":parent_id,"required_rank":int(node.get("required_rank",1)),"mode":node.get("parent_mode","any")})
+			var role=Build.definition(str(node.id))
+			for key in ["node_kind","node_kind_name","target_active_id","effect_scope","concept_id"]:s[key]=role[key]
+			s.subtitle=Content.CLASSES[class_id].name+" · "+role.node_kind_name
 			for rank in range(1,s.max_rank+1):
 				var r=_skill_rank(class_id,node,rank);s.ranks.append(r);db.skill_ranks.append(r)
 			db.skills.append(s)
 	var groups={};var effect_ids={}
 	for class_id in class_ids:
 		for n in Build.nodes_for(class_id):
-			db.build_nodes.append({"id":n.id,"class_id":class_id,"type":n.type,"cost":n.cost,"max_rank":n.max_rank,"required_level":int(n.get("level",1)),"exclusive_group":n.exclusive_group})
+			db.build_nodes.append({"id":n.id,"class_id":class_id,"type":n.type,"cost":n.cost,"max_rank":n.max_rank,"required_level":int(n.get("level",1)),"exclusive_group":n.exclusive_group,"node_kind":n.node_kind,"target_active_id":n.target_active_id,"effect_scope":n.effect_scope,"concept_id":n.concept_id})
+			if n.type=="keystone":db.build_concepts.append({"id":n.concept_id,"class_id":class_id,"cluster":n.cluster,"name":n.cluster_name,"description":n.effects_text,"tradeoff":n.tradeoff})
 			if n.type=="original":continue
 			var row=n.duplicate(true)
 			row["node"]=n.duplicate(true);row["class_name"]=Content.CLASSES[class_id].name;row["asset"]=_texture_ref(preload("res://scripts/icon_art.gd").skill(n));row["subtitle"]=Content.CLASSES[class_id].name+" · "+n.cluster_name+" · %dSP"%n.cost
@@ -349,7 +389,7 @@ static func _append_world_rules(db:Dictionary):
 						var gear=Equipment.make("head",0,rarity,"@db-gear","none","warrior");gear["upgrade"]=upgrade
 						p.inventory=[gear]
 						_service_sample(db,key,p,{"quantity":1,"item":gear.id},{"rarity":rarity,"upgrade":upgrade})
-			elif parts[1]=="resupply":
+			elif parts[1] in Town.INN_RESUPPLY_TARGETS:
 				if quantity!=1:continue
 				for potions in range(Inv.MAX_POTIONS+1):
 					p.potions=potions;_service_sample(db,key,p,{"quantity":1},{"potions":potions})

@@ -12,13 +12,14 @@ for name,entry in manifest['files'].items():
     assert hashlib.sha256(file.read_bytes()).hexdigest()==entry['sha256'],name
 with sqlite3.connect((source/'stelrpg.sqlite').as_uri()+'?mode=ro',uri=True) as connection:
     assert connection.execute('PRAGMA integrity_check').fetchone()[0]=='ok'
+    assert connection.execute('PRAGMA user_version').fetchone()[0]==manifest['schema_version']
     assert not connection.execute('PRAGMA foreign_key_check').fetchall()
 prefix='StelRPG-'+VERSION+'-Database'
 out=ROOT/'releases'/VERSION;out.mkdir(parents=True,exist_ok=True)
 archive=out/(prefix+'.zip')
 files={name:source/name for name in ['stelrpg.sqlite','stelrpg-database.json','schema.sql','queries.sql','manifest.json']}
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as package:
-    guides=['GAME_DATABASE.ko.md','ASSET_REGISTRY_V05.ko.md','DB_MANAGEMENT.ko.md','DB_CONTRACT_V052.ko.md','DB_WORLD_RULES_IMPLEMENTATION_V052.ko.md']
+    guides=['GAME_DATABASE.ko.md','ASSET_REGISTRY_V05.ko.md','DB_MANAGEMENT.ko.md','DB_CONTRACT_V052.ko.md','DB_WORLD_RULES_IMPLEMENTATION_V052.ko.md','DB_CONTRACT_V053.ko.md','CHARACTER_BALANCE.ko.md']
     for name in guides:package.write(ROOT/'docs'/name,prefix+'/'+name)
     for name,path in files.items():package.write(path,prefix+'/database/'+name)
 with zipfile.ZipFile(archive) as package:

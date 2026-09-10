@@ -22,16 +22,17 @@ func setup(owner_game):
 	game.slot_summary=game.label(self,"",Vector2(820,713),Vector2(490,36),19,Color("fff3d6"));game.slot_summary.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	game.slot_summary.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;game.slot_summary.clip_text=true
 	game.slot_summary.add_theme_color_override("font_shadow_color",Color("402616"));game.slot_summary.add_theme_constant_override("shadow_offset_y",2)
-	game.start_button=wood_button("모험 시작",Vector2(836,483),Vector2(467,62),game.begin_adventure,27)
-	wood_button("설정",Vector2(836,551),Vector2(467,62),game.toggle_settings,23)
-	wood_button("종료",Vector2(836,619),Vector2(467,59),game.finish_run,23)
+	game.start_button=wood_button("모험 시작",Vector2(836,483),Vector2(467,62),game.begin_adventure,26)
+	wood_button("설정",Vector2(836,551),Vector2(467,62),game.toggle_settings,20)
+	wood_button("종료",Vector2(836,619),Vector2(467,59),game.finish_run,20)
 	game.menu_status=game.label(self,"",Vector2(760,761),Vector2(579,54),17,Color("fff1d4"));game.menu_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	game.menu_status.add_theme_color_override("font_outline_color",Color("284538"));game.menu_status.add_theme_constant_override("outline_size",4)
 func wood_button(caption:String,at:Vector2,dimensions:Vector2,callback:Callable,font_size:int=22)->Button:
 	var b=Button.new();b.text=caption;b.position=at;b.size=dimensions;b.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
 	b.add_theme_font_override("font",game.serif);b.add_theme_font_size_override("font_size",font_size)
-	b.add_theme_color_override("font_color",Color("fff3d6"));b.add_theme_color_override("font_hover_color",Color("fffdb2"));b.add_theme_color_override("font_pressed_color",Color("ffdc83"));b.add_theme_color_override("font_focus_color",Color("fffdb2"));b.add_theme_color_override("font_disabled_color",Color("b6aa90"))
-	b.add_theme_color_override("font_outline_color",Color("513020"));b.add_theme_constant_override("outline_size",4)
+	b.add_theme_color_override("font_color",Color("f5e8cf"));b.add_theme_color_override("font_hover_color",Color("fff8e7"));b.add_theme_color_override("font_pressed_color",Color("e9ce9e"));b.add_theme_color_override("font_focus_color",Color("fff8e7"));b.add_theme_color_override("font_disabled_color",Color("b6aa90"))
+	b.add_theme_color_override("font_outline_color",Color("69482e"));b.add_theme_constant_override("outline_size",1)
+	b.add_theme_color_override("font_shadow_color",Color("392b2170"));b.add_theme_constant_override("shadow_offset_y",1)
 	for state in ["normal","hover","pressed","disabled"]:b.add_theme_stylebox_override(state,StyleBoxEmpty.new())
 	var focus=StyleBoxFlat.new();focus.bg_color=Color.TRANSPARENT;focus.border_color=Color("f6d88790");focus.set_border_width_all(1);focus.set_corner_radius_all(6);focus.content_margin_left=7;focus.content_margin_right=7
 	b.add_theme_stylebox_override("focus",focus);b.pressed.connect(callback);add_child(b);return b

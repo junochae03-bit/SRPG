@@ -91,6 +91,18 @@ class ClientInstallTests(unittest.TestCase):
         self.assertIsNone(receipt["retained_stage"])
         self.assertEqual(len(receipt["files"]), 6)
 
+    def test_expanded_inventory_is_copied_without_truncation(self):
+        self.save["inventory"] = [{"id": str(i), "name": "보관 장비", "bonus": 1, "rarity": 0}
+                                  for i in range(127)]
+        self.write(self.source / "slot-1.json", self.save)
+        before = (self.source / "slot-1.json").read_bytes()
+        installer.check_install(self.install())
+        self.assertEqual((self.target / "saves/slot-1.json").read_bytes(), before)
+        self.assertEqual((self.source / "slot-1.json").read_bytes(), before)
+        self.assertTrue(installer.valid_slot(self.save))
+        self.save["inventory"].append({"id": "128", "name": "초과", "bonus": 1, "rarity": 0})
+        self.assertFalse(installer.valid_slot(self.save))
+
     def test_existing_save_refused_without_changes(self):
         (self.target / "saves").mkdir(parents=True)
         existing = self.target / "saves/slot-1.json"

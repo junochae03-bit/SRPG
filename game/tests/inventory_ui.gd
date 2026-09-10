@@ -23,7 +23,7 @@ func run():
 	check(p.inventory.size()==4 and p.equipped=="training-sword","four distinct starter weapons")
 	var bag=game.bag
 	bag.select_item("training-bow")
-	check(bag.detail_name.text.contains("전사"),"selected detail names class armor")
+	check(bag.detail_name.text==Inventory.find_item(p,"training-bow").name,"선택한 방어구의 현재 카탈로그 이름 표시")
 	bag.primary.pressed.emit()
 	check(p.equipment.chest=="training-bow","detail button equips bow")
 	check(not p.bag_positions.has("training-bow") and not p.bag_positions.has("training-sword"),"equipment frees grid space and returns old gear")
@@ -95,8 +95,11 @@ func run():
 			var before_costume=p.costume
 			check(not session.act("costume",blocked[0]) and p.costume==before_costume,"blocked costume cannot bypass class filter "+class_id)
 	p.class_id=cls;p.level=100;session.sim.recalculate(p)
+	# 정규화가 카탈로그 이름을 복원하므로 긴 이름도 카탈로그 경유로 주입한다.
+	var names=preload("res://scripts/content_names.gd");var name_key="weapon:"+cls+":1";var saved_name=names.data.equipment[name_key]
+	names.data.equipment[name_key]="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국 최후의 수호검"
 	var long_item=preload("res://scripts/equipment_catalog.gd").make("sword",1,4,"ui-long-item","none",cls)
-	long_item.name="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국 최후의 수호검";long_item.upgrade=3;long_item.bonus=87
+	long_item.upgrade=3;long_item.bonus=87
 	check(Inventory.add_gear(p,long_item),"long equipment fixture added through inventory model")
 	session.refresh();bag.select_item(long_item.id);await process_frame;await process_frame
 	var current
@@ -114,6 +117,7 @@ func run():
 	surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame
 	check(p.equipment.weapon==long_item.id,"real double-click equips selected valid weapon")
 	check(bag.equipment_controls.weapon.quantity_text()=="+3","equipped control keeps actual enhancement badge")
+	names.data.equipment[name_key]=saved_name
 	p.hp=p.max_hp-100;p.potion_cd=0;var prior_potions=p.potions;var prior_hp=p.hp;session.refresh();bag.refresh(true)
 	var potion_control=bag.grid.get_children().filter(func(child):return child.item.category=="consumable")[0]
 	click.position=potion_control.get_global_transform_with_canvas()*(potion_control.size*.5);surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame

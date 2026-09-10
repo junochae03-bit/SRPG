@@ -124,7 +124,10 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
-	p.motion_time=0.5 if heavy else 0.32;p.motion_duration=p.motion_time
+	# Basic attacks resolve immediately. Show their contact pose immediately;
+	# releasing a charged attack must not restart its already-shown windup.
+	p.motion_duration=0.5 if heavy else 0.32
+	p.motion_time=p.motion_duration*(.48 if heavy else .70)
 	var multiplier=(1.6+charge*1.4)*(1+Content.skill_bonus(p,"heavy_power")) if heavy else 1.0
 	if Content.job(p):multiplier*=jobs.attack_multiplier(p,heavy)
 	var amount=roundi(sim.damage_for(p)*config.multiplier*multiplier)
@@ -173,7 +176,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	constellation.after_hit(p,e,hit_context)
 	var push=Content.skill_bonus(p,"knockback")
 	if push>0 and not e.get("training",false):e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
-	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"owner":p.id,"critical":hit_details.critical})
+	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"target_id":e.id,"owner":p.id,"critical":hit_details.critical})
 	if e.get("training",false):
 		preload("res://scripts/training_ground.gd").record(sim,p,e,amount,hit_details.critical,hit_context)
 		return true

@@ -23,6 +23,7 @@ OUT = ROOT / "docs/database"
 TABLES = ["classes", "equipment", "monsters", "raids", "floors", "appearances", "drops", "raid_drops", "skills", "skill_parents", "skill_ranks", "build_nodes", "constellations", "constellation_edges", "exclusive_groups", "effect_definitions", "constellation_effects", "constellation_exclusions"]
 TABLES += art_registry.TABLES
 TABLES += game_db_rules.TABLES
+TABLES += ["build_concepts"]
 RELATIONS = {"skill_parents", "skill_ranks", "constellation_edges", "constellation_effects", "constellation_exclusions"}
 
 
@@ -137,7 +138,21 @@ def validate(data):
         assert rank["stagger"]["value"] >= 0 and rank["stagger"]["multiplier"] >= 1
     assert len(rank_keys) == sum(s["max_rank"] for s in data["skills"])
     build_nodes = indexes["build_nodes"]
+    assert len(data["build_concepts"]) == 100
+    node_kinds = {"active", "active_module", "character_passive", "stat_passive"}
+    for row in data["build_nodes"]:
+        assert row["node_kind"] in node_kinds
+        assert indexes["build_concepts"][row["concept_id"]]["class_id"] == row["class_id"]
+        if row["node_kind"] == "active_module":
+            target = skills[row["target_active_id"]]
+            assert target["effect"] == "active" and target["class_id"] == row["class_id"]
+            assert row["effect_scope"] == "target_active"
+        else:
+            assert not row["target_active_id"]
+            assert row["effect_scope"] == ("self" if row["node_kind"] == "active" else "character")
     for c in classes:
+        assert {n["node_kind"] for n in data["build_nodes"] if n["class_id"] == c} == node_kinds
+        assert len([n for n in data["build_concepts"] if n["class_id"] == c]) == 5
         nodes = [n for n in data["constellations"] if n["class_id"] == c]
         assert len(nodes) == 45
         assert sum(n["type"] == "minor" for n in nodes) == 30
@@ -195,7 +210,8 @@ CREATE TABLE skills(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES classe
 CREATE TABLE skill_parents(skill_id TEXT NOT NULL REFERENCES skills(id),parent_id TEXT NOT NULL REFERENCES skills(id),required_rank INTEGER NOT NULL,mode TEXT NOT NULL,PRIMARY KEY(skill_id,parent_id));
 CREATE TABLE skill_ranks(skill_id TEXT NOT NULL REFERENCES skills(id),rank INTEGER NOT NULL CHECK(rank>0),metrics_json TEXT NOT NULL,profile_json TEXT NOT NULL,stagger_base REAL NOT NULL CHECK(stagger_base>=0),stagger_value REAL NOT NULL CHECK(stagger_value>=0),stagger_grade TEXT NOT NULL,stagger_multiplier REAL NOT NULL CHECK(stagger_multiplier>=1),PRIMARY KEY(skill_id,rank));
 CREATE TABLE exclusive_groups(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES classes(id),max_selected INTEGER NOT NULL CHECK(max_selected=1));
-CREATE TABLE build_nodes(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES classes(id),type TEXT NOT NULL CHECK(type IN ('original','minor','notable','keystone')),cost INTEGER NOT NULL CHECK(cost>0),max_rank INTEGER NOT NULL CHECK(max_rank>0),required_level INTEGER NOT NULL,exclusive_group TEXT REFERENCES exclusive_groups(id));
+CREATE TABLE build_concepts(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES classes(id),cluster INTEGER NOT NULL CHECK(cluster BETWEEN 0 AND 4),name TEXT NOT NULL,description TEXT NOT NULL,tradeoff TEXT NOT NULL);
+CREATE TABLE build_nodes(id TEXT PRIMARY KEY,class_id TEXT NOT NULL REFERENCES classes(id),type TEXT NOT NULL CHECK(type IN ('original','minor','notable','keystone')),cost INTEGER NOT NULL CHECK(cost>0),max_rank INTEGER NOT NULL CHECK(max_rank>0),required_level INTEGER NOT NULL,exclusive_group TEXT REFERENCES exclusive_groups(id),node_kind TEXT NOT NULL CHECK(node_kind IN ('active','active_module','character_passive','stat_passive')),target_active_id TEXT REFERENCES skills(id),effect_scope TEXT NOT NULL CHECK(effect_scope IN ('self','target_active','character')),concept_id TEXT NOT NULL REFERENCES build_concepts(id),CHECK((node_kind='active_module' AND target_active_id IS NOT NULL AND effect_scope='target_active') OR (node_kind<>'active_module' AND target_active_id IS NULL)));
 CREATE TABLE constellations(id TEXT PRIMARY KEY REFERENCES build_nodes(id),name TEXT NOT NULL,cluster INTEGER NOT NULL CHECK(cluster BETWEEN 0 AND 4),cluster_name TEXT NOT NULL,description TEXT NOT NULL,effects_text TEXT NOT NULL,synergy TEXT NOT NULL,tradeoff TEXT NOT NULL,asset_id TEXT NOT NULL REFERENCES assets(id),node_json TEXT NOT NULL);
 CREATE TABLE constellation_edges(node_id TEXT NOT NULL REFERENCES constellations(id),parent_id TEXT NOT NULL REFERENCES build_nodes(id),required_rank INTEGER NOT NULL CHECK(required_rank>0),mode TEXT NOT NULL CHECK(mode IN ('any','all')),PRIMARY KEY(node_id,parent_id));
 CREATE TABLE effect_definitions(id TEXT PRIMARY KEY,name TEXT NOT NULL);
@@ -266,8 +282,10 @@ def build_sqlite(path, data):
         con.execute("INSERT INTO skill_ranks VALUES (?,?,?,?,?,?,?,?)", (r["skill_id"], r["rank"], dumps(r["metrics"]), dumps(r["profile"]), s["base"], s["value"], s["grade"], s["multiplier"]))
     for r in data["exclusive_groups"]:
         con.execute("INSERT INTO exclusive_groups VALUES (?,?,?)", (r["id"], r["class_id"], r["max_selected"]))
+    for r in data["build_concepts"]:
+        con.execute("INSERT INTO build_concepts VALUES (?,?,?,?,?,?)", (r["id"], r["class_id"], r["cluster"], r["name"], r["description"], r["tradeoff"]))
     for r in data["build_nodes"]:
-        con.execute("INSERT INTO build_nodes VALUES (?,?,?,?,?,?,?)", (r["id"], r["class_id"], r["type"], r["cost"], r["max_rank"], r["required_level"], r["exclusive_group"] or None))
+        con.execute("INSERT INTO build_nodes VALUES (?,?,?,?,?,?,?,?,?,?,?)", (r["id"], r["class_id"], r["type"], r["cost"], r["max_rank"], r["required_level"], r["exclusive_group"] or None, r["node_kind"], r["target_active_id"] or None, r["effect_scope"], r["concept_id"]))
     for r in data["constellations"]:
         con.execute("INSERT INTO constellations VALUES (?,?,?,?,?,?,?,?,?,?)", (r["id"], r["name"], r["cluster"], r["cluster_name"], r["description"], r["effects_text"], r["synergy"], r["tradeoff"], asset_id(r), dumps({k: v for k, v in r.items() if k not in ("asset", "subtitle")})))
     for r in data["constellation_edges"]:
@@ -283,6 +301,7 @@ def build_sqlite(path, data):
     assert not con.execute("PRAGMA foreign_key_check").fetchall()
     con.commit()
     assert con.execute("PRAGMA integrity_check").fetchone()[0] == "ok"
+    assert con.execute("PRAGMA user_version").fetchone()[0] == data["metadata"]["schema_version"], "SQLite schema version differs from metadata"
     con.execute("VACUUM")
     con.close()
 
@@ -295,12 +314,19 @@ def main():
     with tempfile.TemporaryDirectory(prefix="database-", dir=ROOT / "runtime") as temporary:
         tmp = Path(temporary)
         source = tmp / "live.json"
-        command = [engine(), "--headless", "--path", str(ROOT / "game"), "--script", "res://tests/export_database.gd", "--", "--output=" + str(source)]
+        prepared = tmp / "codex-v053.bin"
+        prepared_target = ROOT / "game/data/codex-v053.bin"
+        command = [engine(), "--headless", "--path", str(ROOT / "game"), "--script", "res://tests/export_database.gd", "--", "--output=" + str(source), "--cache-output=" + str(prepared)]
         run = subprocess.run(command, capture_output=True, text=True, encoding="utf8", errors="replace", timeout=90, **hidden_options())
         log = run.stdout + run.stderr
         (ROOT / "runtime/database-build.log").write_text(log, encoding="utf8")
         if run.returncode or "ERROR:" in log or "SCRIPT ERROR" in log:
             raise RuntimeError(log[-6000:])
+        if args.check:
+            if not prepared_target.is_file() or prepared_target.read_bytes() != prepared.read_bytes():
+                raise SystemExit("DATABASE_CHECK FAIL stale runtime codex cache; run python tools/build_database.py")
+        else:
+            prepared_target.write_bytes(prepared.read_bytes())
         data = normalize(json.loads(source.read_text("utf8")))
         validate(data)
         output_json = tmp / "stelrpg-database.json"

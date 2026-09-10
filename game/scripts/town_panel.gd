@@ -6,6 +6,7 @@ const Content=preload("res://scripts/content.gd")
 const Art=preload("res://scripts/ui_art.gd")
 const Library=preload("res://scripts/icon_library.gd")
 const Quote=preload("res://scripts/service_quote.gd")
+const TownOperations=preload("res://scripts/town_operations.gd")
 const OP_NAMES={"buy":"장비 구매","sell":"장비 판매","potion":"회복 물약","essence":"정수 합성","ore":"광석 정제","upgrade":"장비 강화","reforge":"옵션 재련","salvage":"장비 분해","accept":"토벌 의뢰","claim":"의뢰 보상","cancel":"의뢰 포기","supply":"재료 납품","rest":"숙박","resupply":"원정 재정비","travel":"던전 입장","training_reset":"훈련 기록"}
 var game
 var facility=""
@@ -90,6 +91,7 @@ func open(key:String):
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
 	selected_floor=int(player().get("highest_floor",1));chapter=int((selected_floor-1)/10)
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel","costume":"buy","training":"training_reset"}[key]
+	if key=="inn":operation=TownOperations.DEFAULT_INN_OPERATION
 	if key=="costume":shop_mode="costume"
 	if key=="smith" and not player().inventory.is_empty():selected_item=player().inventory[0].id
 	if key=="guild" and not player().guild_contract.is_empty():operation="claim"
@@ -284,8 +286,11 @@ func guild(p:Dictionary):
 
 func inn(p:Dictionary):
 	game.label(body,"머무르기",Vector2(6,4),Vector2(710,38),28)
-	service_card(body,"rest","숙박 · 10 G","생명력 %d → %d\n기력 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina],"inn",Vector2(0,70),func():choose("rest"),operation=="rest",186)
-	service_card(body,"resupply","원정 재정비","생명력 · 기력 완전 회복\n물약 %d → %d"%[p.potions,maxi(20,p.potions)],"consumable",Vector2(0,278),func():choose("resupply"),operation=="resupply",186)
+	service_card(body,"rest","숙박 · 10 G","생명력 %d → %d · 기력 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina],"inn",Vector2(0,70),func():choose("rest"),operation=="rest",158)
+	for i in range(2):
+		var key=["resupply_small","resupply"][i];var q=Quote.quote(p,"inn",key)
+		var target=maxi(int(TownOperations.INN_RESUPPLY_TARGETS[key]),int(p.potions))
+		service_card(body,key,("가벼운 채비" if i==0 else "장기 원정 채비")+" · %d G"%int(q.cost),"생명력 · 기력 회복\n물약 %d → %d"%[p.potions,target],"consumable",Vector2(0,244+i*174),func():choose(key),operation==key,158)
 
 func portal(p:Dictionary):
 	var abyss=preload("res://scripts/abyss_catalog.gd")
@@ -346,6 +351,7 @@ func review(p:Dictionary):
 	review_labels.feedback.add_theme_color_override("font_color",Color("247660") if success else Color("8b432e"))
 	var caption={"buy":"구매하기","sell":"선택 장비 판매","potion":"조제하기" if facility=="alchemy" else "물약 구매","essence":"정수 합성","ore":"광석 정제","upgrade":"확정 강화","reforge":"옵션 재련","salvage":"선택 장비 분해","accept":"의뢰 수락","claim":"보상 받기","cancel":"현재 의뢰 포기","supply":"재료 납품","rest":"숙박하고 회복","resupply":"회복 · 물약 보충","travel":"던전 입장"}.get(operation,"실행")
 	if facility=="training":caption="기록 · 기술 대기시간 초기화"
+	if operation=="resupply_small":caption="회복 · 물약 5개 채우기"
 	confirm_button=game.button(panel,caption,Vector2(32,614),Vector2(446,48),func():
 		if facility=="portal":
 			if game.session.enter_floor(selected_floor):close()

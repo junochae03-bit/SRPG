@@ -89,7 +89,7 @@ def enrich(data, root):
     for row in data["inventory_rules"]:
         row["rules"] = [source_rule(root, "inventory", name) for name in
                         ("all_items", "bag_items", "add_stack", "can_place")]
-    data["metadata"]["schema_version"] = 4
+    data["metadata"]["schema_version"] = 5
     data["metadata"]["world_rules_note"] = "거래 입력·출력은 명시된 기준 상태에서 계산한 예시입니다. 기존 동적 작업은 실행 원본 규칙을 보존합니다. 플레이어 저장 파일은 읽지 않습니다."
     return data
 
@@ -148,7 +148,7 @@ def validate(data):
 
 
 SCHEMA = """
-PRAGMA user_version=4;
+PRAGMA user_version=5;
 CREATE TABLE facilities(id TEXT PRIMARY KEY,name TEXT NOT NULL,definition_json TEXT NOT NULL);
 CREATE TABLE item_definitions(id TEXT PRIMARY KEY,name TEXT NOT NULL);
 CREATE TABLE service_operations(id TEXT PRIMARY KEY,facility_id TEXT NOT NULL REFERENCES facilities(id),operation TEXT NOT NULL,definition_json TEXT NOT NULL,UNIQUE(facility_id,operation));

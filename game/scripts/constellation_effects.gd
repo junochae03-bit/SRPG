@@ -9,15 +9,15 @@ var cast_serial=0
 var combat:
 	get:return combat_ref.get_ref()
 func _init(owner_combat):combat_ref=weakref(owner_combat)
-static func values(p:Dictionary)->Dictionary:return Rules.effects(p)
+static func values(p:Dictionary,active_id:String="")->Dictionary:return Rules.effects(p,active_id)
 static func state(p:Dictionary)->Dictionary:return p.get("constellation_state",{})
 static func following(p:Dictionary,node_id:String)->bool:
 	var s=state(p);return s.get("last_time",0)>0 and s.get("last_skill","")!="" and s.last_skill!=node_id
 static func stagger_multiplier(p:Dictionary,node_id:String="")->float:
-	var v=values(p)
-	return 1.+float(v.get("stagger_power",0))+(float(v.get("stagger_followup",0)) if following(p,node_id) else 0.)
+	var v=values(p,node_id)
+	return 1.+float(v.get("stagger_power",0))+(float(v.get("stagger_followup",0)) if following(p,node_id) or state(p).get("support_time",0)>0 else 0.)
 static func resolve(p:Dictionary,node:Dictionary,raw:Dictionary,advanced:bool=false)->Dictionary:
-	var s=raw.duplicate(true);var v=values(p)
+	var s=raw.duplicate(true);var v=values(p,str(node.id))
 	if v.is_empty():return s
 	var n=s.get("node",node);var mode=str(n.get("mode",s.get("mode","")));var attacking=mode not in SUPPORT
 	var follow=following(p,str(node.id));var ready=state(p).get("move_time",0)>0;var support_ready=state(p).get("support_time",0)>0
@@ -38,13 +38,13 @@ static func resolve(p:Dictionary,node:Dictionary,raw:Dictionary,advanced:bool=fa
 		if s.has(key):s[key]*=support_scale
 	if not attacking:return s
 	var power_key="power" if advanced else "multiplier"
-	s[power_key]*=1.+float(v.get("skill_damage",0))+(float(v.get("followup_damage",0)) if follow else 0.)+(float(v.get("support_followup",0)) if support_ready else 0.)
+	s[power_key]*=1.+float(v.get("skill_damage",0))+(float(v.get("followup_damage",0)) if follow or support_ready else 0.)+(float(v.get("support_followup",0)) if support_ready else 0.)
 	if v.get("focus",0)>0:s[power_key]*=1.25;s.cost*=1.25;info.max_targets=1
 	if v.get("momentum",0)>0:
 		s.cost*=1.1
 		if ready:s[power_key]*=1.25;s["time"]=float(s.get("time",0))*.5
 	if v.get("rogue_contract",0)>0:s[power_key]*=.9
-	if v.get("echo",0)>0:_split(info,"echo",.7,.4,.7,.3,.35);s.cooldown*=1.15
+	if v.get("echo",0)>0:_split(info,"echo",.7,.5,.7,.3,.35);s.cooldown*=1.15
 	if v.get("warrior_wave",0)>0:_split(info,"wave",.75,.35,.75,.25,0.);s.cost*=1.15
 	if v.get("warrior_reprise",0)>0 and support_ready:_split(info,"reprise",.5,.7,.5,.5,.25)
 	if v.get("ranger_chain",0)>0:_split(info,"chain",.7,.5,.7,.3,.12)
@@ -54,7 +54,7 @@ static func resolve(p:Dictionary,node:Dictionary,raw:Dictionary,advanced:bool=fa
 	if v.get("rogue_venom",0)>0:_split(info,"venom",.6,.4,.6,.4,1.);s.cost*=1.15
 	if advanced and (v.get("fighter_flurry",0)>0 or v.get("fighter_crush",0)>0):
 		var total=float(s[power_key])*int(s.count)
-		if v.get("fighter_flurry",0)>0:info.delivery="flurry";s.count=3;s[power_key]=total*.9/3.;s.time*=.5
+		if v.get("fighter_flurry",0)>0:info.delivery="flurry";s.count=3;s[power_key]=total*(.6 if mode.begins_with("charge") else .85)/3.;s.time*=.5
 		else:info.delivery="crush";s.count=1;s[power_key]=total*1.2;s.time+=.45;geometry.radius*=.8
 	s[power_key]*=info.direct_damage
 	info["dot_damage_multiplier"]=s[power_key]/maxf(.001,float(raw[power_key]))

@@ -3,6 +3,7 @@ var picture:Texture2D
 var game
 var hotkey=""
 var caption=""
+func _make_custom_tooltip(value:String)->Object:return preload("res://scripts/ui_art.gd").tooltip(game,value)
 func setup(owner_game,texture:Texture2D,title:String,key:String,callback:Callable):
 	material=preload("res://scripts/gat_art.gd").material()
 	game=owner_game;picture=texture;hotkey=key;caption=title;tooltip_text=title+" ("+key+")"
