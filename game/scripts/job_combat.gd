@@ -189,8 +189,9 @@ func act(p:Dictionary,kind:String)->bool:
 		s.dash_charges-=1;s["after_dash"]=2.
 		if p.class_id=="martialist":p.attack_cd=maxf(0,p.attack_cd-passive(p,4)*.025)
 		if s.dash_timer<=0:s.dash_timer=8. if p.class_id=="breaker" else 2.5
-		p.stamina-=10;p.dodge_time=.3 if p.class_id=="breaker" else .14;p.dash_speed=12. if p.class_id=="breaker" else 9.;p.invulnerable=.12
-		p.dodge_dir=p.dir.normalized() if p.dir.length()>.1 else p.aim;p.charge_time=-1.;s.casting={};s.heavy_grit=0.
+		p.stamina-=10;p.dodge_time=.3 if p.class_id=="breaker" else .22;p.dash_speed=16.;p.invulnerable=.12
+		p.dodge_dir=p.dir.normalized() if p.dir.length()>.1 else p.aim.normalized();p.charge_time=-1.;s.casting={};s.heavy_grit=0.
+		if p.dodge_dir==Vector2.ZERO:p.dodge_dir=Vector2.RIGHT
 		combat.constellation.pending=combat.constellation.pending.filter(func(hit):return hit.owner!=p.id or hit.kind!="flurry")
 		combat.constellation.moved(p,true)
 		fx(p,p.class_id+":"+str(3 if p.class_id in ["breaker","martialist"] else 2),p.pos);return true
@@ -494,6 +495,7 @@ func tick(p:Dictionary,delta:float):
 		if s.hound_respawn<=0:s.pets.append({"source":"hound","pos":p.pos,"hp":p.max_hp*.3,"max_hp":p.max_hp*.3,"cd":0.,"power":.35,"kind":0})
 	for pet in s.pets:
 		pet.cd-=delta
+		var previous_position:Vector2=pet.pos
 		if pet.hp<=0:continue
 		if pet.source!="hound" and pet.source!="test" and pet.source not in p.skill_loadout.values():pet.hp=0;continue
 		var t=target(p,7.)
@@ -505,6 +507,10 @@ func tick(p:Dictionary,delta:float):
 			pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(t.pos)*delta*4)
 			if pet.cd<=0 and HitGeometry.circle(t,pet.pos,5. if pet.kind==1 else 1.6):
 				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos,pet.get("stagger",{}));pet.cd=.8/(1+value(p,"pet_haste"))
+		pet.moving=pet.pos.distance_squared_to(previous_position)>.000001
+		var facing_direction:Vector2=pet.pos-previous_position if t.is_empty() else t.pos-pet.pos
+		var screen_direction=preload("res://scripts/dungeon.gd").iso(facing_direction)
+		if absf(screen_direction.x)>.001:pet.facing=-1. if screen_direction.x<0 else 1.
 	if p.class_id=="hunter" and s.pets.any(func(pet):return pet.hp<=0):s.hound_respawn=8.
 	s.pets=s.pets.filter(func(pet):return pet.hp>0)
 	if p.class_id=="hunter":

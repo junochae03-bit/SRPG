@@ -82,6 +82,10 @@ func run():
 		p.class_id=job
 		for costume in Content.costume_options(job):
 			p.costume=costume;p.avatar="auto";local.refresh();hud.refresh()
+			var source=Gat.frame({"class_id":p.class_id,"avatar":p.avatar,"costume":p.costume},0.).texture
+			var visible_bounds=hud.visible_portrait_bounds(source)
+			var expected_crop=Rect2(visible_bounds.position,Vector2(visible_bounds.size.x,ceilf(visible_bounds.size.y*.62)))
+			check(hud.portrait_source_rect==expected_crop,"cached portrait matches selected atlas region "+job+" "+costume)
 			check(Rect2(36,37,72,72).encloses(hud.portrait_rect()),"portrait stays inside medallion "+job+" "+costume)
 			check(hud.portrait_source_rect.position.x>=0 and hud.portrait_source_rect.end.x<=hud.portrait_frame_size.x,"portrait source full width valid "+costume)
 			check(hud.portrait_source_rect.position.y>=0 and hud.portrait_source_rect.end.y<=hud.portrait_frame_size.y,"portrait source top valid "+costume)

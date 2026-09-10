@@ -63460,23 +63460,25 @@
       "action": "companion",
       "catalog": "res://assets/jobs/catalog.json",
       "category": "vfx",
-      "file_id": "file:188a88899c7eda8cbaeea32a",
+      "file_id": "file:3af99e1dabadb6bdf6c9a1be",
       "frame": 0,
       "id": "art:vfx:companion:0",
       "metadata": {
+        "body_height": 393,
+        "display_height": 112,
         "foot": [
-          140.25,
-          263.576
+          270.5,
+          564
         ]
       },
-      "name": "동료 · 0",
-      "path": "res://assets/jobs/companions-sprite.png",
+      "name": "사냥꾼 늑대 · 0",
+      "path": "res://assets/jobs/hunter-wolf-v054.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         0,
         0,
-        280,
-        280
+        543,
+        724
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63485,23 +63487,25 @@
       "action": "companion",
       "catalog": "res://assets/jobs/catalog.json",
       "category": "vfx",
-      "file_id": "file:188a88899c7eda8cbaeea32a",
+      "file_id": "file:3af99e1dabadb6bdf6c9a1be",
       "frame": 1,
       "id": "art:vfx:companion:1",
       "metadata": {
+        "body_height": 393,
+        "display_height": 112,
         "foot": [
-          140.25,
-          263.576
+          268.5,
+          552
         ]
       },
-      "name": "동료 · 1",
-      "path": "res://assets/jobs/companions-sprite.png",
+      "name": "사냥꾼 늑대 · 1",
+      "path": "res://assets/jobs/hunter-wolf-v054.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
-        280,
+        543,
         0,
-        280,
-        280
+        543,
+        724
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63514,19 +63518,21 @@
       "frame": 10,
       "id": "art:vfx:companion:10",
       "metadata": {
+        "body_height": 208,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          131.5,
+          218
         ]
       },
-      "name": "동료 · 10",
+      "name": "소환수 · 10",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         561,
-        560,
+        550,
         280,
-        280
+        250
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63539,19 +63545,21 @@
       "frame": 11,
       "id": "art:vfx:companion:11",
       "metadata": {
+        "body_height": 208,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          150,
+          234
         ]
       },
-      "name": "동료 · 11",
+      "name": "소환수 · 11",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         841,
-        560,
+        550,
         280,
-        280
+        250
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63564,19 +63572,21 @@
       "frame": 12,
       "id": "art:vfx:companion:12",
       "metadata": {
+        "body_height": 233,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          132.5,
+          241
         ]
       },
-      "name": "동료 · 12",
+      "name": "소환수 · 12",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         0,
-        841,
+        800,
         280,
-        280
+        260
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63589,19 +63599,21 @@
       "frame": 13,
       "id": "art:vfx:companion:13",
       "metadata": {
+        "body_height": 233,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          131,
+          243
         ]
       },
-      "name": "동료 · 13",
+      "name": "소환수 · 13",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         280,
-        841,
+        800,
         280,
-        280
+        260
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63614,19 +63626,21 @@
       "frame": 14,
       "id": "art:vfx:companion:14",
       "metadata": {
+        "body_height": 233,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          130,
+          242
         ]
       },
-      "name": "동료 · 14",
+      "name": "소환수 · 14",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         561,
-        841,
+        800,
         280,
-        280
+        260
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63639,19 +63653,21 @@
       "frame": 15,
       "id": "art:vfx:companion:15",
       "metadata": {
+        "body_height": 233,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          137.5,
+          243
         ]
       },
-      "name": "동료 · 15",
+      "name": "소환수 · 15",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         841,
-        841,
+        800,
         280,
-        280
+        260
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63664,19 +63680,21 @@
       "frame": 16,
       "id": "art:vfx:companion:16",
       "metadata": {
+        "body_height": 215,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          134.5,
+          242
         ]
       },
-      "name": "동료 · 16",
+      "name": "소환수 · 16",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         0,
-        1121,
+        1060,
         280,
-        280
+        342
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63689,19 +63707,21 @@
       "frame": 17,
       "id": "art:vfx:companion:17",
       "metadata": {
+        "body_height": 215,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          141,
+          242
         ]
       },
-      "name": "동료 · 17",
+      "name": "소환수 · 17",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         280,
-        1121,
+        1060,
         280,
-        280
+        342
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63714,19 +63734,21 @@
       "frame": 18,
       "id": "art:vfx:companion:18",
       "metadata": {
+        "body_height": 215,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          140,
+          243
         ]
       },
-      "name": "동료 · 18",
+      "name": "소환수 · 18",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         561,
-        1121,
+        1060,
         280,
-        280
+        342
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63739,19 +63761,21 @@
       "frame": 19,
       "id": "art:vfx:companion:19",
       "metadata": {
+        "body_height": 215,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          136.5,
+          245
         ]
       },
-      "name": "동료 · 19",
+      "name": "소환수 · 19",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         841,
-        1121,
+        1060,
         280,
-        280
+        342
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63760,23 +63784,25 @@
       "action": "companion",
       "catalog": "res://assets/jobs/catalog.json",
       "category": "vfx",
-      "file_id": "file:188a88899c7eda8cbaeea32a",
+      "file_id": "file:3af99e1dabadb6bdf6c9a1be",
       "frame": 2,
       "id": "art:vfx:companion:2",
       "metadata": {
+        "body_height": 393,
+        "display_height": 112,
         "foot": [
-          140.25,
-          263.576
+          269,
+          564
         ]
       },
-      "name": "동료 · 2",
-      "path": "res://assets/jobs/companions-sprite.png",
+      "name": "사냥꾼 늑대 · 2",
+      "path": "res://assets/jobs/hunter-wolf-v054.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
-        561,
+        1086,
         0,
-        280,
-        280
+        543,
+        724
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63785,23 +63811,25 @@
       "action": "companion",
       "catalog": "res://assets/jobs/catalog.json",
       "category": "vfx",
-      "file_id": "file:188a88899c7eda8cbaeea32a",
+      "file_id": "file:3af99e1dabadb6bdf6c9a1be",
       "frame": 3,
       "id": "art:vfx:companion:3",
       "metadata": {
+        "body_height": 393,
+        "display_height": 112,
         "foot": [
-          140.25,
-          263.576
+          272,
+          550
         ]
       },
-      "name": "동료 · 3",
-      "path": "res://assets/jobs/companions-sprite.png",
+      "name": "사냥꾼 늑대 · 3",
+      "path": "res://assets/jobs/hunter-wolf-v054.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
-        841,
+        1629,
         0,
-        280,
-        280
+        543,
+        724
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63814,17 +63842,19 @@
       "frame": 4,
       "id": "art:vfx:companion:4",
       "metadata": {
+        "body_height": 245,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          121.5,
+          271
         ]
       },
-      "name": "동료 · 4",
+      "name": "소환수 · 4",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         0,
-        280,
+        270,
         280,
         280
       ],
@@ -63839,17 +63869,19 @@
       "frame": 5,
       "id": "art:vfx:companion:5",
       "metadata": {
+        "body_height": 245,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          127,
+          264
         ]
       },
-      "name": "동료 · 5",
+      "name": "소환수 · 5",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         280,
-        280,
+        270,
         280,
         280
       ],
@@ -63864,17 +63896,19 @@
       "frame": 6,
       "id": "art:vfx:companion:6",
       "metadata": {
+        "body_height": 245,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          116,
+          258
         ]
       },
-      "name": "동료 · 6",
+      "name": "소환수 · 6",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         561,
-        280,
+        270,
         280,
         280
       ],
@@ -63889,17 +63923,19 @@
       "frame": 7,
       "id": "art:vfx:companion:7",
       "metadata": {
+        "body_height": 245,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          153.5,
+          266
         ]
       },
-      "name": "동료 · 7",
+      "name": "소환수 · 7",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         841,
-        280,
+        270,
         280,
         280
       ],
@@ -63914,19 +63950,21 @@
       "frame": 8,
       "id": "art:vfx:companion:8",
       "metadata": {
+        "body_height": 208,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          133,
+          221
         ]
       },
-      "name": "동료 · 8",
+      "name": "소환수 · 8",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         0,
-        560,
+        550,
         280,
-        280
+        250
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -63939,19 +63977,21 @@
       "frame": 9,
       "id": "art:vfx:companion:9",
       "metadata": {
+        "body_height": 208,
+        "display_height": 224,
         "foot": [
-          140.25,
-          263.576
+          137.5,
+          221
         ]
       },
-      "name": "동료 · 9",
+      "name": "소환수 · 9",
       "path": "res://assets/jobs/companions-sprite.png",
       "provenance": "docs/ASSET_SOURCES.md",
       "rect": [
         280,
-        560,
+        550,
         280,
-        280
+        250
       ],
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
@@ -66599,6 +66639,20 @@
       "width": 1255
     },
     {
+      "bytes": 1467514,
+      "height": 724,
+      "id": "file:3af99e1dabadb6bdf6c9a1be",
+      "origin": {
+        "scope": "Current project source; consult linked provenance document",
+        "tool": ""
+      },
+      "path": "res://assets/jobs/hunter-wolf-v054.png",
+      "representation": "raster",
+      "sha256": "f9be569c4f360e97137b0a566d0d3a62a630f45442706cd07cbbd831400e059f",
+      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
+      "width": 2172
+    },
+    {
       "bytes": 1419220,
       "height": 1244,
       "id": "file:3b766d0d90e5b3bd8bc72814",
@@ -67214,7 +67268,7 @@
       "width": 1254
     },
     {
-      "bytes": 20839,
+      "bytes": 20882,
       "height": 0,
       "id": "file:66d98c99b2a216fc25bd7ac6",
       "origin": {
@@ -67223,7 +67277,7 @@
       },
       "path": "res://scripts/skill_vfx.gd",
       "representation": "procedural",
-      "sha256": "5d51645d8fb22d13b1d2d5f722c555250a38066df6cf517f19c4cbf88c7e6a99",
+      "sha256": "db1c01a34658972693894c42eb5dd71803a29a1875771d8da9672e012d366af1",
       "source_id": "source:6cb0c71ab5c5d5ebfd8ee77b",
       "width": 0
     },
@@ -69083,7 +69137,7 @@
       "id": "source:d6f158c7cc4350f5e40bf5e6",
       "kind": "project_provenance",
       "path": "docs/ASSET_SOURCES.md",
-      "sha256": "ddc6246d6d69c31f078c85fe622c065169db90343f93e2052e6f19a725f663d4"
+      "sha256": "db8862dba4ae0ee89c8488fc74f0b424179074bc8c5ef0957d91a09cc48a6f0d"
     },
     {
       "id": "source:f9100fa0198a764f79256279",
@@ -178910,6 +178964,15 @@
       "usage_kind": "runtime_mapping"
     },
     {
+      "art_id": "art:icon:rune",
+      "consumer": "game/scripts/combat_feedback.gd:semantic_icon_call",
+      "id": "use:d491bb06ecb73a50710ddb1f",
+      "mapping": {},
+      "target_id": "res://scripts/combat_feedback.gd",
+      "target_table": "runtime",
+      "usage_kind": "runtime_mapping"
+    },
+    {
       "art_id": "art:character:costume:pearlcat-sailor:4",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:d49b8e892490888432caf1c7",
@@ -221154,11 +221217,11 @@
       "family_name": "도적",
       "id": "rogue",
       "name": "도적",
-      "projectile": true,
-      "range": 7,
+      "projectile": false,
+      "range": 1.8,
       "skill": "6칸 장착",
       "starter": true,
-      "weapon": "bow"
+      "weapon": "sword"
     },
     {
       "base": "warrior",
@@ -221233,10 +221296,10 @@
       "family_name": "도적",
       "id": "thief",
       "name": "시프",
-      "projectile": true,
-      "range": 7,
+      "projectile": false,
+      "range": 1.8,
       "skill": "6칸 장착",
-      "weapon": "bow"
+      "weapon": "sword"
     },
     {
       "description": "근접 공격과 강인한 체력. Q로 주변을 크게 벱니다.",
@@ -347310,7 +347373,7 @@
       "subtitle": "일반 · 도적 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347344,7 +347407,7 @@
       "subtitle": "레어 · 도적 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347378,7 +347441,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347412,7 +347475,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347446,7 +347509,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -347480,7 +347543,7 @@
       "subtitle": "일반 · 도적 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347514,7 +347577,7 @@
       "subtitle": "레어 · 도적 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347548,7 +347611,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347582,7 +347645,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347616,7 +347679,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -347650,7 +347713,7 @@
       "subtitle": "일반 · 도적 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347684,7 +347747,7 @@
       "subtitle": "레어 · 도적 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347718,7 +347781,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347752,7 +347815,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347786,7 +347849,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -347820,7 +347883,7 @@
       "subtitle": "일반 · 도적 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347854,7 +347917,7 @@
       "subtitle": "레어 · 도적 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347888,7 +347951,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347922,7 +347985,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -347956,7 +348019,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -347990,7 +348053,7 @@
       "subtitle": "일반 · 도적 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348024,7 +348087,7 @@
       "subtitle": "레어 · 도적 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348058,7 +348121,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348092,7 +348155,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348126,7 +348189,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -348160,7 +348223,7 @@
       "subtitle": "일반 · 도적 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348194,7 +348257,7 @@
       "subtitle": "레어 · 도적 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348228,7 +348291,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348262,7 +348325,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348296,7 +348359,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -348330,7 +348393,7 @@
       "subtitle": "일반 · 도적 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348364,7 +348427,7 @@
       "subtitle": "레어 · 도적 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348398,7 +348461,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348432,7 +348495,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348466,7 +348529,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -348500,7 +348563,7 @@
       "subtitle": "일반 · 도적 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348534,7 +348597,7 @@
       "subtitle": "레어 · 도적 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348568,7 +348631,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348602,7 +348665,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348636,7 +348699,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -348670,7 +348733,7 @@
       "subtitle": "일반 · 도적 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348704,7 +348767,7 @@
       "subtitle": "레어 · 도적 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348738,7 +348801,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348772,7 +348835,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348806,7 +348869,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -348840,7 +348903,7 @@
       "subtitle": "일반 · 도적 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348874,7 +348937,7 @@
       "subtitle": "레어 · 도적 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348908,7 +348971,7 @@
       "subtitle": "유니크 · 도적 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348942,7 +349005,7 @@
       "subtitle": "에픽 · 도적 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -348976,7 +349039,7 @@
       "subtitle": "레전드리 · 도적 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -357510,7 +357573,7 @@
       "subtitle": "일반 · 시프 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357544,7 +357607,7 @@
       "subtitle": "레어 · 시프 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357578,7 +357641,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357612,7 +357675,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357646,7 +357709,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.1",
       "tier": 0,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -357680,7 +357743,7 @@
       "subtitle": "일반 · 시프 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357714,7 +357777,7 @@
       "subtitle": "레어 · 시프 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357748,7 +357811,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357782,7 +357845,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357816,7 +357879,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.10",
       "tier": 1,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -357850,7 +357913,7 @@
       "subtitle": "일반 · 시프 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357884,7 +357947,7 @@
       "subtitle": "레어 · 시프 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357918,7 +357981,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357952,7 +358015,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -357986,7 +358049,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.20",
       "tier": 2,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358020,7 +358083,7 @@
       "subtitle": "일반 · 시프 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358054,7 +358117,7 @@
       "subtitle": "레어 · 시프 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358088,7 +358151,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358122,7 +358185,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358156,7 +358219,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.30",
       "tier": 3,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358190,7 +358253,7 @@
       "subtitle": "일반 · 시프 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358224,7 +358287,7 @@
       "subtitle": "레어 · 시프 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358258,7 +358321,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358292,7 +358355,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358326,7 +358389,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.40",
       "tier": 4,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358360,7 +358423,7 @@
       "subtitle": "일반 · 시프 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358394,7 +358457,7 @@
       "subtitle": "레어 · 시프 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358428,7 +358491,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358462,7 +358525,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358496,7 +358559,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.50",
       "tier": 5,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358530,7 +358593,7 @@
       "subtitle": "일반 · 시프 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358564,7 +358627,7 @@
       "subtitle": "레어 · 시프 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358598,7 +358661,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358632,7 +358695,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358666,7 +358729,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.60",
       "tier": 6,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358700,7 +358763,7 @@
       "subtitle": "일반 · 시프 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358734,7 +358797,7 @@
       "subtitle": "레어 · 시프 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358768,7 +358831,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358802,7 +358865,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358836,7 +358899,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.70",
       "tier": 7,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -358870,7 +358933,7 @@
       "subtitle": "일반 · 시프 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358904,7 +358967,7 @@
       "subtitle": "레어 · 시프 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358938,7 +359001,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -358972,7 +359035,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -359006,7 +359069,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.80",
       "tier": 8,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -359040,7 +359103,7 @@
       "subtitle": "일반 · 시프 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -359074,7 +359137,7 @@
       "subtitle": "레어 · 시프 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -359108,7 +359171,7 @@
       "subtitle": "유니크 · 시프 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -359142,7 +359205,7 @@
       "subtitle": "에픽 · 시프 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "focus",
@@ -359176,7 +359239,7 @@
       "subtitle": "레전드리 · 시프 전용 · LV.90",
       "tier": 9,
       "upgrade": 0,
-      "weapon_type": "bow"
+      "weapon_type": "sword"
     },
     {
       "affix": "none",
@@ -374852,25 +374915,25 @@
         {
           "source_code": "static func all_items(p: Dictionary) -> Array:\r\n\tvar result=p.inventory.duplicate()\r\n\tif p.potions>0:result.append({\"id\":\"@potion\",\"name\":\"회복 물약\",\"category\":\"consumable\",\"bonus\":60,\"rarity\":0,\"count\":p.potions})\r\n\tfor key in p.get(\"materials\",{}):\r\n\t\tif p.materials[key]>0:result.append({\"id\":\"@mat:\"+key,\"name\":Content.MATERIALS.get(key,key),\"category\":\"material\",\"bonus\":0,\"rarity\":0,\"count\":p.materials[key]})\r\n\treturn result",
           "source_path": "game/scripts/inventory_model.gd",
-          "source_sha256": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
+          "source_sha256": "cb3430db718405d67faabb616cd23ace52a5aded332750ef3dbd740832de48a5",
           "source_symbol": "all_items"
         },
         {
           "source_code": "static func bag_items(p: Dictionary) -> Array:\r\n\treturn all_items(p).filter(func(item):return not is_equipped(p,item.id))",
           "source_path": "game/scripts/inventory_model.gd",
-          "source_sha256": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
+          "source_sha256": "cb3430db718405d67faabb616cd23ace52a5aded332750ef3dbd740832de48a5",
           "source_symbol": "bag_items"
         },
         {
           "source_code": "static func add_stack(p:Dictionary,kind:String,amount:Variant)->bool:\n\tvar staged=_stage_stack(p,kind,amount)\n\tif staged.is_empty():return false\n\tp.potions=staged.potions\n\tp.materials=staged.materials\r\n\tp.bag_positions=staged.bag_positions\r\n\treturn true",
           "source_path": "game/scripts/inventory_model.gd",
-          "source_sha256": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
+          "source_sha256": "cb3430db718405d67faabb616cd23ace52a5aded332750ef3dbd740832de48a5",
           "source_symbol": "add_stack"
         },
         {
-          "source_code": "static func can_place(p: Dictionary, id: String, at: Vector2i, rotated: bool) -> bool:\r\n\tvar item=find_item(p,id)\r\n\tif item.is_empty() or is_equipped(p,id):return false\r\n\tvar size_value=Content.item_size(item,rotated)\r\n\tvar wanted=Rect2i(at,size_value)\r\n\tif at.x<0 or at.y<0 or at.x+size_value.x>WIDTH or at.y+size_value.y>HEIGHT:return false\r\n\tfor other in bag_items(p):\r\n\t\tif other.id==id or not p.bag_positions.has(other.id):continue\r\n\t\tvar saved=p.bag_positions[other.id]\r\n\t\tvar occupied=Rect2i(Vector2i(saved.x,saved.y),Content.item_size(other,saved.rotated))\r\n\t\tif wanted.intersects(occupied):return false\r\n\treturn true",
+          "source_code": "static func can_place(p: Dictionary, id: String, at: Vector2i, rotated: bool) -> bool:\n\tvar item=find_item(p,id)\r\n\tif item.is_empty() or is_equipped(p,id):return false\r\n\tvar size_value=Content.item_size(item,rotated)\r\n\tvar wanted=Rect2i(at,size_value)\r\n\tif at.x<0 or at.y<0 or at.x+size_value.x>WIDTH or at.y+size_value.y>HEIGHT:return false\r\n\tfor other in bag_items(p):\r\n\t\tif other.id==id or not p.bag_positions.has(other.id):continue\r\n\t\tvar saved=p.bag_positions[other.id]\r\n\t\tvar occupied=Rect2i(Vector2i(saved.x,saved.y),Content.item_size(other,saved.rotated))\r\n\t\tif wanted.intersects(occupied):return false\r\n\treturn true",
           "source_path": "game/scripts/inventory_model.gd",
-          "source_sha256": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
+          "source_sha256": "cb3430db718405d67faabb616cd23ace52a5aded332750ef3dbd740832de48a5",
           "source_symbol": "can_place"
         }
       ],
@@ -375085,9 +375148,9 @@
     "counts": {
       "appearances": 620,
       "art_assets": 1656,
-      "art_files": 182,
+      "art_files": 183,
       "art_sources": 11,
-      "art_uses": 10091,
+      "art_uses": 10092,
       "build_concepts": 100,
       "build_nodes": 1510,
       "classes": 20,
@@ -375129,7 +375192,7 @@
     },
     "schema_version": 5,
     "source_sha256": {
-      "docs/ASSET_SOURCES.md": "ddc6246d6d69c31f078c85fe622c065169db90343f93e2052e6f19a725f663d4",
+      "docs/ASSET_SOURCES.md": "db8862dba4ae0ee89c8488fc74f0b424179074bc8c5ef0957d91a09cc48a6f0d",
       "docs/ENVIRONMENT_V04_PROVENANCE.json": "6e425d26e0943f50674f5827e86f8cc97611654a308ccf75ebf6adaf4cd8d94e",
       "docs/EQUIPMENT_ART_PROMPTS.json": "10c63a2d07e8eb66b2d9f27720766cc18a60403f3052ebba11808d61203875b5",
       "docs/ICON_ART_PROMPTS.json": "40b8cd8ac4a8a3108889f2e66164b0a224a379c0792e538d9524853cc8a4f71a",
@@ -375233,7 +375296,7 @@
       "game/assets/icons/wood-status.png": "46f6cff3fd3d327afbcfe3bf5822238de39c37dbefe1d63ddcb0aca618c2f7e9",
       "game/assets/jobs/breaker-effects.png": "4705b7141490f8dfc8b1b2a515afdbf022cd39e5d66039534b204fbc814d91a7",
       "game/assets/jobs/breaker-sprite.png": "b7922289e4f637656f7a98173a31641e733f5a3943776698e6bd9336a77a20b2",
-      "game/assets/jobs/catalog.json": "069521087b1d46098f97b3900063d0127a4b726ca78abd241fd84103f1b6b2e3",
+      "game/assets/jobs/catalog.json": "12843c6f2ee5f92b7fab5168f1b3748231ba8582cee5df314354e9606ec8e5c4",
       "game/assets/jobs/companions-sprite.png": "bdea2c87bf2a9a8f77d723d63e35a4cd5ad5d86455b3bf77d361e0576c59f35c",
       "game/assets/jobs/elementalist-effects.png": "d079520e9be900d4f2c85140953a02e87877ff91838955308ffe9e42545ce310",
       "game/assets/jobs/elementalist-sprite.png": "f9dba42d34abd4a558c839d17bd8eb5f0465b4e0a85e31f2a8f3c21fc114cebc",
@@ -375246,6 +375309,7 @@
       "game/assets/jobs/healer-sprite.png": "4dfcf1b47a6ff9f0b71deedfaf3ea12ae7a9cf8eb67002fc9faa8789b85c6a03",
       "game/assets/jobs/hunter-effects.png": "aeb31ab3e0b12d8289434cb18d849c15ac01e2220f24889bb21d486542ddac3a",
       "game/assets/jobs/hunter-sprite.png": "4c64e39b8e10626cd2c1fca73b79c374c063e19d32100c819d37d16553bf77a5",
+      "game/assets/jobs/hunter-wolf-v054.png": "f9be569c4f360e97137b0a566d0d3a62a630f45442706cd07cbbd831400e059f",
       "game/assets/jobs/infighter-effects.png": "cc4a50cbdbab7c8efe7a37ba93d75d07f4ad85f59f2f75a70776875d4d8599ff",
       "game/assets/jobs/infighter-sprite.png": "3f930271e2d625d29d3002efb5e3542dbab8c713564850175c7bde18a5072fcd",
       "game/assets/jobs/martialist-effects.png": "42f3d104f985cdcd61dc2ea596028a0b6722f187451f096831fc0678f0f797ae",
@@ -375340,12 +375404,12 @@
       "game/data/balance.json": "82b48a87f2f187dda7a823b76af2c9c1e871bea159aba1e88628e6fcc4e4be46",
       "game/data/content_names.json": "278773b66ca95f77c96e928c72669bb5887fb8e89553b102f7e184aa403a3c9c",
       "game/data/drop_tables.json": "7fb8ebdc11b52ccbe1acb08b4bf77ba7c781d27fd3b3561bc355d070cc17467c",
-      "game/data/jobs/catalog.json": "62f4cffa18b7a90aab56121ccb6657eb1dca676955446938a89ba7a2222b4381",
+      "game/data/jobs/catalog.json": "5f2be9940a75ce4902b3e54012f3a7bfd60c95ed81f0bd4b9589b70491c60a4e",
       "game/scripts/abyss_catalog.gd": "f2b54a71d1c3dafa0deed49a569123700f443d9dae4a1dce9dbb9d1ba9a282b6",
-      "game/scripts/action_circle.gd": "ebd47906366e28645f924183b651d1fd08a7e111c287684e4be7421d67614802",
+      "game/scripts/action_circle.gd": "4d5ec4b9164ad69473bd16e3848be030d7d071a176dc0634770d95e14a8c5cea",
       "game/scripts/active_skills.gd": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2",
       "game/scripts/appearance_rules.gd": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac",
-      "game/scripts/art_registry.gd": "60d8e7714cca7690aad7a71c04b4eb8b94c5b523a994a2b8f5a1ed30c3dadc09",
+      "game/scripts/art_registry.gd": "527a3f598aa385417fd8dbfd652a65f1b59beca654cac46f34f1e5ea1bdeaefc",
       "game/scripts/audio_director.gd": "3a2b8b7cc7bb2b55877532ba29e11c47ca92204884473d2be6660ba4be6845d5",
       "game/scripts/battle_camera.gd": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce",
       "game/scripts/boss_hud.gd": "2d869da48130397395548719dd54325fe56b84ba31f9e0a2ab47de224826ae36",
@@ -375355,14 +375419,15 @@
       "game/scripts/character_preview.gd": "841a9c94b95f78e6ac999b5f2937a79b5d656c5cb9d37d106c4457df5ea504a3",
       "game/scripts/character_sheet_ui.gd": "9ec619283d87eb6ea0746e3f7bd0884f55045239565ce41daabaf73c6444f5d3",
       "game/scripts/codex_panel.gd": "c118d309d26581b48f7075e9b94391e20e3a7f09e0c42fa1efe979fa85d1657e",
-      "game/scripts/combat_feedback.gd": "52b3f0bc5c1ec26fccb7a55cda03475969900376ad0193fdd18e4ee4462e5338",
-      "game/scripts/combat_hud.gd": "c6ac8c46f4184a55ee50328c135b6f2fe4063c644cadc302fa14dba94c65b254",
+      "game/scripts/combat_feedback.gd": "0c63c32c87bf333f859d862fa50ba8dccd4ff174c95e21ec4ae45e09a8ad4678",
+      "game/scripts/combat_hud.gd": "9acc5d6d60d9652a072a380067507543db11c5de030d3f36ca8ca271bbee263f",
       "game/scripts/combat_sprite_art.gd": "2ecd285af6a7c9892ac09d3828fdbf8e542709f8046a7e40e6191cc29c2a1582",
       "game/scripts/constellation_catalog.gd": "53f299fa2e8627c6c355b6dcd7796be77db9cb39fc0d32ca814b0435f7186656",
       "game/scripts/constellation_effects.gd": "de7eee25200d06c70948bf8a5d16b76ebee96074ac5cac334edfc22c9530043c",
       "game/scripts/content.gd": "81e6add1ac93d1c49a6314c23ac2d78c066763deb297a920ecf6d45046ac2c42",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
+      "game/scripts/damage_numbers.gd": "cd2dc375ce291b1d71c6edf5b19a43e9086e004e7dc75d8525a52576ce2ee6c2",
       "game/scripts/dungeon.gd": "c6736912290b0741bfc07912a63837e1d99b66f18e3beff2e2f68cddc1a4f06e",
       "game/scripts/enemy_hit_geometry.gd": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2",
       "game/scripts/environment_art.gd": "d6bafb2e7dfc27ca77586ca936a1ce921a6f89993d97e102a53080d5db296278",
@@ -375380,58 +375445,62 @@
       "game/scripts/icon_library.gd": "d076aa185e8fc2e14b6a36e167a748cd91db398574fb8fc1bbfbceb123f2c87b",
       "game/scripts/inventory_grid_ui.gd": "d89b43e412c48731ddccc98badf9925d918b8c956880b6741a6ffb3b32c50d58",
       "game/scripts/inventory_item_ui.gd": "c83f98727d4e15aaaeceb008a75a6be91c3c34b59f474972f12027c4c3391fa1",
-      "game/scripts/inventory_model.gd": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
-      "game/scripts/inventory_panel.gd": "6ae400da4b443f027e48663cff04e48b5dd4fe6ed211409938a980d1107a5729",
+      "game/scripts/inventory_model.gd": "cb3430db718405d67faabb616cd23ace52a5aded332750ef3dbd740832de48a5",
+      "game/scripts/inventory_panel.gd": "5d569b1aa3d37e9dc0353bdf9d260128ae042747f1510b62bbfde89e484f0bda",
       "game/scripts/item_art.gd": "d4e7ee5a6d4d6cc6008eac8907e20df07460a875ee9386dedb8ac5852cdd7209",
-      "game/scripts/job_art.gd": "031093dd07acbb89c70590a3df18f00f834bffba234511bd6fdd96daabc66dcd",
+      "game/scripts/job_art.gd": "0599b85f07c4a904424a14e526cb8d8f72d7db633690e38644904416513dddf4",
       "game/scripts/job_balance.gd": "9b43b521ad554f6f78c75d0395754667677df36d3401da403512110a078c3163",
-      "game/scripts/job_combat.gd": "1251e47a2008656dce3933c9c0d89b7dfd5c0cedb274ce8de02a0e81d21c5190",
+      "game/scripts/job_combat.gd": "bab5fa6e2317e57934aec607e370172c51c1b6444558eb24a608a4cd0ca2874d",
       "game/scripts/job_item_art.gd": "726c113f113b932610d28c1daa9c18825e4cfd5eaf72e8825b59b2b2494d7fc8",
       "game/scripts/job_resource_hud.gd": "c198daab16c04627ce9e38f6ff65d4d144574fde6c61e686f5b20a138edbcb00",
       "game/scripts/key_bindings.gd": "fb6a321cf4a65ebd392d2dbed29ed6863c234af90f06a157ae4439e4cb7bcd8e",
       "game/scripts/keyboard_panel.gd": "f8fcdfec23b15cae1670623167718c277fc2d61457ad461681ff2c872154f44b",
-      "game/scripts/local_session.gd": "8b53656c4c42e8dd268ab9146bb3772ed83c531746916ece986cb240af7795a9",
+      "game/scripts/local_session.gd": "d47ae5150c3b4f396d4816a455a6a169e107eb88d95b4b491998493b26755800",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "2380cd114428ebb6aff3447562ad1ade87a611f1d3420feaa969256d2ef96c5b",
+      "game/scripts/main.gd": "f6c0029d2d386b1ed88049286cae782b49384891807e1aca9205156db7b48e1b",
       "game/scripts/minimap.gd": "ec2086659037fd18dc72dcc2f4f43d068ecfe4e00878cbcd99881aa94adc1b3b",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "25fc3a2aa6322a73b105006982a574d59bd22766542e696c7c11277b9ade2b82",
       "game/scripts/npc_dialogue.gd": "6034c3352158f7e5c7f130f05b47688e0449c2cdb0ea6a694f6a7bf1211a4a73",
-      "game/scripts/player_combat.gd": "a2aedc0b3df4a9ea7e80eb3444ff8a405fa987ee918f76057ac51ff366747f28",
+      "game/scripts/player_combat.gd": "3c2c1116285c7d79c058f2c80e27a3ba730377b900b1b3ca1e09b1f28f4447fc",
+      "game/scripts/player_stats.gd": "b0f0a5624e7d2bafcf3be7f7fc0b7dec4030a0708bc673a6ae312277c7193ede",
       "game/scripts/playtest_driver.gd": "0c5ab2431e7faaeb5c974e5a24c21a1f5aec8762a27566222a75d9f3e51905bd",
       "game/scripts/prepared_art_v05.gd": "b2b55ed83be9f0f4b781153d4d3272864d4ff12a7e69b400ef216529785fe79c",
       "game/scripts/progression.gd": "57f842deae7215cb3eefce8fe8f20938769da9c38d853012c7f4be2c52db2219",
       "game/scripts/service_quote.gd": "89471e72c80e679e954396768a148e18dba036f4bf633406fbb5d1f988b46739",
       "game/scripts/settings_panel.gd": "64a142554a9859783b52fb3da4bdcb713617ba9ca08cdc7fc5d52f2148bd29d5",
-      "game/scripts/simulation.gd": "14cbe5f41896d375f37d75988bdb8178e7ecbf6ce9b8eea87f94628ba3ebf048",
-      "game/scripts/skill_build.gd": "456f92cd4a2a8a745c007dd612b0abe87010cec4981580c736d17e9057a1449d",
+      "game/scripts/simulation.gd": "8e2ba2f814a3db3e64487c2603063e8be031d37b475080508fe67c9e294697aa",
+      "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
       "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
-      "game/scripts/skill_effects.gd": "5ebc75ce855ee3285e9b050e781393fea959f4b5ace309b24b5cdebea197cd2e",
-      "game/scripts/skill_graph_view.gd": "ebaccd737192c9456df4c57866c1b12457f4c026652cce548fcd8af5c2860466",
+      "game/scripts/skill_effects.gd": "11ad388c53389dd6256b7f090b9fe9492297d8a543964cab551575fd3ef60ad5",
+      "game/scripts/skill_graph_view.gd": "d3dab9985e7e5e786108513874cf7ba8b56c03e2a655900b8cf4fc687fe6170e",
       "game/scripts/skill_node_roles.gd": "87609bf62ef3610555bc8a9be830c63840742328a99794ac0a76ffad043c5bbf",
-      "game/scripts/skill_presentation.gd": "4e98a13f24d81fec1faf9413f0d5ad698d7a316d0a2b70eccd9d23e8d637be41",
+      "game/scripts/skill_presentation.gd": "a1e5062c98b4926ae4897dc88c32d38e76ca23f2983530d1fe9d6e3ed77e5136",
       "game/scripts/skill_reach.gd": "6c8fa2ead0c200a5f83a591110f3b58455eb5c6dcb9c05e37a4fd9a7cc6d28fd",
       "game/scripts/skill_scaling.gd": "0339dff31a34f871b50e4ca6b69052831634ee33560929cb0fd97fa8131b3232",
-      "game/scripts/skill_tree_ui.gd": "00d214b5cb5ad7cdd306d237cd15341910e9ab79b5b755c627aec01dd1f47ff6",
-      "game/scripts/skill_vfx.gd": "5d51645d8fb22d13b1d2d5f722c555250a38066df6cf517f19c4cbf88c7e6a99",
+      "game/scripts/skill_tree_ui.gd": "ed4be0144a55e4a771bb64724628ca74dfb94a8824faaaa7c4f753ee3ccacd37",
+      "game/scripts/skill_vfx.gd": "db1c01a34658972693894c42eb5dd71803a29a1875771d8da9672e012d366af1",
       "game/scripts/skill_vfx_catalog.gd": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c",
       "game/scripts/sprite_names.gd": "d846283d3e3ba52b4144cfe60bb247ffb28efa6abc1042ffaf6b6713dff85ec9",
-      "game/scripts/status_markers.gd": "2a562c6d194015c08664ed74a0a99577ea28d4fdddaa3f68107b0bf16fae5ed8",
+      "game/scripts/status_markers.gd": "b00cbf1b58c4ef66712b729fdfd0fbdea7c83e989fd9efa2300530242cbeddde",
+      "game/scripts/status_strip.gd": "2e683d1e0c39f7d3e6ada6961f62e61065bbcb1db21e1f3fa7c7608d772331cc",
       "game/scripts/title_screen.gd": "a6bc5f1288d052ed584d9731c3f4dec7e05a00ab85328288f9edc1ce0c3e1563",
       "game/scripts/town_operations.gd": "ba284121aae97f72041396651739a1b7c92cd0cd958804228977d88d8e069620",
-      "game/scripts/town_panel.gd": "2105ad1fedee6aa074408ff7b99321516c8d1a829179aa4fd54e40871aca2847",
+      "game/scripts/town_panel.gd": "588c9f0d014d2e2aeecfa39c8686ce0cfd9e0619b80b070b55fb8390d76f388d",
       "game/scripts/town_services.gd": "8bdaed745645f0ec30551855e33fd9584f35be317d629db15afa74701f3e78a7",
       "game/scripts/town_visitors.gd": "ee7b7f7185783504ae5597da3dde1838e90ddf319d2c5be0733e6ecc47536f13",
       "game/scripts/training_art.gd": "aa70f36f97e8868db842853e0df811e0098a773aadcc89adb63c8728343f5741",
-      "game/scripts/training_ground.gd": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+      "game/scripts/training_ground.gd": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
       "game/scripts/ui_art.gd": "cff5c1cc5a0ee95da1435e1a7bf300d2398f42450c2bb9e08a7e3489b2598e5e",
       "game/scripts/wardrobe.gd": "3cbeccd2e524a1c44f1a2781e15faf50d64d3d41140e7c44c3d2724d0ec51230",
       "game/scripts/wardrobe_shop.gd": "97e1800a364b936e82176a2a35323f410011f4795f6017f8991224a46d1674b3",
       "game/scripts/world_art.gd": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085",
       "game/scripts/world_catalog.gd": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+      "game/shaders/damage_gradient.gdshader": "e11eddba754d1260105eec08c2386243236bc04121d3d665431bac58cdb4fb1d",
       "game/shaders/forest_ground.gdshader": "10a8605db92bb79e828cb44aee654e1e460cda1f1072e63124b7d94fda5c73ca",
+      "game/shaders/gat_chroma.gdshader": "0b2c654ec4574743c98af2409a226b7501e918c18fd8e8a15d721ed8f129bb49",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
-      "tools/build_database.py": "29f98ee5dffb04f8ec3e02165dda1bbdf94716de8a095a8c9fdee8f9230bce47",
+      "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
       "tools/game_db_rules.py": "4e8795afcabd908660168f7c5896fb634e6828b29d3ba94fa824cc26366ca290",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
@@ -508038,44 +508107,44 @@
       "reward_rule": {
         "source_code": "func kill(id: int, enemy: Dictionary):\n\tif enemy.get(\"training\",false):enemy.hp=enemy.max_hp;return\n\tif enemy.get(\"rewarded\",false):return\r\n\tenemy[\"rewarded\"]=true\r\n\tvar p = players[id]\r\n\tvar config = balance.enemies[enemy.kind].duplicate(true)\r\n\tfor key in [\"xp\",\"gold\"]:config[key]=enemy.get(key,config[key])\r\n\tenemy.hp = 0\r\n\tenemy.respawn = 999999. if map.floor_number>0 else config.respawn\r\n\tenemy.windup = 0.0\r\n\tenemy[\"slow_time\"]=0.0;enemy[\"stun_time\"]=0.0;enemy[\"job_status\"]={};enemy.erase(\"taunt_owner\");enemy.erase(\"taunt_time\")\r\n\tp.xp += roundi(config.xp*(1+Content.skill_bonus(p,\"xp_bonus\")))\r\n\tp.gold += roundi(config.gold*(1+Content.skill_bonus(p,\"gold_bonus\")+preload(\"res://scripts/equipment_catalog.gd\").bonus(p,\"gold_bonus\")))\r\n\tp.kills += 1\r\n\tif map.floor_number==0 and map.zone==\"forest\" and not p.tutorial_done:\r\n\t\tp.tutorial_kills+=1\r\n\t\tif p.tutorial_kills>=5:notice(id,\"숲의 길이 열렸습니다. R로 햇살 마을에 도착하세요.\")\r\n\tif map.floor_number>0 and enemy.get(\"guardian\",false):\r\n\t\tp.cleared_floor=maxi(p.cleared_floor,map.floor_number);p.highest_floor=maxi(p.highest_floor,mini(100,map.floor_number+1))\r\n\t\tif enemy.get(\"raid\",false):p.raid_clears[str(map.floor_number)]=int(p.raid_clears.get(str(map.floor_number),0))+1\r\n\t\tnotice(id,\"100층 레이드 완료 · 마력핵을 잠재웠습니다!\" if map.floor_number==100 else \"B%d 돌파 · 출구에서 E로 다음 층 / R 마을 귀환\"%map.floor_number)\r\n\tif not p.guild_contract.is_empty() and p.guild_contract.zone==map.zone:p.guild_contract.progress=mini(p.guild_contract.target,int(p.guild_contract.progress)+1)\r\n\tif enemy.get(\"boss\",enemy.kind==\"warden\"):\r\n\t\tp.boss_kills += 1;p.dungeon_clears[map.zone]=int(p.dungeon_clears.get(map.zone,0))+1\r\n\t\tif map.floor_number==0:notice(id,\"보스 격파 · \"+enemy.name+\" · R로 마을 귀환\")\r\n\tapply_level_ups(p)\n\tif p.kills >= 5 and p.boss_kills >= 1 and not p.quest_done:\r\n\t\tp.quest_done = true\r\n\t\tp.gold += 100\r\n\t\tnotice(id, \"의뢰 완료 · 정원의 소란 · 금화 +100\")\r\n\tfor entry in loot_tables.roll(enemy.kind,rng,combat.jobs.passive(p,4)*.03 if p.class_id==\"hunter\" and not p.job_state.pets.is_empty() else 0.0):\r\n\t\tserial += 1\r\n\t\tvar item_id = str(Time.get_unix_time_from_system()).replace(\".\", \"\") + \"-\" + str(serial)\r\n\t\tvar item=loot_tables.item(entry,item_id,rng,balance)\r\n\t\tif item.category in [\"weapon\",\"armor\",\"accessory\"]:\r\n\t\t\tvar type=item.get(\"weapon_type\",\"sword\") if item.category==\"weapon\" else item.slot\r\n\t\t\tvar tier=clampi(int(preload(\"res://scripts/world_catalog.gd\").DUNGEONS[map.zone].theme)+rng.randi_range(0,1)+(1 if enemy.get(\"boss\",false) or enemy.get(\"elite\",false) else 0),0,4)\n\t\t\tif map.floor_number>0:tier=clampi(int((map.floor_number-1)/10),0,9)\n\t\t\telif map.zone==\"forest\" and not enemy.get(\"boss\",false) and not enemy.get(\"elite\",false):tier=0\n\t\t\tvar affixes=preload(\"res://scripts/equipment_catalog.gd\").AFFIXES.keys()\r\n\t\t\titem=preload(\"res://scripts/equipment_catalog.gd\").make(type,tier,int(item.rarity),item_id,affixes[rng.randi_range(0,affixes.size()-1)],p.class_id)\r\n\t\tvar offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)\r\n\t\tdrops[item_id] = {\"item\":item,\"pos\":map.move(enemy.pos,offset),\"owner\":id,\"expires\":clock + 90.0}\r\n\tif enemy.get(\"raid\",false):\r\n\t\tserial+=1\r\n\t\tvar raid_id=\"raid-\"+str(Time.get_ticks_usec())+\"-\"+str(serial)\r\n\t\tvar slot=Content.SLOTS[rng.randi_range(0,Content.SLOTS.size()-1)]\r\n\t\tvar grade=preload(\"res://scripts/abyss_catalog.gd\").raid_grade(map.floor_number,rng.randf())\r\n\t\tvar raid_item=preload(\"res://scripts/equipment_catalog.gd\").make(\"sword\" if slot==\"weapon\" else slot,int((map.floor_number-1)/10),grade,raid_id,\"focus\",p.class_id)\r\n\t\tdrops[raid_id]={\"item\":raid_item,\"pos\":enemy.pos+Vector2(.2,.2),\"owner\":id,\"expires\":clock+300.}\r\n\tdirty[id]=true",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "14cbe5f41896d375f37d75988bdb8178e7ecbf6ce9b8eea87f94628ba3ebf048",
+        "source_sha256": "8e2ba2f814a3db3e64487c2603063e8be031d37b475080508fe67c9e294697aa",
         "source_symbol": "kill"
       },
       "rules": [
         {
           "source_code": "static func can_practice(sim,p:Dictionary)->bool:return sim.map.zone==\"town\" and contains(p.pos)",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "can_practice"
         },
         {
           "source_code": "static func spawn(sim)->Dictionary:\n\tvar e=sim.spawn_enemy(\"warden\",POSITION,1,true)\n\te.merge({\"training\":true,\"name\":\"거대 훈련 허수아비\",\"hp\":HEALTH,\"max_hp\":HEALTH,\"pos\":POSITION,\"home\":POSITION,\"raid\":false,\"guardian\":false,\"xp\":0,\"gold\":0},true)\n\treturn e",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "spawn"
         },
         {
           "source_code": "static func summary(p:Dictionary)->Dictionary:\n\tvar result=p.get(\"training_stats\",blank()).duplicate(true)\n\tvar elapsed=maxf(1.,float(result.last_hit)-float(result.first_hit)) if result.hits>0 else 0.\n\tresult[\"elapsed\"]=elapsed\n\tresult[\"dps\"]=float(result.total_damage)/elapsed if elapsed>0 else 0.\n\treturn result",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "summary"
         },
         {
-          "source_code": "static func record(sim,p:Dictionary,e:Dictionary,amount:int,critical:bool,context:Dictionary={}):\n\tif not e.get(\"training\",false):return\n\te.hp=e.max_hp;e.pos=POSITION\n\tif amount<=0 or not can_practice(sim,p):return\n\tif not p.has(\"training_stats\"):p[\"training_stats\"]=blank()\n\tvar stats=p.training_stats\n\tstats.total_damage+=amount;stats.hits+=1;stats.criticals+=1 if critical else 0\n\tif float(stats.first_hit)<0:stats.first_hit=sim.clock\n\tstats.last_hit=sim.clock\n\tvar source=str(context.get(\"budget\",{}).get(\"source\",\"\"))\n\tstats.last_skill_id=source\n\tstats.last_skill={\"basic\":\"기본 공격\",\"heavy\":\"강공격\"}.get(source,\"지속 피해\")\n\tfor node in sim.Content.SKILLS.get(p.class_id,[]):\n\t\tif node.id==source:stats.last_skill=node.name;break\n\tstats.stagger_breaks=int(e.get(\"stagger\",{}).get(\"breaks\",0))",
+          "source_code": "static func record(sim,p:Dictionary,e:Dictionary,amount:int,critical:bool,context:Dictionary={}):\n\tif not e.get(\"training\",false):return\n\te.hp=e.max_hp;e.pos=POSITION\n\tif amount<=0 or not can_practice(sim,p):return\n\texpire_measurement(p,sim.clock)\n\tif not p.has(\"training_stats\"):p[\"training_stats\"]=blank()\n\tvar stats=p.training_stats\n\tstats.total_damage+=amount;stats.hits+=1;stats.criticals+=1 if critical else 0\n\tif float(stats.first_hit)<0:stats.first_hit=sim.clock\n\tstats.last_hit=sim.clock\n\tvar source=str(context.get(\"budget\",{}).get(\"source\",\"\"))\n\tstats.last_skill_id=source\n\tstats.last_skill={\"basic\":\"기본 공격\",\"heavy\":\"강공격\"}.get(source,\"지속 피해\")\n\tfor node in sim.Content.SKILLS.get(p.class_id,[]):\n\t\tif node.id==source:stats.last_skill=node.name;break\n\tstats.stagger_breaks=int(e.get(\"stagger\",{}).get(\"breaks\",0))",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "record"
         },
         {
           "source_code": "static func tick(sim,e:Dictionary,delta:float):\n\te.hp=e.max_hp;e.pos=POSITION;e.home=POSITION;e.windup=0.;e.attack_motion=0.;e.cooldown=1.;e.ability_cd=4.\n\te.erase(\"attack_areas\")\n\tfor key in [\"slow_time\",\"stun_time\"]:e[key]=maxf(0.,float(e.get(key,0))-delta)\n\t# Ready/down/immunity transitions are normal boss stagger transitions. With\n\t# raid=false no threshold check or retaliatory punishment can be generated.\n\tsim.BossStagger.tick(sim,e,delta)",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "tick"
         },
         {
           "source_code": "static func reset(sim,p:Dictionary)->bool:\n\tif not can_practice(sim,p):return false\n\tsim.clear_build_runtime(p)\n\tp.attack_cd=0.;p.dodge_cd=0.;p.nova_cd=0.;p.stamina=p.max_stamina\n\tp[\"training_stats\"]=blank()\n\tfor enemy in sim.enemies.values():\n\t\tif enemy.get(\"training\",false):sim.BossStagger.reset(sim,enemy);enemy.hp=HEALTH;enemy.max_hp=HEALTH;enemy.pos=POSITION;enemy.home=POSITION\n\tsim.notice(p.id,\"훈련 기록과 기술 대기시간을 초기화했습니다.\")\n\treturn true",
           "source_path": "game/scripts/training_ground.gd",
-          "source_sha256": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
+          "source_sha256": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
           "source_symbol": "reset"
         }
       ]

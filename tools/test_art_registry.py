@@ -24,6 +24,19 @@ def main():
     if args.live:data=build_database.normalize(data)
     build_database.validate(data)
     checks=1
+    refs=build_database.resource_refs('"res://shaders/damage_gradient.gdshader" "res://scripts/main.gd" "res://scripts/main.gd.uid" "res://assets/a.png|chroma" "res://data/a.json.bak"')
+    assert refs==['shaders/damage_gradient.gdshader','scripts/main.gd','assets/a.png'];checks+=1
+    sources=data['metadata']['source_sha256']
+    assert 'game/shaders/damage_gradient.gdshader' in sources;checks+=1
+    for name,digest in sources.items():
+        path=ROOT/name
+        assert art_registry.digest(path.read_bytes())==digest;checks+=1
+        if path.suffix in ('.gd','.json'):
+            for ref in build_database.resource_refs(path.read_text('utf8')):
+                dependency=ROOT/'game'/ref
+                if dependency.is_file():
+                    assert dependency.relative_to(ROOT).as_posix() in sources, 'Untracked DB source: '+ref
+                    checks+=1
     def rejects(change):
         nonlocal checks
         bad=copy.deepcopy(data)

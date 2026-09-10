@@ -29,6 +29,8 @@ func initialize(p:Dictionary):
 	p.merge({"skill_cooldowns":{},"barrier_time":0.0,"barrier_strength":0.0,"haste_time":0.0,"regen_fraction":0.0,"combat_time":0.0,"enemy_slow_time":0.0})
 
 func tick_player(p:Dictionary,delta:float):
+	var dodge_step=minf(maxf(0,p.dodge_time),delta)
+	preload("res://scripts/training_ground.gd").expire_measurement(p,sim.clock)
 	constellation.tick_player(p,delta)
 	jobs.tick(p,delta)
 	for key in ["dodge_cd","dodge_time","invulnerable","skill_f_cd","skill_v_cd","skill_c_cd","motion_time","hurt_time"]:p[key]=maxf(0,p[key]-delta)
@@ -49,8 +51,11 @@ func tick_player(p:Dictionary,delta:float):
 		if p.job_state.get("channel",0)>0:speed*=.25 if p.skill_ranks.get("infighter_a01_upgrade",0)>0 and p.job_state.rush>=10 else 0.
 		if jobs.value(p,"stand")>0:speed=0.
 		if p.job_state.get("lock",0)>0 and p.job_state.get("channel",0)<=0:speed*=.35
-	if p.dodge_time>0:
-		p.pos=sim.map.move(p.pos,p.dodge_dir*p.get("dash_speed",11.5)*delta)
+	if dodge_step>0:
+		# Sweep long/slow frames in short collision-checked steps, including the final fraction.
+		var displacement:Vector2=p.dodge_dir*p.get("dash_speed",14.5)*dodge_step
+		var steps=maxi(1,ceili(displacement.length()/.18))
+		for i in range(steps):p.pos=sim.map.move(p.pos,displacement/steps)
 	elif p.sprint and p.dir.length()>0.1 and p.stamina>0 and p.charge_time<0:
 		p.pos=sim.map.move(p.pos,p.dir*speed*1.65*delta)
 		p.stamina=maxf(0,p.stamina-maxf(5,23-Content.skill_bonus(p,"sprint_discount"))*delta)
@@ -66,7 +71,7 @@ func act(p:Dictionary,kind:String)->bool:
 	if kind=="dodge":
 		var cost=maxf(5,25-Content.skill_bonus(p,"dodge_discount"))
 		if p.dodge_cd>0 or p.stamina<cost:return false
-		p.stamina-=cost;p.dodge_cd=0.8;p.dodge_time=0.26;p.invulnerable=0.24;p.charge_time=-1.0
+		p.stamina-=cost;p.dodge_cd=0.8;p.dodge_time=0.26;p.dash_speed=14.5;p.invulnerable=0.24;p.charge_time=-1.0
 		p.invulnerable+=Content.skill_bonus(p,"dodge_duration")
 		p.dodge_dir=p.dir.normalized() if p.dir.length()>0.1 else p.aim.normalized()
 		if p.dodge_dir==Vector2.ZERO:p.dodge_dir=Vector2.RIGHT
@@ -113,15 +118,20 @@ func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	stagger_context=previous
 	return result
 
+func attack_interval(p:Dictionary,heavy:bool=false)->float:
+	var cooldown=float(Content.WEAPONS[weapon_type(p)].cooldown)
+	if Content.job(p):cooldown=float(Content.CLASSES[p.class_id].cooldown)/jobs.attack_speed(p)
+	var result=maxf(0.15,(cooldown-Content.skill_bonus(p,"attack_haste"))/preload("res://scripts/progression.gd").attack_speed(p))*(1.5 if heavy else 1.0)
+	result=maxf(.15,result/(1.+float(constellation.values(p).get("attack_speed",0))))
+	if p.haste_time>0:result*=1-p.get("haste_attack",.3)
+	return result
+
 func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	var type=weapon_type(p);var config=Content.WEAPONS[type].duplicate()
 	if Content.job(p):
 		var cls=Content.CLASSES[p.class_id];config.cooldown=cls.cooldown;config.range=cls.range;config.projectile=cls.projectile
 		if not heavy:jobs.basic(p)
-		config.cooldown/=jobs.attack_speed(p)
-	p.attack_cd=maxf(0.15,(config.cooldown-Content.skill_bonus(p,"attack_haste"))/preload("res://scripts/progression.gd").attack_speed(p))*(1.5 if heavy else 1.0);p.swing=0.32
-	p.attack_cd=maxf(.15,p.attack_cd/(1.+float(constellation.values(p).get("attack_speed",0))))
-	if p.haste_time>0:p.attack_cd*=1-p.get("haste_attack",.3)
+	p.attack_cd=attack_interval(p,heavy);p.swing=0.32
 	p.motion={"sword":"cleave","axe":"slam","bow":"shoot","staff":"cast"}[type]
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
 	# Basic attacks resolve immediately. Show their contact pose immediately;

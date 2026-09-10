@@ -29,7 +29,7 @@ void fragment() {
 		float coverage=1.0-key_mix;
 		vec3 foreground=clamp((sample_color.rgb-vec3(key_mix,0,key_mix))/coverage,vec3(0),vec3(1));
 		COLOR=vec4(foreground,sample_color.a*key_alpha*coverage)*vertex_tint;
-	} else if (gat_sheet && sample_color.r > 0.65 && sample_color.b > 0.65 && sample_color.g < 0.35) {
+	} else if ((gat_sheet || pixels == vec2(2172.0,724.0)) && sample_color.r > 0.65 && sample_color.b > 0.65 && sample_color.g < 0.35) {
 		COLOR.a = 0.0;
 	}
 }

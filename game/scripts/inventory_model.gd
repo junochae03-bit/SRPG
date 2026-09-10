@@ -38,6 +38,21 @@ static func can_place(p: Dictionary, id: String, at: Vector2i, rotated: bool) ->
 		if wanted.intersects(occupied):return false
 	return true
 
+static func sort_bag(p:Dictionary)->bool:
+	var items=bag_items(p)
+	if items.size()>CAPACITY or items.any(func(item):return Content.item_size(item,false)!=Vector2i.ONE):return false
+	var category={"weapon":0,"armor":1,"accessory":2,"consumable":3,"material":4}
+	items.sort_custom(func(a,b):
+		var left=int(category.get(a.get("category",""),5));var right=int(category.get(b.get("category",""),5))
+		if left!=right:return left<right
+		if int(a.get("rarity",0))!=int(b.get("rarity",0)):return int(a.get("rarity",0))>int(b.get("rarity",0))
+		if str(a.name)!=str(b.name):return str(a.name)<str(b.name)
+		return str(a.id)<str(b.id))
+	var positions={}
+	for i in range(items.size()):positions[items[i].id]={"x":i%WIDTH,"y":int(i/WIDTH),"rotated":false}
+	p.bag_positions=positions
+	return true
+
 static func first_fit(p: Dictionary, id: String) -> Dictionary:
 	for rotate in [false]:
 		for y in range(HEIGHT):

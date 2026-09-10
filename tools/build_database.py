@@ -42,6 +42,11 @@ def canonical(value):
     return value
 
 
+def resource_refs(text):
+    # Match complete extensions: .gd must not truncate .gdshader or .gd.uid.
+    return re.findall(r'res://([^\s"\'|]+\.(?:gdshader|gd|json|png))(?=[\s"\'|]|$)', text)
+
+
 def normalize(data):
     data = game_db_rules.enrich(data, ROOT)
     data = art_registry.enrich(data, ROOT)
@@ -76,7 +81,7 @@ def normalize(data):
         blob = path.read_bytes()
         hashes[name] = hashlib.sha256(blob).hexdigest()
         if path.suffix in (".gd", ".json"):
-            for ref in re.findall(r'res://([^\s"\']+\.(?:gd|json|png|gdshader))', blob.decode("utf8")):
+            for ref in resource_refs(blob.decode("utf8")):
                 todo.append(ROOT / "game" / ref)
     data["metadata"]["source_sha256"] = dict(sorted(hashes.items()))
     data["metadata"]["counts"] = {table: len(data[table]) for table in TABLES}

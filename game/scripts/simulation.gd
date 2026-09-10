@@ -244,6 +244,10 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 			return true
 		notice(id,"장비를 벗으려면 가방에 빈자리가 필요합니다.")
 		return false
+	if kind=="sort_bag":
+		if not Inventory.sort_bag(p):return false
+		dirty[id]=true
+		return true
 	if kind=="move_item" or kind=="unequip_to":
 		var move=JSON.parse_string(argument)
 		if not move is Dictionary or not move.get("id") is String or not move.get("rotated") is bool:return false

@@ -36,6 +36,7 @@ var bag: Control
 var help_panel: Control
 var settings_panel:Control
 var combat_feedback:Control
+var damage_numbers:Node2D
 var preferences=preload("res://scripts/game_options.gd").new()
 var skill_tree: Control
 var town_panel:Control
@@ -140,6 +141,7 @@ func _ready():
 	preferences.values.music=audio_director.music_gain;preferences.values.effects=audio_director.effects_gain
 	if preferences.load_file(session.save_directory.path_join("game-options.json")):preferences.apply(self)
 	build_interface()
+	damage_numbers=preload("res://scripts/damage_numbers.gd").new();add_child(damage_numbers);damage_numbers.setup(self)
 	var overlay_layer = CanvasLayer.new()
 	overlay_layer.layer = 2
 	overlay_layer.offset=ui_offset()
@@ -636,13 +638,7 @@ func _draw():
 	for e in effects:
 		var point = world_point(e.pos)
 		if e.type == "damage":
-			if not preferences.values.damage_numbers:continue
-			var damage_pos=point+Vector2(0,-85-(0.7-e.life)*65)
-			if e.get("critical",false):
-				var value=str(e.amount);damage_pos.x-=bold_font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,30).x*.5
-				draw_string_outline(bold_font,damage_pos,value,HORIZONTAL_ALIGNMENT_LEFT,-1,30,5,Color("361914"))
-				draw_string(bold_font,damage_pos,value,HORIZONTAL_ALIGNMENT_LEFT,-1,30,Color("ff4545"))
-			else:text_at(damage_pos,str(e.amount),23,GOLD if e.enemy else Color("ff776b"),true,false)
+			continue
 		elif e.type=="monster_attack":
 			preload("res://scripts/monster_attacks.gd").draw_area(self,e.area,Color(1,.73,.35,e.life/e.max_life))
 		elif e.type in ["nova","skill_fx"]:
@@ -651,6 +647,7 @@ func _draw():
 			var angle = Dungeon.iso(e.dir).angle()
 			if e.get("weapon","") not in ["bow","staff"]:
 				draw_arc(point+Vector2(0,-23),103 if e.type=="heavy" else 68,angle-1.2,angle+1.2,22,Color(0.95,0.82,0.58,e.life*2.7),9 if e.type=="heavy" else 5,true)
+			else:preload("res://scripts/skill_effects.gd").launch_flash(self,e)
 		elif e.type=="dodge":
 			draw_arc(point,28,0,TAU,30,Color(0.5,0.9,1,e.life*2),3,true)
 	for shot in session.state.get("projectiles",[]):
@@ -752,7 +749,7 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:record_art_usage("monsters" if not rendered_monster.is_empty() else "monster_fallback",rendered_monster if not rendered_monster.is_empty() else role)
 	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):
 		for i in range(3):preload("res://scripts/skill_effects.gd").star(self,point+Vector2(sin(visual_time*5+i*TAU/3)*18,-dimensions.y-26),5,Color("fff3a6"))
-	if session.connected:preload("res://scripts/status_markers.gd").draw(self,p,point+Vector2(0,-dimensions.y-54),is_hero)
+	if session.connected and not is_self:preload("res://scripts/status_markers.gd").draw(self,p,point+Vector2(0,-dimensions.y-54),is_hero)
 	if session.connected:
 		if not is_hero and not boss:
 			var elite=bool(p.get("elite",false))

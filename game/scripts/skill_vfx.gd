@@ -1,4 +1,5 @@
 extends RefCounted
+const PROJECTILE_HEIGHT=70.
 ## Deterministic, bounded CanvasItem effects; no particle nodes or gameplay RNG.
 const Catalog=preload("res://scripts/skill_vfx_catalog.gd")
 const Dungeon=preload("res://scripts/dungeon.gd")
@@ -385,7 +386,7 @@ static func projectile(g,shot_data:Dictionary)->bool:
 	var style=Catalog.profile(shot_data)
 	var family=str(style.family)
 	if family.is_empty():return false
-	var at:Vector2=g.world_point(shot_data.pos)+Vector2(0,-28)
+	var at:Vector2=g.world_point(shot_data.pos)+Vector2(0,-PROJECTILE_HEIGHT)
 	var direction=Dungeon.iso(shot_data.dir).normalized()
 	var scale=clampf(float(shot_data.get("visual_scale",1)),1,1.6)
 	var c:Color=style.color;var core:Color=style.accent

@@ -31,10 +31,12 @@ var slot_metadata:Dictionary={}
 var portrait_context:Array=[]
 var portrait_source_rect=Rect2()
 var portrait_frame_size=Vector2.ZERO
+var portrait_bounds_cache={}
 var metadata_rebuilds=0
 var profile_evaluations=0
 var chrome:Control
 var chrome_hidden=false
+var status_strip:Control
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
 	material=preload("res://scripts/gat_art.gd").material()
@@ -92,6 +94,7 @@ func setup(owner_game):
 	game.connection_label=white_label("",Vector2(44,874),Vector2(660,20),12,Color("e6f0dc"))
 	game.connection_label.hide()
 	boss_hud=preload("res://scripts/boss_hud.gd").new();boss_hud.setup(game);add_child(boss_hud)
+	status_strip=preload("res://scripts/status_strip.gd").new();status_strip.setup(game);add_child(status_strip)
 	# Main attaches full-screen panels after setup. Keep only HUD controls in
 	# this layer so modal edges never expose half a caption or a resource bar.
 	chrome=Control.new();chrome.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(chrome)
@@ -112,6 +115,8 @@ func _process(_delta):refresh_chrome()
 func world_label_regions()->Array[Rect2]:
 	var regions:Array[Rect2]=[]
 	if not is_visible_in_tree() or chrome==null or not chrome.is_visible_in_tree():return regions
+	for marker in status_strip.markers:
+		if marker.is_visible_in_tree():regions.append(marker.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,marker.size))
 	var transform=get_global_transform_with_canvas()
 	regions.append(transform*Rect2(19,20,400,145))
 	for control in [bag_button,growth_button,codex_button,quest_panel,job_resource]:
@@ -155,7 +160,7 @@ func refresh_portrait():
 	var still={"class_id":p.class_id,"avatar":p.get("avatar","auto"),"costume":p.costume}
 	var source:Texture2D=preload("res://scripts/gat_art.gd").frame(still,0.).texture
 	portrait_frame_size=source.get_size()
-	var bounds=Rect2(source.get_image().get_used_rect())
+	var bounds:Rect2=cached_portrait_bounds(source)
 	if not bounds.has_area():bounds=Rect2(Vector2.ZERO,portrait_frame_size)
 	# Retain the entire authored width and top: wide hats/ears cannot be cut by
 	# the old fixed square around the foot. Only the lower body is cropped.
@@ -165,6 +170,26 @@ func refresh_portrait():
 		cropped.atlas=source.atlas;cropped.region=Rect2(source.region.position+portrait_source_rect.position,portrait_source_rect.size)
 	else:cropped.atlas=source;cropped.region=portrait_source_rect
 	portrait=cropped
+
+func cached_portrait_bounds(source:Texture2D)->Rect2:
+	var key=str(source.get_rid())
+	if source is AtlasTexture:key+="/"+str(source.region)+"/"+str(source.margin)
+	if not portrait_bounds_cache.has(key):portrait_bounds_cache[key]=visible_portrait_bounds(source)
+	return portrait_bounds_cache[key]
+
+static func visible_portrait_bounds(source:Texture2D)->Rect2:
+	var pixels=source.get_image();var used=pixels.get_used_rect()
+	var sheet_size=source.atlas.get_size() if source is AtlasTexture else source.get_size()
+	# Match the legacy shader key; transparent padding must not shrink the face.
+	var keyed=sheet_size in [Vector2(1374,1145),Vector2(1122,1402),Vector2(1024,1536),Vector2(1536,1536),Vector2(1024,1024),Vector2(1774,887),Vector2(1254,1254),Vector2(1448,1086)]
+	if not keyed:return Rect2(used)
+	var left=pixels.get_width();var top=pixels.get_height();var right=-1;var bottom=-1
+	for y in range(used.position.y,used.end.y):
+		for x in range(used.position.x,used.end.x):
+			var color=pixels.get_pixel(x,y)
+			if color.a<=.06 or (color.r>.65 and color.b>.65 and color.g<.35):continue
+			left=mini(left,x);right=maxi(right,x);top=mini(top,y);bottom=maxi(bottom,y)
+	return Rect2(left,top,right-left+1,bottom-top+1) if right>=left else Rect2()
 
 func portrait_rect()->Rect2:
 	if portrait==null:return Rect2()
@@ -208,6 +233,7 @@ func refresh():
 	refresh_chrome()
 	p=game.session.state.players.get(game.session.local_id,{})
 	if p.is_empty():return
+	status_strip.refresh(p)
 	name_label.text=p.name;name_label.tooltip_text=p.name
 	class_label.text=Content.CLASSES[p.class_id].name
 	hp_label.text="%d / %d" % [p.hp,p.max_hp]
@@ -243,6 +269,7 @@ func refresh():
 			control.locked=not trained
 			control.cooldown=p.skill_cooldowns.get(node.get("id",""),0.)
 			control.rank_text=str(metadata.rank)+"/"+str(Content.max_rank(node)) if trained else ""
+			control.count="룬 %d"%int(node.get("rune_cost",0)) if trained and int(node.get("rune_cost",0))>0 else ""
 		control.picture=metadata.picture
 		control.tooltip_text=control.caption+" ("+control.hotkey+")"
 		if key in Content.ACTIONS and control.locked:control.tooltip_text=key_label("skills")+" · 성장에서 기술을 배우고 배치하세요." if metadata.node.is_empty() else metadata.node.name+" · 아직 배우지 않은 기술"

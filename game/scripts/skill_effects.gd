@@ -86,9 +86,24 @@ static func render(game,e:Dictionary):
 				var offset=Vector2.from_angle(i*TAU/10+t*.5)*radius*t*Vector2(1,.6)
 				star(game,at+offset+Vector2(0,-20*(1-t)),(8 if i%2 else 14)*(1-t*.6),Color(.95,.88,1,alpha),t*2+i)
 
+static func launch_flash(game,event:Dictionary):
+	var age=float(event.max_life)-float(event.life)
+	if age<0 or age>=.14:return
+	var direction=Dungeon.iso(event.dir).normalized()
+	var at=game.world_point(event.pos)+Vector2(0,-preload("res://scripts/skill_vfx.gd").PROJECTILE_HEIGHT)+direction*16.
+	var phase=age/.14;var strength=1.4 if event.type=="heavy" else 1.
+	var color=Color("e1fbff") if event.weapon=="staff" else Color("fff1bd")
+	color.a=(1.-phase)*.9
+	if event.weapon=="staff":
+		game.draw_arc(at,(6.+phase*12.)*strength,0,TAU,20,color,2.,true)
+		star(game,at,9.*strength*(1.-phase),color,direction.angle())
+	else:
+		game.draw_arc(at,(5.+phase*18.)*strength,direction.angle()-.8,direction.angle()+.8,12,color,2.,true)
+		game.draw_line(at-direction*8.,at+direction*10.,color,2.,true)
+
 static func projectile(game,shot:Dictionary):
 	if preload("res://scripts/skill_vfx.gd").projectile(game,shot):return
-	var at=game.world_point(shot.pos)+Vector2(0,-28)
+	var at=game.world_point(shot.pos)+Vector2(0,-preload("res://scripts/skill_vfx.gd").PROJECTILE_HEIGHT)
 	var direction=Dungeon.iso(shot.dir).normalized()
 	var angle=direction.angle()
 	var scale=float(shot.get("visual_scale",1))
@@ -97,15 +112,21 @@ static func projectile(game,shot:Dictionary):
 			game.draw_arc(at,33*scale,angle-1.2,angle+1.2,24,Color("ffe9a6"),6*scale,true)
 			game.draw_arc(at-direction*10,29*scale,angle-1.1,angle+1.1,24,Color("e8b96580"),4,true)
 		"staff":
-			game.draw_line(at-direction*33,at,Color("9fb8ee70"),10,true)
-			star(game,at,13*scale,Color("effaff"),game.visual_time*5)
-			star(game,at-direction*20,5,Color("bcdcff"),-game.visual_time*4)
+			for i in range(3):
+				game.draw_line(at-direction*(14+i*12)*scale,at-direction*i*12*scale,Color(.47,.76,1.,.48-i*.13),(9.-i*2.)*scale,true)
+			game.draw_circle(at,15*scale,Color("8acfff38"))
+			game.draw_circle(at,8*scale,Color("6caddb"))
+			star(game,at,11*scale,Color("f0ffff"),game.visual_time*5)
+			star(game,at-direction*22*scale,4*scale,Color("bcdcff"),-game.visual_time*4)
 		_:
 			var piercing=shot.type=="piercing"
 			if piercing:game.draw_line(at-direction*65,at,Color("93f5bb70"),8,true)
+			game.draw_line(at-direction*43*scale,at-direction*24*scale,Color("e9d49b65"),2*scale,true)
+			game.draw_line(at-direction*29*scale,at,Color("344a47"),5*scale,true)
 			game.draw_line(at-direction*29*scale,at,Color("f5e6b7"),3*scale,true)
-			game.draw_line(at-direction*24+direction.orthogonal()*5,at-direction*18,Color("7bced1"),3,true)
-			game.draw_colored_polygon(PackedVector2Array([at+direction*4,at-direction*8+direction.orthogonal()*5,at-direction*8-direction.orthogonal()*5]),Color("ecffff"))
+			for side in [-1.,1.]:game.draw_line(at-direction*29*scale+direction.orthogonal()*side*5*scale,at-direction*20*scale,Color("76bcad"),3*scale,true)
+			var head=PackedVector2Array([at+direction*5*scale,at-direction*9*scale+direction.orthogonal()*5*scale,at-direction*5*scale,at-direction*9*scale-direction.orthogonal()*5*scale])
+			game.draw_colored_polygon(head,Color("ecffff"));head.append(head[0]);game.draw_polyline(head,Color("344a47"),1.4*scale,true)
 
 static func extended(game,e:Dictionary,at:Vector2,t:float,r:float,angle:float,alpha:float):
 	var kind=str(e.fx);var parts=kind.split("_");var mode=kind.trim_prefix(parts[0]+"_")

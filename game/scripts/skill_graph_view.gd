@@ -19,10 +19,9 @@ var drag_start=Vector2.ZERO
 var drag_offset=Vector2.ZERO
 var hover_id=""
 var class_id=""
-var scope_cluster=0
+var scope_cluster=-1
 var scope_extra:Dictionary={}
-const BRANCH_COLUMNS=3
-const NODE_GAP=Vector2(166,139)
+var vertical_bar:VScrollBar
 var scroll_vertical:float:
 	get:return -offset.y
 	set(value):offset.y=-value;layout_controls()
@@ -33,6 +32,11 @@ class Medal extends Button:
 	var status:Dictionary={}
 	var name_label:Label
 	func active_badge()->bool:return Presentation.active(datum)
+	func _make_custom_tooltip(value:String)->Object:
+		if Presentation.active(datum):
+			var p=graph.owner_tree.player();var rank=Rules.rank(p,datum)
+			value=datum.name+"\n"+("습득 시\n" if rank==0 else "")+Presentation.quickslot_description(p,datum.get("icon_node",datum),maxi(1,rank),graph.owner_tree.game.session.sim.damage_for(p))
+		return Art.tooltip(graph.owner_tree.game,value)
 	func shape()->String:
 		return "crest" if datum.get("type","")=="keystone" else {"active":"active_square","active_module":"module_diamond","character_passive":"behavior_crest","stat_passive":"passive_round"}[Presentation.role(datum)]
 	func role_badge_rect()->Rect2:
@@ -56,7 +60,7 @@ class Medal extends Button:
 			draw_set_transform(Vector2.ZERO)
 		else:draw_texture_rect(Art.texture(frame),Rect2(Vector2.ZERO,size),false)
 		var enabled=learned or bool(status.get("can_invest",false));draw_texture_rect(icon,icon_rect(),false,Color.WHITE if enabled else Color(.72,.76,.73,1.))
-		if graph.scope_cluster>=0 and graph.scope_extra.is_empty() and Presentation.role(datum)!="stat_passive":
+		if graph.zoom>=.7 and Presentation.role(datum)!="stat_passive":
 			var font=graph.owner_tree.game.fonts;var label=Presentation.role_caption(datum);var width=font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,14).x
 			draw_texture_rect(Art.plain_paper(),role_badge_rect(),false)
 			draw_string(font,Vector2((size.x-width)*.5,3),label,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("284c56"))
@@ -71,14 +75,14 @@ class Medal extends Button:
 			if not caption.is_empty():
 				var font=graph.owner_tree.game.fonts;var width=font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11).x
 				draw_texture_rect(Art.plain_paper(),Rect2(Vector2(size.x*.5-width*.5-5,size.y-17),Vector2(width+10,17)),false);draw_string(font,Vector2(size.x*.5-width*.5,size.y-4),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("635a43"))
-		if int(status.get("rank",0))>0 and graph.zoom>.55:
-			var caption="%d/%d"%[int(status.rank),int(datum.max_rank)];var at=Vector2(size.x*.72,size.y-2)
-			draw_texture_rect(Art.texture("scroll"),Rect2(at-Vector2(25,15),Vector2(50,22)),false)
+		if graph.zoom>=.7:
+			var caption="%d/%d"%[int(status.get("rank",0)),int(datum.max_rank)];var at=Vector2(size.x*.5,size.y+13)
+			draw_texture_rect(Art.plain_paper(),Rect2(at-Vector2(25,13),Vector2(50,19)),false)
 			var font=graph.owner_tree.game.fonts;var width=font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x
 			draw_string(font,at-Vector2(width*.5,0),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("34594e"))
 	func _gui_input(event):
 		if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
-			graph.zoom_at(graph.get_local_mouse_position(),1.12 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1./1.12);accept_event()
+			graph.wheel(event,graph.get_local_mouse_position());accept_event()
 		elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT:
 			# A node click selects the node. Panning starts only on the map itself,
 			# so its bubbled press cannot suppress the Button's release signal.
@@ -86,31 +90,29 @@ class Medal extends Button:
 
 func setup(tree):
 	owner_tree=tree;clip_contents=true;mouse_filter=Control.MOUSE_FILTER_STOP
+	vertical_bar=VScrollBar.new();add_child(vertical_bar)
+	vertical_bar.value_changed.connect(func(value):offset.y=-value;layout_controls())
 	resized.connect(func():if not definitions.is_empty():fit_scope())
 
 func rebuild(list:Array,p:Dictionary):
 	var changed=class_id!=p.class_id or definitions.size()!=list.size()
 	if changed:
-		for child in get_children():remove_child(child);child.queue_free()
-		class_id=p.class_id;definitions.clear();positions.clear();node_controls.clear();cluster_names.clear();planned_ids=[];scope_extra.clear();scope_cluster=0
-		centers={0:Vector2(510,340),1:Vector2(1650,340),2:Vector2(2790,340),3:Vector2(1080,1080),4:Vector2(2220,1080)}
+		for child in get_children():
+			if child!=vertical_bar:remove_child(child);child.queue_free()
+		class_id=p.class_id;definitions.clear();positions.clear();node_controls.clear();cluster_names.clear();planned_ids=[];scope_extra.clear();scope_cluster=-1
+		centers={0:Vector2(110,100),1:Vector2(310,100),2:Vector2(510,100),3:Vector2(710,100),4:Vector2(910,100)}
 		var groups={}
 		for node in list:
 			definitions[node.id]=node;var cluster=clampi(int(node.get("cluster",0)),0,4)
 			if not groups.has(cluster):groups[cluster]={"original":[],"special":[]}
 			groups[cluster]["original" if node.get("type","original")=="original" else "special"].append(node)
 			if node.has("cluster_name"):cluster_names[cluster]=str(node.cluster_name)
+		layout_branches(list)
 		for cluster in groups:
 			for category in ["original","special"]:
-				var records:Array=groups[cluster][category];var rows=ceili(records.size()/float(BRANCH_COLUMNS))
+				var records:Array=groups[cluster][category]
 				for i in range(records.size()):
-					var node=records[i];var origin_x=-2.5*NODE_GAP.x if category=="original" else .5*NODE_GAP.x
-					if groups[cluster].original.is_empty():origin_x=-NODE_GAP.x
-					if groups[cluster].original.size()>9:
-						var at=i+(groups[cluster].original.size() if category=="special" else 0)
-						if node.get("type","")=="keystone":at=19
-						positions[node.id]=centers[cluster]+Vector2((at%5-2)*210,(int(at/5)-1.5)*150)
-					else:positions[node.id]=centers[cluster]+Vector2(origin_x+(i%BRANCH_COLUMNS)*NODE_GAP.x,(int(i/BRANCH_COLUMNS)-(rows-1)*.5)*NODE_GAP.y)
+					var node=records[i]
 					var b=Medal.new();b.graph=self;b.id=node.id;b.datum=node;b.icon=Icons.skill(node);b.material=Art.icon_material(b.icon);b.expand_icon=true;b.add_theme_constant_override("icon_max_width",1)
 					for state_name in ["normal","hover","pressed","focus","disabled"]:b.add_theme_color_override("icon_"+state_name+"_color",Color.TRANSPARENT)
 					b.pressed.connect(func():owner_tree.select_node(node.id))
@@ -119,7 +121,7 @@ func rebuild(list:Array,p:Dictionary):
 					b.name_label=owner_tree.game.label(b,Presentation.short_label(node),Vector2.ZERO,Vector2(158,39),14)
 					b.name_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;b.name_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.name_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 					b.name_label.add_theme_color_override("font_outline_color",Color("fff5dc"));b.name_label.add_theme_constant_override("outline_size",4)
-		bounds=Rect2(Vector2(0,0),Vector2(3320,1420));fit_scope()
+		fit_scope()
 	states.clear()
 	for id in definitions:
 		states[id]=Rules.node_state(p,id);var b=node_controls[id];b.status=states[id]
@@ -129,6 +131,24 @@ func rebuild(list:Array,p:Dictionary):
 		scope_cluster=int(definitions[owner_tree.choice].get("cluster",0));scope_extra.clear();fit_scope()
 	layout_controls()
 
+func layout_branches(list:Array):
+	var pending=list.duplicate();var rows={};var next_row={};var height=0.
+	pending.sort_custom(func(a,b):
+		if int(a.get("level",1))!=int(b.get("level",1)):return int(a.get("level",1))<int(b.get("level",1))
+		return Presentation.active(a) and not Presentation.active(b))
+	while not pending.is_empty():
+		var progress=false
+		for node in pending.duplicate():
+			var parents:Array=node.get("parents",[]).filter(func(id):return definitions.has(id) and int(definitions[id].get("cluster",0))==int(node.get("cluster",0)))
+			if parents.any(func(id):return definitions.has(id) and not rows.has(id)):continue
+			var cluster=int(node.get("cluster",0));var row=int(next_row.get(cluster,0))
+			for parent in parents:row=maxi(row,int(rows.get(parent,-1))+1)
+			rows[node.id]=row;next_row[cluster]=row+1
+			positions[node.id]=centers[cluster]+Vector2(0,row*166.)
+			height=maxf(height,positions[node.id].y+125);pending.erase(node);progress=true
+		if not progress:
+			push_error("Skill layout contains a prerequisite cycle");break
+	bounds=Rect2(Vector2.ZERO,Vector2(1020,height))
 func fit_all():
 	scope_cluster=-1;scope_extra.clear();fit_scope();owner_tree.refresh_branch_picker()
 func set_scope(cluster:int):
@@ -146,8 +166,7 @@ func scope_bounds()->Rect2:
 func fit_scope():
 	var area=scope_bounds()
 	if area.size==Vector2.ZERO:return
-	zoom=minf((size.x-24)/area.size.x,(size.y-36)/area.size.y);offset=size*.5-area.get_center()*zoom;layout_controls()
-	if scope_cluster>=0 and scope_extra.is_empty():offset.y-=12;layout_controls()
+	zoom=minf(1.,(size.x-12)/area.size.x);offset=Vector2(size.x*.5-area.get_center().x*zoom,0. if scope_cluster<0 else 76.-area.position.y*zoom);layout_controls()
 func reveal_plan():
 	scope_extra.clear()
 	for id in planned_ids:
@@ -171,23 +190,33 @@ func focus_node(id:String,near=true):
 	if near:zoom=maxf(zoom,.80)
 	offset=size*.5-positions[id]*zoom;layout_controls()
 func layout_controls():
+	if vertical_bar!=null:
+		vertical_bar.position=Vector2(size.x-15,0);vertical_bar.size=Vector2(15,size.y)
+		vertical_bar.max_value=maxf(size.y,bounds.size.y*zoom);vertical_bar.page=size.y;vertical_bar.set_value_no_signal(maxf(0,-offset.y))
+		vertical_bar.visible=bounds.size.y*zoom>size.y
 	for id in node_controls:
 		# A sparse branch must not inflate its medals into the next row's text.
 		# Manual zoom still enlarges both spacing and art; fit view keeps readable gaps.
 		var b=node_controls[id];var type=definitions[id].get("type","original");var base=104. if type=="keystone" else 80. if type=="notable" else 84. if definitions[id].get("effect","")=="active" else 78.
-		var readable=scope_cluster>=0 and scope_extra.is_empty()
+		var readable=zoom>=.7
 		var minimum=84. if type=="keystone" else 80. if type=="notable" else 84. if definitions[id].get("effect","")=="active" else 78.
 		var diameter=clampf(base*zoom,minimum if readable else 42. if type=="keystone" else 30.,base*1.24)
-		b.size=Vector2.ONE*ceilf(diameter);b.position=(world_to_view(positions[id])-b.size*.5).round();b.visible=in_scope(id) and Rect2(-b.size,size+b.size*2).has_point(b.position);b.queue_redraw()
+		b.size=Vector2.ONE*ceilf(diameter);b.position=(world_to_view(positions[id])-b.size*.5).round()
+		var full=Rect2(b.position+Vector2((b.size.x-158)*.5,-14),Vector2(158,b.size.y+76))
+		b.visible=in_scope(id) and Rect2(Vector2.ZERO,size).encloses(full);b.queue_redraw()
 		b.name_label.visible=readable or id in [owner_tree.choice,hover_id] and zoom>.6
-		b.name_label.position=Vector2((b.size.x-158)*.5,b.size.y+3);b.name_label.size=Vector2(158,39)
+		b.name_label.position=Vector2((b.size.x-158)*.5,b.size.y+21);b.name_label.size=Vector2(158,39)
 		b.name_label.add_theme_font_override("font",owner_tree.game.bold_font if Presentation.active(definitions[id]) else owner_tree.game.fonts)
 	queue_redraw()
 	if owner_tree!=null and owner_tree.zoom_label!=null:owner_tree.zoom_label.text="%d%%"%roundi(zoom*100)
 
+func wheel(event:InputEventMouseButton,point:Vector2):
+	if not event.pressed:return
+	if event.ctrl_pressed:zoom_at(point,1.12 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1./1.12)
+	else:pan_by(Vector2(0,110 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -110))
 func _gui_input(event):
 	if event is InputEventMouseButton:
-		if event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed:zoom_at(event.position,1.12 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1./1.12);accept_event()
+		if event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN] and event.pressed:wheel(event,event.position);accept_event()
 		elif event.button_index in [MOUSE_BUTTON_LEFT,MOUSE_BUTTON_MIDDLE]:
 			dragging=event.pressed;drag_start=event.position;drag_offset=offset;accept_event()
 	elif event is InputEventMouseMotion and dragging:
@@ -199,11 +228,11 @@ func _draw():
 	for cluster in centers:
 		if scope_cluster>=0 and cluster!=scope_cluster:continue
 		var center=world_to_view(centers[cluster])
-		if not Rect2(-Vector2.ONE*100,size+Vector2.ONE*200).has_point(center):continue
+		var left=world_to_view(Vector2(centers[cluster].x-98,0));var panel=Rect2(left,Vector2(196*zoom,bounds.size.y*zoom))
+		draw_line(left+Vector2(panel.size.x,0),left+panel.size,Color("ac947d"),1,true)
 		if scope_cluster<0:
 			var heading=cluster_names.get(cluster,["전투의 근원","흐름의 전환","집중과 파괴","수호와 회복","기동과 제어"][cluster])
-			var at=center-Vector2(0,260*zoom)
-			Art.texture("scroll").draw_rect(get_canvas_item(),Rect2(at-Vector2(85,16),Vector2(170,36)),false)
+			var at=center-Vector2(0,68*zoom)
 			text_center(heading,at+Vector2(0,8),16,Color("28494d"))
 	for id in definitions:
 		if not in_scope(id):continue

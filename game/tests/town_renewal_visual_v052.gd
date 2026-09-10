@@ -101,6 +101,23 @@ func run():
 		check(changed_red>80,"real critical event paints bold red glyphs over unchanged training scene")
 		check(game.bold_font.resource_path.ends_with("dnf_bitbit_v2.ttf"),"critical glyphs use requested bold font")
 		game.effects.clear()
+		var numbers=game.damage_numbers
+		var pool_ids=numbers.labels.map(func(label):return label.get_instance_id())
+		for index in range(100):
+			game.on_event({"type":"damage","pos":target.pos,"amount":1000+index,"enemy":true,"owner":1,"critical":index%2==0})
+		numbers.refresh()
+		check(numbers.visible_count==80 and numbers.get_child_count()==80,"damage burst keeps bounded reusable pool")
+		check(numbers.labels[0].text=="1020" and numbers.labels[79].text=="1099","damage burst retains newest exact amounts")
+		check(numbers.labels[0].pixels==30 and numbers.labels[1].pixels==23,"critical glyphs remain larger than normal hits")
+		for index in range(5):numbers.refresh()
+		check(numbers.labels.map(func(label):return label.get_instance_id())==pool_ids,"damage refresh does not allocate replacement nodes")
+		game.preferences.values.damage_numbers=false;numbers.refresh()
+		check(numbers.visible_count==0 and numbers.labels.all(func(label):return not label.visible),"damage preference immediately hides whole pool")
+		game.preferences.values.damage_numbers=true
+		for event in game.effects:event.life=0.
+		numbers.refresh()
+		check(numbers.visible_count==0,"expired damage events leave no stale glyphs")
+		game.effects.clear()
 	var art=TrainingArt.texture()
 	check(art is AtlasTexture and art.atlas.resource_path==TrainingArt.SOURCE and art.region.has_area(),"registered transparent source used by actual target")
 	check(local.act("interact") and game.npc_dialogue.facility=="training","E reaches training instructor from practice circle")

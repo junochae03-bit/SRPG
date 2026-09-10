@@ -120,7 +120,7 @@ func check_tree(game, cls: String):
 	tree.mode = "skills"
 	tree.refresh(true)
 	check(tree.nodes.size() == Content.SKILLS[cls].size()+45, "original and specialization controls exist " + cls)
-	check(tree.graph.scope_cluster==0,"icon integration preserves first-branch focus "+cls)
+	check(tree.graph.scope_cluster==-1,"icon integration preserves all-branch overview "+cls)
 	for node in Build.nodes_for(cls):
 		var control = tree.nodes.get(node.id)
 		check(control != null and control.icon == IconArt.skill(node), "UI uses semantic skill icon " + str(node.id))

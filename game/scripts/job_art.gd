@@ -28,9 +28,14 @@ static func pets(game,p:Dictionary,time:float):
 	initialize()
 	for pet in p.get("job_state",{}).get("pets",[]):
 		var row=0 if p.class_id=="hunter" else clampi(int(pet.kind)+1,1,4)
-		var tex=texture("effects","companions",row*4+int(time*7)%4)
-		var dimensions=Vector2(64,76) if row!=4 else Vector2(95,90)
-		game.draw_texture_rect(tex,Rect2(game.world_point(pet.pos)-Vector2(dimensions.x/2,dimensions.y),dimensions),false)
+		var key="hunter_wolf" if row==0 else "companions"
+		var index=row*4+int(time*7)%4
+		if row==0:index=3 if pet.get("cd",0.)>.5 else 1+int(time*7)%2 if pet.get("moving",false) else 0
+		var f=data.effects[key].frames[index];var tex=texture("effects",key,index)
+		var scale=(112. if row==0 else 224.)/float(f.body_height)
+		game.draw_set_transform(game.world_point(pet.pos),0,Vector2(pet.get("facing",1.),1))
+		game.draw_texture_rect(tex,Rect2(-Vector2(f.foot[0],f.foot[1])*scale,tex.get_size()*scale),false)
+		game.draw_set_transform(Vector2.ZERO)
 
 static func portrait(p:Dictionary)->AtlasTexture:
 	initialize();var key=p.class_id;var id="portrait"+key

@@ -93,7 +93,9 @@ func open(key:String):
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel","costume":"buy","training":"training_reset"}[key]
 	if key=="inn":operation=TownOperations.DEFAULT_INN_OPERATION
 	if key=="costume":shop_mode="costume"
-	if key=="smith" and not player().inventory.is_empty():selected_item=player().inventory[0].id
+	if key=="smith":
+		var items=smith_items(player(),operation)
+		if not items.is_empty():selected_item=items[0].id
 	if key=="guild" and not player().guild_contract.is_empty():operation="claim"
 	game.bag.hide();game.skill_tree.hide();game.help_panel.hide();game.codex.hide();show();game.session.paused=true;refresh()
 func close():hide();game.session.paused=false
@@ -244,9 +246,14 @@ func reset_training():
 	last_receipt="훈련 초기화 완료\n기록 · 기술 대기시간 초기화" if receipt_success else "수련장 안에서 이용할 수 있습니다."
 	refresh()
 
+static func smith_items(p:Dictionary,action:String)->Array:
+	var items=p.inventory.filter(func(item):return item.get("category","") in ["weapon","armor","accessory"] and (action!="salvage" or not Inventory.is_equipped(p,item.id)))
+	var equipped=items.filter(func(item):return Inventory.is_equipped(p,item.id))
+	equipped.append_array(items.filter(func(item):return not Inventory.is_equipped(p,item.id)))
+	return equipped
 func smith(p:Dictionary):
 	operation_tabs([["upgrade","장비 강화"],["reforge","옵션 재련"],["salvage","장비 분해"]])
-	var items=p.inventory.filter(func(item):return item.get("category","") in ["weapon","armor","accessory"] and (operation!="salvage" or not Inventory.is_equipped(p,item.id)))
+	var items=smith_items(p,operation)
 	# A completed sale/dismantle never silently selects the next inventory row.
 	var list=list_surface(Vector2(0,64),Vector2(722,620),maxf(610,ceili(items.size()/2.0)*134.))
 	for i in range(items.size()):

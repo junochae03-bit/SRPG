@@ -111,7 +111,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")

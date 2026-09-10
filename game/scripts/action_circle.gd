@@ -1,5 +1,15 @@
 extends Button
-func _make_custom_tooltip(value:String)->Object:return preload("res://scripts/ui_art.gd").tooltip(game,value)
+func tooltip_description()->String:
+	var value=caption+" ("+hotkey+")"
+	var content=preload("res://scripts/content.gd")
+	if kind not in content.ACTIONS:return tooltip_text
+	var p:Dictionary=game.session.state.players.get(game.session.local_id,{})
+	if p.is_empty():return value
+	var node=content.active_node(p,kind)
+	var rank=int(p.get("skill_ranks",{}).get(node.get("id",""),0))
+	if rank<=0:return tooltip_text
+	return value+"\n"+preload("res://scripts/skill_presentation.gd").quickslot_description(p,node,rank,game.session.sim.damage_for(p))
+func _make_custom_tooltip(_value:String)->Object:return preload("res://scripts/ui_art.gd").tooltip(game,tooltip_description())
 var game
 var kind=""
 var caption=""
