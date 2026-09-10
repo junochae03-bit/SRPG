@@ -152,11 +152,8 @@ func refresh_key_labels():
 		if pair[0]!=null:pair[0].hotkey=key_label(pair[1]);pair[0].tooltip_text=pair[0].caption+" ("+pair[0].hotkey+")";pair[0].queue_redraw()
 
 func refresh_portrait():
-	var source:Texture2D
-	if Content.gat_appearance(p):
-		var still={"class_id":p.class_id,"avatar":p.get("avatar","auto"),"costume":p.costume,"legacy_costume":p.get("legacy_costume","")}
-		source=preload("res://scripts/gat_art.gd").frame(still,0.).texture
-	else:source=game.textures[Content.costume_role(p)].idle[0]
+	var still={"class_id":p.class_id,"avatar":p.get("avatar","auto"),"costume":p.costume}
+	var source:Texture2D=preload("res://scripts/gat_art.gd").frame(still,0.).texture
 	portrait_frame_size=source.get_size()
 	var bounds=Rect2(source.get_image().get_used_rect())
 	if not bounds.has_area():bounds=Rect2(Vector2.ZERO,portrait_frame_size)

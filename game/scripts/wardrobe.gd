@@ -1,6 +1,7 @@
 extends RefCounted
 const Content=preload("res://scripts/content.gd")
 const Names=preload("res://scripts/sprite_names.gd")
+const RETIRED_IDS=["costume:traveler","costume:witch","costume:starlight","costume:celestial"]
 static func options(class_id:String)->Array:
 	var result=["base:"+class_id]
 	var default_avatar=default_avatar_id(class_id)

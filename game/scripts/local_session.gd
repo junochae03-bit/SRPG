@@ -282,8 +282,10 @@ func parse_save(path: String) -> Variant:
 		if not value.owned_appearances is Array or value.owned_appearances.size()>500:return null
 		var seen_appearances=[]
 		for id in value.owned_appearances:
+			if id is String and id in preload("res://scripts/wardrobe.gd").RETIRED_IDS:continue
 			if not id is String or not preload("res://scripts/wardrobe.gd").valid_id(id) or id in seen_appearances:return null
 			seen_appearances.append(id)
+		value.owned_appearances=seen_appearances
 	return value
 
 func load_slot() -> Dictionary:

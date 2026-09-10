@@ -3,7 +3,7 @@ import re
 
 
 _STANDARD = """
-appearance_matching_v04 appearance_v041 audio_shutdown_v04 battle_camera_v04
+removed_assets appearance_matching_v04 appearance_v041 audio_shutdown_v04 battle_camera_v04
 character_creation_v04 character_dialogue_ui_v04 client_flow_v051 codex_ui_v03
 costume_session_v04 database_metadata_v05 database_v03 database_v04 dungeon_v02
 environment_v04 equipment_v02 expansion_ui floor_balance_v02 hud_layout_v04

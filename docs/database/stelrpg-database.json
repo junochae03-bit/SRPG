@@ -48797,826 +48797,6 @@
       "status": "applied"
     },
     {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:45ca21f086839ab86fa4cc6b",
-      "frame": 0,
-      "id": "art:character:legacy:celestial:attack:0",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1914.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        45
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:c5e0176c35fed843bf34b8b4",
-      "frame": 1,
-      "id": "art:character:legacy:celestial:attack:1",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1932.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        45
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:520b5e913c7e20c7cae1f0c0",
-      "frame": 2,
-      "id": "art:character:legacy:celestial:attack:2",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1638.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        34,
-        43
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:c4f812dc5bd30d57568fd715",
-      "frame": 0,
-      "id": "art:character:legacy:celestial:idle:0",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_2385.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        45
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:7bf6fab84f11a4443fdfcfa3",
-      "frame": 1,
-      "id": "art:character:legacy:celestial:idle:1",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_2200.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:d0df567c82760eeb509b745c",
-      "frame": 2,
-      "id": "art:character:legacy:celestial:idle:2",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1616.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        45
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:378a92e22e1d643550d77685",
-      "frame": 0,
-      "id": "art:character:legacy:celestial:move:0",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1338.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        39,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:baad160cc1dc2943d0bbdd87",
-      "frame": 1,
-      "id": "art:character:legacy:celestial:move:1",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1473.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        39,
-        47
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:680729bff1f408b714384554",
-      "frame": 2,
-      "id": "art:character:legacy:celestial:move:2",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1458.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        39,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:2ee030fae2d30324dd3efe4a",
-      "frame": 3,
-      "id": "art:character:legacy:celestial:move:3",
-      "metadata": {},
-      "name": "스텔라이브 · 은하의 날개",
-      "path": "res://assets/costumes/celestial_1945.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        39,
-        47
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:b15b3d3d0e2858f4c3fcf145",
-      "frame": 0,
-      "id": "art:character:legacy:starlight:attack:0",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1183.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        44,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:4402d572e411e5f7efa6de51",
-      "frame": 1,
-      "id": "art:character:legacy:starlight:attack:1",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1146.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        47,
-        45
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:242353314e9ab25620495d59",
-      "frame": 2,
-      "id": "art:character:legacy:starlight:attack:2",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1621.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        60,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:b587064d725c2f883835a0d7",
-      "frame": 0,
-      "id": "art:character:legacy:starlight:idle:0",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1682.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        29,
-        55
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:082bb6cb2898cf14c4424ca2",
-      "frame": 1,
-      "id": "art:character:legacy:starlight:idle:1",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1430.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        29,
-        55
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:36e6d47086b9d8106bcaabaa",
-      "frame": 2,
-      "id": "art:character:legacy:starlight:idle:2",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_2182.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        29,
-        55
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:9221883b773ceacdd87289b3",
-      "frame": 0,
-      "id": "art:character:legacy:starlight:move:0",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_2321.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        44,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:054a2adcd2bcff4f0356b4eb",
-      "frame": 1,
-      "id": "art:character:legacy:starlight:move:1",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_2074.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        42,
-        51
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:a5c004bc2b02e0a314dfa7a1",
-      "frame": 2,
-      "id": "art:character:legacy:starlight:move:2",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_1397.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        42,
-        46
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:c373aab0030ed32ec3c62226",
-      "frame": 3,
-      "id": "art:character:legacy:starlight:move:3",
-      "metadata": {},
-      "name": "스텔라이브 · 황금 별무리",
-      "path": "res://assets/costumes/starlight_2411.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        52,
-        47
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:d07088db28fe9a0934898019",
-      "frame": 0,
-      "id": "art:character:legacy:traveler:attack:0",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1335.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        43,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:4982e6dbf6a3cf33bfddbc64",
-      "frame": 1,
-      "id": "art:character:legacy:traveler:attack:1",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_2326.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        35,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:b95c306876436a384af555cd",
-      "frame": 2,
-      "id": "art:character:legacy:traveler:attack:2",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1921.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        40,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:eb8b04d505ffbad342295116",
-      "frame": 0,
-      "id": "art:character:legacy:traveler:idle:0",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1238.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:776131c9f5bcd824a170a144",
-      "frame": 1,
-      "id": "art:character:legacy:traveler:idle:1",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1350.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        43
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:4e8e5e4badae01e924d75d8c",
-      "frame": 2,
-      "id": "art:character:legacy:traveler:idle:2",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1317.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:2d449c144ff168e9933f1c07",
-      "frame": 0,
-      "id": "art:character:legacy:traveler:move:0",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_2294.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:219bc16e57474f9343faac07",
-      "frame": 1,
-      "id": "art:character:legacy:traveler:move:1",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1215.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        43
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:218c03ce34c9360502b25235",
-      "frame": 2,
-      "id": "art:character:legacy:traveler:move:2",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1347.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        42
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/animations.json",
-      "category": "character",
-      "file_id": "file:859d0f4cd6733c77b08f6a94",
-      "frame": 3,
-      "id": "art:character:legacy:traveler:move:3",
-      "metadata": {},
-      "name": "스텔라이브 · 여행자",
-      "path": "res://assets/hero_1141.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        43
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:ca23e0a8e5a3e81bbe12e807",
-      "frame": 0,
-      "id": "art:character:legacy:witch:attack:0",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1299.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:f83b0358adfe9a12b1ac24e6",
-      "frame": 1,
-      "id": "art:character:legacy:witch:attack:1",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_2022.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        34,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:a02d7c219a3836a559bf9c95",
-      "frame": 2,
-      "id": "art:character:legacy:witch:attack:2",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1529.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        41,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "attack",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:a334f6a037c38f0fef641c43",
-      "frame": 3,
-      "id": "art:character:legacy:witch:attack:3",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1419.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        34,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:5b273e364de2e1517759d99b",
-      "frame": 0,
-      "id": "art:character:legacy:witch:idle:0",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1449.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:d0b9f4dc1979d675495ebf2e",
-      "frame": 1,
-      "id": "art:character:legacy:witch:idle:1",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1270.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        51
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "idle",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:89ff573eb435b5a3e8d1d4f1",
-      "frame": 2,
-      "id": "art:character:legacy:witch:idle:2",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_2325.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:c619dcf4fd4d124767ef009d",
-      "frame": 0,
-      "id": "art:character:legacy:witch:move:0",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1226.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:e6a4336b7848b701d04b018f",
-      "frame": 1,
-      "id": "art:character:legacy:witch:move:1",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1610.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        51
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:f8405c65390505f1fdaf7a99",
-      "frame": 2,
-      "id": "art:character:legacy:witch:move:2",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_1571.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        50
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "move",
-      "catalog": "res://assets/costumes/animations.json",
-      "category": "character",
-      "file_id": "file:06941183c0621ac96a010677",
-      "frame": 3,
-      "id": "art:character:legacy:witch:move:3",
-      "metadata": {},
-      "name": "스텔라이브 · 별빛 마녀",
-      "path": "res://assets/costumes/witch_2086.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        0,
-        36,
-        51
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
       "action": "pose",
       "catalog": "res://assets/motions/catalog.json",
       "category": "character",
@@ -55913,94 +55093,6 @@
       ],
       "render_cache_file_id": "file:9871b5c235336cf5d65aa90f",
       "source_id": "source:f9100fa0198a764f79256279",
-      "status": "applied"
-    },
-    {
-      "action": "",
-      "catalog": "res://assets/sprites/item_regions.json",
-      "category": "equipment",
-      "file_id": "file:1d9dc2ed47c08b00ee790f11",
-      "frame": -1,
-      "id": "art:equipment:legacy:axe",
-      "metadata": {
-        "legacy_weapon": "axe"
-      },
-      "name": "전투도끼",
-      "path": "res://assets/sprites/items-v04.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        314,
-        23,
-        313,
-        301
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "",
-      "catalog": "res://assets/sprites/item_regions.json",
-      "category": "equipment",
-      "file_id": "file:1d9dc2ed47c08b00ee790f11",
-      "frame": -1,
-      "id": "art:equipment:legacy:bow",
-      "metadata": {
-        "legacy_weapon": "bow"
-      },
-      "name": "사냥활",
-      "path": "res://assets/sprites/items-v04.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        628,
-        38,
-        303,
-        299
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "",
-      "catalog": "res://assets/sprites/item_regions.json",
-      "category": "equipment",
-      "file_id": "file:1d9dc2ed47c08b00ee790f11",
-      "frame": -1,
-      "id": "art:equipment:legacy:staff",
-      "metadata": {
-        "legacy_weapon": "staff"
-      },
-      "name": "별 지팡이",
-      "path": "res://assets/sprites/items-v04.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        943,
-        39,
-        281,
-        285
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "status": "applied"
-    },
-    {
-      "action": "",
-      "catalog": "res://assets/sprites/item_regions.json",
-      "category": "equipment",
-      "file_id": "file:1d9dc2ed47c08b00ee790f11",
-      "frame": -1,
-      "id": "art:equipment:legacy:sword",
-      "metadata": {
-        "legacy_weapon": "sword"
-      },
-      "name": "장검",
-      "path": "res://assets/sprites/items-v04.png",
-      "provenance": "docs/ASSET_SOURCES.md",
-      "rect": [
-        0,
-        4,
-        310,
-        332
-      ],
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "status": "applied"
     },
     {
@@ -66851,34 +65943,6 @@
       "width": 1536
     },
     {
-      "bytes": 1541,
-      "height": 51,
-      "id": "file:054a2adcd2bcff4f0356b4eb",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_2074.png",
-      "representation": "raster",
-      "sha256": "2789bf086505efc96be1ce1f143bade5befdc8886dd7be43c5a3eec06e92c4b9",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 42
-    },
-    {
-      "bytes": 1334,
-      "height": 51,
-      "id": "file:06941183c0621ac96a010677",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_2086.png",
-      "representation": "raster",
-      "sha256": "32bdcea100970458d9f116b6d59298905ba11f02c89e328262bcb45550944999",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 1240653,
       "height": 1254,
       "id": "file:074e51640fbdd115b5181076",
@@ -66907,20 +65971,6 @@
       "sha256": "f9dba42d34abd4a558c839d17bd8eb5f0465b4e0a85e31f2a8f3c21fc114cebc",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1254
-    },
-    {
-      "bytes": 1273,
-      "height": 55,
-      "id": "file:082bb6cb2898cf14c4424ca2",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1430.png",
-      "representation": "raster",
-      "sha256": "1d4cab365b7b3205fbc486775a7269dc9325984a02fb8d3c2a758f4a03325f46",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 29
     },
     {
       "bytes": 1589071,
@@ -67228,48 +66278,6 @@
       "width": 1254
     },
     {
-      "bytes": 1507,
-      "height": 42,
-      "id": "file:218c03ce34c9360502b25235",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1347.png",
-      "representation": "raster",
-      "sha256": "220238d9f2176557653c5dd4e4481d100b8647e35a5ce5f8571ab08ffb27ee5f",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
-      "bytes": 1499,
-      "height": 43,
-      "id": "file:219bc16e57474f9343faac07",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1215.png",
-      "representation": "raster",
-      "sha256": "791bd6ac82c65e65b7d831ab89e599359f30e01317fb05e839ec9918c2b17d74",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
-      "bytes": 1770,
-      "height": 46,
-      "id": "file:242353314e9ab25620495d59",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1621.png",
-      "representation": "raster",
-      "sha256": "9e4fe0d26df524446bebdb7e019338643b4ef3d88f6fd68d0935481dc6ef43d0",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 60
-    },
-    {
       "bytes": 1945473,
       "height": 887,
       "id": "file:242980ccf5b7094d0a289669",
@@ -67414,20 +66422,6 @@
       "width": 1255
     },
     {
-      "bytes": 1541,
-      "height": 42,
-      "id": "file:2d449c144ff168e9933f1c07",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_2294.png",
-      "representation": "raster",
-      "sha256": "c1c092df8924222f020fb3c5dcba46ca85a7ce091d64dac0a0dbdf35587cc7d3",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 2185237,
       "height": 1254,
       "id": "file:2de190d651cf80b22031c96b",
@@ -67497,20 +66491,6 @@
       "width": 1254
     },
     {
-      "bytes": 1574,
-      "height": 47,
-      "id": "file:2ee030fae2d30324dd3efe4a",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1945.png",
-      "representation": "raster",
-      "sha256": "5066bf3de42ea3a7e69148236d74185852138b4b6b2626d9d9d416d54aa1e97c",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 39
-    },
-    {
       "bytes": 2268046,
       "height": 1254,
       "id": "file:2ffb68935a345f171b848ef0",
@@ -67578,34 +66558,6 @@
       "sha256": "d4d6671355e104e58e5f1d6d5086cc58e27417a9dd13056b5d8cdf941cc79ce1",
       "source_id": "source:3b34b6061e4c0857554b0b69",
       "width": 1536
-    },
-    {
-      "bytes": 1226,
-      "height": 55,
-      "id": "file:36e6d47086b9d8106bcaabaa",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_2182.png",
-      "representation": "raster",
-      "sha256": "09983b5d6ebcb68f365030c6750bfd01c566ac90a58238356f11824c94121c88",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 29
-    },
-    {
-      "bytes": 1464,
-      "height": 46,
-      "id": "file:378a92e22e1d643550d77685",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1338.png",
-      "representation": "raster",
-      "sha256": "97ea9781b02479f37ff17b3f8e312873f5a9c8ea08fe6f27589387abebf1243e",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 39
     },
     {
       "bytes": 1863367,
@@ -67776,20 +66728,6 @@
       "width": 1255
     },
     {
-      "bytes": 1416,
-      "height": 45,
-      "id": "file:4402d572e411e5f7efa6de51",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1146.png",
-      "representation": "raster",
-      "sha256": "bdc525725bab4baa2e1cdb8fb5cbfa5244d8cf787ff172d50636af8035d785f8",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 47
-    },
-    {
       "bytes": 1900147,
       "height": 1254,
       "id": "file:441e6fe23c3486cc0a08372f",
@@ -67805,20 +66743,6 @@
       "sha256": "25b9b555faac1db096257154dca29522ab458f520322174685473172ec189129",
       "source_id": "source:092d2b61818506b4f18c9dbd",
       "width": 1254
-    },
-    {
-      "bytes": 1498,
-      "height": 45,
-      "id": "file:45ca21f086839ab86fa4cc6b",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1914.png",
-      "representation": "raster",
-      "sha256": "071485d2cf453407bbf9fb6bf004ea59f8a3713e9a7c062628059c03c23eba5f",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
     },
     {
       "bytes": 3275470,
@@ -67860,20 +66784,6 @@
       "sha256": "d573997a69b1619a93e66e8cb33029c0d053afc65a5b71ff34401d88f4e3c95b",
       "source_id": "source:8ce6272df33999ea746462b7",
       "width": 1536
-    },
-    {
-      "bytes": 1516,
-      "height": 42,
-      "id": "file:4982e6dbf6a3cf33bfddbc64",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_2326.png",
-      "representation": "raster",
-      "sha256": "f74ec98dc5222f47766739ed203e8e51f6f2099ce4f4619b9a031405d2b5b70c",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 35
     },
     {
       "bytes": 2786736,
@@ -67940,20 +66850,6 @@
       "width": 1536
     },
     {
-      "bytes": 1417,
-      "height": 42,
-      "id": "file:4e8e5e4badae01e924d75d8c",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1317.png",
-      "representation": "raster",
-      "sha256": "ae64736de028675a352cb84a10b97d0ecea1a2f5b3e71f3afa1e740d225fa010",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 1469285,
       "height": 1024,
       "id": "file:4e91fc3beaf6416035d3faba",
@@ -68008,20 +66904,6 @@
       "sha256": "ef0de052305b79ccc09f43a576bfcbccc655befb35cd74103ed62ba77272aea3",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1536
-    },
-    {
-      "bytes": 1312,
-      "height": 43,
-      "id": "file:520b5e913c7e20c7cae1f0c0",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1638.png",
-      "representation": "raster",
-      "sha256": "eda2059e4b7bd4e7c70656ae1020ea0e8a7821590ca98c4f96e99193d955bc33",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 34
     },
     {
       "bytes": 2162751,
@@ -68135,20 +67017,6 @@
       "sha256": "9b24da65b608f1e4a0d369b90ee3859e74d40a0c33b225aa37a4af57a642e145",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1254
-    },
-    {
-      "bytes": 1329,
-      "height": 50,
-      "id": "file:5b273e364de2e1517759d99b",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1449.png",
-      "representation": "raster",
-      "sha256": "84c32aa2f7e725fa44b84a08e208570745d070f245ee97b21419c5fbc4077999",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
     },
     {
       "bytes": 1948651,
@@ -68374,20 +67242,6 @@
       "width": 1254
     },
     {
-      "bytes": 1565,
-      "height": 46,
-      "id": "file:680729bff1f408b714384554",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1458.png",
-      "representation": "raster",
-      "sha256": "277888ffb8838671eb0cfc0f5dc313bfacd761fcce035ece2b9db48c495647b8",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 39
-    },
-    {
       "bytes": 2223447,
       "height": 1024,
       "id": "file:6d79bb84be1c4ec5065f59fc",
@@ -68505,20 +67359,6 @@
       "width": 1254
     },
     {
-      "bytes": 1469,
-      "height": 43,
-      "id": "file:776131c9f5bcd824a170a144",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1350.png",
-      "representation": "raster",
-      "sha256": "40673bba7c5794f75049f8acf201be03d3255cfc51ae5490879014417e67449c",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 1282228,
       "height": 887,
       "id": "file:77e741cc20a049ef76868615",
@@ -68616,20 +67456,6 @@
       "width": 1254
     },
     {
-      "bytes": 1501,
-      "height": 46,
-      "id": "file:7bf6fab84f11a4443fdfcfa3",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_2200.png",
-      "representation": "raster",
-      "sha256": "2fac2fd324e6735b485b1ae2ada7a16e1a3d8f8ba93054603bf6aa6813907a94",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
-    },
-    {
       "bytes": 2034920,
       "height": 1254,
       "id": "file:7cde29a48c8bd09a1b5aad6e",
@@ -68691,20 +67517,6 @@
       "width": 1536
     },
     {
-      "bytes": 1592,
-      "height": 43,
-      "id": "file:859d0f4cd6733c77b08f6a94",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1141.png",
-      "representation": "raster",
-      "sha256": "34f97bf69843afa82e277fe9922e5a44bcbc0693225c893cee829156b8545278",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 2104269,
       "height": 1024,
       "id": "file:8633b283e40be5acabb29b65",
@@ -68750,20 +67562,6 @@
       "sha256": "454733f8ccb5f3554107dcff9686eb914e3a115a7dd883e12bd9dd38f3cba74e",
       "source_id": "source:f9100fa0198a764f79256279",
       "width": 1536
-    },
-    {
-      "bytes": 1294,
-      "height": 50,
-      "id": "file:89ff573eb435b5a3e8d1d4f1",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_2325.png",
-      "representation": "raster",
-      "sha256": "256bc7ddb0c3ddd9e5776d18fbc10d667f7c0bd44628b21696570ba709407d76",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
     },
     {
       "bytes": 2193079,
@@ -68899,20 +67697,6 @@
       "width": 1254
     },
     {
-      "bytes": 1540,
-      "height": 46,
-      "id": "file:9221883b773ceacdd87289b3",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_2321.png",
-      "representation": "raster",
-      "sha256": "f97dca977ec5951276fe0be1852a5db1d9ffdb19ca3b3bc896264af752550f93",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 44
-    },
-    {
       "bytes": 1388763,
       "height": 1254,
       "id": "file:944f274f04ede7eb1e674cab",
@@ -69044,20 +67828,6 @@
       "width": 1536
     },
     {
-      "bytes": 1469,
-      "height": 50,
-      "id": "file:a02d7c219a3836a559bf9c95",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1529.png",
-      "representation": "raster",
-      "sha256": "cf87f9bf58afaca418408e1424c9024c15bd2a9a75e98d221678fd85c9a0a17f",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 41
-    },
-    {
       "bytes": 3157202,
       "height": 1255,
       "id": "file:a09f7a6a0afc5ecab7b8f880",
@@ -69097,20 +67867,6 @@
       "width": 1254
     },
     {
-      "bytes": 1377,
-      "height": 50,
-      "id": "file:a334f6a037c38f0fef641c43",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1419.png",
-      "representation": "raster",
-      "sha256": "bea1d0b861dcc81ce4550f49ffcfb98c17c8c029b6164b3b819fcda3a211fbfd",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 34
-    },
-    {
       "bytes": 2073204,
       "height": 887,
       "id": "file:a50264ce99873a7211f4a7be",
@@ -69148,20 +67904,6 @@
       "sha256": "f120453306b5f28fa8e9e57e80c54150f77b0420d0e3740dfa73d9b63439fdaf",
       "source_id": "source:8f2026515825b1f82102c3fa",
       "width": 1537
-    },
-    {
-      "bytes": 1499,
-      "height": 46,
-      "id": "file:a5c004bc2b02e0a314dfa7a1",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1397.png",
-      "representation": "raster",
-      "sha256": "8c705a8125d65b6c79b98940423db210fd8dcb96b61d5f4bb41ef789b0e2b1d3",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 42
     },
     {
       "bytes": 2128539,
@@ -69267,20 +68009,6 @@
       "width": 1255
     },
     {
-      "bytes": 1508,
-      "height": 46,
-      "id": "file:b15b3d3d0e2858f4c3fcf145",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1183.png",
-      "representation": "raster",
-      "sha256": "f65662a42a2d288e611971050904a4ab64219e244e09635e4d2e6a497e8c1a0e",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 44
-    },
-    {
       "bytes": 2161118,
       "height": 1254,
       "id": "file:b1e93df4cc1de38fe92f7a8f",
@@ -69354,20 +68082,6 @@
       "width": 1254
     },
     {
-      "bytes": 1257,
-      "height": 55,
-      "id": "file:b587064d725c2f883835a0d7",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_1682.png",
-      "representation": "raster",
-      "sha256": "64bfc1d6fb25fee7451af9b12cbaddd0953e8f63ae617f1af2c19d5cb7522437",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 29
-    },
-    {
       "bytes": 1630595,
       "height": 888,
       "id": "file:b817c92b67bb77ed46f58cae",
@@ -69423,34 +68137,6 @@
       "sha256": "6830bb7c49eee0d577d60474763a145334e3404cba2e7b5c92e133949b0c3663",
       "source_id": "source:8ce6272df33999ea746462b7",
       "width": 1536
-    },
-    {
-      "bytes": 1589,
-      "height": 42,
-      "id": "file:b95c306876436a384af555cd",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1921.png",
-      "representation": "raster",
-      "sha256": "c518bdf871d2e2815c14fbb4651c6c62c120e02d12bc8e1cde01b6c3eb7da5b7",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
-    },
-    {
-      "bytes": 1539,
-      "height": 47,
-      "id": "file:baad160cc1dc2943d0bbdd87",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1473.png",
-      "representation": "raster",
-      "sha256": "710347de42acc809bf1010abd69126e17ea77ddf90f3dc6e868793d7f31cae26",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 39
     },
     {
       "bytes": 2206162,
@@ -69579,20 +68265,6 @@
       "width": 1775
     },
     {
-      "bytes": 1596,
-      "height": 47,
-      "id": "file:c373aab0030ed32ec3c62226",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/starlight_2411.png",
-      "representation": "raster",
-      "sha256": "970373e9b73ade744e966f0b3c445af7fdaaac572a05602182a68877cd6cbb4e",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 52
-    },
-    {
       "bytes": 1915123,
       "height": 1254,
       "id": "file:c488b4ffddb2fcb81aa1b939",
@@ -69610,20 +68282,6 @@
       "width": 1254
     },
     {
-      "bytes": 1502,
-      "height": 45,
-      "id": "file:c4f812dc5bd30d57568fd715",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_2385.png",
-      "representation": "raster",
-      "sha256": "19b465c310d710f9f98618aa893d2494cc872a6323e94e49433d214bf7acc19a",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
-    },
-    {
       "bytes": 1801197,
       "height": 1024,
       "id": "file:c527543e37069a11e7939a2d",
@@ -69638,20 +68296,6 @@
       "width": 1536
     },
     {
-      "bytes": 1574,
-      "height": 45,
-      "id": "file:c5e0176c35fed843bf34b8b4",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1932.png",
-      "representation": "raster",
-      "sha256": "355485bf3befd9aac66fd8fc201e4f113902466b1be66790108ad5afc9771b2b",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
-    },
-    {
       "bytes": 2059827,
       "height": 1254,
       "id": "file:c60188b6f8b7782eb048df98",
@@ -69664,20 +68308,6 @@
       "sha256": "f19aa5037ac0767a33fe0ced8c05ef9280c924036f2910fe20d6dbba63472e62",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1254
-    },
-    {
-      "bytes": 1342,
-      "height": 50,
-      "id": "file:c619dcf4fd4d124767ef009d",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1226.png",
-      "representation": "raster",
-      "sha256": "5f5a193e2c0345b45c52a14aea83bc7aeb30d1ed1ea21e85c2a59417c6c62774",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
     },
     {
       "bytes": 2625464,
@@ -69717,20 +68347,6 @@
       "sha256": "c7de700fb150f682197918dc28dada9f4298df5b97d02db116ae412429e19c85",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1536
-    },
-    {
-      "bytes": 1441,
-      "height": 50,
-      "id": "file:ca23e0a8e5a3e81bbe12e807",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1299.png",
-      "representation": "raster",
-      "sha256": "a8404d0d95949791d8bf18c5f1025cdcb34bc2b119f40b33fdab9d44081db37f",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
     },
     {
       "bytes": 2365728,
@@ -69862,48 +68478,6 @@
       "sha256": "a5a6fc6fa1bfb97947b19098386c8cbbe3b7fbd69b924b7e2d5e2c9718cc8aa4",
       "source_id": "source:8f2026515825b1f82102c3fa",
       "width": 1255
-    },
-    {
-      "bytes": 1622,
-      "height": 42,
-      "id": "file:d07088db28fe9a0934898019",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1335.png",
-      "representation": "raster",
-      "sha256": "7be559f2f4e743d9b89debe4d2a09e786ba2315029685b26229a9db6b860c964",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 43
-    },
-    {
-      "bytes": 1328,
-      "height": 51,
-      "id": "file:d0b9f4dc1979d675495ebf2e",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1270.png",
-      "representation": "raster",
-      "sha256": "bf79784374853dd0cd4c1c122ceb0346179158d301e5c506c5c1e619e214e3b4",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
-      "bytes": 1452,
-      "height": 45,
-      "id": "file:d0df567c82760eeb509b745c",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/celestial_1616.png",
-      "representation": "raster",
-      "sha256": "489566934acee716464293a32e073d5de0cb93848bda0dfe5a7d4aa052015d3e",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 40
     },
     {
       "bytes": 2132264,
@@ -70095,20 +68669,6 @@
       "width": 1254
     },
     {
-      "bytes": 1361,
-      "height": 51,
-      "id": "file:e6a4336b7848b701d04b018f",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1610.png",
-      "representation": "raster",
-      "sha256": "81665bc60f33654b5c9dc84dab160c3cca3380879de0351d8b94d9175d389443",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 2145267,
       "height": 1254,
       "id": "file:e8264cdcc7d0f6d4afa56701",
@@ -70254,20 +68814,6 @@
       "width": 1254
     },
     {
-      "bytes": 1464,
-      "height": 42,
-      "id": "file:eb8b04d505ffbad342295116",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/hero_1238.png",
-      "representation": "raster",
-      "sha256": "83aa2aeb032bddc654ecd1b9d0ed38f07bc70c46a078805ef4e18a7ea648da4e",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
-    },
-    {
       "bytes": 2349231,
       "height": 1254,
       "id": "file:ed95e36911b75d49538170bc",
@@ -70395,34 +68941,6 @@
       "sha256": "6e296d85cb30c0b38249cc9da39c5cd53a3d0778f276ddeab4bc6b5d34869338",
       "source_id": "source:d6f158c7cc4350f5e40bf5e6",
       "width": 1774
-    },
-    {
-      "bytes": 1512,
-      "height": 50,
-      "id": "file:f83b0358adfe9a12b1ac24e6",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_2022.png",
-      "representation": "raster",
-      "sha256": "0aad00295a73e774376e9dd32147e0bfb0c658057ae6de9f411db598b6c85f7b",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 34
-    },
-    {
-      "bytes": 1343,
-      "height": 50,
-      "id": "file:f8405c65390505f1fdaf7a99",
-      "origin": {
-        "scope": "Current project source; consult linked provenance document",
-        "tool": ""
-      },
-      "path": "res://assets/costumes/witch_1571.png",
-      "representation": "raster",
-      "sha256": "8a98643aa924d2691b5f0adf2441dc783331ccf35b7ec394bb6bb252c1eb400f",
-      "source_id": "source:d6f158c7cc4350f5e40bf5e6",
-      "width": 36
     },
     {
       "bytes": 1633722,
@@ -70565,7 +69083,7 @@
       "id": "source:d6f158c7cc4350f5e40bf5e6",
       "kind": "project_provenance",
       "path": "docs/ASSET_SOURCES.md",
-      "sha256": "348a98d6096d1ad8e19d1a40adcacb8d9ad2dd80b7a8fee2373e859d2754b2f6"
+      "sha256": "ddc6246d6d69c31f078c85fe622c065169db90343f93e2052e6f19a725f663d4"
     },
     {
       "id": "source:f9100fa0198a764f79256279",
@@ -73887,19 +72405,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:066c3c60c514be5fa20d2f44",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:mint-hanbok:12",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:06711c4fa98864402dfd4e62",
@@ -73980,19 +72485,6 @@
       "mapping": {},
       "target_id": "warrior:star:0:key",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:06816d87fb03ff806c3dae93",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -76093,19 +74585,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:09b21067752dbc673a0fcbae",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:raven-school-uniform:10",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:09c1fefd05fd7206e61adf0a",
@@ -77289,19 +75768,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0bea70d0a57a50c93490bb59",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_role_healer_2:3",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:0bec452c5338692d5473db34",
@@ -77577,19 +76043,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0c9e1dd61741cfe13343d8cd",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_warrior_head_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:0c9ee8aa4bcbf512c6569f5b",
@@ -77679,19 +76132,6 @@
       },
       "target_id": "eq:ranger:chest:03:0",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0cc8937b294aef129c1d1c59",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -78020,19 +76460,6 @@
       "mapping": {},
       "target_id": "rogue:star:1:m2",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0d31c2841fccc4620d13238f",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -78945,19 +77372,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0f010e400a97ac6fcadce683",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_mage_hands_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:0f02c9e38123a7d2714cfb7b",
@@ -79047,19 +77461,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0f1b66fdc50ccf5b70bb4050",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:holy",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:0f1e9f6af384394133dd309e",
@@ -79131,19 +77532,6 @@
         "selector": "costume"
       },
       "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:0f3fdd32fd090a49e6bc83d0",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -80738,19 +79126,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:12427751665d08b2dd2451d7",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:weapon_swordsman_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:12480390b28703c50fa3f044",
@@ -81083,19 +79458,6 @@
       },
       "target_id": "eq:swordsman:weapon:00:3",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:12d53d37cecb288e96c7013c",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -82602,19 +80964,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:15e7817c006624f99eb2b60b",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_warrior_feet_trail",
       "consumer": "game/scripts/content.gd:icon_texture",
       "id": "use:15f0976da8ed034a0b9c961b",
@@ -83023,19 +81372,6 @@
       },
       "target_id": "57",
       "target_table": "floors",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:168804142bf8e785cc78648c",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -84675,19 +83011,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:19f80112a9533bbd6b91b047",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:raven-summer-resort:portrait",
       "consumer": "game/scripts/costume_art_v04.gd:portrait",
       "id": "use:19fae83f09b88ad9ac46a6a4",
@@ -85598,19 +83921,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:1c02a7df5e2b6767ce8ea137",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_mage_legs_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:1c07bb3f5f22bd02eae84cee",
@@ -85635,19 +83945,6 @@
       },
       "target_id": "appearance:060:frost_slime:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:1c26b70dac00f41f4de64268",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -86888,19 +85185,6 @@
       },
       "target_id": "eq:ranger:head:04:3",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:1e718a20a2f871eabe80147a",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -88707,19 +86991,6 @@
       "mapping": {},
       "target_id": "elementalist_a02",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:21e959529583590921544728",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -90729,19 +89000,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2562055d135da62a5e8a7057",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_10_2:0",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:2563cb7dd6cce0139ab6c230",
@@ -91273,19 +89531,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:268dbb002ec7bf035974b3d3",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:weaken",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:269e8e1747b907ffe20d31d0",
@@ -91711,19 +89956,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:27bba2b2edc3970659792fbc",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_mage_legs_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:27bcb15d845d37370f804644",
@@ -91859,19 +90091,6 @@
       "mapping": {},
       "target_id": "thief:star:2:key",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:27e8f1b065bd92c519eea51c",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -92014,19 +90233,6 @@
         "selector": "avatar"
       },
       "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:283af286b2fd815a02a4501c",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -93365,19 +91571,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2ac24e57622743d3b1b30fa2",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:cobalt-broom-maid:3",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:2ac27e9956eed659f33dbad6",
@@ -93397,19 +91590,6 @@
       "mapping": {},
       "target_id": "mage_heavy_discount_v05",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2ac9ed79f28c076d99e4d016",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -95527,19 +93707,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2e8a21046df3c82f7ef9ee61",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_02_1:3",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:2e8c8186aa66a16eb8bf9973",
@@ -96046,19 +94213,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2fb65d041c0845bec3224d51",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:motion:warrior:3",
       "consumer": "game/scripts/combat_sprite_art.gd:frame",
       "id": "use:2fb8d5367389b2579b8c16c2",
@@ -96146,19 +94300,6 @@
       },
       "target_id": "appearance:025:spider:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:2fde6c8b84b02695ad5e7c39",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -96551,19 +94692,6 @@
         "selector": "costume"
       },
       "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:30e7a1f156a9503f11c058f2",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -97049,19 +95177,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:321bc4604fbfea3300c4700c",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_fighter_chest_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:321c134e994fb9546ab3183a",
@@ -97088,19 +95203,6 @@
       },
       "target_id": "appearance:047:ember_slime:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:322b56c95511c631ebee2fa3",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -97214,19 +95316,6 @@
       },
       "target_id": "56",
       "target_table": "floors",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:32790f0cab753c69bb6186bb",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -97691,19 +95780,6 @@
       "mapping": {},
       "target_id": "healer_p02",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:335be1d27a8f6fb4ebe3e2ed",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -99018,38 +97094,12 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:35925d4a97d116d2ff1ee0cf",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:armor_break",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:35946bba79934d73f5ef1866",
       "mapping": {},
       "target_id": "infighter_a10",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:35a1597e0540cc7f9a6650e3",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -99345,19 +97395,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:365e4c3afab94b44ccd5c34f",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_10_2:2",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:36721b1a21953fe36a43eb20",
@@ -99510,19 +97547,6 @@
       },
       "target_id": "eq:martialist:weapon:00:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:36e8ba15003f288adac2f9d8",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -99723,19 +97747,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:374f02a9bfe74b31091228d0",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:area",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:375667bd473aa66f0203ebea",
@@ -99928,19 +97939,6 @@
       },
       "target_id": "martialist_a07",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:37c102d535247e249666ae6d",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -101726,19 +99724,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:3a58ecff0d08389c40a9ea23",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:stamina",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:3a59a56b1eb7b630834ec1f1",
@@ -102597,19 +100582,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:3c04c034beabcd247181465f",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:environment:machine_repair_bench",
       "consumer": "game/scripts/forest_environment.gd:rebuild",
       "id": "use:3c0b4e8468cf2d075b434374",
@@ -102783,19 +100755,6 @@
       },
       "target_id": "10",
       "target_table": "floors",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:3c6b650bc39f1c0707ca4b14",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -103223,19 +101182,6 @@
         "selector": "avatar"
       },
       "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:3d7b07b255ff2fa2654f1807",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -105268,19 +103214,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:410bfeebd28e57d318c11728",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:physical_attack",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:4110b6b20831885d8b83534f",
@@ -106318,19 +104251,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:431f00ffec01eeb8cd7d64fe",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:raven-navy-hanbok:13",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:4324e3a8f7f9204a7f255dfc",
@@ -106833,19 +104753,6 @@
         "selector": "avatar"
       },
       "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:43fac43ea2eab327597a136f",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -108228,19 +106135,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:46639e98f306766cf108ff90",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_03_2:0",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:466412ab8f0d331dcec0ce22",
@@ -108250,19 +106144,6 @@
         "selector": "avatar"
       },
       "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:466759762323def0ba5ecde7",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -108308,19 +106189,6 @@
       },
       "target_id": "appearance:096:centurion:guardian",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:46872bfc7a4212c5deb07795",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -109209,19 +107077,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:481cffe91257723c79648b58",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:mint-hanbok:6",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:4821c4f919caa84c09bbef47",
@@ -109903,19 +107758,6 @@
         "selector": "avatar"
       },
       "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:4927155bfbf75dee03bc8799",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -110605,19 +108447,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:4ab39d2902c41eb6b09d081a",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:weapon_healer_adept",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:4ab770915cbb3c789ffb2dad",
@@ -111205,19 +109034,6 @@
       },
       "target_id": "appearance:073:goblin_shaman:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:4bc2b371b8cf1fe1a5c2d989",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -113765,19 +111581,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:50cd55bc9f9b6211a40f6c07",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:silvercat-pink-maid:12",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:50def1c92eee09ba232bbf2f",
@@ -114131,19 +111934,6 @@
       "usage_kind": "catalog_available"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:516a9cf31764682ea8bea33d",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:motion:ranger:10",
       "consumer": "game/scripts/combat_sprite_art.gd:frame",
       "id": "use:5174f8a7ec354ce7dd5fe284",
@@ -114260,19 +112050,6 @@
         "selector": "costume"
       },
       "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:5192a5909121960da6e6cb6e",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -114914,19 +112691,6 @@
         "selector": "costume"
       },
       "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:5274bc1525bbebbe54a1bd34",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -117498,19 +115262,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:57dcb00feb1c5c423997ccdd",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:aqua-rabbit-stage:6",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:57e9800d0952c4165d696e10",
@@ -118546,19 +116297,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:59ec89b32f9fa0671c362613",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:vfx:shot",
       "consumer": "game/scripts/skill_vfx.gd:render",
       "id": "use:59eca4b30b8ac1f57b5e4220",
@@ -119242,19 +116980,6 @@
         "skill_mode": ""
       },
       "target_id": "thief",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:5b4558973de45ec91c50665b",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -120101,19 +117826,6 @@
       "mapping": {},
       "target_id": "hunter:star:0:m3",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:5d0508d85e66757465bd5a1a",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -121950,19 +119662,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6095042cbb73d749e730ec06",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:area",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:609fe906b32fafbb97d0dfbc",
@@ -122998,19 +120697,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6288410fc46317d52166490d",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:range",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:629141aa1e43a775aa90167f",
@@ -123899,19 +121585,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6460a0dcefca2d44e4c37292",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:pink-beret-gunner:5",
       "consumer": "game/assets/costume_v04/catalog.json",
       "id": "use:64626e2a0f4ac75c9cf09f8e",
@@ -124356,19 +122029,6 @@
       },
       "target_id": "eq:explorer:weapon:03:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:655beeb4025dd03e31ec4807",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -125786,19 +123446,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:67d311bf5f04d4c77defc277",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:legacy:reinforcements:2",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:67dde6fbcfc557952d66f067",
@@ -126291,19 +123938,6 @@
       },
       "target_id": "eq:elementalist:weapon:09:0",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:68fd961fceea3b33519ad724",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -127591,19 +125225,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6b70d4c32d444765f13159e0",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_mage_feet_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:6b7a64bfcbd84d2ec1040859",
@@ -127711,19 +125332,6 @@
       },
       "target_id": "eq:mage:weapon:09:4",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:attack:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6b9cc32fdde3edee26d65d9d",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -128145,19 +125753,6 @@
       "mapping": {},
       "target_id": "ranger:star:2:n1",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6c3e897ccb4a3703dc1dc7c5",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -128769,19 +126364,6 @@
         "selector": "costume"
       },
       "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:6d9dfcc12cf8bbcefeb12ca2",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -130226,19 +127808,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:70ca146595e58a9b94aeae67",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:weapon_healer_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:70cdeef508bd8c8cb8a8b51d",
@@ -130828,19 +128397,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:71afc7a39fc1bd734081d029",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:haste",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:71b0d1e40d296161d6bd9f29",
@@ -131061,19 +128617,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:71ebc52f89c1ebf642d09f9d",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_04_1:2",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:71ec36411a353eb6f7439e17",
@@ -131245,19 +128788,6 @@
       "mapping": {},
       "target_id": "warrior_health_regen_v05",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:7215a33bb108b12bdf96017b",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -131746,19 +129276,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:734ef21fb633d3cd4587efe7",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:silvercat-blossom-hanbok:portrait",
       "consumer": "game/scripts/costume_art_v04.gd:portrait",
       "id": "use:734ef67f454d8130ea299df9",
@@ -132231,19 +129748,6 @@
         "selector": "costume"
       },
       "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:73f9063dcfb6eb734e305636",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -133489,19 +130993,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:765fc6037e43af475433f27f",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:lavender-sailor:8",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:7665ece6ec4fc96b3b90c982",
@@ -134571,19 +132062,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:78af57d987f7b7f211fc0db3",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:job:hunter:0",
       "consumer": "game/scripts/job_art.gd:frame",
       "id": "use:78b58ba1f668fe69f349e69f",
@@ -134880,17 +132358,6 @@
       },
       "target_id": "eq:elementalist:weapon:02:1",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:equipment:legacy:axe",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:796eeed18468f29d5233f5d9",
-      "mapping": {
-        "role": "legacy_costume_weapon_overlay"
-      },
-      "target_id": "held_weapon:axe",
-      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -136529,19 +133996,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:7c78b81b306bf37eae24071a",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:mint-silver-knight:10",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:7c7b7a79d19f62fec76e70a8",
@@ -136833,19 +134287,6 @@
       },
       "target_id": "eq:summoner:weapon:04:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:7cff662c4ba395c001daa219",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -140494,19 +137935,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:83f656c26c636d69895c6cf9",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:silvercat-blossom-hanbok:2",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:840abbb2b6348783757d6343",
@@ -142550,19 +139978,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:8869f43364758229bd91b3ab",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:crimson-pastel-rabbit:6",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:8869fd328683622216a97aee",
@@ -143261,19 +140676,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:89d9c42c657aac4ccaad68ee",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:silvercat-street:portrait",
       "consumer": "game/scripts/costume_art_v04.gd:portrait",
       "id": "use:89da3e5888573f2f8aa3cd04",
@@ -143590,19 +140992,6 @@
       "id": "use:8a696b5d6a523f8bc266c179",
       "mapping": {
         "costume": "cobalt-navy-hanbok",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:8a6ef79f10eadd0489ea1228",
-      "mapping": {
-        "costume": "witch",
         "role": "player",
         "selector": "costume"
       },
@@ -144237,19 +141626,6 @@
       },
       "target_id": "eq:fighter:weapon:07:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:8b6bc748ed93ff7c58d7b446",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -145472,19 +142848,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:8dece9d39aef50e6800d1bda",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:silvercat-summer-resort:portrait",
       "consumer": "game/scripts/costume_art_v04.gd:portrait",
       "id": "use:8dfcc14aa65e7130959c7430",
@@ -145805,19 +143168,6 @@
         "selector": "avatar"
       },
       "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:8e87d231fef1d7bb4305e0aa",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -147792,19 +145142,6 @@
       },
       "target_id": "healer_a01",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:92a2bac6128ba4db49cbcdda",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -150018,19 +147355,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:96e3174bad7098e202077f1f",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:core_horned_ram_idle",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:96f6e32a7efe63cfd7ee6eb9",
@@ -150349,19 +147673,6 @@
       },
       "target_id": "appearance:092:centurion:elite",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9784a8501176780745aefa78",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -152049,19 +149360,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9b49803cd2d8d97870c2ed2e",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:accessory_star_earrings",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:9b62c844183389764e4a1efd",
@@ -152710,19 +150008,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9c9d70a6d181ea3107d504f8",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:aqua-winter-hanbok:15",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:9cacd5e895736e2d0a4b5929",
@@ -152911,19 +150196,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9d2727a5c391e6c1417abd89",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:range",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:9d2ee98e5e52cc39040d8700",
@@ -153092,19 +150364,6 @@
       "mapping": {},
       "target_id": "hunter_p01",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9d81ee0421613fa9b2b92a3a",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -154368,19 +151627,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:9f9aa9d35bac594ecfb83f8e",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:weapon_tank_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:9fa39ebcc9505a88723d6575",
@@ -154889,19 +152135,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a086ccffe972507ea5ccee33",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:amethyst-summer-shawl:7",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:a087eade0f1fbfe7c5057f8d",
@@ -155373,19 +152606,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a153bd566cd49280bb9659e5",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:floor_tile:sky",
       "consumer": "res://shaders/forest_ground.gdshader",
       "id": "use:a154ae9895be0f21c6765902",
@@ -155522,19 +152742,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a18b54ecb024864e6db3d91c",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:core_bound_grimoire_attack",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:a19b72e918d190a8ab6a1df3",
@@ -155558,19 +152765,6 @@
         "selector": "costume"
       },
       "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a1ac86deead36ae4c8f135b3",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -155648,19 +152842,6 @@
       },
       "target_id": "eq:warrior:accessory:04:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a1dc718db90423580abccd98",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -157095,19 +154276,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a4b3d7b71f9c603bd2c7012e",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:legacy:enemies:8",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:a4b7958804248e22e8ba9105",
@@ -158395,19 +155563,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a73eed400c251d3d9b5ff6a8",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:cobalt-broom-maid:3",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:a742bcb36a463b09c39acbe3",
@@ -158456,19 +155611,6 @@
       },
       "target_id": "appearance:012:mole:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a74f031fcf34ae21e8aa0455",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -158775,19 +155917,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a7c97fe18f5a2e02e81d4072",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:job:runesword:14",
       "consumer": "game/scripts/job_art.gd:frame",
       "id": "use:a7cb40f24e2ee616ab730636",
@@ -158824,19 +155953,6 @@
       },
       "target_id": "appearance:057:orc_champion:guardian",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a7f136ff57bb3de6c7fd1f1b",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -159099,19 +156215,6 @@
       },
       "target_id": "eq:ranger:accessory:01:4",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:a872cdbafd98b119164a0c35",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -161320,19 +158423,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:acbf1cdd57fcd65a6e0b39b8",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_10_2:portrait",
       "consumer": "game/scripts/gat_art.gd:portrait",
       "id": "use:acc3f48bf3fe1bed7e8bf904",
@@ -162629,19 +159719,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:aeca982a1c83dac9e3132dd9",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_warrior_hands_relic",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:aece808c77ec017dc7dbccbd",
@@ -163878,19 +160955,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b153867f2fca9a993f76d801",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:amethyst-summer-shawl:14",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:b1543ee65dcfe429060941d3",
@@ -164255,19 +161319,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b1ee23fb3cf1847ee6400e11",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_ranger_chest_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:b1f46472415d426416b0d018",
@@ -164558,19 +161609,6 @@
       "mapping": {},
       "target_id": "fighter:star:4:n0",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b2c28f2fc0ee9c96b6907d2e",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -166492,19 +163530,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b672d25f1b984e35ec58b04d",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:root",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:b676edd0db28a386c97549f9",
@@ -166833,19 +163858,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b70eca0437523c1be7ad0a11",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_rogue_chest_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:b7156ba785206269f7e0ac88",
@@ -167137,19 +164149,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b784a7d0253f600f4d7ac8c9",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:vfx:job_proc:elementalist:11",
       "consumer": "game/scripts/job_art.gd:render",
       "id": "use:b784e570533729448148bc46",
@@ -167414,19 +164413,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b7f131b336b4a7376708b6c6",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_blade_combat:2",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:b7f49e13a5bf9f916f5e8544",
@@ -167449,19 +164435,6 @@
         "selector": "costume"
       },
       "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b7f975a68040fc8a13c78b3e",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -168628,19 +165601,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:b9c860c07685cbc81db6b66b",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:crimson-black-dress:portrait",
       "consumer": "game/scripts/costume_art_v04.gd:portrait",
       "id": "use:b9ca72977d65eed26264012a",
@@ -168899,19 +165859,6 @@
         "selector": "costume"
       },
       "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:ba3408a3e9e98b64a1defa51",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -169682,19 +166629,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:bbdf3a53ad1e5bba7ff368d9",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:lava_obsidian_rhino_idle",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:bbe05ee51dd33605a2167c83",
@@ -170067,19 +167001,6 @@
       },
       "target_id": "appearance:035:fairy:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:bc58400605fe4baee8e2f58c",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -170764,19 +167685,6 @@
       },
       "target_id": "appearance:057:fox:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:bda1ff9780640dc5dcce1723",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -172555,19 +169463,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c18b3cc28252d1e5d5958bb7",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_rogue_head_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:c18f6b363358b229dfc5405f",
@@ -172730,19 +169625,6 @@
         "selector": "avatar"
       },
       "target_id": "gambler",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c1dba26defbdaed089578cb5",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -173435,19 +170317,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c32955180c719c860b95e620",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:core_rune_leech_idle",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:c336ca499a4e3238e8631de6",
@@ -173554,17 +170423,6 @@
       },
       "target_id": "drop:fairy:hands",
       "target_table": "drops",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:equipment:legacy:sword",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c356fd50f37b9c5cae4dc51a",
-      "mapping": {
-        "role": "legacy_costume_weapon_overlay"
-      },
-      "target_id": "held_weapon:sword",
-      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -173915,19 +170773,6 @@
       },
       "target_id": "drop:frost_slime:staff",
       "target_table": "drops",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c4189c8ead8ef8c6149e2b1a",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -175010,19 +171855,6 @@
       "id": "use:c5ec6ab269dc9a3f5eef6cce",
       "mapping": {
         "costume": "gat_addition_12_1",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c5ed62cc978c1355c08c25f2",
-      "mapping": {
-        "costume": "starlight",
         "role": "player",
         "selector": "costume"
       },
@@ -177019,19 +173851,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:c9b9b77d6522c0a2b837bfc3",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:armor_rogue_hands_trail",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:c9bc9c599a76f0dec63974d7",
@@ -178194,19 +175013,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:cca6eb47e835fb0549565d88",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:floor_tile:desert",
       "consumer": "res://shaders/forest_ground.gdshader",
       "id": "use:ccb180f421237aeb77e3167c",
@@ -178324,19 +175130,6 @@
       "mapping": {},
       "target_id": "ranger:star:1:m4",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:cceaf7ed20d7e3148a6e7171",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -178921,17 +175714,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:equipment:legacy:bow",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:ce1ef02b733a2c3083d29ffd",
-      "mapping": {
-        "role": "legacy_costume_weapon_overlay"
-      },
-      "target_id": "held_weapon:bow",
-      "target_table": "runtime",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:motion:mage:15",
       "consumer": "game/scripts/combat_sprite_art.gd:frame",
       "id": "use:ce23da5a1adc75cb26e58c8b",
@@ -179481,19 +176263,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:cf165daeb2f4ec20f3b5678a",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:raven-summer-resort:2",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:cf17e17ce2ceff96f41aff3c",
@@ -179653,19 +176422,6 @@
       "mapping": {},
       "target_id": "warrior:star:3:m0",
       "target_table": "constellations",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:cf65922f8c4fea99c23911a5",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -180242,19 +176998,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d07dff6afd41b4174ea414cc",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:loot:potion",
       "consumer": "game/scripts/content.gd:icon_texture",
       "id": "use:d09d004c87cbc8d31d7f73de",
@@ -180385,17 +177128,6 @@
       "mapping": {},
       "target_id": "runesword_p06",
       "target_table": "skills",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:equipment:legacy:staff",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d0feb78e3fe90e62ff7ae0ee",
-      "mapping": {
-        "role": "legacy_costume_weapon_overlay"
-      },
-      "target_id": "held_weapon:staff",
-      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -181080,19 +177812,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d27c2273684366a67081af96",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:vfx:haste",
       "consumer": "game/scripts/skill_vfx.gd:render",
       "id": "use:d27c9338b9050b9db5103101",
@@ -181546,19 +178265,6 @@
       },
       "target_id": "eq:rogue:accessory:04:0",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d37498789d3b349abe4bd170",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -182855,19 +179561,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d579ccede3275a098a835c2c",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:floor_tile:desert",
       "consumer": "res://shaders/forest_ground.gdshader",
       "id": "use:d57b3f6a9deaf26008f5c10f",
@@ -183280,19 +179973,6 @@
       },
       "target_id": "appearance:046:orc_axeman:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d62e01b91a2570634a54ef87",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -184270,19 +180950,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d8474fe2a8386095e3e651fe",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:accessory_amber_brooch",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:d84a791437fa3f9dbc9bc22a",
@@ -184785,19 +181452,6 @@
       },
       "target_id": "eq:ranger:head:07:2",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:d985f081d119a2c88062916f",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "tank",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -186996,19 +183650,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:ddfd2f04748c0050538c180d",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:equipment:weapon_explorer_adept",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:de03b11135100924642b9966",
@@ -188193,19 +184834,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e09fb963c9f5aac04e8f74e2",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:environment:machine_repair_bench",
       "consumer": "game/scripts/forest_environment.gd:rebuild",
       "id": "use:e0a8b04b5c2bdc41ae5d82fa",
@@ -189302,19 +185930,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:move:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e2c1aace4a99a6b1bcdd7805",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:loot:axe",
       "consumer": "game/scripts/content.gd:icon_texture",
       "id": "use:e2c4b17f80b9359c2c44fecb",
@@ -189748,19 +186363,6 @@
         "selector": "costume"
       },
       "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e3959e24cf23f453e8bace2d",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -190300,19 +186902,6 @@
       },
       "target_id": "eq:elementalist:weapon:02:0",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e49e8385ae7664d82347f5cf",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -190861,32 +187450,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:celestial:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e5812b039879feafa04362f4",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e59226a7d322c9a017f555e8",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:range",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:e5b8427cd5a19bb99b77c84e",
@@ -191146,19 +187709,6 @@
       "target_id": "res://assets/costume_v04/catalog.json",
       "target_table": "catalog",
       "usage_kind": "catalog_available"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e6668800dd12fb233c797109",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
     },
     {
       "art_id": "art:icon:area",
@@ -192179,19 +188729,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e8883d0c47d73711d2cc9d70",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:monster:core_bound_grimoire_idle",
       "consumer": "game/scripts/main.gd:draw_actor",
       "id": "use:e8981ebf9ec4d2237df1d963",
@@ -192537,19 +189074,6 @@
       },
       "target_id": "23",
       "target_table": "floors",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:e997dea31697c4411added4f",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -193245,19 +189769,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:eaf9606abf791e62ede8c32b",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:vfx:impact",
       "consumer": "game/scripts/skill_vfx.gd:render",
       "id": "use:eb0214f68a239016269e2f43",
@@ -193602,19 +190113,6 @@
         "selector": "costume"
       },
       "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:eb8106b70461508848e3d8a1",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -195779,19 +192277,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f05bc9ac39aa7676bdfa97d6",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:agility",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:f0630445cf32cda741b67f33",
@@ -196261,19 +192746,6 @@
         "selector": "default"
       },
       "target_id": "thief",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:move:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f11eaec29de185dda5a018c3",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
       "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
@@ -197361,19 +193833,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f3511aa962a2c5091df322ca",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:icon:attack_speed",
       "consumer": "game/scripts/icon_art.gd:key_for_skill",
       "id": "use:f35927660596b22454415000",
@@ -197512,19 +193971,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:witch:attack:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f378936ff18a4c5aa5f1906a",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "mage",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:vfx:impact",
       "consumer": "game/scripts/skill_vfx.gd:render",
       "id": "use:f38363a897634adab718e499",
@@ -197577,19 +194023,6 @@
       },
       "target_id": "appearance:086:spider:normal",
       "target_table": "appearances",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f3a39c633f76ae384663f954",
-      "mapping": {
-        "costume": "witch",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -198003,19 +194436,6 @@
       "id": "use:f444364c0267619b1a012bf7",
       "mapping": {
         "costume": "raven-black-punk",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:witch:attack:3",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f4443bd9857da1ac19186ab1",
-      "mapping": {
-        "costume": "witch",
         "role": "player",
         "selector": "costume"
       },
@@ -198832,19 +195252,6 @@
       },
       "target_id": "eq:gambler:weapon:02:4",
       "target_table": "equipment",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:idle:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f5cd1a655e21882f5f592f86",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "runesword",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -199981,19 +196388,6 @@
       "id": "use:f79c12eb38429668d9a2dd2e",
       "mapping": {
         "costume": "pearlcat-sailor",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "elementalist",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:starlight:attack:1",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:f79eefd14db4faa2282f1d22",
-      "mapping": {
-        "costume": "starlight",
         "role": "player",
         "selector": "costume"
       },
@@ -201702,19 +198096,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:starlight:move:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:fb10f714bd500ce9b9ae5f09",
-      "mapping": {
-        "costume": "starlight",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "healer",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:costume:crimson-black-dress:10",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:fb15a8048e629fc5b2c50b97",
@@ -202951,19 +199332,6 @@
       "usage_kind": "runtime_mapping"
     },
     {
-      "art_id": "art:character:legacy:traveler:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:fd39e86a494c09b371610314",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "swordsman",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
       "art_id": "art:character:gat:gat_addition_05_2:2",
       "consumer": "game/scripts/gat_art.gd:frame",
       "id": "use:fd3e1f2423463053e780bc12",
@@ -203039,32 +199407,6 @@
       },
       "target_id": "drop:mole:hands",
       "target_table": "drops",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:traveler:move:2",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:fd62788144b642a12d582461",
-      "mapping": {
-        "costume": "traveler",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "warrior",
-      "target_table": "classes",
-      "usage_kind": "runtime_mapping"
-    },
-    {
-      "art_id": "art:character:legacy:celestial:attack:0",
-      "consumer": "game/scripts/main.gd:draw_actor",
-      "id": "use:fd7f5297bededd864a80fdcb",
-      "mapping": {
-        "costume": "celestial",
-        "role": "player",
-        "selector": "costume"
-      },
-      "target_id": "summoner",
-      "target_table": "classes",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -367189,10 +363531,10 @@
     },
     "counts": {
       "appearances": 620,
-      "art_assets": 1701,
-      "art_files": 223,
+      "art_assets": 1656,
+      "art_files": 182,
       "art_sources": 11,
-      "art_uses": 10259,
+      "art_uses": 10091,
       "build_nodes": 1510,
       "classes": 20,
       "constellation_edges": 1280,
@@ -367232,14 +363574,13 @@
     },
     "schema_version": 4,
     "source_sha256": {
-      "docs/ASSET_SOURCES.md": "348a98d6096d1ad8e19d1a40adcacb8d9ad2dd80b7a8fee2373e859d2754b2f6",
+      "docs/ASSET_SOURCES.md": "ddc6246d6d69c31f078c85fe622c065169db90343f93e2052e6f19a725f663d4",
       "docs/ENVIRONMENT_V04_PROVENANCE.json": "6e425d26e0943f50674f5827e86f8cc97611654a308ccf75ebf6adaf4cd8d94e",
       "docs/EQUIPMENT_ART_PROMPTS.json": "10c63a2d07e8eb66b2d9f27720766cc18a60403f3052ebba11808d61203875b5",
       "docs/ICON_ART_PROMPTS.json": "40b8cd8ac4a8a3108889f2e66164b0a224a379c0792e538d9524853cc8a4f71a",
       "docs/TEAM_HANDOFF_VFX.md": "64ddc0fb1c21b193e2341c3d2356ca9c5ddf8158f94c47f7a13683471cbfaf33",
       "docs/TITLE_ART_V04.md": "54f24a0a0c1e5046e9912c90add2bcd24114dd06e971d31a0e9eb9d304cc41e2",
       "docs/costume_v04/PROVENANCE.json": "def384e88a0877f21b456f49cad127fd0eb114d3977440dc52ea9253bc234557",
-      "game/assets/animations.json": "dcdefbd68b417e35668c6e17b666331f4498d1cb48ac1b1a28c7fd4b18686e74",
       "game/assets/audio/mapping.json": "d06fc05d0737e8bd2c85f0b78ac5678fcb160e02b89f5fe1b4020d0add1c4852",
       "game/assets/costume_v04/amethyst-purple-dress-sheet.png": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8",
       "game/assets/costume_v04/amethyst-summer-shawl-sheet.png": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2",
@@ -367278,38 +363619,6 @@
       "game/assets/costume_v04/silvercat-pink-maid-sheet.png": "4749725bd09b4b251b3aceb645c76d4ededd3faef6431eeaea351ead4ae224d8",
       "game/assets/costume_v04/silvercat-street-sheet.png": "e6846ea94ff5f3a5ed6fee28f2c7862d63c2c47747c93926247c0052c6e426b6",
       "game/assets/costume_v04/silvercat-summer-resort-sheet.png": "dda5a6e1e8f5ead8bbab607176b4ff5fcff7ade94506bb6da5b28b6ee4a8860d",
-      "game/assets/costumes/animations.json": "6dad8f0f7640ec14d43e658e879b1de37722126418ded39fdbfae0009f685717",
-      "game/assets/costumes/celestial_1338.png": "97ea9781b02479f37ff17b3f8e312873f5a9c8ea08fe6f27589387abebf1243e",
-      "game/assets/costumes/celestial_1458.png": "277888ffb8838671eb0cfc0f5dc313bfacd761fcce035ece2b9db48c495647b8",
-      "game/assets/costumes/celestial_1473.png": "710347de42acc809bf1010abd69126e17ea77ddf90f3dc6e868793d7f31cae26",
-      "game/assets/costumes/celestial_1616.png": "489566934acee716464293a32e073d5de0cb93848bda0dfe5a7d4aa052015d3e",
-      "game/assets/costumes/celestial_1638.png": "eda2059e4b7bd4e7c70656ae1020ea0e8a7821590ca98c4f96e99193d955bc33",
-      "game/assets/costumes/celestial_1914.png": "071485d2cf453407bbf9fb6bf004ea59f8a3713e9a7c062628059c03c23eba5f",
-      "game/assets/costumes/celestial_1932.png": "355485bf3befd9aac66fd8fc201e4f113902466b1be66790108ad5afc9771b2b",
-      "game/assets/costumes/celestial_1945.png": "5066bf3de42ea3a7e69148236d74185852138b4b6b2626d9d9d416d54aa1e97c",
-      "game/assets/costumes/celestial_2200.png": "2fac2fd324e6735b485b1ae2ada7a16e1a3d8f8ba93054603bf6aa6813907a94",
-      "game/assets/costumes/celestial_2385.png": "19b465c310d710f9f98618aa893d2494cc872a6323e94e49433d214bf7acc19a",
-      "game/assets/costumes/starlight_1146.png": "bdc525725bab4baa2e1cdb8fb5cbfa5244d8cf787ff172d50636af8035d785f8",
-      "game/assets/costumes/starlight_1183.png": "f65662a42a2d288e611971050904a4ab64219e244e09635e4d2e6a497e8c1a0e",
-      "game/assets/costumes/starlight_1397.png": "8c705a8125d65b6c79b98940423db210fd8dcb96b61d5f4bb41ef789b0e2b1d3",
-      "game/assets/costumes/starlight_1430.png": "1d4cab365b7b3205fbc486775a7269dc9325984a02fb8d3c2a758f4a03325f46",
-      "game/assets/costumes/starlight_1621.png": "9e4fe0d26df524446bebdb7e019338643b4ef3d88f6fd68d0935481dc6ef43d0",
-      "game/assets/costumes/starlight_1682.png": "64bfc1d6fb25fee7451af9b12cbaddd0953e8f63ae617f1af2c19d5cb7522437",
-      "game/assets/costumes/starlight_2074.png": "2789bf086505efc96be1ce1f143bade5befdc8886dd7be43c5a3eec06e92c4b9",
-      "game/assets/costumes/starlight_2182.png": "09983b5d6ebcb68f365030c6750bfd01c566ac90a58238356f11824c94121c88",
-      "game/assets/costumes/starlight_2321.png": "f97dca977ec5951276fe0be1852a5db1d9ffdb19ca3b3bc896264af752550f93",
-      "game/assets/costumes/starlight_2411.png": "970373e9b73ade744e966f0b3c445af7fdaaac572a05602182a68877cd6cbb4e",
-      "game/assets/costumes/witch_1226.png": "5f5a193e2c0345b45c52a14aea83bc7aeb30d1ed1ea21e85c2a59417c6c62774",
-      "game/assets/costumes/witch_1270.png": "bf79784374853dd0cd4c1c122ceb0346179158d301e5c506c5c1e619e214e3b4",
-      "game/assets/costumes/witch_1299.png": "a8404d0d95949791d8bf18c5f1025cdcb34bc2b119f40b33fdab9d44081db37f",
-      "game/assets/costumes/witch_1419.png": "bea1d0b861dcc81ce4550f49ffcfb98c17c8c029b6164b3b819fcda3a211fbfd",
-      "game/assets/costumes/witch_1449.png": "84c32aa2f7e725fa44b84a08e208570745d070f245ee97b21419c5fbc4077999",
-      "game/assets/costumes/witch_1529.png": "cf87f9bf58afaca418408e1424c9024c15bd2a9a75e98d221678fd85c9a0a17f",
-      "game/assets/costumes/witch_1571.png": "8a98643aa924d2691b5f0adf2441dc783331ccf35b7ec394bb6bb252c1eb400f",
-      "game/assets/costumes/witch_1610.png": "81665bc60f33654b5c9dc84dab160c3cca3380879de0351d8b94d9175d389443",
-      "game/assets/costumes/witch_2022.png": "0aad00295a73e774376e9dd32147e0bfb0c658057ae6de9f411db598b6c85f7b",
-      "game/assets/costumes/witch_2086.png": "32bdcea100970458d9f116b6d59298905ba11f02c89e328262bcb45550944999",
-      "game/assets/costumes/witch_2325.png": "256bc7ddb0c3ddd9e5776d18fbc10d667f7c0bd44628b21696570ba709407d76",
       "game/assets/environment/biomes-v04/autumn.png": "bf46f4b57b21b8c0542898be453e4aa0a4097097c77b18f14af2947fd37e3e52",
       "game/assets/environment/biomes-v04/bamboo.png": "939df64e22dac89df25832c09e74b89d87b4126f4fccd7a426cc7db93032ddb0",
       "game/assets/environment/biomes-v04/catalog.json": "f751be51bce76ed2b6efd5f6499c90e23a0b74137f91f5dbb33bfebce1d97fea",
@@ -367358,16 +363667,6 @@
       "game/assets/gat/role_healer.png": "6e296d85cb30c0b38249cc9da39c5cd53a3d0778f276ddeab4bc6b5d34869338",
       "game/assets/gat/role_single.png": "673915ca9d9e0dcb4bf141494376ffee873c87f77926b32d7b820d5dddb40e7c",
       "game/assets/gat/role_tank.png": "9c8b385197c960024465203accba708e68fd9d72f49716819249bab110c725fc",
-      "game/assets/hero_1141.png": "34f97bf69843afa82e277fe9922e5a44bcbc0693225c893cee829156b8545278",
-      "game/assets/hero_1215.png": "791bd6ac82c65e65b7d831ab89e599359f30e01317fb05e839ec9918c2b17d74",
-      "game/assets/hero_1238.png": "83aa2aeb032bddc654ecd1b9d0ed38f07bc70c46a078805ef4e18a7ea648da4e",
-      "game/assets/hero_1317.png": "ae64736de028675a352cb84a10b97d0ecea1a2f5b3e71f3afa1e740d225fa010",
-      "game/assets/hero_1335.png": "7be559f2f4e743d9b89debe4d2a09e786ba2315029685b26229a9db6b860c964",
-      "game/assets/hero_1347.png": "220238d9f2176557653c5dd4e4481d100b8647e35a5ce5f8571ab08ffb27ee5f",
-      "game/assets/hero_1350.png": "40673bba7c5794f75049f8acf201be03d3255cfc51ae5490879014417e67449c",
-      "game/assets/hero_1921.png": "c518bdf871d2e2815c14fbb4651c6c62c120e02d12bc8e1cde01b6c3eb7da5b7",
-      "game/assets/hero_2294.png": "c1c092df8924222f020fb3c5dcba46ca85a7ce091d64dac0a0dbdf35587cc7d3",
-      "game/assets/hero_2326.png": "f74ec98dc5222f47766739ed203e8e51f6f2099ce4f4619b9a031405d2b5b70c",
       "game/assets/icons/job-weapons-v02.png": "743de35015683091295811ecff8a84b905d7d2900a82cf37994fe831d67d666d",
       "game/assets/icons/semantic_catalog.json": "529ec9ba7b477cab2b2da4508a48a63d39c7229a3192de84411586d6d01de209",
       "game/assets/icons/wood-abilities.png": "805741ad27d837acc0d9617404c1612f5624c92ce5598152ca907031e29ad4d1",
@@ -367410,7 +363709,6 @@
       "game/assets/jobs/tank-sprite.png": "6c73c90b8794ba94815290751fc18498096a6f474569d87193a5bf275e8742f3",
       "game/assets/jobs/thief-effects.png": "d5ea872e2a0c5b88ced866b237d58e1a7f62a87511636086bdea3fbc0f0ec093",
       "game/assets/jobs/thief-sprite.png": "e9078ec6b2e691e97a4106210a9b75d19ae91529697ee354ec613fec623c69ee",
-      "game/assets/koongya/forest_background.png": "cd90b5eab7808124c1b6372637e42b92ef1e3a689082788b5b3ed0fafc7554d8",
       "game/assets/motions/catalog.json": "65d4fea23e830eb37a3de88c832f2d09354b75dae116d5ed8429dd1fb823ad00",
       "game/assets/motions/mage-v05.png": "b773461ab6ee8f6c472c31ad4f902ea983815a2a5754a42def009a76eed24449",
       "game/assets/motions/ranger-v05.png": "3dc2c1f207159cda491c7759f4687a636dc6181a38f60939d21c870aeac878b3",
@@ -367490,8 +363788,8 @@
       "game/scripts/abyss_catalog.gd": "f2b54a71d1c3dafa0deed49a569123700f443d9dae4a1dce9dbb9d1ba9a282b6",
       "game/scripts/action_circle.gd": "03056f218d8cb2c6c1895c21c390bed06ca2d85cc2ec479aa152915e158c0d84",
       "game/scripts/active_skills.gd": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2",
-      "game/scripts/appearance_rules.gd": "5f5e15b41d5d1a5ddca84da8fab8821a7d7d04b1b27d1a58c8265105d4e00f05",
-      "game/scripts/art_registry.gd": "c6ab86e42461dd959c733aa49f612c5d24bca8cb699f8afba0bceae9a9925195",
+      "game/scripts/appearance_rules.gd": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac",
+      "game/scripts/art_registry.gd": "60d8e7714cca7690aad7a71c04b4eb8b94c5b523a994a2b8f5a1ed30c3dadc09",
       "game/scripts/audio_director.gd": "3a2b8b7cc7bb2b55877532ba29e11c47ca92204884473d2be6660ba4be6845d5",
       "game/scripts/battle_camera.gd": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce",
       "game/scripts/boss_hud.gd": "2d869da48130397395548719dd54325fe56b84ba31f9e0a2ab47de224826ae36",
@@ -367502,11 +363800,11 @@
       "game/scripts/character_sheet_ui.gd": "9ec619283d87eb6ea0746e3f7bd0884f55045239565ce41daabaf73c6444f5d3",
       "game/scripts/codex_panel.gd": "c118d309d26581b48f7075e9b94391e20e3a7f09e0c42fa1efe979fa85d1657e",
       "game/scripts/combat_feedback.gd": "52b3f0bc5c1ec26fccb7a55cda03475969900376ad0193fdd18e4ee4462e5338",
-      "game/scripts/combat_hud.gd": "b37e1fdb62c947d1b19cbca53d806feefd19dc0966adde0f517ce5146de45fe0",
+      "game/scripts/combat_hud.gd": "c6ac8c46f4184a55ee50328c135b6f2fe4063c644cadc302fa14dba94c65b254",
       "game/scripts/combat_sprite_art.gd": "2ecd285af6a7c9892ac09d3828fdbf8e542709f8046a7e40e6191cc29c2a1582",
       "game/scripts/constellation_catalog.gd": "f7234db401bab65e28e6f719c08458bd00b245c5994878fde2ee29e934286529",
       "game/scripts/constellation_effects.gd": "f359165ab9466c65f44b78a54de8ae68c0a07d2911e9894b0033ff9491d752e3",
-      "game/scripts/content.gd": "7549c17236a59cec324c7a5cc20cf8fb6ab63c3b32ebc17a1703daec8447e8e0",
+      "game/scripts/content.gd": "4e15ecaca2f261737180b8eb3da43472f69667a58dc3e6cca63c42af16440271",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/dungeon.gd": "c6736912290b0741bfc07912a63837e1d99b66f18e3beff2e2f68cddc1a4f06e",
       "game/scripts/enemy_hit_geometry.gd": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2",
@@ -367526,7 +363824,7 @@
       "game/scripts/inventory_grid_ui.gd": "d89b43e412c48731ddccc98badf9925d918b8c956880b6741a6ffb3b32c50d58",
       "game/scripts/inventory_item_ui.gd": "c83f98727d4e15aaaeceb008a75a6be91c3c34b59f474972f12027c4c3391fa1",
       "game/scripts/inventory_model.gd": "7849da780889e6dffbc38bdd98d39ae0fc07c0c4878c47753120c754c3fc3fdd",
-      "game/scripts/inventory_panel.gd": "47628b4e70838572ad45ca70c252525b78d655bf77da3285acb33f823da69db6",
+      "game/scripts/inventory_panel.gd": "6ae400da4b443f027e48663cff04e48b5dd4fe6ed211409938a980d1107a5729",
       "game/scripts/item_art.gd": "d4e7ee5a6d4d6cc6008eac8907e20df07460a875ee9386dedb8ac5852cdd7209",
       "game/scripts/job_art.gd": "031093dd07acbb89c70590a3df18f00f834bffba234511bd6fdd96daabc66dcd",
       "game/scripts/job_balance.gd": "981f280275f60771402a2cbc8c7abd919197efe747115c1c76e1649b726641ca",
@@ -367535,9 +363833,9 @@
       "game/scripts/job_resource_hud.gd": "c198daab16c04627ce9e38f6ff65d4d144574fde6c61e686f5b20a138edbcb00",
       "game/scripts/key_bindings.gd": "fb6a321cf4a65ebd392d2dbed29ed6863c234af90f06a157ae4439e4cb7bcd8e",
       "game/scripts/keyboard_panel.gd": "f8fcdfec23b15cae1670623167718c277fc2d61457ad461681ff2c872154f44b",
-      "game/scripts/local_session.gd": "be286c7b331beb433302584a1602fcc068102945fe89ccd230d613003068d362",
+      "game/scripts/local_session.gd": "3d761b7088996f217532f9bb57f14b14615c5b56b9d61885f98a48477c69fca3",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "d6a7c298bc65811be70ca75055840c5e95a2709f76920ecb8fd3db55052a5a7f",
+      "game/scripts/main.gd": "ebdb31bca620cce7194626b99afba499fdb4629b1053173f1492dae6d5ac5cd4",
       "game/scripts/minimap.gd": "ec2086659037fd18dc72dcc2f4f43d068ecfe4e00878cbcd99881aa94adc1b3b",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "2cf795f2e856b6c64f4988074e3fbc134a14305afd7f2507621e9e49e12728be",
@@ -367568,7 +363866,7 @@
       "game/scripts/training_art.gd": "aa70f36f97e8868db842853e0df811e0098a773aadcc89adb63c8728343f5741",
       "game/scripts/training_ground.gd": "d2ac6e340fa53b1d79c2962c7d40ad2a5e6bd86bb98f5939381a3667ce79f422",
       "game/scripts/ui_art.gd": "9495e7981aa47a5ca443c8cdacf38ae86684c0c1af67152cad7d0315d06a086c",
-      "game/scripts/wardrobe.gd": "ed1da4faab266c6de11e6bc635c2a609e13fa2cbd1b9b459a75d6af47c89a23e",
+      "game/scripts/wardrobe.gd": "3cbeccd2e524a1c44f1a2781e15faf50d64d3d41140e7c44c3d2724d0ec51230",
       "game/scripts/wardrobe_shop.gd": "97e1800a364b936e82176a2a35323f410011f4795f6017f8991224a46d1674b3",
       "game/scripts/world_art.gd": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085",
       "game/scripts/world_catalog.gd": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",

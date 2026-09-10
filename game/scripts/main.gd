@@ -18,7 +18,6 @@ var forest
 var fonts
 var bold_font: Font
 var serif: Font
-var textures: Dictionary = {}
 var camera_pos = Vector2.ZERO
 var smooth_positions: Dictionary = {}
 var monster_aim_frames:Dictionary={}
@@ -200,17 +199,8 @@ func key_escape(event:InputEvent)->bool:
 func load_art():
 	serif = load("res://assets/fonts/dnf_forged_blade_medium.ttf")
 	bold_font = load("res://assets/fonts/dnf_bitbit_v2.ttf")
-	scenery.forest_background=load("res://assets/koongya/forest_background.png")
 	fonts = load("res://assets/fonts/dnf_forged_blade_medium.ttf")
 	fonts.fallbacks = [bold_font]
-	var art = JSON.parse_string(FileAccess.get_file_as_string("res://assets/animations.json"))
-	var costume_art=JSON.parse_string(FileAccess.get_file_as_string("res://assets/costumes/animations.json"))
-	art.merge(costume_art)
-	for role in art:
-		textures[role] = {}
-		for state_name in art[role]:
-			textures[role][state_name] = []
-			for path in art[role][state_name]: textures[role][state_name].append(load(path))
 
 func style(bg: Color, _border: Color = Color("b4c9b7"), _radius: int = 3) -> StyleBoxTexture:
 	var box = StyleBoxTexture.new()
@@ -579,7 +569,6 @@ func _draw():
 	if session == null or dungeon == null: return
 	if not session.connected:
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
-		draw_texture_rect(scenery.forest_background,Rect2(550,0,1200,900),false,Color(1.12,1.10,1.04))
 		return
 	var actors = forest.visible_props()
 	if dungeon.floor_number>0:
@@ -687,24 +676,12 @@ func draw_actor(actor: Dictionary):
 	if not is_hero and int(p.id)==hover_enemy_id:draw_arc(Vector2.ZERO,72 if boss else 42 if p.get("elite",false) else 32,0,TAU,48,Color("ffda73"),3,true)
 	if is_self: draw_arc(Vector2.ZERO,30,0,TAU,40,GOLD,2,true)
 	draw_set_transform(Vector2.ZERO)
-	var animation = "idle"
-	if not is_hero or p.get("dir", Vector2.ZERO).length()>0.1: animation="move"
-	if is_hero and (p.get("swing",0.0)>0 or p.get("motion_time",0.0)>0): animation="attack"
-	var fallback=textures.get(role,textures.hero)
-	if not fallback.has(animation): animation="move"
-	var base_actor=is_hero and Content.gat_appearance(p)
+	var base_actor=is_hero
 	var rendered_costume={};var rendered_monster=""
-	var art_role=Content.costume_role(p) if is_hero and not base_actor else role
-	var frames = textures.get(art_role,fallback)[animation]
 	var pose=preload("res://scripts/character_motion.gd").pose(p) if is_hero else {"offset":Vector2.ZERO,"angle":0.0,"scale":Vector2.ONE,"weapon":0.0,"hand":Vector2(16,-30),"progress":0.0}
-	var frame_index=mini(frames.size()-1,int(pose.progress*frames.size())) if is_hero and p.get("motion_time",0)>0 else int(visual_time*8)%frames.size()
-	var frame: Texture2D = frames[frame_index]
-	var foot=Vector2(frame.get_width()/2.0,frame.get_height())
+	var frame:Texture2D
+	var foot=Vector2.ZERO
 	var facing=1.0
-	if is_hero and not base_actor:
-		# One fixed body metric per costume, shared by every animation frame.
-		var rest:Texture2D=textures[art_role].idle[0]
-		size_scale=112.0/rest.get_height()
 	if base_actor:
 		var data=GatArt.frame(p,visual_time);frame=data.texture;size_scale=112.0/data.height;foot=data.foot
 		if data.has("costume_id"):rendered_costume=data
@@ -751,16 +728,6 @@ func draw_actor(actor: Dictionary):
 	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):
 		for i in range(3):preload("res://scripts/skill_effects.gd").star(self,point+Vector2(sin(visual_time*5+i*TAU/3)*18,-dimensions.y-26),5,Color("fff3a6"))
 	if session.connected:preload("res://scripts/status_markers.gd").draw(self,p,point+Vector2(0,-dimensions.y-54),is_hero)
-	if is_hero and session.connected and not base_actor:
-		var weapon_type=session.sim.combat.weapon_type(p)
-		var weapon_art:Texture2D=preload("res://scripts/item_art.gd").texture(weapon_type)
-		var weapon_size=weapon_art.get_size();weapon_size*=43.0/maxf(weapon_size.x,weapon_size.y)
-		var aim_angle=Dungeon.iso(p.aim).angle()+PI*0.25
-		aim_angle+=pose.weapon
-		if p.get("charge_time",-1)>=0:aim_angle-=p.charge_time*1.1
-		draw_set_transform(point+pose.offset+pose.hand,aim_angle)
-		draw_texture_rect(weapon_art,Rect2(Vector2(-weapon_size.x*0.23,-weapon_size.y*0.80),weapon_size),false,tint)
-		draw_set_transform(Vector2.ZERO)
 	if session.connected:
 		if not is_hero and not boss:
 			var elite=bool(p.get("elite",false))

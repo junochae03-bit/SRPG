@@ -1,10 +1,10 @@
 {
   "counts": {
     "appearances": 620,
-    "art_assets": 1701,
-    "art_files": 223,
+    "art_assets": 1656,
+    "art_files": 182,
     "art_sources": 11,
-    "art_uses": 10259,
+    "art_uses": 10091,
     "build_nodes": 1510,
     "classes": 20,
     "constellation_edges": 1280,
@@ -39,12 +39,12 @@
       "sha256": "cf5e7d22174ad32b908d3b0b998641f934dbdb4571f5ecc815f8932dc53cf36b"
     },
     "stelrpg-database.json": {
-      "bytes": 14256886,
-      "sha256": "49007470325231d24b10ae5a396987cf30b3ba067d35f6d50ed4e1531c158478"
+      "bytes": 14139492,
+      "sha256": "cda864b195c16572092d15a5432a840fc34955272fda4e46302e8a32dd7d11eb"
     },
     "stelrpg.sqlite": {
-      "bytes": 8949760,
-      "sha256": "42bee50df593f3446197c04749acbf5b88c7cd82bf059e33962be0401fb41104"
+      "bytes": 8863744,
+      "sha256": "bfe6abf30ca53c0cd0d5e1dc2401bc30ebf14b7c7378b8bceaa17c99234bcb69"
     }
   },
   "schema_version": 4
