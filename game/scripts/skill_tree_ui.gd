@@ -87,7 +87,7 @@ func setup(owner_game):
 	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(value):pending_search=.16 if value!=applied_search_text else 0.);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
 	view_controls.append(Library.picture(self,"search",Vector2(40,159),Vector2(21,21)));search.get_theme_stylebox("normal").content_margin_left=39
 	filter_picker=picker(self,Vector2(342,148),Vector2(162,42))
-	for caption in ["전체 기술","사용 기술","배울 수 있음"]:filter_picker.add_item(caption)
+	for caption in ["전체 기술","사용 기술","배울 수 있음","기술 강화","행동 변화","능력치"]:filter_picker.add_item(caption)
 	filter_picker.item_selected.connect(func(i):filter_index=i;focus_match());view_controls.append(filter_picker)
 	branch_picker=picker(self,Vector2(515,148),Vector2(279,42));branch_picker.item_selected.connect(func(i):show_branch(i-1));view_controls.append(branch_picker)
 	tag_picker=picker(self,Vector2(805,148),Vector2(265,42));tag_picker.item_selected.connect(func(i):tag_filter=str(tag_picker.get_item_metadata(i));focus_match());view_controls.append(tag_picker)
@@ -169,7 +169,8 @@ func node_position(node:Dictionary)->Vector2:return graph.positions.get(node.id,
 func matches(node:Dictionary,p:Dictionary)->bool:
 	var query=search.text.strip_edges().to_lower();var definition=graph.definitions.get(node.id,node)
 	var text=str(definition.get("name",""))+" "+str(definition.get("description",""))+" "+str(definition.get("tags",[]))+" "+str(definition.get("synergy",""))
-	return (query.is_empty() or text.to_lower().contains(query)) and (tag_filter.is_empty() or tag_filter in definition.get("tags",[])) and (filter_index==0 or filter_index==1 and definition.get("effect","")=="active" or filter_index==2 and Rules.node_state(p,node.id).get("can_invest",false))
+	var selected_role={1:"active",3:"active_module",4:"character_passive",5:"stat_passive"}.get(filter_index,"")
+	return (query.is_empty() or text.to_lower().contains(query)) and (tag_filter.is_empty() or tag_filter in definition.get("tags",[])) and (filter_index==0 or filter_index==2 and Rules.node_state(p,node.id).get("can_invest",false) or not selected_role.is_empty() and Presentation.role(definition)==selected_role)
 func select_node(id:String):choice=id;route_target="";refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text="";refresh(true)
 func show_branch(cluster:int):
 	graph.set_scope(cluster);refund_mode=false
@@ -194,7 +195,9 @@ func apply_search():
 	var p=player();var found=""
 	if p.is_empty():return
 	for node in Rules.nodes_for(p.class_id):
-		if matches(node,p):found=node.id;break
+		if not matches(node,p):continue
+		if found.is_empty():found=node.id
+		if str(node.name).to_lower()==search.text.strip_edges().to_lower():found=node.id;break
 	if not found.is_empty():
 		choice=found;refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text=""
 	else:notice.text="조건에 맞는 기술이 없습니다."
@@ -288,9 +291,10 @@ func localized_tag(tag:String)->String:
 	return {"original":"원기술","active":"사용 기술","passive":"지속 효과","upgrade":"기술 강화","minor":"기반","notable":"주요 특성","keystone":"핵심 선택","constellation":"별자리 특화"}.get(tag,Scaling.EFFECT_NAMES.get(tag,Rules.effect_label(tag)))
 func show_details(skill:Dictionary,p:Dictionary):
 	var state=Rules.node_state(p,skill.id);var rank=int(state.get("rank",0));var maximum=int(skill.max_rank)
-	selected.text=str(skill.name).get_slice(" · ",0) if skill.get("type","")=="minor" else str(skill.name);selected.tooltip_text=skill.name;selected_icon.texture=Icons.skill(skill)
+	selected.text=str(skill.name).get_slice(" · ",0) if skill.get("type","")=="minor" else str(skill.name).replace(" · ","\n");selected.tooltip_text=skill.name;selected_icon.texture=Icons.skill(skill)
+	selected.add_theme_font_size_override("font_size",22 if "\n" in selected.text else 26)
 	description.text="LV.%d · "%int(skill.get("level",1))+("선행 없음" if skill.get("parents",[]).is_empty() else ("모든 선행" if skill.get("parent_mode","any")=="all" else "선행 중 하나")+" %d랭크"%int(skill.get("required_rank",1)));description.tooltip_text=description.text
-	status.text=("핵심 · 공격 방식 변화" if skill.get("type","")=="keystone" else "조건부 강화" if skill.get("type","")=="notable" else "패시브" if skill.get("type","")=="minor" else "액티브" if skill.effect=="active" else "기술 강화" if skill.effect=="upgrade" else "패시브")+" · %d/%d · %d SP"%[rank,maximum,int(state.get("cost",skill.get("cost",1)))]
+	status.text=str(skill.get("node_kind_name","패시브"))+" · %d/%d · %d SP"%[rank,maximum,int(state.get("cost",skill.get("cost",1)))]
 	status.tooltip_text=str(state.get("reason",""))
 	if not state.get("can_invest",false) and rank<maximum and not str(state.get("reason","")).begins_with("선행"):
 		var reason=str(state.get("reason","선행 필요"))
@@ -298,6 +302,7 @@ func show_details(skill:Dictionary,p:Dictionary):
 		elif reason.begins_with("핵심 별자리"):reason="핵심 선택은 최대 2개"
 		status.text+="\n"+reason
 	comparison_rows=[];var text=""
+	if not str(skill.get("target_active_id","")).is_empty():text+=paragraph("강화 대상",str(skill.target_active_name)+" · 이 액티브에만 적용")
 	if skill.get("type","original")!="original":
 		var effect_text=str(skill.get("effects_text",skill.get("description","")))
 		text+=paragraph("얻는 변화",effect_text)+paragraph("선택의 대가",str(skill.get("tradeoff","")))+paragraph("함께 쓰는 방식",str(skill.get("synergy","")))
@@ -305,7 +310,7 @@ func show_details(skill:Dictionary,p:Dictionary):
 		# A locked node still previews its potential next rank. Rules.preview may
 		# reject allocation; that must not turn the displayed improvement into 0→0.
 		var hypothetical=p.duplicate(true);hypothetical.constellation_allocations[skill.id]=mini(maximum,rank+1)
-		var before=Rules.effects(p);var after=Rules.effects(hypothetical)
+		var target_id=str(skill.get("target_active_id",""));var before=Rules.effects(p,target_id);var after=Rules.effects(hypothetical,target_id)
 		for effect in skill.get("effects",{}):comparison_rows.append([Rules.effect_label(effect),effect_amount(effect,float(before.get(effect,0))),effect_amount(effect,float(after.get(effect,0)))])
 		if skill.get("type","")=="keystone":comparison_rows=[["공격 방식","적용 중" if rank>0 else "기존",str(Presentation.branch(skill)[0])]]
 		if str(state.get("reason","")).begins_with("배타"):

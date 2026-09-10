@@ -28,6 +28,8 @@ DELIVERY = {
 }
 SETTINGS = ("sprite-names.json", "keybindings.json", "game-options.json")
 SAVE_NAMES = tuple(f"slot-{i}.json{suffix}" for i in range(1, 4) for suffix in ("", ".bak"))
+# Same envelope as LocalSession.parse_save: 120 bag cells plus seven equipped slots.
+MAX_SAVED_EQUIPMENT = 120 + 7
 
 
 class InstallError(ValueError):
@@ -84,7 +86,7 @@ def valid_slot(value):
     if not isinstance(value.get("equipped"), str) or type(value.get("quest_done")) is not bool:
         return False
     items = value.get("inventory")
-    if not isinstance(items, list) or len(items) > 80:
+    if not isinstance(items, list) or len(items) > MAX_SAVED_EQUIPMENT:
         return False
     ids = []
     for item in items:

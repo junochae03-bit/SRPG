@@ -67,6 +67,9 @@ func run():
 				var label_rect=Rect2(control.position+control.name_label.position,Vector2(control.name_label.size.x,control.name_label.get_line_count()*control.name_label.get_line_height()))
 				check(Rect2(Vector2.ZERO,tree.graph.size).encloses(label_rect),"effect caption inside graph "+control.id)
 				check(not visible.any(func(other):return other!=control and other.get_rect().intersects(label_rect)),"effect caption clear of other icons "+control.id)
+				check(not visible.any(func(other):return other!=control and other.role_badge_rect().has_area() and Rect2(other.position+other.role_badge_rect().position,other.role_badge_rect().size).intersects(label_rect)),"role badge cannot cover another effect caption "+control.id)
+				if control.role_badge_rect().has_area():
+					check(Rect2(Vector2.ZERO,tree.graph.size).encloses(Rect2(control.position+control.role_badge_rect().position,control.role_badge_rect().size)),"role badge inside graph "+control.id)
 		if class_id in ["warrior","breaker","healer"]:
 			tree.show_branch(0);var active=Rules.nodes_for(class_id).filter(func(node):return node.effect=="active")[0]
 			tree.select_node(active.id);tree.graph.fit_scope();await process_frame

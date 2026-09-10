@@ -341,6 +341,14 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 				return true
 	return false
 
+func apply_level_ups(p:Dictionary):
+	while p.xp >= Progression.xp_required(p.level) and p.level < 100:
+		p.xp -= Progression.xp_required(p.level)
+		p.level += 1
+		recalculate(p)
+		p.hp = p.max_hp
+		notice(p.id, "LEVEL UP · %d · 스킬 +1 / 능력치 +3 · K에서 투자" % p.level)
+
 func kill(id: int, enemy: Dictionary):
 	if enemy.get("training",false):enemy.hp=enemy.max_hp;return
 	if enemy.get("rewarded",false):return
@@ -366,12 +374,7 @@ func kill(id: int, enemy: Dictionary):
 	if enemy.get("boss",enemy.kind=="warden"):
 		p.boss_kills += 1;p.dungeon_clears[map.zone]=int(p.dungeon_clears.get(map.zone,0))+1
 		if map.floor_number==0:notice(id,"보스 격파 · "+enemy.name+" · R로 마을 귀환")
-	while p.xp >= Progression.xp_required(p.level) and p.level < 100:
-		p.xp -= Progression.xp_required(p.level)
-		p.level += 1
-		recalculate(p)
-		p.hp = p.max_hp
-		notice(id, "LEVEL UP · %d · 스킬 +1 / 능력치 +3 · K에서 투자" % p.level)
+	apply_level_ups(p)
 	if p.kills >= 5 and p.boss_kills >= 1 and not p.quest_done:
 		p.quest_done = true
 		p.gold += 100
@@ -384,6 +387,7 @@ func kill(id: int, enemy: Dictionary):
 			var type=item.get("weapon_type","sword") if item.category=="weapon" else item.slot
 			var tier=clampi(int(preload("res://scripts/world_catalog.gd").DUNGEONS[map.zone].theme)+rng.randi_range(0,1)+(1 if enemy.get("boss",false) or enemy.get("elite",false) else 0),0,4)
 			if map.floor_number>0:tier=clampi(int((map.floor_number-1)/10),0,9)
+			elif map.zone=="forest" and not enemy.get("boss",false) and not enemy.get("elite",false):tier=0
 			var affixes=preload("res://scripts/equipment_catalog.gd").AFFIXES.keys()
 			item=preload("res://scripts/equipment_catalog.gd").make(type,tier,int(item.rarity),item_id,affixes[rng.randi_range(0,affixes.size()-1)],p.class_id)
 		var offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)

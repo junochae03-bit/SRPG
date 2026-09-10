@@ -26,6 +26,8 @@ var aim_pointer_viewport=Vector2.ZERO
 var aim_pointer_received=false
 var art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 var visual_time = 0.0
+var enemy_impacts:Dictionary={}
+var playtest_driver
 var effects: Array = []
 var menu: Control
 var title_backdrop:TextureRect
@@ -89,6 +91,7 @@ func finish_run():
 			settings_panel.status.text="저장 실패 · 종료하지 않고 기록을 유지합니다."
 			return
 	quitting=true
+	if playtest_driver!=null:await playtest_driver.finish()
 	session.paused=previously_paused
 	if options.has("report"): write_bot_report()
 	if session.connected:session.paused=true
@@ -107,6 +110,11 @@ func _ready():
 	for argument in OS.get_cmdline_user_args():
 		var pair = argument.trim_prefix("--").split("=", true, 1)
 		options[pair[0]] = pair[1] if pair.size() > 1 else "true"
+	if options.has("playtest"):
+		var output=str(options.get("observation-output",""))
+		if not output.is_absolute_path() or DirAccess.dir_exists_absolute(output.path_join("saves")):
+			push_error("Playtest requires an absolute output path without an existing saves folder");get_tree().quit(1);return
+		options["save-dir"]=output.path_join("saves");options.erase("play");options.erase("bot");options.erase("duration")
 	if options.has("capture") and DisplayServer.get_name() != "headless":
 		# Automated framebuffer captures need a full client area even when the
 		# desktop cannot fit a 1080p window plus its native title bar.
@@ -121,6 +129,8 @@ func _ready():
 	dungeon = Dungeon.new()
 	camera_pos = Dungeon.iso(dungeon.spawn)
 	load_art()
+	# Load the verified compact catalog during startup, before interactive play.
+	preload("res://scripts/game_database.gd").snapshot()
 	material=GatArt.material()
 	forest=ForestEnvironment.new(self)
 	forest.rebuild(dungeon)
@@ -146,7 +156,9 @@ func _ready():
 	if options.has("name"): name_input.text=options.name
 	slot_picker.select(clampi(int(options.get("slot","1"))-1,0,2))
 	refresh_slot_summary()
-	if options.has("bot"):join_game()
+	if options.has("playtest"):
+		playtest_driver=preload("res://scripts/playtest_driver.gd").new();playtest_driver.setup(self)
+	elif options.has("bot"):join_game()
 	elif options.has("play") or options.has("show-creation"):begin_adventure()
 
 func begin_adventure():
@@ -323,6 +335,7 @@ func on_entered():
 	camera_pos = Dungeon.iso(dungeon.spawn)
 	if session.state.players.has(session.local_id):update_battle_camera(session.state.players[session.local_id],1.0,true)
 	smooth_positions.clear()
+	enemy_impacts.clear()
 	menu.hide()
 	title_backdrop.hide()
 	hud.show()
@@ -339,6 +352,8 @@ func show_toast(message: String):
 	toast_time = 5.0
 
 func on_event(event: Dictionary):
+	if event.type=="damage" and event.get("enemy",false) and event.has("target_id"):
+		enemy_impacts[int(event.target_id)]={"until":visual_time+.12,"critical":event.get("critical",false)}
 	if event.type == "notice":
 		show_toast(event.text)
 	else:
@@ -442,6 +457,7 @@ func aim_mouse_position()->Vector2:
 	return get_global_mouse_position()
 
 func _physics_process(delta: float):
+	if playtest_driver!=null:playtest_driver.physics(delta);return
 	if session == null: return
 	if not session.connected or not session.state.players.has(session.local_id): return
 	input_timer += delta
@@ -468,7 +484,10 @@ func _physics_process(delta: float):
 
 func _process(delta: float):
 	if session == null: return
+	if playtest_driver!=null:playtest_driver.process(delta)
 	visual_time += delta
+	for target_id in enemy_impacts.keys():
+		if float(enemy_impacts[target_id].until)<=visual_time:enemy_impacts.erase(target_id)
 	toast_time -= delta
 	if toast_time <= 0: toast.text = ""
 	toast.visible = not bag.visible and not help_panel.visible and not skill_tree.visible and not town_panel.visible and not codex.visible and not npc_dialogue.visible
@@ -718,6 +737,12 @@ func draw_actor(actor: Dictionary):
 	var rect = Rect2(-foot*size_scale,dimensions)
 	var tint = Color.WHITE
 	if not is_hero and p.get("slow_time",0)>0:tint=Color("97d9ff")
+	if not is_hero and enemy_impacts.has(int(p.id)):
+		var impact=enemy_impacts[int(p.id)];var remaining=maxf(0.,float(impact.until)-visual_time)/.12
+		if remaining<=0:enemy_impacts.erase(int(p.id))
+		else:
+			pose.offset.x+=sin((1.-remaining)*TAU)*remaining*(3. if boss else 5.)
+			tint=tint.lerp(Color(1.5,1.3,1.15) if impact.critical else Color(1.3,1.3,1.3),remaining)
 	if is_hero and p.get("invulnerable",0)>0:tint=Color(0.6,0.9,1,0.6)
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
@@ -773,7 +798,7 @@ func make_route(start: Vector2, goal: Vector2) -> Array:
 		if current==end: break
 		for off in [Vector2i.RIGHT,Vector2i.LEFT,Vector2i.UP,Vector2i.DOWN]:
 			var next = current+off
-			if dungeon.floor_cells.has(next) and not came.has(next):
+			if dungeon.walkable(Vector2(next)) and not came.has(next):
 				came[next]=current
 				queue.append(next)
 	var result = []

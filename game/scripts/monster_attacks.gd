@@ -112,16 +112,24 @@ const Content=preload("res://scripts/content.gd")
 static func draw_area(canvas,zone:Dictionary,color:Color):
 	var points=PackedVector2Array()
 	if zone.shape=="line":
-		var perpendicular:Vector2=(zone.pos-zone.from).normalized().orthogonal()*zone.radius
-		for p in [zone.from+perpendicular,zone.pos+perpendicular,zone.pos-perpendicular,zone.from-perpendicular]:points.append(canvas.world_point(p))
+		# contains() measures distance to a segment, including its rounded ends.
+		# Draw that same capsule instead of a shorter square-ended rectangle.
+		var direction:Vector2=(zone.pos-zone.from).normalized()
+		if direction==Vector2.ZERO:direction=Vector2.RIGHT
+		for i in range(13):points.append(canvas.world_point(zone.pos+direction.rotated(-PI*.5+i*PI/12)*zone.radius))
+		for i in range(13):points.append(canvas.world_point(zone.from+direction.rotated(PI*.5+i*PI/12)*zone.radius))
 	elif zone.shape=="cone":
 		points.append(canvas.world_point(zone.from));var direction:Vector2=(zone.pos-zone.from).normalized();var angle=float(zone.get("angle",.8))
 		for i in range(21):points.append(canvas.world_point(zone.from+direction.rotated(lerpf(-angle,angle,i/20.0))*zone.radius))
 	else:
 		for i in range(40):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.radius))
-	if zone.get("shape","circle")!="ring":canvas.draw_colored_polygon(points,Color(color,.15))
+	if zone.get("shape","circle")!="ring":canvas.draw_colored_polygon(points,Color(color,.23))
 	points.append(points[0]);canvas.draw_polyline(points,color,2.0,true)
 	if zone.shape=="ring":
+		# Keep the safe center empty while making the dangerous annulus readable.
+		for i in range(40):
+			var a=Vector2.from_angle(i*TAU/40);var b=Vector2.from_angle((i+1)*TAU/40)
+			canvas.draw_colored_polygon(PackedVector2Array([canvas.world_point(zone.pos+a*zone.inner),canvas.world_point(zone.pos+a*zone.radius),canvas.world_point(zone.pos+b*zone.radius),canvas.world_point(zone.pos+b*zone.inner)]),Color(color,.23))
 		points=PackedVector2Array()
 		for i in range(41):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.inner))
 		canvas.draw_polyline(points,color,2.0,true)

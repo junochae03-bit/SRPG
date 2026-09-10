@@ -76,8 +76,10 @@ func run():
 	game.join_game();session.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false)
 	var p=session.sim.players[1];p.level=100;p.tutorial_done=true;p.highest_floor=100;p.cleared_floor=99
 	session.travel("town");p=session.sim.players[1];p.gold=999999999;p.materials={"seed":999999,"ore":999999,"essence":999999}
+	var names=preload("res://scripts/content_names.gd");var name_key="chest:"+C.base_class(p.class_id)+":9";var saved_name=names.data.equipment[name_key]
+	names.data.equipment[name_key]="태초의 별빛을 머금은 영겁의 성운 수호자 예복"
 	var longest=E.make("chest",9,4,"legibility-long","focus",p.class_id)
-	longest.name="태초의 별빛을 머금은 영겁의 성운 수호자 예복";longest.upgrade=3;I.add_gear(p,longest)
+	longest.upgrade=3;I.add_gear(p,longest)
 	session.sim.recalculate(p);session.refresh();game.on_entered()
 	await capture(game,"town",game.hud)
 	for facility in W.FACILITIES:
@@ -132,5 +134,6 @@ func run():
 	if not keystones.is_empty():game.codex.select_record(keystones[0].id)
 	await capture(game,"codex-specialization",game.codex);game.codex.detail_scroll.scroll_vertical=10000;await capture(game,"codex-specialization-bottom",game.codex);game.codex.close()
 	var file=FileAccess.open("res://../artifacts/ui-legibility-v04-metrics.json",FileAccess.WRITE);file.store_string(JSON.stringify(metrics,"\t"));file.close()
+	names.data.equipment[name_key]=saved_name
 	game.stop_audio();session.disconnect_game();game.queue_free();await process_frame;await process_frame
 	print("UI_LEGIBILITY_V04_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

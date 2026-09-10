@@ -145,6 +145,9 @@ func run():
 	# The drop DB retains its pre-smart-loot axe illustration. It is not one of
 	# the 2,500 class-bound equipment records checked above.
 	var drop_axe={"id":"","key":"","category":"weapon","weapon_type":"axe","job_lock":"","reason":"legacy_appearance"}
+	check(audit.fallback_requests.is_empty(),"prepared DB and class-bound equipment never trigger legacy sprite decoding")
+	check(C.icon_texture({"category":"weapon","weapon_type":"axe"})!=null,"generic drop-table axe still resolves on explicit demand")
+	audit=Art.audit()
 	check(audit.fallback_requests==[drop_axe],"only the generic drop-table axe uses authored legacy compatibility: "+str(audit.fallback_requests))
 	for row in audit.sheets:
 		check(row.load_mode=="prepared_rgba" and row.source_png_available and row.imported_available,"source run uses prepared RGBA while preserving original source "+row.path)

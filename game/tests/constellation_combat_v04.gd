@@ -97,9 +97,11 @@ func run():
 		for key in [3,4]:
 			var f=fixture(spec[0],[key],true);var attack=node_for(spec[0],spec[1]);var support=node_for(spec[0],spec[2])
 			f.p.hp=f.p.max_hp/2;cast(f,support);advance(f,1.2);clear_cast(f)
+			# 지원 후 대상 모듈의 시전 예산을 발동 기회가 소비되기 전에 기록한다.
+			var stagger_budget=Stagger.skill_profile(attack,1,f.p).value
 			var s=cast(f,attack);advance(f,6.)
 			check(f.e.hp<f.e.max_hp and total(f)>0,"family build produces real hit "+spec[0]+str(key))
-			check(total(f)<=Stagger.skill_profile(attack,1,f.p).value+.02,"family cast retains one stagger budget "+spec[0]+str(key))
+			check(total(f)<=stagger_budget+.02,"family cast retains one stagger budget "+spec[0]+str(key))
 			pair.append({"cost":Rules.spent_points(f.p),"profile":s,"damage":f.e.max_hp-f.e.hp,"hits":hits(f).size()})
 		check(pair[0].cost==pair[1].cost,"competing builds use equal SP "+spec[0])
 		check(pair[0].profile.constellation!=pair[1].profile.constellation and (pair[0].damage!=pair[1].damage or pair[0].hits!=pair[1].hits),"competing builds change actual outcome "+spec[0])
@@ -173,10 +175,11 @@ func run():
 	check(s.constellation.mobile and s.power>neutral.power,"dodge snapshot increases next skill damage")
 	f.p.stamina=0;f.p.skill_loadout.skill_q=n.id;check(not f.sim.action(1,"skill_q") and f.p.constellation_state.move_time>0,"resource rejected cast preserves dodge opportunity")
 	f.p.stamina=1000.;cast(f,n);check(f.p.constellation_state.move_time==0,"accepted attack consumes mobility opportunity once")
-	f=fixture("swordsman",[0],true);n=node_for("swordsman","strike");neutral=profile(f,node_for("swordsman","execute"));cast(f,n)
-	var next=profile(f,node_for("swordsman","execute"));check(next.power>neutral.power and next.cost<neutral.cost,"actual different skill hit raises damage and lowers cost")
+	f=fixture("swordsman",[0],true);n=node_for("swordsman","execute");var target=node_for("swordsman","strike");neutral=profile(f,target)
+	var neutral_stagger=Stagger.skill_profile(target,1,f.p).value;cast(f,n);advance(f,.8)
+	var next=profile(f,target);check(next.power>neutral.power and next.cost<neutral.cost,"실제 연결 후 지정 액티브의 피해·기력 모듈 적용")
 	check(next.constellation.followup and not profile(f,n).constellation.followup,"same skill cannot earn alternate-skill bonuses")
-	check(Stagger.skill_profile(node_for("swordsman","execute"),1,f.p).value>Stagger.skill_profile(n,1,f.p).value,"alternate hit raises next stagger profile")
+	check(Stagger.skill_profile(target,1,f.p).value>neutral_stagger,"지정 액티브의 무력화 모듈 적용")
 	f.sim.combat.constellation.reset(f.p);clear_cast(f);f.e.pos=f.p.pos+Vector2(7,0);cast(f,n)
 	check(f.p.constellation_state.last_skill.is_empty(),"missed skill grants no follow-up activation")
 	print("CONSTELLATION_COMBAT_V04 ","PASS" if failures.is_empty() else "FAIL"," checks=",checks," failures=",failures.size())

@@ -250,6 +250,10 @@ equipped_weapon={field:copy.deepcopy(weak[field]) for field in equipment_fields}
 bag_items=[]
 for index in range(120):
     item={field:copy.deepcopy(strong[field]) for field in equipment_fields};item['id']='export-v052-bag-'+str(index)
+    # The DB row is a base catalog definition; a saved rare focus item carries
+    # its affix display name. Preserve all fields during the UI preview test.
+    assert item['affix']=='focus' and item['upgrade']==0
+    item['name']='완력의 '+item['base_name']
     bag_items.append(item)
 comparison_fixture={'inventory':[equipped_weapon]+bag_items,'equipment':dict(v052_base['equipment'],weapon=equipped_weapon['id']),'equipped':equipped_weapon['id'],
                     'bag_positions':{item['id']:{'x':index%10,'y':index//10,'rotated':False} for index,item in enumerate(bag_items)}}

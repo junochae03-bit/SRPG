@@ -32,6 +32,16 @@ func run():
 	game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	game.session.save_directory=ProjectSettings.globalize_path("res://../runtime/keyboard-v051/"+str(Time.get_ticks_usec()));game.keybindings_path=game.session.save_directory.path_join("keybindings.json");game.keybindings.bindings=Keys.DEFAULTS.duplicate()
 	var panel=game.help_panel;game.toggle_help();await process_frame
+	for button in panel.action_buttons.values()+panel.key_buttons.values():
+		for state in ["font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"]:
+			check(button.get_theme_color(state).get_luminance()<.45,"dark paper text in "+state+" "+button.text)
+	await process_frame;await process_frame
+	var hover_events={"entered":0}
+	panel.action_buttons.skill_c.mouse_entered.connect(func():hover_events.entered+=1)
+	var hover=InputEventMouseMotion.new();hover.position=panel.action_buttons.skill_c.get_global_transform_with_canvas()*(panel.action_buttons.skill_c.size*.5);hover.global_position=hover.position;root.push_input(hover,true)
+	await process_frame
+	check(hover_events.entered>0,"real action-button hover")
+	await capture("hover-contrast")
 	check(panel.visible and not game.session.connected and not panel.title_button.visible,"settings work on disconnected title")
 	check(panel.action_buttons.size()==19,"all nineteen actions visible")
 	for code in panel.key_buttons:

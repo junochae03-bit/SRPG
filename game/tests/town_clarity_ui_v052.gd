@@ -68,9 +68,11 @@ func run():
 	local.sim.players[1].tutorial_done=true;local.travel("town");local.set_physics_process(false);game.set_physics_process(false)
 	p=local.sim.players[1];p.level=100;p.gold=100000;p.materials={"seed":500,"ore":500,"essence":500};p.potions=1
 	Inventory.initialize(p);local.sim.gear_changed(p)
+	var names=preload("res://scripts/content_names.gd");var name_key="weapon:"+str(p.class_id)+":8";var saved_name=names.data.equipment[name_key]
+	names.data.equipment[name_key]="찬란하게 빛나는 별빛의 전설적인 수호기사 대검"
 	for index in range(12):
 		var item=Equipment.make("sword",8,3 if index==0 else 1,"clarity-gear-%d"%index,"none",p.class_id)
-		if index==0:item.name="찬란하게 빛나는 별빛의 전설적인 수호기사 대검";item.upgrade=4
+		if index==0:item.upgrade=4
 		check(Inventory.add_gear(p,item),"test gear supplied")
 	panel=game.town_panel
 	open_service("shop");panel.choose("potion")
@@ -131,6 +133,7 @@ func run():
 	check(local.sim.map.in_town(World.FACILITIES.portal.pos) and not local.sim.map.in_town(World.FACILITIES.training.pos),"dungeon entrance stays outside practice area")
 	check(Icons.unknown_requests.is_empty(),"new actions use registered icons")
 	panel.close();check(not local.paused,"closing service resumes game")
+	names.data.equipment[name_key]=saved_name
 	check(await game.audio_director.shutdown(),"audio drained")
 	local.connected=false;game.queue_free();game=null;await process_frame;await process_frame
 	print("TOWN_CLARITY_UI_V052 checks=",checks," failures=",failures.size()," captures=",JSON.stringify(captures))

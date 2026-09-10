@@ -3,7 +3,9 @@ extends RefCounted
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
 const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약"}
-const OPERATIONS=["smith:salvage","shop:potion","alchemy:potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply"]
+const DEFAULT_INN_OPERATION="resupply_small"
+const INN_RESUPPLY_TARGETS={"resupply_small":5,"resupply":Inventory.MAX_POTIONS}
+const OPERATIONS=["smith:salvage","shop:potion","alchemy:potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
 static func handles(facility:String,operation:String)->bool:return facility+":"+operation in OPERATIONS
 static func describe(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:
 	var q={"title":"선택한 작업","cost":0,"materials":{},"outputs":{},"result":"","reason":"","icon":facility,"item":{},"operation":operation,"extra":extra.duplicate(true)}
@@ -28,12 +30,13 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 		"guild:cancel":
 			q.title="의뢰 포기";q.result="현재 토벌 의뢰 종료\n진행도 초기화 · 보상 없음"
 			if p.guild_contract.is_empty():q.reason="진행 중인 의뢰가 없습니다."
-		"inn:resupply":
-			var missing=maxi(0,Inventory.MAX_POTIONS-int(p.potions))
-			q.title="원정 준비";q.cost=10+15*missing;q.icon="inn"
+		"inn:resupply_small","inn:resupply":
+			var target=int(INN_RESUPPLY_TARGETS[operation]);var missing=maxi(0,target-int(p.potions))
+			q.title="소규모 보급" if operation==DEFAULT_INN_OPERATION else "원정 준비"
+			q.cost=10+15*missing;q.icon="inn";q.target_potions=target
 			if missing>0:q.outputs.potion=missing
-			q.result="생명력 %d → %d\n기력 %d → %d\n물약 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina,p.potions,Inventory.MAX_POTIONS]
-	if operation!="resupply":
+			q.result="생명력 %d → %d\n기력 %d → %d\n물약 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina,p.potions,int(p.potions)+missing]
+	if operation not in INN_RESUPPLY_TARGETS:
 		for key in q.outputs:q.result+=("\n" if not q.result.is_empty() and not q.result.ends_with("\n") else "")+LABELS[key]+" +"+str(q.outputs[key])
 	if q.reason.is_empty() and p.gold<q.cost:q.reason="금화 %d G 부족"%(q.cost-p.gold)
 	for key in q.materials:

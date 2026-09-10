@@ -2,19 +2,19 @@ extends RefCounted
 # Only effects implemented by constellation_effects.gd may be advertised here.
 # Values are shared with combat via SkillBuild.effects; original skills stay intact.
 const MINORS={
-	"skill_damage":["날카로운 별","스킬 피해 +1%",.01,"skill_power"],
-	"skill_range":["먼 별의 궤도","스킬 사거리 +2%",.02,"range"],
-	"skill_radius":["넓어지는 궤적","스킬 효과 반경 +2%",.02,"skill_radius"],
-	"skill_haste":["빠른 순환","스킬 재사용 시간 -1%",.01,"skill_haste"],
-	"skill_discount":["고른 호흡","스킬 소모 기력 -1%",.01,"skill_discount"],
-	"skill_duration":["머무는 별빛","스킬 지속시간 +2%",.02,"slow_duration"],
-	"move_speed":["가벼운 발걸음","이동 속도 +1%",.01,"speed"],
-	"attack_speed":["손끝의 박자","기본 공격 속도 +1%",.01,"attack_haste"],
-	"stagger_power":["흔들리는 균형","스킬 무력화 피해 +1.5%",.015,"stun_duration"],
-	"support_power":["따뜻한 별","지원 스킬 위력 +1.5% · 회복·보호막·강화·소환",.015,"health_regen"]}
+	"skill_damage":["날카로운 별","스킬 피해 +3%",.03,"skill_power"],
+	"skill_range":["먼 별의 궤도","스킬 사거리 +4%",.04,"range"],
+	"skill_radius":["넓어지는 궤적","스킬 효과 반경 +4%",.04,"skill_radius"],
+	"skill_haste":["빠른 순환","스킬 재사용 시간 -2%",.02,"skill_haste"],
+	"skill_discount":["고른 호흡","스킬 소모 기력 -3%",.03,"skill_discount"],
+	"skill_duration":["머무는 별빛","스킬 지속시간 +4%",.04,"slow_duration"],
+	"move_speed":["가벼운 발걸음","이동 속도 +2%",.02,"speed"],
+	"attack_speed":["손끝의 박자","기본 공격 속도 +2%",.02,"attack_haste"],
+	"stagger_power":["흔들리는 균형","스킬 무력화 피해 +3%",.03,"stun_duration"],
+	"support_power":["따뜻한 별","지원 스킬 위력 +3% · 회복·보호막·강화·소환",.03,"health_regen"]}
 const NOTABLES={
-	"followup_damage":["교차 타격","다른 스킬의 실제 적중 후 4초 안에 다음 공격기 피해 +12%",.12,"서로 다른 공격기를 번갈아 사용하면 효과를 얻습니다.","같은 기술 반복이나 빗나간 기술로는 연결이 시작되지 않습니다.","skill_power"],
-	"stagger_followup":["붕괴의 연결","다른 스킬 후 다음 시전의 무력화 피해 +15%",.15,"무력화가 높은 기술 앞에 다른 기술을 연결하세요.","같은 기술을 반복하면 연결 보너스를 받지 못합니다.","stun_duration"],
+	"followup_damage":["교차 타격","다른 공격 적중 후 4초 또는 지원 시전 후 5초 안에 대상 액티브 피해 +30%",.30,"서로 다른 공격기를 번갈아 사용하면 효과를 얻습니다.","같은 기술 반복이나 빗나간 기술로는 연결이 시작되지 않습니다.","skill_power"],
+	"stagger_followup":["붕괴의 연결","다른 공격 적중 후 4초 또는 지원 시전 후 5초 안에 대상 액티브 무력화 +40%",.40,"무력화가 높은 기술 앞에 다른 기술을 연결하세요.","같은 기술을 반복하면 연결 보너스를 받지 못합니다.","stun_duration"],
 	"execute_damage":["빈틈의 끝","생명력이 30% 미만인 적에게 공격기 피해 +15%",.15,"큰 공격을 적의 마지막 생명력 구간에 남겨 두세요.","생명력 30% 이상인 적에게는 추가 피해가 없습니다.","execute"],
 	"efficiency_followup":["호흡 조절","다른 스킬 후 다음 시전의 소모 기력 -10%",.10,"저렴한 기술을 거쳐 큰 기술의 기력 부담을 낮춥니다.","같은 기술 연속 시전에는 할인이 없습니다.","skill_discount"],
 	"mobility_refund":["회수하는 발걸음","회피 후 3초 안에 다음 공격기의 첫 적중에서 지불 기력 15% 회수",.15,"회피로 위치를 잡은 직후 기술을 적중시키세요.","빗나가거나 회피 후 3초가 지나면 기력을 돌려받지 못합니다.","dodge_discount"],
@@ -24,7 +24,7 @@ const NOTABLES={
 	"control_damage":["붙잡힌 약점","감속 또는 속박 상태인 적에게 공격기 피해 +15%",.15,"감속·속박을 부여하는 기술과 강한 공격을 연결하세요.","제어 상태가 없는 적에게는 추가 피해가 없습니다.","elite_damage"],
 	"heal_on_followup":["회복의 리듬","다른 스킬 연결 후 첫 적중에 최대 HP 1% 회복",.01,"서로 다른 공격을 이어 작은 회복을 누적합니다.","같은 기술 반복과 추가 타격으로 중복 회복하지 않습니다.","health_regen"]}
 const KEYS={
-	"echo":["메아리","직접 피해 70% + 0.35초 뒤 같은 위치에 원시전 피해 40%의 추가 타격","재사용 시간 +15%. 움직인 적은 메아리를 피할 수 있습니다.","범위 공격과 제어 기술을 연결해 같은 위치에 적을 붙잡으세요.","fan"],
+	"echo":["메아리","직접 피해 70% + 0.35초 뒤 같은 위치에 원시전 피해 50%의 추가 타격","재사용 시간 +15%. 움직인 적은 메아리를 피할 수 있습니다.","범위 공격과 제어 기술을 연결해 같은 위치에 적을 붙잡으세요.","fan"],
 	"focus":["단일 결의","시전당 한 대상만 공격하며 피해 +25%","소모 기력 +25%. 한 시전으로 여러 적을 맞힐 수 없습니다.","보스 하나에 집중하는 기술 순환에 적합합니다.","shot"],
 	"momentum":["회피의 탄력","회피 후 3초 안에 다음 공격기 피해 +25%, 시전 시간 절반","모든 공격기의 소모 기력 +10%. 회피 뒤 타이밍을 놓치면 강화가 없습니다.","회피로 공격 위치를 잡고 시전 시간이 긴 공격을 연결하세요.","blink"],
 	"warrior_wave":["검기의 확장","직접 피해 75% + 첫 적중에서 전방으로 원시전 총량 35%의 파동","소모 기력 +15%. 직접 피해가 감소합니다.","적을 한 방향에 모아 근접 공격과 전방 파동을 함께 적중시키세요.","fan"],
@@ -35,7 +35,7 @@ const KEYS={
 	"mage_relay":["문장의 중계","비공격 기술 위치에 5초 문장. 다음 공격은 직접 50% + 문장 위치 폭발 70%","지원 위력 -20%. 적을 문장 위치에 두지 못하면 폭발을 맞히기 어렵습니다.","지원 기술의 시전 위치를 정하고 다음 공격으로 문장을 깨우세요.","burst"],
 	"rogue_contract":["교차 낙인","첫 적중에 4초 낙인. 다른 공격기가 소비하면 그 시전의 해당 표적 피해 +50%","항상 공격기 피해 -10%. 같은 기술은 자기 낙인을 소비할 수 없습니다.","서로 다른 공격기로 낙인 생성과 소비를 나누세요.","mark"],
 	"rogue_venom":["독의 회수","직접 피해 60% + 4초간 독 40%. 이동기·회피로 남은 독을 즉시 폭발","항상 소모 기력 +15%. 독 회수에는 대상과의 위치·시야 조건이 필요합니다.","독을 부여한 뒤 가까운 위치에서 회피·이동기로 피해를 앞당기세요.","bleed"],
-	"fighter_flurry":["추적 연무","공격 총량을 0.18초 간격의 이동 추적 3타로 변환, 시전 시간 절반","총 피해 -10%. 추가 타격은 원시전 피해·무력화 예산을 나눠 사용합니다.","이동하는 적에게 가까이 붙어 여러 타격을 끝까지 이어 가세요.","combo"],
+	"fighter_flurry":["추적 연무","공격 총량을 0.18초 간격의 이동 추적 3타로 변환, 시전 시간 절반","총 피해 -15%, 충전기는 -40%. 추가 타격은 원시전 피해·무력화 예산을 나눠 사용합니다.","이동하는 적에게 가까이 붙어 여러 타격을 끝까지 이어 가세요.","combo"],
 	"fighter_crush":["압축 파쇄","공격 총량을 한 번에 압축하고 총 피해 +20%","효과 반경 -20%, 준비 시간 +0.45초.","감속·제어 뒤 좁은 범위의 묵직한 한 방을 맞히세요.","charge"]}
 const MINOR_ROUTES=[
 	["skill_damage","skill_radius","skill_haste","skill_range","skill_duration","stagger_power"],
@@ -69,6 +69,7 @@ static func nodes_for(class_id:String,job:Dictionary,originals:Array)->Array:
 				if family=="ranger" and cluster in [1,3]:
 					node.exclusive_with=[node_id(class_id,3 if cluster==1 else 1,"key")];node.tradeoff+=" 단일 결의와 갈라지는 사냥길은 함께 선택할 수 없습니다."
 			result.append(node)
+	preload("res://scripts/content_names.gd").rename_constellations(result,class_id)
 	return result
 
 static func effect_label(key:String)->String:

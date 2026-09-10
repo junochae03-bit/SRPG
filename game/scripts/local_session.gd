@@ -75,6 +75,7 @@ func travel(zone:String)->bool:
 	if not p.tutorial_done:
 		if p.tutorial_kills<5:sim.notice(local_id,"숲에서 적 5마리를 처치하고 마을로 향하세요.");flush_events();return false
 		arrival={"gold":p.gold+(0 if p.quest_done else 100),"tutorial_done":true,"quest_done":true}
+		if p.level==1:arrival.xp=maxi(int(p.xp),preload("res://scripts/progression.gd").xp_required(1))
 	if not change_map("town",0,arrival):return false
 	if not arrival.is_empty():sim.notice(local_id,"꽃바람 숲 완료 · 햇살 마을에 도착했습니다.");flush_events()
 	return true
@@ -93,6 +94,8 @@ func change_map(zone:String,floor_number:int,arrival:Dictionary={})->bool:
 	saved.merge(arrival,true)
 	var next_seed=world_seed+7919;var candidate=Simulation.new(next_seed,zone,floor_number)
 	var p=candidate.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
+	# 도착 보상과 레벨업은 후보에만 적용해 저장 실패 시 재지급을 막습니다.
+	if arrival.has("xp"):candidate.apply_level_ups(p)
 	var data=candidate.persistent(local_id);data.world_seed=next_seed
 	if not write_save(data,save_path()):mark_save_failure();return false
 	sim=candidate;world_seed=next_seed;save_failed=false;save_retry=0.;save_time=0.

@@ -17,6 +17,7 @@ static func initialize(skills:Dictionary,classes:Dictionary):
 			n.merge({"class_id":class_id,"family":classes[class_id].get("base",class_id),"type":"original","allocation_field":"skill_ranks","cost":1,"max_rank":int(n.get("max_rank",3)),"cluster":clampi(int(n.get("tier",0)),0,4),"tags":["원기술",str(n.effect)],"synergy":"","tradeoff":"","effects_text":"","effects":{},"exclusive_group":"","icon_node":original.duplicate(true)},true)
 			list.append(n)
 		list.append_array(Catalog.nodes_for(class_id,classes[class_id],skills[class_id]))
+		preload("res://scripts/skill_node_roles.gd").annotate(list)
 		_nodes[class_id]=list
 		for n in list:_lookup[n.id]=n
 
@@ -92,11 +93,12 @@ static func validate_build(p:Dictionary)->Dictionary:
 		if _key_count(p)>MAX_KEYSTONES:errors.append("핵심 별자리 2개 초과")
 	return {"ok":errors.is_empty(),"reason":"" if errors.is_empty() else errors[0],"errors":errors}
 
-static func effects(p:Dictionary)->Dictionary:
+static func effects(p:Dictionary,active_id:String="")->Dictionary:
 	var result={}
 	for n in constellation_nodes(p.get("class_id","warrior")):
 		var amount=rank(p,n)
 		if amount<=0:continue
+		if n.get("node_kind","")=="active_module" and n.target_active_id!=active_id:continue
 		for key in n.effects:result[key]=float(result.get(key,0))+float(n.effects[key])*amount
 	return result
 
@@ -123,7 +125,7 @@ static func preview(p:Dictionary,id:String,next_rank:int)->Dictionary:
 		if not valid.ok:reason=valid.reason
 	var difference=spent_points(candidate)-spent_points(p) if reason.is_empty() else 0
 	var after_player=candidate if reason.is_empty() else p.duplicate(true)
-	return {"ok":reason.is_empty(),"reason":reason,"player":after_player,"before_player":p.duplicate(true),"after_player":after_player,"before":effects(p),"after":effects(after_player),"added":added if reason.is_empty() else [],"removed":removed if reason.is_empty() else [],"refund":maxi(0,-difference),"cost":maxi(0,difference),"total":spent_points(after_player),"available":available_points(after_player)}
+	return {"ok":reason.is_empty(),"reason":reason,"player":after_player,"before_player":p.duplicate(true),"after_player":after_player,"before":effects(p,str(n.get("target_active_id",""))),"after":effects(after_player,str(n.get("target_active_id",""))),"added":added if reason.is_empty() else [],"removed":removed if reason.is_empty() else [],"refund":maxi(0,-difference),"cost":maxi(0,difference),"total":spent_points(after_player),"available":available_points(after_player)}
 
 static func path_plan(p:Dictionary,id:String)->Dictionary:
 	var candidate=p.duplicate(true);var plan=_plan(candidate,id,1,[])

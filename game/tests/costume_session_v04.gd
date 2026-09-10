@@ -153,11 +153,13 @@ func run():
 		check(p.costume=="none" and p.avatar=="auto" and p.owned_appearances.is_empty(),id+" fresh character starts with class base only")
 		p.tutorial_kills=5;check(session.travel("town"),id+" finishes tutorial before shop")
 		p=session.sim.players[1];p.pos=World.FACILITIES.shop.pos;p.gold=1200
+		var earned_points=Progression.available(p)
+		check(p.level==2 and earned_points==3,id+" tutorial awards normal level-two stat points before costume purchase")
 		check(session.act("buy_appearance","costume:"+id) and p.gold==0 and p.costume=="none",id+" shop purchase persists ownership and exact debit")
 		check(session.act("wear_appearance","costume:"+id),id+" purchased costume equips in shop")
 		var saved_identity=identity_except_costume(p,session.sim);var parsed=session.parse_save(session.save_path())
 		check(parsed!=null and parsed.costume==id and parsed.avatar=="auto" and parsed.stats==sheet.stats and "costume:"+id in parsed.owned_appearances,id+" parser accepts purchased costume and creation data")
-		check(Progression.available(p)==0 and p.creation_points==10,id+" costume gives no extra creation stat points")
+		check(Progression.available(p)==earned_points and p.creation_points==10,id+" costume gives no extra creation stat points")
 		session.disconnect_game();session.start_game("불러오기 이름",1);p=session.sim.players[1]
 		check(p.costume==id and p.avatar=="auto" and p.name==sheet.name,id+" save reload preserves appearance and name")
 		check(identity_except_costume(p,session.sim)==saved_identity,id+" save reload preserves all gear progression and combat stats")
