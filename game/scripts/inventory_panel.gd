@@ -39,6 +39,8 @@ var comparison_rows:Array=[]
 var comparison_current_id=""
 var comparison_selected_id=""
 var pending_storage_scroll:Dictionary={}
+var stats_overlay:Control
+var stats_values:Array=[]
 func setup(owner_game):
 	game=owner_game;size=Vector2(1560,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	fit_viewport()
@@ -48,7 +50,8 @@ func setup(owner_game):
 	Library.picture(self,"gold",Vector2(1030,40),Vector2(28,28));wallet=game.label(self,"",Vector2(1068,38),Vector2(287,32),23)
 	Library.attach(game.button(self,"닫기",Vector2(1376,32),Vector2(140,44),game.toggle_bag),"close",22)
 	var gear=Art.panel(self,Vector2(24,103),Vector2(380,725),"paper",25)
-	Library.picture(gear,"equip",Vector2(38,39),Vector2(28,28));game.label(gear,"장비",Vector2(80,38),Vector2(252,34),26)
+	Library.picture(gear,"equip",Vector2(38,39),Vector2(28,28));game.label(gear,"장비",Vector2(80,38),Vector2(130,34),26)
+	game.button(gear,"능력치",Vector2(226,36),Vector2(108,42),show_stats)
 	stat_label=game.label(gear,"",Vector2(44,84),Vector2(292,48),17)
 	Art.picture(gear,Art.texture("alcove"),Vector2(86,219),Vector2(208,342))
 	portrait=Art.picture(gear,null,Vector2(108,254),Vector2(164,244))
@@ -62,7 +65,8 @@ func setup(owner_game):
 	costume_picker=picker(gear,Vector2(24,662))
 	costume_picker.item_selected.connect(func(index):game.session.act("costume",costume_keys[index]);refresh(true))
 	var storage=Art.panel(self,Vector2(420,103),Vector2(680,725),"paper",25)
-	game.label(storage,"여행 가방",Vector2(44,38),Vector2(330,36),27)
+	game.label(storage,"여행 가방",Vector2(44,38),Vector2(270,36),27)
+	game.button(storage,"정렬",Vector2(350,37),Vector2(108,40),func():game.session.act("sort_bag");refresh(true))
 	Library.picture(storage,"bag",Vector2(471,42),Vector2(26,26));capacity=game.label(storage,"",Vector2(508,40),Vector2(129,30),20)
 	for i in range(4):filter_buttons.append(game.button(storage,["전체","장비","소모품","재료"][i],Vector2(44+i*150,103),Vector2(142,46),func():show_storage_filter(i)))
 	grid_scroll=ScrollContainer.new();grid_scroll.position=Vector2(12,187);grid_scroll.size=Vector2(656,384);grid_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;grid_scroll.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_SHOW_ALWAYS;grid_scroll.mouse_filter=Control.MOUSE_FILTER_STOP;storage.add_child(grid_scroll)
@@ -102,7 +106,26 @@ func setup(owner_game):
 	primary=game.button(detail,"장착하기",Vector2(36,596),Vector2(348,52),activate_selected,true)
 	discard_button=game.button(detail,"정리 · 금화 +3",Vector2(36,661),Vector2(348,40),func():game.session.act("discard",selected_id);refresh(true))
 	Library.attach(primary,"equip",22);Library.attach(discard_button,"sell",22)
+	stats_overlay=Control.new();stats_overlay.size=size;stats_overlay.mouse_filter=Control.MOUSE_FILTER_STOP;add_child(stats_overlay)
+	stats_overlay.gui_input.connect(func(event):if event is InputEventMouseButton and event.pressed:stats_overlay.hide())
+	var stats_card=Art.panel(stats_overlay,Vector2(460,64),Vector2(640,724),"paper",25)
+	game.label(stats_card,"캐릭터 능력치",Vector2(42,30),Vector2(340,40),28)
+	game.button(stats_card,"닫기",Vector2(484,30),Vector2(112,42),func():stats_overlay.hide())
+	for i in range(17):
+		var title=game.label(stats_card,"",Vector2(42,95+i*34),Vector2(310,30),20)
+		var value=game.label(stats_card,"",Vector2(370,95+i*34),Vector2(226,30),21);value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
+		stats_values.append([title,value])
+	stats_overlay.hide()
+	visibility_changed.connect(func():if not is_visible_in_tree():stats_overlay.hide())
 	hide()
+
+func show_stats():
+	var p=game.session.state.players.get(game.session.local_id,{})
+	if p.is_empty():return
+	var rows=preload("res://scripts/player_stats.gd").rows(game.session.sim,p)
+	for i in range(stats_values.size()):
+		stats_values[i][0].text=rows[i][0];stats_values[i][1].text=rows[i][1]
+	stats_overlay.show()
 
 func fit_viewport():
 	var width=game.get_viewport().get_visible_rect().size.x

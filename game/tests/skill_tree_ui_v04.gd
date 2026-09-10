@@ -24,9 +24,10 @@ func all_class_readability(game):
 		tree.choice="";tree.search.text="";tree.tag_filter="";tree.filter_index=0;tree.change_mode("skills")
 		for cluster in range(5):
 			tree.show_branch(cluster);await process_frame
-			var controls=tree.nodes.values().filter(func(control):return control.visible)
+			var controls=tree.nodes.values().filter(func(control):return tree.graph.in_scope(control.id))
 			check(controls.size()<=20,cls+" branch has at most twenty choices")
 			for control in controls:
+				tree.graph.focus_node(control.id)
 				total+=1
 				var label=control.name_label;var text_width=minf(label.size.x,label.get_theme_font("font").get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,label.get_theme_font_size("font_size")).x)
 				var name_rect=Rect2(control.position+label.position+Vector2((label.size.x-text_width)*.5,0),Vector2(text_width,label.get_line_count()*label.get_line_height()))
@@ -49,10 +50,21 @@ func run():
 	var p=local.sim.players[1];p.level=100;p.tutorial_done=true;local.travel("town");p=local.sim.players[1]
 	check(local.act("class","fighter") and local.act("class","breaker"),"enter breaker fixture");local.refresh();game.toggle_skills();var tree=game.skill_tree
 	check(local.paused,"graph pauses world");check(tree.nodes.size()==C.SKILLS.breaker.size()+45,"originals and45 choices in onegraph")
-	check(tree.graph.centers.size()==5,"five themed clusters");check(tree.graph.scope_cluster==0 and tree.graph.zoom>.5,"first entry focuses readable first branch")
-	check(tree.nodes.values().filter(func(control):return control.visible).size()<tree.nodes.size()/2,"first branch hides unrelated choices")
-	check(tree.branch_picker.item_count==6 and tree.branch_picker.selected==1,"five branch choices and optional full map")
+	check(tree.graph.centers.size()==5,"five themed clusters");check(tree.graph.scope_cluster==-1 and tree.graph.zoom>.7,"first entry shows readable parallel branches")
+	check(tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)),"all branches available without a filter")
+	check(tree.branch_picker.item_count==6 and tree.branch_picker.selected==0,"all branches selected initially")
 	var original=C.SKILLS.breaker.filter(func(n):return n.effect=="active")[0];tree.select_node(original.id)
+	var modules=tree.prerequisites.find_children("*","Button",true,false).filter(func(button):return button.text.begins_with("강화"))
+	check(not modules.is_empty(),"selected active exposes upgrade links")
+	if not modules.is_empty():
+		var target_id=str(modules[0].get_meta("related_id"));modules[0].pressed.emit()
+		check(tree.choice==target_id,"upgrade button opens actual investment details");tree.select_node(original.id)
+	var unspent=JSON.stringify(p);tree.show_recommendations()
+	var menu=tree.get_children().filter(func(child):return child is PopupMenu)[0]
+	check(menu.item_count==5,"five existing build concepts offered")
+	menu.id_pressed.emit(0);menu.hide()
+	check(JSON.stringify(p)==unspent and not tree.graph.planned_ids.is_empty(),"recommendation previews a real path without spending")
+	tree.select_node(original.id);tree.graph.fit_all()
 	var expected=preload("res://scripts/job_balance.gd").metrics(p,original,1,local.sim.damage_for(p),p.max_hp)
 	for metric in expected:
 		check(tree.comparison_rows.any(func(row):return row[0]==metric[0] and row[2]==metric[1]),"original combat value matches runtime including stamina: "+metric[0])
@@ -64,7 +76,8 @@ func run():
 	for cluster in range(5):
 		tree.show_branch(cluster);check(tree.graph.scope_cluster==cluster,"branch navigation "+str(cluster))
 		for id in tree.nodes:
-			if tree.nodes[id].visible:discovered[id]=true
+			if not tree.graph.in_scope(id):continue
+			tree.graph.focus_node(id);check(tree.nodes[id].visible,"scroll reveals complete node "+id);discovered[id]=true
 	check(discovered.size()==tree.nodes.size(),"five branches expose every original and specialization")
 	check(JSON.stringify(p)==before_browse,"branch navigation never allocates points")
 	tree.select_node("breaker:star:4:key");tree.show_path()
@@ -77,7 +90,7 @@ func run():
 		tree.graph.focus_node(id);tree.graph.clamp_pan();tree.graph.layout_controls()
 		check(Rect2(Vector2.ZERO,tree.graph.size).encloses(tree.nodes[id].get_rect()),"pan limits let every target be revealed "+id)
 	tree.graph.fit_all()
-	check(tree.graph.scope_cluster==-1 and tree.nodes.values().all(func(control):return control.visible),"optional full map shows every node")
+	check(tree.graph.scope_cluster==-1 and tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)),"full view includes every node at readable scrolling scale")
 	await capture("overview")
 	check(tree.graph.get_rect().end.y<tree.overview_button.position.y,"map nodes cannot overlap camera toolbar")
 	var anchor=Vector2(360,200);var world=tree.graph.view_to_world(anchor);tree.graph.zoom_at(anchor,1.5)

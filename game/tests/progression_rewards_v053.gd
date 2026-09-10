@@ -211,7 +211,9 @@ func inn_bag_boundaries():
 	local.free()
 
 func run():
-	folder=ProjectSettings.globalize_path("res://../runtime/progression-rewards-v053/"+str(Time.get_ticks_usec()))
+	# Engine-relative ticks can repeat across separate runs; never reuse old saves.
+	var run_id="%d-%d-%d"%[int(Time.get_unix_time_from_system()),OS.get_process_id(),Time.get_ticks_usec()]
+	folder=ProjectSettings.globalize_path("res://../runtime/progression-rewards-v053/"+run_id)
 	DirAccess.make_dir_recursive_absolute(folder)
 	tutorial_arrival();tutorial_boundaries();tutorial_save_failure();ordinary_level_ups();tutorial_loot();inn_resupply();inn_bag_boundaries()
 	print("PROGRESSION_REWARDS_V053 checks=%d failures=%d"%[checks,failures.size()])

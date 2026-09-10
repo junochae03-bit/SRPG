@@ -131,6 +131,14 @@ func run():
 		for y in range(16,36):session.sim.map.floor_cells[Vector2i(x,y)]=true
 	session.sim.map.facility_cells.clear()
 	all_mobility();dodge_and_expiry();limit_and_live_state();await charge_geometry();await modal_cases()
+	var rune_player=reset_player("runesword");game.camera_pos=Dungeon.iso(rune_player.pos);surface.canvas_transform=Transform2D.IDENTITY
+	for amount in [0,1,3,6,9]:
+		rune_player.job_state.runes=amount;feedback.refresh()
+		check(feedback.rune_rects.size()==amount,"rune ring reflects live count")
+		for rect in feedback.rune_rects:check(not rect.intersects(feedback.charge_rect),"runes leave charge gauge clear")
+	rune_player.job_state.runes=6;session.sim.enemies.clear();session.refresh();game.hud.refresh();feedback.refresh();await capture("rune-ring")
+	session.paused=true;feedback.refresh();check(feedback.rune_rects.is_empty(),"rune ring hidden by menus")
+	session.paused=false
 	session.disconnect_game();feedback.refresh();check(not feedback.visible and feedback.recent.is_empty(),"disconnect clears all combat feedback")
 	var report=FileAccess.open("res://../artifacts/combat-feedback-v052.json",FileAccess.WRITE);report.store_string(JSON.stringify({"suite":"combat_feedback_v052","checks":checks,"failures":failures,"captures":captures},"\t"));report.close()
 	game.stop_audio();game.queue_free();await process_frame;await process_frame;print("COMBAT_FEEDBACK_V052 checks=%d failures=%d"%[checks,failures.size()]);quit(0 if failures.is_empty() else 1)

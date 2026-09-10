@@ -132,6 +132,17 @@ func run():
 	await process_frame;await process_frame
 	check(popup.visible and popup.size.y<=440,"long appearance menu opens and scrolls within cap")
 	await capture("inventory-v04-appearance-menu");popup.hide();bag.costume_keys=[];bag.refresh(true)
+	var stats_button=bag.find_children("*","Button",true,false).filter(func(button):return button.text=="능력치")[0]
+	click.double_click=false;click.position=stats_button.get_global_transform_with_canvas()*(stats_button.size*.5)
+	surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame
+	check(bag.stats_overlay.visible,"real inventory ability button opens detail sheet")
+	check(bag.stats_values.size()==17,"detail sheet exposes all combat and primary stats")
+	for pair in bag.stats_values:
+		for label in pair:
+			check(label.get_theme_font("font").get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,label.get_theme_font_size("font_size")).x<=label.size.x,"stat caption and value fit full width "+label.text)
+		check(not pair[0].get_rect().intersects(pair[1].get_rect()),"stat title and value do not overlap")
+	await capture("inventory-v054-statistics")
+	bag.hide();check(not bag.stats_overlay.visible,"closing inventory also closes statistics")
 	game.stop_audio();session.disconnect_game();await create_timer(0.5).timeout;surface.queue_free();await process_frame
 	print("INVENTORY_UI_TESTS checks=",checks," failures=",failures.size())
 	quit(0 if failures.is_empty() else 1)

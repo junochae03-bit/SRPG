@@ -38,7 +38,7 @@ func run():
 		p.class_id=class_id;p.level=100;p.skill_ranks={};p.constellation_allocations={};p.skill_loadout={};session.sim.combat.jobs.reset(p);session.sim.recalculate(p);session.refresh()
 		tree.choice="";tree.search.text="";tree.tag_filter="";tree.filter_index=0;tree.change_mode("skills")
 		check(tree.branch_buttons.size()==5,"five outcome tabs "+class_id)
-		check(tree.graph.scope_cluster==0 and Rules.node_state(p,tree.choice).can_invest,"first view selects a learnable entry "+class_id)
+		check(tree.graph.scope_cluster==-1 and Rules.node_state(p,tree.choice).can_invest,"first view shows all branches and selects a learnable entry "+class_id)
 		check(tree.nodes.values().any(func(node):return node.visible and Rules.node_state(p,node.id).can_invest),"first view contains actual next investments "+class_id)
 		check(not tree.headline_rows.any(func(row):return str(row[1])=="0.0" and str(row[2])=="0.0"),"non-attacking skills omit zero stagger from main outcomes "+class_id)
 		await capture(class_id+"-entry")

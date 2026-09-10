@@ -30,6 +30,25 @@ func run():
 	for i in range(6):p.skill_ranks[actives[i].id]=3;p.skill_loadout[C.ACTIONS[i]]=actives[i].id
 	local.sim.recalculate(p);local.refresh();game.hud.refresh()
 	var hud=game.hud
+	p.barrier_time=4.;p.enemy_slow_time=2.;local.sim.combat.jobs.buff(p,"attack",.2,6.)
+	local.refresh();hud.refresh()
+	check(hud.status_strip.entries.size()==3,"upper left status strip reads current timed effects")
+	for marker in hud.status_strip.markers:
+		if not marker.visible:continue
+		check(Rect2(Vector2.ZERO,hud.status_strip.size).encloses(marker.get_rect()),"timed status target fits strip")
+		check(marker.tooltip_text.contains("초"),"status hover identifies remaining time")
+		check(hud.status_strip.position.y>hud.money_label.get_rect().end.y,"status row leaves wallet text clear")
+	await capture("timed-statuses")
+	p.barrier_time=0.;p.enemy_slow_time=0.;p.job_state.buffs.clear();local.refresh();hud.refresh()
+	check(hud.status_strip.markers.all(func(marker):return not marker.visible),"expired statuses leave no empty icon placeholders")
+	for key in C.ACTIONS:
+		var circle=hud.circles[key];var node=C.active_node(p,key)
+		var text=circle.tooltip_description()
+		check(text.contains("재사용 시간") and text.contains("소모 기력"),"quickslot has live skill metrics "+key)
+		check(text.count("소모 룬")==1,"quickslot rune cost appears once "+key)
+		check(circle.count=="룬 %d"%int(node.rune_cost),"rune cost visible on slot "+key)
+		var tooltip=circle._make_custom_tooltip(circle.tooltip_text)
+		check(tooltip!=null,"custom tooltip created "+key);tooltip.free()
 	check(hud.name_label.text_overrun_behavior==TextServer.OVERRUN_TRIM_ELLIPSIS and hud.name_label.tooltip_text==p.name,"long name truncates with full tooltip")
 	check(not hud.name_label.get_rect().intersects(hud.class_label.get_rect()),"name and class occupy separate readable rows")
 	check(hud.hp_label.get_rect().position.y>hud.class_label.get_rect().end.y,"HP number has its own row")

@@ -177,6 +177,23 @@ func render_contract():
 		picture.texture=Gat.frame(entry.player,0.).texture;gallery.add_child(picture)
 		var label=Label.new();label.position=picture.position+Vector2(0,215);label.text=entry.class+" / "+str(entry.index);gallery.add_child(label)
 	await capture("contact-reader-gallery-manual-review");gallery.queue_free();await process_frame
+func projectile_render_contract():
+	surface.size=Vector2i(1920,1080)
+	var local=game.session;var p=local.sim.players[1]
+	for job in ["ranger","mage"]:
+		p.class_id=job;p.avatar="auto";p.costume="none";p.skill_ranks={};p.skill_loadout={}
+		local.sim.combat.jobs.reset(p);local.sim.recalculate(p);p.pos=Vector2(36,33)
+		for direction in [Vector2.RIGHT,Vector2.LEFT]:
+			p.aim=direction;p.attack_cd=0;local.sim.combat.projectiles.clear();game.effects.clear()
+			check(local.act("attack"),"actual ranged launch "+job+str(direction))
+			local.sim.combat.tick_projectiles(.08);local.refresh()
+			check(not local.state.projectiles.is_empty(),"ranged projectile remains visible in flight")
+			var before=var_to_bytes(local.sim.combat.projectiles)
+			game.update_battle_camera(p,1.,true);game.smooth_positions.clear()
+			await capture("projectile-"+job+("-right" if direction==Vector2.RIGHT else "-left"))
+			check(var_to_bytes(local.sim.combat.projectiles)==before,"projectile drawing never changes damage, direction or travel")
+			if not local.state.projectiles.is_empty():check(local.state.projectiles[0].dir==direction,"visual flight retains actual launch direction")
+
 func run():
 	output=ProjectSettings.globalize_path("res://../artifacts/combat-polish-v053/"+str(Time.get_ticks_usec()))
 	DirAccess.make_dir_recursive_absolute(output)
@@ -187,7 +204,7 @@ func run():
 	game.session.save_directory=ProjectSettings.globalize_path("res://../runtime/combat-polish-v053/"+str(Time.get_ticks_usec()));game.join_game()
 	game.session.set_physics_process(false);game.set_physics_process(false);game.set_process(false);game.set_process_unhandled_input(false)
 	game.session.sim.players[1].tutorial_done=true;game.session.refresh()
-	impact_contract();await geometry_contract();await render_contract()
+	impact_contract();await geometry_contract();await render_contract();await projectile_render_contract()
 	var report={"checks":checks,"failures":failures,"captures":captures,"manual_pending":["프레임 5/10 원화가 실제 접촉/발사로 보이는지", "네이티브 툴팁 팝업의 화면 가장자리 잘림/중첩", "대표 기본외형과 코스튬의 입력부터 접촉까지 연속 영상", "청음"],"scope":"합성 fixture 및 렌더링 회귀. 제품 사용성/접촉 원화 의미/청음 통과가 아님."}
 	report["reader_samples"]=reader_samples
 	var file=FileAccess.open(output.path_join("report.json"),FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()

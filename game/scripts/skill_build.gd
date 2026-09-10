@@ -133,6 +133,13 @@ static func path_plan(p:Dictionary,id:String)->Dictionary:
 	if plan.ok and cost>available_points(p):plan.ok=false;plan.reason="경로에 %dSP 필요 · 남은 포인트 %d"%[cost,available_points(p)]
 	return {"ok":plan.ok,"reason":plan.reason,"steps":plan.get("steps",[]),"cost":cost,"available":available_points(p),"conflicts":plan.get("conflicts",[]),"player":candidate if plan.ok else p.duplicate(true)}
 
+# Growth guidance may extend beyond today's level/SP. Real investment remains
+# validated by node_state/preview, never by this hypothetical candidate.
+static func learning_route(p:Dictionary,id:String)->Dictionary:
+	var candidate=p.duplicate(true)
+	for node in nodes_for(p.get("class_id","warrior")):candidate.level=maxi(int(candidate.get("level",1)),int(node.get("level",1)))
+	var plan=_plan(candidate,id,1,[])
+	return {"ok":plan.ok,"reason":plan.reason,"steps":plan.get("steps",[]) if plan.ok else [],"cost":spent_points(candidate)-spent_points(p) if plan.ok else 0,"available":available_points(p)}
 static func _plan(p:Dictionary,id:String,needed:int,visiting:Array)->Dictionary:
 	var n=definition(id)
 	if n.is_empty() or n.class_id!=p.get("class_id","warrior"):return {"ok":false,"reason":"다른 직업의 경로입니다.","steps":[]}

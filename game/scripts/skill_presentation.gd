@@ -4,6 +4,13 @@ const Scaling=preload("res://scripts/skill_scaling.gd")
 const Balance=preload("res://scripts/job_balance.gd")
 const Rules=preload("res://scripts/skill_build.gd")
 const Reach=preload("res://scripts/skill_reach.gd")
+static func quickslot_description(p:Dictionary,node:Dictionary,rank:int,damage:float)->String:
+	if node.is_empty() or rank<=0:return ""
+	var lines=PackedStringArray([str(node.get("description",""))])
+	var rows=Balance.metrics(p,node,rank,damage,p.max_hp) if node.get("runtime","")=="job" else Scaling.metrics(node,rank,damage,p.max_hp,preload("res://scripts/active_skills.gd").bonuses(p))
+	rows.append_array(shape_rows(p,node,rank,damage,p.max_hp))
+	for row in rows:lines.append(str(row[0])+"  "+str(row[1]))
+	return "\n".join(lines)
 const KEY_OUTCOMES={
 	"echo":["추가 타격","같은 자리에 한 번 더"],"focus":["단일 집중","한 대상 피해 +25%"],"momentum":["회피 연계","회피 후 피해 +25%"],
 	"warrior_wave":["전방 파동","첫 적중에서 검기"],"warrior_reprise":["수호 반격","지원 후 주변 파동"],

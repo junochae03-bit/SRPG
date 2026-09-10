@@ -18,6 +18,7 @@ var charge_rect=Rect2()
 var charge_visible=false
 var presentation_visible=false
 var charge_frame:StyleBoxFlat
+var rune_rects:Array=[]
 
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -76,7 +77,7 @@ func on_action_performed(action:String):
 	refresh(0.)
 
 func clear():
-	recent.clear();current_class="";charge_visible=false;presentation_visible=false
+	recent.clear();rune_rects.clear();current_class="";charge_visible=false;presentation_visible=false
 	for slot in slots:slot.holder.hide()
 	hide();queue_redraw()
 
@@ -98,7 +99,7 @@ func refresh(delta:float=0.):
 	presentation_visible=not modal_open() and p.get("hp",0)>0
 	visible=presentation_visible
 	# Paused windows do not consume the brief ready flash or expose combat UI.
-	if not presentation_visible:charge_visible=false;return
+	if not presentation_visible:charge_visible=false;rune_rects.clear();return
 	for record in recent:
 		var info=cooldown_info(p,record.id);record.remaining=info.remaining;record.charges=info.charges;record.maximum=info.maximum
 		record.total=maxf(record.total,record.remaining)
@@ -119,12 +120,20 @@ func refresh(delta:float=0.):
 	# into this CanvasLayer's coordinates; do not assume a fixed screen center.
 	var foot=get_viewport().canvas_transform*game.world_point(p.pos)
 	charge_rect=Rect2(screen_to_local(foot+Vector2(52,-98)),CHARGE_SIZE)
+	rune_rects.clear()
+	if p.class_id=="runesword":
+		var count=clampi(int(p.job_state.get("runes",0)),0,16)
+		for i in range(count):
+			var angle=TAU*i/maxi(1,count)+game.session.sim.clock*.35
+			var rune_center=screen_to_local(foot+Vector2(cos(angle)*64,32+sin(angle)*24))
+			rune_rects.append(Rect2(rune_center-Vector2(8,8),Vector2(16,16)))
 	queue_redraw()
 
 func _process(delta:float):refresh(delta)
 
 func _draw():
 	if not presentation_visible:return
+	for rect in rune_rects:Library.draw(self,"rune",rect)
 	for index in range(recent.size()):
 		var record=recent[index];var slot=slots[index];var center=slot.holder.position+Vector2(32,29)
 		if record.remaining>0 and record.total>0:draw_arc(center,30,-PI*.5,-PI*.5+TAU*record.remaining/record.total,40,Color("ead394"),2,true)

@@ -3,6 +3,22 @@ extends RefCounted
 const Icons=preload("res://scripts/icon_library.gd")
 const STATUSES={"slow":"slow","stun":"stun","root":"root","bleed":"bleed","blind":"blind","vulnerable":"vulnerable","weaken":"weaken","break_armor":"armor_break"}
 const BUFFS={"attack":"physical_attack","crit":"critical","crit_damage":"critical_damage","haste":"haste","speed":"agility","defense":"defense","armor":"defense","guard":"guard","regen":"regen","leech":"lifesteal","evade":"agility","stand":"card_hold","pet_guard":"guard","pet_power":"pet_command","pet_haste":"haste"}
+const BUFF_NAMES={"attack":"공격력 강화","crit":"치명타 확률 강화","crit_damage":"치명타 피해 강화","haste":"공격 속도 강화","speed":"이동 속도 강화","defense":"피해 감소","armor":"방어력 강화","guard":"방어 자세","regen":"재생","leech":"흡혈","evade":"회피율 강화","stand":"자리 고정","pet_guard":"소환수 보호","pet_power":"소환수 공격 강화","pet_haste":"소환수 공격 속도 강화"}
+
+static func timed_for(actor:Dictionary)->Array:
+	var entries=[]
+	if actor.get("hp",0)<=0:return entries
+	for row in [["enemy_slow_time","slow","둔화"],["invulnerable","invulnerable","무적"],["barrier_time","shield","보호막"],["haste_time","haste","가속"]]:
+		var remaining=float(actor.get(row[0],0))
+		if remaining>0:entries.append({"key":row[0],"icon":row[1],"name":row[2],"remaining":remaining})
+	var state=actor.get("job_state",{})
+	for row in [["parry","guard","반격 자세"],["counter","counter","반격 준비"],["shield_time","shield","보호막"]]:
+		var remaining=float(state.get(row[0],0))
+		if row[0]=="shield_time" and state.get("shield",0)<=0:continue
+		if remaining>0:entries.append({"key":row[0],"icon":row[1],"name":row[2],"remaining":remaining})
+	for key in state.get("buffs",{}):
+		if BUFFS.has(key) and state.buffs[key].get("time",0)>0:entries.append({"key":"buff:"+key,"icon":BUFFS[key],"name":BUFF_NAMES[key],"remaining":float(state.buffs[key].time)})
+	return entries
 
 static func add(keys:Array,key:String):
 	if not keys.has(key):keys.append(key)

@@ -181,8 +181,9 @@ func character_frames(key:String,e:Dictionary,catalog:String,indexes,table:Strin
 func companions():
 	var e=Jobs.data.effects.companions
 	for i in range(e.frames.size()):
-		var f=e.frames[i];var cls="hunter" if i<4 else "summoner"
-		var id=add("art:vfx:companion:"+str(i),"vfx","동료 · "+str(i),e.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/jobs/catalog.json",{"foot":f.foot},i,"companion")
+		var sheet=Jobs.data.effects.hunter_wolf if i<4 else e
+		var f=sheet.frames[i];var cls="hunter" if i<4 else "summoner"
+		var id=add("art:vfx:companion:"+str(i),"vfx",("사냥꾼 늑대 · " if i<4 else "소환수 · ")+str(i),sheet.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/jobs/catalog.json",{"foot":f.foot,"body_height":f.body_height,"display_height":112 if i<4 else 224},i,"companion")
 		use(id,"classes",cls,"game/scripts/job_art.gd:pets",{"pet_row":int(i/4)})
 	# Only raw automatic procs bypass the procedural renderer. Original active
 	# skills with a class:row sprite ID are normally procedural and are excluded.

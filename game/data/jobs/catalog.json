@@ -94,11 +94,11 @@
       "name": "시프",
       "base": "rogue",
       "description": "시프 전직 · 12개 액티브 중 6개 조합",
-      "weapon": "bow",
+      "weapon": "sword",
       "skill": "6칸 장착",
       "cooldown": 0.4,
-      "range": 7.0,
-      "projectile": true
+      "range": 1.8,
+      "projectile": false
     },
     "reaper": {
       "name": "사신",
@@ -154,12 +154,12 @@
       "name": "도적",
       "base": "rogue",
       "description": "30레벨에 세 직업 중 전직",
-      "weapon": "bow",
+      "weapon": "sword",
       "starter": true,
       "skill": "6칸 장착",
       "cooldown": 0.4,
-      "range": 7.0,
-      "projectile": true
+      "range": 1.8,
+      "projectile": false
     },
     "fighter": {
       "name": "격투가",

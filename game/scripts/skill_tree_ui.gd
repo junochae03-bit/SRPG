@@ -94,7 +94,7 @@ func setup(owner_game):
 	view_controls.append(Art.panel(self,Vector2(26,202),Vector2(1054,578),"paper",21))
 	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(37,214);graph.size=Vector2(1030,510);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
 	overview_button=game.button(self,"전체 지도",Vector2(46,736),Vector2(122,37),func():show_branch(-1 if graph.scope_cluster>=0 else int(Rules.definition(choice).get("cluster",0))));view_controls.append(overview_button)
-	view_controls.append(game.button(self,"선택 찾기",Vector2(179,736),Vector2(122,37),focus_choice))
+	view_controls.append(game.button(self,"추천 경로",Vector2(179,736),Vector2(122,37),show_recommendations))
 	view_controls.append(game.button(self,"−",Vector2(899,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1./1.2)))
 	zoom_label=game.label(self,"",Vector2(945,740),Vector2(65,30),17);zoom_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;view_controls.append(zoom_label)
 	view_controls.append(game.button(self,"+",Vector2(1019,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1.2)))
@@ -116,7 +116,7 @@ func setup(owner_game):
 		var value=game.label(impact_summary,"",Vector2(137,i*47+2),Vector2(219,39),22);value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 		impact_labels.append([label,value])
 	detail_body=RichTextLabel.new();detail_body.size=Vector2(DETAIL_WIDTH,239);detail_body.fit_content=true;detail_body.scroll_active=false;detail_body.bbcode_enabled=true;detail_body.add_theme_font_override("normal_font",game.fonts);detail_body.add_theme_font_override("bold_font",game.bold_font);detail_body.add_theme_font_size_override("normal_font_size",18);detail_body.add_theme_font_size_override("bold_font_size",20);detail_body.add_theme_color_override("default_color",game.PALE);detail_body.add_theme_constant_override("line_separation",5);comparison.add_child(detail_body)
-	prerequisites=Control.new();prerequisites.position=Vector2(24,535);prerequisites.size=Vector2(386,40);details.add_child(prerequisites)
+	prerequisites=Control.new();prerequisites.position=Vector2(24,527);prerequisites.size=Vector2(386,52);details.add_child(prerequisites)
 	path_button=game.button(details,"경로 보기",Vector2(23,583),Vector2(184,36),navigate_selected_path)
 	refund_button=game.button(details,"선택 회수",Vector2(216,583),Vector2(193,36),preview_refund)
 	next_step_button=game.button(self,"",Vector2(501,736),Vector2(383,37),choose_next_step);next_step_button.add_theme_font_size_override("font_size",16);next_step_button.hide()
@@ -172,6 +172,17 @@ func matches(node:Dictionary,p:Dictionary)->bool:
 	var selected_role={1:"active",3:"active_module",4:"character_passive",5:"stat_passive"}.get(filter_index,"")
 	return (query.is_empty() or text.to_lower().contains(query)) and (tag_filter.is_empty() or tag_filter in definition.get("tags",[])) and (filter_index==0 or filter_index==2 and Rules.node_state(p,node.id).get("can_invest",false) or not selected_role.is_empty() and Presentation.role(definition)==selected_role)
 func select_node(id:String):choice=id;route_target="";refund_mode=false;graph.planned_ids=[];graph.scope_extra.clear();notice.text="";refresh(true)
+func show_recommendations():
+	var menu=PopupMenu.new();add_child(menu)
+	var targets=node_list.filter(func(node):return node.get("type","")=="keystone")
+	for i in range(targets.size()):
+		var node=targets[i];var state=Rules.node_state(player(),node.id)
+		menu.add_item(str(node.get("cluster_name",node.name))+" · "+str(Presentation.branch(node)[0]),i)
+		menu.set_item_tooltip(i,str(node.get("effects_text",""))+"\n"+str(node.get("tradeoff","")))
+		menu.set_item_disabled(i,str(state.get("reason","")).begins_with("배타"))
+	menu.id_pressed.connect(func(index):search.text="";tag_filter="";filter_index=0;select_node(targets[index].id);show_path();graph.focus_node(choice))
+	menu.popup_hide.connect(func():menu.queue_free())
+	menu.position=Vector2i(get_viewport().get_mouse_position());menu.popup()
 func show_branch(cluster:int):
 	graph.set_scope(cluster);refund_mode=false
 	if cluster>=0:
@@ -207,13 +218,15 @@ func apply_search():
 func clear(control:Node):
 	for child in control.get_children():control.remove_child(child);child.queue_free()
 func invest_selected():
-	if game.session.act("uninvest" if refund_mode else "invest",choice):notice.text=selected.text+(" · 선택 회수" if refund_mode else " · 성장 적용")
+	var goal=route_target;var success=game.session.act("uninvest" if refund_mode else "invest",choice)
+	if success:notice.text=selected.text+(" · 선택 회수" if refund_mode else " · 성장 적용")
 	else:notice.text=str(Rules.node_state(player(),choice).get("reason","현재 적용할 수 없습니다."))
 	refund_mode=false;refresh(true)
+	if success and not goal.is_empty():route_target=goal;choose_next_step()
 func preview_refund():
 	refund_mode=true;refresh(true);comparison_scroll.scroll_vertical=0
 func show_path():
-	var plan=Rules.path_plan(player(),choice);graph.planned_ids=[]
+	var plan=Rules.learning_route(player(),choice);graph.planned_ids=[]
 	for step in plan.get("steps",[]):graph.planned_ids.append(str(step.id))
 	notice.text="필요 %d SP · %d개 경로"%[int(plan.get("cost",0)),plan.get("steps",[]).size()] if plan.get("ok",false) else str(plan.get("reason","경로가 잠겨 있습니다."));graph.reveal_plan()
 	route_target=choice
@@ -223,7 +236,7 @@ func show_path():
 func choose_next_step():
 	var target=route_target
 	if target.is_empty():return
-	var plan=Rules.path_plan(player(),target)
+	var plan=Rules.learning_route(player(),target)
 	if not plan.get("ok",false) or plan.get("steps",[]).is_empty():return
 	select_node(str(plan.steps[0].id));route_target=target;graph.focus_node(choice)
 	for step in plan.steps:graph.planned_ids.append(str(step.id))
@@ -339,10 +352,17 @@ func show_details(skill:Dictionary,p:Dictionary):
 	var tags=PackedStringArray()
 	for tag in skill.get("tags",[]):tags.append(localized_tag(str(tag)))
 	text+=paragraph("성격"," · ".join(tags));clear(prerequisites)
-	for i in range(mini(2,skill.get("parents",[]).size())):
-		var id=skill.parents[i];var row=node_list.filter(func(n):return n.id==id)
-		if row.is_empty():continue
-		var b=game.button(prerequisites,str(row[0].name).get_slice(" · ",0),Vector2(i*197,0),Vector2(189,38),func():select_node(id);focus_choice());b.add_theme_font_size_override("font_size",14);b.tooltip_text="선행 "+str(skill.get("required_rank",1))+"랭크 · "+row[0].name
+	var related=[]
+	for id in skill.get("parents",[]):
+		var row=Rules.definition(id)
+		if not row.is_empty():related.append([row,"선행"])
+	for node in node_list:
+		if node.get("target_active_id",node.get("target",""))==skill.id and node.id!=skill.id:related.append([node,"강화"])
+	var related_scroll=ScrollContainer.new();related_scroll.size=prerequisites.size;related_scroll.vertical_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;prerequisites.add_child(related_scroll)
+	var related_row=HBoxContainer.new();related_scroll.add_child(related_row)
+	for entry in related:
+		var id=str(entry[0].id);var b=game.button(related_row,"",Vector2.ZERO,Vector2(176,30),func():select_node(id);focus_choice())
+		b.custom_minimum_size=Vector2(176,30);b.text=str(entry[1])+" · "+str(entry[0].name);b.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;b.add_theme_font_size_override("font_size",14);b.tooltip_text=b.text;b.set_meta("related_id",id)
 	invest.disabled=not state.get("can_invest",false);invest.text="최대 성장" if rank>=maximum else ("배우기" if rank==0 else "강화")+" · %d SP"%int(state.get("cost",skill.get("cost",1)));invest.tooltip_text=str(state.get("reason",""));path_button.disabled=rank>=maximum
 	path_button.text="선행으로" if str(state.get("reason","")).begins_with("선행") else "경로 보기"
 	refund_button.disabled=rank<=0 or game.dungeon.zone!="town"

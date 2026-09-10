@@ -4,6 +4,11 @@ extends RefCounted
 const AREA=Rect2(29,24,15,16)
 const POSITION=Vector2(37,30)
 const HEALTH=1000000000
+const IDLE_RESET_SECONDS=10.0
+static func expire_measurement(p:Dictionary,clock:float):
+	var stats=p.get("training_stats",{})
+	if stats.get("hits",0)>0 and clock-float(stats.last_hit)>=IDLE_RESET_SECONDS:
+		p["training_stats"]=blank()
 static func contains(pos:Vector2)->bool:return AREA.has_point(pos)
 static func can_practice(sim,p:Dictionary)->bool:return sim.map.zone=="town" and contains(p.pos)
 static func spawn(sim)->Dictionary:
@@ -22,6 +27,7 @@ static func record(sim,p:Dictionary,e:Dictionary,amount:int,critical:bool,contex
 	if not e.get("training",false):return
 	e.hp=e.max_hp;e.pos=POSITION
 	if amount<=0 or not can_practice(sim,p):return
+	expire_measurement(p,sim.clock)
 	if not p.has("training_stats"):p["training_stats"]=blank()
 	var stats=p.training_stats
 	stats.total_damage+=amount;stats.hits+=1;stats.criticals+=1 if critical else 0
