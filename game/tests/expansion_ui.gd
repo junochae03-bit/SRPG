@@ -34,7 +34,7 @@ func run():
 	for id in game.bag.costume_keys:
 		game.bag.costume_picker.item_selected.emit(game.bag.costume_keys.find(id))
 		check(p.costume==id,"costume picker applies "+id)
-		if id!="none" and not Content.gat_appearance(p):check(game.bag.portrait.texture==game.textures[Content.costume_role(p)].idle[0],"costume preview uses matching sprite "+id)
+		check(game.bag.portrait.texture==preload("res://scripts/gat_art.gd").frame(p,0.).texture,"costume preview uses matching sprite "+id)
 	var chosen_costume=p.costume
 	game.toggle_bag()
 	session.act("claim_starters")

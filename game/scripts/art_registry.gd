@@ -47,12 +47,6 @@ func collect(db:Dictionary):
 		if id.is_empty():
 			id=add("art:loot:"+drop.key,"equipment",drop.name,drop.asset.path,drop.asset.rect,"docs/ASSET_SOURCES.md","res://assets/sprites/item_regions.json",{"loot_kind":drop.kind})
 		use(id,"drops",drop.id,"game/scripts/content.gd:icon_texture",{"kind":drop.kind})
-	# Older saves retain these supported weapon types; SRPG costumes draw the
-	# same actual held-weapon layer even when their inventory uses new art.
-	for weapon in Content.WEAPONS:
-		var tex=preload("res://scripts/item_art.gd").texture(weapon);var r=tex.region
-		var id=add("art:equipment:legacy:"+weapon,"equipment",Content.WEAPONS[weapon].name,tex.atlas.resource_path,[r.position.x,r.position.y,r.size.x,r.size.y],"docs/ASSET_SOURCES.md","res://assets/sprites/item_regions.json",{"legacy_weapon":weapon})
-		use(id,"runtime","held_weapon:"+weapon,"game/scripts/main.gd:draw_actor",{"role":"legacy_costume_weapon_overlay"})
 	for s in db.skills+db.constellations:
 		var key=Library.canonical(Icons.key_for_skill(s.node))
 		icon(key,"constellations" if s.get("effect","")=="constellation" else "skills",s.id,"game/scripts/icon_art.gd:key_for_skill")
@@ -153,7 +147,6 @@ func characters(db:Dictionary):
 			if Costumes.recognizes(costume):
 				character_frames("costume:"+costume,Costumes.catalog()[costume],Costumes.CATALOG_PATH,range(16),"classes",cls.id,{"selector":"costume","costume":costume,"role":"player"},"game/scripts/costume_art_v04.gd:frame")
 			elif Content.GAT_COSTUMES.has(costume):gat_character(costume,"classes",cls.id,{"selector":"costume","costume":costume,"role":"player"},false)
-			else:legacy_costume(costume,cls.id)
 	for key in Creatures.RESIDENTS:
 		var npc=Creatures.RESIDENTS[key]
 		gat_character(npc.avatar,"runtime","npc:"+key,{"role":"npc","name":npc.name},true)
@@ -184,16 +177,6 @@ func character_frames(key:String,e:Dictionary,catalog:String,indexes,table:Strin
 	if i==4:rect[1]=r[1]+maxf(0,f.foot[1]-h)
 	var id=add("art:character:"+key+":portrait","character",e.get("name",key)+" portrait",f.get("sheet",e.sheet),rect,provenance,catalog,{},-1,"portrait")
 	use(id,table,target,consumer.replace(":frame",":portrait"),mapping)
-
-func legacy_costume(costume:String,cls:String):
-	var source="res://assets/animations.json" if costume=="traveler" else "res://assets/costumes/animations.json"
-	var catalog=JSON.parse_string(FileAccess.get_file_as_string(source));var role="hero" if costume=="traveler" else costume
-	for action in catalog[role]:
-		var index=0
-		for path in catalog[role][action]:
-			var tex=load(path) as Texture2D
-			var id=add("art:character:legacy:"+costume+":"+action+":"+str(index),"character",Content.COSTUMES[costume],path,[0,0,tex.get_width(),tex.get_height()],"docs/ASSET_SOURCES.md",source,{},index,action)
-			use(id,"classes",cls,"game/scripts/main.gd:draw_actor",{"selector":"costume","costume":costume,"role":"player"});index+=1
 
 func companions():
 	var e=Jobs.data.effects.companions

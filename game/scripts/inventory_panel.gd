@@ -185,7 +185,7 @@ func refresh(force=false):
 		var control=equipment_controls[slot];var item=item_by_id(p.equipment.get(slot,""))
 		control.item=item;control.picture=null if item.is_empty() else Content.icon_texture(item);control.selected=selected_id!="" and item.get("id")==selected_id;control.queue_redraw()
 	stat_label.text="%s · LV.%d\n공격 %d   방어 %d   생명력 %d" % [Content.CLASSES[p.class_id].name,p.level,game.session.sim.damage_for(p),p.defense,p.max_hp]
-	portrait.texture=preload("res://scripts/gat_art.gd").frame(p,0.).texture if Content.gat_appearance(p) else game.textures[Content.costume_role(p)].idle[0]
+	portrait.texture=preload("res://scripts/gat_art.gd").frame(p,0.).texture
 	portrait.material=preload("res://scripts/gat_art.gd").material() if Content.gat_appearance(p) else null
 	refresh_appearance(p)
 	wallet.text="보유 금화   %s G" % p.gold

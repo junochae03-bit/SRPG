@@ -15,7 +15,7 @@ static var CLASSES = {
 	"mage":{"name":"마법사","weapon":"staff","skill":"별무리 폭발","description":"충전 공격과 범위 마법. Q로 조준 방향에 별빛 폭발을 일으킵니다."}
 }
 const GAT_COSTUMES={"gat_addition_01_1":"꽃바람 고양이","gat_addition_05_2":"푸른 선율","gat_addition_10_2":"장미의 시종기사","gat_addition_11_2":"불꽃 요리사","gat_addition_12_1":"눈꽃의 요정","gat_addition_02_2":"새벽의 사제"}
-static var COSTUMES = {"none":"적용 안 함 · 기본 캐릭터","traveler":"스텔라이브 · 여행자","witch":"스텔라이브 · 별빛 마녀","starlight":"스텔라이브 · 황금 별무리","celestial":"스텔라이브 · 은하의 날개","gat_addition_01_1":"꽃바람 고양이","gat_addition_05_2":"푸른 선율","gat_addition_10_2":"장미의 시종기사","gat_addition_11_2":"불꽃 요리사","gat_addition_12_1":"눈꽃의 요정","gat_addition_02_2":"새벽의 사제"}
+static var COSTUMES = {"none":"적용 안 함 · 기본 캐릭터","gat_addition_01_1":"꽃바람 고양이","gat_addition_05_2":"푸른 선율","gat_addition_10_2":"장미의 시종기사","gat_addition_11_2":"불꽃 요리사","gat_addition_12_1":"눈꽃의 요정","gat_addition_02_2":"새벽의 사제"}
 const AVATARS=preload("res://scripts/gat_catalog.gd").NAMES
 static var SKILLS = preload("res://scripts/skill_catalog.gd").NODES.duplicate(true)
 const ACTIONS=["skill_q","skill_f","skill_v","skill_c","skill_z","skill_x"]
@@ -54,7 +54,6 @@ static func normalize_appearance(p:Dictionary):
 
 static func base_appearance(p:Dictionary)->bool:return p.get("costume","none")=="none"
 static func gat_appearance(p:Dictionary)->bool:return base_appearance(p) or p.get("costume","") in GAT_COSTUMES or preload("res://scripts/costume_art_v04.gd").has_sprite(p)
-static func costume_role(p:Dictionary)->String:return "hero" if p.get("costume","traveler")=="traveler" else p.get("costume","hero")
 static func migrate_appearance(p:Dictionary):
 	if int(p.get("schema_version",0))<4:
 		p["legacy_costume"]=p.get("legacy_costume",p.get("costume","traveler"))

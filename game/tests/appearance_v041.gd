@@ -40,7 +40,7 @@ func run():
 		for key in game.bag.costume_keys:
 			game.bag.costume_picker.item_selected.emit(game.bag.costume_keys.find(key))
 			check(p.costume==key and p.avatar==base_avatar,"allowed costume preserves base "+class_id+":"+key)
-			if key!="none" and not Content.gat_appearance(p):check(game.bag.portrait.texture==game.textures[Content.costume_role(p)].idle[0],"legacy costume uses original sprite "+key)
+			check(game.bag.portrait.texture==GatArt.frame(p,0).texture,"costume uses current authored sprite "+key)
 		var blocked=Content.AVATARS.keys().filter(func(key):return not game.bag.avatar_keys.has(key))
 		if not blocked.is_empty():
 			var before_avatar=p.avatar

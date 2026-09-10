@@ -6,7 +6,7 @@ const AVATARS={
 	"ranger":["gat_role_single_1"],
 	"mage":["gat_role_aoe_1","gat_role_aoe_2","gat_role_buffer_1","gat_role_buffer_2","gat_role_debuffer_1","gat_role_debuffer_2","gat_role_healer_1","gat_role_healer_2"],
 	"rogue":[],"fighter":[]}
-const LEGACY={"traveler":["warrior"],"witch":["mage"],"starlight":["mage"],"celestial":["mage"],"gat_addition_01_1":["mage"],"gat_addition_02_2":["mage"],"gat_addition_10_2":["warrior"]}
+const LEGACY={"gat_addition_01_1":["mage"],"gat_addition_02_2":["mage"],"gat_addition_10_2":["warrior"]}
 static var custom={}
 static var loaded=false
 static func initialize():

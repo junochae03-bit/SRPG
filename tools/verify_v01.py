@@ -34,7 +34,7 @@ def run(test,args=None,graphics=False):
     results.append({'test':test,'status':'PASS','checks':evidence['checks'],'markers':markers})
     print(test, 'PASS', '; '.join(markers),flush=True)
     return output
-for test in ['forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
+for test in ['removed_assets','forest_stability','rules','inventory_grid','inventory_ui','combat','skills_v04','loot_v04','single_player','expansion_ui','appearance_v041','expansion_v05','polish_v05','monsters_v05','skills_v01','ui_v01','jobs','job_balance','job_ui','progression_v02','equipment_v02','dungeon_v02','floor_balance_v02']:run(test)
 user_save=ROOT/'runtime/saves/slot-1.json';save_integrity='not present in this checkout'
 for test in ['database_v03','boss_stagger_v03','skill_vfx','skill_build_v04','database_v04','constellation_combat_v04','character_creation_v04','skill_build_session_v04','icons','environment_v04','dungeon_entry_v04','costume_art_v04','battle_camera_v04','appearance_matching_v04']:run(test)
 run('database_world_rules_v052')
