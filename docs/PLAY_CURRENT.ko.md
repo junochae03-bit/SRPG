@@ -1,8 +1,8 @@
-스텔알피지 V0.5.3 · 전투와 성장
+스텔알피지 V0.5.4 · 전투와 성장
 
 ZIP을 모두 풀고 StelRPG.exe를 실행하세요. StelRPG.pck를 같은 폴더에 둡니다.
 Godot 설치가 필요 없는 Windows 64비트 싱글 플레이 테스트 빌드입니다.
-V0.5.3은 오프라인 싱글 플레이 버전입니다.
+V0.5.4는 오프라인 싱글 플레이 버전입니다.
 Vulkan을 지원하는 그래픽 장치와 드라이버를 사용합니다.
 Vulkan에서 시작되지 않으면 바로가기 대상 뒤에 --rendering-method gl_compatibility를 붙여 OpenGL 호환 모드로 실행할 수 있습니다.
 호환 모드의 시작·저장 복원을 확인했으며, 성능은 그래픽 장치에 따라 다릅니다.
@@ -100,6 +100,6 @@ V0.5까지 착용하고 있던 외형은 무료로 보유 목록에 이관합니
 저장에 실패하면 종료하거나 기록을 버리지 않고 재시도합니다. 저장 경로를 복구한 뒤 설정에서 다시 종료할 수 있습니다.
 
 소스: https://github.com/junochae03-bit/SRPG
-게임·DB 다운로드: https://github.com/junochae03-bit/SRPG/releases/tag/V0.5.3
+게임·DB 다운로드: https://github.com/junochae03-bit/SRPG/releases/tag/V0.5.4
 설계·DB: docs/GDD_V05.ko.md, docs/GAME_DATABASE.ko.md
 실제 온라인 멀티플레이는 후속 구현 예정입니다.
