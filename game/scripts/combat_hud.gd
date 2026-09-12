@@ -277,6 +277,7 @@ func refresh():
 	money_label.text="%s 금화" % str(p.gold)
 	var floor_number=game.dungeon.floor_number
 	region.text="햇살 마을" if game.dungeon.zone=="town" else preload("res://scripts/abyss_catalog.gd").config(floor_number).name if floor_number>0 else "꽃바람 숲 · 튜토리얼"
+	if int(game.session.state.get("risk_level",0))>0:region.text+=" · "+preload("res://scripts/expedition_risk.gd").NAMES[int(game.session.state.risk_level)]
 	if floor_number>0 and game.dungeon.environment.id!="still":region.text+=" · "+game.dungeon.environment.name
 	region.tooltip_text=region.text+("\n"+game.dungeon.environment.name+" · "+game.dungeon.environment.detail if floor_number>0 else "")
 	quest_title.text="100층으로 향하는 길";quest_icon="quest"

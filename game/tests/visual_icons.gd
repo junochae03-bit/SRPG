@@ -135,6 +135,7 @@ func capture_battle_states(game):
 	var p = learned_character(game, "warrior")
 	p.highest_floor = 100
 	p.cleared_floor = 99
+	check(game.session.act("plan_expedition",JSON.stringify({"floor":100,"risk":0})), "select real raid destination before entering")
 	check(game.session.enter_floor(100), "enter real raid for status and minimap capture")
 	var sim = game.session.sim
 	p = sim.players[1]

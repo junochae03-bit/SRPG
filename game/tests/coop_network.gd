@@ -47,6 +47,8 @@ func run():
 		if host:
 			print("SIX_READY")
 			check(not session.enter_floor(test_floor) and session.sim.map.zone=="town","unready party cannot travel")
+			check(session.act("plan_expedition",JSON.stringify({"floor":test_floor,"risk":0})),"host proposes shared destination")
+			if test_floor>10:check(session.act("plan_expedition",JSON.stringify({"floor":test_floor,"risk":1})),"host selects regional risk")
 		session.act("select_goal",JSON.stringify({"id":"secret","floor":test_floor}))
 		await create_timer(.5).timeout
 		check(session.state.players[session.local_id].get("expedition_goal",{}).get("kind","")=="secret","each real peer selects an authoritative personal rumor")
@@ -74,13 +76,25 @@ func run():
 				game.toggle_skills()
 		await create_timer(2.).timeout
 		check(session.state.clock>before_clock+1.,"personal menu does not pause world")
-		session.paused=false;session.act("ready","true")
+		session.paused=false
+		check(session.state.departure_plan.floor==test_floor and session.state.departure_plan.risk==(1 if test_floor>10 else 0),"all peers see authoritative departure conditions")
+		session.act("ready","true:0")
+		await create_timer(.4).timeout
+		check(not session.ready_players.get(session.local_id,false),"stale readiness cannot approve changed conditions over ENet")
+		session.act("ready",session.ready_argument(true))
 		if host:
 			var ready_deadline=Time.get_ticks_msec()+6000
 			while Time.get_ticks_msec()<ready_deadline and not session.ready_players.values().all(func(value):return value):await create_timer(.1).timeout
 			check(session.enter_floor(test_floor),"ready party enters shared floor")
 		await create_timer(3.).timeout
 		check(session.sim.map.floor_number==test_floor and session.state.players.size()==6,"floor changes for every peer")
+		var risk_rank=1 if test_floor>10 else 0
+		var initial_enemy_count=23+risk_rank*2
+		check(session.sim.map.risk_level==risk_rank and session.sim.map.encounters.size()==initial_enemy_count,"all peers reconstruct selected risk and formations")
+		if host:
+			for enemy in session.sim.enemies.values():
+				if risk_rank>0:check(enemy.solo_health==roundi(enemy.risk_base_health*1.1),"risk health precedes independent party scaling")
+				check(enemy.max_hp==roundi(enemy.solo_health*preload("res://scripts/party_rules.gd").health_factor(6)),"risk enemy has exactly one party scaling")
 		check(session.sim.map.environment==preload("res://scripts/expedition_environment.gd").select(test_seed+7919,test_floor),"every peer reconstructs the announced environment")
 		if options.has("environment"):check(session.sim.map.environment.id==options.environment,"non-neutral environment exercised over ENet")
 		# Known host-side fixtures verify the compressed wire fields separately
@@ -142,7 +156,7 @@ func run():
 		check(session.state.exploration_sites[4].challenge_state=="active","concurrent human requests share one active challenge")
 		if host:
 			var wave=session.sim.exploration_challenges[challenge_site.id]
-			check(wave.size()==int(challenge_site.challenge_count) and session.sim.enemies.size()==23+wave.size(),"six simultaneous requests create only one wave")
+			check(wave.size()==int(challenge_site.challenge_count) and session.sim.enemies.size()==initial_enemy_count+wave.size(),"six simultaneous requests create only one wave")
 			for id in wave:
 				var enemy=session.sim.enemies[id]
 				check(enemy.max_hp==roundi(enemy.solo_health*preload("res://scripts/party_rules.gd").health_factor(6)),"network wave starts at six-player health")

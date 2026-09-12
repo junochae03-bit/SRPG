@@ -389,6 +389,7 @@ static func _append_world_rules(db:Dictionary):
 		if preload("res://scripts/consumables.gd").ITEMS.has(key):row.merge(preload("res://scripts/consumables.gd").ITEMS[key].duplicate(true))
 		db.item_definitions.append(row)
 	db.metadata["consumables"]={"items":preload("res://scripts/consumables.gd").ITEMS.duplicate(true),"max_stack":Inv.MAX_POTIONS,"shared_cooldown":false,"cooldown_groups":{"potions":["potion","mana_potion","power_potion"],"tools":["lure_stone","snare_trap","fire_bottle"]},"mana_resource":"stamina","attack_stacking":"multiplicative_with_class_attack","active_refresh":"reject_without_consumption"}
+	db.metadata["expedition_risk"]=preload("res://scripts/expedition_risk.gd").configuration()
 	db.metadata["tactical_tools"]=preload("res://scripts/tactical_tools.gd").configuration()
 	db.metadata["character_presentation"]=JSON.parse_string(FileAccess.get_file_as_string("res://data/character_presentation.json"))
 	db.metadata["portrait_levels"]={"levels":preload("res://scripts/portrait_frame.gd").LEVELS,"colors":preload("res://scripts/portrait_frame.gd").COLORS}

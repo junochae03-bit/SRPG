@@ -9,7 +9,7 @@ var join:Button
 var leave:Button
 var roster_labels=[]
 func setup(owner_game):
-	game=owner_game;position=Vector2(460,200);size=Vector2(560,490);mouse_filter=Control.MOUSE_FILTER_STOP
+	game=owner_game;position=Vector2(460,175);size=Vector2(560,535);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());preload("res://scripts/ui_art.gd").decorate(self,"paper",6)
 	game.label(self,"친구와 모험",Vector2(30,25),Vector2(360,45),30)
 	game.button(self,"닫기",Vector2(428,25),Vector2(100,40),close)
@@ -19,11 +19,11 @@ func setup(owner_game):
 	port=SpinBox.new();port.position=Vector2(170,144);port.size=Vector2(180,40);port.min_value=1024;port.max_value=65535;port.value=24554;add_child(port)
 	host=game.button(self,"방 열기",Vector2(30,208),Vector2(240,48),func():game.session.host_room(game.slot_picker.selected+1,int(port.value));update_controls())
 	join=game.button(self,"주소로 참가",Vector2(288,208),Vector2(240,48),func():game.session.join_room(address.text,game.slot_picker.selected+1,int(port.value));update_controls())
-	information=game.label(self,"",Vector2(30,367),Vector2(498,36),19);information.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	information=game.label(self,"",Vector2(30,362),Vector2(498,92),17);information.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	for i in range(6):
 		var label=game.label(self,"",Vector2(30+(i%2)*249,276+int(i/2)*28),Vector2(240,28),17);label.clip_text=true;label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;roster_labels.append(label)
-	ready_button=game.button(self,"준비",Vector2(30,410),Vector2(240,48),func():game.session.act("ready","false" if game.session.ready_players.get(game.session.local_id,false) else "true");update_controls())
-	leave=game.button(self,"방 나가기",Vector2(288,410),Vector2(240,48),func():game.session.disconnect_game();update_controls())
+	ready_button=game.button(self,"준비",Vector2(30,465),Vector2(240,48),func():game.session.act("ready",game.session.ready_argument(not game.session.ready_players.get(game.session.local_id,false)));update_controls())
+	leave=game.button(self,"방 나가기",Vector2(288,465),Vector2(240,48),func():game.session.disconnect_game();update_controls())
 	game.session.changed.connect(func():if visible:update_controls())
 	game.session.status_changed.connect(func(_message):if visible:update_controls())
 	hide()
@@ -45,3 +45,7 @@ func update_controls():
 	for i in range(6):
 		roster_labels[i].text=roster[i] if i<roster.size() else "";roster_labels[i].tooltip_text=roster_labels[i].text
 	information.text=session.room_status if online else "마을에 도착한 기록을 선택해 주세요. " +session.room_status
+	var plan=session.state.get("departure_plan",{})
+	if online and int(plan.get("floor",0))>0:
+		var risk=preload("res://scripts/expedition_risk.gd");var depth=int(plan.floor);var rank=int(plan.risk)
+		information.text="B%d · %s · %d / 6명\n%s\n%s"%[depth,risk.info(depth,rank).name,session.state.players.size(),risk.details(depth,rank),risk.reward(depth,rank)]

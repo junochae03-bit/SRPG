@@ -13,11 +13,11 @@ var stamp=""
 func setup(owner_town):
 	town=owner_town;position=Vector2(746,0);size=Vector2(510,688)
 	Art.decorate(self,"paper",6)
-	var game=town.game;var info=Brief.floor_info(town.player(),town.selected_floor,game.session.world_seed+7919)
+	var game=town.game;var info=Brief.floor_info(town.player(),town.selected_floor,game.session.world_seed+7919,int(game.session.state.get("departure_plan",{}).get("risk",0)))
 	town.preview={"reason":info.reason,"title":info.name,"result":info.goal+"\n"+info.reward}
 	town.wrapped(self,info.name,Vector2(32,26),Vector2(446,58),27,2)
 	town.wrapped(self,"권장 LV.%d · %s"%[info.level,"레이드" if info.raid else "자유 탐사"],Vector2(32,90),Vector2(446,30),19,1)
-	town.wrapped(self,info.lore,Vector2(32,126),Vector2(446,33),18,1)
+	town.wrapped(self,info.lore if info.risk.rank==0 else info.risk.name+" · "+preload("res://scripts/expedition_risk.gd").details(town.selected_floor,info.risk.rank),Vector2(32,126),Vector2(446,33),18,1)
 	intel=town.wrapped(self,info.scale+"\n"+(info.environment.name+" · "+info.environment.detail if not info.environment.is_empty() else "환경 · 출발 시 확인")+"\n"+info.clue,Vector2(32,166),Vector2(446,83),16,3)
 	intel.tooltip_text=intel.text
 	var monsters=info.monsters.duplicate();monsters.append(info.guardian)
@@ -37,7 +37,7 @@ func setup(owner_town):
 		var name_label=town.wrapped(party,"",at,Vector2(153,30),17,1)
 		var status_label=town.wrapped(party,"",at+Vector2(155,0),Vector2(64,30),16,1)
 		party_rows.append({"name":name_label,"status":status_label})
-	ready_button=game.button(self,"준비",Vector2(32,613),Vector2(153,49),func():game.session.act("ready","false" if game.session.ready_players.get(game.session.local_id,false) else "true");stamp="";refresh())
+	ready_button=game.button(self,"준비",Vector2(32,613),Vector2(153,49),func():game.session.act("ready",game.session.ready_argument(not game.session.ready_players.get(game.session.local_id,false)));stamp="";refresh())
 	town.confirm_button=game.button(self,"던전 입장",Vector2(202,613),Vector2(276,49),func():if game.session.enter_floor(town.selected_floor):town.close(),true)
 	town.review_panel=self;refresh()
 

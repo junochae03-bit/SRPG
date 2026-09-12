@@ -43,6 +43,8 @@ var review_labels={}
 var review_result_scroll:ScrollContainer
 var product_scroll:ScrollContainer
 var product_scroll_value=0
+var departure_stamp=-1
+var risk_buttons=[]
 
 func setup(owner_game):
 	game=owner_game
@@ -161,6 +163,7 @@ func select_quantity(value:int):
 
 func refresh():
 	if not World.FACILITIES.has(facility):return
+	if facility=="portal":sync_departure_plan()
 	if is_instance_valid(product_scroll):product_scroll_value=product_scroll.scroll_vertical
 	for child in body.get_children():body.remove_child(child);child.queue_free()
 	products.clear();shop_tabs.clear();quantity_buttons.clear();operation_buttons.clear();wardrobe_view=null;review_panel=null;review_result_scroll=null;confirm_button=null;product_scroll=null;review_labels.clear()
@@ -344,13 +347,39 @@ func portal(p:Dictionary):
 		var b=game.button(body,"%d–%d"%[i*10+1,i*10+10],Vector2(i%5*145,51+int(i/5)*49),Vector2(134,41),func():chapter=i;selected_floor=chapter*10+1;last_receipt="";refresh(),chapter==i)
 		b.tooltip_text=abyss.BIOMES[i].name
 	wrapped(body,abyss.BIOMES[chapter].name,Vector2(8,161),Vector2(706,46),27,1)
+	risk_buttons=[]
+	var risk=preload("res://scripts/expedition_risk.gd")
+	var rank=risk.normalize(selected_floor,int(game.session.state.get("departure_plan",{}).get("risk",0)))
+	for value in range(4):
+		var button=game.button(body,risk.NAMES[value],Vector2(value*182,210),Vector2(172,42),func():choose_risk(value),value==rank)
+		button.disabled=value>risk.cap(selected_floor) or game.session.get("network_role")=="client"
+		button.tooltip_text="이 지역에서는 선택할 수 없습니다." if value>risk.cap(selected_floor) else risk.details(selected_floor,value)+"\n"+risk.reward(selected_floor,value)
+		risk_buttons.append(button)
 	for i in range(10):
 		var floor_id=chapter*10+i+1;var locked=not abyss.locked_reason(p,floor_id).is_empty();var cfg=abyss.config(floor_id)
-		var b=game.button(body,"",Vector2(i%2*364,220+int(i/2)*91),Vector2(352,80),func():selected_floor=floor_id;last_receipt="";refresh(),selected_floor==floor_id)
+		var b=game.button(body,"",Vector2(i%2*364,268+int(i/2)*80),Vector2(352,74),func():selected_floor=floor_id;last_receipt="";refresh(),selected_floor==floor_id)
 		Library.picture(b,"boss" if cfg.raid else "floor",Vector2(16,14),Vector2(50,50))
-		wrapped(b,"B%d · %s"%[floor_id,"레이드 보스" if cfg.raid else "던전 탐사"],Vector2(84,11),Vector2(226,31),20,1)
-		wrapped(b,"잠김" if locked else "돌파 완료" if floor_id<=p.cleared_floor else "도전 가능",Vector2(84,45),Vector2(220,29),17,1)
+		wrapped(b,"B%d · %s"%[floor_id,"레이드 보스" if cfg.raid else "던전 탐사"],Vector2(84,6),Vector2(226,31),18,1)
+		wrapped(b,"잠김" if locked else "돌파 완료" if floor_id<=p.cleared_floor else "도전 가능",Vector2(84,38),Vector2(220,29),17,1)
 		selection_marker(b,selected_floor==floor_id);b.tooltip_text=abyss.locked_reason(p,floor_id) if locked else cfg.name;products[str(floor_id)]=b
+		b.disabled=game.session.get("network_role")=="client"
+
+func choose_risk(value:int):
+	if game.session.act("plan_expedition",JSON.stringify({"floor":selected_floor,"risk":value})):refresh()
+
+func sync_departure_plan():
+	var session=game.session;var plan=session.state.get("departure_plan",{})
+	if session.get("network_role")=="client":
+		if int(plan.get("floor",0))>0:selected_floor=int(plan.floor);chapter=int((selected_floor-1)/10)
+	elif session.sim.map.zone=="town" and preload("res://scripts/abyss_catalog.gd").locked_reason(player(),selected_floor).is_empty():
+		var rank=preload("res://scripts/expedition_risk.gd").normalize(selected_floor,int(plan.get("risk",0)))
+		if int(plan.get("floor",0))!=selected_floor or int(plan.get("risk",0))!=rank:
+			session.act("plan_expedition",JSON.stringify({"floor":selected_floor,"risk":rank}))
+	departure_stamp=int(session.state.get("departure_plan",{}).get("revision",0))
+
+func _process(_delta):
+	if visible and facility=="portal" and game.session.connected and game.session.get("network_role")=="client":
+		if departure_stamp!=int(game.session.state.get("departure_plan",{}).get("revision",0)):refresh()
 
 func review(p:Dictionary):
 	if facility=="portal":
