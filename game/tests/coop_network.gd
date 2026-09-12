@@ -86,6 +86,29 @@ func run():
 		await create_timer(.7).timeout
 		check(session.state.exploration_sites[0].claimed and int(session.state.players[session.local_id].materials.get(site.material,0))==gathered+3,"host-approved room reward once per human")
 		if host:
+			var challenge_site=session.sim.map.exploration_sites[4]
+			for player in session.sim.players.values():player.pos=challenge_site.pos
+			session.refresh();session.publish_snapshot()
+		await create_timer(.7).timeout
+		var challenge_site=session.state.exploration_sites[4]
+		var challenge_key=challenge_site.generation+":"+challenge_site.id
+		var challenge_essence=int(session.state.players[session.local_id].materials.get("essence",0))
+		session.act("explore",challenge_key+":challenge");session.act("explore",challenge_key+":challenge")
+		await create_timer(.7).timeout
+		check(session.state.exploration_sites[4].challenge_state=="active","concurrent human requests share one active challenge")
+		if host:
+			var wave=session.sim.exploration_challenges[challenge_site.id]
+			check(wave.size()==int(challenge_site.challenge_count) and session.sim.enemies.size()==23+wave.size(),"six simultaneous requests create only one wave")
+			for id in wave:
+				var enemy=session.sim.enemies[id]
+				check(enemy.max_hp==roundi(enemy.solo_health*preload("res://scripts/party_rules.gd").health_factor(6)),"network wave starts at six-player health")
+				enemy.hp=0
+			session.refresh();session.publish_snapshot()
+		await create_timer(.7).timeout
+		session.act("explore",challenge_key+":collect");session.act("explore",challenge_key+":collect")
+		await create_timer(.7).timeout
+		check(session.state.exploration_sites[4].claimed and int(session.state.players[session.local_id].materials.get("essence",0))==challenge_essence+int(challenge_site.challenge_reward),"each human claims challenge reward exactly once over ENet")
+		if host:
 			var hidden=session.sim.map.hidden_regions[0]
 			for player in session.sim.players.values():player.pos=hidden.pos
 			preload("res://scripts/hidden_rooms.gd").discover(session.sim);session.refresh();session.publish_snapshot()

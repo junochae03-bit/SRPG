@@ -1,6 +1,7 @@
 extends RefCounted
 
 const Inventory=preload("res://scripts/inventory_model.gd")
+const Challenge=preload("res://scripts/exploration_challenge.gd")
 const Content=preload("res://scripts/content.gd")
 const REACH=2.8
 const THREAT_RADIUS=8.0
@@ -8,9 +9,10 @@ const DEFINITIONS={
 	"gather":{"name":"마력 광맥","icon":"ore","choices":["gather"],"purpose":"재료 채집"},
 	"rest":{"name":"여행자의 화로","icon":"inn","choices":["rest"],"purpose":"중간 휴식"},
 	"shrine":{"name":"갈림길의 제단","icon":"essence","choices":["recover","offering"],"purpose":"회복 또는 정수"},
-	"cache":{"name":"버려진 보급 상자","icon":"bag","choices":["supplies","salvage"],"purpose":"물약 또는 제작 재료"}
+	"cache":{"name":"버려진 보급 상자","icon":"bag","choices":["supplies","salvage"],"purpose":"물약 또는 제작 재료"},
+	"challenge":{"name":"정예의 은닉품","icon":"essence","choices":["salvage","challenge","collect"],"purpose":"확정 보상 또는 추가 도전"}
 }
-const SITE_ART={"ore":"cave_ore_boulders","seed":"autumn_berry_shrub","rest":"lava_forge_brazier","shrine":"ruins_stone_basin","cache":"flood_shipwreck_crate"}
+const SITE_ART={"ore":"cave_ore_boulders","seed":"autumn_berry_shrub","rest":"lava_forge_brazier","shrine":"ruins_stone_basin","cache":"flood_shipwreck_crate","challenge":"ruins_obelisk"}
 
 static func draw_site(game,site:Dictionary):
 	if site.kind=="secret":
@@ -28,7 +30,7 @@ static func draw_site(game,site:Dictionary):
 	preload("res://scripts/icon_library.gd").draw(game,"confirm" if site.claimed else site.icon,Rect2(at+Vector2(24,-25),Vector2(26,26)))
 
 static func configuration()->Dictionary:
-	return {"version":1,"definitions":DEFINITIONS.duplicate(true),"site_art":SITE_ART,"interaction_radius":REACH,"threat_radius":THREAT_RADIUS,"sites_per_floor":4,"placement":"rest_on_spine_rewards_in_forward_rejoining_wings","cache_potions":2,"cache_material":"4+tier","sites_per_raid":1,"claim_scope":"one_per_player_per_generated_floor","generation":"independent_seed_plus_57103","request_generation_format":"seed.zone.floor","reward_tier":"floor((floor-1)/10)","gather_amount":"3+tier","offering_potions":1,"offering_essence":"2+tier","shrine_recovery":0.35,"rest_hp_stamina":1.0}
+	return {"version":2,"definitions":DEFINITIONS.duplicate(true),"site_art":SITE_ART,"interaction_radius":REACH,"threat_radius":THREAT_RADIUS,"challenge":Challenge.configuration(),"sites_per_floor":5,"placement":"rest_on_spine_rewards_in_forward_rejoining_wings","cache_potions":2,"cache_material":"4+tier","sites_per_raid":1,"claim_scope":"one_per_player_per_generated_floor","generation":"independent_seed_plus_57103","request_generation_format":"seed.zone.floor","reward_tier":"floor((floor-1)/10)","gather_amount":"3+tier","offering_potions":1,"offering_essence":"2+tier","shrine_recovery":0.35,"rest_hp_stamina":1.0}
 
 static func generate(map)->Array:
 	if map.floor_number<=0:return []
@@ -39,8 +41,8 @@ static func generate(map)->Array:
 	for index in range(pool.size()-1,0,-1):
 		var other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before
 	var result=[];var kinds=DEFINITIONS.keys()
-	for index in range(4):
-		var kind=kinds[index];var room=4 if kind=="rest" else int(pool[index]);var pos=Vector2(map.rooms[room])
+	for index in range(kinds.size()):
+		var kind=kinds[index];var room=4 if kind=="rest" else int(pool[1] if kind=="challenge" else pool[index]);var pos=Vector2(map.rooms[room])
 		var material="seed" if map.zone=="forest" else "ore"
 		result.append({"id":"room_%d"%room,"room":room,"kind":kind,"pos":pos,"material":material,"tier":int((map.floor_number-1)/10),"generation":generation})
 	return result
@@ -64,6 +66,7 @@ static func snapshot(sim,id:int)->Array:
 		var site=original.duplicate(true);var definition=DEFINITIONS[site.kind]
 		site.merge({"name":definition.name,"icon":definition.icon,"claimed":claims.has(site.id),"remaining":threats(sim,site)})
 		if site.kind=="gather":site.name="별씨앗 군락" if site.material=="seed" else "반짝 광맥";site.icon=site.material
+		if site.kind=="challenge":Challenge.describe(sim,site)
 		result.append(site)
 	result.append_array(preload("res://scripts/hidden_rooms.gd").snapshots(sim,id))
 	return result
@@ -85,6 +88,7 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 	if site.is_empty() or parts[2] not in DEFINITIONS[site.kind].choices:return false
 	var reason=failure(sim,p,site)
 	if not reason.is_empty():sim.notice(p.id,reason);return false
+	if site.kind=="challenge":return Challenge.use(sim,p,site,parts[2])
 	# Stage both cost and reward. A full bag or potion shortage must leave
 	# the choice, inventory, currency and per-player claim untouched.
 	var staged=p.duplicate(true);var message=""
@@ -123,7 +127,7 @@ static func interact(sim,p:Dictionary)->bool:
 	var site=nearest(snapshot(sim,p.id),p.pos)
 	if site.is_empty():return false
 	if site.kind=="secret":return use(sim,p,site.generation+":"+site.id+(":collect" if site.opened else ":open"))
-	if site.kind in ["shrine","cache"]:
+	if site.kind in ["shrine","cache","challenge"]:
 		var reason=failure(sim,p,site)
 		sim.notice(p.id,reason if not reason.is_empty() else "보상을 선택하세요.")
 		return false

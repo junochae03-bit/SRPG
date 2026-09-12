@@ -16,6 +16,7 @@ var serial = 0
 var events: Array = []
 var dirty: Dictionary = {}
 var exploration_claims:Dictionary={}
+var exploration_challenges:Dictionary={}
 var rng = RandomNumberGenerator.new()
 var combat
 var awareness

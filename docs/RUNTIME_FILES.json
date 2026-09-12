@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 463300,
-    "sha256": "029e2132b27b893149e51b6499e9885265174bd3e3b741b60e3ff611d90d9f8f"
+    "bytes": 463146,
+    "sha256": "39efafdd582e91a0c53e5543e654890ac08e50faa690a4dbe7a267afaae1bd49"
   },
   {
     "path": "game/data/content_names.json",
@@ -1401,8 +1401,8 @@
   },
   {
     "path": "game/scripts/dungeon.gd",
-    "bytes": 14562,
-    "sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24"
+    "bytes": 14611,
+    "sha256": "aa742300a3addc58913116ca2333bd609d365f557a6b427bd88c713280c3d3c5"
   },
   {
     "path": "game/scripts/dungeon_regions.gd",
@@ -1475,19 +1475,24 @@
     "sha256": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c"
   },
   {
+    "path": "game/scripts/exploration_challenge.gd",
+    "bytes": 3895,
+    "sha256": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1"
+  },
+  {
     "path": "game/scripts/exploration_cues.gd",
     "bytes": 1812,
     "sha256": "06695e3ee16bb0c930207628eef4bb635d1c64ed554a78f6e102df4b452edfc4"
   },
   {
     "path": "game/scripts/exploration_panel.gd",
-    "bytes": 4341,
-    "sha256": "141bed145b777fbc409f62673e4dc8783daacc528fd963259180603507700354"
+    "bytes": 6130,
+    "sha256": "6f7ea6be73f728183c21fd6404befd90e8d1f475998b3fba8aea2abba9474256"
   },
   {
     "path": "game/scripts/exploration_rooms.gd",
-    "bytes": 7958,
-    "sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb"
+    "bytes": 8426,
+    "sha256": "83a7e4345439aa646c8a2c32bf39c8952f395bf33ccbdfb29e6f4f23bcf11a8f"
   },
   {
     "path": "game/scripts/export_capture_v052.gd",
@@ -1691,8 +1696,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 32736,
-    "sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b"
+    "bytes": 32777,
+    "sha256": "9c3fc5bad388f89324ce75a51cbdaa2ed96168a097e747d4f07482430147b530"
   },
   {
     "path": "game/scripts/skill_build.gd",

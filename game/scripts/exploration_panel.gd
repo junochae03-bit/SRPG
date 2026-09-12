@@ -32,6 +32,8 @@ func choose(index:int):
 	if pending>0 or active.is_empty():return
 	var choices=["collect" if active.get("opened",false) else "open"] if active.kind=="secret" else Rooms.DEFINITIONS[active.kind].choices
 	if index>=choices.size():return
+	if active.kind=="challenge":choices=Rooms.Challenge.choices(active)
+	if index>=choices.size():return
 	var remote=game.session.get("network_role")=="client"
 	if remote:pending=game.session.sequence+1
 	if not game.session.act("explore",active.generation+":"+active.id+":"+str(choices[index])):pending=0
@@ -45,13 +47,17 @@ func _process(_delta):
 	if p.is_empty() or p.hp<=0:hide();return
 	active=Rooms.nearest(game.session.state.get("exploration_sites",[]),p.pos)
 	if active.is_empty() or active.claimed:hide();return
+	if active.get("challenge_state","")=="active":hide();return
 	if not game.session.sim.map.line_clear(p.pos,active.pos):hide();return
 	show()
 	var context=[active.generation,active.id,active.kind,active.name,active.icon,active.material,active.remaining,active.tier,p.hp,p.max_hp,p.potions,p.stamina,p.max_stamina,pending]
+	context.append(active.get("challenge_state",""));context.append(active.get("challenge_remaining",0));context.append(active.get("challenge_name",""));context.append(active.get("challenge_reward",0))
 	context.append(active.get("opened",false));context.append(p.get("materials",{}).get("tool",0))
+	context.append(p.get("materials",{}).hash());context.append(p.get("bag_positions",{}).hash());context.append(p.get("equipment",{}).hash());context.append(p.get("inventory",[]).size());context.append(p.get("consumables",{}).hash());context.append(game.session.state.players.size())
 	if context==last_context:return
 	last_context=context
 	emblem.texture=Icons.texture(active.icon);heading.text=active.name
+	second.tooltip_text=""
 	var blocked=active.remaining>0
 	detail.text="주변 적 %d"%active.remaining if blocked else "각자 한 번 이용" if game.session.state.players.size()>1 else ""
 	first.disabled=blocked or pending>0;second.disabled=blocked or pending>0;second.visible=active.kind in ["shrine","cache"]
@@ -73,6 +79,19 @@ func _process(_delta):
 			first.disabled=first.disabled or not Rooms.Inventory.can_add_stack(p,"potion",2)
 			second.disabled=second.disabled or not Rooms.Inventory.can_add_stack(p,active.material,4+int(active.tier))
 			if not blocked:detail.text="택 1 · 보유 물약 %d"%p.potions
+		"challenge":
+			var phase=active.challenge_state
+			second.visible=phase=="idle";first.size.x=236 if second.visible else 487
+			if phase=="idle":
+				first.text=Rooms.Content.MATERIALS[active.material]+" +%d · 회수"%(2+int(active.tier))
+				second.tooltip_text="파티 공통 전투가 시작됩니다. 아직 보상을 고르지 않은 동료도 완료 후 정수를 받으며, 재료 회수는 닫힙니다." if game.session.state.players.size()>1 else "추가 적을 모두 처치하면 정수를 받습니다. 재료 회수는 닫힙니다."
+				second.text=("파티 도전" if game.session.state.players.size()>1 else "도전")+" · 정수 +%d"%active.challenge_reward
+				first.disabled=first.disabled or not Rooms.Inventory.can_add_stack(p,active.material,2+int(active.tier))
+				if not blocked:detail.text="%s · 추가 적 %d"%[active.challenge_name,active.challenge_count]
+			else:
+				first.text="도전 보상 · 정수 +%d"%active.challenge_reward
+				first.disabled=first.disabled or not Rooms.Inventory.can_add_stack(p,"essence",active.challenge_reward)
+				if not blocked:detail.text="도전 완료"
 		"shrine":
 			first.size.x=236;first.text="생명력 +35%";second.text="물약 1 → 정수 %d"%(2+int(active.tier))
 			first.disabled=first.disabled or p.hp>=p.max_hp;second.disabled=second.disabled or p.potions<1
