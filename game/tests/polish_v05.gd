@@ -3,6 +3,7 @@ const Content=preload("res://scripts/content.gd")
 const World=preload("res://scripts/world_catalog.gd")
 const Icons=preload("res://scripts/icon_art.gd")
 const Gat=preload("res://scripts/gat_art.gd")
+const TextureContract=preload("res://tests/helpers/appearance_texture_contract.gd")
 const Rules=preload("res://scripts/skill_build.gd")
 var checks=0
 var failures=[]
@@ -31,7 +32,9 @@ func run():
 		if "costume:"+key not in p.owned_appearances:p.owned_appearances.append("costume:"+key)
 		var original_avatar=p.avatar;var original_damage=session.sim.damage_for(p)
 		check(session.act("costume",key),"new costume selectable "+key);game.bag.refresh(true)
-		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and game.hud.portrait.atlas==Gat.frame(p,0.).texture.atlas and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),"field bag and HUD share selected appearance with full head fit "+key)
+		var frame=Gat.frame(p,0.)
+		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and TextureContract.hud_crop_matches(frame.texture,game.hud.portrait,game.hud.portrait_source_rect) and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),"field bag and HUD share selected appearance, crop coordinates and full head fit "+key)
+		check(TextureContract.same_anchor(frame,Gat._frame(p,0.)),"selected appearance preserves source foot anchor "+key)
 		check(p.avatar==original_avatar and session.sim.damage_for(p)==original_damage,"cosmetic preserves base and combat stats "+key)
 		session.save_game();check(session.parse_save(session.save_path()).costume==key,"costume saved "+key)
 	var last=p.costume;session.disconnect_game();session.start_game("복원",1);p=session.sim.players[1]

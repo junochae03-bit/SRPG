@@ -114,6 +114,7 @@ func run():
 	if session.connected:
 		if host:
 			check(session.change_map("town",0),"return fixture enters town")
+			check(session.sim.players.values().all(func(player):return player.get("expedition_report",{}).get("first_floor",0)==1),"host settled all six private expedition reports")
 			for player in session.sim.players.values():player.pos=preload("res://scripts/world_catalog.gd").resident_pos("shop")
 			session.refresh();session.publish_snapshot()
 			if session is ProbeSession:session.block_checkpoints=true
@@ -124,6 +125,8 @@ func run():
 			while session.connected and session.sim.map.zone!="town" and Time.get_ticks_msec()<town_deadline:await create_timer(.1).timeout
 			check(session.sim.map.zone=="town","trade fixture receives shared town")
 			var before_player=session.state.players[session.local_id]
+			check(before_player.get("expedition_report",{}).get("first_floor",0)==1 and before_player.expedition_report.elapsed>0.,"guest receives authoritative expedition report")
+			check(session.state.players.values().all(func(player):return not player.has("expedition_journal") and (player.id==session.local_id or not player.has("expedition_report"))),"network snapshot hides authority ledger and other private reports")
 			var gold=int(before_player.gold);var potions=int(before_player.potions)
 			var quote=preload("res://scripts/service_quote.gd").quote(before_player,"shop","potion",{"quantity":1})
 			check(session.act("facility",JSON.stringify({"facility":"shop","operation":"potion","quantity":1})),"purchase immediately before departure")

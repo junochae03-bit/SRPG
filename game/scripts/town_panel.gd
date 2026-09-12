@@ -178,7 +178,8 @@ func refresh():
 		"portal":portal(p)
 		"costume":costume(p)
 		"training":training(p)
-	if facility!="costume" and (facility!="shop" or shop_mode!="costume"):review(p)
+	if facility=="guild" and operation=="report":pass
+	elif facility!="costume" and (facility!="shop" or shop_mode!="costume"):review(p)
 	inset_buttons(body)
 
 func list_surface(at:Vector2,dimensions:Vector2,height:float)->Control:
@@ -307,7 +308,8 @@ func alchemy(_p:Dictionary):
 		var recipe=recipes[i];service_card(list,recipe[0],recipe[1],recipe[2],recipe[3],Vector2(0,i*172),func():choose(recipe[0]),operation==recipe[0],158)
 
 func guild(p:Dictionary):
-	operation_tabs([["claim" if not p.guild_contract.is_empty() else "accept","토벌 의뢰"],["supply","재료 납품"]])
+	operation_tabs([["claim" if not p.guild_contract.is_empty() else "accept","토벌 의뢰"],["supply","재료 납품"],["report","원정 기록"]])
+	if operation=="report":preload("res://scripts/expedition_report.gd").build(self,p);return
 	if operation=="supply":
 		service_card(body,"supply","길드 보급품 납품","별씨앗 10 + 광석 5 → 300 G","quest_reward",Vector2(0,76),func():choose("supply"),true,170)
 		return

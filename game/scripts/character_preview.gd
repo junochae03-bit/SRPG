@@ -13,6 +13,9 @@ func _draw():
 func opaque_rect_for(frame:Dictionary)->Rect2:
 	var texture:Texture2D=frame.texture;var key=texture.get_instance_id()
 	if not opaque_bounds.has(key):
+		if texture is MeshTexture:
+			opaque_bounds[key]=preload("res://scripts/sprite_frame_regions.gd").bounds(texture)
+			return opaque_bounds[key]
 		var rect=Rect2(texture.get_image().get_used_rect())
 		opaque_bounds[key]=rect if rect.has_area() else Rect2(Vector2.ZERO,texture.get_size())
 	return opaque_bounds[key]

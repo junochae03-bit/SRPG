@@ -22,6 +22,7 @@ func check(ok:bool,label:String):
 	checks+=1
 	if not ok:failures.append(label);print("COMBAT_REACH_VISUAL_FAIL ",label)
 func frame():
+	game.refresh_vision()
 	game.queue_redraw();game.map_overlay.queue_redraw()
 	await process_frame;await RenderingServer.frame_post_draw
 func fixture(job:String,kind:String="shade",offset:Vector2=Vector2(4,0))->Dictionary:
@@ -31,6 +32,8 @@ func fixture(job:String,kind:String="shade",offset:Vector2=Vector2(4,0))->Dictio
 	var p=sim.add_player(1,"전투 검사",{"schema_version":7,"class_id":job,"level":100,"tutorial_done":true,"skill_ranks":{},"skill_loadout":{},"constellation_allocations":{}})
 	p.pos=Vector2(24,24);p.stamina=10000.;p.max_stamina=10000.
 	var e=sim.spawn_enemy(kind,p.pos+offset,1,kind=="warden");e.hp=1000000;e.max_hp=e.hp
+	if offset.length()>7.:
+		var observer=sim.add_player(2,"시야 동료");observer.pos=e.pos
 	if e.has("stagger"):e.stagger.max_value=1000000.
 	game.session.paused=false;game.session.refresh();game.update_battle_camera(p,0.,true)
 	game.forest.update_camera(0.);game.toast.hide();game.visual_time=.25
@@ -101,6 +104,10 @@ func visual_aim():
 		check(f.e.hp==hp,"visible out-of-range body remains unharmed "+spec[0])
 	f=fixture("warrior","shade",Vector2(2.6,0));await frame();select_body(f)
 	var hp=f.e.hp;click_attack(f);check(f.e.hp<hp,"actual torso-click sword swing includes enlarged body edge")
+	f=fixture("ranger","shade",Vector2(0,10.5));await frame()
+	var hidden_point=point_for(f.e.id)
+	f.sim.players.erase(2);game.session.refresh();await frame();pointer(hidden_point);game._physics_process(.06)
+	check(not game.vision.sees(f.e.pos) and not game.monster_aim_frames.has(f.e.id) and game.hover_enemy_id==0,"losing shared sight removes hidden enemy body targeting")
 func visual_areas():
 	for spec in [["mage","frost_nova"],["ranger","arrow_rain"],["warrior","whirlwind"]]:
 		var f=fixture(spec[0]);var node:Dictionary={}
@@ -111,6 +118,7 @@ func visual_areas():
 		f.p.skill_ranks[node.id]=1;f.p.skill_loadout.skill_q=node.id
 		var s=Scaling.profile(node,1,Active.bonuses(f.p));var center=f.p.pos+Vector2(3.5,0) if spec[1]=="arrow_rain" else f.p.pos
 		f.e.pos=center+Vector2(s.radius+.6,0)
+		var observer=f.sim.add_player(2,"시야 동료");observer.pos=f.e.pos
 		for off in [Vector2(-2,1),Vector2(0,-2),Vector2(1.5,1.3)]:
 			var enemy=f.sim.spawn_enemy("shade",center+off,1);enemy.hp=1000000;enemy.max_hp=enemy.hp
 		game.session.refresh();game.smooth_positions.clear();await frame();select_body(f)

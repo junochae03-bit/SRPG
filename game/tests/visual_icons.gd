@@ -175,6 +175,7 @@ func capture_battle_states(game):
 			p.skill_ranks.clear()
 			p.skill_loadout.clear()
 		game.session.refresh()
+		game.refresh_vision()
 		game.hud.refresh()
 		game.hud.boss_hud._process(0.)
 		check(game.hud.boss_hud.visible and game.hud.boss_hud.boss.phase == 2, "enraged boss HUD visible " + stage)

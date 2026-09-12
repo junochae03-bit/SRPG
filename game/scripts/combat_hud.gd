@@ -26,6 +26,9 @@ var quest_emblem:TextureRect
 var quest_panel:Control
 var quest_toggle:Button
 var quest_collapsed=false
+var quest_auto_collapsed=false
+var quest_presentation_context:Array=[]
+var quest_layout_rebuilds=0
 var slot_context:Array=[]
 var slot_metadata:Dictionary={}
 var portrait_context:Array=[]
@@ -114,7 +117,8 @@ func refresh_chrome():
 	chrome_hidden=hidden;chrome.visible=not hidden;queue_redraw()
 	if expedition!=null:expedition.visible=not hidden
 
-func _process(_delta):refresh_chrome()
+func _process(_delta):
+	refresh_chrome();refresh_quest_presentation()
 
 func world_label_regions()->Array[Rect2]:
 	var regions:Array[Rect2]=[]
@@ -172,6 +176,9 @@ func refresh_portrait():
 	# Retain the entire authored width and top: wide hats/ears cannot be cut by
 	# the old fixed square around the foot. Only the lower body is cropped.
 	portrait_source_rect=Rect2(bounds.position,Vector2(bounds.size.x,ceilf(bounds.size.y*.62)))
+	if source is MeshTexture:
+		portrait=preload("res://scripts/sprite_frame_regions.gd").crop(source,portrait_source_rect)
+		return
 	var cropped=AtlasTexture.new();cropped.filter_clip=true
 	if source is AtlasTexture:
 		cropped.atlas=source.atlas;cropped.region=Rect2(source.region.position+portrait_source_rect.position,portrait_source_rect.size)
@@ -179,12 +186,14 @@ func refresh_portrait():
 	portrait=cropped
 
 func cached_portrait_bounds(source:Texture2D)->Rect2:
+	if source is MeshTexture:return preload("res://scripts/sprite_frame_regions.gd").bounds(source)
 	var key=str(source.get_rid())
 	if source is AtlasTexture:key+="/"+str(source.region)+"/"+str(source.margin)
 	if not portrait_bounds_cache.has(key):portrait_bounds_cache[key]=visible_portrait_bounds(source)
 	return portrait_bounds_cache[key]
 
 static func visible_portrait_bounds(source:Texture2D)->Rect2:
+	if source is MeshTexture:return preload("res://scripts/sprite_frame_regions.gd").bounds(source)
 	var pixels=source.get_image();var used=pixels.get_used_rect()
 	var sheet_size=source.atlas.get_size() if source is AtlasTexture else source.get_size()
 	# Match the legacy shader key; transparent padding must not shrink the face.
@@ -206,10 +215,30 @@ func portrait_rect()->Rect2:
 
 func toggle_quest():
 	quest_collapsed=not quest_collapsed
-	quest.visible=not quest_collapsed;quest_panel.size.y=44 if quest_collapsed else 112
+	refresh_quest_presentation();queue_redraw()
+
+func refresh_quest_presentation():
+	if quest_panel==null or game.session==null:return
+	var player=game.session.state.players.get(game.session.local_id,{})
+	quest_auto_collapsed=not player.is_empty() and game.dungeon.zone!="town" and game.session.state.enemies.values().any(func(enemy):return enemy.hp>0 and game.vision.sees(enemy.pos) and player.pos.distance_to(enemy.pos)<=8.5)
+	var context=[quest_collapsed,quest_auto_collapsed,quest.text]
+	if context==quest_presentation_context:return
+	quest_presentation_context=context;quest_layout_rebuilds+=1
+	var compact=quest_collapsed or quest_auto_collapsed
+	quest.visible=not compact
+	region.visible=not quest_auto_collapsed
+	quest_panel.position.y=192 if quest_auto_collapsed else 237
+	quest_panel.size.y=36 if quest_auto_collapsed else 44 if compact else 112
+	quest_title.position=Vector2(43,2) if quest_auto_collapsed else Vector2(48,11)
+	quest_title.size=Vector2(248,32) if quest_auto_collapsed else Vector2(224,27)
+	quest_title.add_theme_font_size_override("font_size",16 if quest_auto_collapsed else 18)
+	quest_emblem.position=Vector2(10,6) if quest_auto_collapsed else Vector2(13,10)
+	quest_emblem.size=Vector2(24,24) if quest_auto_collapsed else Vector2(28,28)
+	quest_toggle.size.y=quest_panel.size.y if compact else 44
+	quest_toggle.disabled=quest_auto_collapsed
 	quest_toggle.tooltip_text="목표 펼치기" if quest_collapsed else "목표 접기"
-	quest_toggle.text="+" if quest_collapsed else "−"
-	queue_redraw()
+	if quest_auto_collapsed:quest_toggle.tooltip_text=quest.text
+	quest_toggle.text="" if quest_auto_collapsed else "+" if quest_collapsed else "−"
 
 func white_label(value:String,at:Vector2,dimensions:Vector2,font_size:int,color:Color=Color("f3f7ee"))->Label:
 	var label=game.label(self,value,at,dimensions,font_size,color)
@@ -260,6 +289,7 @@ func refresh():
 	game.connection_label.text=""
 	quest_title.tooltip_text=quest_title.text
 	quest_emblem.texture=Icons.texture(quest_icon)
+	refresh_quest_presentation()
 	var appearance=[p.class_id,p.get("avatar","auto"),p.costume,p.get("legacy_costume","")]
 	if appearance!=portrait_context:
 		portrait_context=appearance
@@ -291,7 +321,7 @@ func refresh():
 	elif game.dungeon.in_town(p.pos):interact.caption="회복 · 보급"
 	else:
 		var site=preload("res://scripts/exploration_rooms.gd").nearest(game.session.state.get("exploration_sites",[]),p.pos)
-		if not site.is_empty() and not site.claimed:interact.caption={"gather":"채집","rest":"휴식","shrine":"제단","secret":"탐색"}[site.kind]
+		if not site.is_empty() and not site.claimed:interact.caption={"gather":"채집","rest":"휴식","shrine":"제단","secret":"탐색","cache":"보급 상자"}.get(site.kind,"탐색")
 	interact.tooltip_text=interact.caption+" ("+interact.hotkey+")"
 	charge_label.text="";charge_label.hide()
 	job_resource.refresh(p)

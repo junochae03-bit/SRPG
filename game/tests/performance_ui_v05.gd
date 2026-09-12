@@ -46,6 +46,9 @@ func run():
 	game.join_game();var local=game.session;local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;local.travel("town");p=local.sim.players[1]
 	var hud=game.hud
+	hud.refresh_quest_presentation();var quest_builds=hud.quest_layout_rebuilds
+	for i in range(60):hud._process(.016)
+	check(hud.quest_layout_rebuilds==quest_builds,"unchanged objective does not reapply font and geometry each frame")
 	for job in Content.CLASSES:
 		p.class_id=job;p.avatar="auto";p.costume="none";p.skill_ranks.clear();p.skill_loadout.clear();p.constellation_allocations.clear()
 		local.sim.combat.jobs.reset(p);var actives=Content.SKILLS[job].filter(func(n):return n.effect=="active")

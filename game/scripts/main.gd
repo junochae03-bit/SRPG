@@ -79,6 +79,13 @@ var audio_director
 var building_alphas:Dictionary={}
 var battle_anchor_y=438.0
 var world_zoom=1.0
+var vision=preload("res://scripts/dungeon_vision.gd").new()
+var fog:ColorRect
+var fog_material:ShaderMaterial
+var visible_telegraphs:Node2D
+var shown_expedition_report=""
+var town_destination=""
+var town_path:Array=[]
 
 func stop_audio():
 	if is_instance_valid(audio_director):audio_director.stop_all()
@@ -139,6 +146,9 @@ func _ready():
 	material=GatArt.material()
 	forest=ForestEnvironment.new(self)
 	forest.rebuild(dungeon)
+	fog=ColorRect.new();fog.position=Vector2(-800,-450);fog.size=Vector2(3200,1800);fog.z_index=-5;fog.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	fog_material=ShaderMaterial.new();fog_material.shader=preload("res://shaders/dungeon_fog.gdshader");fog.material=fog_material;fog.hide();add_child(fog)
+	visible_telegraphs=preload("res://scripts/visible_telegraphs.gd").new();add_child(visible_telegraphs);visible_telegraphs.setup(self)
 	audio_director=preload("res://scripts/audio_director.gd").new()
 	add_child(audio_director)
 	audio_director.setup(self)
@@ -330,6 +340,7 @@ func on_status(message: String):
 		for panel in [settings_panel,help_panel]:
 			if panel!=null and panel.visible:panel.status.text=message
 	if not session.connected:
+		vision.reset();fog.hide()
 		world_zoom=1.0;battle_anchor_y=438.0;get_viewport().canvas_transform=Transform2D.IDENTITY
 		menu.show()
 		title_backdrop.show()
@@ -341,6 +352,7 @@ func on_status(message: String):
 		refresh_slot_summary()
 
 func on_entered():
+	town_destination="";town_path.clear()
 	art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide();npc_dialogue.hide();character_sheet.hide()
 	settings_panel.hide()
@@ -349,6 +361,7 @@ func on_entered():
 	forest.rebuild(dungeon)
 	camera_pos = Dungeon.iso(dungeon.spawn)
 	if session.state.players.has(session.local_id):update_battle_camera(session.state.players[session.local_id],1.0,true)
+	refresh_vision()
 	smooth_positions.clear()
 	enemy_impacts.clear()
 	menu.hide()
@@ -361,6 +374,39 @@ func on_entered():
 	show_toast("햇살 마을" if dungeon.zone=="town" else (preload("res://scripts/abyss_catalog.gd").config(dungeon.floor_number).name if dungeon.floor_number>0 else "꽃바람 숲"))
 	bot_route = make_route(dungeon.spawn, Vector2(dungeon.rooms[1])) if dungeon.rooms.size()>1 else []
 	bot_last_pos = dungeon.spawn
+	show_return_report.call_deferred()
+
+func show_return_report():
+	if not session.connected or dungeon.zone!="town":return
+	if town_panel.visible or bag.visible or skill_tree.visible or settings_panel.visible or npc_dialogue.visible or help_panel.visible or codex.visible:return
+	var report=session.state.players.get(session.local_id,{}).get("expedition_report",{})
+	if report.is_empty() or str(report.id)==shown_expedition_report:return
+	shown_expedition_report=str(report.id)
+	town_panel.open("guild");town_panel.choose("report")
+
+func guide_to_facility(key:String):
+	var world=preload("res://scripts/world_catalog.gd")
+	if not session.connected or dungeon.zone!="town" or not world.FACILITIES.has(key):return
+	var p=session.state.players[session.local_id]
+	if world.nearest(p.pos)==key:town_panel.open(key);return
+	town_destination=key;town_path=make_route(p.pos,world.FACILITIES[key].pos)
+	show_toast(world.FACILITIES[key].name+" 위치 안내")
+
+func draw_town_guidance():
+	if town_destination.is_empty():return
+	var world=preload("res://scripts/world_catalog.gd");var p=session.state.players[session.local_id]
+	if world.nearest(p.pos)==town_destination:
+		show_toast(keybindings.label("interact")+" · "+world.FACILITIES[town_destination].name)
+		town_destination="";town_path.clear();return
+	var nearest=0;var distance=INF
+	for index in range(town_path.size()):
+		var candidate=p.pos.distance_squared_to(town_path[index])
+		if candidate<distance:distance=candidate;nearest=index
+	for index in range(nearest,mini(town_path.size(),nearest+15),2):
+		var point=world_point(town_path[index])
+		draw_circle(point,3.5,Color("f3dfa2b0"))
+	var at=world_point(world.FACILITIES[town_destination].pos)
+	SemanticIcons.draw(self,town_destination,Rect2(at-Vector2(20,135),Vector2(40,40)))
 
 func show_toast(message: String):
 	toast.text = message
@@ -505,10 +551,22 @@ func _physics_process(delta: float):
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and get_viewport().gui_get_hovered_control() == null:
 			session.act("attack")
 
+func refresh_vision():
+	if session.connected:
+		vision.update(dungeon,session.state.players,visual_time)
+		fog.visible=vision.active
+		if vision.active:
+			fog_material.set_shader_parameter("sight_mask",vision.texture);fog_material.set_shader_parameter("mask_size",float(vision.extent))
+	else:fog.hide()
+	if fog.visible:
+		fog_material.set_shader_parameter("camera",camera_pos)
+		fog_material.set_shader_parameter("screen_anchor",screen_center())
+
 func _process(delta: float):
 	if session == null: return
 	if playtest_driver!=null:playtest_driver.process(delta)
 	visual_time += delta
+	refresh_vision()
 	for target_id in enemy_impacts.keys():
 		if float(enemy_impacts[target_id].until)<=visual_time:enemy_impacts.erase(target_id)
 	toast_time -= delta
@@ -524,6 +582,7 @@ func _process(delta: float):
 				# Screenshot framing only; the player, boss and combat state stay untouched.
 				update_battle_camera({"pos":guardians[0].pos+Vector2(2.2,2.2)},delta,true)
 	forest.update_camera(delta)
+	fog_material.set_shader_parameter("camera",camera_pos);fog_material.set_shader_parameter("screen_anchor",screen_center())
 	if session.connected and dungeon.zone=="town":
 		var p=session.state.players[session.local_id];var body=world_point(p.pos)-Vector2(0,55)
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
@@ -565,7 +624,7 @@ func ui_offset()->Vector2:
 	return Vector2(maxf(0,(get_viewport().get_visible_rect().size.x-1440)*.5),0)
 
 func update_battle_camera(player:Dictionary,delta:float,snap:bool=false):
-	var frame=preload("res://scripts/battle_camera.gd").framing(player,session.state.enemies.values())
+	var frame=preload("res://scripts/battle_camera.gd").framing(player,session.state.enemies.values().filter(func(enemy):return vision.sees(enemy.pos)))
 	var blend=1.0 if snap else 1.0-exp(-8.0*delta)
 	battle_anchor_y=lerpf(battle_anchor_y,frame.anchor,blend)
 	world_zoom=lerpf(world_zoom,frame.zoom,blend)
@@ -614,18 +673,21 @@ func _draw():
 	if not session.connected:
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
-	var actors = forest.visible_props()
+	var actors = forest.visible_props().filter(func(actor):return vision.scenery_brightness(actor.data.pos)>0.)
+	for cue in dungeon.exploration_cues:preload("res://scripts/exploration_cues.gd").draw(self,cue)
 	for site in session.state.get("exploration_sites",[]):
+		if not vision.sees(site.pos):continue
 		var at=world_point(site.pos)
 		if at.distance_to(screen_center())>1100:continue
 		actors.append({"type":"exploration_site","data":site})
 		# The nearby card already names this object. A second world caption
 		# would overlap character names during interaction.
-	if dungeon.floor_number>0:
+	if dungeon.floor_number>0 and vision.discovered(dungeon.exit_position):
 		var exit_at=world_point(dungeon.exit_position);var clear=not session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
 		SemanticIcons.draw(self,"trophy" if dungeon.floor_number==100 else "stairs" if clear else "locked",Rect2(exit_at-Vector2(38,58),Vector2(76,76)),Color.WHITE if clear else Color(.7,.7,.7,.65))
 		text_at(exit_at+Vector2(0,35),"100층 최종 제단" if dungeon.floor_number==100 else "E · 다음 층" if clear else "수문장 봉인",17,Color("f7e3ab"),true)
 	if dungeon.zone=="town":
+		draw_town_guidance()
 		var index=0
 		for visitor in preload("res://scripts/town_visitors.gd").RESIDENTS:actors.append({"type":"visitor","data":visitor})
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
@@ -635,9 +697,10 @@ func _draw():
 	if session.connected:
 		for p in session.state.players.values(): actors.append({"type":"hero","data":p})
 		for e in session.state.enemies.values():
-			if e.hp > 0: actors.append({"type":e.kind,"data":e})
+			if e.hp > 0 and vision.sees(e.pos): actors.append({"type":e.kind,"data":e})
 		var nearest={};var nearest_distance=1.8
 		for drop in session.state.drops.values():
+			if not vision.sees(drop.pos):continue
 			var distance=session.state.players[session.local_id].pos.distance_to(drop.pos)
 			if distance<nearest_distance:nearest_distance=distance;nearest=drop
 			var point = world_point(drop.pos)
@@ -656,9 +719,8 @@ func _draw():
 	else:
 		actors.append({"type":"hero","data":{"id":0,"pos":dungeon.spawn+Vector2(1.2,0.4),"name":"","hp":120,"max_hp":120,"dir":Vector2.ZERO,"swing":0.0}})
 	actors.sort_custom(ForestEnvironment.actor_before)
-	for area in session.state.get("enemy_attacks",[]):preload("res://scripts/monster_attacks.gd").draw_area(self,area,Color("ed8268"))
 	for actor in actors:
-		if actor.type=="scenery":forest.draw_prop(actor.data)
+		if actor.type=="scenery":forest.draw_prop(actor.data,vision.scenery_brightness(actor.data.pos))
 		elif actor.type=="exploration_site":preload("res://scripts/exploration_rooms.gd").draw_site(self,actor.data)
 		elif actor.type=="building":draw_building(actor.data)
 		elif actor.type=="resident":draw_resident(actor.data)
@@ -666,11 +728,12 @@ func _draw():
 		else:draw_actor(actor)
 	for hero in session.state.players.values():preload("res://scripts/job_art.gd").pets(self,hero,visual_time)
 	for e in effects:
+		if not vision.sees(e.pos):continue
 		var point = world_point(e.pos)
 		if e.type == "damage":
 			continue
 		elif e.type=="monster_attack":
-			preload("res://scripts/monster_attacks.gd").draw_area(self,e.area,Color(1,.73,.35,e.life/e.max_life))
+			continue # Rendered with per-pixel sight clipping by visible_telegraphs.
 		elif e.type in ["nova","skill_fx"]:
 			preload("res://scripts/skill_effects.gd").render(self,e)
 		elif e.type == "attack" or e.type == "heavy":
@@ -681,6 +744,7 @@ func _draw():
 		elif e.type=="dodge":
 			draw_arc(point,28,0,TAU,30,Color(0.5,0.9,1,e.life*2),3,true)
 	for shot in session.state.get("projectiles",[]):
+		if not vision.sees(shot.pos):continue
 		preload("res://scripts/skill_effects.gd").projectile(self,shot)
 	if session.connected:
 		pass
@@ -706,18 +770,10 @@ func draw_actor(actor: Dictionary):
 	var is_hero = role == "hero"
 	if p.get("training",false):
 		preload("res://scripts/training_art.gd").draw(self,p,point);return
+	if not is_hero and p.get("awareness_state","")=="search":text_at(point+Vector2(0,-130),"?",23,Color("f4d88b"),true)
 	var boss=not is_hero and p.get("boss",role=="warden")
 	var is_self = is_hero and p.id == session.local_id
 	var size_scale = 2.2 if is_hero else (3.7 if role=="warden" else 2.0)
-	if not is_hero and p.windup > 0 and boss and not p.get("raid",false):
-		var telegraph = world_point(p.attack_pos)
-		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
-		var radius=48.0*(.9 if config.ai in ["ranged","healer"] else config.range)
-		draw_colored_polygon(diamond(telegraph,radius,radius/2),Color(0.85,0.16,0.12,0.25))
-		var border = diamond(telegraph,radius,radius/2)
-		draw_polyline(PackedVector2Array([border[0],border[1],border[2],border[3],border[0]]),Color("ea7559"),2)
-	if not is_hero and (not boss or p.get("raid",false)) and p.windup>0:
-		for area in p.get("attack_areas",[]):preload("res://scripts/monster_attacks.gd").draw_area(self,area,Color("ed8268"))
 	draw_set_transform(point,0,Vector2(1,0.42))
 	draw_circle(Vector2.ZERO,66 if boss else 37 if p.get("elite",false) else 24,Color("32574a40"))
 	if not is_hero and int(p.id)==hover_enemy_id:draw_arc(Vector2.ZERO,72 if boss else 42 if p.get("elite",false) else 32,0,TAU,48,Color("ffda73"),3,true)

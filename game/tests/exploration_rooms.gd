@@ -24,11 +24,11 @@ func run():
 		check(map.layout_id!="crossed_halls","removed cross-hall never generated")
 		if not map.raid_arena:
 			var bounds=Rect2(Vector2(map.rooms[0]),Vector2.ZERO)
-			for room in map.rooms:bounds=bounds.expand(Vector2(room))
-			check(bounds.size.x>=48 and bounds.size.y>=48,"wide exploration footprint B%d"%floor_number)
+			for cell in map.floor_cells:bounds=bounds.expand(Vector2(cell))
+			check(bounds.size.x>=58 and bounds.size.y>=58,"wide exploration footprint B%d"%floor_number)
 			check(map.floor_cells.size()>=1800,"substantial traversable area B%d"%floor_number)
 		check(map.room_radii.max()-map.room_radii.min()>=2,"different sized regions B%d"%floor_number)
-		check(map.exploration_sites.size()==(1 if map.raid_arena else 3),"exploration purposes or raid preparation B%d"%floor_number)
+		check(map.exploration_sites.size()==(1 if map.raid_arena else 4),"exploration purposes or raid preparation B%d"%floor_number)
 		for site in map.exploration_sites:check(map.walkable(site.pos) and site.pos.distance_to(map.spawn)>5,"walkable site away from entry")
 		if map.raid_arena:
 			for dx in range(-6,7):
@@ -59,6 +59,14 @@ func run():
 	guest.hp=1
 	check(use_site(sim,guest,shrine,"recover") and guest.hp==1+roundi(guest.max_hp*.35),"guest can choose different reward")
 	check(not sim.snapshot(2).players[1].has("materials"),"claims do not expose inventory")
+
+	var cache=sim.map.exploration_sites[3];p.potions=Inventory.MAX_POTIONS
+	before=sim.persistent(1).duplicate(true)
+	check(not use_site(sim,p,cache,"supplies") and sim.persistent(1)==before,"full cache reward is not lost")
+	p.potions=0
+	check(use_site(sim,p,cache,"supplies") and p.potions==2,"cache can replenish for continued exploration")
+	check(not use_site(sim,p,cache,"salvage"),"cache alternatives mutually exclusive")
+	check(use_site(sim,guest,cache,"salvage") and guest.materials.ore==9,"another player chooses crafting supplies")
 	var next=Sim.new(74,"cave",13);next.add_player(1,p.name,sim.persistent(1))
 	check(next.exploration_claims.is_empty() and next.players[1].materials.essence==3,"new floor resets sites and preserves loot")
 	clear(next);var new_site=next.map.exploration_sites[2];var next_player=next.players[1];next_player.pos=new_site.pos;next_player.hp=1;next_player.potions=5

@@ -14,7 +14,9 @@ func run():
 	check(data.inventory_rules[0].max_materials==Inv.MAX_MATERIALS,"live material limit")
 	check(data.dungeon_layouts.size()==Dungeon.LAYOUTS.size(),"all layouts")
 	for layout in data.dungeon_layouts:
-		check(layout.points==Dungeon.LAYOUTS[layout.id].points and layout.links==Dungeon.LAYOUTS[layout.id].links,"layout graph "+layout.id)
+		var rng=RandomNumberGenerator.new();rng.seed=42
+		var live=Dungeon.exploration_route(layout.id,rng)
+		check(layout.points==live.points and layout.links==live.links and layout.points_are_example,"live generated layout example "+layout.id)
 	check(data.training_rules[0].health==Training.HEALTH,"training target health")
 	check(data.training_rules[0].empty_summary.dps==0,"empty DPS")
 	check(data.service_operations.size()==Town.OPERATIONS.size(),"primary routing count")

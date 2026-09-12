@@ -60,6 +60,11 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
+	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
+	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()
+	db.metadata["expedition_journal"]=preload("res://scripts/expedition_journal.gd").configuration()
+	db.metadata["enemy_awareness"]=preload("res://scripts/enemy_awareness.gd").configuration()
+	db.metadata["dungeon_vision"]={"radius":preload("res://scripts/dungeon_vision.gd").RADIUS,"memory_light":preload("res://scripts/dungeon_vision.gd").MEMORY_LIGHT,"fade_seconds":preload("res://scripts/dungeon_vision.gd").FADE_SECONDS,"party_sight":"living_connected_members_union","occlusion":"opaque_cells_and_closed_corners","scope":"current_map_instance","minimap":"unknown_hidden_explored_dim_current_bright"}
 	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
 	db.metadata["dungeon_region_rules"]=preload("res://scripts/dungeon_regions.gd").configuration()
 	db.metadata["hidden_room_rules"]={"discovery_radius":preload("res://scripts/hidden_rooms.gd").DISCOVERY_RADIUS,"radius":preload("res://scripts/hidden_rooms.gd").ROOM_RADIUS,"maximum_per_floor":2,"tool_item":"tool","tool_cost":1,"tool_shop_gold":25,"claim_scope":"personal_per_generated_floor","discovery_scope":"party","raid_enabled":false}
@@ -386,7 +391,9 @@ static func _append_world_rules(db:Dictionary):
 	var layout_order=0
 	for key in Dungeon.LAYOUTS:
 		var layout=Dungeon.LAYOUTS[key].duplicate(true)
-		layout.merge({"id":key,"selection_order":layout_order,"size":Dungeon.SIZE,"anchor_scale":Dungeon.EXPLORATION_SCALE,"radius_bonus":2,"corridor_width":7,"corridor_width_max":9,"selection":"weighted_by_dungeon_region"});db.dungeon_layouts.append(layout);layout_order+=1
+		var sample_rng=RandomNumberGenerator.new();sample_rng.seed=42
+		layout.merge(Dungeon.exploration_route(key,sample_rng))
+		layout.merge({"id":key,"selection_order":layout_order,"size":Dungeon.SIZE,"anchor_scale":Dungeon.EXPLORATION_SCALE,"radius_bonus":0,"generator":"forward_spine_with_rejoining_wings","sample_seed":42,"points_are_example":true,"main_route":[0,1,4,7,8],"optional_rooms":[2,3,5,6],"corridor_width":7,"corridor_width_max":9,"selection":"weighted_by_dungeon_region"});db.dungeon_layouts.append(layout);layout_order+=1
 	var area=Training.AREA
 	db.training_rules.append({"id":"training","facility_id":"training","area":[area.position.x,area.position.y,area.size.x,area.size.y],"position":[Training.POSITION.x,Training.POSITION.y],"health":Training.HEALTH,"blank_stats":Training.blank(),"empty_summary":Training.summary({})})
 	for key in Town.OPERATIONS:

@@ -19,7 +19,7 @@ class StaticMap extends Node2D:
 		draws+=1
 		draw_circle(Vector2(1324,106),78,Color("1d5146d9"))
 		draw_arc(Vector2(1324,106),78,0,TAU,64,Color("b9d4b8"),2,true)
-		for at in floor_points:draw_rect(Rect2(at,Vector2.ONE*tile_scale),Color("a5b999"))
+		for entry in floor_points:draw_rect(Rect2(entry.at,Vector2.ONE*tile_scale),Color("a5b999")*Color(entry.light,entry.light,entry.light,1))
 		for entry in fixed_markers:draw_texture_rect(entry.texture,entry.rect,false)
 		draw_string(font,Vector2(1319,46),"N",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("eaf1da"))
 
@@ -43,17 +43,18 @@ func refresh_static():
 	# Dungeon geometry is fixed after generation; a new map has a new instance.
 	# Camera/actor motion does not invalidate retained CanvasItem commands.
 	var map=game.dungeon
-	var context=[map.get_instance_id(),map.zone,map.floor_number,map.spawn,map.floor_cells.size(),game.fonts]
+	var focus=game.vision.cell_at(game.session.state.players.get(game.session.local_id,{"pos":map.spawn}).pos)
+	var context=[focus,map.get_instance_id(),map.zone,map.floor_number,map.spawn,map.floor_cells.size(),game.fonts,game.vision.revision if game.vision.active else 0]
 	if context==static_context:return
 	static_context=context;static_builds+=1
-	var extent=preload("res://scripts/dungeon.gd").RAID_SIZE if map.raid_arena else preload("res://scripts/dungeon.gd").SIZE
-	map_scale=102.5/float(extent) if map.floor_number>0 else 3.0
-	map_origin=CENTER-Vector2.ONE*((extent-1)*.5*map_scale) if map.floor_number>0 else ORIGIN
+	map_scale=3.0
+	map_origin=CENTER-Vector2(focus)*map_scale if map.floor_number>0 else ORIGIN
 	static_map.tile_scale=map_scale
 	static_map.floor_points.clear();static_map.fixed_markers.clear();static_map.font=game.fonts
 	for cell in map.floor_cells:
+		if not game.vision.discovered(Vector2(cell)):continue
 		var at=map_origin+Vector2(cell)*map_scale
-		if at.distance_to(CENTER)<73:static_map.floor_points.append(at)
+		if at.distance_to(CENTER)<73:static_map.floor_points.append({"at":at,"light":game.vision.brightness(cell)})
 	static_map.fixed_markers.append({"texture":Icons.texture("town"),"rect":marker_rect(map.spawn,12,true)})
 	if map.zone=="town":
 		for key in preload("res://scripts/world_catalog.gd").FACILITIES:
@@ -66,13 +67,19 @@ func _draw():
 	static_map.visible=can_show()
 	if not static_map.visible:return
 	refresh_static()
+	if game.dungeon.zone=="town" and not game.town_destination.is_empty():
+		var target=preload("res://scripts/world_catalog.gd").FACILITIES[game.town_destination]
+		var rect=marker_rect(target.pos,22,true)
+		draw_arc(rect.get_center(),15,0,TAU,32,Color("ffe4a6"),2,true)
+		marker(target.pos,game.town_destination,20,Color.WHITE,true)
 	if game.dungeon.zone!="town" and game.dungeon.floor_number>0:
 		var sealed=game.session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
-		marker(game.dungeon.exit_position,"locked" if sealed else "stairs",15,Color.WHITE,true)
+		if game.vision.discovered(game.dungeon.exit_position):marker(game.dungeon.exit_position,"locked" if sealed else "stairs",15,Color.WHITE,true)
 		for site in game.session.state.get("exploration_sites",[]):
+			if not game.vision.discovered(site.pos):continue
 			marker(site.pos,"confirm" if site.claimed else site.icon,12,Color(.6,.7,.6,.55) if site.claimed else Color.WHITE)
 	for e in game.session.state.enemies.values():
-		if e.hp<=0:continue
+		if e.hp<=0 or not game.vision.sees(e.pos):continue
 		if e.get("boss",false) or e.get("guardian",false):marker(e.pos,"boss",13)
 		elif e.get("elite",false):marker(e.pos,"elite",10)
 		else:

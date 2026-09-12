@@ -39,9 +39,20 @@ func scene(floor_number:int,site_index:int=-1,zone_override:String=""):
 	if site_index>=0:
 		for enemy in session.sim.enemies.values():enemy.hp=0
 		p.pos=session.sim.map.exploration_sites[site_index].pos+Vector2(0,1);p.hp=33
+	elif site_index==-2:p.pos=session.sim.map.exploration_cues[0].pos-session.sim.map.exploration_cues[0].direction
 	else:p.pos=session.sim.map.exit_position+Vector2(0,6)
 	session.refresh();game.on_entered();game.update_battle_camera(p,1.,true);game.forest.update_camera(1.);game.queue_redraw();game.map_overlay.queue_redraw()
 	await process_frame;await process_frame
+	if site_index==-2:
+		check(game.hud.quest_auto_collapsed and not game.hud.quest.visible and not game.hud.region.visible,"nearby visible enemies compact objective into former region row")
+		check(game.hud.quest_panel.get_rect().end.y<=228,"combat objective leaves former card area clear")
+		var preference=game.hud.quest_collapsed
+		for enemy in session.sim.enemies.values():enemy.hp=0
+		session.refresh();game.hud.refresh()
+		check(not game.hud.quest_auto_collapsed and game.hud.quest_collapsed==preference,"combat compaction restores manual fold preference")
+		# Restore this fixed scene for the combat screenshot.
+		for enemy in session.sim.enemies.values():enemy.hp=enemy.max_hp
+		session.refresh();game.hud.refresh()
 	if site_index>=0:
 		check(game.exploration_panel.visible,"nearby actionable card")
 		var card=game.exploration_panel
@@ -50,14 +61,14 @@ func scene(floor_number:int,site_index:int=-1,zone_override:String=""):
 		check(not game.visible_world_labels.has(card.heading.text),"facility title is not duplicated over character name")
 		if site_index==0:
 			check(card.heading.text==("별씨앗 군락" if session.sim.map.zone=="forest" else "반짝 광맥"),"same room id and tier changes visible material between maps")
-	await capture("B%d-%s%s"%[floor_number,"site%d"%site_index if site_index>=0 else "raid",zone_override])
+	await capture("B%d-%s%s"%[floor_number,"site%d"%site_index if site_index>=0 else "junction" if site_index==-2 else "raid",zone_override])
 func run():
 	root.borderless=true;root.size=Vector2i(1920,1080)
 	game=load("res://main.tscn").instantiate();game.options.mute=true
 	game.options["save-dir"]=ProjectSettings.globalize_path("res://../runtime/exploration-visual/"+str(Time.get_ticks_usec()))
 	root.add_child(game);await process_frame;game.join_game()
 	game.session.set_physics_process(false);game.set_physics_process(false);game.set_process(false)
-	await scene(12,0,"forest");await scene(12,0);await scene(12,1);await scene(12,2);await scene(10);await scene(20);await scene(30)
+	await scene(12,0,"forest");await scene(12,0);await scene(12,1);await scene(12,2);await scene(12,3);await scene(12,-2);await scene(10);await scene(20);await scene(30)
 	var layer=CanvasLayer.new();layer.layer=90;root.add_child(layer)
 	var gallery=Gallery.new();gallery.font=game.fonts;gallery.scale=Vector2(1600./1920.,900./1080.)
 	for depth in [1,2,3,4,5,6,10,20,30]:gallery.maps.append(Dungeon.new(571+depth*7919,"cave",depth))

@@ -45,6 +45,7 @@ func _process(_delta):
 	if p.is_empty() or p.hp<=0:hide();return
 	active=Rooms.nearest(game.session.state.get("exploration_sites",[]),p.pos)
 	if active.is_empty() or active.claimed:hide();return
+	if not game.session.sim.map.line_clear(p.pos,active.pos):hide();return
 	show()
 	var context=[active.generation,active.id,active.kind,active.name,active.icon,active.material,active.remaining,active.tier,p.hp,p.max_hp,p.potions,p.stamina,p.max_stamina,pending]
 	context.append(active.get("opened",false));context.append(p.get("materials",{}).get("tool",0))
@@ -53,7 +54,7 @@ func _process(_delta):
 	emblem.texture=Icons.texture(active.icon);heading.text=active.name
 	var blocked=active.remaining>0
 	detail.text="주변 적 %d"%active.remaining if blocked else "각자 한 번 이용" if game.session.state.players.size()>1 else ""
-	first.disabled=blocked or pending>0;second.disabled=blocked or pending>0;second.visible=active.kind=="shrine"
+	first.disabled=blocked or pending>0;second.disabled=blocked or pending>0;second.visible=active.kind in ["shrine","cache"]
 	match active.kind:
 		"secret":
 			first.size.x=487
@@ -67,6 +68,11 @@ func _process(_delta):
 			first.text="휴식 · 생명력과 기력 회복";first.size.x=487
 			first.disabled=first.disabled or (p.hp>=p.max_hp and p.stamina>=p.max_stamina)
 			if not blocked:detail.text="HP %d / %d"%[p.hp,p.max_hp]
+		"cache":
+			first.size.x=236;first.text="물약 +2";second.text=Rooms.Content.MATERIALS[active.material]+" +%d"%(4+int(active.tier))
+			first.disabled=first.disabled or not Rooms.Inventory.can_add_stack(p,"potion",2)
+			second.disabled=second.disabled or not Rooms.Inventory.can_add_stack(p,active.material,4+int(active.tier))
+			if not blocked:detail.text="택 1 · 보유 물약 %d"%p.potions
 		"shrine":
 			first.size.x=236;first.text="생명력 +35%";second.text="물약 1 → 정수 %d"%(2+int(active.tier))
 			first.disabled=first.disabled or p.hp>=p.max_hp;second.disabled=second.disabled or p.potions<1

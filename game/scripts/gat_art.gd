@@ -22,7 +22,9 @@ static func texture(key:String,index:int)->AtlasTexture:
 	return textures[cache_key]
 static func frame(p:Dictionary,time:float)->Dictionary:
 	var raw=_frame(p,time)
-	return preload("res://scripts/character_presentation.gd").apply(raw,presentation_id(p))
+	var id=presentation_id(p)
+	raw=preload("res://scripts/sprite_frame_regions.gd").apply(raw,id)
+	return preload("res://scripts/character_presentation.gd").apply(raw,id)
 static func presentation_id(p:Dictionary)->String:
 	var costume=preload("res://scripts/costume_art_v04.gd").id_for(p)
 	if not costume.is_empty():return "costume_v04:"+costume

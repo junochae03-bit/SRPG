@@ -37,6 +37,7 @@ static func keys_for(actor:Dictionary,is_hero:bool)->Array:
 		for key in state.get("buffs",{}):
 			if BUFFS.has(key) and state.buffs[key].get("time",0)>0:add(keys,BUFFS[key])
 	else:
+		if actor.get("guard_break_time",0)>0:add(keys,"armor_break")
 		if actor.get("slow_time",0)>0:add(keys,"slow")
 		if actor.get("stun_time",0)>0 or actor.get("stagger",{}).get("state","")=="down":add(keys,"stun")
 		if actor.get("taunt_time",0)>0:add(keys,"taunt")

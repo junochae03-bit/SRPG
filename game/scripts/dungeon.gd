@@ -23,6 +23,7 @@ var room_radii:Array=[]
 var raid_arena=false
 var arena_radius=0.0
 var exploration_sites:Array=[]
+var exploration_cues:Array=[]
 var hidden_regions:Array=[]
 var revealed_regions={}
 var opened_regions={}
@@ -32,12 +33,13 @@ var region_profile={}
 # Anchors are encounter areas, not tiles in a fixed grid. The entrance is
 # always first and the guardian is last; raid approaches use only three areas.
 const LAYOUTS={
-	"branching":{"name":"맞물린 곁굴","points":[[7,7],[23,8],[40,7],[42,23],[29,24],[10,22],[7,40],[22,42],[40,40]],"radii":[5,6,4,5,7,5,4,5,7],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
-	"circuit":{"name":"고리 협곡","points":[[8,9],[23,6],[40,10],[43,26],[36,41],[21,43],[7,36],[6,22],[25,25]],"radii":[5,5,6,4,5,4,6,4,7],"links":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,8],[3,8],[5,8],[7,8]]},
-	"great_cavern":{"name":"겹친 대공동","points":[[8,7],[23,9],[41,7],[41,23],[25,25],[8,23],[8,41],[26,41],[42,41]],"radii":[5,6,4,6,8,5,4,6,6],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
-	"side_hollows":{"name":"휘감긴 지하수로","points":[[8,7],[25,6],[41,13],[34,27],[20,18],[7,23],[9,40],[24,41],[42,41]],"radii":[5,4,6,5,4,7,5,4,7],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
-	"split_bridges":{"name":"쌍둥이 균열","points":[[7,12],[19,6],[34,7],[18,24],[33,24],[43,18],[8,40],[28,42],[43,37]],"radii":[5,6,4,4,7,5,6,4,7],"links":[[0,1],[0,6],[1,3],[3,6],[1,2],[3,4],[6,7],[2,5],[5,8],[8,7],[7,4],[4,2]]}
+	"branching":{"name":"맞물린 곁굴"},
+	"circuit":{"name":"이어진 곁회랑"},
+	"great_cavern":{"name":"겹친 대공동"},
+	"side_hollows":{"name":"휘감긴 지하수로"},
+	"split_bridges":{"name":"쌍둥이 균열"}
 }
+
 const RAID_LAYOUTS={
 	"raid_caldera":{"name":"심연 원형 전장","arena_style":0},
 	"raid_gallery":{"name":"왕좌의 대회랑","arena_style":1},
@@ -135,7 +137,7 @@ func generate_floor():
 	region_profile=Regions.profile(floor_number)
 	layout_id=Regions.choose_layout(region_profile,layout_rng)
 	layout_rotation=layout_rng.randi_range(0,7)
-	var definition:Dictionary=LAYOUTS[layout_id]
+	var definition:Dictionary=exploration_route(layout_id,layout_rng)
 	raid_arena=floor_number%10==0
 	if raid_arena:
 		layout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]
@@ -148,7 +150,7 @@ func generate_floor():
 		rooms.append(transform_anchor(anchor))
 		room_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))
 		var late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0
-		room_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)
+		room_radii.append(int(definition.radii[index])+late_bonus)
 	spawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())
 	for index in range(rooms.size()):
 		if raid_arena and index==rooms.size()-1:continue
@@ -177,12 +179,28 @@ func generate_floor():
 	if layout_id=="great_cavern":
 		# Overlapping lobes form one broad chamber, with several entrances and
 		# smaller alcoves at its perimeter, rather than another room/corridor grid.
-		carve_room(rooms[4],10,1)
+		carve_room(rooms[4],8,1)
 		carve_segment(rooms[4],rooms[7],3)
 	path_cells=floor_cells
 	build_encounters(layout_rng)
 	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
+	exploration_cues=preload("res://scripts/exploration_cues.gd").generate(self)
 	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)
+
+static func exploration_route(family:String,rng:RandomNumberGenerator)->Dictionary:
+	# Four encounters lead forward. Each optional wing rejoins farther ahead;
+	# collecting a reward never requires walking back to the entrance junction.
+	var middle=rng.randi_range(22,26)
+	var points=[[5,middle],[13,middle],[19,rng.randi_range(8,12)],[20,rng.randi_range(37,41)],
+		[27,middle+rng.randi_range(-2,2)],[33,rng.randi_range(7,11)],[34,rng.randi_range(38,42)],
+		[38,middle],[44,middle+rng.randi_range(-3,3)]]
+	var links=[[0,1],[1,4],[4,7],[7,8],[1,2],[2,4],[1,3],[3,4],[4,5],[5,7],[4,6],[6,7]]
+	# Some wings have two linked chambers, with a forward exit preserved.
+	if family in ["side_hollows","circuit"]:
+		links.erase([2,4]);links.append([2,5])
+	if family=="split_bridges":
+		links.erase([3,4]);links.append([3,6])
+	return {"points":points,"links":links,"radii":[6,8,6,7,9,7,6,8,8]}
 
 func carve_arena():
 	var style=int(RAID_LAYOUTS[layout_id].arena_style)
@@ -240,7 +258,8 @@ func build_encounters(layout_rng:RandomNumberGenerator):
 			used.append(position)
 			encounters.append({"role":"normal","pos":position,"room":room,"mob_index":sequence+floor_number%5,"formation":formation})
 			sequence+=1
-	var elite_room=3 if layout_id in ["side_hollows","branching"] else 6
+	var rewarded=preload("res://scripts/exploration_rooms.gd").generate(self).map(func(site):return site.room)
+	var elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]
 	var elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)
 	encounters.append({"role":"elite","pos":elite,"room":elite_room,"mob_index":0,"formation":-1})
 	encounters.append({"role":"guardian","pos":exit_position,"room":8,"mob_index":0,"formation":-1})

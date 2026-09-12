@@ -18,6 +18,7 @@ var dirty: Dictionary = {}
 var exploration_claims:Dictionary={}
 var rng = RandomNumberGenerator.new()
 var combat
+var awareness
 var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
 
@@ -26,6 +27,7 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0):
 	combat=preload("res://scripts/player_combat.gd").new(self)
 	monster_attacks=preload("res://scripts/monster_attacks.gd").new(self)
 	map = Dungeon.new(seed_value,zone,floor_number)
+	awareness=preload("res://scripts/enemy_awareness.gd").new(self)
 	balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance.json"))
 	balance.enemies=preload("res://scripts/world_catalog.gd").ENEMIES.duplicate(true)
 	rng.seed = seed_value + 93
@@ -88,6 +90,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	Inventory.initialize(p)
 	recalculate(p)
 	p.hp = p.max_hp
+	if map.floor_number>0:preload("res://scripts/expedition_journal.gd").begin(p,map.floor_number,clock)
 	players[id] = p
 	return p
 
@@ -188,7 +191,9 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 				p.skill_loadout[parts[0]]=node.id;dirty[id]=true;return true
 		return false
 	if kind in ["attack","nova","dodge","heavy_begin","heavy","cancel_charge","card_next"] or kind in Content.ACTIONS:
-		return combat.act(p,kind)
+		var accepted=combat.act(p,kind)
+		if accepted:awareness.action(p,kind)
+		return accepted
 	if preload("res://scripts/consumables.gd").ITEMS.has(kind):
 		return preload("res://scripts/consumables.gd").use(self,p,kind)
 	if kind == "return":
@@ -436,7 +441,9 @@ func tick(delta: float):
 		if p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false
 		for key in ["attack_cd","nova_cd","potion_cd","return_cd","swing"]:
 			p[key] = maxf(0, p[key] - delta)
+		var before=p.pos
 		combat.tick_player(p,delta)
+		awareness.movement(p,before)
 	combat.tick_projectiles(delta)
 	combat.skills.tick(delta)
 	monster_attacks.tick(delta)
@@ -444,6 +451,7 @@ func tick(delta: float):
 		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
 		var config = balance.enemies[e.kind]
 		e.attack_motion=maxf(0,e.get("attack_motion",0)-delta)
+		e["guard_break_time"]=maxf(0.,e.get("guard_break_time",0)-delta)
 		if e.hp <= 0:
 			if map.floor_number>0:continue
 			e.respawn -= delta
@@ -465,6 +473,7 @@ func tick(delta: float):
 		e["stun_time"]=maxf(0,e.get("stun_time",0)-delta)
 		if e.get("raid",false):e.stun_time=0.
 		if e.stun_time>0:e.windup=0;e.erase("attack_areas");continue
+		var movement_origin=e.pos
 		var move_speed=e.get("speed",config.speed)*(0.45 if e.slow_time>0 else 1.0)
 		if config.ai=="charger" and e.ability_cd<1.0:move_speed*=2.2
 		if e.windup > 0:
@@ -499,10 +508,15 @@ func tick(delta: float):
 		for p in players.values():
 			if e.taunt_time>0 and players.has(e.get("taunt_owner",0)) and p.id!=e.taunt_owner:continue
 			var distance = e.pos.distance_to(p.pos)
-			if p.hp>0 and not p.get("network_leaving",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < BossStagger.engagement_radius(e) and map.line_clear(e.pos, p.pos):
+			if p.hp>0 and not p.get("network_leaving",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get("heard_until",0))>clock else 0.) and map.line_clear(e.pos, p.pos):
 				best = distance
 				target = p
+		if not target.is_empty() and preload("res://scripts/enemy_tactics.gd").avoid(self,e,move_speed,delta):continue
+		if not target.is_empty():
+			if float(e.get("heard_until",0))>clock:e.heard_until=clock+4.
+			e.erase("search_path");e.erase("search_until");e["awareness_state"]="engaged"
 		if target.is_empty():
+			if awareness.investigate(e,move_speed,delta):continue
 			e.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))
 		elif best <= config.range and e.cooldown <= 0:
 			e.windup = 1.0 if e.get("boss",false) else .65 if config.ai in ["ranged","spore"] else .5
@@ -517,6 +531,7 @@ func tick(delta: float):
 			e.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)
 		elif best > config.range * 0.8:
 			e.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))
+		if not target.is_empty():preload("res://scripts/enemy_tactics.gd").spread(self,e,move_speed,delta,movement_origin)
 		if config.ai=="charger" and e.ability_cd<=0:e.ability_cd=3.0
 	for key in drops.keys():
 		if drops[key].expires <= clock: drops.erase(key)
@@ -546,10 +561,11 @@ func snapshot(for_id: int) -> Dictionary:
 	var visible_players = {}
 	for id in players:
 		var p = players[id].duplicate(true)
+		p.erase("expedition_journal")
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
-			for private_key in ["materials","potions","consumables","bag_positions"]:p.erase(private_key)
+			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:
