@@ -21,6 +21,7 @@ var exploration_challenges:Dictionary={}
 var rng = RandomNumberGenerator.new()
 var combat
 var awareness
+var inspection=preload("res://scripts/enemy_inspection.gd").new()
 var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
 
@@ -378,6 +379,7 @@ func kill(id: int, enemy: Dictionary):
 	var config = balance.enemies[enemy.kind].duplicate(true)
 	for key in ["xp","gold"]:config[key]=enemy.get(key,config[key])
 	enemy.hp = 0
+	inspection.record(enemy,clock)
 	enemy.respawn = 999999. if map.floor_number>0 else config.respawn
 	enemy.windup = 0.0
 	enemy["slow_time"]=0.0;enemy["stun_time"]=0.0;enemy["job_status"]={};enemy.erase("taunt_owner");enemy.erase("taunt_time")
@@ -581,4 +583,4 @@ func snapshot(for_id: int) -> Dictionary:
 	var visible_drops = {}
 	for id in drops:
 		if drops[id].owner == for_id: visible_drops[id] = drops[id].duplicate(true)
-	return {"players":visible_players,"enemies":enemies.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}
+	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}

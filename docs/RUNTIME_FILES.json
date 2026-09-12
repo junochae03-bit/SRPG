@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 464036,
-    "sha256": "0c82df1d8b66e9f65e08d6d5659d9549dbdd71ac0d71602218680158e091350e"
+    "bytes": 464580,
+    "sha256": "6b95a42a30d5664b09eadcf8d790c2cc09aa0d22d78bc638fbd02d99951802cb"
   },
   {
     "path": "game/data/content_names.json",
@@ -1416,8 +1416,8 @@
   },
   {
     "path": "game/scripts/enemy_awareness.gd",
-    "bytes": 4196,
-    "sha256": "0c53f63339b33d31d04dd46692257fdc44af0dff3e57dbfcf8795bf71a921a4a"
+    "bytes": 5326,
+    "sha256": "8ea05dc8b9302a0fdafedb95061a3a665d9823abaa9ce12f689466a9eb462e99"
   },
   {
     "path": "game/scripts/enemy_defense.gd",
@@ -1428,6 +1428,16 @@
     "path": "game/scripts/enemy_hit_geometry.gd",
     "bytes": 2004,
     "sha256": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2"
+  },
+  {
+    "path": "game/scripts/enemy_inspection.gd",
+    "bytes": 3929,
+    "sha256": "141ac60c0ad2cebdaf293b7ddee00113c1a5af5d4e8e755fa7cdb00dd7d0d5c3"
+  },
+  {
+    "path": "game/scripts/enemy_inspection_panel.gd",
+    "bytes": 5300,
+    "sha256": "d6dcfb4804b5506bb9f075710b323121666be4a15354eb018c354cd0bd289e7c"
   },
   {
     "path": "game/scripts/enemy_tactics.gd",
@@ -1526,8 +1536,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32181,
-    "sha256": "06acfd54a145c48af9b9eed8571ac123c0a2e1bc0c2e9823df8c87107b25374a"
+    "bytes": 32275,
+    "sha256": "cf7d2c4351e326f0c6c1e9982927dddc8d04190185d7f485ddf716e3b4997d0d"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1636,8 +1646,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 50219,
-    "sha256": "fd91945fa4f3bb8cdb09ae0d1074783156e2de4b17b1ce1d07a93b386cab033f"
+    "bytes": 50852,
+    "sha256": "b130bf9fe79d4c077e9e755080d5384294caf8c14b69d62a49d984b52c0c252d"
   },
   {
     "path": "game/scripts/minimap.gd",
@@ -1653,6 +1663,11 @@
     "path": "game/scripts/monster_attacks.gd",
     "bytes": 11426,
     "sha256": "6ee7346191622e6860f4c05c889a5b22b797387a94700228e445b5e50f221e77"
+  },
+  {
+    "path": "game/scripts/noise_feedback.gd",
+    "bytes": 2121,
+    "sha256": "e4dd0d9d63923455d92512adbc8abf63a9f557ce22bd4888802abda3655da1d3"
   },
   {
     "path": "game/scripts/npc_dialogue.gd",
@@ -1711,8 +1726,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 33219,
-    "sha256": "6a11bcad33e7e0ca2c64ae521393a9db40897ba6ac1aa71c7be21102098e4fd5"
+    "bytes": 33395,
+    "sha256": "54e45e50611ed6fe7032da918ba1db3368959efb6602e063c6c1715b32d01341"
   },
   {
     "path": "game/scripts/skill_build.gd",
