@@ -5,6 +5,7 @@ const Content = preload("res://scripts/content.gd")
 const Inventory = preload("res://scripts/inventory_model.gd")
 const Progression=preload("res://scripts/progression.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
+const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
 var map
 var balance: Dictionary
@@ -72,6 +73,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		"hp":120,"max_hp":120,"level":1,"xp":0,"gold":0,"potions":5,"consumables":{},"inventory":[],"equipped":"",
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
+	p["expedition_goal"]=Goals.restore(saved.get("expedition_goal",{}))
+	Goals.reset_map_progress(p)
 	saved=saved.duplicate(true)
 	p.merge({"skill_build_version":2,"constellation_allocations":{},"creation_points":0})
 	if not saved.is_empty():
@@ -97,6 +100,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
 	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:result[key]=players[id][key]
 	for key in ["name","level","xp","gold","potions","consumables","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
@@ -169,7 +173,11 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 	if kind!="cancel_charge":p.erase("revive_target");p.erase("revive_progress")
 	if kind=="training_reset":return preload("res://scripts/training_ground.gd").reset(self,p)
 	if kind=="apply_build":return preload("res://scripts/build_presets.gd").apply(self,p,argument)
-	if kind=="explore":return preload("res://scripts/exploration_rooms.gd").use(self,p,argument)
+	if kind=="select_goal":return Goals.select(self,p,argument)
+	if kind=="explore":
+		var success=preload("res://scripts/exploration_rooms.gd").use(self,p,argument)
+		if success:Goals.observe(self)
+		return success
 	if kind=="stat":
 		if argument not in Progression.NAMES or Progression.available(p)<=0:return false
 		p.stats[argument]+=1;gear_changed(p);return true
@@ -177,6 +185,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		var request=JSON.parse_string(argument)
 		if not request is Dictionary:return false
 		var success=preload("res://scripts/town_services.gd").transact(self,p,request)
+		if success:Goals.service_completed(p,request)
 		if not success:notice(id,"재료·금화·가방 공간과 시설 위치를 확인하세요.")
 		return success
 	if kind=="reset_stats":
@@ -425,6 +434,7 @@ func tick(delta: float):
 	if delta<=0:return
 	clock += delta
 	preload("res://scripts/hidden_rooms.gd").discover(self)
+	Goals.observe(self)
 	for p in players.values():
 		if p.get("network_leaving",false):p.dir=Vector2.ZERO;continue
 		if p.get("down_time",0)>0:
@@ -566,7 +576,7 @@ func snapshot(for_id: int) -> Dictionary:
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
-			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report"]:p.erase(private_key)
+			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:

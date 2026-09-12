@@ -41,6 +41,10 @@ func run():
 		if host:
 			print("SIX_READY")
 			check(not session.enter_floor(1) and session.sim.map.zone=="town","unready party cannot travel")
+		session.act("select_goal",JSON.stringify({"id":"secret","floor":1}))
+		await create_timer(.5).timeout
+		check(session.state.players[session.local_id].get("expedition_goal",{}).get("kind","")=="secret","each real peer selects an authoritative personal rumor")
+		check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("expedition_goal")),"other players' goals are omitted from network snapshots")
 		var before_clock=session.state.clock;session.paused=true
 		if not host:
 			var before=int(session.state.players[session.local_id].stats.strength)
@@ -126,6 +130,7 @@ func run():
 		session.act("explore",hidden_key+":collect");session.act("explore",hidden_key+":collect")
 		await create_timer(.7).timeout
 		check(int(session.state.players[session.local_id].materials.get("essence",0))==essence+3,"each human receives secret reward exactly once")
+		check(session.state.players[session.local_id].expedition_goal.stage==3,"personal rumor completes through shared opening and private reward over ENet")
 		check(session.save_game(),"checkpoint saves local character")
 		check(session.parse_save(session.save_path())!=null,"checkpoint passes existing save validator")
 	if game!=null and session.connected:
@@ -169,6 +174,7 @@ func run():
 				check(await session.leave_room(),"client leaves after final save acknowledgement")
 			check(int(session.parse_save(session.save_path()).stats.endurance)==endurance+1,"action immediately before departure is durable")
 			var final_save=session.parse_save(session.save_path())
+			check(final_save.expedition_goal.kind=="secret" and final_save.expedition_goal.stage==3,"completed personal rumor survives authoritative departure checkpoint")
 			check(int(final_save.gold)==gold-int(quote.cost)-20 and int(final_save.potions)==potions+1,"purchase immediately before departure is durable")
 			check(int(final_save.consumables.mana_potion)==4 and int(final_save.consumables.power_potion)==2,"new consumable purchase and consumption survive final authoritative checkpoint")
 	print("COOP_NETWORK ",options.role," failures=",failures.size())
