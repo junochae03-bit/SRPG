@@ -6,7 +6,7 @@
 
 실행·인계 기록: [탐사 개선](EXPLORATION_REWORK.ko.md), [협동 기반](COOP_FOUNDATION.ko.md), `docs/qa/`의 검증 JSON. 표의 코드명은 `game/scripts/`, 테스트명은 `game/tests/` 기준이다. 표의 항목을 그대로 전체 완료 증거로 사용하지 않고 실제 코드·결과와 대조한다.
 
-기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 이번 변경은 협동 프로토콜 5로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
+기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 6으로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
 
 ## Dungeon Settlers
 
@@ -15,7 +15,7 @@
 | C01 벽 충돌을 유도하는 보스 | 구현·로컬 검증 | monster_attacks.gd / raid_engagement | 외부 6인 장시간 패턴 체감 검증 |
 | C02 역할이 다른 적 조합 | 부분 | dungeon.gd·enemy_tactics.gd / dungeon_exploration_routes | 역할 조합 편성 규칙·합류 상한과 직업 조합 실전 검증 |
 | C03 대응법이 다른 적 방어 | 부분 | enemy_defense.gd·boss_stagger.gd / enemy_defense | 각 방어 유형의 1인 대체 공략과 직업 조합 검증 |
-| C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd / combat | 직접 설치 함정·투척물, 거리·자세 조건/대가 전달 |
+| C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd·tactical_tools.gd / combat·tactical_tools | 스킬의 거리·자세 조건/대가 전달; 직접 설치 함정·투척물은 SC08에서 연결 |
 | C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |
 | C06 공격 방향·범위와 시야 밖 위협 안내 | 구현·로컬 검증 | telegraph_priority.gd·danger_hud.gd·visible_telegraphs.gd / telegraph_priority·telegraph_priority_visual·dungeon_vision_visual | 외부 6인 장기 전투의 예고 체감/성능 검증; 합성 카메라/배치 검사와 구분 |
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |
@@ -63,9 +63,9 @@
 
 | 항목 | 상태 | 현재 근거 | 남은 범위/연결 검증 |
 | --- | --- | --- | --- |
-| SC05 소리로 적을 유인하는 전투 | 부분 | enemy_awareness.gd·noise_feedback.gd의 전투/달리기 소음·파티 상한·범위 안내 / enemy_awareness·combat_information·combat_information_visual·6인 ENet | SC08 도구 구현 뒤 투척물 소음 연결; 외부 회선 직업 조합 체감 검증 |
+| SC05 소리로 적을 유인하는 전투 | 구현·로컬 검증 | enemy_awareness.gd·noise_feedback.gd·tactical_tools.gd의 전투/달리기/착지 소음·파티 상한·범위 안내 / 소음·도구 모델과 6인 ENet | 외부 회선 직업 조합 체감 검증 |
 | SC06 위험 장판 회피·분산·추격하는 적 | 부분 | enemy_tactics.gd·enemy_awareness.gd / 관련 모델 | 외부 다인 전투의 도주 경로·분산/추격 밸런스 |
-| SC08 함정·투척물로 만드는 전술 | 미완료 | 직업 스킬의 일부 장판 기반 | 직접 설치 함정/투척·예고·소유·설치 수 상한 |
+| SC08 함정·투척물로 만드는 전술 | 구현·로컬 검증 | 유인 돌·올가미 덫·화염병의 상점/가방/슬롯·예고·소유·설치 상한 / tactical_tools·tactical_tools_visual·6인 ENet; [상세](TACTICAL_TOOLS.ko.md) | 외부 6인 장시간 전투·직업별 도구 경제/전술 체감 검증 |
 | SE01 주 목표 경로와 선택 탐사 분리 | 구현·로컬 검증 | 전진 주 경로·앞쪽 합류 보상 곁방 / dungeon_exploration_routes | 일반 플레이 탐사 선택 체감 |
 | SE02 문틀 전투를 줄이는 넓은 공간 | 부분 | 넓은 통로·공동·우회 / dungeon_exploration_routes | 6인 실제 전투에서 문틀 봉쇄 지배 여부 |
 | SE03 던전 종류별 다른 공간 규칙 | 구현·로컬 검증 | 10개 지역 문법·5개 공간군·단계 가중치 | 지역 위험 선택과의 결합은 SE08 후속 |

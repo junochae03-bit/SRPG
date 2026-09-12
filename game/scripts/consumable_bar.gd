@@ -31,7 +31,7 @@ class Slot extends Button:
 		if item.is_empty():write(size*.5+Vector2(-5,7),"+",20,Color("b7b7a8"))
 		else:
 			Icons.draw(self,ITEMS[item].icon,Rect2(5,5,34,34),Color.WHITE if Consumables.count(p,item)>0 else Color(.45,.45,.45))
-			var cd=float(p.get("potion_cd",0))
+			var cd=float(p.get(Consumables.cooldown_key(item),0))
 			if cd>0:
 				draw_rect(Rect2(1,1,42,42),Color("17252bb0"));write(Vector2(14,30),str(ceili(cd)),21,Color("fff4d5"))
 			else:write(Vector2(27,40),str(Consumables.count(p,item)),12,Color("fff4d5"))
@@ -47,14 +47,14 @@ func setup(owner_game):
 		var button=Slot.new();button.bar=self;button.index=i;button.position=Vector2(i*50,0);button.size=Vector2(44,44);button.focus_mode=Control.FOCUS_NONE;button.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
 		for state in ["normal","hover","pressed","focus"]:button.add_theme_stylebox_override(state,StyleBoxEmpty.new())
 		add_child(button);slots.append(button);button.pressed.connect(func():open_picker(i) if assignments[i].is_empty() else use_slot(i));button.mouse_entered.connect(button.queue_redraw);button.mouse_exited.connect(button.queue_redraw)
-	picker=Art.panel(self,Vector2(-50,-239),Vector2(296,227),"paper",4);picker.mouse_filter=Control.MOUSE_FILTER_STOP
+	picker=Art.panel(self,Vector2(-50,-371),Vector2(296,359),"paper",4);picker.mouse_filter=Control.MOUSE_FILTER_STOP
 	game.label(picker,"소모품 등록",Vector2(16,9),Vector2(220,25),18)
 	game.button(picker,"×",Vector2(251,8),Vector2(30,27),func():picker.hide())
 	for key in ITEMS:
 		var control=game.button(picker,ITEMS[key].name,Vector2(14,44+assign_buttons.size()*44),Vector2(268,38),func():assign(selected,key))
 		assign_buttons[key]=control
 	assign_button=assign_buttons.potion
-	game.button(picker,"등록 해제",Vector2(14,181),Vector2(268,34),func():assign(selected,""))
+	game.button(picker,"등록 해제",Vector2(14,313),Vector2(268,34),func():assign(selected,""))
 	picker.hide();load_preferences();refresh()
 func player()->Dictionary:return game.session.state.get("players",{}).get(game.session.local_id,{})
 func path()->String:return game.session.save_directory.path_join("consumable-slots.json")

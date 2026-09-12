@@ -106,7 +106,7 @@ func receipt_changes(before:Dictionary,after:Dictionary)->String:
 	if gold!=0:rows.append("금화 %+d G"%gold)
 	var potions=int(after.potions)-int(before.potions)
 	if potions!=0:rows.append("물약 %+d"%potions)
-	for key in ["mana_potion","power_potion"]:
+	for key in Consumables.ITEMS.keys().filter(func(key):return key!="potion"):
 		var difference=Consumables.count(after,key)-Consumables.count(before,key)
 		if difference!=0:rows.append(Consumables.ITEMS[key].name+" %+d"%difference)
 	for key in Content.MATERIALS:
@@ -239,9 +239,9 @@ func shop(p:Dictionary):
 	if shop_mode=="buy":
 		for key in Equipment.SHOP_TYPES:items.append(Equipment.make(key,mini(9,int(p.level/10)),0,"preview","none",p.class_id))
 	else:items=p.inventory.filter(func(item):return not Inventory.is_equipped(p,item.id))
-	var top=120 if operation in ["potion","tool","mana_potion","power_potion"] else 62
-	if operation in ["potion","tool","mana_potion","power_potion"]:quantity_row(62)
-	var count=items.size()+(4 if shop_mode=="buy" else 0)
+	var top=120 if (operation=="tool" or Consumables.ITEMS.has(operation)) else 62
+	if (operation=="tool" or Consumables.ITEMS.has(operation)):quantity_row(62)
+	var count=items.size()+(Consumables.ITEMS.size()+1 if shop_mode=="buy" else 0)
 	var list=list_surface(Vector2(0,top),Vector2(722,684-top),maxf(680-top,ceili(count/2.0)*134.))
 	for i in range(items.size()):
 		var item=items[i];var cost=preload("res://scripts/town_services.gd").price(p,i) if shop_mode=="buy" else Quote.sell_price(item)
@@ -251,7 +251,7 @@ func shop(p:Dictionary):
 	if shop_mode=="buy":
 		var i=items.size()+1
 		products.tool=item_card(list,{"category":"material","material":"tool","name":"탐사 도구","rarity":0},Vector2(i%2*352,int(i/2)*134),"25 G / 개 · 봉인 해제",func():choose("tool"),operation=="tool")
-		for key in ["mana_potion","power_potion"]:
+		for key in Consumables.ITEMS.keys().filter(func(key):return key!="potion"):
 			i+=1
 			var entry=Consumables.ITEMS[key]
 			products[key]=item_card(list,{"category":"consumable","consumable":key,"name":entry.name,"rarity":0},Vector2(i%2*352,int(i/2)*134),"%d G / 개"%entry.price,func():choose(key),operation==key)
@@ -384,6 +384,7 @@ func review(p:Dictionary):
 	var result=game.label(review_result_scroll,"",Vector2.ZERO,Vector2(428,119),22)
 	result.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;result.size_flags_horizontal=Control.SIZE_EXPAND_FILL;result.custom_minimum_size.x=428
 	result.text=preview.result
+	if facility=="shop" and Consumables.ITEMS.get(operation,{}).get("tool",false):result.text=Consumables.description(p,operation)
 	if facility=="shop" and operation=="buy" and not preview.item.is_empty():
 		var item:Dictionary=preview.item;var current=Inventory.find_item(p,str(p.equipment.get(item.slot,"")))
 		var attribute="장비 방어력" if item.category=="armor" else "장비 공격력"
@@ -404,7 +405,7 @@ func review(p:Dictionary):
 	review_labels.feedback.add_theme_color_override("font_color",Color("247660") if success else Color("8b432e"))
 	var caption={"buy":"구매하기","sell":"선택 장비 판매","potion":"조제하기" if facility=="alchemy" else "물약 구매","essence":"정수 합성","ore":"광석 정제","upgrade":"확정 강화","reforge":"옵션 재련","salvage":"선택 장비 분해","accept":"의뢰 수락","claim":"보상 받기","cancel":"현재 의뢰 포기","supply":"재료 납품","rest":"숙박하고 회복","resupply":"회복 · 물약 보충","travel":"던전 입장"}.get(operation,"실행")
 	if facility=="training":caption="기록 · 기술 대기시간 초기화"
-	if operation in ["mana_potion","power_potion"]:caption="조제하기" if facility=="alchemy" else "물약 구매"
+	if Consumables.ITEMS.has(operation):caption="조제하기" if facility=="alchemy" else "소모품 구매"
 	if operation=="resupply_small":caption="회복 · 물약 5개 채우기"
 	confirm_button=game.button(panel,caption,Vector2(32,614),Vector2(446,48),func():
 		if facility=="portal":

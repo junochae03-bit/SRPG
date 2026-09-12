@@ -20,15 +20,15 @@
     "facilities": 8,
     "floors": 100,
     "inventory_rules": 1,
-    "item_definitions": 7,
+    "item_definitions": 10,
     "monsters": 24,
     "raid_drops": 24,
     "raids": 10,
-    "service_effects": 21,
+    "service_effects": 24,
     "service_inputs": 26,
-    "service_operations": 21,
-    "service_outputs": 100,
-    "service_samples": 101,
+    "service_operations": 24,
+    "service_outputs": 109,
+    "service_samples": 110,
     "skill_parents": 651,
     "skill_ranks": 2030,
     "skills": 610,
@@ -40,12 +40,12 @@
       "sha256": "8af498675c733f91115da40da66c5b247a5398954c7522580d9623dbadbc15a3"
     },
     "stelrpg-database.json": {
-      "bytes": 14947587,
-      "sha256": "74aa59a4aca75bf1116f2ea81096247a96056fd633c9ec1f30d4d606d4b676ba"
+      "bytes": 15003325,
+      "sha256": "4bf41bf8703ae2b2c518f9ad83b84f9af4e9a1f57f5a9528339807c19296c199"
     },
     "stelrpg.sqlite": {
-      "bytes": 9478144,
-      "sha256": "d45175711ecbf3e769332fd0fad4722ac83a23f0aa00a62dc3c02f9fd1974c03"
+      "bytes": 9531392,
+      "sha256": "103132c2e7697b5decfaeb5133f1ac2d9d44c7c683babf2a83111b7bcc5cfbbe"
     }
   },
   "schema_version": 5
