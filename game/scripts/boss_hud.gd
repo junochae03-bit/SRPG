@@ -16,7 +16,7 @@ func _process(delta:float):
 	var best=8.5
 	for enemy in game.session.state.enemies.values():
 		var distance=p.pos.distance_to(enemy.pos)
-		if enemy.get("boss",false) and enemy.hp>0 and distance<best:boss=enemy;best=distance
+		if enemy.get("boss",false) and enemy.hp>0 and game.vision.sees(enemy.pos) and distance<best:boss=enemy;best=distance
 	visible=not boss.is_empty() and not game.bag.visible and not game.skill_tree.visible and not game.help_panel.visible and not game.settings_panel.visible and not game.town_panel.visible and not game.codex.visible and not game.npc_dialogue.visible
 	if boss.is_empty():target_id=-1;return
 	var ratio=clampf(float(boss.hp)/boss.max_hp,0,1)

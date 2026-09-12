@@ -42,7 +42,9 @@ func refresh():
 		var entries=game.effects.filter(func(event):return event.get("type","")=="damage" and event.get("life",0)>0)
 		var start=maxi(0,entries.size()-LIMIT)
 		for i in range(start,entries.size()):
-			var event=entries[i];var label=labels[visible_count];visible_count+=1
+			var event=entries[i]
+			if game.get("vision")!=null and not game.vision.sees(event.pos):continue
+			var label=labels[visible_count];visible_count+=1
 			var style=1 if event.get("critical",false) else 0 if event.get("enemy",false) else 2
 			label.configure(format_amount(int(event.amount)),30 if style==1 else 23);label.material=materials[style]
 			var rise=(float(event.get("max_life",.7))-float(event.life))*65.

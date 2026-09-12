@@ -173,7 +173,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	if not build_hit.allowed:return false
 	amount=maxi(1,roundi(amount*build_hit.factor))
 	p.combat_time=4.0
-	if sim.balance.enemies[e.kind].get("ai","")=="armored":amount=maxi(1,roundi(amount*.75))
+	if sim.balance.enemies[e.kind].get("ai","")=="armored":amount=maxi(1,roundi(amount*preload("res://scripts/enemy_defense.gd").factor(sim,e,hit_context)))
 	if e.kind=="sentinel" and e.windup<=0:amount=maxi(1,roundi(amount*.70))
 	if float(e.hp)/e.max_hp<.3:amount=roundi(amount*(1+Content.skill_bonus(p,"execute")))
 	if e.kind in ["warden","golem","sentinel"] or e.get("elite",false):amount=roundi(amount*(1+Content.skill_bonus(p,"elite_damage")))

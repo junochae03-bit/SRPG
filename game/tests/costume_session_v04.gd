@@ -1,4 +1,5 @@
 extends SceneTree
+const TextureContract=preload("res://tests/helpers/appearance_texture_contract.gd")
 ## Real creator/session/inventory/HUD consumers of the externally authored pack.
 ## Every save is isolated in runtime; the reader and raster sources are read-only.
 const Costumes=preload("res://scripts/costume_art_v04.gd")
@@ -117,7 +118,9 @@ func run():
 		check(p.costume==id and game.bag.costume_picker.selected==selected,id+" inventory selection reaches session")
 		check(identity_except_costume(p,local.sim)==baseline,id+" costume switch preserves gear stats class skills and currency")
 		check(game.bag.portrait.texture==Gat.frame(p,0.).texture and game.bag.portrait.material==Gat.material(),id+" bag consumes selected RGBA frame and shared material")
-		check(game.hud.portrait.atlas==Costumes.frame(p,0.).texture.atlas and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),id+" HUD consumes selected sheet with full head fit")
+		var frame=Gat.frame(p,0.)
+		check(TextureContract.hud_crop_matches(frame.texture,game.hud.portrait,game.hud.portrait_source_rect) and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),id+" HUD consumes selected sheet with matching crop coordinates and full head fit")
+		check(TextureContract.same_anchor(frame,Costumes.frame(p,0.)),id+" costume preserves original source foot anchor")
 		registered.append(id)
 		check(logical_viewport().encloses(canvas_rect(game.bag.costume_picker)),id+" selected costume control stays inside viewport")
 		var picker=game.bag.costume_picker

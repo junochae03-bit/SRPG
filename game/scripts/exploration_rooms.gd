@@ -7,9 +7,10 @@ const THREAT_RADIUS=8.0
 const DEFINITIONS={
 	"gather":{"name":"마력 광맥","icon":"ore","choices":["gather"],"purpose":"재료 채집"},
 	"rest":{"name":"여행자의 화로","icon":"inn","choices":["rest"],"purpose":"중간 휴식"},
-	"shrine":{"name":"갈림길의 제단","icon":"essence","choices":["recover","offering"],"purpose":"회복 또는 정수"}
+	"shrine":{"name":"갈림길의 제단","icon":"essence","choices":["recover","offering"],"purpose":"회복 또는 정수"},
+	"cache":{"name":"버려진 보급 상자","icon":"bag","choices":["supplies","salvage"],"purpose":"물약 또는 제작 재료"}
 }
-const SITE_ART={"ore":"cave_ore_boulders","seed":"autumn_berry_shrub","rest":"lava_forge_brazier","shrine":"ruins_stone_basin"}
+const SITE_ART={"ore":"cave_ore_boulders","seed":"autumn_berry_shrub","rest":"lava_forge_brazier","shrine":"ruins_stone_basin","cache":"flood_shipwreck_crate"}
 
 static func draw_site(game,site:Dictionary):
 	if site.kind=="secret":
@@ -27,19 +28,19 @@ static func draw_site(game,site:Dictionary):
 	preload("res://scripts/icon_library.gd").draw(game,"confirm" if site.claimed else site.icon,Rect2(at+Vector2(24,-25),Vector2(26,26)))
 
 static func configuration()->Dictionary:
-	return {"version":1,"definitions":DEFINITIONS.duplicate(true),"site_art":SITE_ART,"interaction_radius":REACH,"threat_radius":THREAT_RADIUS,"sites_per_floor":3,"sites_per_raid":1,"claim_scope":"one_per_player_per_generated_floor","generation":"independent_seed_plus_57103","request_generation_format":"seed.zone.floor","reward_tier":"floor((floor-1)/10)","gather_amount":"3+tier","offering_potions":1,"offering_essence":"2+tier","shrine_recovery":0.35,"rest_hp_stamina":1.0}
+	return {"version":1,"definitions":DEFINITIONS.duplicate(true),"site_art":SITE_ART,"interaction_radius":REACH,"threat_radius":THREAT_RADIUS,"sites_per_floor":4,"placement":"rest_on_spine_rewards_in_forward_rejoining_wings","cache_potions":2,"cache_material":"4+tier","sites_per_raid":1,"claim_scope":"one_per_player_per_generated_floor","generation":"independent_seed_plus_57103","request_generation_format":"seed.zone.floor","reward_tier":"floor((floor-1)/10)","gather_amount":"3+tier","offering_potions":1,"offering_essence":"2+tier","shrine_recovery":0.35,"rest_hp_stamina":1.0}
 
 static func generate(map)->Array:
 	if map.floor_number<=0:return []
 	var generation="%d.%s.%d"%[map.seed_value,map.zone,map.floor_number]
 	if map.raid_arena:return [{"id":"room_1","room":1,"kind":"rest","pos":Vector2(map.rooms[1]),"material":"ore","tier":int((map.floor_number-1)/10),"generation":generation}]
 	var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+57103
-	var pool=[1,2,3,4,5,6,7]
+	var pool=[2,3,5,6]
 	for index in range(pool.size()-1,0,-1):
 		var other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before
 	var result=[];var kinds=DEFINITIONS.keys()
-	for index in range(3):
-		var kind=kinds[index];var room=int(pool[index]);var pos=Vector2(map.rooms[room])
+	for index in range(4):
+		var kind=kinds[index];var room=4 if kind=="rest" else int(pool[index]);var pos=Vector2(map.rooms[room])
 		var material="seed" if map.zone=="forest" else "ore"
 		result.append({"id":"room_%d"%room,"room":room,"kind":kind,"pos":pos,"material":material,"tier":int((map.floor_number-1)/10),"generation":generation})
 	return result
@@ -92,6 +93,11 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 			var amount=3+int(site.tier)
 			if not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false
 			message=Content.MATERIALS[site.material]+" ×%d"%amount
+		"supplies","salvage":
+			var item="potion" if parts[2]=="supplies" else str(site.material)
+			var amount=2 if parts[2]=="supplies" else 4+int(site.tier)
+			if not Inventory.add_stack(staged,item,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,item,amount));return false
+			message=("물약" if item=="potion" else Content.MATERIALS[item])+" +%d"%amount
 		"rest":
 			if p.hp>=p.max_hp and p.stamina>=p.max_stamina:sim.notice(p.id,"생명력과 기력이 가득 찼습니다.");return false
 			staged.hp=p.max_hp;staged.stamina=p.max_stamina;message="생명력 · 기력 회복"
@@ -117,8 +123,8 @@ static func interact(sim,p:Dictionary)->bool:
 	var site=nearest(snapshot(sim,p.id),p.pos)
 	if site.is_empty():return false
 	if site.kind=="secret":return use(sim,p,site.generation+":"+site.id+(":collect" if site.opened else ":open"))
-	if site.kind=="shrine":
+	if site.kind in ["shrine","cache"]:
 		var reason=failure(sim,p,site)
-		sim.notice(p.id,reason if not reason.is_empty() else "제단에서 회복 또는 정수를 선택하세요.")
+		sim.notice(p.id,reason if not reason.is_empty() else "보상을 선택하세요.")
 		return false
 	return use(sim,p,site.generation+":"+site.id+":"+str(DEFINITIONS[site.kind].choices[0]))

@@ -53,7 +53,7 @@ func run():
 		friend.enemy_slow_time=4.
 	session.refresh();hud.refresh()
 	game.map_overlay.refresh_static()
-	check(game.map_overlay.static_map.floor_points.size()==session.sim.map.floor_cells.size(),"expanded dungeon entirely fits minimap")
+	check(game.map_overlay.static_map.floor_points.size()>0 and game.map_overlay.static_map.floor_points.size()<session.sim.map.floor_cells.size(),"minimap reveals explored terrain only")
 	check(chrome.party.rows.filter(func(row):return row.visible).size()==5,"all five other members shown")
 	var mana_sample={"mana":25.,"max_mana":80.,"stamina":90.,"max_stamina":100.}
 	check(chrome.party.resource(mana_sample)==25 and chrome.party.resource_max(mana_sample)==80,"mana values take precedence over stamina")

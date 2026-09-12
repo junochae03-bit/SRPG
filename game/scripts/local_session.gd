@@ -96,6 +96,7 @@ func change_map(zone:String,floor_number:int,arrival:Dictionary={})->bool:
 	var p=candidate.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
 	# 도착 보상과 레벨업은 후보에만 적용해 저장 실패 시 재지급을 막습니다.
 	if arrival.has("xp"):candidate.apply_level_ups(p)
+	preload("res://scripts/expedition_journal.gd").transition(previous,p,sim.map.floor_number,floor_number,sim.clock)
 	var data=candidate.persistent(local_id);data.world_seed=next_seed
 	if not write_save(data,save_path()):mark_save_failure();return false
 	sim=candidate;world_seed=next_seed;save_failed=false;save_retry=0.;save_time=0.

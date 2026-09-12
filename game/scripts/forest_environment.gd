@@ -164,13 +164,13 @@ func visible_props()->Array:
 		if view.has_point(_geometry[i].point-camera+anchor):result.append({"type":"scenery","data":props[i]})
 	return result
 
-func draw_prop(prop:Dictionary):
+func draw_prop(prop:Dictionary,light:float=1.0):
 	var geometry:Dictionary=_geometry[int(prop.render_id)]
 	var point:Vector2=geometry.point-game.camera_pos+game.screen_center()
 	var alpha=prop.get("alpha",1.)
 	game.draw_set_transform(point,0,Vector2(1,.44))
 	game.draw_circle(Vector2.ZERO,geometry.shadow_radius,Color(.17,.25,.10,.15*alpha))
 	game.draw_set_transform(point,0,Vector2(-1 if prop.flip else 1,1))
-	game.draw_texture_rect(geometry.texture,geometry.local_rect,false,Color(1,1,1,alpha))
+	game.draw_texture_rect(geometry.texture,geometry.local_rect,false,Color(light,light,light,alpha))
 	if game.has_method("record_art_usage"):game.record_art_usage("environment",prop.art_id)
 	game.draw_set_transform(Vector2.ZERO)

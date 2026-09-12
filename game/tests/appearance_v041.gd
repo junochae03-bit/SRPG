@@ -1,6 +1,7 @@
 extends SceneTree
 const Content=preload("res://scripts/content.gd")
 const GatArt=preload("res://scripts/gat_art.gd")
+const TextureContract=preload("res://tests/helpers/appearance_texture_contract.gd")
 var checks=0
 var failures=[]
 func _initialize():run.call_deferred()
@@ -31,7 +32,9 @@ func run():
 			p.motion_time=0
 			game.bag.avatar_picker.item_selected.emit(game.bag.avatar_keys.find(key))
 			check(p.avatar==key and p.costume=="none","allowed base selector applies "+class_id+":"+key)
-			check(game.bag.portrait.texture==GatArt.frame(p,0).texture and game.hud.portrait.atlas==GatArt.frame(p,0).texture.atlas and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),"base previews share authored sheet and HUD fits full head %s:%s bag=%s source=%s rect=%s"%[class_id,key,game.bag.portrait.texture==GatArt.frame(p,0).texture,game.hud.portrait.atlas==GatArt.frame(p,0).texture.atlas,game.hud.portrait_rect()])
+			var frame=GatArt.frame(p,0)
+			check(game.bag.portrait.texture==frame.texture and TextureContract.hud_crop_matches(frame.texture,game.hud.portrait,game.hud.portrait_source_rect) and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),"base previews share authored sheet, crop coordinates and full head fit "+class_id+":"+key)
+			check(TextureContract.same_anchor(frame,GatArt._frame(p,0)),"preview preserves original source foot anchor "+class_id+":"+key)
 			if key!="auto":
 				p.motion_time=.25;p.motion_duration=.5
 				check(GatArt.frame(p,0).index==(6 if preload("res://scripts/combat_sprite_art.gd").AVATARS.has(key) else 3),"attack pose selected "+key)

@@ -223,11 +223,13 @@ func change_map(zone:String,floor_number:int,arrival:Dictionary={})->bool:
 	if network_role=="offline":return super.change_map(zone,floor_number,arrival)
 	if network_role!="host":return false
 	var guests={}
+	var previous_floor=sim.map.floor_number;var previous_clock=sim.clock
 	for id in sim.players:
-		if id!=local_id:guests[id]={"saved":sim.persistent(id),"hp":sim.players[id].hp,"stamina":sim.players[id].stamina}
+		if id!=local_id:guests[id]={"saved":sim.persistent(id),"hp":sim.players[id].hp,"stamina":sim.players[id].stamina,"previous":sim.players[id].duplicate(true)}
 	if not super.change_map(zone,floor_number,arrival):return false
 	for id in guests:
 		var data=guests[id];var p=sim.add_player(id,data.saved.name,data.saved);p.hp=mini(p.max_hp,data.hp);p.stamina=minf(p.max_stamina,data.stamina)
+		preload("res://scripts/expedition_journal.gd").transition(data.previous,p,previous_floor,floor_number,previous_clock)
 	preload("res://scripts/party_rules.gd").rescale(sim)
 	for id in sim.players:ready_players[id]=false
 	publish_snapshot();publish_checkpoints();refresh();return true

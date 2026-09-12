@@ -282530,6 +282530,7 @@
       "anchor_scale": 1.6,
       "corridor_width": 7,
       "corridor_width_max": 9,
+      "generator": "forward_spine_with_rejoining_wings",
       "id": "branching",
       "links": [
         [
@@ -282537,19 +282538,27 @@
           1
         ],
         [
-          0,
-          5
+          1,
+          4
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          7,
+          8
         ],
         [
           1,
           2
         ],
         [
-          1,
+          2,
           4
         ],
         [
-          2,
+          1,
           3
         ],
         [
@@ -282562,126 +282571,133 @@
         ],
         [
           5,
+          7
+        ],
+        [
+          4,
           6
         ],
         [
           6,
           7
-        ],
-        [
-          4,
-          7
-        ],
-        [
-          7,
-          8
-        ],
-        [
-          3,
-          8
         ]
       ],
+      "main_route": [
+        0,
+        1,
+        4,
+        7,
+        8
+      ],
       "name": "맞물린 곁굴",
+      "optional_rooms": [
+        2,
+        3,
+        5,
+        6
+      ],
       "points": [
         [
-          7,
-          7
-        ],
-        [
-          23,
-          8
-        ],
-        [
-          40,
-          7
-        ],
-        [
-          42,
-          23
-        ],
-        [
-          29,
+          5,
           24
         ],
         [
-          10,
+          13,
+          24
+        ],
+        [
+          19,
+          11
+        ],
+        [
+          20,
+          37
+        ],
+        [
+          27,
           22
         ],
         [
-          7,
-          40
+          33,
+          9
         ],
         [
-          22,
-          42
+          34,
+          39
         ],
         [
-          40,
-          40
+          38,
+          24
+        ],
+        [
+          44,
+          21
         ]
       ],
+      "points_are_example": true,
       "radii": [
-        5,
         6,
-        4,
-        5,
+        8,
+        6,
         7,
-        5,
-        4,
-        5,
-        7
+        9,
+        7,
+        6,
+        8,
+        8
       ],
-      "radius_bonus": 2,
+      "radius_bonus": 0,
       "rules": [
         {
-          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "generate_floor"
         },
         {
           "source_code": "func transform_anchor(point:Vector2i)->Vector2i:\n\tvar result=point\n\tvar extent=RAID_SIZE if raid_arena else SIZE\n\tif layout_rotation>=4:result.x=extent-1-result.x\n\tfor turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "transform_anchor"
         },
         {
           "source_code": "func carve_room(center:Vector2i,radius:int,style:int):\n\tfor dx in range(-radius,radius+1):\n\t\tfor dy in range(-radius,radius+1):\n\t\t\tvar inside=dx*dx+dy*dy<=radius*radius+2\n\t\t\tif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1\n\t\t\telif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius\n\t\t\telif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2\n\t\t\tif inside:carve_cell(center+Vector2i(dx,dy))",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_room"
         },
         {
           "source_code": "func carve_segment(a:Vector2i,b:Vector2i,half_width:int):\n\tvar cursor=a\n\twhile true:\n\t\troute_cells[cursor]=true\n\t\tfor dx in range(-half_width,half_width+1):\n\t\t\tfor dy in range(-half_width,half_width+1):carve_cell(cursor+Vector2i(dx,dy))\n\t\tif cursor==b:break\n\t\t# Interleave axes for a connected, gently diagonal bridge. A cardinal\n\t\t# centerline plus the square brush also leaves a five-wide route at bends.\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_segment"
         },
         {
-          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "build_encounters"
         },
         {
           "source_code": "func formation_positions(center:Vector2i,count:int,formation:int,layout_rng:RandomNumberGenerator)->Array:\n\tvar result:Array=[];var angle=layout_rng.randf_range(-PI,PI)\n\tfor index in range(count):\n\t\tvar offset=Vector2.ZERO\n\t\tmatch formation:\n\t\t\t0:offset=Vector2(cos(index*TAU/count),sin(index*TAU/count))*2.5\n\t\t\t1:offset=Vector2((index-(count-1)*.5)*2.2,(index%2)*1.4-.7)\n\t\t\t2:offset=Vector2(-2.2 if index%2==0 else 2.2,-1.7 if index<2 else 1.7)\n\t\t\t_:offset=Vector2(-2.8+index*1.8,1.8 if index%2==0 else -1.8)\n\t\tresult.append(Vector2(center)+offset.rotated(angle))\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "formation_positions"
         },
         {
           "source_code": "func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector2])->Vector2:\n\tif valid_encounter_position(preferred,used):return preferred\n\tvar best=Vector2(center);var score=INF\n\tfor dx in range(-5,6):\n\t\tfor dy in range(-5,6):\n\t\t\tvar candidate=Vector2(center+Vector2i(dx,dy))\n\t\t\tif not valid_encounter_position(candidate,used):continue\n\t\t\tvar distance=candidate.distance_squared_to(preferred)\n\t\t\tif distance<score:best=candidate;score=distance\n\tassert(score<INF,\"A generated encounter must have a clear, separated spawn\")\n\treturn best",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "find_encounter_position"
         },
         {
           "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "valid_encounter_position"
         }
       ],
+      "sample_seed": 42,
       "selection": "weighted_by_dungeon_region",
       "selection_order": 0,
       "size": 80
@@ -282690,6 +282706,7 @@
       "anchor_scale": 1.6,
       "corridor_width": 7,
       "corridor_width_max": 9,
+      "generator": "forward_spine_with_rejoining_wings",
       "id": "circuit",
       "links": [
         [
@@ -282698,10 +282715,22 @@
         ],
         [
           1,
+          4
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          1,
           2
         ],
         [
-          2,
+          1,
           3
         ],
         [
@@ -282714,6 +282743,10 @@
         ],
         [
           5,
+          7
+        ],
+        [
+          4,
           6
         ],
         [
@@ -282721,127 +282754,126 @@
           7
         ],
         [
-          7,
-          0
-        ],
-        [
-          1,
-          8
-        ],
-        [
-          3,
-          8
-        ],
-        [
-          5,
-          8
-        ],
-        [
-          7,
-          8
+          2,
+          5
         ]
       ],
-      "name": "고리 협곡",
+      "main_route": [
+        0,
+        1,
+        4,
+        7,
+        8
+      ],
+      "name": "이어진 곁회랑",
+      "optional_rooms": [
+        2,
+        3,
+        5,
+        6
+      ],
       "points": [
         [
-          8,
-          9
+          5,
+          24
         ],
         [
-          23,
-          6
+          13,
+          24
         ],
         [
-          40,
-          10
+          19,
+          11
         ],
         [
-          43,
-          26
+          20,
+          37
         ],
         [
-          36,
-          41
-        ],
-        [
-          21,
-          43
-        ],
-        [
-          7,
-          36
-        ],
-        [
-          6,
+          27,
           22
         ],
         [
-          25,
-          25
+          33,
+          9
+        ],
+        [
+          34,
+          39
+        ],
+        [
+          38,
+          24
+        ],
+        [
+          44,
+          21
         ]
       ],
+      "points_are_example": true,
       "radii": [
-        5,
-        5,
         6,
-        4,
-        5,
-        4,
+        8,
         6,
-        4,
-        7
+        7,
+        9,
+        7,
+        6,
+        8,
+        8
       ],
-      "radius_bonus": 2,
+      "radius_bonus": 0,
       "rules": [
         {
-          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "generate_floor"
         },
         {
           "source_code": "func transform_anchor(point:Vector2i)->Vector2i:\n\tvar result=point\n\tvar extent=RAID_SIZE if raid_arena else SIZE\n\tif layout_rotation>=4:result.x=extent-1-result.x\n\tfor turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "transform_anchor"
         },
         {
           "source_code": "func carve_room(center:Vector2i,radius:int,style:int):\n\tfor dx in range(-radius,radius+1):\n\t\tfor dy in range(-radius,radius+1):\n\t\t\tvar inside=dx*dx+dy*dy<=radius*radius+2\n\t\t\tif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1\n\t\t\telif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius\n\t\t\telif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2\n\t\t\tif inside:carve_cell(center+Vector2i(dx,dy))",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_room"
         },
         {
           "source_code": "func carve_segment(a:Vector2i,b:Vector2i,half_width:int):\n\tvar cursor=a\n\twhile true:\n\t\troute_cells[cursor]=true\n\t\tfor dx in range(-half_width,half_width+1):\n\t\t\tfor dy in range(-half_width,half_width+1):carve_cell(cursor+Vector2i(dx,dy))\n\t\tif cursor==b:break\n\t\t# Interleave axes for a connected, gently diagonal bridge. A cardinal\n\t\t# centerline plus the square brush also leaves a five-wide route at bends.\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_segment"
         },
         {
-          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "build_encounters"
         },
         {
           "source_code": "func formation_positions(center:Vector2i,count:int,formation:int,layout_rng:RandomNumberGenerator)->Array:\n\tvar result:Array=[];var angle=layout_rng.randf_range(-PI,PI)\n\tfor index in range(count):\n\t\tvar offset=Vector2.ZERO\n\t\tmatch formation:\n\t\t\t0:offset=Vector2(cos(index*TAU/count),sin(index*TAU/count))*2.5\n\t\t\t1:offset=Vector2((index-(count-1)*.5)*2.2,(index%2)*1.4-.7)\n\t\t\t2:offset=Vector2(-2.2 if index%2==0 else 2.2,-1.7 if index<2 else 1.7)\n\t\t\t_:offset=Vector2(-2.8+index*1.8,1.8 if index%2==0 else -1.8)\n\t\tresult.append(Vector2(center)+offset.rotated(angle))\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "formation_positions"
         },
         {
           "source_code": "func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector2])->Vector2:\n\tif valid_encounter_position(preferred,used):return preferred\n\tvar best=Vector2(center);var score=INF\n\tfor dx in range(-5,6):\n\t\tfor dy in range(-5,6):\n\t\t\tvar candidate=Vector2(center+Vector2i(dx,dy))\n\t\t\tif not valid_encounter_position(candidate,used):continue\n\t\t\tvar distance=candidate.distance_squared_to(preferred)\n\t\t\tif distance<score:best=candidate;score=distance\n\tassert(score<INF,\"A generated encounter must have a clear, separated spawn\")\n\treturn best",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "find_encounter_position"
         },
         {
           "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "valid_encounter_position"
         }
       ],
+      "sample_seed": 42,
       "selection": "weighted_by_dungeon_region",
       "selection_order": 1,
       "size": 80
@@ -282850,6 +282882,7 @@
       "anchor_scale": 1.6,
       "corridor_width": 7,
       "corridor_width_max": 9,
+      "generator": "forward_spine_with_rejoining_wings",
       "id": "great_cavern",
       "links": [
         [
@@ -282857,19 +282890,27 @@
           1
         ],
         [
-          0,
-          5
+          1,
+          4
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          7,
+          8
         ],
         [
           1,
           2
         ],
         [
-          1,
+          2,
           4
         ],
         [
-          2,
+          1,
           3
         ],
         [
@@ -282882,126 +282923,133 @@
         ],
         [
           5,
+          7
+        ],
+        [
+          4,
           6
         ],
         [
           6,
           7
-        ],
-        [
-          4,
-          7
-        ],
-        [
-          7,
-          8
-        ],
-        [
-          3,
-          8
         ]
       ],
+      "main_route": [
+        0,
+        1,
+        4,
+        7,
+        8
+      ],
       "name": "겹친 대공동",
+      "optional_rooms": [
+        2,
+        3,
+        5,
+        6
+      ],
       "points": [
         [
-          8,
-          7
+          5,
+          24
         ],
         [
-          23,
+          13,
+          24
+        ],
+        [
+          19,
+          11
+        ],
+        [
+          20,
+          37
+        ],
+        [
+          27,
+          22
+        ],
+        [
+          33,
           9
         ],
         [
-          41,
-          7
+          34,
+          39
         ],
         [
-          41,
-          23
+          38,
+          24
         ],
         [
-          25,
-          25
-        ],
-        [
-          8,
-          23
-        ],
-        [
-          8,
-          41
-        ],
-        [
-          26,
-          41
-        ],
-        [
-          42,
-          41
+          44,
+          21
         ]
       ],
+      "points_are_example": true,
       "radii": [
-        5,
-        6,
-        4,
         6,
         8,
-        5,
-        4,
         6,
-        6
+        7,
+        9,
+        7,
+        6,
+        8,
+        8
       ],
-      "radius_bonus": 2,
+      "radius_bonus": 0,
       "rules": [
         {
-          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "generate_floor"
         },
         {
           "source_code": "func transform_anchor(point:Vector2i)->Vector2i:\n\tvar result=point\n\tvar extent=RAID_SIZE if raid_arena else SIZE\n\tif layout_rotation>=4:result.x=extent-1-result.x\n\tfor turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "transform_anchor"
         },
         {
           "source_code": "func carve_room(center:Vector2i,radius:int,style:int):\n\tfor dx in range(-radius,radius+1):\n\t\tfor dy in range(-radius,radius+1):\n\t\t\tvar inside=dx*dx+dy*dy<=radius*radius+2\n\t\t\tif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1\n\t\t\telif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius\n\t\t\telif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2\n\t\t\tif inside:carve_cell(center+Vector2i(dx,dy))",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_room"
         },
         {
           "source_code": "func carve_segment(a:Vector2i,b:Vector2i,half_width:int):\n\tvar cursor=a\n\twhile true:\n\t\troute_cells[cursor]=true\n\t\tfor dx in range(-half_width,half_width+1):\n\t\t\tfor dy in range(-half_width,half_width+1):carve_cell(cursor+Vector2i(dx,dy))\n\t\tif cursor==b:break\n\t\t# Interleave axes for a connected, gently diagonal bridge. A cardinal\n\t\t# centerline plus the square brush also leaves a five-wide route at bends.\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_segment"
         },
         {
-          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "build_encounters"
         },
         {
           "source_code": "func formation_positions(center:Vector2i,count:int,formation:int,layout_rng:RandomNumberGenerator)->Array:\n\tvar result:Array=[];var angle=layout_rng.randf_range(-PI,PI)\n\tfor index in range(count):\n\t\tvar offset=Vector2.ZERO\n\t\tmatch formation:\n\t\t\t0:offset=Vector2(cos(index*TAU/count),sin(index*TAU/count))*2.5\n\t\t\t1:offset=Vector2((index-(count-1)*.5)*2.2,(index%2)*1.4-.7)\n\t\t\t2:offset=Vector2(-2.2 if index%2==0 else 2.2,-1.7 if index<2 else 1.7)\n\t\t\t_:offset=Vector2(-2.8+index*1.8,1.8 if index%2==0 else -1.8)\n\t\tresult.append(Vector2(center)+offset.rotated(angle))\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "formation_positions"
         },
         {
           "source_code": "func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector2])->Vector2:\n\tif valid_encounter_position(preferred,used):return preferred\n\tvar best=Vector2(center);var score=INF\n\tfor dx in range(-5,6):\n\t\tfor dy in range(-5,6):\n\t\t\tvar candidate=Vector2(center+Vector2i(dx,dy))\n\t\t\tif not valid_encounter_position(candidate,used):continue\n\t\t\tvar distance=candidate.distance_squared_to(preferred)\n\t\t\tif distance<score:best=candidate;score=distance\n\tassert(score<INF,\"A generated encounter must have a clear, separated spawn\")\n\treturn best",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "find_encounter_position"
         },
         {
           "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "valid_encounter_position"
         }
       ],
+      "sample_seed": 42,
       "selection": "weighted_by_dungeon_region",
       "selection_order": 2,
       "size": 80
@@ -283010,6 +283058,7 @@
       "anchor_scale": 1.6,
       "corridor_width": 7,
       "corridor_width_max": 9,
+      "generator": "forward_spine_with_rejoining_wings",
       "id": "side_hollows",
       "links": [
         [
@@ -283017,8 +283066,16 @@
           1
         ],
         [
-          0,
-          5
+          1,
+          4
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          7,
+          8
         ],
         [
           1,
@@ -283026,10 +283083,6 @@
         ],
         [
           1,
-          4
-        ],
-        [
-          2,
           3
         ],
         [
@@ -283042,6 +283095,10 @@
         ],
         [
           5,
+          7
+        ],
+        [
+          4,
           6
         ],
         [
@@ -283049,119 +283106,126 @@
           7
         ],
         [
-          4,
-          7
-        ],
-        [
-          7,
-          8
-        ],
-        [
-          3,
-          8
+          2,
+          5
         ]
       ],
+      "main_route": [
+        0,
+        1,
+        4,
+        7,
+        8
+      ],
       "name": "휘감긴 지하수로",
+      "optional_rooms": [
+        2,
+        3,
+        5,
+        6
+      ],
       "points": [
         [
-          8,
-          7
+          5,
+          24
         ],
         [
-          25,
-          6
+          13,
+          24
         ],
         [
-          41,
-          13
-        ],
-        [
-          34,
-          27
+          19,
+          11
         ],
         [
           20,
-          18
+          37
         ],
         [
-          7,
-          23
+          27,
+          22
         ],
         [
-          9,
-          40
+          33,
+          9
         ],
         [
-          24,
-          41
+          34,
+          39
         ],
         [
-          42,
-          41
+          38,
+          24
+        ],
+        [
+          44,
+          21
         ]
       ],
+      "points_are_example": true,
       "radii": [
-        5,
-        4,
         6,
-        5,
-        4,
+        8,
+        6,
         7,
-        5,
-        4,
-        7
+        9,
+        7,
+        6,
+        8,
+        8
       ],
-      "radius_bonus": 2,
+      "radius_bonus": 0,
       "rules": [
         {
-          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "generate_floor"
         },
         {
           "source_code": "func transform_anchor(point:Vector2i)->Vector2i:\n\tvar result=point\n\tvar extent=RAID_SIZE if raid_arena else SIZE\n\tif layout_rotation>=4:result.x=extent-1-result.x\n\tfor turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "transform_anchor"
         },
         {
           "source_code": "func carve_room(center:Vector2i,radius:int,style:int):\n\tfor dx in range(-radius,radius+1):\n\t\tfor dy in range(-radius,radius+1):\n\t\t\tvar inside=dx*dx+dy*dy<=radius*radius+2\n\t\t\tif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1\n\t\t\telif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius\n\t\t\telif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2\n\t\t\tif inside:carve_cell(center+Vector2i(dx,dy))",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_room"
         },
         {
           "source_code": "func carve_segment(a:Vector2i,b:Vector2i,half_width:int):\n\tvar cursor=a\n\twhile true:\n\t\troute_cells[cursor]=true\n\t\tfor dx in range(-half_width,half_width+1):\n\t\t\tfor dy in range(-half_width,half_width+1):carve_cell(cursor+Vector2i(dx,dy))\n\t\tif cursor==b:break\n\t\t# Interleave axes for a connected, gently diagonal bridge. A cardinal\n\t\t# centerline plus the square brush also leaves a five-wide route at bends.\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_segment"
         },
         {
-          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "build_encounters"
         },
         {
           "source_code": "func formation_positions(center:Vector2i,count:int,formation:int,layout_rng:RandomNumberGenerator)->Array:\n\tvar result:Array=[];var angle=layout_rng.randf_range(-PI,PI)\n\tfor index in range(count):\n\t\tvar offset=Vector2.ZERO\n\t\tmatch formation:\n\t\t\t0:offset=Vector2(cos(index*TAU/count),sin(index*TAU/count))*2.5\n\t\t\t1:offset=Vector2((index-(count-1)*.5)*2.2,(index%2)*1.4-.7)\n\t\t\t2:offset=Vector2(-2.2 if index%2==0 else 2.2,-1.7 if index<2 else 1.7)\n\t\t\t_:offset=Vector2(-2.8+index*1.8,1.8 if index%2==0 else -1.8)\n\t\tresult.append(Vector2(center)+offset.rotated(angle))\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "formation_positions"
         },
         {
           "source_code": "func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector2])->Vector2:\n\tif valid_encounter_position(preferred,used):return preferred\n\tvar best=Vector2(center);var score=INF\n\tfor dx in range(-5,6):\n\t\tfor dy in range(-5,6):\n\t\t\tvar candidate=Vector2(center+Vector2i(dx,dy))\n\t\t\tif not valid_encounter_position(candidate,used):continue\n\t\t\tvar distance=candidate.distance_squared_to(preferred)\n\t\t\tif distance<score:best=candidate;score=distance\n\tassert(score<INF,\"A generated encounter must have a clear, separated spawn\")\n\treturn best",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "find_encounter_position"
         },
         {
           "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "valid_encounter_position"
         }
       ],
+      "sample_seed": 42,
       "selection": "weighted_by_dungeon_region",
       "selection_order": 3,
       "size": 80
@@ -283170,6 +283234,7 @@
       "anchor_scale": 1.6,
       "corridor_width": 7,
       "corridor_width_max": 9,
+      "generator": "forward_spine_with_rejoining_wings",
       "id": "split_bridges",
       "links": [
         [
@@ -283177,151 +283242,166 @@
           1
         ],
         [
-          0,
-          6
+          1,
+          4
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          4
         ],
         [
           1,
           3
         ],
         [
-          3,
+          4,
+          5
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          4,
           6
-        ],
-        [
-          1,
-          2
-        ],
-        [
-          3,
-          4
         ],
         [
           6,
           7
         ],
         [
-          2,
-          5
-        ],
-        [
-          5,
-          8
-        ],
-        [
-          8,
-          7
-        ],
-        [
-          7,
-          4
-        ],
-        [
-          4,
-          2
+          3,
+          6
         ]
       ],
+      "main_route": [
+        0,
+        1,
+        4,
+        7,
+        8
+      ],
       "name": "쌍둥이 균열",
+      "optional_rooms": [
+        2,
+        3,
+        5,
+        6
+      ],
       "points": [
         [
-          7,
-          12
+          5,
+          24
+        ],
+        [
+          13,
+          24
         ],
         [
           19,
-          6
+          11
         ],
         [
-          34,
-          7
+          20,
+          37
         ],
         [
-          18,
-          24
+          27,
+          22
         ],
         [
           33,
+          9
+        ],
+        [
+          34,
+          39
+        ],
+        [
+          38,
           24
         ],
         [
-          43,
-          18
-        ],
-        [
-          8,
-          40
-        ],
-        [
-          28,
-          42
-        ],
-        [
-          43,
-          37
+          44,
+          21
         ]
       ],
+      "points_are_example": true,
       "radii": [
-        5,
         6,
-        4,
-        4,
+        8,
+        6,
         7,
-        5,
+        9,
+        7,
         6,
-        4,
-        7
+        8,
+        8
       ],
-      "radius_bonus": 2,
+      "radius_bonus": 0,
       "rules": [
         {
-          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+          "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "generate_floor"
         },
         {
           "source_code": "func transform_anchor(point:Vector2i)->Vector2i:\n\tvar result=point\n\tvar extent=RAID_SIZE if raid_arena else SIZE\n\tif layout_rotation>=4:result.x=extent-1-result.x\n\tfor turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "transform_anchor"
         },
         {
           "source_code": "func carve_room(center:Vector2i,radius:int,style:int):\n\tfor dx in range(-radius,radius+1):\n\t\tfor dy in range(-radius,radius+1):\n\t\t\tvar inside=dx*dx+dy*dy<=radius*radius+2\n\t\t\tif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1\n\t\t\telif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius\n\t\t\telif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2\n\t\t\tif inside:carve_cell(center+Vector2i(dx,dy))",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_room"
         },
         {
           "source_code": "func carve_segment(a:Vector2i,b:Vector2i,half_width:int):\n\tvar cursor=a\n\twhile true:\n\t\troute_cells[cursor]=true\n\t\tfor dx in range(-half_width,half_width+1):\n\t\t\tfor dy in range(-half_width,half_width+1):carve_cell(cursor+Vector2i(dx,dy))\n\t\tif cursor==b:break\n\t\t# Interleave axes for a connected, gently diagonal bridge. A cardinal\n\t\t# centerline plus the square brush also leaves a five-wide route at bends.\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "carve_segment"
         },
         {
-          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+          "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "build_encounters"
         },
         {
           "source_code": "func formation_positions(center:Vector2i,count:int,formation:int,layout_rng:RandomNumberGenerator)->Array:\n\tvar result:Array=[];var angle=layout_rng.randf_range(-PI,PI)\n\tfor index in range(count):\n\t\tvar offset=Vector2.ZERO\n\t\tmatch formation:\n\t\t\t0:offset=Vector2(cos(index*TAU/count),sin(index*TAU/count))*2.5\n\t\t\t1:offset=Vector2((index-(count-1)*.5)*2.2,(index%2)*1.4-.7)\n\t\t\t2:offset=Vector2(-2.2 if index%2==0 else 2.2,-1.7 if index<2 else 1.7)\n\t\t\t_:offset=Vector2(-2.8+index*1.8,1.8 if index%2==0 else -1.8)\n\t\tresult.append(Vector2(center)+offset.rotated(angle))\n\treturn result",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "formation_positions"
         },
         {
           "source_code": "func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector2])->Vector2:\n\tif valid_encounter_position(preferred,used):return preferred\n\tvar best=Vector2(center);var score=INF\n\tfor dx in range(-5,6):\n\t\tfor dy in range(-5,6):\n\t\t\tvar candidate=Vector2(center+Vector2i(dx,dy))\n\t\t\tif not valid_encounter_position(candidate,used):continue\n\t\t\tvar distance=candidate.distance_squared_to(preferred)\n\t\t\tif distance<score:best=candidate;score=distance\n\tassert(score<INF,\"A generated encounter must have a clear, separated spawn\")\n\treturn best",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "find_encounter_position"
         },
         {
           "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
           "source_path": "game/scripts/dungeon.gd",
-          "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+          "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
           "source_symbol": "valid_encounter_position"
         }
       ],
+      "sample_seed": 42,
       "selection": "weighted_by_dungeon_region",
       "selection_order": 4,
       "size": 80
@@ -373829,7 +373909,7 @@
       {
         "source_code": "func damage_for(p: Dictionary,kind:String=\"\") -> int:\n\tvar magical=kind==\"magic\" or (kind==\"\" and Progression.magic_user(p))\n\tvar damage = 18 + int((p.level-1)*1.5) + Progression.damage(p,\"staff\" if magical else \"sword\") + int(Content.skill_bonus(p,\"damage\"))\n\tdamage+=int(preload(\"res://scripts/equipment_catalog.gd\").bonus(p,\"damage\"))\n\tfor item in p.inventory:\n\t\tif (item.id == p.equipped or item.id==p.equipment.get(\"accessory\",\"\")) and preload(\"res://scripts/equipment_catalog.gd\").reason(p,item).is_empty():\n\t\t\tdamage += int(item.bonus)\n\treturn damage",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "damage_for"
       }
     ],
@@ -373929,31 +374009,31 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "receive_checkpoint"
       },
       {
         "source_code": "func player_defeated(p:Dictionary):\n\tp.erase(\"revive_target\");p.erase(\"revive_progress\");p.dir=Vector2.ZERO;p.charge_time=-1.\n\tif players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):\n\t\tp.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,\"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.\")\n\telse:respawn_player(p)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "player_defeated"
       },
       {
         "source_code": "func reward_kill(id:int,enemy:Dictionary,config:Dictionary):\n\tvar p=players[id]\n\tp.xp += roundi(config.xp*(1+Content.skill_bonus(p,\"xp_bonus\")))\n\tp.gold += roundi(config.gold*(1+Content.skill_bonus(p,\"gold_bonus\")+preload(\"res://scripts/equipment_catalog.gd\").bonus(p,\"gold_bonus\")))\n\tp.kills += 1\n\tif map.floor_number==0 and map.zone==\"forest\" and not p.tutorial_done:\n\t\tp.tutorial_kills+=1\n\t\tif p.tutorial_kills>=5:notice(id,\"숲의 길이 열렸습니다. R로 햇살 마을에 도착하세요.\")\n\tif map.floor_number>0 and enemy.get(\"guardian\",false):\n\t\tp.cleared_floor=maxi(p.cleared_floor,map.floor_number);p.highest_floor=maxi(p.highest_floor,mini(100,map.floor_number+1))\n\t\tif enemy.get(\"raid\",false):p.raid_clears[str(map.floor_number)]=int(p.raid_clears.get(str(map.floor_number),0))+1\n\t\tnotice(id,\"100층 레이드 완료 · 마력핵을 잠재웠습니다!\" if map.floor_number==100 else \"B%d 돌파 · 출구에서 E로 다음 층 / R 마을 귀환\"%map.floor_number)\n\tif not p.guild_contract.is_empty() and p.guild_contract.zone==map.zone:p.guild_contract.progress=mini(p.guild_contract.target,int(p.guild_contract.progress)+1)\n\tif enemy.get(\"boss\",enemy.kind==\"warden\"):\n\t\tp.boss_kills += 1;p.dungeon_clears[map.zone]=int(p.dungeon_clears.get(map.zone,0))+1\n\t\tif map.floor_number==0:notice(id,\"보스 격파 · \"+enemy.name+\" · R로 마을 귀환\")\n\tapply_level_ups(p)\n\tif p.kills >= 5 and p.boss_kills >= 1 and not p.quest_done:\n\t\tp.quest_done = true\n\t\tp.gold += 100\n\t\tnotice(id, \"의뢰 완료 · 정원의 소란 · 금화 +100\")\n\tfor entry in loot_tables.roll(enemy.kind,rng,combat.jobs.passive(p,4)*.03 if p.class_id==\"hunter\" and not p.job_state.pets.is_empty() else 0.0):\n\t\tserial += 1\n\t\tvar item_id = str(Time.get_unix_time_from_system()).replace(\".\", \"\") + \"-\" + str(serial)\n\t\tvar item=loot_tables.item(entry,item_id,rng,balance)\n\t\tif item.category in [\"weapon\",\"armor\",\"accessory\"]:\n\t\t\tvar type=item.get(\"weapon_type\",\"sword\") if item.category==\"weapon\" else item.slot\n\t\t\tvar tier=clampi(int(preload(\"res://scripts/world_catalog.gd\").DUNGEONS[map.zone].theme)+rng.randi_range(0,1)+(1 if enemy.get(\"boss\",false) or enemy.get(\"elite\",false) else 0),0,4)\n\t\t\tif map.floor_number>0:tier=clampi(int((map.floor_number-1)/10),0,9)\n\t\t\telif map.zone==\"forest\" and not enemy.get(\"boss\",false) and not enemy.get(\"elite\",false):tier=0\n\t\t\tvar affixes=preload(\"res://scripts/equipment_catalog.gd\").AFFIXES.keys()\n\t\t\titem=preload(\"res://scripts/equipment_catalog.gd\").make(type,tier,int(item.rarity),item_id,affixes[rng.randi_range(0,affixes.size()-1)],p.class_id)\n\t\tvar offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)\n\t\tdrops[item_id] = {\"item\":item,\"pos\":map.move(enemy.pos,offset),\"owner\":id,\"expires\":clock + 90.0}\n\tif enemy.get(\"raid\",false):\n\t\tserial+=1\n\t\tvar raid_id=\"raid-\"+str(Time.get_ticks_usec())+\"-\"+str(serial)\n\t\tvar slot=Content.SLOTS[rng.randi_range(0,Content.SLOTS.size()-1)]\n\t\tvar grade=preload(\"res://scripts/abyss_catalog.gd\").raid_grade(map.floor_number,rng.randf())\n\t\tvar raid_item=preload(\"res://scripts/equipment_catalog.gd\").make(\"sword\" if slot==\"weapon\" else slot,int((map.floor_number-1)/10),grade,raid_id,\"focus\",p.class_id)\n\t\tdrops[raid_id]={\"item\":raid_item,\"pos\":enemy.pos+Vector2(.2,.2),\"owner\":id,\"expires\":clock+300.}\n\tdirty[id]=true",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "reward_kill"
       },
       {
@@ -373963,27 +374043,27 @@
         "source_symbol": "rescale"
       },
       {
-        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p[key] - delta)\n\t\tcombat.tick_player(p,delta)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tif config.ai==\"healer\" and e.ability_cd<=0:\n\t\t\tfor friend in enemies.values():\n\t\t\t\tif friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)\n\t\t\te.ability_cd=6;events.append({\"type\":\"skill_fx\",\"fx\":\"ranger_heal\",\"pos\":e.pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.6,\"radius\":2.0})\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif e.stun_time>0:e.windup=0;e.erase(\"attack_areas\");continue\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < BossStagger.engagement_radius(e) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif target.is_empty():\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
+        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p[key] - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\te[\"guard_break_time\"]=maxf(0.,e.get(\"guard_break_time\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tif config.ai==\"healer\" and e.ability_cd<=0:\n\t\t\tfor friend in enemies.values():\n\t\t\t\tif friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)\n\t\t\te.ability_cd=6;events.append({\"type\":\"skill_fx\",\"fx\":\"ranger_heal\",\"pos\":e.pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.6,\"radius\":2.0})\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif e.stun_time>0:e.windup=0;e.erase(\"attack_areas\");continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "tick"
       },
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+        "source_sha256": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
         "source_symbol": "exit_ack"
       }
     ],
@@ -374278,6 +374358,51 @@
         "source_symbol": "configuration"
       }
     ],
+    "dungeon_vision": {
+      "fade_seconds": 0.65,
+      "memory_light": 0.24,
+      "minimap": "unknown_hidden_explored_dim_current_bright",
+      "occlusion": "opaque_cells_and_closed_corners",
+      "party_sight": "living_connected_members_union",
+      "radius": 8,
+      "scope": "current_map_instance"
+    },
+    "enemy_awareness": {
+      "attack_radius": 8,
+      "audio_independent": true,
+      "heavy_radius": 12,
+      "max_responders": 4,
+      "propagation": "walkable_cell_distance",
+      "raid_guardian_lure": false,
+      "search_seconds": 5,
+      "skill_radius": 10,
+      "sprint_radius": 6
+    },
+    "enemy_defense": {
+      "armored_mitigation": 0.75,
+      "break_seconds": 4,
+      "per_cast_cap": true,
+      "pressure_reset_seconds": 4,
+      "raid_override": false,
+      "source": "normalized_existing_stagger_budget",
+      "threshold": 40
+    },
+    "enemy_tactics": {
+      "avoid_hidden_traps": false,
+      "dungeon_only": true,
+      "hazard_aware_kinds": [
+        "goblin_archer",
+        "goblin_shaman",
+        "clockwork",
+        "spellbook",
+        "centurion"
+      ],
+      "raid_movement_override": false,
+      "reaction_seconds": 0.35,
+      "speed_cap": "configured movement speed including slow",
+      "spread_distance": 2.1,
+      "spread_speed_factor": 0.35
+    },
     "equipment_note": "2,500 rows describe slot/owner/tier/grade combinations at +0. affix/resonance fields are representative, not guaranteed rolls.",
     "expedition_brief_rules": [
       {
@@ -374299,9 +374424,29 @@
         "source_symbol": "party_status"
       }
     ],
+    "expedition_journal": {
+      "gear": "new IDs still carried on return",
+      "gold_and_materials": "net change after consumption and loss",
+      "persistence": "current session only",
+      "return": "successful dungeon to town transition",
+      "scope": "per player",
+      "time": "simulation time summed across floors",
+      "tutorial_included": false
+    },
     "exploration_rules": {
+      "cache_material": "4+tier",
+      "cache_potions": 2,
       "claim_scope": "one_per_player_per_generated_floor",
       "definitions": {
+        "cache": {
+          "choices": [
+            "supplies",
+            "salvage"
+          ],
+          "icon": "bag",
+          "name": "버려진 보급 상자",
+          "purpose": "물약 또는 제작 재료"
+        },
         "gather": {
           "choices": [
             "gather"
@@ -374333,86 +374478,88 @@
       "interaction_radius": 2.8,
       "offering_essence": "2+tier",
       "offering_potions": 1,
+      "placement": "rest_on_spine_rewards_in_forward_rejoining_wings",
       "request_generation_format": "seed.zone.floor",
       "rest_hp_stamina": 1,
       "reward_tier": "floor((floor-1)/10)",
       "shrine_recovery": 0.35,
       "site_art": {
+        "cache": "flood_shipwreck_crate",
         "ore": "cave_ore_boulders",
         "rest": "lava_forge_brazier",
         "seed": "autumn_berry_shrub",
         "shrine": "ruins_stone_basin"
       },
-      "sites_per_floor": 3,
+      "sites_per_floor": 4,
       "sites_per_raid": 1,
       "threat_radius": 8,
       "version": 1
     },
     "exploration_source_rules": [
       {
-        "source_code": "static func configuration()->Dictionary:\n\treturn {\"version\":1,\"definitions\":DEFINITIONS.duplicate(true),\"site_art\":SITE_ART,\"interaction_radius\":REACH,\"threat_radius\":THREAT_RADIUS,\"sites_per_floor\":3,\"sites_per_raid\":1,\"claim_scope\":\"one_per_player_per_generated_floor\",\"generation\":\"independent_seed_plus_57103\",\"request_generation_format\":\"seed.zone.floor\",\"reward_tier\":\"floor((floor-1)/10)\",\"gather_amount\":\"3+tier\",\"offering_potions\":1,\"offering_essence\":\"2+tier\",\"shrine_recovery\":0.35,\"rest_hp_stamina\":1.0}",
+        "source_code": "static func configuration()->Dictionary:\n\treturn {\"version\":1,\"definitions\":DEFINITIONS.duplicate(true),\"site_art\":SITE_ART,\"interaction_radius\":REACH,\"threat_radius\":THREAT_RADIUS,\"sites_per_floor\":4,\"placement\":\"rest_on_spine_rewards_in_forward_rejoining_wings\",\"cache_potions\":2,\"cache_material\":\"4+tier\",\"sites_per_raid\":1,\"claim_scope\":\"one_per_player_per_generated_floor\",\"generation\":\"independent_seed_plus_57103\",\"request_generation_format\":\"seed.zone.floor\",\"reward_tier\":\"floor((floor-1)/10)\",\"gather_amount\":\"3+tier\",\"offering_potions\":1,\"offering_essence\":\"2+tier\",\"shrine_recovery\":0.35,\"rest_hp_stamina\":1.0}",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "configuration"
       },
       {
-        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0:return []\n\tvar generation=\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]\n\tif map.raid_arena:return [{\"id\":\"room_1\",\"room\":1,\"kind\":\"rest\",\"pos\":Vector2(map.rooms[1]),\"material\":\"ore\",\"tier\":int((map.floor_number-1)/10),\"generation\":generation}]\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+57103\n\tvar pool=[1,2,3,4,5,6,7]\n\tfor index in range(pool.size()-1,0,-1):\n\t\tvar other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before\n\tvar result=[];var kinds=DEFINITIONS.keys()\n\tfor index in range(3):\n\t\tvar kind=kinds[index];var room=int(pool[index]);var pos=Vector2(map.rooms[room])\n\t\tvar material=\"seed\" if map.zone==\"forest\" else \"ore\"\n\t\tresult.append({\"id\":\"room_%d\"%room,\"room\":room,\"kind\":kind,\"pos\":pos,\"material\":material,\"tier\":int((map.floor_number-1)/10),\"generation\":generation})\n\treturn result",
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0:return []\n\tvar generation=\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]\n\tif map.raid_arena:return [{\"id\":\"room_1\",\"room\":1,\"kind\":\"rest\",\"pos\":Vector2(map.rooms[1]),\"material\":\"ore\",\"tier\":int((map.floor_number-1)/10),\"generation\":generation}]\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+57103\n\tvar pool=[2,3,5,6]\n\tfor index in range(pool.size()-1,0,-1):\n\t\tvar other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before\n\tvar result=[];var kinds=DEFINITIONS.keys()\n\tfor index in range(4):\n\t\tvar kind=kinds[index];var room=4 if kind==\"rest\" else int(pool[index]);var pos=Vector2(map.rooms[room])\n\t\tvar material=\"seed\" if map.zone==\"forest\" else \"ore\"\n\t\tresult.append({\"id\":\"room_%d\"%room,\"room\":room,\"kind\":kind,\"pos\":pos,\"material\":material,\"tier\":int((map.floor_number-1)/10),\"generation\":generation})\n\treturn result",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "generate"
       },
       {
         "source_code": "static func threats(sim,site:Dictionary)->int:\n\tvar count=0\n\tfor enemy in sim.enemies.values():\n\t\tif enemy.hp>0 and (enemy.get(\"encounter_room\",-1)==site.room or enemy.pos.distance_to(site.pos)<THREAT_RADIUS):count+=1\n\treturn count",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "threats"
       },
       {
         "source_code": "static func failure(sim,p:Dictionary,site:Dictionary)->String:\n\tif p.get(\"down_time\",0)>0 or p.get(\"network_leaving\",false) or p.hp<=0:return \"지금은 이용할 수 없습니다.\"\n\tif p.pos.distance_to(site.pos)>REACH or not sim.map.line_clear(p.pos,site.pos):return \"가까이 다가가세요.\"\n\tif sim.exploration_claims.get(p.id,{}).has(site.id):return \"이미 이용했습니다.\"\n\tif threats(sim,site)>0:return \"주변 적을 먼저 처치하세요.\"\n\treturn \"\"",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "failure"
       },
       {
-        "source_code": "static func use(sim,p:Dictionary,argument:String)->bool:\n\tvar parts=argument.split(\":\")\n\tif parts.size()!=3:return false\n\tif parts[1].begins_with(\"hidden_\"):return preload(\"res://scripts/hidden_rooms.gd\").use(sim,p,argument)\n\tvar site={}\n\tfor entry in sim.map.exploration_sites:\n\t\tif entry.id==parts[1] and entry.generation==parts[0]:site=entry;break\n\tif site.is_empty() or parts[2] not in DEFINITIONS[site.kind].choices:return false\n\tvar reason=failure(sim,p,site)\n\tif not reason.is_empty():sim.notice(p.id,reason);return false\n\t# Stage both cost and reward. A full bag or potion shortage must leave\n\t# the choice, inventory, currency and per-player claim untouched.\n\tvar staged=p.duplicate(true);var message=\"\"\n\tmatch parts[2]:\n\t\t\"gather\":\n\t\t\tvar amount=3+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false\n\t\t\tmessage=Content.MATERIALS[site.material]+\" ×%d\"%amount\n\t\t\"rest\":\n\t\t\tif p.hp>=p.max_hp and p.stamina>=p.max_stamina:sim.notice(p.id,\"생명력과 기력이 가득 찼습니다.\");return false\n\t\t\tstaged.hp=p.max_hp;staged.stamina=p.max_stamina;message=\"생명력 · 기력 회복\"\n\t\t\"recover\":\n\t\t\tif p.hp>=p.max_hp:sim.notice(p.id,\"생명력이 가득 찼습니다.\");return false\n\t\t\tvar amount=mini(p.max_hp-p.hp,maxi(1,roundi(p.max_hp*.35)))\n\t\t\tstaged.hp+=amount;message=\"생명력 +%d\"%amount\n\t\t\"offering\":\n\t\t\tif p.potions<1:sim.notice(p.id,\"물약 1개가 필요합니다.\");return false\n\t\t\tstaged.potions-=1\n\t\t\tif staged.potions==0:staged.bag_positions.erase(\"@potion\")\n\t\t\tvar amount=2+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,\"essence\",amount):sim.notice(p.id,Inventory.stack_failure_reason(staged,\"essence\",amount));return false\n\t\t\tmessage=\"물약 −1 · 정수 +%d\"%amount\n\tfor key in [\"hp\",\"stamina\",\"potions\",\"materials\",\"bag_positions\"]:p[key]=staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=parts[2]\n\tsim.dirty[p.id]=true\n\tsim.notice(p.id,message)\n\treturn true",
+        "source_code": "static func use(sim,p:Dictionary,argument:String)->bool:\n\tvar parts=argument.split(\":\")\n\tif parts.size()!=3:return false\n\tif parts[1].begins_with(\"hidden_\"):return preload(\"res://scripts/hidden_rooms.gd\").use(sim,p,argument)\n\tvar site={}\n\tfor entry in sim.map.exploration_sites:\n\t\tif entry.id==parts[1] and entry.generation==parts[0]:site=entry;break\n\tif site.is_empty() or parts[2] not in DEFINITIONS[site.kind].choices:return false\n\tvar reason=failure(sim,p,site)\n\tif not reason.is_empty():sim.notice(p.id,reason);return false\n\t# Stage both cost and reward. A full bag or potion shortage must leave\n\t# the choice, inventory, currency and per-player claim untouched.\n\tvar staged=p.duplicate(true);var message=\"\"\n\tmatch parts[2]:\n\t\t\"gather\":\n\t\t\tvar amount=3+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false\n\t\t\tmessage=Content.MATERIALS[site.material]+\" ×%d\"%amount\n\t\t\"supplies\",\"salvage\":\n\t\t\tvar item=\"potion\" if parts[2]==\"supplies\" else str(site.material)\n\t\t\tvar amount=2 if parts[2]==\"supplies\" else 4+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,item,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,item,amount));return false\n\t\t\tmessage=(\"물약\" if item==\"potion\" else Content.MATERIALS[item])+\" +%d\"%amount\n\t\t\"rest\":\n\t\t\tif p.hp>=p.max_hp and p.stamina>=p.max_stamina:sim.notice(p.id,\"생명력과 기력이 가득 찼습니다.\");return false\n\t\t\tstaged.hp=p.max_hp;staged.stamina=p.max_stamina;message=\"생명력 · 기력 회복\"\n\t\t\"recover\":\n\t\t\tif p.hp>=p.max_hp:sim.notice(p.id,\"생명력이 가득 찼습니다.\");return false\n\t\t\tvar amount=mini(p.max_hp-p.hp,maxi(1,roundi(p.max_hp*.35)))\n\t\t\tstaged.hp+=amount;message=\"생명력 +%d\"%amount\n\t\t\"offering\":\n\t\t\tif p.potions<1:sim.notice(p.id,\"물약 1개가 필요합니다.\");return false\n\t\t\tstaged.potions-=1\n\t\t\tif staged.potions==0:staged.bag_positions.erase(\"@potion\")\n\t\t\tvar amount=2+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,\"essence\",amount):sim.notice(p.id,Inventory.stack_failure_reason(staged,\"essence\",amount));return false\n\t\t\tmessage=\"물약 −1 · 정수 +%d\"%amount\n\tfor key in [\"hp\",\"stamina\",\"potions\",\"materials\",\"bag_positions\"]:p[key]=staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=parts[2]\n\tsim.dirty[p.id]=true\n\tsim.notice(p.id,message)\n\treturn true",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "use"
       },
       {
         "source_code": "static func snapshot(sim,id:int)->Array:\n\tvar result=[];var claims=sim.exploration_claims.get(id,{})\n\tfor original in sim.map.exploration_sites:\n\t\tvar site=original.duplicate(true);var definition=DEFINITIONS[site.kind]\n\t\tsite.merge({\"name\":definition.name,\"icon\":definition.icon,\"claimed\":claims.has(site.id),\"remaining\":threats(sim,site)})\n\t\tif site.kind==\"gather\":site.name=\"별씨앗 군락\" if site.material==\"seed\" else \"반짝 광맥\";site.icon=site.material\n\t\tresult.append(site)\n\tresult.append_array(preload(\"res://scripts/hidden_rooms.gd\").snapshots(sim,id))\n\treturn result",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+        "source_sha256": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
         "source_symbol": "snapshot"
       },
       {
-        "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=LAYOUTS[layout_id]\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],10,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
+        "source_code": "func generate_floor():\n\tvar layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099\n\tregion_profile=Regions.profile(floor_number)\n\tlayout_id=Regions.choose_layout(region_profile,layout_rng)\n\tlayout_rotation=layout_rng.randi_range(0,7)\n\tvar definition:Dictionary=exploration_route(layout_id,layout_rng)\n\traid_arena=floor_number%10==0\n\tif raid_arena:\n\t\tlayout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]\n\t\tdefinition={\"points\":RAID_POINTS,\"links\":RAID_LINKS,\"radii\":[5,5,10]}\n\t\tarena_radius=10.\n\tfor index in range(definition.points.size()):\n\t\tvar point=definition.points[index]\n\t\tvar anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))\n\t\tif not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())\n\t\trooms.append(transform_anchor(anchor))\n\t\troom_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))\n\t\tvar late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0\n\t\troom_radii.append(int(definition.radii[index])+late_bonus)\n\tspawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())\n\tfor index in range(rooms.size()):\n\t\tif raid_arena and index==rooms.size()-1:continue\n\t\tvar radius=int(room_radii[index])\n\t\tcarve_room(rooms[index],radius,int(room_styles[index]))\n\t\t# Offset lobes give large caverns an irregular shoreline, while small\n\t\t# alcoves stay visibly smaller. This does not add collision props.\n\t\tif index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):\n\t\t\tcarve_room(rooms[index]+Vector2i(2,-1),radius-2,0)\n\tif raid_arena:carve_arena()\n\t# Corridors have a full seven-cell safe width, including every turn. This\n\t# gives the player room to sidestep a monster instead of body-blocking a door.\n\tfor link in definition.links:\n\t\tvar a=rooms[link[0]];var b=rooms[link[1]]\n\t\tconnections.append([int(link[0]),int(link[1])])\n\t\tif raid_arena:\n\t\t\tcarve_segment(a,b,3)\n\t\telse:\n\t\t\t# Bowed routes avoid a repeated horizontal/vertical lattice. Wide\n\t\t\t# interleaved segments keep every turn traversable by the whole party.\n\t\t\tvar perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)\n\t\t\tvar waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())\n\t\t\tvar half_width=int(region_profile.width)\n\t\t\twaypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))\n\t\t\tcarve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)\n\tif layout_id==\"great_cavern\":\n\t\t# Overlapping lobes form one broad chamber, with several entrances and\n\t\t# smaller alcoves at its perimeter, rather than another room/corridor grid.\n\t\tcarve_room(rooms[4],8,1)\n\t\tcarve_segment(rooms[4],rooms[7],3)\n\tpath_cells=floor_cells\n\tbuild_encounters(layout_rng)\n\texploration_sites=preload(\"res://scripts/exploration_rooms.gd\").generate(self)\n\texploration_cues=preload(\"res://scripts/exploration_cues.gd\").generate(self)\n\thidden_regions=preload(\"res://scripts/hidden_rooms.gd\").generate(self)",
         "source_path": "game/scripts/dungeon.gd",
-        "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+        "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
         "source_symbol": "generate_floor"
       },
       {
         "source_code": "func carve_arena():\n\tvar style=int(RAID_LAYOUTS[layout_id].arena_style)\n\tfor dx in range(-12,13):\n\t\tfor dy in range(-11,12):\n\t\t\tvar inside=dx*dx+dy*dy<=100\n\t\t\tif style==1:inside=absi(dx)<=11 and absi(dy)<=8\n\t\t\telif style==2:inside=(absi(dx)<=10 and absi(dy)<=7) or (absi(dx)<=7 and absi(dy)<=10)\n\t\t\tif inside:carve_cell(rooms.back()+Vector2i(dx,dy))",
         "source_path": "game/scripts/dungeon.gd",
-        "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+        "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
         "source_symbol": "carve_arena"
       },
       {
         "source_code": "func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:\n\tif pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false\n\t# Receiving volumes may be larger than movement collision; give even the\n\t# large commons a cell of floor around their feet and don't stack silhouettes.\n\tfor off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:\n\t\tif not walkable(pos+off):return false\n\tfor previous in used:\n\t\tif previous.distance_to(pos)<2.0:return false\n\treturn true",
         "source_path": "game/scripts/dungeon.gd",
-        "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+        "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
         "source_symbol": "valid_encounter_position"
       },
       {
-        "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar elite_room=3 if layout_id in [\"side_hollows\",\"branching\"] else 6\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
+        "source_code": "func build_encounters(layout_rng:RandomNumberGenerator):\n\tif raid_arena:\n\t\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":rooms.size()-1,\"mob_index\":0,\"formation\":-1})\n\t\treturn\n\tvar counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]\n\tvar used:Array[Vector2]=[]\n\tvar sequence=0\n\tfor room in range(1,8):\n\t\tvar formation=posmod(room+layout_rng.randi_range(0,3),4)\n\t\tvar positions=formation_positions(rooms[room],int(counts[room-1]),formation,layout_rng)\n\t\tfor candidate in positions:\n\t\t\tvar position=find_encounter_position(candidate,rooms[room],used)\n\t\t\tused.append(position)\n\t\t\tencounters.append({\"role\":\"normal\",\"pos\":position,\"room\":room,\"mob_index\":sequence+floor_number%5,\"formation\":formation})\n\t\t\tsequence+=1\n\tvar rewarded=preload(\"res://scripts/exploration_rooms.gd\").generate(self).map(func(site):return site.room)\n\tvar elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]\n\tvar elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)\n\tencounters.append({\"role\":\"elite\",\"pos\":elite,\"room\":elite_room,\"mob_index\":0,\"formation\":-1})\n\tencounters.append({\"role\":\"guardian\",\"pos\":exit_position,\"room\":8,\"mob_index\":0,\"formation\":-1})",
         "source_path": "game/scripts/dungeon.gd",
-        "source_sha256": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+        "source_sha256": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
         "source_symbol": "build_encounters"
       },
       {
-        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p[key] - delta)\n\t\tcombat.tick_player(p,delta)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tif config.ai==\"healer\" and e.ability_cd<=0:\n\t\t\tfor friend in enemies.values():\n\t\t\t\tif friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)\n\t\t\te.ability_cd=6;events.append({\"type\":\"skill_fx\",\"fx\":\"ranger_heal\",\"pos\":e.pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.6,\"radius\":2.0})\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif e.stun_time>0:e.windup=0;e.erase(\"attack_areas\");continue\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < BossStagger.engagement_radius(e) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif target.is_empty():\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
+        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p[key] - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\te[\"guard_break_time\"]=maxf(0.,e.get(\"guard_break_time\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tif config.ai==\"healer\" and e.ability_cd<=0:\n\t\t\tfor friend in enemies.values():\n\t\t\t\tif friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)\n\t\t\te.ability_cd=6;events.append({\"type\":\"skill_fx\",\"fx\":\"ranger_heal\",\"pos\":e.pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.6,\"radius\":2.0})\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif e.stun_time>0:e.windup=0;e.erase(\"attack_areas\");continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "tick"
       }
     ],
@@ -374754,6 +374901,7 @@
       "game/data/content_names.json": "278773b66ca95f77c96e928c72669bb5887fb8e89553b102f7e184aa403a3c9c",
       "game/data/drop_tables.json": "7fb8ebdc11b52ccbe1acb08b4bf77ba7c781d27fd3b3561bc355d070cc17467c",
       "game/data/jobs/catalog.json": "5f2be9940a75ce4902b3e54012f3a7bfd60c95ed81f0bd4b9589b70491c60a4e",
+      "game/data/sprite_frame_regions.json": "a4ede35136addbeea577147e3da4f354b87f7b0de074541259c054782ee88f0b",
       "game/scripts/abyss_catalog.gd": "f2b54a71d1c3dafa0deed49a569123700f443d9dae4a1dce9dbb9d1ba9a282b6",
       "game/scripts/action_circle.gd": "556529bb8e3c667f04e8e6c2fdcfd4020648acdc9cc7e01a275feb0f9790f7b7",
       "game/scripts/active_skills.gd": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2",
@@ -374761,18 +374909,18 @@
       "game/scripts/art_registry.gd": "527a3f598aa385417fd8dbfd652a65f1b59beca654cac46f34f1e5ea1bdeaefc",
       "game/scripts/audio_director.gd": "0c6068f21a7d11754b28e2e3210738ef5a4f42b37d82796be5bb8fae55484b21",
       "game/scripts/battle_camera.gd": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce",
-      "game/scripts/boss_hud.gd": "2d869da48130397395548719dd54325fe56b84ba31f9e0a2ab47de224826ae36",
+      "game/scripts/boss_hud.gd": "29e3ee4924628600ce3cc4273fd1fa78a7130938386fe4cd130a3907093fa191",
       "game/scripts/boss_stagger.gd": "e1c8c7b9c65ba357d8c34b179e7441b7ac58fc8a1f23fd75283d973e8b1e2d38",
       "game/scripts/build_preset_panel.gd": "82541c86e0d644b5282a0f824c140da3cdf27deb441978f69227e06de55f3943",
       "game/scripts/build_presets.gd": "e9c358f852aeb8ee854cd944c605829b184603b2f163ad67389effa464d9c802",
       "game/scripts/character_creation.gd": "4670975b0a781984cb084cc49254b4f3f450a353bd0f1677ec5b7e2d4d690ff6",
       "game/scripts/character_motion.gd": "8c424545f767509dd6e06cc6024b90a8dd89a8252d14867739a6fe7b95b5228b",
       "game/scripts/character_presentation.gd": "9b9354753f7f6f08b7abeba657b6dbd69b9eed428c2e2f92e35f70a885a7033a",
-      "game/scripts/character_preview.gd": "841a9c94b95f78e6ac999b5f2937a79b5d656c5cb9d37d106c4457df5ea504a3",
+      "game/scripts/character_preview.gd": "9c4089555fa89f81641b110c1c882977dae41dab539889ae385d877de01adf53",
       "game/scripts/character_sheet_ui.gd": "9ec619283d87eb6ea0746e3f7bd0884f55045239565ce41daabaf73c6444f5d3",
       "game/scripts/codex_panel.gd": "c118d309d26581b48f7075e9b94391e20e3a7f09e0c42fa1efe979fa85d1657e",
       "game/scripts/combat_feedback.gd": "0c63c32c87bf333f859d862fa50ba8dccd4ff174c95e21ec4ae45e09a8ad4678",
-      "game/scripts/combat_hud.gd": "0dbb05761c94ab32f035e351f8d04b3fb9d0bca350fb78d95b32827cf696986d",
+      "game/scripts/combat_hud.gd": "b8231eec9b48890be844ffc8e1be1fe0b91242a96037bd374114a6c6162ade37",
       "game/scripts/combat_sprite_art.gd": "2ecd285af6a7c9892ac09d3828fdbf8e542709f8046a7e40e6191cc29c2a1582",
       "game/scripts/combat_stats.gd": "93d675b67a3abea935c7396a5b0f06439fc9bb3b1ba9d42ebb1ca839e407214b",
       "game/scripts/constellation_catalog.gd": "53f299fa2e8627c6c355b6dcd7796be77db9cb39fc0d32ca814b0435f7186656",
@@ -374782,26 +374930,33 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "2e9d2f7264d40069b1bd81439f3382f676842b51e2cf152f00a770b1069b3942",
-      "game/scripts/coop_session.gd": "40aaf64b66dfdd7a6eeb2c9e23cbe22ea7bb4b4476b6a802324e1f90d3ab1067",
+      "game/scripts/coop_session.gd": "540b37fc34062b1047081facae9308d227ba63111e98bbd4066549365afebfe7",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
-      "game/scripts/damage_numbers.gd": "bb08643745dd214d89846ff29ee70c0ca05e1498010eb247f36d4fdc4955b243",
-      "game/scripts/dungeon.gd": "76ad4dee74b3985eff508b2cc1632a9960934baa1af39a9aa4e425223f495c52",
+      "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
+      "game/scripts/dungeon.gd": "286f8a4f12831d7ad1a12bb7c3b2218257a9a0981c840bf4a8120e18dfd7eb24",
       "game/scripts/dungeon_regions.gd": "8b341250cbc1c7476b4ae1288d3778dbba4e4bf2b07c990d31b7f284c097ce68",
+      "game/scripts/dungeon_vision.gd": "0f6b2f4f08bef734af74af19b8bea8251f18b4428f027e3a607ddff694a57554",
+      "game/scripts/enemy_awareness.gd": "414481e20c3e2695c2a2aa3870ceda5c09939fb8941f76983dc248de67835e50",
+      "game/scripts/enemy_defense.gd": "43ce269c32f9dc149e73811dd6ced9eca6a0ca3f7979ae27424b659982bd1838",
       "game/scripts/enemy_hit_geometry.gd": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2",
+      "game/scripts/enemy_tactics.gd": "9f24c28b979c7a726ff85289a2f45c4f1ed79284ba97707b82ce8794dd449747",
       "game/scripts/environment_art.gd": "d6bafb2e7dfc27ca77586ca936a1ce921a6f89993d97e102a53080d5db296278",
       "game/scripts/equipment_art.gd": "205a7f99fecd4469e05fd4cf10df84413d6025b4b373b140b9374dd714f2c3a5",
       "game/scripts/equipment_catalog.gd": "d194a0420de1738d2a6954e46da1fbc64819c9c67ef14e54716b87308cf3c9fb",
       "game/scripts/expedition_brief.gd": "ccf76f9d0cbdf66ae0e3a290add1d45c7822b3eb256b88bc475a99372b0152d7",
       "game/scripts/expedition_brief_panel.gd": "4a92845dc0de8b9a2627e90fcab4e8ea37ee7373fd0a1fe0c5f369a8eb4b2cc8",
       "game/scripts/expedition_hud_chrome.gd": "5c5b3cd98c8ff9699a14ca01ddd3496ab437fedfe59c7a3dbed42b4a42342b98",
-      "game/scripts/exploration_panel.gd": "ace705231069b0f16b1b1e08c2528e4d78c145a1b5cdb2cd15b478036771028e",
-      "game/scripts/exploration_rooms.gd": "d53e060ebded3f68a1ed9c101cb36a5254975e957607b15b70d3d2e1ae135c2c",
+      "game/scripts/expedition_journal.gd": "a3f30e4da42d7eaf9e9d7d2578b5bc041803af385c891836459aeccde652a54c",
+      "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
+      "game/scripts/exploration_cues.gd": "06695e3ee16bb0c930207628eef4bb635d1c64ed554a78f6e102df4b452edfc4",
+      "game/scripts/exploration_panel.gd": "141bed145b777fbc409f62673e4dc8783daacc528fd963259180603507700354",
+      "game/scripts/exploration_rooms.gd": "3069115b340bb0add6511f5842aad5c135d43ae62b5dbd20874de884987586bb",
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
-      "game/scripts/forest_environment.gd": "a76fa8edf191a4a59f615ee8439ba77528fc8056aa82434c0d5859a7f8cb4623",
-      "game/scripts/game_database.gd": "30e642c36ff995fa1794e846971b0eaf3decea91e9f38e239d0d77b22b8356a8",
+      "game/scripts/forest_environment.gd": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283",
+      "game/scripts/game_database.gd": "58eeea2d1b40558f10bacda60db9968e5d17ee1a3576cbb44d8ab534dc52d679",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
-      "game/scripts/gat_art.gd": "06a612a8beb87001413a4ffa5f42dc369526d947c7262ce6b45f5f6e1cb5421c",
+      "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
       "game/scripts/hidden_rooms.gd": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
       "game/scripts/hud_sprite_button.gd": "bfc22a0129f21f12b4c438334c3329de45c41fefb8ce50d6fa169e3d91ddadc7",
@@ -374819,16 +374974,16 @@
       "game/scripts/job_resource_hud.gd": "72ca7986f59a903226d31740002a5c5f884b7ece9d44eace7d84a2e06cb00fc4",
       "game/scripts/key_bindings.gd": "62c70dbffe3f1ff029b3214a290bccfa6419a8e737e23756c483a271bce15077",
       "game/scripts/keyboard_panel.gd": "1c2a2c7e747ab0fed2a2ce3111d3e9eed67497f302a4032fdb0dc300fe21ced8",
-      "game/scripts/local_session.gd": "7c3fefecde98a3dd5c4867644ff77b5266049f4ff8215ea3f275e56a4d161b31",
+      "game/scripts/local_session.gd": "3484de36fd21d029c6e9b184de7bbc71d3755b2c874d4b1936aacfd36ef07011",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "fce386ed004bcc71342ea1401c2ee3da49d9d531c7295b8e715cadccc495fae5",
-      "game/scripts/minimap.gd": "137fc8287be6e12ee4cf854a8caea876a3c635062a2c5c5ce428c2200e5a8e46",
+      "game/scripts/main.gd": "fd91945fa4f3bb8cdb09ae0d1074783156e2de4b17b1ce1d07a93b386cab033f",
+      "game/scripts/minimap.gd": "17f53a8a04c944f0d14d0b608cabdaa659511de02ccbb3bcc5b77dae6bba0493",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "6ee7346191622e6860f4c05c889a5b22b797387a94700228e445b5e50f221e77",
       "game/scripts/npc_dialogue.gd": "dffd059e5b1e9a28064f6e2a225219c44a3b10b3431970ef72acf058dc9e231d",
       "game/scripts/party_hud.gd": "13edb3b5afe9b49b7fda6e427a62caa464f629ae0c079f54940337508b94954f",
       "game/scripts/party_rules.gd": "6f871e022ef3ed8e9e698be31836855a5496714888ca41058161dd03c446bbba",
-      "game/scripts/player_combat.gd": "a55ed612281d24afb749af98b10dbf8b651f0c1c8d6d54b967a5817823dac6ac",
+      "game/scripts/player_combat.gd": "7c7838532652b409e80dd6233023acba5a0c1fe1f37d745779e6bd2ae0c2143e",
       "game/scripts/player_stats.gd": "b0f0a5624e7d2bafcf3be7f7fc0b7dec4030a0708bc673a6ae312277c7193ede",
       "game/scripts/playtest_driver.gd": "0c5ab2431e7faaeb5c974e5a24c21a1f5aec8762a27566222a75d9f3e51905bd",
       "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
@@ -374836,7 +374991,7 @@
       "game/scripts/progression.gd": "57f842deae7215cb3eefce8fe8f20938769da9c38d853012c7f4be2c52db2219",
       "game/scripts/service_quote.gd": "89471e72c80e679e954396768a148e18dba036f4bf633406fbb5d1f988b46739",
       "game/scripts/settings_panel.gd": "d442097b2e1beda0b2448960fe6ad9fb63416c22984b352d554f01b3edc83f09",
-      "game/scripts/simulation.gd": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+      "game/scripts/simulation.gd": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
       "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
       "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
       "game/scripts/skill_effects.gd": "cae93c16b3e414792e0ef3830822f60dbea6101e62f53cf41ea4e04dd5a52fc1",
@@ -374848,24 +375003,28 @@
       "game/scripts/skill_tree_ui.gd": "6da3c2c012847618aac7d2968658859d00beb5b3134f740c68eb9e92ceb22f35",
       "game/scripts/skill_vfx.gd": "29f66f899d247d20cd743462e2f5ebbc7c5658b6a42992e4c23b8a1efd251bcd",
       "game/scripts/skill_vfx_catalog.gd": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c",
+      "game/scripts/sprite_frame_regions.gd": "bcddbb3fcef687d111f2a2272bcf460db600550ece39527daa5ebf444bb0cccc",
       "game/scripts/sprite_names.gd": "d846283d3e3ba52b4144cfe60bb247ffb28efa6abc1042ffaf6b6713dff85ec9",
-      "game/scripts/status_markers.gd": "28b80fbdade84ec5b692a7d1d96b516ec5f62995de354b33642fa554386d3968",
+      "game/scripts/status_markers.gd": "e59c3f258f86186f4795e48b27abe518df07836d85dc0da32902c2cc8f507781",
       "game/scripts/status_strip.gd": "2e683d1e0c39f7d3e6ada6961f62e61065bbcb1db21e1f3fa7c7608d772331cc",
       "game/scripts/title_screen.gd": "fa13b3f9724eef0d50b0f8ec63563a602b4c15691ff1606bc68cb3aa1e1f15dd",
       "game/scripts/town_operations.gd": "ca0d0ef6a9e784df48c50b516efbf571393981264b13f1607136b424bb944817",
-      "game/scripts/town_panel.gd": "0d6a19de1b63671d023717eba1d3cfa3f262c3fa21dd86f753e687f6bc399402",
+      "game/scripts/town_panel.gd": "279415a39b10ea5f618b672d889e48573a8c8576ebe6d6b1a2d25b37eab159ac",
       "game/scripts/town_services.gd": "dcda7ca8a7ae7ee1d8502b1c59f58933be4ad51b05b1362918f2a24f13b90c25",
       "game/scripts/town_visitors.gd": "ee7b7f7185783504ae5597da3dde1838e90ddf319d2c5be0733e6ecc47536f13",
       "game/scripts/training_art.gd": "aa70f36f97e8868db842853e0df811e0098a773aadcc89adb63c8728343f5741",
       "game/scripts/training_ground.gd": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
       "game/scripts/ui_art.gd": "cff5c1cc5a0ee95da1435e1a7bf300d2398f42450c2bb9e08a7e3489b2598e5e",
+      "game/scripts/visible_telegraphs.gd": "0918e783aa87875e22ecef23d2430d5cd198bbc657b2b337e9cb5bb89a28b331",
       "game/scripts/wardrobe.gd": "3cbeccd2e524a1c44f1a2781e15faf50d64d3d41140e7c44c3d2724d0ec51230",
       "game/scripts/wardrobe_shop.gd": "5f12550d1db03a0078db8bad262d16069f5607dc3b2900f819917d36708385a1",
       "game/scripts/world_art.gd": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085",
       "game/scripts/world_catalog.gd": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
       "game/shaders/damage_gradient.gdshader": "e11eddba754d1260105eec08c2386243236bc04121d3d665431bac58cdb4fb1d",
+      "game/shaders/dungeon_fog.gdshader": "7bfeb3a702feefccdbcf4a16b0f24502dc859848e0e7eac6151eac2d5bf1d494",
       "game/shaders/forest_ground.gdshader": "52e5ea98ec32b3cbb06d15334def4f609977c3dadc9d8259a7c543a93d411d35",
       "game/shaders/gat_chroma.gdshader": "0b2c654ec4574743c98af2409a226b7501e918c18fd8e8a15d721ed8f129bb49",
+      "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
       "tools/game_db_rules.py": "9656b309515ea0de75c5ba253eafd8753465c4a5a5492d33c0e5a1efb7d05a44",
@@ -510025,7 +510184,7 @@
       "reward_rule": {
         "source_code": "func kill(id: int, enemy: Dictionary):\n\tif enemy.get(\"training\",false):enemy.hp=enemy.max_hp;return\n\tif enemy.get(\"rewarded\",false):return\n\tenemy[\"rewarded\"]=true\n\tvar config = balance.enemies[enemy.kind].duplicate(true)\n\tfor key in [\"xp\",\"gold\"]:config[key]=enemy.get(key,config[key])\n\tenemy.hp = 0\n\tenemy.respawn = 999999. if map.floor_number>0 else config.respawn\n\tenemy.windup = 0.0\n\tenemy[\"slow_time\"]=0.0;enemy[\"stun_time\"]=0.0;enemy[\"job_status\"]={};enemy.erase(\"taunt_owner\");enemy.erase(\"taunt_time\")\n\tvar recipients=[id]\n\tif players.size()>1:\n\t\trecipients=players.keys().filter(func(key):return key==id or enemy.get(\"guardian\",false) or players[key].pos.distance_to(enemy.pos)<=12.)\n\tfor recipient in recipients:\n\t\tif not players[recipient].get(\"network_leaving\",false):reward_kill(recipient,enemy,config)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "a88918d06b17edd0feaed5309b8f45d2206a04471ce06cc0bd9daab49938fd92",
+        "source_sha256": "512fc474502a84c88de7cdc827abcd85093b2232fb53ead895717b01a47d086b",
         "source_symbol": "kill"
       },
       "rules": [
