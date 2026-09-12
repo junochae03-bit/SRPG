@@ -21,6 +21,7 @@ var exploration_challenges:Dictionary={}
 var rng = RandomNumberGenerator.new()
 var combat
 var awareness
+var tactical
 var inspection=preload("res://scripts/enemy_inspection.gd").new()
 var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
@@ -31,6 +32,7 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0):
 	monster_attacks=preload("res://scripts/monster_attacks.gd").new(self)
 	map = Dungeon.new(seed_value,zone,floor_number)
 	awareness=preload("res://scripts/enemy_awareness.gd").new(self)
+	tactical=preload("res://scripts/tactical_tools.gd").new(self)
 	balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance.json"))
 	balance.enemies=preload("res://scripts/world_catalog.gd").ENEMIES.duplicate(true)
 	rng.seed = seed_value + 93
@@ -152,6 +154,7 @@ func notice(id: int, message: String):
 	events.append({"type":"notice","owner":id,"text":message})
 
 func clear_build_runtime(p:Dictionary):
+	tactical.records=tactical.records.filter(func(record):return record.owner!=p.id)
 	combat.jobs.reset(p)
 	combat.constellation.reset(p)
 	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=p.id)
@@ -452,13 +455,14 @@ func tick(delta: float):
 					target.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase("revive_target");p.erase("revive_progress");notice(target.id,"동료의 도움으로 일어났습니다.")
 		p.input_age += delta
 		if p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false
-		for key in ["attack_cd","nova_cd","potion_cd","return_cd","swing"]:
-			p[key] = maxf(0, p[key] - delta)
+		for key in ["attack_cd","nova_cd","potion_cd","tool_cd","return_cd","swing"]:
+			p[key] = maxf(0, p.get(key,0.) - delta)
 		var before=p.pos
 		combat.tick_player(p,delta)
 		awareness.movement(p,before)
 	combat.tick_projectiles(delta)
 	combat.skills.tick(delta)
+	tactical.tick()
 	monster_attacks.tick(delta)
 	for e in enemies.values():
 		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
@@ -550,6 +554,7 @@ func tick(delta: float):
 		if drops[key].expires <= clock: drops.erase(key)
 
 func player_defeated(p:Dictionary):
+	tactical.records=tactical.records.filter(func(record):return record.owner!=p.id)
 	p.erase("revive_target");p.erase("revive_progress");p.dir=Vector2.ZERO;p.charge_time=-1.
 	if players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):
 		p.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
@@ -560,6 +565,7 @@ func respawn_player(p:Dictionary):
 	combat.jobs.reset(p);reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
 
 func reset_after_defeat(player_id:int):
+	tactical.records=tactical.records.filter(func(record):return record.owner!=player_id)
 	# Defeat removes the owner's pending attacks. The encounter resets only when
 	# nobody remains in its arena, so this also has sensible future party behavior.
 	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=player_id)
@@ -583,4 +589,4 @@ func snapshot(for_id: int) -> Dictionary:
 	var visible_drops = {}
 	for id in drops:
 		if drops[id].owner == for_id: visible_drops[id] = drops[id].duplicate(true)
-	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}
+	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"tactical_tools":tactical.snapshot(),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}

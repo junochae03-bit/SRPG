@@ -13,6 +13,7 @@ var sim:
 	get:return sim_ref.get_ref()
 var emitted_at={}
 var emitted_radius={}
+var emitted_cell={}
 var feedback={}
 var pulse_serial=0
 func _init(owner_sim):sim_ref=weakref(owner_sim)
@@ -21,8 +22,9 @@ func emit(owner:int,position:Vector2,radius:int)->int:
 	var player=sim.players.get(owner,{})
 	if player.is_empty() or player.hp<=0 or player.get("network_leaving",false):return 0
 	radius+=int(sim.map.environment.get("noise_bonus",0))
-	if sim.clock-float(emitted_at.get(owner,-100.))<.35 and int(emitted_radius.get(owner,0))>=radius:return 0
-	emitted_at[owner]=sim.clock;emitted_radius[owner]=radius
+	var source_cell=Vector2i(position.round())
+	if sim.clock-float(emitted_at.get(owner,-100.))<.35 and emitted_cell.get(owner,Vector2i(-999,-999))==source_cell and int(emitted_radius.get(owner,0))>=radius:return 0
+	emitted_at[owner]=sim.clock;emitted_radius[owner]=radius;emitted_cell[owner]=source_cell
 	pulse_serial+=1
 	feedback[owner]={"serial":pulse_serial,"pos":position,"radius":radius,"until":sim.clock+1.1}
 	var wave=propagation(sim.map,position,radius)

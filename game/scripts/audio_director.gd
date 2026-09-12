@@ -114,6 +114,8 @@ func on_event(event:Dictionary):
 	var quiet=0.0
 	if event.has("pos") and not p.is_empty():quiet=-minf(20,p.pos.distance_to(event.pos)*1.4)
 	match event.type:
+		"tactical_tool":
+			if game.vision.sees(event.pos):play_sound({"lure_stone":"step","snare_trap":"equip","fire_bottle":"nova"}.get(event.item,"equip"),quiet-4)
 		"monster_attack":play_sound(event.get("sound","hit_sword"),quiet-6)
 		"attack":play_sound(event.get("weapon","sword"),quiet)
 		"heavy":play_sound(event.get("weapon","sword") if event.get("weapon") in ["bow","staff"] else "heavy",quiet)

@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 465431,
-    "sha256": "a4e6e7d6fec6f0313cb88d961e30510fc4488c300a628155c4caec6540d11960"
+    "bytes": 466558,
+    "sha256": "b5a9d4ea5c281c9b6c46d2f0c3c0a82b60fb861b3ddcd8b1671a3cfddc17db8b"
   },
   {
     "path": "game/data/content_names.json",
@@ -1271,8 +1271,8 @@
   },
   {
     "path": "game/scripts/audio_director.gd",
-    "bytes": 7071,
-    "sha256": "0c6068f21a7d11754b28e2e3210738ef5a4f42b37d82796be5bb8fae55484b21"
+    "bytes": 7231,
+    "sha256": "7084677f584a1ace359e92a26f958d58ef89db5bb8a547a03a71cfa5affbdf36"
   },
   {
     "path": "game/scripts/battle_camera.gd",
@@ -1361,13 +1361,13 @@
   },
   {
     "path": "game/scripts/consumable_bar.gd",
-    "bytes": 6315,
-    "sha256": "8ce28b3b3f13bf5ea8d30d8c7f29a10706988a8dfeebc07a4e6c40977b23842c"
+    "bytes": 6334,
+    "sha256": "c0d4178a3cfbf5f4d004abb3b7fa451b875c926ba28b89609ad19eb2df377ff4"
   },
   {
     "path": "game/scripts/consumables.gd",
-    "bytes": 2743,
-    "sha256": "c7f9bb730522ff57a2a8f028c2817a821fa95971cc4c86551de01f8668e575b6"
+    "bytes": 4255,
+    "sha256": "ac1a0baed7b4ca9e6424b13b66e1103bf4e2c670d8a3a9f57b80b07b278e5744"
   },
   {
     "path": "game/scripts/content.gd",
@@ -1387,7 +1387,7 @@
   {
     "path": "game/scripts/coop_session.gd",
     "bytes": 21936,
-    "sha256": "940d443801d5b236171c520e50efd3d873804d9ec802f645c7e9cb512a8e9054"
+    "sha256": "c4ddbadba973ff8f4ccccc60ac9d3ea4f32bbf35afee8507959a46dfecc8ad60"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1421,8 +1421,8 @@
   },
   {
     "path": "game/scripts/enemy_awareness.gd",
-    "bytes": 5326,
-    "sha256": "8ea05dc8b9302a0fdafedb95061a3a665d9823abaa9ce12f689466a9eb462e99"
+    "bytes": 5483,
+    "sha256": "f161c6453eca390d2aa33ec2851be1eb13c17b48012073ebb45ef19b2485bbc3"
   },
   {
     "path": "game/scripts/enemy_defense.gd",
@@ -1541,8 +1541,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32373,
-    "sha256": "6c79251c57dfe55067245241d78af138b13e42cda1fc08fd185513b35011d314"
+    "bytes": 32584,
+    "sha256": "3ac7b8f344634cf7dc380c97e3dab3e4a10c77ecaf54371bcaabfcf1a481fac4"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1596,13 +1596,13 @@
   },
   {
     "path": "game/scripts/inventory_panel.gd",
-    "bytes": 21104,
-    "sha256": "d20e762b1a6a0d1bcd1c617f5a3e3f277913c7dc34234d70080ddb85671d3d75"
+    "bytes": 21917,
+    "sha256": "8e9fff2a524fec71b9db3228572ac59f0f2a64935accdfd9dd6a799233ccf569"
   },
   {
     "path": "game/scripts/item_art.gd",
-    "bytes": 741,
-    "sha256": "c42c87d0b38971f43dbc64011c4417c922ce2161c9166bc1620bb3da4748a6b0"
+    "bytes": 776,
+    "sha256": "823bfb3b19bb88f4c86c19c94a368ba87c755d1bf24f1c8ce8410653b246b04d"
   },
   {
     "path": "game/scripts/job_art.gd",
@@ -1641,8 +1641,8 @@
   },
   {
     "path": "game/scripts/local_session.gd",
-    "bytes": 20097,
-    "sha256": "dba89829ea10bc62484c34b4dc418044f919bfc0b37420f6f49d3863dc9ff043"
+    "bytes": 20133,
+    "sha256": "b048f4e44f3750f1ff9e90a041b7d50083ec70aa060afb56c3cbf116a504892e"
   },
   {
     "path": "game/scripts/loot_tables.gd",
@@ -1731,8 +1731,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 33395,
-    "sha256": "54e45e50611ed6fe7032da918ba1db3368959efb6602e063c6c1715b32d01341"
+    "bytes": 33793,
+    "sha256": "c9bcf396de434cdd014849bba34105a960ee940044aa80b5db3649bf7a733ad0"
   },
   {
     "path": "game/scripts/skill_build.gd",
@@ -1810,6 +1810,11 @@
     "sha256": "2e683d1e0c39f7d3e6ada6961f62e61065bbcb1db21e1f3fa7c7608d772331cc"
   },
   {
+    "path": "game/scripts/tactical_tools.gd",
+    "bytes": 4825,
+    "sha256": "227436f70f3f3dab7fdfc7d027a1f2425746c0cc7b9033982cacd0b4c41cdafa"
+  },
+  {
     "path": "game/scripts/telegraph_priority.gd",
     "bytes": 8643,
     "sha256": "be1e22cbc69b4610932c01187ca96355c135f85ef12326929271b6dc6ae8d6ab"
@@ -1821,13 +1826,13 @@
   },
   {
     "path": "game/scripts/town_operations.gd",
-    "bytes": 7177,
-    "sha256": "ca0d0ef6a9e784df48c50b516efbf571393981264b13f1607136b424bb944817"
+    "bytes": 7368,
+    "sha256": "02f134a53fa3ff71c66b477871c431b31f166541b7f95ea7a4d03d16b94a27f8"
   },
   {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 29688,
-    "sha256": "db74b645df584f7bfc2909ae990355ade262aeb434e0f0aab93f5e58bbf51595"
+    "bytes": 29891,
+    "sha256": "3009a9146328df2e061fed66b4e0f3e6ee2e294063c73e9ddaa17b4d373b7d8d"
   },
   {
     "path": "game/scripts/town_services.gd",
@@ -1861,8 +1866,8 @@
   },
   {
     "path": "game/scripts/visible_telegraphs.gd",
-    "bytes": 1736,
-    "sha256": "bb0f11bf51cf01b6150e81c5e962ebcc9b1cfbc3e4e2c5f3948d1ac8ba85e316"
+    "bytes": 3046,
+    "sha256": "e42bd55068312d9b236575acf14aa02a957d02c326f297a058fee0a92f500c41"
   },
   {
     "path": "game/scripts/wardrobe.gd",

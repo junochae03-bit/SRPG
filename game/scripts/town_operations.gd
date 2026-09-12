@@ -3,10 +3,10 @@ extends RefCounted
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Consumables=preload("res://scripts/consumables.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
-const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약","tool":"탐사 도구","mana_potion":"마나 물약","power_potion":"공격 강화 물약"}
+const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약","tool":"탐사 도구","mana_potion":"마나 물약","power_potion":"공격 강화 물약","lure_stone":"유인 돌","snare_trap":"올가미 덫","fire_bottle":"화염병"}
 const DEFAULT_INN_OPERATION="resupply_small"
 const INN_RESUPPLY_TARGETS={"resupply_small":5,"resupply":Inventory.MAX_POTIONS}
-const OPERATIONS=["smith:salvage","shop:potion","shop:mana_potion","shop:power_potion","shop:tool","alchemy:potion","alchemy:mana_potion","alchemy:power_potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
+const OPERATIONS=["smith:salvage","shop:potion","shop:mana_potion","shop:power_potion","shop:lure_stone","shop:snare_trap","shop:fire_bottle","shop:tool","alchemy:potion","alchemy:mana_potion","alchemy:power_potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
 static func handles(facility:String,operation:String)->bool:return facility+":"+operation in OPERATIONS
 static func describe(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:
 	var q={"title":"선택한 작업","cost":0,"materials":{},"outputs":{},"result":"","reason":"","icon":facility,"item":{},"operation":operation,"extra":extra.duplicate(true)}
@@ -38,7 +38,7 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 			if int(q.item.rarity)>=2:q.outputs.essence=int(q.item.rarity)-1
 			q.result=q.item.name+" → 분해\n";q.icon="ore"
 		"shop:potion":q.title="회복 물약 ×%d"%quantity;q.cost=15*quantity;q.outputs.potion=quantity;q.icon="potion"
-		"shop:mana_potion","shop:power_potion":
+		"shop:mana_potion","shop:power_potion","shop:lure_stone","shop:snare_trap","shop:fire_bottle":
 			q.title=Consumables.ITEMS[operation].name+" ×%d"%quantity;q.cost=Consumables.ITEMS[operation].price*quantity;q.outputs[operation]=quantity;q.icon=Consumables.ITEMS[operation].icon
 		"alchemy:mana_potion","alchemy:power_potion":
 			q.title=Consumables.ITEMS[operation].name+" ×%d"%(3*quantity);q.cost=(15 if operation=="mana_potion" else 30)*quantity;q.materials.seed=3*quantity

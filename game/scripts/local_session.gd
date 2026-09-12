@@ -193,7 +193,7 @@ func validate_save(value:Variant)->Variant:
 		value.materials[key]=int(amount)
 	if not value.get("consumables",{}) is Dictionary:return null
 	for key in value.get("consumables",{}):
-		if key not in ["mana_potion","power_potion"] or not Inventory.whole_count(value.consumables[key],Inventory.MAX_POTIONS):return null
+		if (key=="potion" or not preload("res://scripts/consumables.gd").ITEMS.has(key)) or not Inventory.whole_count(value.consumables[key],Inventory.MAX_POTIONS):return null
 		value.consumables[key]=int(value.consumables[key])
 	if Inventory.bag_items(value).size()>Inventory.CAPACITY:return null
 	for id in value.get("bag_positions",{}):

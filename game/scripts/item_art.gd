@@ -1,7 +1,7 @@
 extends RefCounted
 static var cache:Dictionary={}
 static func texture(key:String)->Texture2D:
-	if key in ["mana_potion","power_potion"]:return preload("res://scripts/icon_library.gd").texture(preload("res://scripts/consumables.gd").ITEMS[key].icon)
+	if key!="potion" and preload("res://scripts/consumables.gd").ITEMS.has(key):return preload("res://scripts/icon_library.gd").texture(preload("res://scripts/consumables.gd").ITEMS[key].icon)
 	if key=="tool":return preload("res://scripts/icon_library.gd").texture("smith")
 	if cache.is_empty():
 		var atlas:Texture2D=load("res://assets/sprites/items-v04.png")

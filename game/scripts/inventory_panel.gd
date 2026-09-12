@@ -192,7 +192,19 @@ func quick_activate(id:String):
 func activate_selected():
 	var item=item_by_id(selected_id)
 	if item.is_empty():return
-	if item.category=="consumable":game.session.act(item.get("consumable","potion"))
+	if item.category=="consumable":
+		var key=item.get("consumable","potion")
+		if preload("res://scripts/consumables.gd").ITEMS[key].get("tool",false):
+			var menu=PopupMenu.new();add_child(menu)
+			menu.add_theme_font_override("font",game.fonts);menu.add_theme_font_size_override("font_size",22)
+			var bar=game.hud.expedition.consumables
+			for index in range(4):
+				var current=bar.assignments[index]
+				menu.add_item("%s · %s"%[game.keybindings.label(bar.ACTIONS[index]),"빈 슬롯" if current.is_empty() else bar.ITEMS[current].name],index)
+			menu.id_pressed.connect(func(index):bar.assign(index,key))
+			menu.popup_hide.connect(menu.queue_free)
+			menu.popup(Rect2i(Vector2i(get_viewport().get_mouse_position()),Vector2i(300,0)))
+		else:game.session.act(key)
 	elif Inventory.is_equipped(player(),selected_id):game.session.act("unequip",item.slot)
 	else:game.session.act("equip",selected_id)
 	refresh(true)
@@ -251,7 +263,7 @@ func refresh(force=false):
 		primary.text="장착 해제" if Inventory.is_equipped(p,selected_id) else "장착하기"
 		Library.attach(primary,"unequip" if Inventory.is_equipped(p,selected_id) else "locked" if primary.disabled else "equip",22)
 	elif item.category=="consumable":
-		detail_body.text=preload("res://scripts/consumables.gd").description(p,item.get("consumable","potion"));primary.text="물약 사용하기"
+		detail_body.text=preload("res://scripts/consumables.gd").description(p,item.get("consumable","potion"));primary.text="퀵슬롯에 등록" if preload("res://scripts/consumables.gd").ITEMS[item.get("consumable","potion")].get("tool",false) else "물약 사용하기"
 		Library.attach(primary,"consumable",22)
 	else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다.\n\n별씨앗 · 물약 조제\n광석 · 장비 강화\n정수 · 장비 옵션 재련" % item.count
 

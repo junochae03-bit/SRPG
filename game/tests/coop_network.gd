@@ -95,6 +95,26 @@ func run():
 		await create_timer(.6).timeout
 		check(session.state.get("noise",{}).get("serial",0)==session.local_id,"compressed ENet snapshot carries only this peer's noise pulse")
 		check(session.state.get("corpses",[]).size()==1 and session.state.corpses[0].pos==session.sim.map.spawn,"compressed ENet snapshot omits unseen corpse record")
+		# Actual reliable tool requests: every peer owns one paid trap; replayed
+		# sequence numbers cannot deploy or consume a second one.
+		if host:
+			for enemy in session.sim.enemies.values():enemy.hp=0
+			for player in session.sim.players.values():
+				player.pos=session.sim.map.spawn;player.aim=Vector2.RIGHT
+				preload("res://scripts/inventory_model.gd").add_stack(player,"snare_trap",5)
+			session.refresh();session.publish_snapshot()
+		await create_timer(.6).timeout
+		if host:
+			check(session.act("snare_trap"),"host tool request accepted")
+			check(not session.act("snare_trap"),"host rapid duplicate rejected")
+		else:
+			session.sequence+=1
+			session.receive_action.rpc_id(1,session.sequence,"snare_trap","")
+			session.receive_action.rpc_id(1,session.sequence,"snare_trap","")
+		await create_timer(.8).timeout
+		check(session.state.players[session.local_id].consumables.get("snare_trap",0)==4,"replayed tool sequence spends exactly one owned item")
+		var deployed=session.state.get("tactical_tools",[])
+		check(deployed.size()==6 and deployed.filter(func(tool):return tool.owner==session.local_id).size()==1,"compressed world has six tools with distinct owners")
 		# An actual guest request must use the host's room guards and inventory,
 		# with personal claims surviving the next compressed world snapshot.
 		if host:
