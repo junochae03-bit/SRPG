@@ -19,6 +19,7 @@ func setup(owner_game):
 	var backdrop=ColorRect.new();backdrop.name="ModalBackdrop";backdrop.color=Color(.035,.075,.06,.36)
 	backdrop.position=-position-game.ui_offset();backdrop.size=Vector2(1600,900);backdrop.mouse_filter=Control.MOUSE_FILTER_STOP;backdrop.show_behind_parent=true;add_child(backdrop)
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",6)
+	game.button(self,"협동 방",Vector2(36,454),Vector2(216,50),func():close();game.coop_panel.open())
 	game.label(self,"설정",Vector2(38,28),Vector2(720,48),34)
 	game.button(self,"닫기",Vector2(892,30),Vector2(150,44),close)
 	var definitions=[["sound","소리"],["display","화면"],["combat","전투 표시"]]
@@ -66,7 +67,7 @@ func checkbox(parent:Control,id:String,caption:String,y:float):
 	button.toggled.connect(func(value):if not syncing:draft[id]=value;mark_changed())
 func open():
 	was_paused=game.session.paused if game.session.connected else false
-	if game.session.connected:game.session.paused=true;game.session.sim.combat.act(game.session.sim.players[game.session.local_id],"cancel_charge")
+	if game.session.connected:game.session.paused=true;game.session.cancel_charge()
 	draft=game.preferences.values.duplicate();status.text="";sync_controls();title_button.visible=game.session.connected;show()
 func select_page(id:String):
 	selected_page=id
@@ -94,4 +95,4 @@ func return_from_keys():
 	if game.session.connected:game.session.paused=true
 func return_to_title():
 	if game.session.disconnect_game():hide()
-	else:status.text="저장 실패 · 기록은 유지됩니다. 다시 시도하세요."
+	else:status.text="최신 기록 저장 중…" if game.session.get("leaving")==true else "저장 실패 · 기록은 유지됩니다. 다시 시도하세요."

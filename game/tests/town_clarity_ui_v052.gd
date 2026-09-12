@@ -18,21 +18,26 @@ func check(ok:bool,label:String):
 
 func open_service(key:String):
 	panel.close();p.pos=World.FACILITIES[key].pos;local.refresh();panel.open(key)
-	check(panel.visible and local.paused and panel.size==Vector2(1560,852),"full workbench and paused game "+key)
-	check(panel.counter.size.x<=220 and panel.body.size.x>=1200,"space assigned to work instead of oversized static art")
+	check(panel.visible and local.paused and panel.size==Vector2(1312,852),"compact workbench and paused game "+key)
+	check(panel.body.position.x==26 and panel.body.size.x>=1200,"functional area retains width without NPC sidebar")
 	if key=="costume":check(panel.wardrobe_view!=null and panel.review_panel==null,"dedicated boutique owns its purchase review")
 	else:check(panel.preview.has("result") and panel.confirm_button!=null,"explicit selected operation quote "+key)
-	if World.RESIDENTS.has(key):check(panel.greeting.text.contains(World.RESIDENTS[key].name),"resident identity "+key)
+	if World.RESIDENTS.has(key):
+		for label in panel.find_children("*","Label",true,false):check(not label.text.contains(World.RESIDENTS[key].name),"no redundant resident identity "+key)
 
 func audit_screen(label:String):
 	if panel.review_panel!=null:
 		var safe=Rect2(Vector2(32,26),panel.review_panel.size-Vector2(64,52))
 		for child in panel.review_panel.get_children():
 			if child is Label and not child.text.is_empty():check(safe.encloses(child.get_rect()),"review label remains inside paper "+label)
-		check(safe.encloses(panel.confirm_button.get_rect()) and safe.encloses(panel.review_result_scroll.get_rect()),"action/result bounds "+label)
-		check(panel.review_result_scroll.get_rect().end.y+12<=panel.review_labels.feedback.position.y,"result cannot cover receipt "+label)
-		check(panel.review_labels.feedback.get_rect().end.y+12<=panel.confirm_button.position.y,"receipt cannot cover action "+label)
-		check(panel.review_labels.name.get_rect().end.y+10<=panel.review_labels.price.position.y,"item name cannot cover price "+label)
+		check(safe.encloses(panel.confirm_button.get_rect()),"action bounds "+label)
+		if panel.facility=="portal":
+			check(panel.review_result_scroll==null and panel.review_panel.party.get_rect().end.y+12<=panel.confirm_button.position.y,"departure summary cannot cover enter button")
+		else:
+			check(safe.encloses(panel.review_result_scroll.get_rect()),"result bounds "+label)
+			check(panel.review_result_scroll.get_rect().end.y+12<=panel.review_labels.feedback.position.y,"result cannot cover receipt "+label)
+			check(panel.review_labels.feedback.get_rect().end.y+12<=panel.confirm_button.position.y,"receipt cannot cover action "+label)
+			check(panel.review_labels.name.get_rect().end.y+10<=panel.review_labels.price.position.y,"item name cannot cover price "+label)
 	for text in panel.find_children("*","Label",true,false):
 		if not text.is_visible_in_tree() or text.text.is_empty():continue
 		var count=text.get_line_count();var intended=count if text.max_lines_visible<0 else mini(count,text.max_lines_visible)
@@ -83,19 +88,19 @@ func run():
 	panel.choose("buy",{"index":0});check(panel.quantity==1,"changing operation resets bulk quantity")
 	panel.select_shop_mode("sell");panel.choose("sell",{"item":"clarity-gear-1"})
 	check(click_confirm() and panel.selected_item=="" and panel.confirm_button.disabled,"sale requires fresh item selection")
-	check(panel.review_labels.feedback.text==panel.last_receipt and panel.last_receipt.contains("완료"),"sale receipt survives now-invalid quote")
+	check(panel.review_labels.result.text==panel.last_receipt.replace(" · ","\n") and panel.last_receipt.contains("완료"),"sale receipt survives now-invalid quote")
 	await capture("shop-sold")
 	open_service("smith");panel.choose("upgrade",{"item":"clarity-gear-0"})
 	check(panel.products["clarity-gear-0"].get_meta("selected"),"selected equipment marked")
 	await capture("smith-before")
 	check(click_confirm() and Inventory.find_item(p,"clarity-gear-0").upgrade==5,"actual upgrade")
-	check(panel.confirm_button.disabled and panel.review_labels.feedback.text==panel.last_receipt,"max upgrade does not hide success receipt")
+	check(panel.confirm_button.disabled and panel.review_labels.result.text==panel.last_receipt.replace(" · ","\n"),"max upgrade does not hide success receipt")
 	await capture("smith-max-receipt")
 	panel.choose("salvage");check(panel.selected_item=="" and panel.confirm_button.disabled,"switching to dismantle requires explicit item")
 	panel.choose("salvage",{"item":"clarity-gear-2"});var ore=p.materials.ore
 	await capture("smith-salvage")
 	check(click_confirm() and Inventory.find_item(p,"clarity-gear-2").is_empty() and p.materials.ore>ore,"actual salvage outputs")
-	check(panel.selected_item=="" and panel.confirm_button.disabled and panel.review_labels.feedback.text==panel.last_receipt,"salvage cannot chain into next gear")
+	check(panel.selected_item=="" and panel.confirm_button.disabled and panel.review_labels.result.text==panel.last_receipt.replace(" · ","\n"),"salvage cannot chain into next gear")
 	open_service("alchemy");panel.choose("ore");panel.quantity_buttons[3].pressed.emit();ore=p.materials.ore
 	await capture("alchemy-ore")
 	check(click_confirm() and p.materials.ore==ore+9,"three ore recipes from quantity selector")

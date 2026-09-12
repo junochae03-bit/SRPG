@@ -99,8 +99,12 @@ func turn_page(direction:int):
 
 func transact(kind:String)->bool:
 	if town.facility not in ["shop","costume"] or town.shop_mode!="costume" or kind not in ["buy_appearance","wear_appearance"]:return false
+	if not town.pending_receipt.is_empty():return false
 	var id=town.wardrobe_selection;var before=int(town.player().gold)
 	var success=game.session.act(kind,id)
+	if success and game.session.get("network_role")=="client":
+		town.pending_receipt={"kind":kind,"request_kind":kind,"serial":game.session.sequence,"title":"코스튬 구매" if kind=="buy_appearance" else "코스튬 착용","before":town.player().duplicate(true)}
+		town.last_receipt="거래 확인 중…";town.refresh();return true
 	if success:
 		town.last_receipt="구매 완료 · %d G 지불"%(before-int(town.player().gold)) if kind=="buy_appearance" else "착용 완료"
 		game.audio_director.play_sound("pickup" if kind=="buy_appearance" else "equip")

@@ -30,7 +30,7 @@ class ContractTests(unittest.TestCase):
         ids = [r["id"] for r in self.data["service_operations"]]
         self.assertEqual(ids.count("alchemy:potion"), 1)
         self.assertIn("smith:upgrade", ids)
-        self.assertEqual(self.data["metadata"]["schema_version"], 4)
+        self.assertEqual(self.data["metadata"]["schema_version"], 5)
         self.assertIn("return", self.data["training_rules"][0]["reward_rule"]["source_code"])
 
     def test_reject_invalid_contracts(self):
@@ -54,7 +54,7 @@ class ContractTests(unittest.TestCase):
             con.executescript(db.SCHEMA)
             db.insert(con, self.data)
             self.assertFalse(con.execute("PRAGMA foreign_key_check").fetchall())
-            self.assertEqual(con.execute("PRAGMA user_version").fetchone()[0], 4)
+            self.assertEqual(con.execute("PRAGMA user_version").fetchone()[0], 5)
             self.assertEqual(con.execute("SELECT amount FROM service_outputs").fetchone()[0], 3)
             self.assertEqual(con.execute("SELECT max_materials FROM inventory_rules").fetchone()[0], 999999)
             for invalid in (0, -1, 1.5):

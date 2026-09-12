@@ -12,6 +12,7 @@ uniform vec2 path_panel = vec2(2.0,0.0);
 uniform vec3 ground_tint = vec3(1.0);
 uniform vec3 path_tint = vec3(1.0);
 uniform float path_saturation = 1.0;
+uniform float void_shade = 1.0;
 uniform vec2 camera = vec2(0.0);
 uniform vec2 screen_anchor = vec2(763.0,438.0);
 uniform vec2 terrain_extent = vec2(3200.0,1800.0);
@@ -32,7 +33,7 @@ void fragment() {
 	vec2 world=vec2(s.x/96.0+s.y/48.0,s.y/48.0-s.x/96.0);
 	float mask=texture(walk_mask,(world+vec2(mask_offset+0.5))/mask_size).r;
 	float path=smoothstep(0.40,0.64,mask);
-	vec3 ground=surface(world,ground_panel)*ground_tint;
+	vec3 ground=surface(world,ground_panel)*ground_tint*void_shade;
 	vec3 paving=surface(world,path_panel);
 	// Optional floor-local clearings use another existing material panel. The
 	// mask is built once per map; it never drifts or adds animated tile noise.

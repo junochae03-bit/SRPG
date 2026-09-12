@@ -47,7 +47,7 @@ func run():
 		rank_total+=s.max_rank
 		for rank in s.ranks:
 			check(rank.rank>=1 and rank.rank<=s.max_rank and rank.metrics is Array,"valid skill rank "+s.id)
-			var stagger=preload("res://scripts/boss_stagger.gd").skill_profile(s.node,rank.rank,{})
+			var stagger=preload("res://scripts/boss_stagger.gd").skill_profile(s.node,rank.rank,{"class_id":s.class_id})
 			check(is_equal_approx(stagger.value,rank.stagger.value),"runtime stagger reference "+s.id)
 		for parent in s.parents:check(DB.detail("skills",parent).class_id==s.class_id,"same class parent "+s.id)
 	check(db.skill_ranks.size()==rank_total,"all rank rows")

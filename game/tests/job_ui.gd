@@ -40,15 +40,19 @@ func run():
 		check(parent_buttons.size()==1,"scrollable prerequisite exposes exact parent "+job)
 		if not parent_buttons.is_empty():parent_buttons[0].pressed.emit()
 		check(tree.choice==child.parents[0],"prerequisite button reveals parent "+job)
+		var same_detail=tree.details.get_instance_id();var before_rank=int(p.skill_ranks.get(tree.choice,0))
+		if not tree.invest.disabled:
+			tree.invest.pressed.emit();check(int(p.skill_ranks.get(tree.choice,0))==before_rank+1 and tree.details.get_instance_id()==same_detail,"prerequisite investment stays in the same detail panel "+job)
 		game.session.refresh();game.hud.refresh()
 		check(game.hud.job_resource.heading.text.contains(Content.CLASSES[job].name),"HUD identifies job resource "+job)
 	game.toggle_skills()
 	var controls=game.hud.circles.values();var rectangles=[]
 	for c in controls:
-		var rect=c.get_rect();rect.size.y+=20
+		if not c.visible:continue
+		var rect=c.get_rect().grow(3)
 		for other in rectangles:check(not rect.intersects(other),"combat buttons and captions do not overlap "+c.kind)
 		rectangles.append(rect)
-	for i in range(6):check(game.hud.circles[Content.ACTIONS[i]].position==Vector2(1028+i%3*124,618+int(i/3)*132),"Q F V above C Z X visual order")
+	for i in range(6):check(game.hud.circles[Content.ACTIONS[i]].position==Vector2(500+i*90,803),"horizontal Q F V C Z X visual order")
 	game.session.save_game();check(game.session.parse_save(game.session.save_path())!=null,"new starter and advanced investments remain readable")
 	game.stop_audio();game.session.disconnect_game();game.queue_free();await process_frame;await process_frame
 	print("JOB_UI_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

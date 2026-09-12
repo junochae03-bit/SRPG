@@ -54,6 +54,9 @@ func audit_review(panel,context:String):
 	for child in panel.review_panel.get_children():
 		if child is Label and not child.text.is_empty():check(safe.encloses(child.get_rect()),"review content remains on inner paper: "+context+" / "+child.text)
 	check(safe.encloses(panel.confirm_button.get_rect()),"transaction button clear of outer frame: "+context)
+	if panel.facility=="portal":
+		check(panel.review_result_scroll==null and panel.review_panel.party.get_rect().end.y+12<=panel.confirm_button.position.y,"departure information and party state leave the entrance action clear")
+		return
 	check(safe.encloses(panel.review_result_scroll.get_rect()),"result viewport clear of outer frame: "+context)
 	check(panel.review_result_scroll.get_rect().end.y+8<=panel.review_labels.feedback.position.y,"result never paints over transaction feedback: "+context)
 	check(panel.review_labels.feedback.get_rect().end.y+12<=panel.confirm_button.position.y,"feedback clear of confirmation button: "+context)

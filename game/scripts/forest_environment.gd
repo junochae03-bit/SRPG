@@ -3,8 +3,8 @@ extends RefCounted
 const Dungeon=preload("res://scripts/dungeon.gd")
 const Art=preload("res://scripts/environment_art.gd")
 const FloorTiles=preload("res://scripts/floor_tile_art_v04.gd")
-const MASK_SIZE=64
 const MASK_OFFSET=12
+const MASK_SIZE=Dungeon.SIZE+MASK_OFFSET*2
 const DECORATION_KEEP_RATIO=.55
 var game:Node2D
 var terrain:ColorRect
@@ -14,6 +14,7 @@ var props:Array=[]
 # it separate from the public prop records, whose alpha changes during play.
 var _geometry:Array=[]
 var map
+var map_revision=-1
 var ground_profile:Dictionary={}
 var ground_draws=0
 var material_regions:Dictionary={}
@@ -25,16 +26,19 @@ func _init(owner_node:Node2D):
 	material=ShaderMaterial.new();material.shader=load("res://shaders/forest_ground.gdshader")
 	terrain=ColorRect.new();terrain.position=Vector2(-800,-450);terrain.size=Vector2(3200,1800);terrain.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	material.set_shader_parameter("terrain_extent",terrain.size);material.set_shader_parameter("terrain_origin",terrain.position)
+	material.set_shader_parameter("mask_size",float(MASK_SIZE));material.set_shader_parameter("mask_offset",float(MASK_OFFSET))
 	terrain.z_index=-10;terrain.material=material;game.add_child(terrain)
 	terrain.draw.connect(func():
 		if terrain.visible and map!=null:ground_draws+=1)
 
 func rebuild(dungeon):
 	map=dungeon
+	map_revision=map.revision
 	var mask=Image.create(MASK_SIZE,MASK_SIZE,false,Image.FORMAT_R8);mask.fill(Color.BLACK)
 	for cell in map.path_cells:mask.set_pixel(cell.x+MASK_OFFSET,cell.y+MASK_OFFSET,Color.WHITE)
 	material.set_shader_parameter("walk_mask",ImageTexture.create_from_image(mask))
 	material.set_shader_parameter("camp",map.spawn)
+	material.set_shader_parameter("void_shade",.78 if map.floor_number>0 else 1.0)
 	ground_profile=FloorTiles.apply(material,map.zone,map.floor_number)
 	build_material_regions()
 	ground_draws=0;terrain.queue_redraw()
@@ -72,11 +76,12 @@ func build_material_regions():
 	if map.floor_number>0:
 		accent_material=ACCENT_MATERIALS[ground_profile.id]
 		for room_index in range(1,map.rooms.size()):
-			if posmod(room_index+map.floor_number,3)!=0 and room_index!=8:continue
+			var final_room=room_index==map.rooms.size()-1
+			if posmod(room_index+map.floor_number,3)!=0 and not final_room:continue
 			var center:Vector2i=map.rooms[room_index]
-			var radius=4.5 if room_index==8 else 3.5
-			for dx in range(-5,6):
-				for dy in range(-5,6):
+			var radius=9.5 if map.raid_arena and final_room else 4.5 if final_room else 3.5
+			for dx in range(-10,11):
+				for dy in range(-10,11):
 					var cell=center+Vector2i(dx,dy)
 					var distance=Vector2(dx,dy).length()
 					if not map.floor_cells.has(cell) or distance>=radius:continue
@@ -117,6 +122,7 @@ func ground_evidence()->Dictionary:
 		"layout":map.layout_id,"accent_material":accent_material,"accent_cells":material_regions.size()}
 
 func clear_for_prop(pos:Vector2)->bool:
+	if map.raid_arena and pos.distance_to(map.exit_position)<14.0:return false
 	if pos.distance_to(map.spawn)<6.0 or pos.distance_to(map.exit_position)<4.0:return false
 	var cell=Vector2i(roundi(pos.x),roundi(pos.y))
 	for dx in range(-2,3):

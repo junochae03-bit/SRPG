@@ -67,7 +67,9 @@ func run():
 	for step in range(300):sim.tick(.1)
 	check(p.hp==hp and sim.monster_attacks.zones.is_empty() and not sim.events.any(func(event):return event.type=="monster_attack" or event.type=="damage" and not event.get("enemy",false)),"long practice never triggers enemy AI or counterattack")
 	for key in progress:check(sim.persistent(1)[key]==progress[key],"long practice preserves progression "+key)
-	check(e.hp==e.max_hp and e.pos==Training.POSITION and e.stagger.state=="ready","dummy stays anchored and stagger immunity returns to ready")
+	check(e.hp==e.max_hp and e.pos==Training.POSITION and e.stagger.state=="immune","dummy stays anchored and honors the full sixty-second lock")
+	for step in range(370):sim.tick(.1)
+	check(e.stagger.state=="ready","dummy stagger unlocks after the full recovery time")
 	var learned=p.skill_ranks.duplicate(true);var loadout=p.skill_loadout.duplicate(true);var items=p.inventory.duplicate(true)
 	p.hp=maxi(1,p.hp-20);hp=p.hp;p.stamina=1;p.attack_cd=5.;p.skill_cooldowns[spin.id]=100.
 	sim.combat.launch(p,"bow",Vector2.RIGHT,10,8,10,0);sim.combat.skills.add_zone(p,"frost",e.pos,3,10,[1.])

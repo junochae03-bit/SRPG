@@ -91,7 +91,10 @@ func run():
 		# Inject a documented display fixture through the real event consumer.
 		# Damage/critical calculations themselves are covered by combat tests.
 		game.preferences.values.damage_numbers=true
-		game.on_event({"type":"damage","pos":target.pos,"amount":12345,"enemy":true,"owner":1,"critical":true})
+		var formatter=preload("res://scripts/damage_numbers.gd")
+		for pair in [[0,"0"],[9999,"9999"],[10000,"1만"],[10001,"1만 1"],[100000000,"1억"],[12300450000,"123억 45만"],[12300450067,"123억 45만 67"]]:
+			check(formatter.format_amount(pair[0])==pair[1],"damage units preserve exact amount "+str(pair[0]))
+		game.on_event({"type":"damage","pos":target.pos,"amount":12300450000,"enemy":true,"owner":1,"critical":true})
 		var critical:Image=await capture("training-critical")
 		var changed_red=0
 		for x in range(0,critical.get_width(),2):
@@ -122,7 +125,7 @@ func run():
 	check(art is AtlasTexture and art.atlas.resource_path==TrainingArt.SOURCE and art.region.has_area(),"registered transparent source used by actual target")
 	check(local.act("interact") and game.npc_dialogue.facility=="training","E reaches training instructor from practice circle")
 	game.npc_dialogue.service_button.pressed.emit()
-	check(game.town_panel.facility=="training" and game.town_panel.counter.texture==TrainingArt.texture(),"training review uses same completed target art")
+	check(game.town_panel.facility=="training" and game.town_panel.confirm_button!=null,"training opens functional review without decorative sidebar")
 	game.town_panel.close()
 	check(walk_to(World.FACILITIES.portal.pos+Vector2(1.6,1.2)),"walk from practice green to separate dungeon entrance")
 	check(World.nearest(p.pos)=="portal" and local.sim.map.in_town(p.pos),"portal approach remains safe")

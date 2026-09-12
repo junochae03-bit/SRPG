@@ -93,7 +93,10 @@ func run():
 		reset(f);f.e.pos=f.origin+Vector2(1.6+r-.02,0)
 		f.p.job_state.pets.append({"source":"test","pos":f.origin,"hp":100.,"cd":0.,"power":1.,"kind":0})
 		f.sim.combat.jobs.tick(f.p,0.)
-		check(damage_hits(f)==1,"pet melee reaches target body edge "+kind)
+		check(damage_hits(f)==0,"manifestation never attacks without player input "+kind)
+		f.p.class_id="hunter";f.sim.action(1,"attack");f.sim.combat.tick_projectiles(.6)
+		check(damage_hits(f)==2,"player hit triggers manifestation at target body edge "+kind)
+		f.p.class_id="warrior"
 		# A wall still blocks the entire attack, even if body overlap is generous.
 		reset(f);f.e.pos=f.origin+Vector2(reach+r-.02,0)
 		for y in range(0,39):f.sim.map.floor_cells.erase(Vector2i(20,y))

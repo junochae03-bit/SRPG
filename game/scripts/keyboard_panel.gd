@@ -2,7 +2,7 @@ extends Panel
 const Keys=preload("res://scripts/key_bindings.gd")
 const Art=preload("res://scripts/ui_art.gd")
 const Icons=preload("res://scripts/icon_library.gd")
-const ACTION_ICONS={"move_up":"agility","move_down":"agility","move_left":"agility","move_right":"agility","sprint":"agility","dodge":"dash","potion":"consumable","interact":"interact","return":"return_home","bag":"bag","skills":"skills","codex":"codex","card_next":"card_hand"}
+const ACTION_ICONS={"move_up":"agility","move_down":"agility","move_left":"agility","move_right":"agility","sprint":"agility","dodge":"dash","potion":"consumable","consumable_2":"consumable","consumable_3":"consumable","consumable_4":"consumable","interact":"interact","return":"return_home","bag":"bag","skills":"skills","codex":"codex","card_next":"card_hand"}
 var game
 var draft:Dictionary={}
 var selected_action=""
@@ -41,7 +41,7 @@ func setup(owner_game):
 	Art.panel(self,Vector2(428,130),Vector2(1098,613),"paper",4)
 	var index=0
 	for action in Keys.DEFAULTS:
-		var b=ActionButton.new();b.host=self;b.action=action;b.position=Vector2(40+(index%2)*186,145+int(index/2)*58);b.size=Vector2(174,50);b.clip_text=true
+		var b=ActionButton.new();b.host=self;b.action=action;b.position=Vector2(40+(index%2)*186,145+int(index/2)*49);b.size=Vector2(174,44);b.clip_text=true
 		b.text=Keys.NAMES[action];b.add_theme_font_override("font",game.fonts);b.add_theme_font_size_override("font_size",17);b.add_theme_color_override("font_color",game.PALE)
 		for state in ["normal","hover","pressed","focus"]:b.add_theme_stylebox_override(state,StyleBoxEmpty.new())
 		b.pressed.connect(func():select_action(action));add_child(b);Art.decorate(b,"paper",3);Icons.attach(b,ACTION_ICONS.get(action,"skills"),20)
@@ -76,7 +76,7 @@ func open():
 	show();refresh();grab_focus()
 func return_to_title():
 	if game.session.disconnect_game():close()
-	else:status.text="저장 실패 · 기록은 유지됩니다. 다시 시도하세요."
+	else:status.text="최신 기록 저장 중…" if game.session.get("leaving")==true else "저장 실패 · 기록은 유지됩니다. 다시 시도하세요."
 func close():
 	hide();selected_action=""
 	if return_panel!=null:

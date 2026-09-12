@@ -99,7 +99,7 @@ func index_for_pool()->int:
 
 func on_action(kind:String):
 	match kind:
-		"potion":play_sound("potion")
+		"potion","mana_potion","power_potion":play_sound("potion")
 		"equip","unequip","unequip_to","costume","avatar":play_sound("equip")
 		"move_item":play_sound("move_item",-6)
 		"invest","class","reset_skills","stat","reset_stats","bind_skill":play_sound("invest")
@@ -131,7 +131,11 @@ func on_event(event:Dictionary):
 			play_sound(sound,quiet-4)
 		"damage":
 			if not event.get("enemy",true):play_sound("hurt")
-			elif not p.is_empty():play_sound("hit_"+game.session.sim.combat.weapon_type(p),quiet-3)
+			else:
+				var source=game.session.state.players.get(int(event.get("owner",game.session.local_id)),{})
+				var weapon=str(event.get("weapon",""))
+				if weapon.is_empty():weapon=game.session.sim.combat.weapon_type(source) if game.session.sim!=null and not source.is_empty() else "sword"
+				play_sound("hit_"+weapon,quiet-3 if int(event.get("owner",game.session.local_id))==game.session.local_id else quiet-7)
 
 func _process(delta:float):
 	if stopped:return

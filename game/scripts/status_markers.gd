@@ -2,8 +2,8 @@ extends RefCounted
 ## Shared status row for world actors. All conditions read existing combat state.
 const Icons=preload("res://scripts/icon_library.gd")
 const STATUSES={"slow":"slow","stun":"stun","root":"root","bleed":"bleed","blind":"blind","vulnerable":"vulnerable","weaken":"weaken","break_armor":"armor_break"}
-const BUFFS={"attack":"physical_attack","crit":"critical","crit_damage":"critical_damage","haste":"haste","speed":"agility","defense":"defense","armor":"defense","guard":"guard","regen":"regen","leech":"lifesteal","evade":"agility","stand":"card_hold","pet_guard":"guard","pet_power":"pet_command","pet_haste":"haste"}
-const BUFF_NAMES={"attack":"공격력 강화","crit":"치명타 확률 강화","crit_damage":"치명타 피해 강화","haste":"공격 속도 강화","speed":"이동 속도 강화","defense":"피해 감소","armor":"방어력 강화","guard":"방어 자세","regen":"재생","leech":"흡혈","evade":"회피율 강화","stand":"자리 고정","pet_guard":"소환수 보호","pet_power":"소환수 공격 강화","pet_haste":"소환수 공격 속도 강화"}
+const BUFFS={"potion_attack":"physical_attack","attack":"physical_attack","crit":"critical","crit_damage":"critical_damage","haste":"haste","speed":"agility","defense":"defense","armor":"defense","guard":"guard","regen":"regen","leech":"lifesteal","evade":"agility","stand":"card_hold","pet_guard":"guard","pet_power":"pet_command","pet_haste":"haste"}
+const BUFF_NAMES={"potion_attack":"공격 강화 물약 +20%","attack":"공격력 강화","crit":"치명타 확률 강화","crit_damage":"치명타 피해 강화","haste":"공격 속도 강화","speed":"이동 속도 강화","defense":"피해 감소","armor":"방어력 강화","guard":"방어 자세","regen":"재생","leech":"흡혈","evade":"회피율 강화","stand":"자리 고정","pet_guard":"소환수 보호","pet_power":"소환수 공격 강화","pet_haste":"소환수 공격 속도 강화"}
 
 static func timed_for(actor:Dictionary)->Array:
 	var entries=[]

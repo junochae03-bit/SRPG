@@ -9,7 +9,7 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	if preload("res://scripts/town_operations.gd").handles(facility,operation):
 		var result=preload("res://scripts/town_operations.gd").stage(p,facility,operation,request)
 		if not result.quote.reason.is_empty() or result.player.is_empty():return false
-		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","gold","guild_contract","hp","stamina"]:p[key]=result.player[key]
+		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina"]:p[key]=result.player[key]
 		Inventory.initialize(p);sim.gear_changed(p);sim.notice(p.id,result.quote.title+" · 완료");return true
 	var staged=p.duplicate(true);var success=false;var message=""
 	match facility+":"+operation:
@@ -68,6 +68,6 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 			if staged.gold<10:return false
 			staged.gold-=10;staged.hp=staged.max_hp;staged.stamina=staged.max_stamina;success=true;message="여관에서 푹 쉬었습니다. 생명력·기력 회복"
 	if success:
-		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","gold","guild_contract","hp","stamina"]:p[key]=staged[key]
+		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina"]:p[key]=staged[key]
 		Inventory.initialize(p);sim.gear_changed(p);sim.notice(p.id,message)
 	return success

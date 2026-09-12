@@ -10,27 +10,33 @@ var hint:Label
 var emblem:TextureRect
 var hint_icon:TextureRect
 var content_draw_rects:Array=[]
+var display_mode=1
 func content_bounds()->Rect2:return Rect2(36,40,size.x-72,size.y-64)
 func setup(owner_game):
-	game=owner_game;size=Vector2(430,200);mouse_filter=Control.MOUSE_FILTER_IGNORE
+	game=owner_game;size=Vector2(430,200);mouse_filter=Control.MOUSE_FILTER_STOP
 	Art.decorate(self,"magic",22)
 	emblem=Icons.picture(self,"class_warrior",Vector2(36,40),Vector2(28,28))
 	heading=game.label(self,"",Vector2(75,40),Vector2(315,28),18,Color("fff0cf"))
 	heading.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
 	hint_icon=Icons.picture(self,"info",Vector2(36,151),Vector2(20,20))
 	hint=game.label(self,"",Vector2(65,149),Vector2(324,25),14,Color("e9eedc"));hint.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+func _make_custom_tooltip(value:String)->Object:return Art.tooltip(game,value)
 func refresh(player:Dictionary):
 	p=player
 	emblem.texture=Icons.texture("class_"+p.class_id)
 	hint_icon.texture=Icons.texture("info")
 	heading.text=preload("res://scripts/content.gd").CLASSES[p.class_id].name
+	if display_mode==0:heading.text="세부 능력치";emblem.texture=Icons.texture("stat_points")
+	elif display_mode==2:heading.text="소모품 퀵슬롯";emblem.texture=Icons.texture("bag")
 	var s=p.job_state
 	hint.text=""
 	tooltip_text=game.session.sim.combat.jobs.resource_text(p)+"\n"+Balance.role(p.class_id)[1]
+	if display_mode==0:tooltip_text=preload("res://scripts/combat_stats.gd").details(game.session.sim,p)
 	if p.class_id=="gambler" and not s.get("candidates",[]).is_empty():hint.text="후보 선택 · TAB / 평타로 확정";hint_icon.texture=Icons.texture("card_hand")
 	if not s.get("casting",{}).is_empty():hint.text=s.casting.node.name+"  ·  시전 %.1f초"%s.casting.time;hint_icon.texture=Icons.texture("charge")
-	visible=p.class_id in ["runesword","infighter","martialist","breaker","gambler","reaper","summoner","hunter"] or s.shield>0 or not s.buffs.is_empty() or not hint.text.is_empty()
+	visible=true
 	hint.visible=not hint.text.is_empty();hint_icon.visible=hint.visible
+	if display_mode!=1:hint.hide();hint_icon.hide()
 	queue_redraw()
 func write(at:Vector2,value:String,font_size:int=16,color:Color=Color("fff0cf")):
 	var dimensions=game.fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size)
@@ -48,6 +54,15 @@ func pips(label:String,amount:int,maximum:int,key:String):
 func _draw():
 	content_draw_rects.clear()
 	if p.is_empty():return
+	if display_mode==2:return
+	if display_mode==0:
+		var rows=preload("res://scripts/combat_stats.gd").rows(game.session.sim,p)
+		for i in range(rows.size()):
+			var x=38+(i%2)*184;var y=91+int(i/2)*34
+			write(Vector2(x,y),rows[i][0],13,Color("bfccbe"))
+			var value=str(rows[i][1]);var width=game.fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,15).x
+			write(Vector2(x+170-width,y),value,15)
+		return
 	var s=p.job_state
 	match p.class_id:
 		"runesword":pips("룬",s.runes,6+Balance.passive(p,0),"rune")
@@ -71,8 +86,13 @@ func _draw():
 			for i in range(alive.size()):meter(Rect2(36+i*(width+8),125,width,9),alive[i].hp/alive[i].get("max_hp",100.))
 			if p.class_id=="hunter" and s.get("hound_respawn",0)>0:write(Vector2(38,139),"사냥개 복귀 %.1f초"%s.hound_respawn,15)
 		_:
-			icon("shield",Rect2(36,81,23,23));write(Vector2(70,102),"보호막 %d"%s.shield,17,Color("b8eed8"))
-			icon("rune",Rect2(222,81,23,23));write(Vector2(256,102),"강화 %d"%s.buffs.size(),17,Color("b8eed8"))
+			if s.shield>0 or not s.buffs.is_empty():
+				icon("shield",Rect2(36,81,23,23));write(Vector2(70,102),"보호막 %d"%s.shield,17,Color("b8eed8"))
+				icon("rune",Rect2(222,81,23,23));write(Vector2(256,102),"강화 %d"%s.buffs.size(),17,Color("b8eed8"))
+			else:
+				icon("physical_attack",Rect2(36,81,23,23));write(Vector2(70,102),"공격력 %d"%game.session.sim.damage_for(p),17)
+				icon("shield",Rect2(222,81,23,23));write(Vector2(256,102),"방어 %d"%p.defense,17)
+				write(Vector2(38,135),"생명력 %d · 기력 %d"%[p.max_hp,p.max_stamina],15)
 func meter(rect:Rect2,ratio:float):
 	content_draw_rects.append(rect)
 	draw_rect(rect,Color("18262f"));draw_rect(Rect2(rect.position,Vector2(rect.size.x*clampf(ratio,0,1),rect.size.y)),Color("85dab9"))

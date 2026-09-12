@@ -31,7 +31,7 @@ func run():
 		if "costume:"+key not in p.owned_appearances:p.owned_appearances.append("costume:"+key)
 		var original_avatar=p.avatar;var original_damage=session.sim.damage_for(p)
 		check(session.act("costume",key),"new costume selectable "+key);game.bag.refresh(true)
-		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and game.hud.portrait.atlas==Gat.frame(p,0.).texture.atlas and Rect2(36,37,72,72).encloses(game.hud.portrait_rect()),"field bag and HUD share selected appearance with full head fit "+key)
+		check(Gat.avatar(p)==key and game.bag.portrait.texture==Gat.texture(key,0) and game.hud.portrait.atlas==Gat.frame(p,0.).texture.atlas and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),"field bag and HUD share selected appearance with full head fit "+key)
 		check(p.avatar==original_avatar and session.sim.damage_for(p)==original_damage,"cosmetic preserves base and combat stats "+key)
 		session.save_game();check(session.parse_save(session.save_path()).costume==key,"costume saved "+key)
 	var last=p.costume;session.disconnect_game();session.start_game("복원",1);p=session.sim.players[1]
@@ -43,7 +43,7 @@ func run():
 		check(game.npc_dialogue.speaker.text==World.RESIDENTS[key].name and game.npc_dialogue.dialogue.text==World.RESIDENTS[key].greeting,"resident speaks before service "+key)
 		game.npc_dialogue.service_button.pressed.emit()
 		check(game.town_panel.visible and not game.npc_dialogue.visible and session.paused,"service choice opens resident counter "+key)
-		check(game.town_panel.facility==key and game.town_panel.greeting.text.contains(World.RESIDENTS[key].name) and game.town_panel.resident_portrait.texture==Gat.texture(World.RESIDENTS[key].avatar,0),"named resident greeting and portrait "+key)
+		check(game.town_panel.facility==key and game.town_panel.title.text==World.FACILITIES[key].name and game.town_panel.facility_icon.texture!=null and game.town_panel.body.position.x==26 and game.town_panel.body.size.x==1258,"service identity and full workspace without duplicate NPC introduction "+key)
 		game.town_panel.close();check(not session.paused,"closing returns to gameplay "+key)
 	check(game.bold_font.resource_path.ends_with("dnf_bitbit_v2.ttf") and game.fonts.resource_path.ends_with("dnf_forged_blade_medium.ttf"),"requested fonts wired")
 	game.stop_audio();await create_timer(.5).timeout;session.disconnect_game();game.queue_free();await process_frame

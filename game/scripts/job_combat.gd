@@ -65,6 +65,7 @@ func basic(p:Dictionary):
 	if p.class_id=="breaker":p.job_state["punch"]=1-int(p.job_state.get("punch",0))
 func basic_hit(p:Dictionary,e:Dictionary):
 	var s=p.job_state
+	if p.class_id in ["hunter","summoner"]:direct_manifestation_hit(p,e)
 	match p.class_id:
 		"runesword":
 			if s.get("rune_cd",0)<=0:s.runes=mini(6+passive(p,0),s.runes+1);s.rune_cd=maxf(.05,.25-passive(p,1)*.035)
@@ -76,6 +77,13 @@ func basic_hit(p:Dictionary,e:Dictionary):
 			if passive(p,5)>0:s.pet_target=e.id
 		"swordsman":
 			s.same_hits=mini(5,s.get("same_hits",0)+1) if s.get("same_target",-1)==e.id else 1;s.same_target=e.id;buff(p,"attack",s.same_hits*passive(p,2)*.01,2.)
+func direct_manifestation_hit(p:Dictionary,e:Dictionary):
+	# These are player-triggered attack effects, never autonomous party actors.
+	for manifestation in p.job_state.pets:
+		if e.hp<=0 or manifestation.hp<=0 or manifestation.cd>0:continue
+		manifestation.cd=.8/(1+value(p,"pet_haste"));manifestation.pos=e.pos
+		combat.hit(p,e,roundi(sim.damage_for(p)*manifestation.power*(1+value(p,"pet_power"))),p.pos,manifestation.get("stagger",{}))
+
 func mark(p:Dictionary,e:Dictionary):
 	var s=p.job_state;s.marks[str(e.id)]=8.0
 	while s.marks.size()>2+passive(p,1):s.marks.erase(s.marks.keys()[0])
@@ -89,10 +97,12 @@ func attack_multiplier(p:Dictionary,heavy:bool)->float:
 	if p.class_id=="reaper" and heavy:mult*=1+passive(p,2)*.05
 	return mult
 func after_heavy(p:Dictionary):p.job_state["heavy_grit"]=0.0;p.job_state.current_heavy=false
+func attack_power(p:Dictionary,base:int)->int:
+	return roundi(base*(1+value(p,"attack"))*(1+value(p,"potion_attack")))
 func outgoing(p:Dictionary,e:Dictionary,amount:int,hit_details:Dictionary={})->int:
 	if not p.has("job_state"):return amount
 	var states=e.get("job_status",{})
-	amount=roundi(amount*(1+value(p,"attack")))
+	amount=attack_power(p,amount)
 	if states.has("break_armor"):amount=roundi(amount*1.15)
 	if states.has("vulnerable"):amount=roundi(amount*1.2)
 	if p.class_id=="swordsman" and (e.get("boss",false) or e.get("elite",false)):amount=roundi(amount*(1+passive(p,1)*.05))
@@ -498,25 +508,17 @@ func tick(p:Dictionary,delta:float):
 		var previous_position:Vector2=pet.pos
 		if pet.hp<=0:continue
 		if pet.source!="hound" and pet.source!="test" and pet.source not in p.skill_loadout.values():pet.hp=0;continue
-		var t=target(p,7.)
-		var ordered=sim.enemies.get(s.get("pet_target",-1),{})
-		if ordered.get("training",false) and not preload("res://scripts/training_ground.gd").can_practice(sim,p):ordered={}
-		if not ordered.is_empty() and ordered.hp>0 and HitGeometry.circle(ordered,p.pos,9+passive(p,5)*.5) and sim.map.line_clear(pet.pos,ordered.pos):t=ordered
-		if t.is_empty():pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(p.pos)*minf(delta*4,pet.pos.distance_to(p.pos)))
-		else:
-			pet.pos=sim.map.move(pet.pos,pet.pos.direction_to(t.pos)*delta*4)
-			if pet.cd<=0 and HitGeometry.circle(t,pet.pos,5. if pet.kind==1 else 1.6):
-				combat.hit(p,t,roundi(sim.damage_for(p)*pet.power*(1+value(p,"pet_power"))),pet.pos,pet.get("stagger",{}));pet.cd=.8/(1+value(p,"pet_haste"))
+		# Human movement and aim place the effect; there is no target search or attack tick.
+		pet.pos=p.pos+p.aim.normalized()*.8
 		pet.moving=pet.pos.distance_squared_to(previous_position)>.000001
-		var facing_direction:Vector2=pet.pos-previous_position if t.is_empty() else t.pos-pet.pos
-		var screen_direction=preload("res://scripts/dungeon.gd").iso(facing_direction)
+		var screen_direction=preload("res://scripts/dungeon.gd").iso(p.aim)
 		if absf(screen_direction.x)>.001:pet.facing=-1. if screen_direction.x<0 else 1.
 	if p.class_id=="hunter" and s.pets.any(func(pet):return pet.hp<=0):s.hound_respawn=8.
 	s.pets=s.pets.filter(func(pet):return pet.hp>0)
 	if p.class_id=="hunter":
 		for drop in sim.drops.values():
 			if drop.owner==p.id and p.pos.distance_to(drop.pos)<5+passive(p,5)*.5:drop.pos=sim.map.move(drop.pos,drop.pos.direction_to(p.pos)*delta*6)
-		if s.pet_timer<=0:s.pet_timer=.5;sim.action(p.id,"interact")
+		if s.pet_timer<=0:s.pet_timer=.5;sim.action(p.id,"pickup")
 	# One owner ticks each applied status; periodic damage cannot generate class resources.
 	for e in sim.enemies.values():
 		for key in e.get("job_status",{}).keys():

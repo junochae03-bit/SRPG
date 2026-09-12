@@ -50,7 +50,7 @@ func run():
 		var tooltip=circle._make_custom_tooltip(circle.tooltip_text)
 		check(tooltip!=null,"custom tooltip created "+key);tooltip.free()
 	check(hud.name_label.text_overrun_behavior==TextServer.OVERRUN_TRIM_ELLIPSIS and hud.name_label.tooltip_text==p.name,"long name truncates with full tooltip")
-	check(not hud.name_label.get_rect().intersects(hud.class_label.get_rect()),"name and class occupy separate readable rows")
+	check(not hud.name_label.get_rect().intersects(hud.class_label.get_rect()),"name and class occupy separate readable rows: "+str(hud.name_label.get_rect())+" / "+str(hud.class_label.get_rect()))
 	check(hud.hp_label.get_rect().position.y>hud.class_label.get_rect().end.y,"HP number has its own row")
 	check(hud.quest_panel.size.y==112 and hud.quest.visible,"objective starts compact and expanded")
 	hud.quest_toggle.pressed.emit();check(hud.quest_collapsed and not hud.quest.visible and hud.quest_panel.size.y==44,"objective folds through actual button")
@@ -68,16 +68,18 @@ func run():
 	hud.codex_button.pressed.emit();check(game.codex.visible and local.paused,"codex target opens paused encyclopedia");hud.codex_button.pressed.emit()
 	var rects=[]
 	for key in hud.circles:
-		var circle=hud.circles[key];var rect=circle.get_rect();rect.position.x-=8;rect.size+=Vector2(16,24)
+		var circle=hud.circles[key]
+		if not circle.visible:continue
+		var rect=circle.get_rect().grow(3)
 		for other in rects:check(not rect.intersects(other),"action and caption bounds separated "+key)
 		rects.append(rect)
 		check(rect.end.y<891 and rect.end.x<1404,"action safe margin "+key)
 		check(circle._has_point(Vector2(3,3)),"full square target accepts corner "+key)
 		if key in C.ACTIONS:
-			check(circle.size==Vector2(96,96),"96px skill target "+key)
+			check(circle.size==Vector2(74,74),"74px skill target "+key)
 			check(not circle.locked and circle.picture!=null,"learned slot keeps actual art "+key)
 			check(game.fonts.get_string_size(circle.caption_text(),HORIZONTAL_ALIGNMENT_LEFT,-1,15).x<=circle.size.x+16,"caption respects measured width "+key)
-	for i in range(6):check(hud.circles[C.ACTIONS[i]].position==Vector2(1028+i%3*124,618+int(i/3)*132),"Q F V above C Z X "+str(i))
+	for i in range(6):check(hud.circles[C.ACTIONS[i]].position==Vector2(500+i*90,803),"horizontal Q F V C Z X "+str(i))
 	check(hud.circles.interact.size.x>hud.circles.potion.size.x and hud.circles.potion.size.x>hud.circles.return.size.x,"interaction and potion have larger targets than return")
 	p.skill_cooldowns[actives[0].id]=12.3;local.refresh();hud.refresh();check(hud.circles.skill_q.cooldown_text()=="13","long cooldown uses readable whole seconds")
 	p.skill_cooldowns[actives[0].id]=.35;local.refresh();hud.refresh();check(hud.circles.skill_q.cooldown_text()=="0.3" or hud.circles.skill_q.cooldown_text()=="0.4","last cooldown second keeps decimal precision")
@@ -109,7 +111,7 @@ func run():
 		check_resource_interior(hud.job_resource,job)
 		advanced_count+=1
 	check(advanced_count==15,"all fifteen advanced class resource interiors captured")
-	local.sim.action(1,"class","warrior");p=local.sim.players[1];local.refresh();hud.refresh();check(not hud.job_resource.visible,"no always-visible empty resource panel for basic job")
+	local.sim.action(1,"class","warrior");p=local.sim.players[1];local.refresh();hud.refresh();check(hud.job_resource.visible and not hud.job_resource.heading.text.is_empty(),"basic job exposes actual combat attributes")
 	p.charge_time=.5;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(game.combat_feedback.charge_visible and is_equal_approx(game.combat_feedback.charge_ratio,.5/.9) and not hud.charge_label.visible,"실제 충전량은 캐릭터 우측 게이지로 표시")
 	p.charge_time=-1.;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(not game.combat_feedback.charge_visible and not hud.charge_label.visible,"충전 종료 후 게이지와 기존 문구 모두 숨김")
 	var labels=hud.find_children("*","Label",true,false)

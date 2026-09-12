@@ -6,17 +6,20 @@ var game
 var static_map:StaticMap
 var static_context:Array=[]
 var static_builds=0
+var map_scale=3.0
+var map_origin=ORIGIN
 
 class StaticMap extends Node2D:
 	var floor_points:Array=[]
 	var fixed_markers:Array=[]
 	var font:Font
 	var draws=0
+	var tile_scale=3.0
 	func _draw():
 		draws+=1
 		draw_circle(Vector2(1324,106),78,Color("1d5146d9"))
 		draw_arc(Vector2(1324,106),78,0,TAU,64,Color("b9d4b8"),2,true)
-		for at in floor_points:draw_rect(Rect2(at,Vector2(3,3)),Color("a5b999"))
+		for at in floor_points:draw_rect(Rect2(at,Vector2.ONE*tile_scale),Color("a5b999"))
 		for entry in fixed_markers:draw_texture_rect(entry.texture,entry.rect,false)
 		draw_string(font,Vector2(1319,46),"N",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("eaf1da"))
 
@@ -30,7 +33,7 @@ func can_show()->bool:
 	return game!=null and game.session.connected and not (game.bag.visible or game.help_panel.visible or game.settings_panel.visible or game.skill_tree.visible or game.town_panel.visible or game.codex.visible or game.npc_dialogue.visible)
 
 func marker_rect(world:Vector2,pixels:float,clamp_to_edge:bool=false)->Rect2:
-	var at=ORIGIN+world*3.0;var limit=73-pixels*.5
+	var at=map_origin+world*map_scale;var limit=73-pixels*.5
 	if at.distance_to(CENTER)>limit:
 		if not clamp_to_edge:return Rect2()
 		at=CENTER+(at-CENTER).limit_length(limit)
@@ -43,9 +46,13 @@ func refresh_static():
 	var context=[map.get_instance_id(),map.zone,map.floor_number,map.spawn,map.floor_cells.size(),game.fonts]
 	if context==static_context:return
 	static_context=context;static_builds+=1
+	var extent=preload("res://scripts/dungeon.gd").RAID_SIZE if map.raid_arena else preload("res://scripts/dungeon.gd").SIZE
+	map_scale=102.5/float(extent) if map.floor_number>0 else 3.0
+	map_origin=CENTER-Vector2.ONE*((extent-1)*.5*map_scale) if map.floor_number>0 else ORIGIN
+	static_map.tile_scale=map_scale
 	static_map.floor_points.clear();static_map.fixed_markers.clear();static_map.font=game.fonts
 	for cell in map.floor_cells:
-		var at=ORIGIN+Vector2(cell)*3.0
+		var at=map_origin+Vector2(cell)*map_scale
 		if at.distance_to(CENTER)<73:static_map.floor_points.append(at)
 	static_map.fixed_markers.append({"texture":Icons.texture("town"),"rect":marker_rect(map.spawn,12,true)})
 	if map.zone=="town":
@@ -62,12 +69,14 @@ func _draw():
 	if game.dungeon.zone!="town" and game.dungeon.floor_number>0:
 		var sealed=game.session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
 		marker(game.dungeon.exit_position,"locked" if sealed else "stairs",15,Color.WHITE,true)
+		for site in game.session.state.get("exploration_sites",[]):
+			marker(site.pos,"confirm" if site.claimed else site.icon,12,Color(.6,.7,.6,.55) if site.claimed else Color.WHITE)
 	for e in game.session.state.enemies.values():
 		if e.hp<=0:continue
 		if e.get("boss",false) or e.get("guardian",false):marker(e.pos,"boss",13)
 		elif e.get("elite",false):marker(e.pos,"elite",10)
 		else:
-			var at=ORIGIN+e.pos*3.0
+			var at=map_origin+e.pos*map_scale
 			if at.distance_to(CENTER)<71:draw_circle(at,1.6,Color("dc8c8b"))
 	for p in game.session.state.players.values():marker(p.pos,"class_"+p.class_id,16,Color.WHITE,true)
 

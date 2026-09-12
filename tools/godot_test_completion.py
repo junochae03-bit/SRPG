@@ -14,6 +14,7 @@ ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v
 """.split()
 _PLAIN = """
 progression_rewards_v053 codex_cache_v053 dungeon_tactics_v053 combat_polish_v053
+coop_rules exploration_rooms exploration_visual expedition_hud hidden_rooms hidden_rooms_visual build_presets build_presets_visual expedition_brief hud_tabs raid_engagement consumables target_crafting character_presentation_v054
 feedback_v054 companion_visual_v054
 art_registry_v05 combat_feedback_v052 combat_reach_v052 combat_reach_visual_v052
 dungeon_entry_visual_v04 dungeon_variety_v052 dungeon_variety_visual_v052

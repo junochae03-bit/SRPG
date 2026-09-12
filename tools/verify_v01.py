@@ -1,9 +1,13 @@
 """Current complete gate: models, UI, real rendering, copy-only save migration."""
 from pathlib import Path
-import subprocess,json,time,shutil,hashlib,re,struct,sys
+import subprocess,json,time,shutil,hashlib,re,struct,sys,argparse
 from engine_path import ROOT,engine,hidden_options
 from asset_inventory import inventory
 from godot_test_completion import completion_evidence
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--start-at',help='Run the remaining groups for failure diagnosis; never writes a complete gate report')
+options=parser.parse_args()
+started=options.start_at is None
 RUN=ROOT/'runtime/v01-checks'/time.strftime('%Y%m%d-%H%M%S');RUN.mkdir(parents=True)
 (ROOT/'artifacts').mkdir(exist_ok=True)
 results=[];checks=0
@@ -14,7 +18,10 @@ import_log=imported.stdout+imported.stderr;(RUN/'import.log').write_text(import_
 assert imported.returncode==0 and not any(t in import_log for t in ['ERROR:','SCRIPT ERROR','WARNING:']),import_log[-8000:]
 print('Godot project import PASS',flush=True)
 def run(test,args=None,graphics=False):
-    global checks
+    global checks,started
+    if not started:
+        if test!=options.start_at:return ''
+        started=True
     command=[engine(),'--path',str(ROOT/'game'),'--script','res://tests/'+test+'.gd']
     if not graphics:command+=['--headless']
     if args:command+=['--']+args
@@ -43,16 +50,32 @@ run('tree_balance')
 run('progression_rewards_v053')
 run('codex_cache_v053')
 run('dungeon_tactics_v053')
+run('coop_rules')
+run('exploration_rooms')
+run('hidden_rooms')
+run('build_presets')
+run('build_presets_visual',graphics=True)
+run('expedition_brief',graphics=True)
+run('hud_tabs',graphics=True)
+run('consumables')
+run('character_presentation_v054')
+run('target_crafting',graphics=True)
+run('raid_engagement')
+run('hidden_rooms_visual',graphics=True)
+run('exploration_visual',graphics=True)
+run('expedition_hud',graphics=True)
 for test in ['prepared_art_v05','wardrobe_v05','database_metadata_v05','performance_environment_v05','enemy_hit_geometry_v05']:run(test)
 for test in ['combat_reach_v052','dungeon_variety_v052','town_services_v052','training_ground_v052','qa_combat_v052','qa_inventory_v052','qa_skill_rejection_v052']:run(test)
-if user_save.is_file():
+if user_save.is_file() and (started or options.start_at=='legacy_save'):
     before=hashlib.sha256(user_save.read_bytes()).hexdigest();copy=RUN/'user-copy';copy.mkdir();shutil.copy2(user_save,copy/'slot-1.json');run('legacy_save',['--save-dir='+str(copy)])
     assert hashlib.sha256(user_save.read_bytes()).hexdigest()==before,'Original save changed during check'
     save_integrity='original SHA256 unchanged; copied save migrated and restarted'
-old={'schema_version':2,'name':'이전 저장 검증','level':5,'xp':13,'gold':57,'potions':4,'inventory':[],'equipped':'','kills':2,'boss_kills':0,'quest_done':False,'world_seed':20260908,'class_id':'warrior','skill_ranks':{'blade':1,'combo':3},'costume':'witch'}
-legacy=RUN/'legacy-combo';legacy.mkdir();(legacy/'slot-1.json').write_text(json.dumps(old,ensure_ascii=False),'utf8');run('legacy_save',['--save-dir='+str(legacy)])
-upgraded=json.loads((legacy/'slot-1.json').read_text('utf8'))
-assert upgraded['schema_version']==7 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
+if started or options.start_at=='legacy_save':
+    old={'schema_version':2,'name':'이전 저장 검증','level':5,'xp':13,'gold':57,'potions':4,'inventory':[],'equipped':'','kills':2,'boss_kills':0,'quest_done':False,'world_seed':20260908,'class_id':'warrior','skill_ranks':{'blade':1,'combo':3},'costume':'witch'}
+    legacy=RUN/'legacy-combo';legacy.mkdir();(legacy/'slot-1.json').write_text(json.dumps(old,ensure_ascii=False),'utf8');run('legacy_save',['--save-dir='+str(legacy)])
+    upgraded=json.loads((legacy/'slot-1.json').read_text('utf8'))
+    assert upgraded['schema_version']==7 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
+else:save_integrity='not tested in remaining-groups run'
 rows=inventory();assert all(x['bytes']<100*1024*1024 for x in rows)
 for file in ['world/catalog.json','motions/catalog.json','gat/catalog.json','icons/catalog.json']:
     catalog=json.loads((ROOT/'game/assets'/file).read_text('utf8'))
@@ -87,8 +110,8 @@ icon_assets=audit_icon_assets()
 assert icon_assets['status']=='PASS',icon_assets['failures']
 icon_capture_started=time.time_ns()
 icon_output=run('visual_icons',graphics=True)
-icon_pixels=audit_rendered_captures(icon_capture_started,icon_output)
-assert icon_pixels['status']=='PASS',icon_pixels['failures']
+icon_pixels=audit_rendered_captures(icon_capture_started,icon_output) if icon_output else {'status':'NOT_RUN'}
+if icon_output:assert icon_pixels['status']=='PASS',icon_pixels['failures']
 run('environment_visual_v04',graphics=True)
 run('dungeon_entry_visual_v04',graphics=True)
 run('costume_render_v04',graphics=True)
@@ -145,5 +168,8 @@ assert final_rows==rows,'Runtime source changed while verification was running'
 report['runtime_sha256']={row['path']:row['sha256'] for row in final_rows}
 report['equipment_asset_pixels']={'status':'PASS','regions':len(equipment_assets['regions']),'sheets':equipment_assets['sheets'],'gallery_sha256':hashlib.sha256(equipment_capture.read_bytes()).hexdigest(),'bright_magenta_pixels':0}
 report['icon_asset_pixels']={'status':'PASS','regions':len(icon_assets['icons']),'sheets':icon_assets['sheets'],'rendered_captures':icon_pixels}
-(ROOT/'artifacts/v01_verification.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
-print('V01_GATE PASS checks='+str(checks),flush=True)
+assert started,'Unknown starting test: '+str(options.start_at)
+report['scope']='remaining_groups' if options.start_at else 'complete'
+report['start_at']=options.start_at
+(ROOT/('artifacts/v01_partial_verification.json' if options.start_at else 'artifacts/v01_verification.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
+print(('V01_GATE_PARTIAL' if options.start_at else 'V01_GATE')+' PASS checks='+str(checks),flush=True)

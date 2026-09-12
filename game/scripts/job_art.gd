@@ -24,6 +24,8 @@ static func render(game,e:Dictionary)->bool:
 	game.draw_texture_rect(tex,Rect2(game.world_point(e.pos)-size*.5-Vector2(0,25),size),false)
 	return true
 
+static func pet_body_pixels(hunter:bool)->float:
+	return preload("res://scripts/character_presentation.gd").BODY_PIXELS*(1. if hunter else 2.)
 static func pets(game,p:Dictionary,time:float):
 	initialize()
 	for pet in p.get("job_state",{}).get("pets",[]):
@@ -32,7 +34,7 @@ static func pets(game,p:Dictionary,time:float):
 		var index=row*4+int(time*7)%4
 		if row==0:index=3 if pet.get("cd",0.)>.5 else 1+int(time*7)%2 if pet.get("moving",false) else 0
 		var f=data.effects[key].frames[index];var tex=texture("effects",key,index)
-		var scale=(112. if row==0 else 224.)/float(f.body_height)
+		var scale=pet_body_pixels(row==0)/float(f.body_height)
 		game.draw_set_transform(game.world_point(pet.pos),0,Vector2(pet.get("facing",1.),1))
 		game.draw_texture_rect(tex,Rect2(-Vector2(f.foot[0],f.foot[1])*scale,tex.get_size()*scale),false)
 		game.draw_set_transform(Vector2.ZERO)

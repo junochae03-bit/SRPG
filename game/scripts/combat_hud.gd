@@ -37,6 +37,8 @@ var profile_evaluations=0
 var chrome:Control
 var chrome_hidden=false
 var status_strip:Control
+var expedition:Control
+var profile_offset=Vector2.ZERO
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
 	material=preload("res://scripts/gat_art.gd").material()
@@ -100,15 +102,17 @@ func setup(owner_game):
 	chrome=Control.new();chrome.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(chrome)
 	for child in get_children():
 		if child!=chrome and child is CanvasItem:child.reparent(chrome)
+	expedition=preload("res://scripts/expedition_hud_chrome.gd").new();add_child(expedition);expedition.setup(self)
 	refresh_key_labels()
 
 func refresh_chrome():
 	var hidden=false
-	for property in ["bag","skill_tree","town_panel","codex","help_panel","settings_panel","character_sheet"]:
+	for property in ["bag","skill_tree","town_panel","codex","help_panel","settings_panel","character_sheet","npc_dialogue"]:
 		var panel=game.get(property)
 		if panel!=null and panel.visible:hidden=true;break
 	if hidden==chrome_hidden:return
 	chrome_hidden=hidden;chrome.visible=not hidden;queue_redraw()
+	if expedition!=null:expedition.visible=not hidden
 
 func _process(_delta):refresh_chrome()
 
@@ -118,7 +122,8 @@ func world_label_regions()->Array[Rect2]:
 	for marker in status_strip.markers:
 		if marker.is_visible_in_tree():regions.append(marker.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,marker.size))
 	var transform=get_global_transform_with_canvas()
-	regions.append(transform*Rect2(19,20,400,145))
+	if expedition!=null:regions.append_array(expedition.world_regions())
+	if expedition==null:regions.append(transform*Rect2(Vector2(19,20)+profile_offset,Vector2(400,145)))
 	for control in [bag_button,growth_button,codex_button,quest_panel,job_resource]:
 		if control.is_visible_in_tree():regions.append(control.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,control.size).grow(4))
 	for label in [name_label,class_label,hp_label,money_label,region,toast]:
@@ -129,7 +134,9 @@ func world_label_regions()->Array[Rect2]:
 		var text=control.caption_text();var pixels=15;var dimensions=game.fonts.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels)
 		var baseline=Vector2(control.size.x*.5,control.size.y+21)
 		var caption=Rect2(baseline-Vector2(dimensions.x*.5,game.fonts.get_ascent(pixels)),Vector2(dimensions.x,game.fonts.get_height(pixels)))
-		var bounds=Rect2(Vector2.ZERO,control.size).merge(caption).merge(control.hotkey_layout().rect).grow(4)
+		var bounds=Rect2(Vector2.ZERO,control.size).merge(control.hotkey_layout().rect)
+		if control.show_caption:bounds=bounds.merge(caption)
+		bounds=bounds.grow(4)
 		regions.append(control.get_global_transform_with_canvas()*bounds)
 	if boss_hud.is_visible_in_tree() and not boss_hud.boss.is_empty():
 		var boss=boss_hud.boss;var boss_transform=boss_hud.get_global_transform_with_canvas()
@@ -193,9 +200,9 @@ static func visible_portrait_bounds(source:Texture2D)->Rect2:
 
 func portrait_rect()->Rect2:
 	if portrait==null:return Rect2()
-	var dimensions=portrait.get_size();dimensions*=minf(72./dimensions.x,72./dimensions.y)
-	dimensions.x=minf(72.,dimensions.x);dimensions.y=minf(72.,dimensions.y)
-	return Rect2(Vector2(72,73)-dimensions*.5,dimensions)
+	var dimensions=portrait.get_size();dimensions*=minf(64./dimensions.x,64./dimensions.y)
+	dimensions.x=minf(64.,dimensions.x);dimensions.y=minf(64.,dimensions.y)
+	return Rect2(Vector2(72,73)+profile_offset-dimensions*.5,dimensions)
 
 func toggle_quest():
 	quest_collapsed=not quest_collapsed
@@ -234,6 +241,7 @@ func refresh():
 	p=game.session.state.players.get(game.session.local_id,{})
 	if p.is_empty():return
 	status_strip.refresh(p)
+	if expedition!=null:expedition.refresh()
 	name_label.text=p.name;name_label.tooltip_text=p.name
 	class_label.text=Content.CLASSES[p.class_id].name
 	hp_label.text="%d / %d" % [p.hp,p.max_hp]
@@ -281,6 +289,9 @@ func refresh():
 	elif game.session.state.drops.values().any(func(drop):return drop.owner==p.id and drop.pos.distance_to(p.pos)<=1.8):interact.caption="줍기"
 	elif game.dungeon.floor_number>0 and p.pos.distance_to(game.dungeon.exit_position)<2.8:interact.caption="출구"
 	elif game.dungeon.in_town(p.pos):interact.caption="회복 · 보급"
+	else:
+		var site=preload("res://scripts/exploration_rooms.gd").nearest(game.session.state.get("exploration_sites",[]),p.pos)
+		if not site.is_empty() and not site.claimed:interact.caption={"gather":"채집","rest":"휴식","shrine":"제단","secret":"탐색"}[site.kind]
 	interact.tooltip_text=interact.caption+" ("+interact.hotkey+")"
 	charge_label.text="";charge_label.hide()
 	job_resource.refresh(p)
@@ -288,14 +299,14 @@ func refresh():
 
 func _draw():
 	if p.is_empty() or chrome_hidden:return
-	Icons.draw(self,"gold",Rect2(126,136,22,22))
-	var center=Vector2(72,73)
-	draw_texture_rect(Art.texture("medallion"),Rect2(center-Vector2(53,53),Vector2(106,106)),false)
+	var center=Vector2(72,73)+profile_offset
+	draw_rect(Rect2(center-Vector2(40,47),Vector2(80,93)),Color("1f252a"))
+	preload("res://scripts/portrait_frame.gd").draw_frame(self,Rect2(center-Vector2(40,47),Vector2(80,93)),int(p.level))
 	if portrait:draw_texture_rect(portrait,portrait_rect(),false)
-	draw_string_outline(game.bold_font,Vector2(46,139),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,16,4,Color("263b35"))
-	draw_string(game.bold_font,Vector2(46,139),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,16,Color("fff0b9"))
-	bar(Rect2(130,95,278,23),float(p.hp)/p.max_hp,Color("5ad18c"),0)
-	bar(Rect2(130,123,278,7),p.stamina/p.max_stamina,Color("67cde2"),0)
+	draw_string_outline(game.bold_font,center+Vector2(-26,46),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,14,3,Color("263b35"))
+	draw_string(game.bold_font,center+Vector2(-26,46),"LV."+str(p.level),HORIZONTAL_ALIGNMENT_CENTER,70,14,Color("fff0b9"))
+	bar(Rect2(hp_label.position-Vector2(3,0),hp_label.size+Vector2(6,0)),float(p.hp)/p.max_hp,Color("5ad18c"),0)
+	bar(Rect2(hp_label.position+Vector2(-3,22),Vector2(hp_label.size.x+6,5)),p.stamina/p.max_stamina,Color("67cde2"),0)
 	bar(Rect2(46,897,1350,3),float(p.xp)/preload("res://scripts/progression.gd").xp_required(p.level),Color("efd45c"),0)
 
 func bar(rect:Rect2,ratio:float,color:Color,segments:int):

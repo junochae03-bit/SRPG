@@ -117,7 +117,7 @@ func run():
 		check(p.costume==id and game.bag.costume_picker.selected==selected,id+" inventory selection reaches session")
 		check(identity_except_costume(p,local.sim)==baseline,id+" costume switch preserves gear stats class skills and currency")
 		check(game.bag.portrait.texture==Gat.frame(p,0.).texture and game.bag.portrait.material==Gat.material(),id+" bag consumes selected RGBA frame and shared material")
-		check(game.hud.portrait.atlas==Costumes.frame(p,0.).texture.atlas and Rect2(36,37,72,72).encloses(game.hud.portrait_rect()),id+" HUD consumes selected sheet with full head fit")
+		check(game.hud.portrait.atlas==Costumes.frame(p,0.).texture.atlas and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),id+" HUD consumes selected sheet with full head fit")
 		registered.append(id)
 		check(logical_viewport().encloses(canvas_rect(game.bag.costume_picker)),id+" selected costume control stays inside viewport")
 		var picker=game.bag.costume_picker

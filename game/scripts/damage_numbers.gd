@@ -5,6 +5,17 @@ var game
 var labels:Array=[]
 var materials:Array=[]
 var visible_count=0
+static func format_amount(amount:int)->String:
+	if amount<10000:return str(amount)
+	var parts:PackedStringArray=[]
+	@warning_ignore("integer_division")
+	var billions=amount/100000000
+	@warning_ignore("integer_division")
+	var thousands=(amount%100000000)/10000
+	if billions>0:parts.append(str(billions)+"억")
+	if thousands>0:parts.append(str(thousands)+"만")
+	if amount%10000>0:parts.append(str(amount%10000))
+	return " ".join(parts)
 class Number extends Node2D:
 	var font:Font
 	var text=""
@@ -17,6 +28,7 @@ class Number extends Node2D:
 	func _draw():
 		var baseline=Vector2(0,ascent)
 		draw_string_outline(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,5,Color("38261f"))
+		draw_string_outline(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,2,Color.WHITE)
 		draw_string(font,baseline,text,HORIZONTAL_ALIGNMENT_LEFT,-1,pixels,Color.WHITE)
 func setup(owner_game):
 	game=owner_game
@@ -32,7 +44,7 @@ func refresh():
 		for i in range(start,entries.size()):
 			var event=entries[i];var label=labels[visible_count];visible_count+=1
 			var style=1 if event.get("critical",false) else 0 if event.get("enemy",false) else 2
-			label.configure(str(event.amount),30 if style==1 else 23);label.material=materials[style]
+			label.configure(format_amount(int(event.amount)),30 if style==1 else 23);label.material=materials[style]
 			var rise=(float(event.get("max_life",.7))-float(event.life))*65.
 			label.position=game.world_point(event.pos)-Vector2(label.text_width*.5,85.+rise+label.ascent)
 			label.modulate=Color(1,1,1,clampf(float(event.life)/.15,0,1));label.show()

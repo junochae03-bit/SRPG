@@ -22,6 +22,27 @@ func run():
 		var mix_deadline=Time.get_ticks_msec()+1000
 		while title.get_playback_position()<=initial_position and Time.get_ticks_msec()<mix_deadline:await process_frame
 		check(title.playing and title.get_playback_position()>initial_position,"actual title playback advances %s (%s: %.4f → %.4f)"%[label,AudioServer.get_driver_name(),initial_position,title.get_playback_position()])
+		for weapon in ["sword","axe","bow","staff"]:
+			director.last_times.clear()
+			director.on_event({"type":"damage","enemy":true,"weapon":weapon,"owner":2})
+			check(director.last_played=="hit_"+weapon,"remote impact uses source weapon "+weapon+" "+label)
+			var sounds=int(director.play_counts["hit_"+weapon])
+			for i in 30:director.on_event({"type":"damage","enemy":true,"weapon":weapon,"owner":2})
+			check(int(director.play_counts["hit_"+weapon])==sounds,"same-frame area hits do not stack thirty sounds "+weapon)
+		game.session.sim=preload("res://scripts/simulation.gd").new(115,"town",1)
+		game.session.state.players={1:game.session.sim.add_player(1,"검사"),2:game.session.sim.add_player(2,"궁수",{"class_id":"ranger"})}
+		director.last_times.clear();director.on_event({"type":"damage","enemy":true,"owner":2})
+		check(director.last_played=="hit_bow","legacy event falls back to actual source actor "+label)
+		if not muted:
+			var remote=director.pool.filter(func(player):return player.playing and player.stream==director.streams.hit_bow[(director.cursors.hit_bow-1)%director.streams.hit_bow.size()]).back()
+			var remote_volume=remote.volume_db
+			director.last_times.clear();director.on_event({"type":"damage","enemy":true,"weapon":"axe","owner":1})
+			var local=director.pool.filter(func(player):return player.playing and player.stream==director.streams.hit_axe[(director.cursors.hit_axe-1)%director.streams.hit_axe.size()]).back()
+			check(is_equal_approx(local.volume_db-remote_volume,4.),"remote impact four decibels below local")
+		game.session.state.players={}
+		for action in ["mana_potion","power_potion"]:
+			director.last_times.clear();director.on_action(action)
+			check(director.last_played=="potion","new potion audio "+action)
 		director.set_music("town")
 		var town=director.music_players[director.music_index]
 		check(town.playing and title.playing,"incoming and outgoing music overlap during fade "+label)

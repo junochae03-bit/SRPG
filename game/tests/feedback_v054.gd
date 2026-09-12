@@ -42,12 +42,14 @@ func run():
 	var hunter=pet_world.add_player(1,"늑대 검증",{"schema_version":7,"class_id":"hunter","level":30,"tutorial_done":true})
 	hunter.pos=Vector2(24,24);pet_world.combat.tick_player(hunter,.1)
 	check(hunter.job_state.pets.size()==1,"hunter creates actual companion")
-	var wolf=hunter.job_state.pets[0];wolf.pos=Vector2(27,24)
+	var wolf=hunter.job_state.pets[0];wolf.pos=Vector2(27,24);hunter.aim=Vector2.LEFT
 	pet_world.combat.tick_player(hunter,.1)
-	check(wolf.moving and wolf.facing==-1.,"companion turns left while returning to owner")
+	check(wolf.moving and wolf.facing==-1.,"manifestation follows player's left aim")
 	var target=pet_world.spawn_enemy("shade",wolf.pos+Vector2(1,0),1,false);target.hp=10000;target.max_hp=10000
-	pet_world.combat.tick_player(hunter,.1)
-	check(wolf.facing==1. and wolf.cd>0 and target.hp<10000,"companion turns toward target and attacks")
+	hunter.aim=Vector2.RIGHT;pet_world.combat.tick_player(hunter,.1)
+	check(wolf.facing==1. and wolf.cd<=0 and target.hp==10000,"manifestation faces input without autonomous damage")
+	pet_world.action(1,"attack");pet_world.combat.tick_projectiles(.6)
+	check(wolf.cd>0 and target.hp<10000,"player attack activates manifestation")
 	for job in ["rogue","thief"]:
 		for distance in [1.3,6.0]:
 			var sim=Sim.new(5401,"forest",1);sim.enemies.clear()

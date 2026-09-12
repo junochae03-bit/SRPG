@@ -7,20 +7,19 @@ const Art=preload("res://scripts/ui_art.gd")
 const Library=preload("res://scripts/icon_library.gd")
 const Quote=preload("res://scripts/service_quote.gd")
 const TownOperations=preload("res://scripts/town_operations.gd")
+const Consumables=preload("res://scripts/consumables.gd")
 const OP_NAMES={"buy":"장비 구매","sell":"장비 판매","potion":"회복 물약","essence":"정수 합성","ore":"광석 정제","upgrade":"장비 강화","reforge":"옵션 재련","salvage":"장비 분해","accept":"토벌 의뢰","claim":"의뢰 보상","cancel":"의뢰 포기","supply":"재료 납품","rest":"숙박","resupply":"원정 재정비","travel":"던전 입장","training_reset":"훈련 기록"}
 var game
+var pending_receipt={}
 var facility=""
 var title:Label
 var money:Label
 var body:Control
 var selected_item=""
-var resident_portrait:TextureRect
-var greeting:Label
 var facility_icon:TextureRect
-var counter:TextureRect
-var response:Label
 var operation=""
 var quantity=1
+var target_quantity=0
 var quantity_buttons={}
 var operation_buttons={}
 var shop_mode="buy"
@@ -45,23 +44,22 @@ var product_scroll:ScrollContainer
 var product_scroll_value=0
 
 func setup(owner_game):
-	game=owner_game;position=Vector2(-60,24);size=Vector2(1560,852);mouse_filter=Control.MOUSE_FILTER_STOP
+	game=owner_game
+	if game.session.has_signal("request_completed"):game.session.request_completed.connect(on_request_completed)
+	game.session.status_changed.connect(func(_message):
+		if not game.session.connected:pending_receipt={})
+	position=Vector2(64,24);size=Vector2(1312,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",6)
 	facility_icon=Art.picture(self,null,Vector2(28,22),Vector2(70,70))
 	title=game.label(self,"",Vector2(116,25),Vector2(970,43),32)
-	Library.attach(game.button(self,"닫기  ESC",Vector2(1376,28),Vector2(152,46),close),"close")
-	Library.picture(self,"gold",Vector2(275,80),Vector2(25,25))
-	money=game.label(self,"",Vector2(311,78),Vector2(306,29),20)
+	Library.attach(game.button(self,"닫기  ESC",Vector2(1128,28),Vector2(152,46),close),"close")
+	Library.picture(self,"gold",Vector2(116,80),Vector2(25,25))
+	money=game.label(self,"",Vector2(152,78),Vector2(270,29),20)
 	for i in range(3):
 		var key=["seed","ore","essence"][i]
-		Library.picture(self,key,Vector2(646+i*286,80),Vector2(25,25))
-		resource_labels[key]=game.label(self,"",Vector2(679+i*286,78),Vector2(234,29),18)
-	Art.panel(self,Vector2(26,128),Vector2(224,692),"paper",6)
-	counter=Art.picture(self,null,Vector2(40,146),Vector2(196,196))
-	resident_portrait=Art.picture(self,null,Vector2(64,354),Vector2(148,192));resident_portrait.material=preload("res://scripts/gat_art.gd").material()
-	greeting=wrapped(self,"",Vector2(45,559),Vector2(186,100),20,3)
-	response=wrapped(self,"",Vector2(45,689),Vector2(186,84),18,3)
-	body=Control.new();body.position=Vector2(274,130);body.size=Vector2(1258,690);add_child(body)
+		Library.picture(self,key,Vector2(430+i*286,80),Vector2(25,25))
+		resource_labels[key]=game.label(self,"",Vector2(463+i*286,78),Vector2(234,29),18)
+	body=Control.new();body.position=Vector2(26,130);body.size=Vector2(1258,690);add_child(body)
 	inset_buttons(self);hide()
 
 func wrapped(parent:Node,value:String,at:Vector2,dimensions:Vector2,font_size:int=20,lines:int=2)->Label:
@@ -89,6 +87,7 @@ func open(key:String):
 	if not World.FACILITIES.has(key):return
 	if game.npc_dialogue!=null:game.npc_dialogue.hide()
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
+	target_quantity=0
 	selected_floor=int(player().get("highest_floor",1));chapter=int((selected_floor-1)/10)
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel","costume":"buy","training":"training_reset"}[key]
 	if key=="inn":operation=TownOperations.DEFAULT_INN_OPERATION
@@ -106,7 +105,10 @@ func receipt_changes(before:Dictionary,after:Dictionary)->String:
 	if gold!=0:rows.append("금화 %+d G"%gold)
 	var potions=int(after.potions)-int(before.potions)
 	if potions!=0:rows.append("물약 %+d"%potions)
-	for key in ["seed","ore","essence"]:
+	for key in ["mana_potion","power_potion"]:
+		var difference=Consumables.count(after,key)-Consumables.count(before,key)
+		if difference!=0:rows.append(Consumables.ITEMS[key].name+" %+d"%difference)
+	for key in Content.MATERIALS:
 		var difference=int(after.materials.get(key,0))-int(before.materials.get(key,0))
 		if difference!=0:rows.append(Content.MATERIALS[key]+" %+d"%difference)
 	if int(after.hp)>int(before.hp):rows.append("생명력 회복")
@@ -114,9 +116,12 @@ func receipt_changes(before:Dictionary,after:Dictionary)->String:
 
 func request(kind:String,extras:Dictionary={})->bool:
 	if not World.FACILITIES.has(facility):return false
+	if not pending_receipt.is_empty():return false
 	var before=player().duplicate(true);var q=Quote.quote(player(),facility,kind,extras)
 	var payload=extras.duplicate();payload.merge({"facility":facility,"operation":kind})
 	var success=game.session.act("facility",JSON.stringify(payload));receipt_success=success
+	if success and game.session.get("network_role")=="client":
+		pending_receipt={"before":before,"kind":kind,"title":q.title,"request_kind":"facility","serial":game.session.sequence};last_receipt="거래 확인 중…";receipt_success=false;refresh();return true
 	if success:
 		last_receipt=OP_NAMES.get(kind,q.title)+" 완료\n"+receipt_changes(before,player())
 		game.audio_director.play_sound("equip" if facility=="smith" else "potion" if facility in ["alchemy","inn"] else "pickup")
@@ -124,14 +129,31 @@ func request(kind:String,extras:Dictionary={})->bool:
 	else:last_receipt=q.reason if not q.reason.is_empty() else "현재 상태에서는 거래할 수 없습니다."
 	refresh();return success
 
+func on_request_completed(kind:String,success:bool):
+	if pending_receipt.is_empty() or kind!=pending_receipt.get("request_kind","facility") or game.session.completed_sequence!=pending_receipt.serial:return
+	var receipt=pending_receipt;pending_receipt={};receipt_success=success
+	var confirmed=game.session.get("transaction_receipt")
+	var difference=receipt_changes(confirmed.before,confirmed.after) if confirmed is Dictionary and confirmed.has("before") else receipt_changes(receipt.before,player())
+	last_receipt=OP_NAMES.get(receipt.kind,receipt.title)+" 완료\n"+difference if success else "거래하지 못했습니다. 현재 비용과 공간을 확인하세요."
+	if success and receipt.kind in ["sell","salvage"]:selected_item=""
+	if success:game.audio_director.play_sound("pickup")
+	if visible:refresh()
+
 func choose(kind:String,extras:Dictionary={}):
 	if operation!=kind:
+		target_quantity=0
 		quantity=1;product_scroll_value=0
 		if is_instance_valid(product_scroll):product_scroll.scroll_vertical=0
 		if kind in ["sell","salvage"] and not extras.has("item"):selected_item=""
 	operation=kind;selected_item=str(extras.get("item",selected_item));selected_index=int(extras.get("index",selected_index));selected_zone=str(extras.get("zone",selected_zone))
 	last_receipt="";receipt_success=false;refresh()
-func extra()->Dictionary:return {"index":selected_index,"item":selected_item,"zone":selected_zone,"quantity":quantity}
+func extra()->Dictionary:
+	var result={"index":selected_index,"item":selected_item,"zone":selected_zone,"quantity":quantity}
+	if facility=="alchemy" and target_quantity>0:result.target_quantity=target_quantity
+	return result
+func select_target(value:int):
+	if facility!="alchemy" or value<1 or value>Inventory.stack_limit(operation):return
+	target_quantity=value;last_receipt="";receipt_success=false;refresh()
 func select_quantity(value:int):
 	if value not in ([1,5,10] if facility=="shop" else [1,3,5]):return
 	quantity=value;last_receipt="";receipt_success=false;refresh()
@@ -140,20 +162,13 @@ func refresh():
 	if not World.FACILITIES.has(facility):return
 	if is_instance_valid(product_scroll):product_scroll_value=product_scroll.scroll_vertical
 	for child in body.get_children():body.remove_child(child);child.queue_free()
-	products.clear();shop_tabs.clear();quantity_buttons.clear();operation_buttons.clear();wardrobe_view=null;review_panel=null;confirm_button=null;product_scroll=null;review_labels.clear()
+	products.clear();shop_tabs.clear();quantity_buttons.clear();operation_buttons.clear();wardrobe_view=null;review_panel=null;review_result_scroll=null;confirm_button=null;product_scroll=null;review_labels.clear()
 	var p=player()
 	title.text=World.FACILITIES[facility].name
 	facility_icon.texture=Library.texture({"costume":"chest","training":"physical_attack"}.get(facility,facility))
-	counter.texture=Art.facility("shop" if facility=="costume" else "portal" if facility=="training" else facility);facility_icon.material=Art.icon_material(facility_icon.texture)
-	if facility=="training":counter.texture=preload("res://scripts/training_art.gd").texture()
-	resident_portrait.visible=World.RESIDENTS.has(facility)
-	if World.RESIDENTS.has(facility):
-		var resident=World.RESIDENTS[facility];resident_portrait.texture=preload("res://scripts/gat_art.gd").texture(resident.avatar,0)
-		greeting.text=resident.name;greeting.tooltip_text=resident.name
-	else:greeting.text="원정의 문";greeting.tooltip_text=greeting.text
+	facility_icon.material=Art.icon_material(facility_icon.texture)
 	money.text="보유 금화  %d G"%p.gold
 	for key in resource_labels:resource_labels[key].text=Content.MATERIALS[key]+"  "+str(p.materials.get(key,0))
-	response.text={"shop":"장비 · 물약\n코스튬","smith":"강화 · 재련\n장비 분해","alchemy":"물약 · 정수\n광석 정제","guild":"토벌 의뢰\n재료 납품","inn":"휴식 · 회복\n원정 재정비","portal":"심층 던전\nB1 — B100","costume":"외형 · 코스튬\n이름 변경","training":"표적 연습\n훈련 기록"}[facility];response.tooltip_text=response.text
 	match facility:
 		"shop":shop(p)
 		"smith":smith(p)
@@ -181,7 +196,7 @@ func selection_marker(button:Button,chosen:bool):
 func item_card(parent:Node,item:Dictionary,at:Vector2,caption:String,callback:Callable,chosen=false)->Button:
 	var b=game.button(parent,"",at,Vector2(342,122),callback,chosen)
 	Art.picture(b,Art.texture("equipped" if chosen else "socket"),Vector2(15,20),Vector2(80,82))
-	Art.picture(b,Content.icon_texture(item),Vector2(21,25),Vector2(68,72))
+	Art.picture(b,Library.texture(Consumables.ITEMS[item.consumable].icon) if item.has("consumable") else Content.icon_texture(item),Vector2(21,25),Vector2(68,72))
 	if item.get("category","") in ["weapon","armor","accessory"]:
 		var edge=Line2D.new();edge.points=PackedVector2Array([Vector2(20,24),Vector2(91,24),Vector2(91,99),Vector2(20,99),Vector2(20,24)]);edge.width=2;edge.default_color=Equipment.COLORS[clampi(int(item.get("rarity",0)),0,4)];b.add_child(edge)
 	wrapped(b,item.name,Vector2(110,12),Vector2(194,68),20,2)
@@ -197,12 +212,18 @@ func operation_tabs(entries:Array):
 		operation_buttons[key]=button
 
 func quantity_row(at_y:float):
-	game.label(body,"수량",Vector2(10,at_y+8),Vector2(108,29),21)
+	game.label(body,"목표 재고" if target_quantity>0 else "제작 횟수" if facility=="alchemy" else "수량",Vector2(10,at_y+8),Vector2(108,29),20)
 	var amounts=[1,5,10] if facility=="shop" else [1,3,5]
+	if target_quantity>0:amounts=[5,10,20] if Consumables.ITEMS.has(operation) else [10,25,50]
 	for i in range(amounts.size()):
 		var amount=amounts[i]
-		quantity_buttons[amount]=game.button(body,"× %d"%amount,Vector2(124+i*116,at_y),Vector2(104,44),func():select_quantity(amount),quantity==amount)
-		quantity_buttons[amount].set_meta("selected",quantity==amount)
+		var selected=target_quantity==amount if target_quantity>0 else quantity==amount
+		quantity_buttons[amount]=game.button(body,"%d개"%amount if target_quantity>0 else "× %d"%amount,Vector2(124+i*116,at_y),Vector2(104,44),func():select_target(amount) if target_quantity>0 else select_quantity(amount),selected)
+		quantity_buttons[amount].set_meta("selected",selected)
+	if facility=="alchemy":
+		var toggle=game.button(body,"횟수 지정" if target_quantity>0 else "목표 지정",Vector2(484,at_y),Vector2(220,44),func():
+			target_quantity=0 if target_quantity>0 else 10;last_receipt="";receipt_success=false;refresh())
+		toggle.name="TargetMode";toggle.tooltip_text="현재 보유량에서 목표까지 필요한 최소 제작 횟수를 계산합니다. 실제 산출량은 오른쪽에서 확인하세요."
 
 func shop(p:Dictionary):
 	for i in range(3):
@@ -216,15 +237,23 @@ func shop(p:Dictionary):
 	if shop_mode=="buy":
 		for key in Equipment.SHOP_TYPES:items.append(Equipment.make(key,mini(9,int(p.level/10)),0,"preview","none",p.class_id))
 	else:items=p.inventory.filter(func(item):return not Inventory.is_equipped(p,item.id))
-	var top=120 if operation=="potion" else 62
-	if operation=="potion":quantity_row(62)
-	var count=items.size()+(1 if shop_mode=="buy" else 0)
+	var top=120 if operation in ["potion","tool","mana_potion","power_potion"] else 62
+	if operation in ["potion","tool","mana_potion","power_potion"]:quantity_row(62)
+	var count=items.size()+(4 if shop_mode=="buy" else 0)
 	var list=list_surface(Vector2(0,top),Vector2(722,684-top),maxf(680-top,ceili(count/2.0)*134.))
 	for i in range(items.size()):
 		var item=items[i];var cost=preload("res://scripts/town_services.gd").price(p,i) if shop_mode=="buy" else Quote.sell_price(item)
 		products[str(i)]=item_card(list,item,Vector2(i%2*352,int(i/2)*134),str(cost)+" G",func():choose("buy" if shop_mode=="buy" else "sell",{"index":i,"item":item.id}),operation=="buy" and selected_index==i or operation=="sell" and selected_item==item.id)
 	if shop_mode=="buy":products.potion=item_card(list,{"category":"consumable","name":"회복 물약","rarity":0},Vector2(items.size()%2*352,int(items.size()/2)*134),"15 G / 개",func():choose("potion"),operation=="potion")
 	elif items.is_empty():wrapped(list,"판매할 장비가 없습니다.",Vector2(24,36),Vector2(650,80),24,2)
+	if shop_mode=="buy":
+		var i=items.size()+1
+		products.tool=item_card(list,{"category":"material","material":"tool","name":"탐사 도구","rarity":0},Vector2(i%2*352,int(i/2)*134),"25 G / 개 · 봉인 해제",func():choose("tool"),operation=="tool")
+		for key in ["mana_potion","power_potion"]:
+			i+=1
+			var entry=Consumables.ITEMS[key]
+			products[key]=item_card(list,{"category":"consumable","consumable":key,"name":entry.name,"rarity":0},Vector2(i%2*352,int(i/2)*134),"%d G / 개"%entry.price,func():choose(key),operation==key)
+			products[key].tooltip_text=entry.name+"\n"+Consumables.description(p,key)
 
 func select_shop_mode(mode:String):
 	if mode not in ["buy","sell","costume"]:return
@@ -271,7 +300,9 @@ func service_card(parent:Node,key:String,name:String,detail:String,icon:String,a
 func alchemy(_p:Dictionary):
 	game.label(body,"조합식",Vector2(6,4),Vector2(710,38),28);quantity_row(60)
 	var recipes=[["potion","회복 물약 ×3","별씨앗 3 + 10 G","consumable"],["essence","정원의 정수 ×1","별씨앗 5 + 광석 5 + 40 G","essence"],["ore","광석 ×3","별씨앗 5 + 20 G","ore"]]
-	var list=list_surface(Vector2(0,122),Vector2(722,562),558)
+	recipes.append(["mana_potion","마나 물약 ×3 · 기력 회복","별씨앗 3 + 정수 1 + 15 G","stamina"])
+	recipes.append(["power_potion","공격력 강화 물약 ×3","별씨앗 3 + 광석 2 + 30 G","physical_attack"])
+	var list=list_surface(Vector2(0,122),Vector2(722,562),recipes.size()*172-14)
 	for i in range(recipes.size()):
 		var recipe=recipes[i];service_card(list,recipe[0],recipe[1],recipe[2],recipe[3],Vector2(0,i*172),func():choose(recipe[0]),operation==recipe[0],158)
 
@@ -315,6 +346,8 @@ func portal(p:Dictionary):
 		selection_marker(b,selected_floor==floor_id);b.tooltip_text=abyss.locked_reason(p,floor_id) if locked else cfg.name;products[str(floor_id)]=b
 
 func review(p:Dictionary):
+	if facility=="portal":
+		var brief=preload("res://scripts/expedition_brief_panel.gd").new();body.add_child(brief);brief.setup(self);return
 	var panel=Art.panel(body,Vector2(746,0),Vector2(510,688),"paper",6)
 	review_panel=panel;preview=Quote.quote(p,facility,operation,extra())
 	if facility=="portal":
@@ -353,11 +386,18 @@ func review(p:Dictionary):
 	# A completed transaction stays visible when the next quote becomes invalid.
 	var message=last_receipt if not last_receipt.is_empty() else preview.reason
 	var success=not last_receipt.is_empty() and receipt_success
+	if success:
+		# Keep every resource delta in the scrollable body, without line limits.
+		review_labels.materials.hide()
+		review_result_scroll.position.y=298;review_result_scroll.size.y=199
+		result.text=last_receipt.replace(" · ","\n")
+		message=last_receipt.get_slice("\n",0)
 	if not message.is_empty():Library.picture(panel,"success" if success else "warning",Vector2(32,524),Vector2(30,30))
 	review_labels.feedback=wrapped(panel,message,Vector2(77,518),Vector2(401,74),19,2)
 	review_labels.feedback.add_theme_color_override("font_color",Color("247660") if success else Color("8b432e"))
 	var caption={"buy":"구매하기","sell":"선택 장비 판매","potion":"조제하기" if facility=="alchemy" else "물약 구매","essence":"정수 합성","ore":"광석 정제","upgrade":"확정 강화","reforge":"옵션 재련","salvage":"선택 장비 분해","accept":"의뢰 수락","claim":"보상 받기","cancel":"현재 의뢰 포기","supply":"재료 납품","rest":"숙박하고 회복","resupply":"회복 · 물약 보충","travel":"던전 입장"}.get(operation,"실행")
 	if facility=="training":caption="기록 · 기술 대기시간 초기화"
+	if operation in ["mana_potion","power_potion"]:caption="조제하기" if facility=="alchemy" else "물약 구매"
 	if operation=="resupply_small":caption="회복 · 물약 5개 채우기"
 	confirm_button=game.button(panel,caption,Vector2(32,614),Vector2(446,48),func():
 		if facility=="portal":

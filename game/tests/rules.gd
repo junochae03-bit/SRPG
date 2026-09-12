@@ -75,12 +75,15 @@ func run():
 	check(boss.hp==0 and p.boss_kills==1,"boss can be killed through attack")
 	check(p.quest_done and p.gold==190,"quest reward granted once")
 	check(p.level==1 and p.xp==220,"slower experience curve retains progress below level threshold")
-	var boss_gear=sim.drops.values().filter(func(d):return d.item.category=="weapon")
-	check(boss_gear.size()==1,"boss guaranteed weapon drop")
+	var boss_gear=sim.drops.values().filter(func(d):return d.owner==101 and d.item.category=="weapon")
+	check(boss_gear.size()==1,"boss guarantees one personal weapon drop")
 	var drop=boss_gear[0]
 	p.pos=drop.pos
 	check(drop.item.rarity==2,"boss drop is rare")
 	sim.players[202].pos=p.pos
+	# Remove that player's own reward before checking theft of the other owner's drop.
+	for key in sim.drops.keys():
+		if sim.drops[key].owner==202:sim.drops.erase(key)
 	check(not sim.action(202,"interact"),"other player cannot steal owned drop")
 	check(sim.action(101,"interact") and p.inventory.size()==1,"owner collects guaranteed weapon")
 	while sim.action(101,"interact"):pass
@@ -103,6 +106,8 @@ func run():
 	check(not sim.action(101,"interact") and sim.drops.has("full"),"full bag preserves ground drop")
 	p.hp=1
 	p.gold=100
+	# This assertion covers solo defeat; co-op rescue is covered by coop_rules.
+	sim.players.erase(202)
 	enemy.hp=52
 	enemy.pos=p.pos
 	enemy.attack_pos=p.pos

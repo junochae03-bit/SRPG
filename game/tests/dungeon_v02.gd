@@ -21,14 +21,14 @@ func run():
 	var last_hp=0;var raids=0
 	for floor_number in range(1,101):
 		var cfg=A.config(floor_number);var sim=S.new(112+floor_number,cfg.terrain,floor_number);var player=sim.add_player(1,"100층 검사");player.level=100;player.tutorial_done=true
-		check(sim.map.floor_number==floor_number and sim.enemies.size()==23,"roster floor "+str(floor_number))
+		check(sim.map.floor_number==floor_number and sim.enemies.size()==(1 if floor_number%10==0 else 23),"roster floor "+str(floor_number))
 		var guards=sim.enemies.values().filter(func(e):return e.get("guardian",false));check(guards.size()==1,"exact one guardian")
 		var guard=guards[0];check(guard.boss==(floor_number%10==0),"boss every ten floors")
 		for e in sim.enemies.values():
 			check(sim.map.walkable(e.pos) and e.hp>0 and e.damage>0,"valid scaled spawn")
 			check(not sim.loot_tables.tables.get(e.kind,[]).is_empty(),"separate monster drop table")
 		if guard.boss:
-			raids+=1;check(guard.hp>last_hp and guard.hp>sim.enemies[1].hp*15,"raid much tougher than regular and last raid");last_hp=guard.hp
+			raids+=1;check(guard.hp>last_hp and guard.hp>A.enemy_stats(cfg.mobs[0],floor_number).health*15,"raid much tougher than same-floor common definition and last raid");last_hp=guard.hp
 			for phase in [1,2]:
 				guard.phase=phase
 				for sequence in range(3):guard.pattern=sequence;sim.monster_attacks.begin(guard,guard.pos+Vector2.RIGHT);check(not guard.attack_areas.is_empty(),"raid telegraph patterns")

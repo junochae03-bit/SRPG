@@ -1,3 +1,7 @@
+현재 배포 검증: [V0.6 전체 소스·Windows EXE·DB 검사](docs/VERIFICATION_V06.ko.md).
+
+아래는 V0.1 당시의 보존 기록입니다.
+
 # 스텔알피지 V0.1 검증
 
 2026-09-09 · Windows · Godot 4.6 stable · OpenGL Compatibility.

@@ -22,6 +22,7 @@ var class_id=""
 var scope_cluster=-1
 var scope_extra:Dictionary={}
 var vertical_bar:VScrollBar
+var horizontal_bar:HScrollBar
 var scroll_vertical:float:
 	get:return -offset.y
 	set(value):offset.y=-value;layout_controls()
@@ -53,19 +54,15 @@ class Medal extends Button:
 		if datum.is_empty():return
 		var chosen=graph.owner_tree.choice==id;var learned=int(status.get("rank",0))>0;var blocked=str(status.get("reason","")).begins_with("배타");var kind=datum.get("type","original")
 		var role=Presentation.role(datum)
-		var frame="crest" if kind=="keystone" or role=="character_passive" else "magic" if role in ["active","active_module"] else "medallion"
-		if role=="active_module":
-			draw_set_transform(size*.5,PI*.25,Vector2.ONE*.76)
-			draw_texture_rect(Art.texture(frame),Rect2(-size*.5,size),false)
-			draw_set_transform(Vector2.ZERO)
-		else:draw_texture_rect(Art.texture(frame),Rect2(Vector2.ZERO,size),false)
-		var enabled=learned or bool(status.get("can_invest",false));draw_texture_rect(icon,icon_rect(),false,Color.WHITE if enabled else Color(.72,.76,.73,1.))
-		if graph.zoom>=.7 and Presentation.role(datum)!="stat_passive":
-			var font=graph.owner_tree.game.fonts;var label=Presentation.role_caption(datum);var width=font.get_string_size(label,HORIZONTAL_ALIGNMENT_LEFT,-1,14).x
-			draw_texture_rect(Art.plain_paper(),role_badge_rect(),false)
-			draw_string(font,Vector2((size.x-width)*.5,3),label,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("284c56"))
-		if chosen:draw_arc(size*.5,size.x*.49,0,TAU,40,Color("e6b848"),3,true)
-		elif int(status.get("rank",0))>0:draw_arc(size*.5,size.x*.44,-PI*.5,TAU*float(status.rank)/maxi(1,int(datum.max_rank))-PI*.5,32,Color("70cbb5"),2,true)
+		var frame_rect=Rect2(Vector2.ZERO,size)
+		draw_texture_rect(Art.plain_paper(),frame_rect,false,Color("302b32"))
+		var edge=Color("f7cc78") if chosen else Color("80cbb2") if learned else Color("b89568") if bool(status.get("can_invest",false)) else Color("645b61")
+		draw_rect(frame_rect.grow(-1),edge,false,3 if chosen else 2)
+		draw_rect(frame_rect.grow(-6),Color("776450"),false,1)
+		var enabled=learned or bool(status.get("can_invest",false));draw_texture_rect(icon,icon_rect(),false,Color.WHITE if enabled else Color(.52,.52,.55,1.))
+		if graph.zoom>=.7 and Presentation.active(datum):
+			var font=graph.owner_tree.game.fonts
+			draw_string(font,Vector2(4,-4),"액티브",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("9ddcd7"))
 		if blocked:
 			draw_line(size*Vector2(.20,.78),size*Vector2(.80,.22),Color("ba775c"),3,true);draw_line(size*Vector2(.20,.22),size*Vector2(.80,.78),Color("ba775c"),3,true)
 		elif bool(status.get("can_invest",false)):
@@ -77,9 +74,9 @@ class Medal extends Button:
 				draw_texture_rect(Art.plain_paper(),Rect2(Vector2(size.x*.5-width*.5-5,size.y-17),Vector2(width+10,17)),false);draw_string(font,Vector2(size.x*.5-width*.5,size.y-4),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("635a43"))
 		if graph.zoom>=.7:
 			var caption="%d/%d"%[int(status.get("rank",0)),int(datum.max_rank)];var at=Vector2(size.x*.5,size.y+13)
-			draw_texture_rect(Art.plain_paper(),Rect2(at-Vector2(25,13),Vector2(50,19)),false)
+			draw_texture_rect(Art.plain_paper(),Rect2(at-Vector2(25,13),Vector2(50,19)),false,Color("302b32"))
 			var font=graph.owner_tree.game.fonts;var width=font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12).x
-			draw_string(font,at-Vector2(width*.5,0),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("34594e"))
+			draw_string(font,at-Vector2(width*.5,0),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("eee1c9"))
 	func _gui_input(event):
 		if event is InputEventMouseButton and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
 			graph.wheel(event,graph.get_local_mouse_position());accept_event()
@@ -92,15 +89,17 @@ func setup(tree):
 	owner_tree=tree;clip_contents=true;mouse_filter=Control.MOUSE_FILTER_STOP
 	vertical_bar=VScrollBar.new();add_child(vertical_bar)
 	vertical_bar.value_changed.connect(func(value):offset.y=-value;layout_controls())
+	horizontal_bar=HScrollBar.new();add_child(horizontal_bar)
+	horizontal_bar.value_changed.connect(func(value):offset.x=-value;layout_controls())
 	resized.connect(func():if not definitions.is_empty():fit_scope())
 
 func rebuild(list:Array,p:Dictionary):
 	var changed=class_id!=p.class_id or definitions.size()!=list.size()
 	if changed:
 		for child in get_children():
-			if child!=vertical_bar:remove_child(child);child.queue_free()
+			if child!=vertical_bar and child!=horizontal_bar:remove_child(child);child.queue_free()
 		class_id=p.class_id;definitions.clear();positions.clear();node_controls.clear();cluster_names.clear();planned_ids=[];scope_extra.clear();scope_cluster=-1
-		centers={0:Vector2(110,100),1:Vector2(310,100),2:Vector2(510,100),3:Vector2(710,100),4:Vector2(910,100)}
+		centers={0:Vector2(360,100),1:Vector2(1080,100),2:Vector2(1800,100),3:Vector2(2520,100),4:Vector2(3240,100)}
 		var groups={}
 		for node in list:
 			definitions[node.id]=node;var cluster=clampi(int(node.get("cluster",0)),0,4)
@@ -120,7 +119,7 @@ func rebuild(list:Array,p:Dictionary):
 					add_child(b);node_controls[node.id]=b
 					b.name_label=owner_tree.game.label(b,Presentation.short_label(node),Vector2.ZERO,Vector2(158,39),14)
 					b.name_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;b.name_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;b.name_label.mouse_filter=Control.MOUSE_FILTER_IGNORE
-					b.name_label.add_theme_color_override("font_outline_color",Color("fff5dc"));b.name_label.add_theme_constant_override("outline_size",4)
+					b.name_label.add_theme_color_override("font_outline_color",Color("24222a"));b.name_label.add_theme_constant_override("outline_size",4)
 		fit_scope()
 	states.clear()
 	for id in definitions:
@@ -132,23 +131,31 @@ func rebuild(list:Array,p:Dictionary):
 	layout_controls()
 
 func layout_branches(list:Array):
-	var pending=list.duplicate();var rows={};var next_row={};var height=0.
-	pending.sort_custom(func(a,b):
-		if int(a.get("level",1))!=int(b.get("level",1)):return int(a.get("level",1))<int(b.get("level",1))
-		return Presentation.active(a) and not Presentation.active(b))
+	# Rank nodes by their real prerequisite depth, then spread each tier over three lanes.
+	var pending=list.duplicate();var depths={};var tiers={};var height=0.
 	while not pending.is_empty():
 		var progress=false
 		for node in pending.duplicate():
-			var parents:Array=node.get("parents",[]).filter(func(id):return definitions.has(id) and int(definitions[id].get("cluster",0))==int(node.get("cluster",0)))
-			if parents.any(func(id):return definitions.has(id) and not rows.has(id)):continue
-			var cluster=int(node.get("cluster",0));var row=int(next_row.get(cluster,0))
-			for parent in parents:row=maxi(row,int(rows.get(parent,-1))+1)
-			rows[node.id]=row;next_row[cluster]=row+1
-			positions[node.id]=centers[cluster]+Vector2(0,row*166.)
-			height=maxf(height,positions[node.id].y+125);pending.erase(node);progress=true
-		if not progress:
-			push_error("Skill layout contains a prerequisite cycle");break
-	bounds=Rect2(Vector2.ZERO,Vector2(1020,height))
+			var parents:Array=node.get("parents",[]).filter(func(id):return definitions.has(id))
+			if parents.any(func(id):return not depths.has(id)):continue
+			var depth=0
+			for parent in parents:depth=maxi(depth,int(depths[parent])+1)
+			depths[node.id]=depth;pending.erase(node);progress=true
+		if not progress:push_error("Skill layout contains a prerequisite cycle");break
+	for node in list:
+		var cluster=int(node.get("cluster",0));var depth=int(depths.get(node.id,0))
+		if not tiers.has(cluster):tiers[cluster]={}
+		if not tiers[cluster].has(depth):tiers[cluster][depth]=[]
+		tiers[cluster][depth].append(node)
+	for cluster in tiers:
+		var keys=tiers[cluster].keys();keys.sort();var row=0
+		for depth in keys:
+			var records:Array=tiers[cluster][depth]
+			for i in range(records.size()):
+				positions[records[i].id]=centers[cluster]+Vector2((i%3-1)*210,(row+int(i/3))*170.)
+				height=maxf(height,positions[records[i].id].y+125)
+			row+=ceili(records.size()/3.)
+	bounds=Rect2(Vector2.ZERO,Vector2(3600,height))
 func fit_all():
 	scope_cluster=-1;scope_extra.clear();fit_scope();owner_tree.refresh_branch_picker()
 func set_scope(cluster:int):
@@ -166,7 +173,11 @@ func scope_bounds()->Rect2:
 func fit_scope():
 	var area=scope_bounds()
 	if area.size==Vector2.ZERO:return
-	zoom=minf(1.,(size.x-12)/area.size.x);offset=Vector2(size.x*.5-area.get_center().x*zoom,0. if scope_cluster<0 else 76.-area.position.y*zoom);layout_controls()
+	if scope_cluster<0:
+		zoom=1.;offset=Vector2.ZERO
+	else:
+		zoom=minf(1.,(size.x-12)/area.size.x);offset=Vector2(size.x*.5-area.get_center().x*zoom,76.-area.position.y*zoom)
+	layout_controls()
 func reveal_plan():
 	scope_extra.clear()
 	for id in planned_ids:
@@ -191,9 +202,14 @@ func focus_node(id:String,near=true):
 	offset=size*.5-positions[id]*zoom;layout_controls()
 func layout_controls():
 	if vertical_bar!=null:
-		vertical_bar.position=Vector2(size.x-15,0);vertical_bar.size=Vector2(15,size.y)
+		vertical_bar.position=Vector2(size.x-15,0);vertical_bar.size=Vector2(15,size.y-16)
 		vertical_bar.max_value=maxf(size.y,bounds.size.y*zoom);vertical_bar.page=size.y;vertical_bar.set_value_no_signal(maxf(0,-offset.y))
 		vertical_bar.visible=bounds.size.y*zoom>size.y
+	if horizontal_bar!=null:
+		horizontal_bar.position=Vector2(0,size.y-15);horizontal_bar.size=Vector2(size.x-16,15)
+		horizontal_bar.max_value=maxf(size.x,bounds.size.x*zoom);horizontal_bar.page=size.x;horizontal_bar.set_value_no_signal(maxf(0,-offset.x))
+		horizontal_bar.visible=scope_cluster<0 and bounds.size.x*zoom>size.x
+		horizontal_bar.move_to_front()
 	for id in node_controls:
 		# A sparse branch must not inflate its medals into the next row's text.
 		# Manual zoom still enlarges both spacing and art; fit view keeps readable gaps.
@@ -203,7 +219,7 @@ func layout_controls():
 		var diameter=clampf(base*zoom,minimum if readable else 42. if type=="keystone" else 30.,base*1.24)
 		b.size=Vector2.ONE*ceilf(diameter);b.position=(world_to_view(positions[id])-b.size*.5).round()
 		var full=Rect2(b.position+Vector2((b.size.x-158)*.5,-14),Vector2(158,b.size.y+76))
-		b.visible=in_scope(id) and Rect2(Vector2.ZERO,size).encloses(full);b.queue_redraw()
+		b.visible=in_scope(id) and Rect2(Vector2.ZERO,size-Vector2(16,16)).encloses(full);b.queue_redraw()
 		b.name_label.visible=readable or id in [owner_tree.choice,hover_id] and zoom>.6
 		b.name_label.position=Vector2((b.size.x-158)*.5,b.size.y+21);b.name_label.size=Vector2(158,39)
 		b.name_label.add_theme_font_override("font",owner_tree.game.bold_font if Presentation.active(definitions[id]) else owner_tree.game.fonts)
@@ -228,12 +244,12 @@ func _draw():
 	for cluster in centers:
 		if scope_cluster>=0 and cluster!=scope_cluster:continue
 		var center=world_to_view(centers[cluster])
-		var left=world_to_view(Vector2(centers[cluster].x-98,0));var panel=Rect2(left,Vector2(196*zoom,bounds.size.y*zoom))
+		var left=world_to_view(Vector2(centers[cluster].x-350,0));var panel=Rect2(left,Vector2(700*zoom,bounds.size.y*zoom))
 		draw_line(left+Vector2(panel.size.x,0),left+panel.size,Color("ac947d"),1,true)
 		if scope_cluster<0:
 			var heading=cluster_names.get(cluster,["전투의 근원","흐름의 전환","집중과 파괴","수호와 회복","기동과 제어"][cluster])
 			var at=center-Vector2(0,68*zoom)
-			text_center(heading,at+Vector2(0,8),16,Color("28494d"))
+			text_center(heading,at+Vector2(0,8),16,Color("eee1c9"))
 	for id in definitions:
 		if not in_scope(id):continue
 		var node=definitions[id]
@@ -246,23 +262,12 @@ func _draw():
 			var blocked=str(states.get(id,{}).get("reason","")).begins_with("배타")
 			if planned or blocked:draw_dashed_line(a,b,Color("bd7e4d") if blocked else Color("ba8a26"),2 if planned else 1,7,true)
 			else:
-				draw_line(a,b,Color("338e7f") if learned else Color("b68c41") if focus or frontier else Color("89948225"),3.2 if learned or focus else 2. if frontier else 1.,true)
+				draw_line(a,b,Color("338e7f") if learned else Color("b68c41") if focus or frontier else Color("8b777399"),3.2 if learned or focus else 2. if frontier else 1.,true)
 				if learned:
 					var side=(b-a).orthogonal().normalized()*2;draw_line(a+side,b+side,Color("69b6a180"),1,true)
 			if focus or planned or frontier:
 				var tip=a.lerp(b,.70);draw_colored_polygon(PackedVector2Array([tip,tip-direction.rotated(.45)*8,tip-direction.rotated(-.45)*8]),Color("aa772c"))
-	if definitions.has(chosen):
-		var target=str(definitions[chosen].get("target_active_id",""))
-		if definitions.has(target) and in_scope(target):
-			var a=world_to_view(positions[chosen]);var b=world_to_view(positions[target]);var direction=(b-a).normalized()
-			a+=direction*node_controls[chosen].size.x*.55;b-=direction*node_controls[target].size.x*.55
-			draw_dashed_line(a,b,Color("416c9c"),3,9,true)
-			draw_colored_polygon(PackedVector2Array([b,b-direction.rotated(.45)*13,b-direction.rotated(-.45)*13]),Color("416c9c"))
-		var tags:Array=definitions[chosen].get("tags",[])
-		for id in definitions:
-			if id==chosen or not in_scope(id) or not definitions[id].get("tags",[]).any(func(tag):return tag in tags):continue
-			if owner_tree.tag_filter!="" or id==hover_id:draw_dashed_line(world_to_view(positions[chosen]),world_to_view(positions[id]),Color("627faea0"),1,3,true)
 
 func text_center(value:String,point:Vector2,font_size:int,color:Color):
 	var font=owner_tree.game.fonts;point.x-=font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x*.5
-	font.draw_string_outline(get_canvas_item(),point,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,3,Color("fff4d9"));draw_string(font,point,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
+	font.draw_string_outline(get_canvas_item(),point,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,3,Color("24222a"));draw_string(font,point,value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size,color)
