@@ -129,30 +129,34 @@ func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	sim.events.append({"type":"damage","pos":p.pos,"amount":amount,"enemy":false,"owner":p.id})
 	if p.hp<=0:sim.player_defeated(p)
 const Content=preload("res://scripts/content.gd")
-static func draw_area(canvas,zone:Dictionary,color:Color):
+static func outline(zone:Dictionary)->PackedVector2Array:
 	var points=PackedVector2Array()
 	if zone.shape=="line":
 		# contains() measures distance to a segment, including its rounded ends.
 		# Draw that same capsule instead of a shorter square-ended rectangle.
 		var direction:Vector2=(zone.pos-zone.from).normalized()
 		if direction==Vector2.ZERO:direction=Vector2.RIGHT
-		for i in range(13):points.append(canvas.world_point(zone.pos+direction.rotated(-PI*.5+i*PI/12)*zone.radius))
-		for i in range(13):points.append(canvas.world_point(zone.from+direction.rotated(PI*.5+i*PI/12)*zone.radius))
+		for i in range(13):points.append(zone.pos+direction.rotated(-PI*.5+i*PI/12)*zone.radius)
+		for i in range(13):points.append(zone.from+direction.rotated(PI*.5+i*PI/12)*zone.radius)
 	elif zone.shape=="cone":
-		points.append(canvas.world_point(zone.from));var direction:Vector2=(zone.pos-zone.from).normalized();var angle=float(zone.get("angle",.8))
-		for i in range(21):points.append(canvas.world_point(zone.from+direction.rotated(lerpf(-angle,angle,i/20.0))*zone.radius))
+		points.append(zone.from);var direction:Vector2=(zone.pos-zone.from).normalized();var angle=float(zone.get("angle",.8))
+		for i in range(21):points.append(zone.from+direction.rotated(lerpf(-angle,angle,i/20.0))*zone.radius)
 	else:
-		for i in range(40):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.radius))
-	if zone.get("shape","circle")!="ring":canvas.draw_colored_polygon(points,Color(color,.23))
-	points.append(points[0]);canvas.draw_polyline(points,color,2.0,true)
+		for i in range(40):points.append(zone.pos+Vector2.from_angle(i*TAU/40)*zone.radius)
+	return points
+static func draw_area(canvas,zone:Dictionary,color:Color,fill_alpha:float=.23,line_width:float=2.0):
+	var points=PackedVector2Array()
+	for point in outline(zone):points.append(canvas.world_point(point))
+	if zone.get("shape","circle")!="ring" and fill_alpha>0:canvas.draw_colored_polygon(points,Color(color,color.a*fill_alpha))
+	points.append(points[0]);canvas.draw_polyline(points,color,line_width,true)
 	if zone.shape=="ring":
 		# Keep the safe center empty while making the dangerous annulus readable.
-		for i in range(40):
+		for i in range(40) if fill_alpha>0 else []:
 			var a=Vector2.from_angle(i*TAU/40);var b=Vector2.from_angle((i+1)*TAU/40)
-			canvas.draw_colored_polygon(PackedVector2Array([canvas.world_point(zone.pos+a*zone.inner),canvas.world_point(zone.pos+a*zone.radius),canvas.world_point(zone.pos+b*zone.radius),canvas.world_point(zone.pos+b*zone.inner)]),Color(color,.23))
+			canvas.draw_colored_polygon(PackedVector2Array([canvas.world_point(zone.pos+a*zone.inner),canvas.world_point(zone.pos+a*zone.radius),canvas.world_point(zone.pos+b*zone.radius),canvas.world_point(zone.pos+b*zone.inner)]),Color(color,color.a*fill_alpha))
 		points=PackedVector2Array()
 		for i in range(41):points.append(canvas.world_point(zone.pos+Vector2.from_angle(i*TAU/40)*zone.inner))
-		canvas.draw_polyline(points,color,2.0,true)
+		canvas.draw_polyline(points,color,line_width,true)
 
 static func raid_pattern(e:Dictionary,target:Vector2)->Array:
 	var origin:Vector2=e.pos;var direction=origin.direction_to(target)

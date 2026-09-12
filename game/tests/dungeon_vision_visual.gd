@@ -28,16 +28,19 @@ func run():
 		for y in range(1,31):sim.map.floor_cells[Vector2i(x,y)]=true
 	sim.map.exploration_sites=[];sim.map.hidden_regions=[];sim.map.spawn=Vector2(12,12)
 	var p=sim.add_player(1,"시야 확인");p.pos=Vector2(12,12)
+	var caster=sim.spawn_enemy("rat",p.pos-Vector2(3,3),1)
 	game.session.sim=sim;game.session.refresh();game.on_entered();game.world_zoom=1.;root.canvas_transform=Transform2D.IDENTITY
 	game.refresh_vision();game.forest.update_camera(1.)
 	var baseline=await frame()
 	check(game.map_overlay.static_map.floor_points.size()>0 and game.map_overlay.static_map.floor_points.size()<sim.map.floor_cells.size(),"undiscovered map absent in actual minimap")
 	var line=Attacks.area("line",p.pos+Vector2(5,0),p.pos+Vector2(11,0),.65)
+	line.enemy=caster.id;line.timer=.5
 	game.session.state.enemy_attacks=[line]
 	var with_line=await frame()
 	check(difference(sample(baseline,p.pos+Vector2(7,0)),sample(with_line,p.pos+Vector2(7,0)))>.03,"line visible portion drawn even with hidden end")
 	check(difference(sample(baseline,p.pos+Vector2(10,0)),sample(with_line,p.pos+Vector2(10,0)))<.01,"line hidden portion clipped per pixel")
-	game.session.state.enemy_attacks=[Attacks.area("circle",p.pos,p.pos+Vector2(10,0),3.)]
+	var circle=Attacks.area("circle",p.pos,p.pos+Vector2(10,0),3.);circle.enemy=caster.id;circle.timer=.5
+	game.session.state.enemy_attacks=[circle]
 	var with_circle=await frame()
 	check(difference(sample(baseline,p.pos+Vector2(7.5,0)),sample(with_circle,p.pos+Vector2(7.5,0)))>.03,"circle visible rim drawn even with hidden center")
 	check(difference(sample(baseline,p.pos+Vector2(10,0)),sample(with_circle,p.pos+Vector2(10,0)))<.01,"hidden circle center remains concealed")

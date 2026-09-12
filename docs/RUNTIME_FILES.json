@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 464580,
-    "sha256": "6b95a42a30d5664b09eadcf8d790c2cc09aa0d22d78bc638fbd02d99951802cb"
+    "bytes": 465431,
+    "sha256": "a4e6e7d6fec6f0313cb88d961e30510fc4488c300a628155c4caec6540d11960"
   },
   {
     "path": "game/data/content_names.json",
@@ -1400,6 +1400,11 @@
     "sha256": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada"
   },
   {
+    "path": "game/scripts/danger_hud.gd",
+    "bytes": 1864,
+    "sha256": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e"
+  },
+  {
     "path": "game/scripts/dungeon.gd",
     "bytes": 14732,
     "sha256": "fe2c3d363fc07f2d6df9e0fc6dde40d4c49552f533669a7674997f681a5f5e38"
@@ -1536,8 +1541,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32275,
-    "sha256": "cf7d2c4351e326f0c6c1e9982927dddc8d04190185d7f485ddf716e3b4997d0d"
+    "bytes": 32373,
+    "sha256": "6c79251c57dfe55067245241d78af138b13e42cda1fc08fd185513b35011d314"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1646,8 +1651,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 50852,
-    "sha256": "b130bf9fe79d4c077e9e755080d5384294caf8c14b69d62a49d984b52c0c252d"
+    "bytes": 50984,
+    "sha256": "a7a7ccaede017959f61d833a47b76cb522d108f8a843d7b93affb0d9b916e2ed"
   },
   {
     "path": "game/scripts/minimap.gd",
@@ -1661,8 +1666,8 @@
   },
   {
     "path": "game/scripts/monster_attacks.gd",
-    "bytes": 11426,
-    "sha256": "6ee7346191622e6860f4c05c889a5b22b797387a94700228e445b5e50f221e77"
+    "bytes": 11628,
+    "sha256": "884ad894cc4fecca29434a592a4b14020fb007b1a7ac8bf4290fa243c3494130"
   },
   {
     "path": "game/scripts/noise_feedback.gd",
@@ -1805,6 +1810,11 @@
     "sha256": "2e683d1e0c39f7d3e6ada6961f62e61065bbcb1db21e1f3fa7c7608d772331cc"
   },
   {
+    "path": "game/scripts/telegraph_priority.gd",
+    "bytes": 8643,
+    "sha256": "be1e22cbc69b4610932c01187ca96355c135f85ef12326929271b6dc6ae8d6ab"
+  },
+  {
     "path": "game/scripts/title_screen.gd",
     "bytes": 5131,
     "sha256": "fa13b3f9724eef0d50b0f8ec63563a602b4c15691ff1606bc68cb3aa1e1f15dd"
@@ -1851,8 +1861,8 @@
   },
   {
     "path": "game/scripts/visible_telegraphs.gd",
-    "bytes": 1777,
-    "sha256": "0918e783aa87875e22ecef23d2430d5cd198bbc657b2b337e9cb5bb89a28b331"
+    "bytes": 1736,
+    "sha256": "bb0f11bf51cf01b6150e81c5e962ebcc9b1cfbc3e4e2c5f3948d1ac8ba85e316"
   },
   {
     "path": "game/scripts/wardrobe.gd",

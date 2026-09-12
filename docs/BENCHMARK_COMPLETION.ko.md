@@ -17,7 +17,7 @@
 | C03 대응법이 다른 적 방어 | 부분 | enemy_defense.gd·boss_stagger.gd / enemy_defense | 각 방어 유형의 1인 대체 공략과 직업 조합 검증 |
 | C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd / combat | 직접 설치 함정·투척물, 거리·자세 조건/대가 전달 |
 | C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |
-| C06 공격 방향·범위와 시야 밖 위협 안내 | 부분 | dungeon_vision.gd·monster_attacks.gd / dungeon_vision_visual | 화면 밖 위험 방향, 6인 겹친 예고 우선순위/가독성 |
+| C06 공격 방향·범위와 시야 밖 위협 안내 | 구현·로컬 검증 | telegraph_priority.gd·danger_hud.gd·visible_telegraphs.gd / telegraph_priority·telegraph_priority_visual·dungeon_vision_visual | 외부 6인 장기 전투의 예고 체감/성능 검증; 합성 카메라/배치 검사와 구분 |
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |
 | C09 전투 결과에 반응하는 특수 효과 | 부분 | 직업·장비 효과, 패배/맵 전환 초기화 기반 | 저체력·피격·층당 효과별 개인 귀속과 모든 초기화 경로 검증 |
 | C10 다운된 동료 구조 | 구현·로컬 검증 | party_rules.gd / coop_rules·실제 ENet | 지연·중도 이탈 상황의 구조 실전 검증 |
