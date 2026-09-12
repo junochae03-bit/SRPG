@@ -258,7 +258,7 @@ func build_encounters(layout_rng:RandomNumberGenerator):
 			used.append(position)
 			encounters.append({"role":"normal","pos":position,"room":room,"mob_index":sequence+floor_number%5,"formation":formation})
 			sequence+=1
-	var rewarded=preload("res://scripts/exploration_rooms.gd").generate(self).map(func(site):return site.room)
+	var rewarded=preload("res://scripts/exploration_rooms.gd").generate(self).filter(func(site):return site.kind!="challenge").map(func(site):return site.room)
 	var elite_room=[2,3,5,6].filter(func(room):return room not in rewarded)[0]
 	var elite=find_encounter_position(Vector2(rooms[elite_room])+Vector2(0,2.7),rooms[elite_room],used)
 	encounters.append({"role":"elite","pos":elite,"room":elite_room,"mob_index":0,"formation":-1})

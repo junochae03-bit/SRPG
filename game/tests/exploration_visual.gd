@@ -62,13 +62,45 @@ func scene(floor_number:int,site_index:int=-1,zone_override:String=""):
 		if site_index==0:
 			check(card.heading.text==("별씨앗 군락" if session.sim.map.zone=="forest" else "반짝 광맥"),"same room id and tier changes visible material between maps")
 	await capture("B%d-%s%s"%[floor_number,"site%d"%site_index if site_index>=0 else "junction" if site_index==-2 else "raid",zone_override])
+func challenge_phases():
+	var panel=game.exploration_panel;var sim=game.session.sim
+	panel.choose(1);game.session.refresh();panel._process(0)
+	check(panel.active.challenge_state=="active" and not panel.visible,"active challenge removes the interaction card from the combat area")
+	game.vision.update(sim.map,game.session.state.players,sim.clock)
+	game.queue_redraw()
+	await capture("B12-challenge-active")
+	for id in sim.exploration_challenges[panel.active.id]:sim.kill(1,sim.enemies[id])
+	game.session.refresh();panel._process(0)
+	check(panel.active.challenge_state=="cleared" and not panel.first.disabled and not panel.second.visible,"cleared wave offers one personal reward action")
+	var player=sim.players[1];var inv=preload("res://scripts/inventory_model.gd")
+	player.potions=0;player.bag_positions.clear();player.inventory.clear();player.materials.clear()
+	for index in range(inv.CAPACITY):
+		player.inventory.append({"id":"fixture%d"%index,"category":"weapon","name":"검증 장비","weapon":"sword","rarity":0})
+		player.bag_positions["fixture%d"%index]={"x":index%inv.WIDTH,"y":int(index/inv.WIDTH),"rotated":false}
+	game.session.refresh();panel._process(0)
+	check(panel.first.disabled,"full bag disables challenge reward")
+	check(game.session.act("discard","fixture0"),"discard action frees one bag slot")
+	game.session.refresh();panel._process(0)
+	check(not panel.first.disabled,"freeing space refreshes reward without moving or healing")
+	player.inventory.clear();player.bag_positions.clear();player.potions=5;inv.initialize(player)
+	player.materials.essence=inv.MAX_MATERIALS
+	game.session.refresh();panel._process(0)
+	check(panel.first.disabled,"material cap disables reward")
+	player.materials.erase("essence")
+	game.session.refresh();panel._process(0)
+	check(not panel.first.disabled,"material count change refreshes reward")
+	game._process(6.)
+	game.queue_redraw()
+	await capture("B12-challenge-reward")
+	panel.choose(0);game.session.refresh();panel._process(0)
+	check(not panel.visible and sim.players[1].materials.get("essence",0)>0,"reward button claims essence and closes site")
 func run():
 	root.borderless=true;root.size=Vector2i(1920,1080)
 	game=load("res://main.tscn").instantiate();game.options.mute=true
 	game.options["save-dir"]=ProjectSettings.globalize_path("res://../runtime/exploration-visual/"+str(Time.get_ticks_usec()))
 	root.add_child(game);await process_frame;game.join_game()
 	game.session.set_physics_process(false);game.set_physics_process(false);game.set_process(false)
-	await scene(12,0,"forest");await scene(12,0);await scene(12,1);await scene(12,2);await scene(12,3);await scene(12,-2);await scene(10);await scene(20);await scene(30)
+	await scene(12,0,"forest");await scene(12,0);await scene(12,1);await scene(12,2);await scene(12,3);await scene(12,4);await challenge_phases();await scene(12,-2);await scene(10);await scene(20);await scene(30)
 	var layer=CanvasLayer.new();layer.layer=90;root.add_child(layer)
 	var gallery=Gallery.new();gallery.font=game.fonts;gallery.scale=Vector2(1600./1920.,900./1080.)
 	for depth in [1,2,3,4,5,6,10,20,30]:gallery.maps.append(Dungeon.new(571+depth*7919,"cave",depth))

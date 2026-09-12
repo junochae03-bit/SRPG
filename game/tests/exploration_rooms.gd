@@ -28,7 +28,7 @@ func run():
 			check(bounds.size.x>=58 and bounds.size.y>=58,"wide exploration footprint B%d"%floor_number)
 			check(map.floor_cells.size()>=1800,"substantial traversable area B%d"%floor_number)
 		check(map.room_radii.max()-map.room_radii.min()>=2,"different sized regions B%d"%floor_number)
-		check(map.exploration_sites.size()==(1 if map.raid_arena else 4),"exploration purposes or raid preparation B%d"%floor_number)
+		check(map.exploration_sites.size()==(1 if map.raid_arena else 5),"exploration purposes or raid preparation B%d"%floor_number)
 		for site in map.exploration_sites:check(map.walkable(site.pos) and site.pos.distance_to(map.spawn)>5,"walkable site away from entry")
 		if map.raid_arena:
 			for dx in range(-6,7):
