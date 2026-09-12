@@ -40,6 +40,7 @@ var combat_feedback:Control
 var exploration_panel:Control
 var inspection_panel:Control
 var noise_feedback:Control
+var danger_hud:Control
 var damage_numbers:Node2D
 var preferences=preload("res://scripts/game_options.gd").new()
 var skill_tree: Control
@@ -336,6 +337,7 @@ func build_interface():
 	exploration_panel=preload("res://scripts/exploration_panel.gd").new();canvas.add_child(exploration_panel);exploration_panel.setup(self)
 	inspection_panel=preload("res://scripts/enemy_inspection_panel.gd").new();canvas.add_child(inspection_panel);inspection_panel.setup(self)
 	noise_feedback=preload("res://scripts/noise_feedback.gd").new();canvas.add_child(noise_feedback);noise_feedback.setup(self)
+	danger_hud=preload("res://scripts/danger_hud.gd").new();canvas.add_child(danger_hud);danger_hud.setup(self)
 
 func on_status(message: String):
 	status_text = message
