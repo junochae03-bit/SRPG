@@ -5,6 +5,7 @@ const Library=preload("res://scripts/icon_library.gd")
 const DB=preload("res://scripts/game_database.gd")
 var town
 var summary:Label
+var intel:Label
 var party:Control
 var party_rows=[]
 var ready_button:Button
@@ -12,23 +13,25 @@ var stamp=""
 func setup(owner_town):
 	town=owner_town;position=Vector2(746,0);size=Vector2(510,688)
 	Art.decorate(self,"paper",6)
-	var game=town.game;var info=Brief.floor_info(town.player(),town.selected_floor)
+	var game=town.game;var info=Brief.floor_info(town.player(),town.selected_floor,game.session.world_seed+7919)
 	town.preview={"reason":info.reason,"title":info.name,"result":info.goal+"\n"+info.reward}
-	town.wrapped(self,info.name,Vector2(32,26),Vector2(446,68),27,2)
-	town.wrapped(self,"권장 LV.%d · %s"%[info.level,"레이드" if info.raid else "자유 탐사"],Vector2(32,100),Vector2(446,30),19,1)
-	town.wrapped(self,info.lore,Vector2(32,139),Vector2(446,47),18,2)
+	town.wrapped(self,info.name,Vector2(32,26),Vector2(446,58),27,2)
+	town.wrapped(self,"권장 LV.%d · %s"%[info.level,"레이드" if info.raid else "자유 탐사"],Vector2(32,90),Vector2(446,30),19,1)
+	town.wrapped(self,info.lore,Vector2(32,126),Vector2(446,33),18,1)
+	intel=town.wrapped(self,info.scale+"\n"+(info.environment.name+" · "+info.environment.detail if not info.environment.is_empty() else "환경 · 출발 시 확인")+"\n"+info.clue,Vector2(32,166),Vector2(446,83),16,3)
+	intel.tooltip_text=intel.text
 	var monsters=info.monsters.duplicate();monsters.append(info.guardian)
 	for i in range(mini(6,monsters.size())):
 		var id=str(monsters[i]);var row=DB.detail("monsters",id)
-		var b=game.button(self,"",Vector2(30+i*75,202),Vector2(68,72),func():town.close();game.codex.open("monsters");game.codex.select_record(id))
+		var b=game.button(self,"",Vector2(30+i*75,259),Vector2(68,72),func():town.close();game.codex.open("monsters");game.codex.select_record(id))
 		Art.picture(b,DB.asset_texture(row),Vector2(9,6),Vector2(50,57)).material=preload("res://scripts/gat_art.gd").material()
 		b.tooltip_text=str(row.get("name",id))+" · 도감"
-	Library.picture(self,"boss" if info.raid else "quest",Vector2(30,301),Vector2(29,29))
-	town.wrapped(self,info.goal,Vector2(72,298),Vector2(406,38),20,1)
-	Library.picture(self,"quest_reward",Vector2(30,345),Vector2(29,29))
-	town.wrapped(self,info.reward,Vector2(72,342),Vector2(406,36),18,1)
-	summary=town.wrapped(self,"",Vector2(32,398),Vector2(446,62),19,2)
-	party=Control.new();party.position=Vector2(32,479);party.size=Vector2(446,108);add_child(party)
+	Library.picture(self,"boss" if info.raid else "quest",Vector2(30,339),Vector2(29,29))
+	town.wrapped(self,info.goal,Vector2(72,336),Vector2(406,38),20,1)
+	Library.picture(self,"quest_reward",Vector2(30,381),Vector2(29,29))
+	town.wrapped(self,info.reward,Vector2(72,378),Vector2(406,36),18,1)
+	summary=town.wrapped(self,"",Vector2(32,424),Vector2(446,62),19,2)
+	party=Control.new();party.position=Vector2(32,499);party.size=Vector2(446,102);add_child(party)
 	for i in range(6):
 		var at=Vector2((i%2)*223,int(i/2)*36)
 		var name_label=town.wrapped(party,"",at,Vector2(153,30),17,1)
@@ -51,7 +54,7 @@ func refresh():
 	stamp=next
 	summary.text="물약 %d · 탐사 도구 %d · 가방 여유 %d칸\n무기 %s · 액티브 %d / 6"%[pack.potions,pack.tools,pack.free,"착용" if pack.weapon else "미착용",pack.skills]
 	summary.tooltip_text="탐사 도구는 선택 보관실을 열 때만 필요합니다."
-	var reason=Brief.floor_info(p,town.selected_floor).reason
+	var reason=Brief.floor_info(p,town.selected_floor,session.world_seed+7919).reason
 	for i in range(party_rows.size()):
 		var controls=party_rows[i];var exists=i<rows.size()
 		controls.name.visible=exists;controls.status.visible=exists

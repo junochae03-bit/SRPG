@@ -35,6 +35,7 @@ func run():
 				for dy in range(-6,7):check(map.walkable(map.exit_position+Vector2(dx,dy)),"unobstructed raid fighting space")
 			check(map.encounters.all(func(e):return e.role=="guardian" or e.pos.distance_to(map.exit_position)>=13),"no commons in boss arena")
 	var sim=Sim.new(73,"cave",12);var p=sim.add_player(1,"탐사 검사");var guest=sim.add_player(2,"동료")
+	sim.map.environment=preload("res://scripts/expedition_environment.gd").select(0,1) # Baseline transaction fixture; variants have a separate end-to-end test.
 	var gather=sim.map.exploration_sites[0];var camp=sim.map.exploration_sites[1];var shrine=sim.map.exploration_sites[2]
 	check(not use_site(sim,p,gather,"gather") and p.materials.get("ore",0)==0,"living guards block collection")
 	clear(sim);p.pos=sim.map.spawn

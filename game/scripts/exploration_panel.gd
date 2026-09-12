@@ -52,7 +52,7 @@ func _process(_delta):
 	show()
 	var context=[active.generation,active.id,active.kind,active.name,active.icon,active.material,active.remaining,active.tier,p.hp,p.max_hp,p.potions,p.stamina,p.max_stamina,pending]
 	context.append(active.get("challenge_state",""));context.append(active.get("challenge_remaining",0));context.append(active.get("challenge_name",""));context.append(active.get("challenge_reward",0))
-	context.append(active.get("opened",false));context.append(p.get("materials",{}).get("tool",0))
+	context.append(active.get("gather_amount",0));context.append(active.get("opened",false));context.append(p.get("materials",{}).get("tool",0))
 	context.append(p.get("materials",{}).hash());context.append(p.get("bag_positions",{}).hash());context.append(p.get("equipment",{}).hash());context.append(p.get("inventory",[]).size());context.append(p.get("consumables",{}).hash());context.append(game.session.state.players.size())
 	if context==last_context:return
 	last_context=context
@@ -68,8 +68,9 @@ func _process(_delta):
 			if not blocked:detail.text="금화 +%d"%(40+active.tier*20) if active.opened else "보유 도구 %d"%p.get("materials",{}).get("tool",0) if active.tool else "벽 너머에 숨겨진 공간"
 			first.disabled=first.disabled or (not active.opened and active.tool and p.get("materials",{}).get("tool",0)<1)
 		"gather":
-			first.text="채집 · %s +%d"%[Rooms.Content.MATERIALS[active.material],3+int(active.tier)]
+			first.text="채집 · %s +%d"%[Rooms.Content.MATERIALS[active.material],int(active.get("gather_amount",3+int(active.tier)))]
 			first.size.x=487
+			first.disabled=first.disabled or not Rooms.Inventory.can_add_stack(p,active.material,int(active.get("gather_amount",3+int(active.tier))))
 		"rest":
 			first.text="휴식 · 생명력과 기력 회복";first.size.x=487
 			first.disabled=first.disabled or (p.hp>=p.max_hp and p.stamina>=p.max_stamina)

@@ -29,6 +29,7 @@ var revealed_regions={}
 var opened_regions={}
 var revision=0
 var region_profile={}
+var environment:Dictionary={}
 
 # Anchors are encounter areas, not tiles in a fixed grid. The entrance is
 # always first and the guardian is last; raid approaches use only three areas.
@@ -51,6 +52,7 @@ const RAID_LINKS=[[0,1],[1,2]]
 func _init(value: int = 20260908,zone_name:String="forest",depth:int=0):
 	seed_value = value
 	zone=zone_name;floor_number=clampi(depth,0,100)
+	environment=preload("res://scripts/expedition_environment.gd").select(value,floor_number)
 	if zone=="town":
 		generate_town()
 		return

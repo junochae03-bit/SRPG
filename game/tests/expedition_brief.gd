@@ -32,14 +32,21 @@ func run():
 	check(not town.confirm_button.disabled and town.review_panel.summary.text.contains("탐사 도구 2"),"ready solo portal displays actual supplies")
 	await process_frame;await RenderingServer.frame_post_draw
 	check(root.get_texture().get_image().save_png("res://../artifacts/expedition-brief.png")==OK,"actual departure screen capture")
+	var predicted=Brief.floor_info(p,12,game.session.world_seed+7919).environment
 	var before=game.session.sim.map.floor_number;town.confirm_button.pressed.emit();await process_frame
 	check(before==0 and game.session.sim.map.floor_number==12,"actual enter floor button")
+	check(game.session.sim.map.environment==predicted,"preview condition matches actual destination")
 	game.session.travel("town");sim=game.session.sim;p=sim.players[1];p.pos=preload("res://scripts/world_catalog.gd").FACILITIES.portal.pos
 	for id in range(2,7):
 		var friend=sim.add_player(id,"친구 %d"%id);friend.level=100;friend.tutorial_done=true;friend.highest_floor=100
 	game.session.network_role="host";game.session.ready_players={1:true,2:false,3:true,4:true,5:false,6:true};game.session.refresh()
 	game.town_panel.open("portal");town.selected_floor=20;town.chapter=1;town.refresh();await process_frame
 	var panel=town.review_panel
+	for depth in range(1,101):
+		var info=Brief.floor_info(p,depth,game.session.world_seed+7919)
+		var lines=[info.scale,info.environment.name+" · "+info.environment.detail,info.clue]
+		for line in lines:check(panel.intel.get_theme_font("font").get_string_size(line,HORIZONTAL_ALIGNMENT_LEFT,-1,16).x<=panel.intel.size.x,"public intel fits full width B%d"%depth)
+	check(panel.intel.get_line_count()==3 and panel.intel.get_visible_line_count()==3,"all public intel lines visible")
 	check(panel.party.visible and panel.party_rows.size()==6,"departure shows six individual party rows")
 	for row in panel.party_rows:
 		check(row.name.visible and row.status.visible and panel.party.get_rect().size.x>=row.status.get_rect().end.x and panel.party.size.y>=row.status.get_rect().end.y,"every member is visible within party region")

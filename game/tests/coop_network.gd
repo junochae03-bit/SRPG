@@ -24,7 +24,13 @@ func run():
 	var sim=preload("res://scripts/simulation.gd").new(531,"town");var p=sim.add_player(1,"연결 검사")
 	p.level=100;p.gold=1000;p.tutorial_done=true;sim.recalculate(p)
 	preload("res://scripts/inventory_model.gd").add_stack(p,"mana_potion",3);preload("res://scripts/inventory_model.gd").add_stack(p,"power_potion",3)
-	var data=sim.persistent(1);data.world_seed=531
+	var test_floor=12 if options.has("environment") else 1
+	var test_seed=531
+	if options.has("environment"):
+		for value in range(500,600):
+			if preload("res://scripts/expedition_environment.gd").select(value+7919,test_floor).id==options.environment:test_seed=value;break
+	p.highest_floor=test_floor;p.cleared_floor=test_floor-1
+	var data=sim.persistent(1);data.world_seed=test_seed
 	check(session.write_save(data,session.save_path()),"isolated fixture saved")
 	var host=options.role=="host"
 	check(session.host_room(1,int(options.port)) if host else session.join_room("127.0.0.1",1,int(options.port)),"connection request")
@@ -40,8 +46,8 @@ func run():
 	if session.connected and session.state.players.size()==6:
 		if host:
 			print("SIX_READY")
-			check(not session.enter_floor(1) and session.sim.map.zone=="town","unready party cannot travel")
-		session.act("select_goal",JSON.stringify({"id":"secret","floor":1}))
+			check(not session.enter_floor(test_floor) and session.sim.map.zone=="town","unready party cannot travel")
+		session.act("select_goal",JSON.stringify({"id":"secret","floor":test_floor}))
 		await create_timer(.5).timeout
 		check(session.state.players[session.local_id].get("expedition_goal",{}).get("kind","")=="secret","each real peer selects an authoritative personal rumor")
 		check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("expedition_goal")),"other players' goals are omitted from network snapshots")
@@ -72,9 +78,11 @@ func run():
 		if host:
 			var ready_deadline=Time.get_ticks_msec()+6000
 			while Time.get_ticks_msec()<ready_deadline and not session.ready_players.values().all(func(value):return value):await create_timer(.1).timeout
-			check(session.enter_floor(1),"ready party enters shared floor")
+			check(session.enter_floor(test_floor),"ready party enters shared floor")
 		await create_timer(3.).timeout
-		check(session.sim.map.floor_number==1 and session.state.players.size()==6,"floor changes for every peer")
+		check(session.sim.map.floor_number==test_floor and session.state.players.size()==6,"floor changes for every peer")
+		check(session.sim.map.environment==preload("res://scripts/expedition_environment.gd").select(test_seed+7919,test_floor),"every peer reconstructs the announced environment")
+		if options.has("environment"):check(session.sim.map.environment.id==options.environment,"non-neutral environment exercised over ENet")
 		# An actual guest request must use the host's room guards and inventory,
 		# with personal claims surviving the next compressed world snapshot.
 		if host:
@@ -88,7 +96,7 @@ func run():
 		session.act("explore",site.generation+":"+site.id+":gather")
 		session.act("explore",site.generation+":"+site.id+":gather")
 		await create_timer(.7).timeout
-		check(session.state.exploration_sites[0].claimed and int(session.state.players[session.local_id].materials.get(site.material,0))==gathered+3,"host-approved room reward once per human")
+		check(session.state.exploration_sites[0].claimed and int(session.state.players[session.local_id].materials.get(site.material,0))==gathered+int(site.gather_amount),"host-approved room reward once per human")
 		if host:
 			var challenge_site=session.sim.map.exploration_sites[4]
 			for player in session.sim.players.values():player.pos=challenge_site.pos
@@ -129,7 +137,7 @@ func run():
 		var essence=int(session.state.players[session.local_id].materials.get("essence",0))
 		session.act("explore",hidden_key+":collect");session.act("explore",hidden_key+":collect")
 		await create_timer(.7).timeout
-		check(int(session.state.players[session.local_id].materials.get("essence",0))==essence+3,"each human receives secret reward exactly once")
+		check(int(session.state.players[session.local_id].materials.get("essence",0))==essence+3+int((test_floor-1)/10),"each human receives secret reward exactly once")
 		check(session.state.players[session.local_id].expedition_goal.stage==3,"personal rumor completes through shared opening and private reward over ENet")
 		check(session.save_game(),"checkpoint saves local character")
 		check(session.parse_save(session.save_path())!=null,"checkpoint passes existing save validator")
@@ -142,7 +150,7 @@ func run():
 	if session.connected:
 		if host:
 			check(session.change_map("town",0),"return fixture enters town")
-			check(session.sim.players.values().all(func(player):return player.get("expedition_report",{}).get("first_floor",0)==1),"host settled all six private expedition reports")
+			check(session.sim.players.values().all(func(player):return player.get("expedition_report",{}).get("first_floor",0)==test_floor),"host settled all six private expedition reports")
 			for player in session.sim.players.values():player.pos=preload("res://scripts/world_catalog.gd").resident_pos("shop")
 			session.refresh();session.publish_snapshot()
 			if session is ProbeSession:session.block_checkpoints=true
@@ -153,7 +161,7 @@ func run():
 			while session.connected and session.sim.map.zone!="town" and Time.get_ticks_msec()<town_deadline:await create_timer(.1).timeout
 			check(session.sim.map.zone=="town","trade fixture receives shared town")
 			var before_player=session.state.players[session.local_id]
-			check(before_player.get("expedition_report",{}).get("first_floor",0)==1 and before_player.expedition_report.elapsed>0.,"guest receives authoritative expedition report")
+			check(before_player.get("expedition_report",{}).get("first_floor",0)==test_floor and before_player.expedition_report.elapsed>0.,"guest receives authoritative expedition report")
 			check(session.state.players.values().all(func(player):return not player.has("expedition_journal") and (player.id==session.local_id or not player.has("expedition_report"))),"network snapshot hides authority ledger and other private reports")
 			var gold=int(before_player.gold);var potions=int(before_player.potions)
 			var quote=preload("res://scripts/service_quote.gd").quote(before_player,"shop","potion",{"quantity":1})
