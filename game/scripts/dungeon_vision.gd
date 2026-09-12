@@ -40,7 +40,8 @@ func update(map,players:Dictionary,now:float):
 		var p=players[id]
 		if p.get("hp",0)>0 and not p.get("network_leaving",false):origins.append(cell_at(p.pos))
 	origins.sort()
-	var next=[map.seed_value,map.zone,map.floor_number,map.revision,origins]
+	var radius=int(map.environment.get("sight",RADIUS))
+	var next=[map.seed_value,map.zone,map.floor_number,map.revision,origins,radius]
 	var different_map=map_instance!=map.get_instance_id() or context.is_empty() or context.slice(0,3)!=next.slice(0,3)
 	if different_map:visible_cells.clear();explored.clear();last_seen.clear()
 	if different_map or context!=next:
@@ -50,9 +51,9 @@ func update(map,players:Dictionary,now:float):
 		visible_cells.clear();context=next;last_change=now
 		if active:
 			for origin in origins:
-				for dx in range(-RADIUS,RADIUS+1):
-					for dy in range(-RADIUS,RADIUS+1):
-						if dx*dx+dy*dy>RADIUS*RADIUS:continue
+				for dx in range(-radius,radius+1):
+					for dy in range(-radius,radius+1):
+						if dx*dx+dy*dy>radius*radius:continue
 						var cell=origin+Vector2i(dx,dy)
 						if ray_visible(map,origin,cell):visible_cells[cell]=true;explored[cell]=true;last_seen[cell]=now
 		refresh_texture(map);revision+=1;last_update=now

@@ -16,6 +16,7 @@ func emit(owner:int,position:Vector2,radius:int)->int:
 	if sim.map.floor_number<=0 or sim.map.raid_arena:return 0
 	var player=sim.players.get(owner,{})
 	if player.is_empty() or player.hp<=0 or player.get("network_leaving",false):return 0
+	radius+=int(sim.map.environment.get("noise_bonus",0))
 	if sim.clock-float(emitted_at.get(owner,-100.))<.35 and int(emitted_radius.get(owner,0))>=radius:return 0
 	emitted_at[owner]=sim.clock;emitted_radius[owner]=radius
 	var origin=Vector2i(position.round());var distances={origin:0};var parents={};var queue=[origin];var index=0

@@ -21,6 +21,8 @@ try:
         script='coop_exit_race' if closing_race else 'coop_network'
         command=[engine(),'--headless','--path',str(ROOT/'game'),'--script','res://tests/'+script+'.gd','--','--role='+role,'--directory='+str(folder),'--port='+str(port)]
         if '--host-exit' in sys.argv:command+=['--exit-mode=host']
+        for arg in sys.argv[1:]:
+            if arg in ('--environment=echo','--environment=mist'):command.append(arg)
         if '--visual' in sys.argv and i<6:
             command.remove('--headless');command+=['--visual=true']
         processes.append(subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,**hidden_options()))
@@ -30,6 +32,12 @@ try:
                 if 'HOST_READY' in (folder/'run.log').read_text('utf8'):break
                 if processes[0].poll() is not None:raise RuntimeError((folder/'run.log').read_text('utf8'))
                 time.sleep(.1)
+            if '--old-client' in sys.argv:
+                legacy=run/'old-version';legacy.mkdir()
+                result=subprocess.run([engine(),'--headless','--path',str(ROOT/'game'),'--script','res://tests/coop_old_version.gd','--','--directory='+str(legacy),'--port='+str(port)],capture_output=True,text=True,encoding='utf8',timeout=15,**hidden_options())
+                output=result.stdout+result.stderr;(legacy/'run.log').write_text(output,'utf8')
+                if result.returncode or 'COOP_OLD_VERSION failures=0' not in output or any(token in output for token in ['SCRIPT ERROR','ERROR:','WARNING:']):raise RuntimeError(output)
+                print('COOP_OLD_VERSION PASS with five free host slots',flush=True)
     for process in processes:process.wait(timeout=45)
     for log in logs:log.flush()
     failures=[]

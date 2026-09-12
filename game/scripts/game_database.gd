@@ -62,6 +62,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
 	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()
+	db.metadata["expedition_environment"]=preload("res://scripts/expedition_environment.gd").configuration()
 	db.metadata["expedition_goals"]=preload("res://scripts/expedition_goals.gd").configuration()
 	db.metadata["expedition_journal"]=preload("res://scripts/expedition_journal.gd").configuration()
 	db.metadata["enemy_awareness"]=preload("res://scripts/enemy_awareness.gd").configuration()

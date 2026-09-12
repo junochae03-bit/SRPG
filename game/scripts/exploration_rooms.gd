@@ -60,12 +60,15 @@ static func threats(sim,site:Dictionary)->int:
 		if enemy.hp>0 and (enemy.get("encounter_room",-1)==site.room or enemy.pos.distance_to(site.pos)<THREAT_RADIUS):count+=1
 	return count
 
+static func gather_amount(map,site:Dictionary)->int:
+	return 3+int(site.tier)+int(map.environment.get("gather_bonus",0))
+
 static func snapshot(sim,id:int)->Array:
 	var result=[];var claims=sim.exploration_claims.get(id,{})
 	for original in sim.map.exploration_sites:
 		var site=original.duplicate(true);var definition=DEFINITIONS[site.kind]
 		site.merge({"name":definition.name,"icon":definition.icon,"claimed":claims.has(site.id),"remaining":threats(sim,site)})
-		if site.kind=="gather":site.name="별씨앗 군락" if site.material=="seed" else "반짝 광맥";site.icon=site.material
+		if site.kind=="gather":site["gather_amount"]=gather_amount(sim.map,site);site.name="별씨앗 군락" if site.material=="seed" else "반짝 광맥";site.icon=site.material
 		if site.kind=="challenge":Challenge.describe(sim,site)
 		result.append(site)
 	result.append_array(preload("res://scripts/hidden_rooms.gd").snapshots(sim,id))
@@ -94,7 +97,7 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 	var staged=p.duplicate(true);var message=""
 	match parts[2]:
 		"gather":
-			var amount=3+int(site.tier)
+			var amount=gather_amount(sim.map,site)
 			if not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false
 			message=Content.MATERIALS[site.material]+" ×%d"%amount
 		"supplies","salvage":
