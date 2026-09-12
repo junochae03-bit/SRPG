@@ -34,6 +34,7 @@ SOURCES = {
     "boss_stagger": "game/scripts/boss_stagger.gd",
     "consumables": "game/scripts/consumables.gd",
     "tactical_tools": "game/scripts/tactical_tools.gd",
+    "expedition_risk": "game/scripts/expedition_risk.gd",
     "portrait_frame": "game/scripts/portrait_frame.gd",
     "character_presentation": "game/scripts/character_presentation.gd",
 }
@@ -54,6 +55,7 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
+    data["metadata"]["expedition_risk_source_rules"] = [source_rule(root, "expedition_risk", fn) for fn in ("cap", "info", "change_plan", "add_encounters", "scale_enemy", "guardian_drop")]
     data["metadata"]["tactical_tool_source_rules"] = [source_rule(root, "tactical_tools", fn) for fn in ("reason", "place", "tick", "activate", "snapshot")]
     data["metadata"]["consumable_source_rules"] = [source_rule(root, "consumables", fn) for fn in ("count", "description", "unavailable", "use")]
     data["metadata"]["character_presentation_source_rules"] = [source_rule(root, "character_presentation", fn) for fn in ("profile", "apply", "aim", "facing", "projectile_offset")]

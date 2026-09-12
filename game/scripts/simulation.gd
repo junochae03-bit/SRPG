@@ -7,6 +7,7 @@ const Progression=preload("res://scripts/progression.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
 const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
+const Risk=preload("res://scripts/expedition_risk.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -18,6 +19,7 @@ var events: Array = []
 var dirty: Dictionary = {}
 var exploration_claims:Dictionary={}
 var exploration_challenges:Dictionary={}
+var departure_plan={"floor":0,"risk":0,"revision":0}
 var rng = RandomNumberGenerator.new()
 var combat
 var awareness
@@ -26,11 +28,11 @@ var inspection=preload("res://scripts/enemy_inspection.gd").new()
 var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
 
-func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0):
+func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0,risk:int=0):
 	Content.initialize_jobs()
 	combat=preload("res://scripts/player_combat.gd").new(self)
 	monster_attacks=preload("res://scripts/monster_attacks.gd").new(self)
-	map = Dungeon.new(seed_value,zone,floor_number)
+	map = Dungeon.new(seed_value,zone,floor_number,risk)
 	awareness=preload("res://scripts/enemy_awareness.gd").new(self)
 	tactical=preload("res://scripts/tactical_tools.gd").new(self)
 	balance = JSON.parse_string(FileAccess.get_file_as_string("res://data/balance.json"))
@@ -46,7 +48,8 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0):
 			var guardian=placement.role=="guardian"
 			var raid=guardian and floor_number%10==0
 			var kind=(dungeon_config.boss if raid else dungeon_config.elite) if guardian else dungeon_config.elite if placement.role=="elite" else dungeon_config.mobs[int(placement.mob_index)%dungeon_config.mobs.size()]
-			var enemy=spawn_enemy(kind,placement.pos,dungeon_config.level+(3 if placement.role=="elite" else 0),raid)
+			var enemy=spawn_enemy(placement.get("kind",kind),placement.pos,dungeon_config.level+(3 if placement.role=="elite" else 0),raid)
+			if placement.get("risk_reinforcement",false):enemy["risk_reinforcement"]=true
 			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation
 			if guardian:enemy["guardian"]=true
 			if raid:enemy.name=dungeon_config.title
@@ -69,6 +72,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
 		if not boss:e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
 	BossStagger.initialize(e,clock)
+	Risk.scale_enemy(e,map.risk_level)
 	enemies[id]=e;return e
 
 func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Dictionary:
@@ -178,6 +182,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 	if kind=="training_reset":return preload("res://scripts/training_ground.gd").reset(self,p)
 	if kind=="apply_build":return preload("res://scripts/build_presets.gd").apply(self,p,argument)
 	if kind=="select_goal":return Goals.select(self,p,argument)
+	if kind=="plan_expedition":return Risk.change_plan(self,id,argument)
 	if kind=="explore":
 		var success=preload("res://scripts/exploration_rooms.gd").use(self,p,argument)
 		if success:Goals.observe(self)
@@ -413,7 +418,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 		p.quest_done = true
 		p.gold += 100
 		notice(id, "의뢰 완료 · 정원의 소란 · 금화 +100")
-	for entry in loot_tables.roll(enemy.kind,rng,combat.jobs.passive(p,4)*.03 if p.class_id=="hunter" and not p.job_state.pets.is_empty() else 0.0):
+	for entry in loot_tables.roll(enemy.kind,rng,map.risk_level*Risk.DROP_PER_RANK+(combat.jobs.passive(p,4)*.03 if p.class_id=="hunter" and not p.job_state.pets.is_empty() else 0.0)):
 		serial += 1
 		var item_id = str(Time.get_unix_time_from_system()).replace(".", "") + "-" + str(serial)
 		var item=loot_tables.item(entry,item_id,rng,balance)
@@ -426,6 +431,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 			item=preload("res://scripts/equipment_catalog.gd").make(type,tier,int(item.rarity),item_id,affixes[rng.randi_range(0,affixes.size()-1)],p.class_id)
 		var offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)
 		drops[item_id] = {"item":item,"pos":map.move(enemy.pos,offset),"owner":id,"expires":clock + 90.0}
+	Risk.guardian_drop(self,id,enemy)
 	if enemy.get("raid",false):
 		serial+=1
 		var raid_id="raid-"+str(Time.get_ticks_usec())+"-"+str(serial)
@@ -589,4 +595,4 @@ func snapshot(for_id: int) -> Dictionary:
 	var visible_drops = {}
 	for id in drops:
 		if drops[id].owner == for_id: visible_drops[id] = drops[id].duplicate(true)
-	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"tactical_tools":tactical.snapshot(),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}
+	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"tactical_tools":tactical.snapshot(),"risk_level":map.risk_level,"departure_plan":departure_plan.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}

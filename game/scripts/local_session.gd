@@ -84,6 +84,7 @@ func enter_floor(floor_number:int)->bool:
 	if not connected:return false
 	var p=sim.players[local_id];var reason=preload("res://scripts/abyss_catalog.gd").locked_reason(p,floor_number)
 	if not reason.is_empty():sim.notice(local_id,reason);flush_events();return false
+	if sim.map.zone=="town" and int(sim.departure_plan.floor)>0 and floor_number!=int(sim.departure_plan.floor):return false
 	if sim.map.zone!="town":
 		if floor_number!=sim.map.floor_number+1 or p.pos.distance_to(sim.map.exit_position)>2.8:return false
 		if sim.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0):return false
@@ -92,7 +93,9 @@ func enter_floor(floor_number:int)->bool:
 func change_map(zone:String,floor_number:int,arrival:Dictionary={})->bool:
 	var previous=sim.players[local_id];var saved=sim.persistent(local_id)
 	saved.merge(arrival,true)
-	var next_seed=world_seed+7919;var candidate=Simulation.new(next_seed,zone,floor_number)
+	var next_seed=world_seed+7919;var desired_risk=int(sim.departure_plan.risk) if floor_number>0 else 0
+	var candidate=Simulation.new(next_seed,zone,floor_number,desired_risk)
+	candidate.departure_plan={"floor":floor_number,"risk":desired_risk,"revision":int(sim.departure_plan.revision)+1}
 	var p=candidate.add_player(local_id,saved.name,saved);p.hp=mini(p.max_hp,previous.hp);p.stamina=minf(p.max_stamina,previous.stamina)
 	# 도착 보상과 레벨업은 후보에만 적용해 저장 실패 시 재지급을 막습니다.
 	if arrival.has("xp"):candidate.apply_level_ups(p)
@@ -112,7 +115,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset","select_goal"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset","select_goal","plan_expedition"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")

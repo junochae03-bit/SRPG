@@ -1,7 +1,7 @@
 extends "res://scripts/local_session.gd"
 
 # The host owns Simulation. A guest Simulation is a read-only presentation mirror.
-const PROTOCOL=6
+const PROTOCOL=7
 const MAX_PLAYERS=preload("res://scripts/party_rules.gd").MAX_PLAYERS
 const DEFAULT_PORT=24554
 var network_role="offline"
@@ -186,15 +186,28 @@ func action_result(serial_number:int,kind:String,success:bool,packet:PackedByteA
 	elif kind not in COMBAT_ACTIONS:status_changed.emit("지금은 사용할 수 없습니다.")
 	request_completed.emit(kind,success)
 
+func ready_argument(wanted:bool)->String:
+	var plan=state.get("departure_plan",{})
+	return ("true" if wanted else "false")+(":"+str(int(plan.get("revision",0))) if int(plan.get("floor",0))>0 else "")
+
 func host_action(id:int,kind:String,argument:String)->bool:
-	if kind=="ready":ready_players[id]=argument=="true";publish_snapshot();return true
+	if kind=="ready":
+		var parts=argument.split(":")
+		if parts[0] not in ["true","false"]:return false
+		if parts[0]=="true" and int(sim.departure_plan.floor)>0:
+			if parts.size()!=2 or not parts[1].is_valid_int() or int(parts[1])!=int(sim.departure_plan.revision):return false
+		ready_players[id]=parts[0]=="true";publish_snapshot();return true
 	if kind in ["return","enter_floor"]:
 		if kind=="return" and (sim.map.zone=="town" or sim.players[id].return_cd>0):return false
 		if id!=1:sim.notice(id,"층 이동은 모두 준비한 뒤 방장이 선택합니다.");flush_events();return false
 		return travel("town") if kind=="return" else enter_floor(int(argument))
 	if kind=="interact" and sim.map.floor_number>0 and sim.players[id].pos.distance_to(sim.map.exit_position)<2.8:
 		if not sim.drops.values().any(func(d):return d.owner==id and d.pos.distance_to(sim.players[id].pos)<=1.8):return host_action(id,"enter_floor",str(sim.map.floor_number+1))
+	var plan_revision=int(sim.departure_plan.revision)
 	var success=sim.action(id,kind,argument)
+	if success and plan_revision!=int(sim.departure_plan.revision):
+		for peer in ready_players:ready_players[peer]=false
+		publish_snapshot()
 	if success and id==local_id:action_performed.emit(kind)
 	flush_events();refresh();return success
 
@@ -253,8 +266,9 @@ func receive_snapshot(packet:PackedByteArray):
 	if not data.get("players",{}).has(local_id):return
 	accepted_revision=int(envelope.revision)
 	var changed_map=sim==null or world_seed!=seed_value or sim.map.zone!=zone or sim.map.floor_number!=floor_number
-	if changed_map:sim=Simulation.new(seed_value,zone,floor_number)
+	if changed_map:sim=Simulation.new(seed_value,zone,floor_number,int(data.get("risk_level",0)))
 	world_seed=seed_value;state=data;ready_players=envelope.ready;sim.players=data.players.duplicate(true);sim.enemies=data.enemies.duplicate(true);sim.drops=data.drops.duplicate(true);sim.clock=data.clock
+	sim.departure_plan=data.get("departure_plan",{"floor":0,"risk":0,"revision":0}).duplicate(true)
 	sim.combat.projectiles=data.get("projectiles",[]);sim.monster_attacks.zones=data.get("enemy_attacks",[])
 	preload("res://scripts/hidden_rooms.gd").synchronize(sim.map,data.get("opened_regions",[]),data.get("revealed_regions",[]))
 	var first=not connected;connected=true;received_snapshots+=1;room_status="협동 방 · %d / 6"%state.players.size()

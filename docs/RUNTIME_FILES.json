@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 466558,
-    "sha256": "b5a9d4ea5c281c9b6c46d2f0c3c0a82b60fb861b3ddcd8b1671a3cfddc17db8b"
+    "bytes": 466678,
+    "sha256": "028142df75a37baf5ddc2ddf42bccf607d77576a7f0e64adb36629a5b092adae"
   },
   {
     "path": "game/data/content_names.json",
@@ -1336,8 +1336,8 @@
   },
   {
     "path": "game/scripts/combat_hud.gd",
-    "bytes": 22675,
-    "sha256": "2d64e9503ded317ecbfa17d28c166277e44bb29d7b993918a3313bb561cdd017"
+    "bytes": 22831,
+    "sha256": "3888b3df5aa39975b3dec49cd91cbae60f84e35346a8d30b001fbfe34280d349"
   },
   {
     "path": "game/scripts/combat_sprite_art.gd",
@@ -1381,13 +1381,13 @@
   },
   {
     "path": "game/scripts/coop_panel.gd",
-    "bytes": 3239,
-    "sha256": "2e9d2f7264d40069b1bd81439f3382f676842b51e2cf152f00a770b1069b3942"
+    "bytes": 3606,
+    "sha256": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb"
   },
   {
     "path": "game/scripts/coop_session.gd",
-    "bytes": 21936,
-    "sha256": "c4ddbadba973ff8f4ccccc60ac9d3ea4f32bbf35afee8507959a46dfecc8ad60"
+    "bytes": 22722,
+    "sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1406,8 +1406,8 @@
   },
   {
     "path": "game/scripts/dungeon.gd",
-    "bytes": 14732,
-    "sha256": "fe2c3d363fc07f2d6df9e0fc6dde40d4c49552f533669a7674997f681a5f5e38"
+    "bytes": 14912,
+    "sha256": "56823b60156bc9743cb5f0947ada129e561f225d25e9913ffa20c840184ada28"
   },
   {
     "path": "game/scripts/dungeon_regions.gd",
@@ -1466,13 +1466,13 @@
   },
   {
     "path": "game/scripts/expedition_brief.gd",
-    "bytes": 2414,
-    "sha256": "d89c4a760a82e007c2157685cb107d98299378728358d3e491f61b0d25eba721"
+    "bytes": 2610,
+    "sha256": "a327c71f56b45eef45ee3a48c9e5bfc9890bc6ac1b7dafba3f8183c4d814b44d"
   },
   {
     "path": "game/scripts/expedition_brief_panel.gd",
-    "bytes": 4791,
-    "sha256": "3595c19e7d8f1357756404d1504e3731a2ebe486900efd2dea9128fd80cc580c"
+    "bytes": 5000,
+    "sha256": "ed6d8543728c206a82d2609473e76b0b5813f2a20b037e1dfaa791db26440261"
   },
   {
     "path": "game/scripts/expedition_environment.gd",
@@ -1503,6 +1503,11 @@
     "path": "game/scripts/expedition_report.gd",
     "bytes": 2395,
     "sha256": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c"
+  },
+  {
+    "path": "game/scripts/expedition_risk.gd",
+    "bytes": 4620,
+    "sha256": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e"
   },
   {
     "path": "game/scripts/exploration_challenge.gd",
@@ -1541,8 +1546,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32584,
-    "sha256": "3ac7b8f344634cf7dc380c97e3dab3e4a10c77ecaf54371bcaabfcf1a481fac4"
+    "bytes": 32676,
+    "sha256": "977635fcfa63aff94ac119d6d6cec5f7df8bf96f80b1357601aeb6343be1e394"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1641,8 +1646,8 @@
   },
   {
     "path": "game/scripts/local_session.gd",
-    "bytes": 20133,
-    "sha256": "b048f4e44f3750f1ff9e90a041b7d50083ec70aa060afb56c3cbf116a504892e"
+    "bytes": 20473,
+    "sha256": "93d1c20ce2cd640c2899160817f1aba9e5ee8af92bace9a8d40b2b91d6c02577"
   },
   {
     "path": "game/scripts/loot_tables.gd",
@@ -1731,8 +1736,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 33793,
-    "sha256": "c9bcf396de434cdd014849bba34105a960ee940044aa80b5db3649bf7a733ad0"
+    "bytes": 34273,
+    "sha256": "d16eda4d07018403037dc7b19897115d5d4c6e4ef97f57de57605cb24bb2f806"
   },
   {
     "path": "game/scripts/skill_build.gd",
@@ -1831,8 +1836,8 @@
   },
   {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 29891,
-    "sha256": "3009a9146328df2e061fed66b4e0f3e6ee2e294063c73e9ddaa17b4d373b7d8d"
+    "bytes": 31763,
+    "sha256": "eef187133beefb6adf9a5790ff3ad722db5b99a74404a99805dfae8bfceed0e4"
   },
   {
     "path": "game/scripts/town_services.gd",
