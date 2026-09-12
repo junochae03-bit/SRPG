@@ -21,26 +21,31 @@ func all_class_readability(game):
 	var local=game.session;var p=local.sim.players[1];var tree=game.skill_tree;var total=0
 	for cls in C.CLASSES:
 		p.class_id=cls;p.skill_ranks={};p.constellation_allocations={};p.skill_loadout={};local.sim.combat.jobs.reset(p);local.refresh()
+		var rule_snapshot=JSON.stringify(R.nodes_for(cls))
 		tree.choice="";tree.search.text="";tree.tag_filter="";tree.filter_index=0;tree.change_mode("skills")
-		for cluster in range(5):
+		for cluster in range(3):
 			tree.show_branch(cluster);await process_frame
 			var controls=tree.nodes.values().filter(func(control):return tree.graph.in_scope(control.id))
-			check(controls.size()<=20,cls+" branch has at most twenty choices")
+			check(not controls.is_empty(),cls+" display group is populated")
 			for control in controls:
 				tree.graph.focus_node(control.id)
 				total+=1
-				var label=control.name_label;var text_width=minf(label.size.x,label.get_theme_font("font").get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,label.get_theme_font_size("font_size")).x)
-				var name_rect=Rect2(control.position+label.position+Vector2((label.size.x-text_width)*.5,0),Vector2(text_width,label.get_line_count()*label.get_line_height()))
 				check(control.icon_rect().size.x>=48,cls+" large semantic glyph "+control.id)
-				check(label.visible and label.get_line_count()*label.get_line_height()<=label.size.y+1,cls+" full skill name fits "+control.id)
-				check(Rect2(Vector2.ZERO,tree.graph.size).encloses(control.get_rect()) and Rect2(Vector2.ZERO,tree.graph.size).encloses(name_rect),cls+" node and name inside branch "+control.id)
-				check(not controls.any(func(other):return other!=control and other.get_rect().intersects(name_rect)),cls+" skill name avoids other node "+control.id)
+				check(not control.name_label.visible and control.tooltip_text.begins_with(R.definition(control.id).name),cls+" uncluttered node retains canonical hover name "+control.id)
+				var occupied=Rect2(control.position-Vector2(0,20),control.size+Vector2(0,40))
+				check(Rect2(Vector2.ZERO,tree.graph.size).encloses(occupied),cls+" icon and rank fully visible "+control.id)
+				check(not controls.any(func(other):return other!=control and other.visible and other.get_rect().intersects(occupied)),cls+" icon and rank avoid other nodes "+control.id)
 				tree.select_node(control.id)
+				check(not tree.skill_summary.text.is_empty() and tree.skill_summary.get_line_count()*tree.skill_summary.get_line_height()<=tree.skill_summary.size.y,cls+" readable skill explanation "+control.id)
+				check(tree.skill_summary.get_rect().end.y<tree.description.position.y and tree.description.get_rect().end.y<tree.invest.position.y,cls+" explanation and conditions never overlap "+control.id)
+				check(tree.comparison_scroll.size.y>=72 and tree.invest.get_rect().end.y<tree.comparison_scroll.position.y,cls+" explanation preserves readable values and learn button "+control.id)
+
 				if R.definition(control.id).type!="minor":check(tree.selected.text.replace("\n"," · ")==R.definition(control.id).name,"전체 이름을 생략 없이 두 줄로 표시: "+control.id)
 				check(tree.selected.get_line_count()*tree.selected.get_line_height()<=tree.selected.size.y+1,cls+" selected title fits "+control.id)
 				check(tree.status.get_line_count()*tree.status.get_line_height()<=tree.status.size.y+1,cls+" status fits "+control.id)
 				check(tree.description.get_line_count()*tree.description.get_line_height()<=tree.description.size.y+1,cls+" prerequisites fit "+control.id)
 			if cls in ["warrior","gambler"] and cluster==0:await capture("large-"+cls)
+		check(JSON.stringify(R.nodes_for(cls))==rule_snapshot,"display regrouping preserves all rule definitions "+cls)
 	check(total==1510,"all1510 skills retain readable branch glyphs and names")
 func run():
 	# Full HD client area, independent of desktop title-bar constraints.
@@ -50,10 +55,10 @@ func run():
 	var p=local.sim.players[1];p.level=100;p.tutorial_done=true;local.travel("town");p=local.sim.players[1]
 	check(local.act("class","fighter") and local.act("class","breaker"),"enter breaker fixture");local.refresh();game.toggle_skills();var tree=game.skill_tree
 	check(local.paused,"graph pauses world");check(tree.nodes.size()==C.SKILLS.breaker.size()+45,"originals and45 choices in onegraph")
-	check(tree.graph.centers.size()==5,"five themed clusters");check(tree.graph.scope_cluster==-1 and tree.graph.zoom>.7,"first entry shows unfiltered readable map")
-	check(tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)) and tree.graph.horizontal_bar.visible,"no branch filtered; horizontal scroll available")
-	tree.graph.horizontal_bar.value=2880;check(tree.nodes.values().any(func(node):return node.visible and int(R.definition(node.id).cluster)==4),"scroll to fifth branch without a filter");tree.graph.horizontal_bar.value=0
-	check(tree.branch_picker.item_count==6 and tree.branch_picker.selected==0,"all branches selected initially")
+	check(tree.graph.centers.size()==3,"three display groups");check(tree.graph.scope_cluster==-1 and tree.graph.zoom>.7,"first entry shows unfiltered readable map")
+	check(tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)) and not tree.graph.horizontal_bar.visible,"all three columns fit without horizontal scrolling")
+	for group in range(3):check(tree.nodes.values().any(func(node):return node.visible and preload("res://scripts/skill_presentation.gd").tree_group(R.definition(node.id))==group),"all three groups visible at entry")
+	check(tree.branch_picker.item_count==4 and tree.branch_picker.selected==0,"all three groups selected initially")
 	var original=C.SKILLS.breaker.filter(func(n):return n.effect=="active")[0];tree.select_node(original.id)
 	var modules=tree.prerequisites.find_children("*","Button",true,false).filter(func(button):return button.text.begins_with("강화"))
 	check(not modules.is_empty(),"selected active exposes upgrade links")
@@ -74,12 +79,12 @@ func run():
 	var event=InputEventMouseButton.new();event.button_index=MOUSE_BUTTON_LEFT;event.position=click_target.get_global_transform_with_canvas()*(click_target.size*.5);event.pressed=true;root.push_input(event,true);event=event.duplicate();event.pressed=false;root.push_input(event,true);await process_frame
 	check(tree.choice==click_target.id and local.paused,"actual node click respects centered Full HD canvas and keeps combat paused")
 	var before_browse=JSON.stringify(p);var discovered={}
-	for cluster in range(5):
+	for cluster in range(3):
 		tree.show_branch(cluster);check(tree.graph.scope_cluster==cluster,"branch navigation "+str(cluster))
 		for id in tree.nodes:
 			if not tree.graph.in_scope(id):continue
 			tree.graph.focus_node(id);check(tree.nodes[id].visible,"scroll reveals complete node "+id);discovered[id]=true
-	check(discovered.size()==tree.nodes.size(),"five branches expose every original and specialization")
+	check(discovered.size()==tree.nodes.size(),"three groups expose every original and specialization")
 	check(JSON.stringify(p)==before_browse,"branch navigation never allocates points")
 	tree.select_node("breaker:star:4:key");tree.show_path()
 	check(tree.graph.planned_ids.all(func(id):return tree.graph.in_scope(id)),"path preview reveals prerequisites outside current branch")
@@ -91,6 +96,7 @@ func run():
 		tree.graph.focus_node(id);tree.graph.clamp_pan();tree.graph.layout_controls()
 		check(Rect2(Vector2.ZERO,tree.graph.size).encloses(tree.nodes[id].get_rect()),"pan limits let every target be revealed "+id)
 	tree.graph.fit_all()
+	check(tree.graph.offset==Vector2.ZERO,"overview returns to the first tier after browsing")
 	check(tree.graph.scope_cluster==-1 and tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)),"full view includes every node at readable scrolling scale")
 	await capture("overview")
 	check(tree.graph.get_rect().end.y<tree.overview_button.position.y,"map nodes cannot overlap camera toolbar")
@@ -115,7 +121,7 @@ func run():
 	tree.select_node("breaker:star:0:m0");tree.preview_refund();check("회수 미리보기" in tree.detail_body.text,"refund dependent preview")
 	var invested=JSON.stringify(p);tree.refresh(true);check(JSON.stringify(p)==invested,"refund preview read only");tree.invest.pressed.emit();check(R.rank(p,R.definition(target))==0,"dependent keystone removed atomically")
 	tree.refund_mode=false;var dodge_name=R.definition("breaker:star:2:key").name;tree.search.text=dodge_name;tree.apply_search();check(tree.selected.tooltip_text==dodge_name,"현재 한국어 이름 검색과 전체 이름 툴팁")
-	tree.show_branch(0);tree.search.text=R.definition("breaker:star:4:key").name;tree.apply_search();check(tree.graph.scope_cluster==4 and tree.nodes[tree.choice].visible,"cross-branch search reveals matching choice")
+	tree.show_branch(0);tree.search.text=R.definition("breaker:star:4:key").name;tree.apply_search();check(tree.graph.scope_cluster==2 and tree.nodes[tree.choice].visible,"cross-branch search reveals matching choice")
 	tree.search.text="존재하지않는별자리_xyz";tree.apply_search();check("조건에 맞는" in tree.notice.text,"empty search state")
 	tree.search.text="";tree.tag_filter="행동 변화";tree.refresh(true);check(tree.node_list.filter(func(n):return tree.matches(n,p)).size()==5,"tag filter finds five keystones")
 	tree.tag_filter="";tree.change_mode("stats");check(tree.stats_panel.visible and tree.stat_buttons.size()==5 and not tree.graph.visible,"five stats preserved");await capture("stats")

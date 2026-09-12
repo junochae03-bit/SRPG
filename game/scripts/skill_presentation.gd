@@ -4,6 +4,45 @@ const Scaling=preload("res://scripts/skill_scaling.gd")
 const Balance=preload("res://scripts/job_balance.gd")
 const Rules=preload("res://scripts/skill_build.gd")
 const Reach=preload("res://scripts/skill_reach.gd")
+# Display groups only: never replace the five rule clusters or saved node IDs.
+const TREE_GROUPS={
+	"warrior":["검술","돌파","수호"],"ranger":["사격","추적","덫과 생존"],
+	"mage":["주문","원소","마력 제어"],"rogue":["암살","기습","교란"],"fighter":["격투","연무","반격"],
+	"tank":["응징","진격","철벽"],"runesword":["검술","룬 해방","룬 수호"],"swordsman":["검술","검기","응수"],
+	"sniper":["정밀 사격","관통","사격 준비"],"hunter":["사냥","추적","덫과 동료"],"explorer":["탐험 기술","기동","생존"],
+	"summoner":["마력 공격","소환 지휘","동료 수호"],"elementalist":["원소 집중","원소 확산","원소 제어"],"healer":["심판","성역","치유"],
+	"thief":["암살","기습","교란"],"reaper":["수확","추격","영혼 회수"],"gambler":["승부","패 운용","판 뒤집기"],
+	"infighter":["강타","쇄도","투지"],"breaker":["파쇄","돌진","반격"],"martialist":["격투","연무","호흡"]}
+static func tree_group(node:Dictionary)->int:
+	if node.get("type","original")!="original":
+		var cluster=int(node.get("cluster",0))
+		if cluster in [0,1]:return 0
+		if cluster==3:return 1
+		if cluster==4:return 2
+		# The old evasion route keeps its exact rules, but defensive recovery
+		# and control appear with survival instead of offensive movement.
+		for effect in node.get("effects",{}):
+			if effect in ["skill_discount","mobility_refund","slow_on_followup","guard_on_followup","heal_on_followup"]:return 2
+		return 1
+	var target=str(node.get("target_active_id",node.get("target","")))
+	if not target.is_empty() and target!=str(node.get("id","")):
+		var original=Rules.definition(target)
+		if not original.is_empty():return tree_group(original)
+	var action=mode(node) if active(node) else str(node.get("effect",""))
+	if action in preload("res://scripts/skill_node_roles.gd").SUPPORT or action in ["defense","health","health_regen","stamina","lifesteal","thorns","dodge_discount"]:return 2
+	if action in ["dash","rush","retreat","weave","flank","blink","teleport","chain_dash","trap","trap_bleed","root","slow","root_shot","slow_shot"]:return 1
+	return [0,0,1,1,2][clampi(int(node.get("cluster",0)),0,4)]
+static func tree_group_names(class_id:String)->Array:return TREE_GROUPS.get(class_id,["공격","전개","지원"])
+static func skill_summary(node:Dictionary)->String:
+	# The canonical description stays below with all numeric details and caveats.
+	# Here expose the first action/effect instead of repeating navigation advice.
+	var summary=str(node.get("effects_text",""))
+	if summary.is_empty():summary=str(node.get("description",""))
+	summary=summary.get_slice(" · 랭크별",0).get_slice(". ",0).strip_edges()
+	if summary=="부채꼴 투사체":summary="전방으로 투사체를 부채꼴로 펼쳐 여러 적을 공격합니다."
+	elif summary=="관통하는 검기를 발사":summary="전방에 검기를 발사해 경로상의 적을 관통합니다."
+	if summary.is_empty():summary=short_label(node)
+	return summary
 static func quickslot_description(p:Dictionary,node:Dictionary,rank:int,damage:float)->String:
 	if node.is_empty() or rank<=0:return ""
 	var lines=PackedStringArray([str(node.get("description",""))])
