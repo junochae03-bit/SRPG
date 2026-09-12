@@ -90,7 +90,7 @@ static func launch_flash(game,event:Dictionary):
 	var age=float(event.max_life)-float(event.life)
 	if age<0 or age>=.14:return
 	var direction=Dungeon.iso(event.dir).normalized()
-	var at=game.world_point(event.pos)+Vector2(0,-preload("res://scripts/skill_vfx.gd").PROJECTILE_HEIGHT)+direction*16.
+	var at=game.world_point(event.pos)+event.get("visual_origin",Vector2(0,-preload("res://scripts/skill_vfx.gd").PROJECTILE_HEIGHT)+direction*16.)
 	var phase=age/.14;var strength=1.4 if event.type=="heavy" else 1.
 	var color=Color("e1fbff") if event.weapon=="staff" else Color("fff1bd")
 	color.a=(1.-phase)*.9
@@ -103,7 +103,7 @@ static func launch_flash(game,event:Dictionary):
 
 static func projectile(game,shot:Dictionary):
 	if preload("res://scripts/skill_vfx.gd").projectile(game,shot):return
-	var at=game.world_point(shot.pos)+Vector2(0,-preload("res://scripts/skill_vfx.gd").PROJECTILE_HEIGHT)
+	var at=game.world_point(shot.pos)+preload("res://scripts/character_presentation.gd").projectile_offset(shot)
 	var direction=Dungeon.iso(shot.dir).normalized()
 	var angle=direction.angle()
 	var scale=float(shot.get("visual_scale",1))

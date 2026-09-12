@@ -50,8 +50,9 @@ func run():
 	var p=local.sim.players[1];p.level=100;p.tutorial_done=true;local.travel("town");p=local.sim.players[1]
 	check(local.act("class","fighter") and local.act("class","breaker"),"enter breaker fixture");local.refresh();game.toggle_skills();var tree=game.skill_tree
 	check(local.paused,"graph pauses world");check(tree.nodes.size()==C.SKILLS.breaker.size()+45,"originals and45 choices in onegraph")
-	check(tree.graph.centers.size()==5,"five themed clusters");check(tree.graph.scope_cluster==-1 and tree.graph.zoom>.7,"first entry shows readable parallel branches")
-	check(tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)),"all branches available without a filter")
+	check(tree.graph.centers.size()==5,"five themed clusters");check(tree.graph.scope_cluster==-1 and tree.graph.zoom>.7,"first entry shows unfiltered readable map")
+	check(tree.nodes.keys().all(func(id):return tree.graph.in_scope(id)) and tree.graph.horizontal_bar.visible,"no branch filtered; horizontal scroll available")
+	tree.graph.horizontal_bar.value=2880;check(tree.nodes.values().any(func(node):return node.visible and int(R.definition(node.id).cluster)==4),"scroll to fifth branch without a filter");tree.graph.horizontal_bar.value=0
 	check(tree.branch_picker.item_count==6 and tree.branch_picker.selected==0,"all branches selected initially")
 	var original=C.SKILLS.breaker.filter(func(n):return n.effect=="active")[0];tree.select_node(original.id)
 	var modules=tree.prerequisites.find_children("*","Button",true,false).filter(func(button):return button.text.begins_with("강화"))

@@ -4,8 +4,11 @@ extends RefCounted
 const LEGACY_MODES={"blade_wave":"wave","whirlwind":"spin","rush":"dash","piercing_shot":"piercing","arrow_rain":"rain","retreat_shot":"retreat","frost_nova":"frost","thunder":"thunder","blink":"blink"}
 const SUPPORT=["heal","regen","field_heal","barrier","haste","shield","ally_dash","wall","cleanse","distribute","return_anchor","parry","meditate","hit_card","hold_card","cut_card","dice","reroll","pet_heal","pet_recall","pet_buff","pet_haste","pet_guard","pet_sacrifice","buff_attack","buff_crit","buff_crit_damage","guard","fortress","share","chant","stand_card","dice_buff","enchant","stance","empower"]
 const DOT_MODES=["bleed","bleed_shot","trap_bleed","pet_command","pet_burst","pet_pull"]
-const DOWN_SECONDS=4.0
-const IMMUNITY_SECONDS=6.0
+const DOWN_SECONDS=6.0
+const IMMUNITY_SECONDS=60.0
+const FAILED_CHECK_IMMUNITY=6.0
+const BASE_THRESHOLD=450.0
+const FLOOR_THRESHOLD=2.0
 const CHECK_SECONDS=12.0
 const DOWN_DAMAGE=1.20
 
@@ -20,7 +23,9 @@ static func skill_profile(node:Dictionary,rank:int,player:Dictionary={})->Dictio
 	elif mode in ["shot","fan","retreat","dash","rush","blink","weave","flank","card_retreat","slow_shot","bleed_shot","settle_fan","wave"]:base=16.;grade="낮음"
 	base*=1.+.20*(clampi(rank,1,int(node.get("max_rank",3)))-1)
 	base*=preload("res://scripts/constellation_effects.gd").stagger_multiplier(player,str(node.get("id","")))
-	return {"base":base,"value":base*multiplier,"grade":grade,"multiplier":multiplier,"mode":mode,"rank":rank}
+	var class_factor=clampf(1./float(preload("res://scripts/job_balance.gd").role(str(player.get("class_id",node.get("class_id",""))))[2]),1.,1.65)
+	base*=class_factor
+	return {"base":base,"value":base*multiplier,"grade":grade,"multiplier":multiplier,"class_multiplier":class_factor,"mode":mode,"rank":rank}
 
 static func token(node:Dictionary,rank:int,p:Dictionary,clock:float,count:int=1)->Dictionary:
 	var profile=skill_profile(node,rank,p)
@@ -36,10 +41,12 @@ static func context(budget:Dictionary,weight:float=-1.)->Dictionary:
 static func initialize(e:Dictionary,clock:float=0.):
 	if not e.get("boss",false):return
 	var floor_number=int(e.get("floor",0))
-	e["stagger"]={"state":"ready","value":0.,"max_value":180.+floor_number*.8,"check_value":0.,"check_max":65.+floor_number*.2,"time_left":0.,"time_max":0.,"breaks":0,"checks_done":[],"idle_time":0.,"last_hit":clock,"reset_at":clock,"engaged":false,"generation":int(e.get("stagger",{}).get("generation",0))+1}
+	e["stagger"]={"state":"ready","value":0.,"max_value":BASE_THRESHOLD+floor_number*FLOOR_THRESHOLD,"check_value":0.,"check_max":65.+floor_number*.2,"time_left":0.,"time_max":0.,"breaks":0,"checks_done":[],"idle_time":0.,"last_hit":clock,"reset_at":clock,"engaged":false,"generation":int(e.get("stagger",{}).get("generation",0))+1}
+	var factor=float(e.get("party_stagger_factor",1.))
+	e.stagger.max_value*=factor;e.stagger.check_max*=factor
 
 static func cancel_attacks(sim,e:Dictionary):
-	e.windup=0.;e.attack_motion=0.;e.erase("attack_areas")
+	e.windup=0.;e.attack_motion=0.;e.erase("attack_areas");e.erase("wall_charge")
 	sim.monster_attacks.zones=sim.monster_attacks.zones.filter(func(zone):return zone.enemy!=e.id)
 
 static func reset(sim,e:Dictionary):
@@ -47,8 +54,10 @@ static func reset(sim,e:Dictionary):
 	e.hp=e.max_hp;e.pos=e.home;e.phase=1;e.pattern=0;e.cooldown=1.;e["stun_time"]=0.;e["slow_time"]=0.;e["job_status"]={};e.erase("constellation_marks")
 	initialize(e,sim.clock)
 
+static func engagement_radius(e:Dictionary)->float:return 14.0 if e.get("raid",false) else 8.0
+
 static func engaged_players(sim,e:Dictionary)->Array:
-	return sim.players.values().filter(func(p):return p.hp>0 and not sim.map.in_town(p.pos) and p.pos.distance_to(e.home)<9.0 and sim.map.line_clear(p.pos,e.pos))
+	return sim.players.values().filter(func(p):return p.hp>0 and not p.get("network_leaving",false) and not sim.map.in_town(p.pos) and p.pos.distance_to(e.home)<engagement_radius(e) and sim.map.line_clear(p.pos,e.pos))
 
 static func start_check(sim,e:Dictionary,index:int):
 	var s=e.stagger;s.state="check";s.check_value=0.;s.time_left=CHECK_SECONDS;s.time_max=CHECK_SECONDS;s.checks_done.append(index);s.engaged=true
@@ -61,12 +70,14 @@ static func check_threshold(sim,e:Dictionary):
 	for index in range(2):
 		if index not in e.stagger.checks_done and float(e.hp)/e.max_hp<=[.70,.40][index]:start_check(sim,e,index);return
 
-static func break_boss(sim,e:Dictionary):
+static func break_boss(sim,e:Dictionary)->bool:
+	if not e.get("boss",false) or e.get("hp",0)<=0 or not e.has("stagger") or e.stagger.state not in ["ready","check"]:return false
 	var s=e.stagger;var was_check=s.state=="check"
 	s.state="down";s.value=0.;s.time_left=DOWN_SECONDS;s.time_max=DOWN_SECONDS;s.breaks+=1
 	cancel_attacks(sim,e)
-	for p in engaged_players(sim,e):sim.notice(p.id,"무력화 성공! 4초 동안 보스가 받는 피해 +20%." if was_check else "보스 무력화! 4초 동안 받는 피해 +20%.")
+	for p in engaged_players(sim,e):sim.notice(p.id,"무력화 성공! 6초 동안 보스가 받는 피해 +20%." if was_check else "보스 무력화! 6초 동안 받는 피해 +20%.")
 	sim.events.append({"type":"stagger_break","enemy":e.id,"pos":e.pos,"duration":DOWN_SECONDS})
+	return true
 
 static func apply(sim,p:Dictionary,e:Dictionary,hit_context:Dictionary):
 	if not e.get("boss",false) or e.hp<=0 or hit_context.is_empty():return
@@ -101,7 +112,7 @@ static func tick(sim,e:Dictionary,delta:float)->bool:
 	s.time_left=maxf(0,s.time_left-delta)
 	if s.state=="check":
 		if s.time_left<=0:
-			s.state="immune";s.value=0.;s.time_left=IMMUNITY_SECONDS;s.time_max=IMMUNITY_SECONDS
+			s.state="immune";s.value=0.;s.time_left=FAILED_CHECK_IMMUNITY;s.time_max=FAILED_CHECK_IMMUNITY
 			sim.monster_attacks.stagger_punishment(e)
 			for p in nearby:sim.notice(p.id,"무력화 실패! 붉은 원 밖으로 피하세요.")
 		return true

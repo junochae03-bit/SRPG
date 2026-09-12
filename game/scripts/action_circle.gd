@@ -20,6 +20,7 @@ var max_cooldown=1.0
 var count=""
 var rank_text=""
 var locked=false
+var show_caption=true
 var tint=Color("64c9be")
 func setup(owner_game,action:String,title:String,key:String):
 	material=preload("res://scripts/gat_art.gd").material()
@@ -57,7 +58,7 @@ func _draw():
 		write_text(center+Vector2(0,10),cooldown_text(),30 if size.x>=90 else 24,true)
 	if not count.is_empty():write_text(Vector2(size.x-15,size.y-5),count,19,true)
 	var key=hotkey_layout();write_text(key.at,hotkey,key.pixels,true)
-	write_text(Vector2(size.x*0.5,size.y+21),caption_text(),15)
+	if show_caption:write_text(Vector2(size.x*0.5,size.y+21),caption_text(),15)
 	if not rank_text.is_empty() and cooldown<=0:write_text(Vector2(20,size.y-3),rank_text,12)
 func write_text(at:Vector2,value:String,font_size:int,bold=false):
 	var font=game.bold_font if bold else game.fonts

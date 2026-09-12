@@ -27,6 +27,7 @@ func initialize(p:Dictionary):
 	p.merge({"sprint":false,"dodge_cd":0.0,"dodge_time":0.0,"dodge_dir":Vector2.ZERO,"invulnerable":0.0,"charge_time":-1.0})
 	p.merge({"skill_f_cd":0.0,"skill_v_cd":0.0,"skill_c_cd":0.0,"motion":"idle","motion_time":0.0,"motion_duration":0.4,"hurt_time":0.0})
 	p.merge({"skill_cooldowns":{},"barrier_time":0.0,"barrier_strength":0.0,"haste_time":0.0,"regen_fraction":0.0,"combat_time":0.0,"enemy_slow_time":0.0})
+	p.motion_aim=p.get("aim",Vector2.RIGHT);p.motion_aim_motion=""
 
 func tick_player(p:Dictionary,delta:float):
 	var dodge_step=minf(maxf(0,p.dodge_time),delta)
@@ -34,6 +35,7 @@ func tick_player(p:Dictionary,delta:float):
 	constellation.tick_player(p,delta)
 	jobs.tick(p,delta)
 	for key in ["dodge_cd","dodge_time","invulnerable","skill_f_cd","skill_v_cd","skill_c_cd","motion_time","hurt_time"]:p[key]=maxf(0,p[key]-delta)
+	if p.motion_time<=0 or p.dodge_time>0 or p.hurt_time>0 or p.get("down_time",0)>0:p.motion_aim_motion=""
 	for key in ["barrier_time","haste_time","combat_time","enemy_slow_time"]:p[key]=maxf(0,p[key]-delta)
 	for key in p.skill_cooldowns:p.skill_cooldowns[key]=maxf(0,p.skill_cooldowns[key]-delta)
 	for action in Content.ACTIONS:p[action+"_cd"]=p.skill_cooldowns.get(Content.active_node(p,action).get("id",""),0)
@@ -136,13 +138,14 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
 	# Basic attacks resolve immediately. Show their contact pose immediately;
 	# releasing a charged attack must not restart its already-shown windup.
-	p.motion_duration=0.5 if heavy else 0.32
-	p.motion_time=p.motion_duration*(.48 if heavy else .70)
+	p.motion_duration=0.5 if heavy else 0.46
+	p.motion_time=p.motion_duration*.48
+	p.motion_aim=p.aim;p.motion_aim_motion=p.motion;p.motion_aim_duration=p.motion_duration
 	var multiplier=(1.6+charge*1.4)*(1+Content.skill_bonus(p,"heavy_power")) if heavy else 1.0
 	if Content.job(p):multiplier*=jobs.attack_multiplier(p,heavy)
 	var amount=roundi(sim.damage_for(p)*config.multiplier*multiplier)
 	var radius=config.range+Content.skill_bonus(p,"range" if config.projectile else "melee_range")
-	sim.events.append({"type":"heavy" if heavy else "attack","pos":p.pos,"dir":p.aim,"owner":p.id,"weapon":type})
+	sim.events.append({"type":"heavy" if heavy else "attack","pos":p.pos,"dir":p.aim,"owner":p.id,"weapon":type,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,p.aim)})
 	if config.projectile:
 		launch(p,type,p.aim,amount,radius+(2 if heavy else 0),config.speed,1.4 if type=="staff" else 0)
 		projectiles.back()["basic"]=not heavy
@@ -161,6 +164,7 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 # 처치 처리 후에도 해당 타격은 성공이다. 적중 시 직업 자원은 남은 체력이
 # 아니라 이 반환값으로 지급하므로 마지막 타격도 정상적으로 보상한다.
 func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Variant=null)->bool:
+	if p.get("down_time",0)>0 or p.get("network_leaving",false):return false
 	if e.hp<=0 or amount<=0 or not sim.map.line_clear(p.pos if source==null else source,e.pos):return false
 	if e.get("training",false) and not preload("res://scripts/training_ground.gd").can_practice(sim,p):return false
 	var hit_context:Dictionary=stagger_context if attribution==null else attribution
@@ -186,7 +190,7 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	constellation.after_hit(p,e,hit_context)
 	var push=Content.skill_bonus(p,"knockback")
 	if push>0 and not e.get("training",false):e.pos=sim.map.move(e.pos,p.pos.direction_to(e.pos)*push)
-	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"target_id":e.id,"owner":p.id,"critical":hit_details.critical})
+	sim.events.append({"type":"damage","pos":e.pos,"amount":amount,"enemy":true,"target_id":e.id,"owner":p.id,"weapon":weapon_type(p),"critical":hit_details.critical})
 	if e.get("training",false):
 		preload("res://scripts/training_ground.gd").record(sim,p,e,amount,hit_details.critical,hit_context)
 		return true
@@ -204,7 +208,7 @@ func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="st
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
 	if direction.length()<0.1:direction=Vector2.RIGHT
-	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context})
+	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context,"visual_start":p.pos,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,direction)})
 
 func tick_projectiles(delta:float):
 	for shot in projectiles:

@@ -4,7 +4,8 @@ const Content = preload("res://scripts/content.gd")
 const WIDTH = 10
 const HEIGHT = 12
 const CAPACITY = WIDTH * HEIGHT
-const MAX_POTIONS = 20
+const Consumables=preload("res://scripts/consumables.gd")
+const MAX_POTIONS = Consumables.MAX_STACK
 const MAX_MATERIALS = 999999
 
 static func find_item(p: Dictionary, id: String) -> Dictionary:
@@ -14,7 +15,8 @@ static func find_item(p: Dictionary, id: String) -> Dictionary:
 
 static func all_items(p: Dictionary) -> Array:
 	var result=p.inventory.duplicate()
-	if p.potions>0:result.append({"id":"@potion","name":"회복 물약","category":"consumable","bonus":60,"rarity":0,"count":p.potions})
+	for key in Consumables.ITEMS:
+		if Consumables.count(p,key)>0:result.append({"id":Consumables.bag_id(key),"name":Consumables.ITEMS[key].name,"category":"consumable","consumable":key,"bonus":60 if key=="potion" else 0,"rarity":0,"count":Consumables.count(p,key)})
 	for key in p.get("materials",{}):
 		if p.materials[key]>0:result.append({"id":"@mat:"+key,"name":Content.MATERIALS.get(key,key),"category":"material","bonus":0,"rarity":0,"count":p.materials[key]})
 	return result
@@ -66,6 +68,7 @@ static func initialize(p: Dictionary):
 	if p.get("equipped","")!="":p.equipment.weapon=p.equipped
 	p["bag_positions"]=p.get("bag_positions",{})
 	p["materials"]=p.get("materials",{})
+	p["consumables"]=p.get("consumables",{})
 	for item in p.inventory:preload("res://scripts/equipment_catalog.gd").normalize(item,p)
 	var valid_ids=[]
 	for item in bag_items(p):valid_ids.append(item.id)
@@ -130,7 +133,7 @@ static func unequip(p: Dictionary, slot: String) -> bool:
 	return true
 
 static func stack_limit(kind:String)->int:
-	return MAX_POTIONS if kind=="potion" else MAX_MATERIALS if Content.MATERIALS.has(kind) else 0
+	return MAX_POTIONS if Consumables.ITEMS.has(kind) else MAX_MATERIALS if Content.MATERIALS.has(kind) else 0
 
 static func whole_count(value:Variant,maximum:int)->bool:
 	return (value is int or value is float) and is_finite(float(value)) and value>=0 and value<=maximum and value==floor(float(value))
@@ -138,16 +141,18 @@ static func whole_count(value:Variant,maximum:int)->bool:
 static func _stack_quantity_valid(p:Dictionary,kind:String,amount:Variant)->bool:
 	var limit=stack_limit(kind)
 	if limit<=0 or not whole_count(amount,limit) or amount<=0:return false
-	var current=p.get("potions",0) if kind=="potion" else p.get("materials",{}).get(kind,0)
+	var current=Consumables.count(p,kind) if Consumables.ITEMS.has(kind) else p.get("materials",{}).get(kind,0)
 	# 남은 수량과 먼저 비교해 정수 넘침이나 임의 수량 축소를 막습니다.
 	return whole_count(current,limit) and int(amount)<=limit-int(current)
 
 static func _stage_stack(p:Dictionary,kind:String,amount:Variant)->Dictionary:
 	if not _stack_quantity_valid(p,kind,amount):return {}
 	var staged=p.duplicate(true)
-	var id="@potion" if kind=="potion" else "@mat:"+kind
+	var id=Consumables.bag_id(kind) if Consumables.ITEMS.has(kind) else "@mat:"+kind
 	if kind=="potion":
 		staged.potions=int(p.potions)+int(amount)
+	elif Consumables.ITEMS.has(kind):
+		staged["consumables"]=staged.get("consumables",{});staged.consumables[kind]=Consumables.count(p,kind)+int(amount)
 	else:staged.materials[kind]=int(staged.materials.get(kind,0))+int(amount)
 	if not staged.bag_positions.has(id):
 		var fit=first_fit(staged,id)
@@ -161,13 +166,14 @@ static func can_add_stack(p:Dictionary,kind:String,amount:Variant)->bool:
 static func stack_failure_reason(p:Dictionary,kind:String,amount:Variant)->String:
 	var limit=stack_limit(kind)
 	if limit<=0 or not (amount is int or amount is float) or not is_finite(float(amount)) or amount<=0 or amount!=floor(float(amount)):return "수량을 확인하세요."
-	if not _stack_quantity_valid(p,kind,amount):return ("물약" if kind=="potion" else Content.MATERIALS[kind])+"은 최대 %d개까지 보관할 수 있습니다."%limit
+	if not _stack_quantity_valid(p,kind,amount):return ("물약" if Consumables.ITEMS.has(kind) else Content.MATERIALS[kind])+"은 최대 %d개까지 보관할 수 있습니다."%limit
 	return "" if can_add_stack(p,kind,amount) else "완성품을 보관할 가방 공간이 필요합니다."
 
 static func add_stack(p:Dictionary,kind:String,amount:Variant)->bool:
 	var staged=_stage_stack(p,kind,amount)
 	if staged.is_empty():return false
 	p.potions=staged.potions
+	p["consumables"]=staged.get("consumables",{})
 	p.materials=staged.materials
 	p.bag_positions=staged.bag_positions
 	return true

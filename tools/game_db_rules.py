@@ -17,11 +17,24 @@ SOURCES = {
     "service_quote": "game/scripts/service_quote.gd",
     "town_services": "game/scripts/town_services.gd",
     "dungeon": "game/scripts/dungeon.gd",
+    "dungeon_regions": "game/scripts/dungeon_regions.gd",
     "training": "game/scripts/training_ground.gd",
     "inventory": "game/scripts/inventory_model.gd",
     "simulation": "game/scripts/simulation.gd",
     "wardrobe": "game/scripts/wardrobe.gd",
     "world": "game/scripts/world_catalog.gd",
+    "coop": "game/scripts/coop_session.gd",
+    "party": "game/scripts/party_rules.gd",
+    "exploration": "game/scripts/exploration_rooms.gd",
+    "hidden_rooms": "game/scripts/hidden_rooms.gd",
+    "build_presets": "game/scripts/build_presets.gd",
+    "expedition_brief": "game/scripts/expedition_brief.gd",
+    "combat_stats": "game/scripts/combat_stats.gd",
+    "job_combat": "game/scripts/job_combat.gd",
+    "boss_stagger": "game/scripts/boss_stagger.gd",
+    "consumables": "game/scripts/consumables.gd",
+    "portrait_frame": "game/scripts/portrait_frame.gd",
+    "character_presentation": "game/scripts/character_presentation.gd",
 }
 
 
@@ -40,6 +53,9 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
+    data["metadata"]["consumable_source_rules"] = [source_rule(root, "consumables", fn) for fn in ("count", "description", "unavailable", "use")]
+    data["metadata"]["character_presentation_source_rules"] = [source_rule(root, "character_presentation", fn) for fn in ("profile", "apply", "aim", "facing", "projectile_offset")]
+    data["metadata"]["portrait_level_source_rules"] = [source_rule(root, "portrait_frame", "rank_for")]
     for table in TABLES:
         if table not in data:
             raise ValueError(f"Live export is missing {table}; export the current game_database.gd")
@@ -90,6 +106,29 @@ def enrich(data, root):
         row["rules"] = [source_rule(root, "inventory", name) for name in
                         ("all_items", "bag_items", "add_stack", "can_place")]
     data["metadata"]["schema_version"] = 5
+    for key, source, symbols in (
+        ("build_preset_rules", "build_presets", ("choices", "preview", "apply", "fingerprint")),
+        ("expedition_brief_rules", "expedition_brief", ("supplies", "floor_info", "party_status")),
+        ("combat_stat_rules", "combat_stats", ("critical", "rows", "details")),
+        ("boss_stagger_rules", "boss_stagger", ("skill_profile", "initialize", "engagement_radius", "engaged_players", "break_boss", "tick")),
+        ("dungeon_region_source_rules", "dungeon_regions", ("profile", "weighted_index", "choose_layout", "room_style", "configuration")),
+    ):
+        data["metadata"][key] = [source_rule(root, source, symbol) for symbol in symbols]
+    data["metadata"]["combat_stat_rules"].extend(source_rule(root, source, symbol) for source, symbol in
+                                               (("job_combat", "attack_power"), ("simulation", "damage_for")))
+    data["metadata"]["hidden_room_source_rules"] = [source_rule(root, "hidden_rooms", symbol) for symbol in
+                                                  ("generate", "discover", "open", "synchronize", "snapshots", "use")]
+    data["metadata"]["exploration_source_rules"] = [source_rule(root, source, symbol) for source, symbol in (
+        ("exploration", "configuration"), ("exploration", "generate"), ("exploration", "threats"),
+        ("exploration", "failure"), ("exploration", "use"), ("exploration", "snapshot"),
+        ("dungeon", "generate_floor"), ("dungeon", "carve_arena"), ("dungeon", "valid_encounter_position"),
+        ("dungeon", "build_encounters"), ("simulation", "tick"))]
+    data["metadata"]["coop_source_rules"] = [source_rule(root, source, symbol) for source, symbol in (
+        ("party", "configuration"), ("party", "health_factor"), ("party", "stagger_factor"),
+        ("coop", "can_party_travel"), ("coop", "receive_action"), ("coop", "receive_checkpoint"),
+        ("simulation", "player_defeated"), ("simulation", "reward_kill"),
+        ("party", "rescale"), ("simulation", "tick"), ("coop", "leave_room"),
+        ("coop", "exit_checkpoint"), ("coop", "exit_ack"))]
     data["metadata"]["world_rules_note"] = "거래 입력·출력은 명시된 기준 상태에서 계산한 예시입니다. 기존 동적 작업은 실행 원본 규칙을 보존합니다. 플레이어 저장 파일은 읽지 않습니다."
     return data
 

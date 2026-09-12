@@ -48,15 +48,23 @@ static func pattern(kind:String,origin:Vector2,target:Vector2,sequence:int=0)->A
 	return a
 func begin(e:Dictionary,target:Vector2):
 	e.attack_pos=target;e.attack_areas=raid_pattern(e,target) if e.get("raid",false) else pattern(e.kind,e.pos,target,int(e.pattern))
+	if e.get("raid",false) and int(e.pattern)%4==3:
+		var direction=e.pos.direction_to(target)
+		if direction==Vector2.ZERO:direction=Vector2.RIGHT
+		e.windup=maxf(e.windup,1.5);e["wall_charge"]=true
+		e.attack_areas=[area("line",e.pos,e.pos+direction*6.5,.65,0,1.15)];e.attack_areas[0].sound="heavy"
+	else:e.erase("wall_charge")
 
 func stagger_punishment(e:Dictionary):
 	# A stationary circle gives every class time to leave on foot; a successful
 	# dodge also works. This uses the same red telegraph renderer as other attacks.
-	e.windup=1.8;e.attack_pos=e.pos
+	e.erase("wall_charge");e.windup=1.8;e.attack_pos=e.pos
 	e.attack_areas=[area("circle",e.pos,e.pos,3.6,0,1.35)]
 	e.attack_areas[0].sound="heavy"
 	e.attack_areas[0]["damage_cap"]=.70
 func release(e:Dictionary):
+	if e.get("wall_charge",false):
+		release_wall_charge(e);return
 	var areas=e.get("attack_areas",pattern(e.kind,e.pos,e.attack_pos,int(e.get("pattern",0))))
 	if e.kind in ["shade","bat","fox","cave_bat"] and sim.map.line_clear(e.pos,e.attack_pos):e.pos=sim.map.move(e.pos,e.pos.direction_to(e.attack_pos)*minf(2.5,e.pos.distance_to(e.attack_pos)))
 	for z in areas:
@@ -65,6 +73,21 @@ func release(e:Dictionary):
 		if zone.timer<=0:impact(zone,e)
 		else:zones.append(zone)
 	e.erase("attack_areas")
+func release_wall_charge(e:Dictionary):
+	var attacks=e.get("attack_areas",[])
+	if attacks.is_empty():e.erase("wall_charge");return
+	var attack:Dictionary=attacks[0].duplicate(true);var direction:Vector2=attack.from.direction_to(attack.pos);var wall=false
+	var remaining=attack.from.distance_to(attack.pos)
+	while remaining>.001:
+		var step=minf(.16,remaining);var next:Vector2=e.pos+direction*step
+		if not sim.map.walkable(next+direction*.2):wall=true;break
+		e.pos=next;remaining-=step
+	attack.pos=e.pos;impact(attack,e);e.erase("wall_charge");e.erase("attack_areas")
+	if wall and e.hp>0:
+		e.cooldown=maxf(e.cooldown,1.)
+		var broken=preload("res://scripts/boss_stagger.gd").break_boss(sim,e)
+		for p in sim.players.values():sim.notice(p.id,"벽 충돌! 보스가 빈틈을 드러냈습니다." if broken else "벽 충돌 · 돌진 정지")
+
 func tick(delta:float):
 	var keep=[]
 	for zone in zones:
@@ -91,23 +114,20 @@ func impact(zone:Dictionary,e:Dictionary):
 			if contains(zone,pet.pos) and sim.map.line_clear(zone.from,pet.pos):pet.hp-=e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.)*(1-sim.combat.jobs.value(p,"pet_guard"))
 func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:return
-	if p.invulnerable>0 or sim.map.in_town(p.pos):return
+	if p.hp<=0 or p.get("network_leaving",false) or p.invulnerable>0 or sim.map.in_town(p.pos):return
 	var amount=preload("res://scripts/progression.gd").received(p,e.get("damage",sim.balance.enemies[e.kind].damage)*zone.multiplier*(1.3 if e.get("raid",false) and e.phase==2 else 1.),e.kind in ["ember_slime","frost_slime","goblin_shaman","spellbook","spider","golem","warden"])
 	if zone.has("damage_cap"):amount=mini(amount,maxi(1,roundi(p.max_hp*float(zone.damage_cap))))
 	if p.barrier_time>0:amount=maxi(1,roundi(amount*(1-p.barrier_strength)))
 	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
 	if amount<=0:return
+	p.erase("revive_target");p.erase("revive_progress")
 	p.combat_time=4;p.hp-=amount;p.hurt_time=.16;p.stamina=maxf(0,p.stamina-zone.drain)
 	p.enemy_slow_time=maxf(p.enemy_slow_time,zone.slow)
 	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock*(1-sim.combat.jobs.passive(p,1)*.12 if p.class_id=="breaker" and (p.charge_time>=0 or not p.job_state.casting.is_empty()) else 1))
 	var reflected=int(Content.skill_bonus(p,"thorns"))
 	if reflected>0 and e.hp>0 and e.pos.distance_to(p.pos)<2:sim.combat.hit(p,e,reflected,null,{})
 	sim.events.append({"type":"damage","pos":p.pos,"amount":amount,"enemy":false,"owner":p.id})
-	if p.hp<=0:
-		p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=sim.map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0
-		sim.combat.jobs.reset(p);p.charge_time=-1.
-		sim.reset_after_defeat(p.id)
-		sim.dirty[p.id]=true;sim.notice(p.id,"쓰러졌습니다. 금화 10%를 잃고 안전지대에서 회복했습니다.")
+	if p.hp<=0:sim.player_defeated(p)
 const Content=preload("res://scripts/content.gd")
 static func draw_area(canvas,zone:Dictionary,color:Color):
 	var points=PackedVector2Array()

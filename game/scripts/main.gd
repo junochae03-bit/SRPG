@@ -1,7 +1,7 @@
 extends Node2D
 
 const Dungeon = preload("res://scripts/dungeon.gd")
-const LocalSession = preload("res://scripts/local_session.gd")
+const LocalSession = preload("res://scripts/coop_session.gd")
 const ForestEnvironment = preload("res://scripts/forest_environment.gd")
 const Content=preload("res://scripts/content.gd")
 const GatArt=preload("res://scripts/gat_art.gd")
@@ -31,11 +31,13 @@ var playtest_driver
 var effects: Array = []
 var menu: Control
 var title_backdrop:TextureRect
+var coop_panel:Control
 var hud: Control
 var bag: Control
 var help_panel: Control
 var settings_panel:Control
 var combat_feedback:Control
+var exploration_panel:Control
 var damage_numbers:Node2D
 var preferences=preload("res://scripts/game_options.gd").new()
 var skill_tree: Control
@@ -83,10 +85,12 @@ func stop_audio():
 
 func finish_run():
 	if quitting: return
+	if session.get("leaving")==true:return
 	var previously_paused=session.paused
 	if session.connected:
 		session.paused=true
-		if not session.save_game():
+		var saved=await session.leave_room() if session.get("network_role") in ["host","client"] else session.save_game()
+		if not saved:
 			if not settings_panel.visible:
 				session.paused=previously_paused;settings_panel.open()
 			settings_panel.status.text="저장 실패 · 종료하지 않고 기록을 유지합니다."
@@ -104,7 +108,7 @@ func finish_run():
 
 func _notification(what: int):
 	if what==NOTIFICATION_WM_CLOSE_REQUEST and session!=null: finish_run()
-	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and session!=null and session.connected:session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	if what==NOTIFICATION_APPLICATION_FOCUS_OUT and session!=null and session.connected:session.cancel_charge()
 
 func _ready():
 	get_tree().auto_accept_quit=false
@@ -121,7 +125,7 @@ func _ready():
 		# desktop cannot fit a 1080p window plus its native title bar.
 		get_window().borderless = true
 		get_window().size = Vector2i(1920, 1080)
-	session = LocalSession.new()
+	session = LocalSession.new();session.name="Session"
 	if options.has("save-dir"): session.save_directory = options["save-dir"]
 	keybindings_path=session.save_directory.path_join("keybindings.json")
 	keybindings.load_file(keybindings_path)
@@ -140,6 +144,7 @@ func _ready():
 	audio_director.setup(self)
 	preferences.values.music=audio_director.music_gain;preferences.values.effects=audio_director.effects_gain
 	if preferences.load_file(session.save_directory.path_join("game-options.json")):preferences.apply(self)
+	else:preload("res://scripts/game_options.gd").fit_window.call_deferred(self)
 	build_interface()
 	damage_numbers=preload("res://scripts/damage_numbers.gd").new();add_child(damage_numbers);damage_numbers.setup(self)
 	var overlay_layer = CanvasLayer.new()
@@ -186,7 +191,7 @@ func join_game():
 func toggle_help():
 	if help_panel.visible:
 		help_panel.close();return
-	if session.connected:session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	if session.connected:session.cancel_charge()
 	help_panel.open()
 	if toast!=null:toast.hide()
 
@@ -314,11 +319,16 @@ func build_interface():
 	character_sheet=preload("res://scripts/character_sheet_ui.gd").new();canvas.add_child(character_sheet);character_sheet.setup(self)
 	help_panel=preload("res://scripts/keyboard_panel.gd").new();canvas.add_child(help_panel);help_panel.setup(self)
 	settings_panel=preload("res://scripts/settings_panel.gd").new();canvas.add_child(settings_panel);settings_panel.setup(self)
+	coop_panel=preload("res://scripts/coop_panel.gd").new();canvas.add_child(coop_panel);coop_panel.setup(self)
 	combat_feedback=preload("res://scripts/combat_feedback.gd").new();canvas.add_child(combat_feedback);combat_feedback.setup(self)
+	exploration_panel=preload("res://scripts/exploration_panel.gd").new();canvas.add_child(exploration_panel);exploration_panel.setup(self)
 
 func on_status(message: String):
 	status_text = message
 	menu_status.text = ""
+	if session.connected and session.get("network_role") in ["host","client"]:
+		for panel in [settings_panel,help_panel]:
+			if panel!=null and panel.visible:panel.status.text=message
 	if not session.connected:
 		world_zoom=1.0;battle_anchor_y=438.0;get_viewport().canvas_transform=Transform2D.IDENTITY
 		menu.show()
@@ -326,12 +336,15 @@ func on_status(message: String):
 		if character_sheet!=null:character_sheet.hide()
 		hud.hide()
 		bag.hide()
+		for panel in [skill_tree,help_panel,town_panel,codex,npc_dialogue,settings_panel]:
+			if panel!=null:panel.hide()
 		refresh_slot_summary()
 
 func on_entered():
 	art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide();npc_dialogue.hide();character_sheet.hide()
 	settings_panel.hide()
+	if coop_panel!=null:coop_panel.hide()
 	dungeon = session.sim.map
 	forest.rebuild(dungeon)
 	camera_pos = Dungeon.iso(dungeon.spawn)
@@ -368,7 +381,7 @@ func toggle_bag():
 	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
-	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	session.cancel_charge()
 	skill_tree.hide()
 	bag.visible = not bag.visible
 	session.paused=bag.visible or help_panel.visible or skill_tree.visible
@@ -380,7 +393,7 @@ func toggle_skills():
 	codex.hide()
 	town_panel.hide()
 	audio_director.play_sound("inventory",-5)
-	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	session.cancel_charge()
 	bag.hide()
 	skill_tree.visible=not skill_tree.visible
 	session.paused=skill_tree.visible or help_panel.visible
@@ -391,7 +404,7 @@ func toggle_codex(tab:String=""):
 	if codex.visible and tab.is_empty():
 		codex.close()
 		return
-	session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+	session.cancel_charge()
 	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide()
 	audio_director.play_sound("inventory",-5)
 	codex.open(tab)
@@ -400,6 +413,7 @@ func toggle_codex(tab:String=""):
 
 func update_hud():
 	if not session.state.players.has(session.local_id):return
+	if forest!=null and forest.map==session.sim.map and forest.map_revision!=session.sim.map.revision:forest.rebuild(session.sim.map)
 	hud.refresh()
 	if bag.visible:bag.refresh()
 
@@ -407,6 +421,9 @@ func rarity_color(rarity: int) -> Color:
 	return preload("res://scripts/equipment_catalog.gd").COLORS[clampi(rarity,0,4)]
 
 func _unhandled_input(event: InputEvent):
+	if coop_panel!=null and coop_panel.visible:
+		if key_escape(event):coop_panel.close();get_viewport().set_input_as_handled()
+		return
 	if character_sheet.visible:
 		if key_escape(event):character_sheet.cancel();get_viewport().set_input_as_handled()
 		return
@@ -432,9 +449,11 @@ func _unhandled_input(event: InputEvent):
 		"bag":toggle_bag()
 		"skills":toggle_skills()
 		"codex":toggle_codex()
-		"dodge","skill_q","skill_f","skill_v","skill_c","skill_z","skill_x","card_next","potion","interact","return":session.act(action)
+		"potion","consumable_2","consumable_3","consumable_4":hud.expedition.consumables.use_slot(preload("res://scripts/consumable_bar.gd").ACTIONS.find(action))
+		"dodge","skill_q","skill_f","skill_v","skill_c","skill_z","skill_x","card_next","interact","return":session.act(action)
 	if not action.is_empty():get_viewport().set_input_as_handled()
 	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_RIGHT:
+		if get_viewport().gui_get_hovered_control()!=null:return
 		session.act("heavy_begin" if event.pressed else "heavy")
 
 func _input(event:InputEvent):
@@ -444,11 +463,13 @@ func _input(event:InputEvent):
 	if character_sheet!=null and character_sheet.visible and event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
 		character_sheet.cancel();get_viewport().set_input_as_handled();return
 	if help_panel!=null and not help_panel.visible and key_escape(event):
+		if hud!=null and hud.expedition!=null and hud.expedition.consumables.picker.is_visible_in_tree():
+			hud.expedition.consumables.picker.hide();get_viewport().set_input_as_handled();return
 		_unhandled_input(event);return
 	if session==null or not session.connected:return
 	if event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_RIGHT and not event.pressed:
 		if session.sim.players[session.local_id].charge_time>=0:
-			if session.paused or text_input_focused():session.sim.combat.act(session.sim.players[session.local_id],"cancel_charge")
+			if session.paused or text_input_focused() or get_viewport().gui_get_hovered_control()!=null:session.cancel_charge()
 			else:session.act("heavy")
 			get_viewport().set_input_as_handled()
 
@@ -565,6 +586,8 @@ var visible_world_labels:PackedStringArray=[]
 
 func refresh_world_label_regions():
 	world_label_regions=hud.world_label_regions() if hud!=null else []
+	if exploration_panel!=null and exploration_panel.is_visible_in_tree():
+		world_label_regions.append(exploration_panel.card.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,exploration_panel.card.size))
 
 func world_label_rect(point:Vector2,value:String,font_size:int,centered:bool=false)->Rect2:
 	var width=fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
@@ -592,6 +615,12 @@ func _draw():
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
 	var actors = forest.visible_props()
+	for site in session.state.get("exploration_sites",[]):
+		var at=world_point(site.pos)
+		if at.distance_to(screen_center())>1100:continue
+		actors.append({"type":"exploration_site","data":site})
+		# The nearby card already names this object. A second world caption
+		# would overlap character names during interaction.
 	if dungeon.floor_number>0:
 		var exit_at=world_point(dungeon.exit_position);var clear=not session.state.enemies.values().any(func(e):return e.get("guardian",false) and e.hp>0)
 		SemanticIcons.draw(self,"trophy" if dungeon.floor_number==100 else "stairs" if clear else "locked",Rect2(exit_at-Vector2(38,58),Vector2(76,76)),Color.WHITE if clear else Color(.7,.7,.7,.65))
@@ -630,6 +659,7 @@ func _draw():
 	for area in session.state.get("enemy_attacks",[]):preload("res://scripts/monster_attacks.gd").draw_area(self,area,Color("ed8268"))
 	for actor in actors:
 		if actor.type=="scenery":forest.draw_prop(actor.data)
+		elif actor.type=="exploration_site":preload("res://scripts/exploration_rooms.gd").draw_site(self,actor.data)
 		elif actor.type=="building":draw_building(actor.data)
 		elif actor.type=="resident":draw_resident(actor.data)
 		elif actor.type=="visitor":preload("res://scripts/town_visitors.gd").draw(self,actor.data)
@@ -667,7 +697,8 @@ func draw_actor(actor: Dictionary):
 	var role = actor.type
 	var key = role+str(p.id)
 	var target = world_point(p.pos)
-	if target.x < -180 or target.x > 1620 or target.y < -160 or target.y > 1100: return
+	var view=get_viewport().canvas_transform.affine_inverse()*get_viewport_rect()
+	if not view.intersects(Rect2(target-Vector2(250,380),Vector2(500,410))):return
 	var point = target
 	if smooth_positions.has(key) and smooth_positions[key].distance_to(target) < 180:
 		point = smooth_positions[key].lerp(target,0.45)
@@ -694,14 +725,14 @@ func draw_actor(actor: Dictionary):
 	draw_set_transform(Vector2.ZERO)
 	var base_actor=is_hero
 	var rendered_costume={};var rendered_monster=""
-	var pose=preload("res://scripts/character_motion.gd").pose(p) if is_hero else {"offset":Vector2.ZERO,"angle":0.0,"scale":Vector2.ONE,"weapon":0.0,"hand":Vector2(16,-30),"progress":0.0}
+	var pose=preload("res://scripts/character_presentation.gd").pose(p) if is_hero else {"offset":Vector2.ZERO,"angle":0.0,"scale":Vector2.ONE,"weapon":0.0,"hand":Vector2(16,-30),"progress":0.0}
 	var frame:Texture2D
 	var foot=Vector2.ZERO
 	var facing=1.0
 	if base_actor:
-		var data=GatArt.frame(p,visual_time);frame=data.texture;size_scale=112.0/data.height;foot=data.foot
+		var data=GatArt.frame(p,visual_time);frame=data.texture;size_scale=data.body_pixels/data.height;foot=data.foot
 		if data.has("costume_id"):rendered_costume=data
-		facing=-1.0 if Dungeon.iso(p.get("aim",Vector2.RIGHT)).x<0 else 1.0
+		facing=preload("res://scripts/character_presentation.gd").facing(p,data.get("source_facing",1.))
 		if data.get("animated",false):pose.scale=Vector2.ONE;pose.angle*=.35
 		elif p.get("dir",Vector2.ZERO).length()>.1 and p.get("motion_time",0)<=0:pose.offset.y=-absf(sin(visual_time*11))*3
 	if not is_hero:
@@ -740,6 +771,7 @@ func draw_actor(actor: Dictionary):
 		else:
 			pose.offset.x+=sin((1.-remaining)*TAU)*remaining*(3. if boss else 5.)
 			tint=tint.lerp(Color(1.5,1.3,1.15) if impact.critical else Color(1.3,1.3,1.3),remaining)
+	if is_hero and p.get("down_time",0)>0:pose.angle=PI*.4;tint=Color("bfa7a7")
 	if is_hero and p.get("invulnerable",0)>0:tint=Color(0.6,0.9,1,0.6)
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
@@ -759,6 +791,8 @@ func draw_actor(actor: Dictionary):
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width*float(p.hp)/p.max_hp,5)),Color("d8787d"))
 			if role=="warden" and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-28),p.name,18,GOLD,true)
 		elif is_hero:
+			if p.get("down_time",0)>0:text_at(point+Vector2(0,-35),"구조 E · %d초"%ceili(p.down_time),20,Color("ffd780"),true)
+			elif p.has("revive_target"):text_at(point+Vector2(0,-35),"구조 중 %.1f / 3초"%float(p.get("revive_progress",0)),18,Color("9ce3cf"),true)
 			text_at(point+Vector2(0,-dimensions.y-13),p.name,15,Color("fff4d0") if is_self else Color("8dd9d8"),true)
 
 func draw_building(data:Dictionary):

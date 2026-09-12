@@ -5,6 +5,7 @@ const Content = preload("res://scripts/content.gd")
 const Inventory = preload("res://scripts/inventory_model.gd")
 const Progression=preload("res://scripts/progression.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
+const Party=preload("res://scripts/party_rules.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -14,6 +15,7 @@ var clock = 0.0
 var serial = 0
 var events: Array = []
 var dirty: Dictionary = {}
+var exploration_claims:Dictionary={}
 var rng = RandomNumberGenerator.new()
 var combat
 var monster_attacks
@@ -64,7 +66,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 
 func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Dictionary:
 	var p = {"id":id,"name":player_name,"pos":map.spawn,"dir":Vector2.ZERO,"aim":Vector2.RIGHT,
-		"hp":120,"max_hp":120,"level":1,"xp":0,"gold":0,"potions":5,"inventory":[],"equipped":"",
+		"hp":120,"max_hp":120,"level":1,"xp":0,"gold":0,"potions":5,"consumables":{},"inventory":[],"equipped":"",
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
 	saved=saved.duplicate(true)
@@ -72,7 +74,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	if not saved.is_empty():
 		Content.migrate_appearance(saved);Progression.migrate(saved)
 		if int(saved.get("schema_version",0))<6:saved["tutorial_done"]=true
-	for key in ["level","xp","gold","potions","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
+	for key in ["level","xp","gold","potions","consumables","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
 		if saved.has(key):
 			p[key] = saved[key]
 	p.level = clampi(int(p.level), 1, 100)
@@ -93,13 +95,15 @@ func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
 	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:result[key]=players[id][key]
-	for key in ["name","level","xp","gold","potions","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
+	for key in ["name","level","xp","gold","potions","consumables","inventory","equipped","kills","boss_kills","quest_done","equipment","bag_positions","materials","class_id","skill_ranks","costume","avatar","legacy_costume","training_given","stats","skill_loadout","guild_contract","dungeon_clears","tutorial_done","tutorial_kills","highest_floor","cleared_floor","raid_clears"]:
 		result[key] = players[id][key]
 	return result
 
 func set_input(id: int, direction: Vector2, aim: Vector2, sprint: bool = false):
 	if not players.has(id) or not direction.is_finite() or not aim.is_finite():
 		return
+	if players[id].get("down_time",0)>0:return
+	if direction.length_squared()>.01:players[id].erase("revive_target");players[id].erase("revive_progress")
 	players[id].dir = direction.limit_length(1.0)
 	players[id].aim = aim.limit_length(1.0)
 	players[id].input_age = 0.0
@@ -154,7 +158,14 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 	if not players.has(id):
 		return false
 	var p = players[id]
+	if p.get("down_time",0)>0 or p.get("network_leaving",false):return false
+	if kind=="interact":
+		var downed=players.values().filter(func(other):return other.id!=id and other.get("down_time",0)>0 and p.pos.distance_to(other.pos)<=Party.RESCUE_RADIUS and map.line_clear(p.pos,other.pos))
+		if not downed.is_empty():p.revive_target=downed[0].id;p.revive_progress=0.;p.dir=Vector2.ZERO;notice(id,"구조 중… 움직이거나 공격하면 취소됩니다.");return true
+	if kind!="cancel_charge":p.erase("revive_target");p.erase("revive_progress")
 	if kind=="training_reset":return preload("res://scripts/training_ground.gd").reset(self,p)
+	if kind=="apply_build":return preload("res://scripts/build_presets.gd").apply(self,p,argument)
+	if kind=="explore":return preload("res://scripts/exploration_rooms.gd").use(self,p,argument)
 	if kind=="stat":
 		if argument not in Progression.NAMES or Progression.available(p)<=0:return false
 		p.stats[argument]+=1;gear_changed(p);return true
@@ -178,17 +189,8 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		return false
 	if kind in ["attack","nova","dodge","heavy_begin","heavy","cancel_charge","card_next"] or kind in Content.ACTIONS:
 		return combat.act(p,kind)
-	if kind == "potion":
-		if p.potion_cd > 0 or p.potions <= 0 or p.hp >= p.max_hp:
-			return false
-		p.potions -= 1
-		if p.potions==0:p.bag_positions.erase("@potion")
-		var healing=60+roundi(p.max_hp*.20)+int(Content.skill_bonus(p,"potion_power"))
-		p.hp = mini(p.max_hp, p.hp + healing)
-		p.potion_cd = 2.0
-		dirty[id] = true
-		notice(id, "생명력을 %d 회복했습니다." % healing)
-		return true
+	if preload("res://scripts/consumables.gd").ITEMS.has(kind):
+		return preload("res://scripts/consumables.gd").use(self,p,kind)
 	if kind == "return":
 		if p.return_cd > 0: return false
 		p.pos = map.spawn
@@ -197,8 +199,8 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		p.return_cd = 8.0
 		notice(id, "햇살 쉼터로 귀환했습니다. E로 회복 / 보급")
 		return true
-	if kind == "interact":
-		if p.pos.distance_to(map.spawn) < 2.5:
+	if kind in ["interact","pickup"]:
+		if kind=="interact" and p.pos.distance_to(map.spawn) < 2.5:
 			p.hp = p.max_hp
 			if p.potions < 5 and p.gold >= 10:
 				if Inventory.add_stack(p,"potion",1):p.gold -= 10
@@ -230,6 +232,7 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 			gear_changed(p)
 			notice(id, drop.item.name + " 획득 · I로 장착")
 			return true
+		if kind=="interact":return preload("res://scripts/exploration_rooms.gd").interact(self,p)
 	if kind == "equip":
 		if Inventory.equip(p,argument):
 			gear_changed(p)
@@ -357,13 +360,20 @@ func kill(id: int, enemy: Dictionary):
 	if enemy.get("training",false):enemy.hp=enemy.max_hp;return
 	if enemy.get("rewarded",false):return
 	enemy["rewarded"]=true
-	var p = players[id]
 	var config = balance.enemies[enemy.kind].duplicate(true)
 	for key in ["xp","gold"]:config[key]=enemy.get(key,config[key])
 	enemy.hp = 0
 	enemy.respawn = 999999. if map.floor_number>0 else config.respawn
 	enemy.windup = 0.0
 	enemy["slow_time"]=0.0;enemy["stun_time"]=0.0;enemy["job_status"]={};enemy.erase("taunt_owner");enemy.erase("taunt_time")
+	var recipients=[id]
+	if players.size()>1:
+		recipients=players.keys().filter(func(key):return key==id or enemy.get("guardian",false) or players[key].pos.distance_to(enemy.pos)<=12.)
+	for recipient in recipients:
+		if not players[recipient].get("network_leaving",false):reward_kill(recipient,enemy,config)
+
+func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
+	var p=players[id]
 	p.xp += roundi(config.xp*(1+Content.skill_bonus(p,"xp_bonus")))
 	p.gold += roundi(config.gold*(1+Content.skill_bonus(p,"gold_bonus")+preload("res://scripts/equipment_catalog.gd").bonus(p,"gold_bonus")))
 	p.kills += 1
@@ -408,7 +418,20 @@ func kill(id: int, enemy: Dictionary):
 func tick(delta: float):
 	if delta<=0:return
 	clock += delta
+	preload("res://scripts/hidden_rooms.gd").discover(self)
 	for p in players.values():
+		if p.get("network_leaving",false):p.dir=Vector2.ZERO;continue
+		if p.get("down_time",0)>0:
+			p.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO
+			if p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)
+			continue
+		if p.has("revive_target"):
+			var target=players.get(p.revive_target,{})
+			if target.get("down_time",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase("revive_target");p.erase("revive_progress")
+			else:
+				p.revive_progress=float(p.get("revive_progress",0))+delta;p.dir=Vector2.ZERO
+				if p.revive_progress>=Party.RESCUE_SECONDS:
+					target.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase("revive_target");p.erase("revive_progress");notice(target.id,"동료의 도움으로 일어났습니다.")
 		p.input_age += delta
 		if p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false
 		for key in ["attack_cd","nova_cd","potion_cd","return_cd","swing"]:
@@ -455,35 +478,28 @@ func tick(delta: float):
 				for p in players.values():
 					if e.hp<=0 or e.get("stagger",{}).get("state","") in ["check","down"]:break
 					var impact=.9 if config.ai in ["ranged","healer"] else config.range
-					if p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):
+					if p.hp>0 and not p.get("network_leaving",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):
 						var received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind=="golem")
 						if p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))
 						p.combat_time=4.0
 						var reflected=int(Content.skill_bonus(p,"thorns"))
 						if reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})
 						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
+						p.erase("revive_target");p.erase("revive_progress")
 						p.hp -= received
 						p.hurt_time=.16
 						if config.ai=="spore":p.stamina=maxf(0,p.stamina-12)
 						events.append({"type":"damage","pos":p.pos,"amount":received,"enemy":false,"owner":p.id})
-						if p.hp <= 0:
-							p.gold = int(p.gold * 0.9)
-							p.hp = p.max_hp
-							p.pos = map.spawn
-							p.dir = Vector2.ZERO
-							combat.jobs.reset(p);p.charge_time=-1.
-							reset_after_defeat(p.id)
-							dirty[p.id] = true
-							notice(p.id, "쓰러졌습니다. 금화 10%를 잃고 마을에서 회복했습니다.")
+						if p.hp <= 0:player_defeated(p)
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
 			continue
 		e["taunt_time"]=maxf(0,e.get("taunt_time",0)-delta)
 		var target: Dictionary = {}
-		var best = 6.5
+		var best = 18.0 if e.get("raid",false) else 6.5
 		for p in players.values():
 			if e.taunt_time>0 and players.has(e.get("taunt_owner",0)) and p.id!=e.taunt_owner:continue
 			var distance = e.pos.distance_to(p.pos)
-			if distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < 8 and map.line_clear(e.pos, p.pos):
+			if p.hp>0 and not p.get("network_leaving",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < BossStagger.engagement_radius(e) and map.line_clear(e.pos, p.pos):
 				best = distance
 				target = p
 		if target.is_empty():
@@ -496,7 +512,7 @@ func tick(delta: float):
 				if e.get("raid",false):e.windup=1.25 if e.phase==1 else .95
 				monster_attacks.begin(e,target.pos)
 			e.pattern=int(e.get("pattern",0))+1
-			if e.kind=="golem" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))
+			if not e.get("wall_charge",false) and e.kind=="golem" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))
 		elif config.ai in ["ranged","healer"] and best<2.0:
 			e.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)
 		elif best > config.range * 0.8:
@@ -504,6 +520,16 @@ func tick(delta: float):
 		if config.ai=="charger" and e.ability_cd<=0:e.ability_cd=3.0
 	for key in drops.keys():
 		if drops[key].expires <= clock: drops.erase(key)
+
+func player_defeated(p:Dictionary):
+	p.erase("revive_target");p.erase("revive_progress");p.dir=Vector2.ZERO;p.charge_time=-1.
+	if players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):
+		p.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
+	else:respawn_player(p)
+
+func respawn_player(p:Dictionary):
+	p.down_time=0.;p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0.;p.charge_time=-1.
+	combat.jobs.reset(p);reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
 
 func reset_after_defeat(player_id:int):
 	# Defeat removes the owner's pending attacks. The encounter resets only when
@@ -523,8 +549,9 @@ func snapshot(for_id: int) -> Dictionary:
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
+			for private_key in ["materials","potions","consumables","bag_positions"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:
 		if drops[id].owner == for_id: visible_drops[id] = drops[id].duplicate(true)
-	return {"players":visible_players,"enemies":enemies.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true)}
+	return {"players":visible_players,"enemies":enemies.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}

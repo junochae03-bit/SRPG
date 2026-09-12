@@ -90,8 +90,15 @@ func run():
 	f.p.stats.technique=999;f.p.gear_stats.technique=999;advance(f,6.)
 	check(close(total(f),expected),"rank five cast snapshot matches shared UI and DB value before later stat changes")
 	f=fixture("summoner");node=node_for("summoner","summon");expected=Stagger.skill_profile(node,1,f.p).value
-	check(cast(f,node),"summon real cast");advance(f,8.);var at_eight=total(f);advance(f,12.)
-	check(close(at_eight,expected) and close(total(f),expected),"persistent pet consumes only six-strike summon budget")
+	check(cast(f,node),"summon real cast");advance(f,8.)
+	check(close(total(f),0.),"manifestation never attacks without player input")
+	for i in range(8):
+		f.p.attack_cd=0. # This fixture advances combat components without the world cooldown loop.
+		check(f.sim.action(1,"attack"),"player basic attack triggers manifestation");advance(f,1.2)
+	var summon_total=0.
+	for event in f.sim.events:
+		if event.type=="stagger_damage" and event.source==node.id:summon_total+=event.amount
+	check(close(summon_total,expected),"player-triggered manifestation respects six-strike summon budget")
 	f=fixture("healer");node=node_for("healer","heal");f.p.hp=1
 	check(cast(f,node),"heal cast works");advance(f,1.);check(close(total(f),0.),"healing near boss cannot grant phantom stagger")
 	f=fixture("breaker");node=node_for("breaker","charge");check(cast(f,node),"interruptible cast starts")
@@ -117,14 +124,15 @@ func run():
 	check(e.stagger.state=="down" and e.windup==0 and not e.has("attack_areas") and sim.monster_attacks.zones.is_empty(),"break cancels queued and winding attacks")
 	var hp=e.hp;sim.combat.hit(p,e,100);check(close(hp-e.hp,120.),"down creates twenty percent damage opportunity")
 	var before=e.stagger.duplicate(true);sim.tick(0);check(e.stagger==before,"zero elapsed tick freezes stagger")
-	Stagger.tick(sim,e,4.);check(e.stagger.state=="immune","down transitions to recovery immunity")
+	Stagger.tick(sim,e,6.);check(e.stagger.state=="immune" and close(e.stagger.time_left,60.),"six second down transitions to sixty second lock")
 	sim.combat.hit(p,e,1,null,Stagger.context(Stagger.basic_token(true,1,sim.clock)));check(e.stagger.value==0,"no chain lock during immunity")
-	Stagger.tick(sim,e,6.);check(e.stagger.state=="ready","immunity ends")
+	Stagger.tick(sim,e,59.);check(e.stagger.state=="immune","lock remains throughout first fifty nine seconds")
+	Stagger.tick(sim,e,1.);check(e.stagger.state=="ready","sixty second immunity ends")
 	f=fixture();e=f.e;p=f.p;sim=f.sim;e.raid=true;e.hp=e.max_hp*.69;sim.action(1,"attack")
 	check(e.stagger.state=="check" and e.stagger.checks_done==[0] and close(e.stagger.check_value,7.),"seventy percent triggers timed check and attributes triggering hit")
 	for i in range(12):p.attack_cd=0;sim.action(1,"attack")
 	check(e.stagger.state=="down" and e.stagger.breaks==1,"solo baseline attacks can complete check")
-	Stagger.tick(sim,e,4.);Stagger.tick(sim,e,6.);Stagger.tick(sim,e,.01)
+	Stagger.tick(sim,e,6.);Stagger.tick(sim,e,60.);Stagger.tick(sim,e,.01)
 	check(e.stagger.state=="ready","same HP threshold is not repeatedly triggered")
 	e.hp=e.max_hp*.39;Stagger.tick(sim,e,.01)
 	check(e.stagger.state=="check" and e.stagger.checks_done==[0,1],"forty percent independent second check")

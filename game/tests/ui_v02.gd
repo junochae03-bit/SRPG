@@ -31,8 +31,8 @@ func run():
 	for action in ["attack","heavy","dodge"]:check(not game.action_buttons.has(action),"no basic/heavy/dodge HUD "+action)
 	for i in range(6):
 		var b=game.action_buttons[C.ACTIONS[i]]
-		check(b.position==Vector2(1028+i%3*124,618+int(i/3)*132) and b.size==Vector2(96,96),"large 3 by 2 alignment")
-		check(b.position.x+b.size.x<1400 and b.position.y+b.size.y+20<875,"safe skill bounds")
+		check(b.position==Vector2(500+i*90,803) and b.size==Vector2(74,74),"compact horizontal alignment")
+		check(b.position.x+b.size.x<1400 and b.position.y+b.size.y<887,"safe skill bounds")
 	await capture("hud")
 	game.toggle_bag();game.bag.select_item("grade-4");check(game.bag.item_grade.text.begins_with("레전드리"),"legendary visible name");check("개방" in game.bag.detail_body.text,"option state visible")
 	var labels=game.bag.find_children("*","Label",true,false);var buttons=game.bag.find_children("*","Button",true,false)

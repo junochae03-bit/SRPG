@@ -1,7 +1,7 @@
 extends RefCounted
 ## Keyboard preferences are global; player saves and mouse attacks stay separate.
-const DEFAULTS={"move_up":KEY_W,"move_down":KEY_S,"move_left":KEY_A,"move_right":KEY_D,"sprint":KEY_SHIFT,"dodge":KEY_SPACE,"skill_q":KEY_Q,"skill_f":KEY_F,"skill_v":KEY_V,"skill_c":KEY_C,"skill_z":KEY_Z,"skill_x":KEY_X,"potion":KEY_1,"interact":KEY_E,"return":KEY_R,"bag":KEY_I,"skills":KEY_K,"codex":KEY_B,"card_next":KEY_TAB}
-const NAMES={"move_up":"위로 이동","move_down":"아래로 이동","move_left":"왼쪽 이동","move_right":"오른쪽 이동","sprint":"달리기","dodge":"회피","skill_q":"기술 1","skill_f":"기술 2","skill_v":"기술 3","skill_c":"기술 4","skill_z":"기술 5","skill_x":"기술 6","potion":"물약","interact":"상호작용","return":"마을 귀환","bag":"가방","skills":"성장","codex":"도감","card_next":"카드 선택"}
+const DEFAULTS={"move_up":KEY_W,"move_down":KEY_S,"move_left":KEY_A,"move_right":KEY_D,"sprint":KEY_SHIFT,"dodge":KEY_SPACE,"skill_q":KEY_Q,"skill_f":KEY_F,"skill_v":KEY_V,"skill_c":KEY_C,"skill_z":KEY_Z,"skill_x":KEY_X,"potion":KEY_1,"consumable_2":KEY_2,"consumable_3":KEY_3,"consumable_4":KEY_4,"interact":KEY_E,"return":KEY_R,"bag":KEY_I,"skills":KEY_K,"codex":KEY_B,"card_next":KEY_TAB}
+const NAMES={"move_up":"위로 이동","move_down":"아래로 이동","move_left":"왼쪽 이동","move_right":"오른쪽 이동","sprint":"달리기","dodge":"회피","skill_q":"기술 1","skill_f":"기술 2","skill_v":"기술 3","skill_c":"기술 4","skill_z":"기술 5","skill_x":"기술 6","potion":"소모품 1","consumable_2":"소모품 2","consumable_3":"소모품 3","consumable_4":"소모품 4","interact":"상호작용","return":"마을 귀환","bag":"가방","skills":"성장","codex":"도감","card_next":"카드 선택"}
 const KEY_ROWS=[[KEY_ESCAPE,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12],[KEY_QUOTELEFT,KEY_1,KEY_2,KEY_3,KEY_4,KEY_5,KEY_6,KEY_7,KEY_8,KEY_9,KEY_0,KEY_MINUS,KEY_EQUAL,KEY_BACKSPACE],[KEY_TAB,KEY_Q,KEY_W,KEY_E,KEY_R,KEY_T,KEY_Y,KEY_U,KEY_I,KEY_O,KEY_P,KEY_BRACKETLEFT,KEY_BRACKETRIGHT,KEY_BACKSLASH],[KEY_CAPSLOCK,KEY_A,KEY_S,KEY_D,KEY_F,KEY_G,KEY_H,KEY_J,KEY_K,KEY_L,KEY_SEMICOLON,KEY_APOSTROPHE,KEY_ENTER],[KEY_SHIFT,KEY_Z,KEY_X,KEY_C,KEY_V,KEY_B,KEY_N,KEY_M,KEY_COMMA,KEY_PERIOD,KEY_SLASH,KEY_UP],[KEY_CTRL,KEY_ALT,KEY_SPACE,KEY_LEFT,KEY_DOWN,KEY_RIGHT,KEY_INSERT,KEY_DELETE,KEY_HOME,KEY_END,KEY_PAGEUP,KEY_PAGEDOWN]]
 var bindings:Dictionary=DEFAULTS.duplicate()
 func defaults()->Dictionary:return DEFAULTS.duplicate()
@@ -42,10 +42,29 @@ func valid(value:Variant)->bool:
 		if not (key is int or key is float) or float(key)!=floor(float(key)) or not allowed(int(key)) or int(key) in seen:return false
 		seen.append(int(key))
 	return true
+func migrate(value:Variant)->Dictionary:
+	if not value is Dictionary:return {}
+	var result=value.duplicate()
+	var added=["consumable_2","consumable_3","consumable_4"]
+	for action in DEFAULTS:
+		if not result.has(action) and action not in added:return {}
+	for action in added:
+		if result.has(action):continue
+		var preferred=int(DEFAULTS[action])
+		if preferred in result.values():
+			for row in KEY_ROWS:
+				for candidate in row:
+					if allowed(candidate) and candidate not in result.values():preferred=candidate;break
+				if preferred not in result.values():break
+		result[action]=preferred
+	return result if valid(result) else {}
 func load_file(path:String)->bool:
 	if not FileAccess.file_exists(path):return false
 	var data=JSON.parse_string(FileAccess.get_file_as_string(path))
-	if not data is Dictionary or int(data.get("schema_version",0))!=1 or not valid(data.get("bindings")):return false
+	if not data is Dictionary or int(data.get("schema_version",0))!=1:return false
+	var migrated=migrate(data.get("bindings"))
+	if not valid(migrated):return false
+	data.bindings=migrated
 	var loaded={}
 	for action in DEFAULTS:loaded[action]=int(data.bindings[action])
 	bindings=loaded;return true

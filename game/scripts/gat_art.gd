@@ -21,6 +21,29 @@ static func texture(key:String,index:int)->AtlasTexture:
 		var atlas=AtlasTexture.new();atlas.atlas=load(entry.sheet);atlas.region=Rect2(r[0],r[1],r[2],r[3]);atlas.filter_clip=true;textures[cache_key]=atlas
 	return textures[cache_key]
 static func frame(p:Dictionary,time:float)->Dictionary:
+	var raw=_frame(p,time)
+	return preload("res://scripts/character_presentation.gd").apply(raw,presentation_id(p))
+static func presentation_id(p:Dictionary)->String:
+	var costume=preload("res://scripts/costume_art_v04.gd").id_for(p)
+	if not costume.is_empty():return "costume_v04:"+costume
+	if preload("res://scripts/job_art.gd").has_sprite(p):return "jobs:"+str(p.class_id)
+	var key=avatar(p)
+	if preload("res://scripts/combat_sprite_art.gd").AVATARS.has(key):return "motions:"+preload("res://scripts/combat_sprite_art.gd").AVATARS[key]
+	return "gat:"+key
+static func launch_offset(p:Dictionary,direction:Vector2)->Vector2:
+	var presentation=preload("res://scripts/character_presentation.gd")
+	var config=presentation.profile(presentation_id(p))
+	var strong=p.get("motion","") in ["slam","shoot_high","cast_high"]
+	var raw=config.get("strong_offset" if strong else "release_offset",[32,-70])
+	var offset=Vector2(raw[0],raw[1])/float(config.get("height_scale",1.))
+	var copy=p.duplicate();copy.aim=direction;copy.motion_aim=direction
+	var pose=presentation.pose(copy)
+	var animated=not presentation_id(p).begins_with("gat:")
+	var side=-1 if preload("res://scripts/dungeon.gd").iso(direction).x<0 else 1
+	var index=preload("res://scripts/combat_sprite_art.gd").index_for(p,0)
+	var source=float(config.get("source_facing_by_frame",{}).get(str(index),config.get("source_facing",1)))
+	return pose.offset+(offset*Vector2(side*source,1)).rotated(pose.angle*(.35 if animated else 1.))
+static func _frame(p:Dictionary,time:float)->Dictionary:
 	if preload("res://scripts/costume_art_v04.gd").has_sprite(p):return preload("res://scripts/costume_art_v04.gd").frame(p,time)
 	if preload("res://scripts/job_art.gd").has_sprite(p):return preload("res://scripts/job_art.gd").frame(p,time)
 	initialize();var key=avatar(p);var entry=catalog[key];var index=1 if fposmod(time,4.0)>3.82 else 0

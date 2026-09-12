@@ -51,6 +51,7 @@ func measure(floor_number:int,strategy:String,seed_value:int)->Dictionary:
 	var f=fixture(floor_number,strategy,seed_value);var sim=f.sim;var p=f.p
 	var row={"floor":floor_number,"layout":sim.map.layout_id,"strategy":strategy,"seed":seed_value,"level":p.level,"sp":Rules.spent_points(p),"legal":Rules.validate_build(p).ok,"skills":p.skill_ranks.duplicate(true),"loadout":p.skill_loadout.duplicate(true),"damage_out":0,"damage_in":0,"enemy_impacts":0,"casts":0,"dodges":0,"potions":0,"defeats":0,"distance":0.,"kills":0,"elapsed":0.}
 	var path=[];var goal=Vector2.INF;var previous=p.pos
+	row["enemy_windup_frames"]=0
 	for tick in range(3600):
 		if tick%4==0:
 			var enemies=sim.enemies.values().filter(func(e):return e.hp>0)
@@ -74,6 +75,7 @@ func measure(floor_number:int,strategy:String,seed_value:int)->Dictionary:
 				if p.attack_cd<=0:sim.action(1,"attack")
 			sim.action(1,"interact")
 		sim.tick(1./30.)
+		if sim.enemies.values().any(func(e):return e.hp>0 and e.windup>0):row.enemy_windup_frames+=1
 		row.distance+=p.pos.distance_to(previous);previous=p.pos;row.elapsed=(tick+1)/30.
 		for e in sim.events:
 			if e.type=="damage":row["damage_out" if e.get("enemy",false) else "damage_in"]+=e.amount
@@ -83,12 +85,24 @@ func measure(floor_number:int,strategy:String,seed_value:int)->Dictionary:
 		if p.kills>=12:break
 	row.kills=p.kills;row["ending_hp"]=p.hp
 	check(row.legal and row.sp==9,"equal legal starting budget")
-	check(row.distance>3 and row.damage_out>0 and row.enemy_impacts>0,"AI and receiving damage remain enabled")
+	check(row.distance>3 and row.damage_out>0 and row.kills>0,"strategy travels and defeats real enemies: %d/%d/%s"%[floor_number,seed_value,strategy])
 	return row
+func check_ai(floor_number:int,seed_value:int):
+	# Broad attacks can kill a normal enemy before it enters attack range.
+	# Check AI independently at every measured floor/seed, without attacking it.
+	var probe=fixture(floor_number,"guard",seed_value);var target=probe.sim.enemies.values()[0]
+	probe.sim.enemies={target.id:target};probe.p.pos=probe.sim.map.move(target.home,Vector2(.5,0))
+	var telegraphed=false
+	for tick in range(120):
+		probe.sim.tick(1./30.)
+		telegraphed=telegraphed or target.windup>0
+	check(telegraphed,"stationary control sees real AI telegraph: %d/%d"%[floor_number,seed_value])
+	check(probe.sim.events.any(func(e):return e.type=="damage" and not e.get("enemy",true) and e.amount>0),"stationary control receives real AI damage: %d/%d"%[floor_number,seed_value])
 func run():
 	Content.initialize_jobs();var rows=[]
 	for floor_number in [6,7,8]:
 		for seed_value in [123,456,789]:
+			check_ai(floor_number,seed_value)
 			for strategy in ["cleave","guard"]:rows.append(measure(floor_number,strategy,seed_value))
 	var path=ProjectSettings.globalize_path("res://../artifacts/dungeon-tactics-v053.json")
 	FileAccess.open(path,FileAccess.WRITE).store_string(JSON.stringify({"scope":"LV10/9SP, identical 37 stats and four tier0 rare items, 5 potions, 300G. Normal AI, damage, collision, cooldowns, deaths, rewards. 120 simulated seconds or 12 kills. Automated equal-input-policy comparison, not human win rate or elapsed playtime.","rows":rows},"  "))

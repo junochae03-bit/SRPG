@@ -55,6 +55,7 @@ var class_panel:Control
 var class_detail:Label
 var class_portrait:TextureRect
 var class_commit:Button
+var pending_change={}
 var class_choice=""
 var pending_search=0.
 var applied_search_text=""
@@ -71,17 +72,23 @@ var impact_labels:Array=[]
 var headline_rows:Array=[]
 var route_target=""
 var next_step_button:Button
+var identity:Label
+var portrait:TextureRect
+var spent_label:Label
 const DETAIL_WIDTH=360
 
 func setup(owner_game):
+	if owner_game.session.has_signal("request_completed"):owner_game.session.request_completed.connect(on_request_completed)
+	owner_game.session.status_changed.connect(func(_message):
+		if not owner_game.session.connected:pending_change={})
 	game=owner_game;Content.initialize_jobs();position=Vector2(-60,24);size=Vector2(1560,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",38)
-	Library.picture(self,"skills",Vector2(26,18),Vector2(66,66));game.label(self,"별자리의 길",Vector2(109,26),Vector2(418,43),32)
+	portrait=Art.picture(self,null,Vector2(31,20),Vector2(70,70));identity=game.label(self,"",Vector2(119,23),Vector2(420,43),30)
 	Library.picture(self,"skill_points",Vector2(555,35),Vector2(29,29));points=game.label(self,"",Vector2(600,30),Vector2(720,38),24);Library.attach(game.button(self,"닫기",Vector2(1400,26),Vector2(125,43),game.toggle_skills),"close",22)
 	role_label=game.label(self,"",Vector2(109,69),Vector2(760,24),16)
 	for i in range(5):
-		var b=game.button(self,"",Vector2(31+i*184,96),Vector2(174,37),func():show_branch(i));branch_buttons.append(b);view_controls.append(b)
-		var label=game.label(b,"",Vector2(13,6),Vector2(150,27),17);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;branch_labels.append(label)
+		var b=game.button(self,"",Vector2(31,228+i*78),Vector2(180,60),func():show_branch(i));branch_buttons.append(b);view_controls.append(b)
+		var label=game.label(b,"",Vector2(12,16),Vector2(156,30),17);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;branch_labels.append(label)
 	for i in range(3):
 		var key=["skills","stats","class"][i];mode_buttons[key]=game.button(self,["스킬 지도","능력치","직업"][i],Vector2(974+i*182,87),Vector2(171,43),func():change_mode(key));Library.attach(mode_buttons[key],["skills","stat_points","class_warrior"][i],22)
 	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(value):pending_search=.16 if value!=applied_search_text else 0.);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
@@ -91,10 +98,11 @@ func setup(owner_game):
 	filter_picker.item_selected.connect(func(i):filter_index=i;focus_match());view_controls.append(filter_picker)
 	branch_picker=picker(self,Vector2(515,148),Vector2(279,42));branch_picker.item_selected.connect(func(i):show_branch(i-1));view_controls.append(branch_picker)
 	tag_picker=picker(self,Vector2(805,148),Vector2(265,42));tag_picker.item_selected.connect(func(i):tag_filter=str(tag_picker.get_item_metadata(i));focus_match());view_controls.append(tag_picker)
-	view_controls.append(Art.panel(self,Vector2(26,202),Vector2(1054,578),"paper",21))
-	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(37,214);graph.size=Vector2(1030,510);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
+	view_controls.append(Art.panel(self,Vector2(225,202),Vector2(855,578),"paper",21))
+	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(239,214);graph.size=Vector2(827,510);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
 	overview_button=game.button(self,"전체 지도",Vector2(46,736),Vector2(122,37),func():show_branch(-1 if graph.scope_cluster>=0 else int(Rules.definition(choice).get("cluster",0))));view_controls.append(overview_button)
 	view_controls.append(game.button(self,"추천 경로",Vector2(179,736),Vector2(122,37),show_recommendations))
+	view_controls.append(game.button(self,"직업 빌드",Vector2(31,622),Vector2(180,37),func():var panel=preload("res://scripts/build_preset_panel.gd").new();add_child(panel);panel.setup(self)))
 	view_controls.append(game.button(self,"−",Vector2(899,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1./1.2)))
 	zoom_label=game.label(self,"",Vector2(945,740),Vector2(65,30),17);zoom_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;view_controls.append(zoom_label)
 	view_controls.append(game.button(self,"+",Vector2(1019,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1.2)))
@@ -134,9 +142,33 @@ func setup(owner_game):
 	class_picker.item_selected.connect(func(i):class_choice=str(class_picker.get_item_metadata(i));refresh_class())
 	Art.picture(class_panel,Art.texture("alcove"),Vector2(36,173),Vector2(257,375));class_portrait=Art.picture(class_panel,null,Vector2(73,231),Vector2(178,284));class_portrait.material=preload("res://scripts/gat_art.gd").material()
 	class_detail=game.label(class_panel,"",Vector2(332,190),Vector2(673,334),22);class_detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-	class_commit=game.button(class_panel,"직업 선택",Vector2(333,558),Vector2(668,54),func():
-		if game.session.act("class",class_choice):choice="";search.text="";tag_filter="";change_mode("skills"))
+	class_commit=game.button(class_panel,"직업 선택",Vector2(333,558),Vector2(668,54),request_class_change)
+	spent_label=game.label(self,"",Vector2(31,666),Vector2(183,49),17);spent_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;view_controls.append(spent_label)
+	style_tree(self)
+	queue_redraw()
 	hide()
+
+func _draw():
+	var gold=Color("a48661")
+	draw_rect(Rect2(Vector2(8,8),size-Vector2(16,16)),gold,false,2)
+	for x in [15.,size.x-15]:
+		for y in [15.,size.y-15]:
+			draw_colored_polygon(PackedVector2Array([Vector2(x,y-5),Vector2(x+5,y),Vector2(x,y+5),Vector2(x-5,y)]),gold)
+	draw_line(Vector2(30,137),Vector2(size.x-30,137),Color("776454"),1)
+	if mode=="skills":
+		draw_line(Vector2(221,215),Vector2(221,717),Color("776454"),1)
+		for i in range(5):draw_rect(Rect2(Vector2(31,228+i*78),Vector2(180,60)),gold if graph!=null and graph.scope_cluster==i else Color("615751"),false,2)
+	draw_line(Vector2(1087,157),Vector2(1087,824),Color("776454"),1)
+
+func style_tree(control:Node):
+	if control is NinePatchRect:
+		control.texture=Art.plain_paper();control.modulate=Color("343039")
+	if control is Label:
+		control.add_theme_color_override("font_color",Color("eee1c9"))
+	if control is Button or control is LineEdit:
+		for key in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:control.add_theme_color_override(key,Color("eee1c9"))
+	if control is RichTextLabel:control.add_theme_color_override("default_color",Color("eee1c9"))
+	for child in control.get_children():style_tree(child)
 
 func key_label(action:String)->String:
 	return game.keybindings.label(action) if game.get("keybindings")!=null else preload("res://scripts/key_bindings.gd").key_name(preload("res://scripts/key_bindings.gd").DEFAULTS[action])
@@ -218,11 +250,33 @@ func apply_search():
 func clear(control:Node):
 	for child in control.get_children():control.remove_child(child);child.queue_free()
 func invest_selected():
+	if not pending_change.is_empty():return
 	var goal=route_target;var success=game.session.act("uninvest" if refund_mode else "invest",choice)
+	if success and game.session.get("network_role")=="client":
+		pending_change={"serial":game.session.sequence,"kind":"uninvest" if refund_mode else "invest","id":choice,"goal":goal,"title":selected.text,"refund":refund_mode}
+		notice.text="성장 확인 중…";return
 	if success:notice.text=selected.text+(" · 선택 회수" if refund_mode else " · 성장 적용")
 	else:notice.text=str(Rules.node_state(player(),choice).get("reason","현재 적용할 수 없습니다."))
 	refund_mode=false;refresh(true)
 	if success and not goal.is_empty():route_target=goal;choose_next_step()
+
+func request_class_change():
+	if not pending_change.is_empty():return
+	if not game.session.act("class",class_choice):return
+	if game.session.get("network_role")=="client":
+		pending_change={"serial":game.session.sequence,"kind":"class"};notice.text="전직 확인 중…";return
+	choice="";search.text="";tag_filter="";change_mode("skills")
+
+func on_request_completed(kind:String,success:bool):
+	if pending_change.is_empty() or kind!=pending_change.kind or game.session.completed_sequence!=pending_change.serial:return
+	var pending=pending_change;pending_change={}
+	if kind=="class":
+		if success:choice="";search.text="";tag_filter="";change_mode("skills")
+		else:notice.text="전직 조건을 확인하세요."
+		return
+	refund_mode=false;refresh(true)
+	notice.text=pending.title+(" · 선택 회수" if pending.refund else " · 성장 적용") if success else str(Rules.node_state(player(),pending.id).get("reason","현재 적용할 수 없습니다."))
+	if success and not pending.goal.is_empty():route_target=pending.goal;choose_next_step()
 func preview_refund():
 	refund_mode=true;refresh(true);comparison_scroll.scroll_vertical=0
 func show_path():
@@ -253,7 +307,11 @@ func refresh(force=false):
 	if p.is_empty():return
 	var next=JSON.stringify([p.class_id,p.skill_ranks,p.get("constellation_allocations",{}),p.level,p.stats,p.skill_loadout,p.equipment,p.inventory,game.dungeon.in_town(p.pos),choice,mode,search.text,filter_index,tag_filter,refund_mode])
 	if next==signature and not force:return
+	queue_redraw()
 	content_refreshes+=1;signature=next;Content.initialize_jobs();node_list=Rules.nodes_for(p.class_id)
+	identity.text=str(p.get("name","모험가"))+" · 스킬"
+	if game.hud.get("portrait")!=null:portrait.texture=game.hud.portrait;portrait.material=preload("res://scripts/gat_art.gd").material()
+	spent_label.text="사용한 포인트\n%d SP"%Rules.spent_points(p)
 	points.text="LV.%d · 스킬 %d SP · 능력치 %d"%[p.level,Rules.available_points(p),Progression.available(p)]
 	role_label.text=Content.CLASSES[p.class_id].name+" · "+Balance.role(p.class_id)[0];role_label.tooltip_text=Balance.role(p.class_id)[1]
 	for control in view_controls:control.visible=mode=="skills"
@@ -272,7 +330,10 @@ func refresh(force=false):
 		if initial.is_empty():initial=node_list.filter(func(n):return int(n.get("cluster",0))==0 and Rules.node_state(p,n.id).can_invest)
 		if initial.is_empty():initial=node_list.filter(func(n):return n.get("effect","")=="active" and int(n.get("cluster",0))==0)
 		choice=initial[0].id if not initial.is_empty() else node_list[0].id
-	graph.rebuild(node_list,p);nodes=graph.node_controls;refresh_branch_picker()
+	var first_view=graph.class_id!=p.class_id
+	graph.rebuild(node_list,p)
+	if first_view:graph.set_scope(-1)
+	nodes=graph.node_controls;refresh_branch_picker()
 	var context=p.class_id+":"+choice+":"+mode
 	if context!=comparison_context:comparison_context=context;comparison_scroll.scroll_vertical=0
 	show_details(node_list.filter(func(n):return n.id==choice)[0],p)
@@ -298,6 +359,7 @@ func refresh(force=false):
 	Library.attach(mode_buttons["class"],"class_"+p.class_id,22)
 	Library.attach(reset_button,"reset",21);Library.attach(invest,"stat_points" if mode=="stats" else "reset" if refund_mode else "success" if invest.text=="최대 성장" else "locked" if invest.disabled else "skill_points",22)
 	Library.attach(path_button,"skills",18);Library.attach(refund_button,"reset",18)
+	style_tree(self)
 
 func paragraph(title:String,body:String)->String:return "[b]"+title+"[/b]\n"+body+"\n\n" if not body.is_empty() else ""
 func localized_tag(tag:String)->String:

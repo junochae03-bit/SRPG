@@ -86,7 +86,7 @@ func run():
 			var visible_bounds=hud.visible_portrait_bounds(source)
 			var expected_crop=Rect2(visible_bounds.position,Vector2(visible_bounds.size.x,ceilf(visible_bounds.size.y*.62)))
 			check(hud.portrait_source_rect==expected_crop,"cached portrait matches selected atlas region "+job+" "+costume)
-			check(Rect2(36,37,72,72).encloses(hud.portrait_rect()),"portrait stays inside medallion "+job+" "+costume)
+			check(Rect2(Vector2(36,37)+hud.profile_offset,Vector2(72,72)).encloses(hud.portrait_rect()),"portrait stays inside medallion "+job+" "+costume)
 			check(hud.portrait_source_rect.position.x>=0 and hud.portrait_source_rect.end.x<=hud.portrait_frame_size.x,"portrait source full width valid "+costume)
 			check(hud.portrait_source_rect.position.y>=0 and hud.portrait_source_rect.end.y<=hud.portrait_frame_size.y,"portrait source top valid "+costume)
 			if costume.contains("purple") or costume.contains("witch"):await capture("portrait-"+costume)
@@ -98,7 +98,7 @@ func run():
 	game.toggle_bag();map.queue_redraw();await frame();check(not map.static_map.visible,"static minimap hidden with modal")
 	check(hud.chrome_hidden and not hud.chrome.visible and game.bag.is_visible_in_tree() and not hud.circles.potion.is_visible_in_tree(),"full panel hides HUD chrome but remains interactive")
 	game.toggle_bag();map.queue_redraw();await frame();check(map.static_map.visible,"static minimap restores after modal")
-	check(not hud.chrome_hidden and hud.circles.potion.is_visible_in_tree(),"HUD restores after full panel closes")
+	check(not hud.chrome_hidden and hud.expedition.consumables.is_visible_in_tree(),"HUD restores after full panel closes")
 	local.travel("forest");map.queue_redraw();await frame();await frame();check(map.static_builds==builds+1,"new dungeon invalidates terrain once")
 	game.toggle_skills();var tree=game.skill_tree;await frame();check(hud.chrome_hidden and not hud.circles.interact.is_visible_in_tree(),"tree bottom does not expose clipped HUD captions");tree.search.grab_focus();var refreshes=tree.content_refreshes;var applications=tree.search_applications
 	for letter in "echo":key(letter.to_upper().unicode_at(0),letter.unicode_at(0))

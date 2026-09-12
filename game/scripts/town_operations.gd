@@ -1,11 +1,12 @@
 extends RefCounted
 ## New services share one quote/staging path: no charge unless every output fits.
 const Inventory=preload("res://scripts/inventory_model.gd")
+const Consumables=preload("res://scripts/consumables.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
-const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약"}
+const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약","tool":"탐사 도구","mana_potion":"마나 물약","power_potion":"공격 강화 물약"}
 const DEFAULT_INN_OPERATION="resupply_small"
 const INN_RESUPPLY_TARGETS={"resupply_small":5,"resupply":Inventory.MAX_POTIONS}
-const OPERATIONS=["smith:salvage","shop:potion","alchemy:potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
+const OPERATIONS=["smith:salvage","shop:potion","shop:mana_potion","shop:power_potion","shop:tool","alchemy:potion","alchemy:mana_potion","alchemy:power_potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
 static func handles(facility:String,operation:String)->bool:return facility+":"+operation in OPERATIONS
 static func describe(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:
 	var q={"title":"선택한 작업","cost":0,"materials":{},"outputs":{},"result":"","reason":"","icon":facility,"item":{},"operation":operation,"extra":extra.duplicate(true)}
@@ -13,7 +14,21 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 	var raw=extra.get("quantity",1)
 	if not (raw is int or raw is float) or not is_finite(float(raw)) or float(raw)!=floor(float(raw)):q.reason="수량을 확인하세요.";return q
 	var quantity=int(raw)
-	if quantity not in ([1,5,10] if facility=="shop" else [1,3,5] if facility=="alchemy" else [1]):q.reason="수량을 확인하세요.";return q
+	if extra.has("target_quantity"):
+		if facility!="alchemy" or operation not in ["potion","mana_potion","power_potion","essence","ore"]:q.reason="목표 재고는 조합식에서만 지정할 수 있습니다.";return q
+		var target=extra.target_quantity
+		if not Inventory.whole_count(target,Inventory.stack_limit(operation)) or target<1:q.reason="목표 재고 수량을 확인하세요.";return q
+		var current=Consumables.count(p,operation) if Consumables.ITEMS.has(operation) else int(p.materials.get(operation,0))
+		var batch=1 if operation=="essence" else 3
+		q.target_quantity=int(target);q.current_quantity=current
+		if current>=int(target):
+			q.title=LABELS[operation];q.icon=Consumables.ITEMS[operation].icon if Consumables.ITEMS.has(operation) else operation
+			q.result="현재 %d개 / 목표 %d개 · 목표 달성"%[current,int(target)];q.reason=q.result;return q
+		quantity=ceili(float(int(target)-current)/batch)
+		q.final_quantity=current+quantity*batch;q.batches=quantity
+		q.result="현재 %d → 제작 후 %d · 목표 %d\n%d개 단위 × %d회\n"%[current,q.final_quantity,int(target),batch,quantity]
+		if q.final_quantity>Inventory.stack_limit(operation):q.reason="%d개 단위 제작 시 재고 %d개가 보관 상한 %d개를 넘습니다."%[batch,q.final_quantity,Inventory.stack_limit(operation)];return q
+	elif quantity not in ([1,5,10] if facility=="shop" else [1,3,5] if facility=="alchemy" else [1]):q.reason="수량을 확인하세요.";return q
 	match facility+":"+operation:
 		"smith:salvage":
 			q.item=Inventory.find_item(p,str(extra.get("item","")))
@@ -23,6 +38,12 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 			if int(q.item.rarity)>=2:q.outputs.essence=int(q.item.rarity)-1
 			q.result=q.item.name+" → 분해\n";q.icon="ore"
 		"shop:potion":q.title="회복 물약 ×%d"%quantity;q.cost=15*quantity;q.outputs.potion=quantity;q.icon="potion"
+		"shop:mana_potion","shop:power_potion":
+			q.title=Consumables.ITEMS[operation].name+" ×%d"%quantity;q.cost=Consumables.ITEMS[operation].price*quantity;q.outputs[operation]=quantity;q.icon=Consumables.ITEMS[operation].icon
+		"alchemy:mana_potion","alchemy:power_potion":
+			q.title=Consumables.ITEMS[operation].name+" ×%d"%(3*quantity);q.cost=(15 if operation=="mana_potion" else 30)*quantity;q.materials.seed=3*quantity
+			q.materials["essence" if operation=="mana_potion" else "ore"]=(1 if operation=="mana_potion" else 2)*quantity;q.outputs[operation]=3*quantity;q.icon=Consumables.ITEMS[operation].icon
+		"shop:tool":q.title="탐사 도구 ×%d"%quantity;q.cost=25*quantity;q.outputs.tool=quantity;q.icon="smith"
 		"alchemy:potion":q.title="회복 물약 ×%d"%(3*quantity);q.cost=10*quantity;q.materials.seed=3*quantity;q.outputs.potion=3*quantity;q.icon="potion"
 		"alchemy:essence":q.title="정원의 정수 ×%d"%quantity;q.cost=40*quantity;q.materials={"seed":5*quantity,"ore":5*quantity};q.outputs.essence=quantity;q.icon="essence"
 		"alchemy:ore":q.title="광석 ×%d"%(3*quantity);q.cost=20*quantity;q.materials.seed=5*quantity;q.outputs.ore=3*quantity;q.icon="ore"

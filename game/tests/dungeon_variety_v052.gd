@@ -47,11 +47,11 @@ func ascii_map(map)->String:
 	return "\n".join(lines)
 
 func inspect_map(map,label:String):
-	check(map.rooms.size()==9 and map.encounters.size()==23,label+" stable anchors and roster")
+	check(map.rooms.size()==(3 if map.raid_arena else 9) and map.encounters.size()==(1 if map.raid_arena else 23),label+" exploration rooms or dedicated raid approach")
 	check(map.floor_cells.size()>400 and map.floor_cells.size()<Dungeon.SIZE*Dungeon.SIZE*.86,label+" broad playable floor with real voids")
 	var connected=reachable(map.floor_cells,Vector2i(map.spawn))
 	check(connected.size()==map.floor_cells.size(),label+" every tile connected; no isolated pockets")
-	var broad=erosion(map.floor_cells,2);var broad_connected=reachable(broad,Vector2i(map.spawn))
+	var broad=erosion(map.floor_cells,2 if map.raid_arena else 3);var broad_connected=reachable(broad,Vector2i(map.spawn))
 	for room in map.rooms:check(broad_connected.has(room),label+" every encounter and boss reachable along a five-cell-wide path")
 	check(map.route_cells.keys().all(func(cell):return broad.has(cell)),label+" five-cell width preserved at all corners and bridges")
 	for dx in range(-3,4):
@@ -63,16 +63,17 @@ func inspect_map(map,label:String):
 		check(map.walkable(record.pos),label+" actual receiving feet on floor")
 		check(record.pos.distance_to(map.spawn)>=8.,label+" no pack on entry")
 		if record.role=="guardian":
-			check(record.pos==map.exit_position and record.room==8,label+" guardian protects reachable exit")
+			check(record.pos==map.exit_position and record.room==map.rooms.size()-1,label+" guardian protects reachable exit")
 		else:
 			formations[record.formation]=true
 			check(record.pos.distance_to(map.exit_position)>=4.,label+" guard arena clear of overlapping packs")
 			for previous in positions:check(previous.distance_to(record.pos)>=1.999,label+" separate monster silhouettes")
 			positions.append(record.pos)
 			if record.role=="normal":room_counts[record.room]=int(room_counts.get(record.room,0))+1
-	check(roles=={"normal":21,"elite":1,"guardian":1},label+" exact existing reward roster")
-	check(room_counts.values().has(2) and room_counts.values().has(4),label+" different pack sizes instead of repeated three-monster rooms")
-	check(formations.size()>=2,label+" varied ring/line/pincer/scattered placements")
+	check(roles==({"normal":0,"elite":0,"guardian":1} if map.raid_arena else {"normal":21,"elite":1,"guardian":1}),label+" raid has only its boss; ordinary floor preserves roster")
+	if not map.raid_arena:
+		check(room_counts.values().has(2) and room_counts.values().has(4),label+" different pack sizes instead of repeated three-monster rooms")
+		check(formations.size()>=2,label+" varied ring/line/pincer/scattered placements")
 	report.layout_counts[map.layout_id]=int(report.layout_counts.get(map.layout_id,0))+1
 
 func run():
@@ -85,7 +86,8 @@ func run():
 			var map=Dungeon.new(seed_value,config.terrain,floor_number)
 			var label="B%d seed%d"%[floor_number,seed_value]
 			inspect_map(map,label)
-			run_layouts[map.layout_id]=true;seen[map.layout_id]=true;orientations[map.layout_rotation]=true
+			if not map.raid_arena:run_layouts[map.layout_id]=true
+			seen[map.layout_id]=true;orientations[map.layout_rotation]=true
 			signatures[hash(JSON.stringify(map.floor_cells))]=true
 			if not sample_floor.has(map.layout_id):
 				sample_floor[map.layout_id]=floor_number
@@ -93,13 +95,13 @@ func run():
 			if floor_number%10==1:
 				var repeat=Dungeon.new(seed_value,config.terrain,floor_number)
 				check(map.floor_cells==repeat.floor_cells and map.rooms==repeat.rooms and map.encounters==repeat.encounters,label+" deterministic replay")
-		check(run_layouts.size()==6,"one descending run includes all six topology families")
-	check(seen.size()==6 and orientations.size()==8 and signatures.size()>=285,"topologies, orientations and seeded silhouettes vary across runs")
+		check(run_layouts.size()==Dungeon.LAYOUTS.size(),"one descending run includes every retained topology family")
+	check(seen.size()==Dungeon.LAYOUTS.size()+Dungeon.RAID_LAYOUTS.size() and orientations.size()==8 and signatures.size()>=285,"exploration and raid topologies vary across runs")
 	# These are actual simulation spawns, not only generator metadata. Neither
 	# the roster size nor raid cadence, kind IDs or drop-table lookup is changed.
 	for floor_number in range(1,101):
 		var config=Abyss.config(floor_number);var sim=Sim.new(177+floor_number*7919,config.terrain,floor_number)
-		check(sim.enemies.size()==23,"simulation roster B%d"%floor_number)
+		check(sim.enemies.size()==(1 if floor_number%10==0 else 23),"simulation roster B%d"%floor_number)
 		var guards=sim.enemies.values().filter(func(e):return e.get("guardian",false))
 		check(guards.size()==1 and guards[0].boss==(floor_number%10==0),"exact guardian and ten-floor raid cadence B%d"%floor_number)
 		for index in range(sim.map.encounters.size()):

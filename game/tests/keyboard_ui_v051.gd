@@ -43,7 +43,7 @@ func run():
 	check(hover_events.entered>0,"real action-button hover")
 	await capture("hover-contrast")
 	check(panel.visible and not game.session.connected and not panel.title_button.visible,"settings work on disconnected title")
-	check(panel.action_buttons.size()==19,"all nineteen actions visible")
+	check(panel.action_buttons.size()==Keys.DEFAULTS.size(),"all configurable actions visible")
 	for code in panel.key_buttons:
 		var button=panel.key_buttons[code];check(Rect2(Vector2.ZERO,panel.size).encloses(button.get_rect()),"keyboard key inside panel "+Keys.key_name(code))
 		var font=button.get_theme_font("font");var pixels=button.get_theme_font_size("font_size")

@@ -25,8 +25,9 @@ func cast(f:Dictionary,index:int,rank:int,up:bool=false)->Dictionary:
 	check(is_equal_approx(before-f.p.stamina,value.cost),"quoted cost equals paid cost "+id)
 	check(is_equal_approx(f.p.skill_cooldowns[id],value.cooldown),"quoted cooldown equals runtime "+id)
 	return value
-func tick(f:Dictionary,seconds:float):
+func tick(f:Dictionary,seconds:float,player_attacks:bool=false):
 	for i in range(roundi(seconds/.02)):
+		if player_attacks:f.sim.action(1,"attack")
 		f.p.attack_cd=maxf(0,f.p.attack_cd-.02);f.sim.combat.tick_player(f.p,.02);f.sim.combat.tick_projectiles(.02);f.sim.combat.skills.tick(.02)
 func run():
 	Content.initialize_jobs()
@@ -34,10 +35,10 @@ func run():
 	for job in attacks:
 		var results=[]
 		for rank in [1,3,5]:
-			var f=fixture(job);cast(f,attacks[job],rank);tick(f,3.)
+			var f=fixture(job);cast(f,attacks[job],rank);tick(f,3.,job=="summoner")
 			results.append(1000000-f.enemy.hp)
 		check(results[0]>0 and results[1]>results[0] and results[2]>results[1],"actual ranked damage increases "+job+" "+str(results))
-		var upgraded=fixture(job);cast(upgraded,attacks[job],5,true);tick(upgraded,3.)
+		var upgraded=fixture(job);cast(upgraded,attacks[job],5,true);tick(upgraded,3.,job=="summoner")
 		check(1000000-upgraded.enemy.hp>results[2],"third upgrade increases actual damage "+job)
 	for setup in [["swordsman",0],["healer",4],["tank",4],["runesword",0],["infighter",8]]:
 		var strengths=[]

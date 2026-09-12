@@ -24,7 +24,7 @@ func place_label(world:Vector2,offset:Vector2,baseline:Vector2,zoom:float=1.):
 	game.smooth_positions.clear();game.refresh_world_label_regions()
 func skill_caption()->Vector2:
 	var control=game.hud.circles.skill_v
-	return control.get_global_transform_with_canvas()*Vector2(control.size.x*.5,control.size.y+21)
+	return control.get_global_transform_with_canvas()*(control.size*.5)
 func draw_frame():
 	# 이 검사는 일반 처리 루프를 멈추므로 이동한 검사 카메라를 지면에도 반영합니다.
 	game.forest.update_camera(0.)
@@ -48,7 +48,7 @@ func run():
 	for resolution in [Vector2i(1280,720),Vector2i(1600,900),Vector2i(1920,1080),Vector2i(2560,1440)]:
 		surface.size=resolution;await process_frame;await process_frame
 		var target=skill_caption();var control=game.hud.circles.skill_v
-		check(not (control.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,control.size)).has_point(target),"기술명은 버튼 바깥에 위치 "+str(resolution))
+		check((control.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,control.size)).has_point(target),"아이콘 중심 가림 검사 "+str(resolution))
 		for zoom in [.72,1.,1.18]:
 			place_label(dummy.pos,offset,target,zoom)
 			var point=game.world_point(dummy.pos)+offset;var rect=game.world_label_rect(point,"이름",19,true)
@@ -61,7 +61,7 @@ func run():
 			var lower_bounds=lower.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,lower.size).grow(4)
 			var touches_lower=rect.intersects(lower_bounds)
 			geometry_cases.append({"resolution":str(resolution),"zoom":zoom,"name_bounds":str(rect),"lower_button_bounds":str(lower_bounds),"touches_lower":touches_lower})
-			check(touches_lower==(zoom>1.),"1.18배 이름은 다음 행 실제 버튼 영역까지 교차 "+str(resolution)+str(zoom))
+			check(not touches_lower,"가로 슬롯의 먼 끝은 검사 이름과 겹치지 않음 "+str(resolution)+str(zoom))
 			check(game.world_label_hidden(point,"이름",19,true)==touches_lower,"남아 있는 다음 행 HUD와 겹칠 때만 이름 계속 숨김 "+str(resolution)+str(zoom))
 			if touches_lower:
 				lower.hide();game.refresh_world_label_regions()

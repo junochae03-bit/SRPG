@@ -59,6 +59,11 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
+	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
+	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
+	db.metadata["dungeon_region_rules"]=preload("res://scripts/dungeon_regions.gd").configuration()
+	db.metadata["hidden_room_rules"]={"discovery_radius":preload("res://scripts/hidden_rooms.gd").DISCOVERY_RADIUS,"radius":preload("res://scripts/hidden_rooms.gd").ROOM_RADIUS,"maximum_per_floor":2,"tool_item":"tool","tool_cost":1,"tool_shop_gold":25,"claim_scope":"personal_per_generated_floor","discovery_scope":"party","raid_enabled":false}
+	db.metadata["raid_layouts"]={"templates":preload("res://scripts/dungeon.gd").RAID_LAYOUTS,"points":preload("res://scripts/dungeon.gd").RAID_POINTS,"links":preload("res://scripts/dungeon.gd").RAID_LINKS,"size":preload("res://scripts/dungeon.gd").RAID_SIZE,"cadence":10,"common_exclusion_radius":13.0}
 	db.metadata["character_balance"]={"revision":"tree-2026-09-10","status":"runtime_applied","roles":Jobs.ROLES,"minor_values":preload("res://scripts/constellation_catalog.gd").MINORS,"measurement":"docs/CHARACTER_BALANCE.ko.md"}
 	for class_id in class_ids:
 		var c=Content.CLASSES[class_id].duplicate(true)
@@ -86,8 +91,9 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 		f["id"]=floor_number;f["required_level"]=maxi(1,floor_number-7);f["tier"]=int((floor_number-1)/10)
 		f["guardian_id"]=f.boss if f.raid else f.elite;f["raid_id"]="raid:%03d"%floor_number if f.raid else ""
 		f["description"]=f.lore;db.floors.append(f)
-		for kind in f.mobs:_appearance(db,f,kind,"normal")
-		_appearance(db,f,f.elite,"elite")
+		if not f.raid:
+			for kind in f.mobs:_appearance(db,f,kind,"normal")
+			_appearance(db,f,f.elite,"elite")
 		_appearance(db,f,f.guardian_id,"raid" if f.raid else "guardian")
 		if f.raid:
 			var r=Abyss.enemy_stats(f.boss,floor_number,true,true)
@@ -203,6 +209,7 @@ static func _boss_stagger(floor_number:int)->Dictionary:
 	module.initialize(enemy)
 	var result=enemy.stagger.duplicate(true)
 	result["down_seconds"]=module.DOWN_SECONDS;result["immunity_seconds"]=module.IMMUNITY_SECONDS;result["check_seconds"]=module.CHECK_SECONDS;result["down_damage_multiplier"]=module.DOWN_DAMAGE
+	result["failed_check_immunity_seconds"]=module.FAILED_CHECK_IMMUNITY;result["base_threshold"]=module.BASE_THRESHOLD;result["floor_threshold"]=module.FLOOR_THRESHOLD
 	return result
 
 static func _reference_player(class_id:String)->Dictionary:
@@ -368,12 +375,18 @@ static func _append_world_rules(db:Dictionary):
 		definition["id"]=key;definition["position"]=[definition.pos.x,definition.pos.y];definition.erase("pos")
 		definition["resident"]=World.RESIDENTS.get(key,{}).duplicate(true)
 		db.facilities.append(definition)
-	for key in Town.LABELS:db.item_definitions.append({"id":key,"name":Town.LABELS[key]})
+	for key in Town.LABELS:
+		var row={"id":key,"name":Town.LABELS[key]}
+		if preload("res://scripts/consumables.gd").ITEMS.has(key):row.merge(preload("res://scripts/consumables.gd").ITEMS[key].duplicate(true))
+		db.item_definitions.append(row)
+	db.metadata["consumables"]={"items":preload("res://scripts/consumables.gd").ITEMS.duplicate(true),"max_stack":Inv.MAX_POTIONS,"shared_cooldown":true,"mana_resource":"stamina","attack_stacking":"multiplicative_with_class_attack","active_refresh":"reject_without_consumption"}
+	db.metadata["character_presentation"]=JSON.parse_string(FileAccess.get_file_as_string("res://data/character_presentation.json"))
+	db.metadata["portrait_levels"]={"levels":preload("res://scripts/portrait_frame.gd").LEVELS,"colors":preload("res://scripts/portrait_frame.gd").COLORS}
 	db.inventory_rules.append({"id":"inventory","width":Inv.WIDTH,"height":Inv.HEIGHT,"capacity":Inv.CAPACITY,"max_potions":Inv.MAX_POTIONS,"max_materials":Inv.MAX_MATERIALS})
 	var layout_order=0
 	for key in Dungeon.LAYOUTS:
 		var layout=Dungeon.LAYOUTS[key].duplicate(true)
-		layout.merge({"id":key,"selection_order":layout_order,"size":Dungeon.SIZE});db.dungeon_layouts.append(layout);layout_order+=1
+		layout.merge({"id":key,"selection_order":layout_order,"size":Dungeon.SIZE,"anchor_scale":Dungeon.EXPLORATION_SCALE,"radius_bonus":2,"corridor_width":7,"corridor_width_max":9,"selection":"weighted_by_dungeon_region"});db.dungeon_layouts.append(layout);layout_order+=1
 	var area=Training.AREA
 	db.training_rules.append({"id":"training","facility_id":"training","area":[area.position.x,area.position.y,area.size.x,area.size.y],"position":[Training.POSITION.x,Training.POSITION.y],"health":Training.HEALTH,"blank_stats":Training.blank(),"empty_summary":Training.summary({})})
 	for key in Town.OPERATIONS:

@@ -192,7 +192,7 @@ func quick_activate(id:String):
 func activate_selected():
 	var item=item_by_id(selected_id)
 	if item.is_empty():return
-	if item.category=="consumable":game.session.act("potion")
+	if item.category=="consumable":game.session.act(item.get("consumable","potion"))
 	elif Inventory.is_equipped(player(),selected_id):game.session.act("unequip",item.slot)
 	else:game.session.act("equip",selected_id)
 	refresh(true)
@@ -201,7 +201,7 @@ func _process(_delta):
 func refresh(force=false):
 	var p=player()
 	if p.is_empty() or get_viewport().gui_is_dragging():return
-	var next=JSON.stringify([p.inventory,p.equipment,p.bag_positions,p.materials,p.potions,p.class_id,p.costume,p.get("avatar","auto"),p.get("owned_appearances",[]),preload("res://scripts/sprite_names.gd").revision,p.level,p.hp,p.gold,p.skill_ranks,p.stats,selected_id,filter_index])
+	var next=JSON.stringify([p.inventory,p.equipment,p.bag_positions,p.materials,p.potions,p.get("consumables",{}),p.class_id,p.costume,p.get("avatar","auto"),p.get("owned_appearances",[]),preload("res://scripts/sprite_names.gd").revision,p.level,p.hp,p.gold,p.skill_ranks,p.stats,selected_id,filter_index])
 	if not force and next==signature:return
 	signature=next;grid.rebuild()
 	for slot in equipment_controls:
@@ -251,7 +251,7 @@ func refresh(force=false):
 		primary.text="장착 해제" if Inventory.is_equipped(p,selected_id) else "장착하기"
 		Library.attach(primary,"unequip" if Inventory.is_equipped(p,selected_id) else "locked" if primary.disabled else "equip",22)
 	elif item.category=="consumable":
-		detail_body.text="생명력 %d 회복\n보유 %d개 / 최대 20개\n재사용 대기 2초" % [60+roundi(p.max_hp*.20)+Content.skill_bonus(p,"potion_power"),item.count];primary.text="물약 사용하기"
+		detail_body.text=preload("res://scripts/consumables.gd").description(p,item.get("consumable","potion"));primary.text="물약 사용하기"
 		Library.attach(primary,"consumable",22)
 	else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다.\n\n별씨앗 · 물약 조제\n광석 · 장비 강화\n정수 · 장비 옵션 재련" % item.count
 

@@ -29,7 +29,8 @@ func run():
 	game.camera_pos=preload("res://scripts/dungeon.gd").iso(p.pos);game.battle_anchor_y=590
 	for state in ["ready","check","down","immune"]:
 		boss.stagger.state=state;boss.stagger.value=boss.stagger.max_value*.64;boss.stagger.check_value=boss.stagger.check_max*.7
-		boss.stagger.time_left=8.3 if state=="check" else 2.8;boss.stagger.time_max=12. if state=="check" else 4. if state=="down" else 6.
+		boss.stagger.time_left=8.3 if state=="check" else 58.3 if state=="immune" else 2.8
+		boss.stagger.time_max=12. if state=="check" else S.DOWN_SECONDS if state=="down" else S.IMMUNITY_SECONDS
 		local.refresh();await process_frame;await process_frame
 		check(game.hud.boss_hud.visible,"boss HUD visible: "+state);check(game.hud.boss_hud.boss.get("stagger",{}).get("state","")==state,"HUD reads simulation state: "+state)
 		var before=JSON.stringify(boss.stagger);await capture(state);check(before==JSON.stringify(boss.stagger),"render never mutates stagger state: "+state)

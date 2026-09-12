@@ -89,8 +89,8 @@ func attack_contract():
 			check(f.sim.action(1,"heavy" if heavy else "attack"),"공개 행동 공격 "+job+str(heavy))
 			check(f.p.charge_time<0,"해제 뒤 충전 종료 "+job)
 			var progress=1.-f.p.motion_time/f.p.motion_duration
-			check(progress>=.5 and progress<.75 if heavy else progress>=.25 and progress<.5,"준비 포즈를 건너뛴 단계 "+job+str(heavy))
-			var index=10 if heavy else 5
+			check(progress>=.5 and progress<.75,"준비 포즈를 건너뛴 단계 "+job+str(heavy))
+			var index=10 if heavy else 6
 			check(Motion.index_for(f.p,0.)==index,"공통 reader 단계 "+job+str(heavy))
 			check(Gat.frame(f.p,0.).index==index,"기본/전직 실제 reader 단계 "+job+str(heavy))
 			reader_samples.append({"class":job,"heavy":heavy,"reader":"default_or_job","expected_index":index})
@@ -162,7 +162,7 @@ func render_contract():
 	var control=game.hud.circles.skill_v
 	for resolution in [Vector2i(1280,720),Vector2i(1920,1080)]:
 		surface.size=resolution;await process_frame;await process_frame
-		var caption=control.get_global_transform_with_canvas()*Vector2(control.size.x*.5,control.size.y+21)
+		var caption=control.get_global_transform_with_canvas()*(control.size*.5)
 		var local_point=surface.canvas_transform.affine_inverse()*caption
 		game.camera_pos=Dungeon.iso(dummy.pos)+game.screen_center()+Vector2(0,-TrainingArt.HEIGHT-20)-local_point
 		game.smooth_positions.clear();await capture("hud-overlap-"+str(resolution.x))

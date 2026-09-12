@@ -8,7 +8,7 @@ const WEAPONS = {
 }
 const SLOTS = ["weapon","head","chest","hands","legs","feet","accessory"]
 const SLOT_NAMES = {"weapon":"주 무기","head":"머리","chest":"상의","hands":"장갑","legs":"하의","feet":"신발","accessory":"장신구"}
-const MATERIALS = {"seed":"별씨앗","ore":"반짝 광석","essence":"정원의 정수"}
+const MATERIALS = {"seed":"별씨앗","ore":"반짝 광석","essence":"정원의 정수","tool":"탐사 도구"}
 static var CLASSES = {
 	"warrior":{"name":"검사","weapon":"sword","skill":"해오름 베기","description":"근접 공격과 강인한 체력. Q로 주변을 크게 벱니다."},
 	"ranger":{"name":"궁수","weapon":"bow","skill":"바람 화살","description":"빠른 이동과 원거리 공격. Q로 화살을 부채꼴로 발사합니다."},
@@ -83,7 +83,7 @@ static func icon_texture(item:Dictionary)->Texture2D:
 	var key=item.get("weapon_type","sword")
 	match item.get("category","weapon"):
 		"armor","accessory":key=item.get("slot","chest")
-		"consumable":key="potion"
+		"consumable":key=item.get("consumable","potion")
 		"material":key=str(item.get("material",str(item.get("id","")).trim_prefix("@mat:")))
 	return preload("res://scripts/item_art.gd").texture(key)
 

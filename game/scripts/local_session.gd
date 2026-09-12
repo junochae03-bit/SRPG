@@ -111,7 +111,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
@@ -150,7 +150,9 @@ func parse_save(path: String) -> Variant:
 	if not FileAccess.file_exists(path):return null
 	var parser=JSON.new()
 	if parser.parse(FileAccess.get_file_as_string(path))!=OK:return null
-	var value=parser.data
+	return validate_save(parser.data)
+
+func validate_save(value:Variant)->Variant:
 	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6,7]:return null
 	for key in ["level","xp","gold","potions","kills","boss_kills","world_seed"]:
 		if not value.get(key) is float and not value.get(key) is int:return null
@@ -188,6 +190,10 @@ func parse_save(path: String) -> Variant:
 		var amount=value.materials[key]
 		if key not in Content.MATERIALS or (not amount is float and not amount is int) or amount<0 or amount>Inventory.MAX_MATERIALS or amount!=floor(amount):return null
 		value.materials[key]=int(amount)
+	if not value.get("consumables",{}) is Dictionary:return null
+	for key in value.get("consumables",{}):
+		if key not in ["mana_potion","power_potion"] or not Inventory.whole_count(value.consumables[key],Inventory.MAX_POTIONS):return null
+		value.consumables[key]=int(value.consumables[key])
 	if Inventory.bag_items(value).size()>Inventory.CAPACITY:return null
 	for id in value.get("bag_positions",{}):
 		var place=value.bag_positions[id]
@@ -361,3 +367,6 @@ func _physics_process(delta: float):
 
 func _exit_tree():
 	if connected:save_game()
+
+func cancel_charge():
+	if connected and sim.players.has(local_id):sim.combat.act(sim.players[local_id],"cancel_charge")

@@ -15,16 +15,16 @@ class TopologyGallery extends Node2D:
 	const NAMES={"branching":"가지 길","circuit":"순환 회랑","great_cavern":"대공동","side_hollows":"곁굴","split_bridges":"갈라진 다리","crossed_halls":"교차 성채"}
 	func _draw():
 		draw_rect(Rect2(0,0,1600,900),Color("14252b"))
-		draw_string(font,Vector2(36,40),"V0.5.2 실제 생성 지도 · 초록 입구 / 금색 수문장 / 붉은 적",HORIZONTAL_ALIGNMENT_LEFT,1500,24,Color("edf2df"))
+		draw_string(font,Vector2(36,40),"자유 탐사 실제 생성 지도 · 초록 입구 / 금색 수문장 / 붉은 적",HORIZONTAL_ALIGNMENT_LEFT,1500,24,Color("edf2df"))
 		for index in range(maps.size()):
 			var map=maps[index];var origin=Vector2(34+(index%3)*520,74+int(index/3)*405)
 			draw_string(font,origin+Vector2(0,24),"B%d · %s"%[map.floor_number,NAMES[map.layout_id]],HORIZONTAL_ALIGNMENT_LEFT,480,23,Color("f1df9a"))
-			var at=origin+Vector2(68,36);var scale=8.6
+			var at=origin+Vector2(68,36);var scale=320./Dungeon.SIZE
 			for cell in map.floor_cells:draw_rect(Rect2(at+Vector2(cell)*scale,Vector2.ONE*(scale+.2)),Color("7f948a"))
 			for record in map.encounters:draw_circle(at+(record.pos+Vector2(.5,.5))*scale,3.3 if record.role=="normal" else 5,Color("d66555"))
 			draw_circle(at+(map.spawn+Vector2(.5,.5))*scale,6,Color("88efab"))
 			draw_circle(at+(map.exit_position+Vector2(.5,.5))*scale,7,Color("f5d37a"))
-			draw_string(font,origin+Vector2(68,384),"통로 5칸 · 전투 구역 8개 · 적 23",HORIZONTAL_ALIGNMENT_LEFT,440,17,Color("c4d1ca"))
+			draw_string(font,origin+Vector2(68,384),"통로 7칸 이상 · 전투 구역 8개 · 적 23",HORIZONTAL_ALIGNMENT_LEFT,440,17,Color("c4d1ca"))
 
 func _initialize():run.call_deferred()
 func check(ok:bool,label:String):

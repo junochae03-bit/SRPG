@@ -36,4 +36,23 @@ func apply(game):
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if values.vsync else DisplayServer.VSYNC_DISABLED)
 	var window=game.get_window()
 	window.mode=Window.MODE_FULLSCREEN if values.window_mode=="fullscreen" else Window.MODE_WINDOWED
-	if values.window_mode=="windowed":window.size=RESOLUTIONS[int(values.resolution)];window.move_to_center()
+	if values.window_mode=="windowed":
+		window.size=RESOLUTIONS[int(values.resolution)]
+		fit_window(game)
+
+static func fitted_window(requested:Vector2i,usable:Rect2i,decoration:Vector2i,top_left:Vector2i)->Rect2i:
+	var available=usable.size-decoration
+	var factor=minf(1.,minf(float(available.x)/maxi(1,requested.x),float(available.y)/maxi(1,requested.y)))
+	var dimensions=Vector2i(Vector2(requested)*maxf(.1,factor))
+	return Rect2i(usable.position+(usable.size-dimensions-decoration)/2+top_left,dimensions)
+
+static func fit_window(game):
+	if DisplayServer.get_name()=="headless" or game.options.has("capture"):return
+	var window=game.get_window()
+	if window.borderless or window.mode!=Window.MODE_WINDOWED:return
+	var usable=DisplayServer.screen_get_usable_rect(window.current_screen)
+	var outer_size=DisplayServer.window_get_size_with_decorations()
+	var decoration=(outer_size-window.size).max(Vector2i.ZERO)
+	var inset=(window.position-DisplayServer.window_get_position_with_decorations()).max(Vector2i.ZERO)
+	var fitted=fitted_window(window.size,usable,decoration,inset)
+	window.size=fitted.size;window.position=fitted.position

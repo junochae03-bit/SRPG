@@ -382,7 +382,7 @@ final_boss_capture=screenshot_evidence(ROOT/'artifacts/export-floor-100.png')
 boss=final_floor['guardians'][0]
 assert boss['raid'] and boss['level']==100 and boss['max_hp']>=400000 and '아스트라' in boss['name'],boss
 assert final_floor['player']['stats']==fixture['stats']
-assert boss['stagger']['state']=='ready' and boss['stagger']['max_value']==260 and boss['stagger']['check_max']==85
+assert boss['stagger']['state']=='ready' and boss['stagger']['max_value']==650 and boss['stagger']['check_max']==85
 # The release template disables script/path overrides. Exercise persisted completion
 # through the public game entry point; the source gate separately clears all 100 floors.
 fixture.update(cleared_floor=100,raid_clears={str(f):1 for f in range(10,101,10)})

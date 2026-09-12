@@ -1,0 +1,1212 @@
+{
+  "reference": "costume_v04:pink-bunny-hoodie",
+  "body_pixels": 112,
+  "profiles": {
+    "gat:gat_addition_01_1": {
+      "body_height": 317.59,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -104
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        41,
+        -104
+      ]
+    },
+    "gat:gat_addition_01_2": {
+      "body_height": 330.26,
+      "source_facing": 1,
+      "release_offset": [
+        39,
+        -86
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        39,
+        -86
+      ]
+    },
+    "gat:gat_addition_02_1": {
+      "body_height": 329.28,
+      "source_facing": 1,
+      "release_offset": [
+        14,
+        -59
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        14,
+        -59
+      ]
+    },
+    "gat:gat_addition_02_2": {
+      "body_height": 351.82,
+      "source_facing": 1,
+      "release_offset": [
+        35,
+        -71
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        35,
+        -71
+      ]
+    },
+    "gat:gat_addition_03_1": {
+      "body_height": 297.26,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -91
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        40,
+        -91
+      ]
+    },
+    "gat:gat_addition_03_2": {
+      "body_height": 328.3,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -91
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        41,
+        -91
+      ]
+    },
+    "gat:gat_addition_04_1": {
+      "body_height": 312.62,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -94
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        44,
+        -94
+      ]
+    },
+    "gat:gat_addition_04_2": {
+      "body_height": 302.82,
+      "source_facing": 1,
+      "release_offset": [
+        37,
+        -99
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        37,
+        -99
+      ]
+    },
+    "gat:gat_addition_05_1": {
+      "body_height": 346.92,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -107
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -107
+      ]
+    },
+    "gat:gat_addition_05_2": {
+      "body_height": 357.7,
+      "source_facing": 1,
+      "release_offset": [
+        34,
+        -95
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        34,
+        -95
+      ]
+    },
+    "gat:gat_addition_06_1": {
+      "body_height": 315.56,
+      "source_facing": 1,
+      "release_offset": [
+        32,
+        -91
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        32,
+        -91
+      ]
+    },
+    "gat:gat_addition_06_2": {
+      "body_height": 322.42,
+      "source_facing": 1,
+      "release_offset": [
+        38,
+        -91
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        38,
+        -91
+      ]
+    },
+    "gat:gat_addition_07_1": {
+      "body_height": 356.72,
+      "source_facing": 1,
+      "release_offset": [
+        39,
+        -82
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        39,
+        -82
+      ]
+    },
+    "gat:gat_addition_07_2": {
+      "body_height": 355.74,
+      "source_facing": 1,
+      "release_offset": [
+        37,
+        -79
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        37,
+        -79
+      ]
+    },
+    "gat:gat_addition_08_1": {
+      "body_height": 315.56,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -67
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        44,
+        -67
+      ]
+    },
+    "gat:gat_addition_08_2": {
+      "body_height": 342.32,
+      "source_facing": 1,
+      "release_offset": [
+        47,
+        -85
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        47,
+        -85
+      ]
+    },
+    "gat:gat_addition_09_1": {
+      "body_height": 328.3,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -56
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        41,
+        -56
+      ]
+    },
+    "gat:gat_addition_09_2": {
+      "body_height": 338.1,
+      "source_facing": 1,
+      "release_offset": [
+        30,
+        -84
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        30,
+        -84
+      ]
+    },
+    "gat:gat_addition_10_1": {
+      "body_height": 339.08,
+      "source_facing": 1,
+      "release_offset": [
+        32,
+        -41
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        32,
+        -41
+      ]
+    },
+    "gat:gat_addition_10_2": {
+      "body_height": 326.34,
+      "source_facing": 1,
+      "release_offset": [
+        20,
+        -54
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        20,
+        -54
+      ]
+    },
+    "gat:gat_addition_11_1": {
+      "body_height": 355.74,
+      "source_facing": 1,
+      "release_offset": [
+        13,
+        -63
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        13,
+        -63
+      ]
+    },
+    "gat:gat_addition_11_2": {
+      "body_height": 352.8,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -83
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -83
+      ]
+    },
+    "gat:gat_addition_12_1": {
+      "body_height": 333.2,
+      "source_facing": 1,
+      "release_offset": [
+        49,
+        -123
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        49,
+        -123
+      ]
+    },
+    "gat:gat_addition_12_2": {
+      "body_height": 333.2,
+      "source_facing": 1,
+      "release_offset": [
+        31,
+        -80
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        31,
+        -80
+      ]
+    },
+    "gat:gat_blade_combat": {
+      "body_height": 593.88,
+      "source_facing": 1,
+      "release_offset": [
+        24,
+        -20
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        24,
+        -20
+      ]
+    },
+    "gat:gat_role_aoe_1": {
+      "body_height": 307.7,
+      "source_facing": 1,
+      "release_offset": [
+        35,
+        -87
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        35,
+        -87
+      ]
+    },
+    "gat:gat_role_aoe_2": {
+      "body_height": 357.2,
+      "source_facing": 1,
+      "release_offset": [
+        42,
+        -111
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        42,
+        -111
+      ]
+    },
+    "gat:gat_role_buffer_1": {
+      "body_height": 364.56,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -108
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        41,
+        -108
+      ]
+    },
+    "gat:gat_role_buffer_2": {
+      "body_height": 347.62,
+      "source_facing": 1,
+      "release_offset": [
+        45,
+        -77
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -77
+      ]
+    },
+    "gat:gat_role_debuffer_1": {
+      "body_height": 370.44,
+      "source_facing": 1,
+      "release_offset": [
+        23,
+        -82
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        23,
+        -82
+      ]
+    },
+    "gat:gat_role_debuffer_2": {
+      "body_height": 318.75,
+      "source_facing": 1,
+      "release_offset": [
+        32,
+        -88
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        32,
+        -88
+      ]
+    },
+    "gat:gat_role_healer_1": {
+      "body_height": 346.92,
+      "source_facing": 1,
+      "release_offset": [
+        47,
+        -110
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        47,
+        -110
+      ]
+    },
+    "gat:gat_role_healer_2": {
+      "body_height": 350.84,
+      "source_facing": 1,
+      "release_offset": [
+        35,
+        -89
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        35,
+        -89
+      ]
+    },
+    "gat:gat_role_single_1": {
+      "body_height": 293.28,
+      "source_facing": 1,
+      "release_offset": [
+        35,
+        -87
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        35,
+        -87
+      ]
+    },
+    "gat:gat_role_single_2": {
+      "body_height": 361.62,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -87
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        44,
+        -87
+      ]
+    },
+    "gat:gat_role_tank_1": {
+      "body_height": 309.59,
+      "source_facing": 1,
+      "release_offset": [
+        28,
+        -49
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        28,
+        -49
+      ]
+    },
+    "gat:gat_role_tank_2": {
+      "body_height": 359.66,
+      "source_facing": 1,
+      "release_offset": [
+        35,
+        -87
+      ],
+      "calibration": "manually checked against legacy runtime release frame 3; pixels at original 112 body scale",
+      "strong_offset": [
+        35,
+        -87
+      ]
+    },
+    "motions:warrior": {
+      "body_height": 240.0,
+      "source_facing": 1,
+      "release_offset": [
+        50,
+        -66
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        4,
+        -18
+      ]
+    },
+    "motions:ranger": {
+      "body_height": 200.0,
+      "source_facing": 1,
+      "release_offset": [
+        39,
+        -72
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        59,
+        -125
+      ]
+    },
+    "motions:mage": {
+      "body_height": 218.0,
+      "source_facing": 1,
+      "release_offset": [
+        38,
+        -71
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        -40,
+        -110
+      ],
+      "source_facing_by_frame": {
+        "10": -1
+      }
+    },
+    "jobs:tank": {
+      "body_height": 232.0,
+      "source_facing": 1,
+      "release_offset": [
+        38,
+        -61
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        39,
+        -63
+      ]
+    },
+    "jobs:swordsman": {
+      "body_height": 258.5,
+      "source_facing": 1,
+      "release_offset": [
+        53,
+        -68
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        4,
+        -18
+      ]
+    },
+    "jobs:runesword": {
+      "body_height": 234.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -72
+      ]
+    },
+    "jobs:summoner": {
+      "body_height": 243.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -72
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        48,
+        -65
+      ]
+    },
+    "jobs:elementalist": {
+      "body_height": 246.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -69
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        46,
+        -55
+      ]
+    },
+    "jobs:healer": {
+      "body_height": 243.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -65
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        42,
+        -60
+      ]
+    },
+    "jobs:sniper": {
+      "body_height": 263.0,
+      "source_facing": 1,
+      "release_offset": [
+        48,
+        -64
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        44,
+        -68
+      ],
+      "height_scale": 0.8745247148288974,
+      "measurement": {
+        "frame": 4,
+        "source_crown_y": 402,
+        "source_sole_y": 632,
+        "measured_body_height": 230,
+        "before_body_pixels": 97.9467680608365,
+        "after_body_pixels": 112,
+        "tolerance_source_pixels": 4,
+        "method": "Manually bounded helmet crown band, 12-pixel color support, excludes protruding ears, bows and whip. Sole retained from authored pivot."
+      }
+    },
+    "jobs:hunter": {
+      "body_height": 258.5,
+      "source_facing": 1,
+      "release_offset": [
+        50,
+        -68
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -60
+      ],
+      "height_scale": 0.8355899419729207,
+      "measurement": {
+        "frame": 4,
+        "source_crown_y": 403,
+        "source_sole_y": 619,
+        "measured_body_height": 216,
+        "before_body_pixels": 93.58607350096712,
+        "after_body_pixels": 112,
+        "tolerance_source_pixels": 4,
+        "method": "Manually bounded helmet crown band, 12-pixel color support, excludes protruding ears, bows and whip. Sole retained from authored pivot."
+      }
+    },
+    "jobs:explorer": {
+      "body_height": 273.0,
+      "source_facing": 1,
+      "release_offset": [
+        54,
+        -58
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        60,
+        -66
+      ],
+      "height_scale": 0.7948717948717948,
+      "measurement": {
+        "frame": 4,
+        "source_crown_y": 407,
+        "source_sole_y": 624,
+        "measured_body_height": 217,
+        "before_body_pixels": 89.02564102564102,
+        "after_body_pixels": 112,
+        "tolerance_source_pixels": 4,
+        "method": "Manually bounded helmet crown band, 12-pixel color support, excludes protruding ears, bows and whip. Sole retained from authored pivot."
+      }
+    },
+    "jobs:reaper": {
+      "body_height": 260.5,
+      "source_facing": 1,
+      "release_offset": [
+        37,
+        -42
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        36,
+        -30
+      ]
+    },
+    "jobs:gambler": {
+      "body_height": 244.0,
+      "source_facing": 1,
+      "release_offset": [
+        33,
+        -53
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        -27,
+        -107
+      ]
+    },
+    "jobs:infighter": {
+      "body_height": 283.5,
+      "source_facing": 1,
+      "release_offset": [
+        38,
+        -53
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        31,
+        -78
+      ]
+    },
+    "jobs:breaker": {
+      "body_height": 285.0,
+      "source_facing": 1,
+      "release_offset": [
+        50,
+        -58
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        49,
+        -78
+      ]
+    },
+    "jobs:martialist": {
+      "body_height": 280.0,
+      "source_facing": 1,
+      "release_offset": [
+        50,
+        -61
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        47,
+        -44
+      ]
+    },
+    "jobs:fighter": {
+      "body_height": 286.0,
+      "source_facing": 1,
+      "release_offset": [
+        36,
+        -53
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        22,
+        -44
+      ]
+    },
+    "jobs:thief": {
+      "body_height": 263.5,
+      "source_facing": 1,
+      "release_offset": [
+        26,
+        -44
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        22,
+        -30
+      ]
+    },
+    "jobs:rogue": {
+      "body_height": 263.5,
+      "source_facing": 1,
+      "release_offset": [
+        26,
+        -44
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        22,
+        -30
+      ]
+    },
+    "costume_v04:mint-hanbok": {
+      "body_height": 260.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -55
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        36,
+        -35
+      ]
+    },
+    "costume_v04:mint-silver-knight": {
+      "body_height": 245.0,
+      "source_facing": 1,
+      "release_offset": [
+        47,
+        -57
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -22
+      ]
+    },
+    "costume_v04:mint-summer": {
+      "body_height": 235.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -48
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        42,
+        -22
+      ]
+    },
+    "costume_v04:pink-beret-gunner": {
+      "body_height": 230.0,
+      "source_facing": 1,
+      "release_offset": [
+        46,
+        -72
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        52,
+        -67
+      ]
+    },
+    "costume_v04:pink-black-veil-hanbok": {
+      "body_height": 230.0,
+      "source_facing": 1,
+      "release_offset": [
+        46,
+        -68
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        47,
+        -61
+      ]
+    },
+    "costume_v04:pink-bunny-hoodie": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        46,
+        -67
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        57,
+        -55
+      ]
+    },
+    "costume_v04:lavender-sailor": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -64
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        48,
+        -53
+      ]
+    },
+    "costume_v04:lavender-shrine-maiden": {
+      "body_height": 215.0,
+      "source_facing": 1,
+      "release_offset": [
+        42,
+        -60
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -55
+      ]
+    },
+    "costume_v04:lavender-winter-hanbok": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -65
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        47,
+        -66
+      ]
+    },
+    "costume_v04:aqua-goggles-explorer": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -61
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        44,
+        -61
+      ]
+    },
+    "costume_v04:aqua-pajama": {
+      "body_height": 250.0,
+      "source_facing": 1,
+      "release_offset": [
+        34,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        34,
+        -63
+      ]
+    },
+    "costume_v04:aqua-rabbit-stage": {
+      "body_height": 210.0,
+      "source_facing": 1,
+      "release_offset": [
+        46,
+        -59
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        46,
+        -59
+      ]
+    },
+    "costume_v04:aqua-winter-hanbok": {
+      "body_height": 250.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        40,
+        -63
+      ]
+    },
+    "costume_v04:crimson-black-dress": {
+      "body_height": 245.0,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -61
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        41,
+        -61
+      ]
+    },
+    "costume_v04:crimson-black-jacket": {
+      "body_height": 260.0,
+      "source_facing": 1,
+      "release_offset": [
+        45,
+        -59
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -59
+      ]
+    },
+    "costume_v04:crimson-pastel-rabbit": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -62
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -62
+      ]
+    },
+    "costume_v04:crimson-rose-gothic": {
+      "body_height": 230.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -66
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -66
+      ]
+    },
+    "costume_v04:silvercat-black-uniform": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -70
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        33,
+        -93
+      ]
+    },
+    "costume_v04:silvercat-blossom-hanbok": {
+      "body_height": 220.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -58
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        38,
+        -78
+      ]
+    },
+    "costume_v04:silvercat-pink-maid": {
+      "body_height": 220.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -64
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -71
+      ]
+    },
+    "costume_v04:silvercat-street": {
+      "body_height": 230.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -70
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -81
+      ]
+    },
+    "costume_v04:silvercat-summer-resort": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        44,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -74
+      ]
+    },
+    "costume_v04:raven-black-punk": {
+      "body_height": 260.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -61
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        40,
+        -61
+      ]
+    },
+    "costume_v04:raven-navy-hanbok": {
+      "body_height": 270.0,
+      "source_facing": 1,
+      "release_offset": [
+        43,
+        -65
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        43,
+        -65
+      ]
+    },
+    "costume_v04:raven-pink-dress": {
+      "body_height": 230.0,
+      "source_facing": 1,
+      "release_offset": [
+        39,
+        -65
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        39,
+        -65
+      ]
+    },
+    "costume_v04:raven-school-uniform": {
+      "body_height": 255.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        40,
+        -63
+      ]
+    },
+    "costume_v04:raven-summer-resort": {
+      "body_height": 255.0,
+      "source_facing": 1,
+      "release_offset": [
+        38,
+        -59
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        38,
+        -59
+      ]
+    },
+    "costume_v04:amethyst-purple-dress": {
+      "body_height": 250.0,
+      "source_facing": 1,
+      "release_offset": [
+        39,
+        -67
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        39,
+        -67
+      ]
+    },
+    "costume_v04:amethyst-summer-shawl": {
+      "body_height": 260.0,
+      "source_facing": 1,
+      "release_offset": [
+        45,
+        -63
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        45,
+        -63
+      ]
+    },
+    "costume_v04:pearlcat-sailor": {
+      "body_height": 225.0,
+      "source_facing": 1,
+      "release_offset": [
+        42,
+        -64
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        48,
+        -69
+      ]
+    },
+    "costume_v04:cobalt-black-ribbon-maid": {
+      "body_height": 235.0,
+      "source_facing": 1,
+      "release_offset": [
+        42,
+        -67
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        46,
+        -67
+      ]
+    },
+    "costume_v04:cobalt-broom-maid": {
+      "body_height": 240.0,
+      "source_facing": 1,
+      "release_offset": [
+        40,
+        -35
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        28,
+        -92
+      ]
+    },
+    "costume_v04:cobalt-navy-hanbok": {
+      "body_height": 260.0,
+      "source_facing": 1,
+      "release_offset": [
+        41,
+        -65
+      ],
+      "calibration": "manually checked against runtime release frame 6 and strong frame 10; pixels at original 112 body scale",
+      "strong_offset": [
+        42,
+        -61
+      ]
+    }
+  }
+}

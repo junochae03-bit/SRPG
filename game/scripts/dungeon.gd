@@ -1,6 +1,9 @@
 extends RefCounted
 
-const SIZE = 38
+const SIZE = 80
+const EXPLORATION_SCALE = 1.6
+const RAID_SIZE = 50
+const Regions=preload("res://scripts/dungeon_regions.gd")
 var seed_value: int
 var floor_cells: Dictionary = {}
 var rooms: Array[Vector2i] = []
@@ -16,17 +19,32 @@ var connections:Array=[]
 var route_cells:Dictionary={}
 var encounters:Array=[]
 var room_styles:Array=[]
+var room_radii:Array=[]
+var raid_arena=false
+var arena_radius=0.0
+var exploration_sites:Array=[]
+var hidden_regions:Array=[]
+var revealed_regions={}
+var opened_regions={}
+var revision=0
+var region_profile={}
 
-# Anchors are encounter areas, not tiles in a fixed grid. Each graph keeps
-# the entrance at 0 and the guardian at 8 so old floor progression stays valid.
+# Anchors are encounter areas, not tiles in a fixed grid. The entrance is
+# always first and the guardian is last; raid approaches use only three areas.
 const LAYOUTS={
-	"branching":{"points":[[6,7],[17,8],[28,6],[29,18],[19,19],[7,19],[8,30],[20,29],[30,30]],"links":[[0,1],[1,2],[1,4],[4,3],[4,5],[5,6],[4,7],[7,8]]},
-	"circuit":{"points":[[6,7],[17,6],[28,8],[31,19],[29,30],[18,31],[7,29],[6,18],[19,19]],"links":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[3,8],[6,8]]},
-	"great_cavern":{"points":[[6,7],[15,10],[27,6],[29,17],[20,18],[7,20],[10,30],[23,29],[31,29]],"links":[[0,1],[1,2],[1,4],[4,3],[4,5],[5,6],[4,7],[7,8],[3,8],[6,7]]},
-	"side_hollows":{"points":[[6,6],[16,8],[28,6],[29,17],[18,18],[7,19],[8,30],[20,29],[31,29]],"links":[[0,1],[1,4],[4,7],[7,8],[1,2],[4,3],[4,5],[5,6]]},
-	"split_bridges":{"points":[[6,7],[17,6],[29,7],[7,18],[20,17],[31,18],[8,30],[19,30],[30,30]],"links":[[0,1],[1,2],[0,3],[2,5],[3,4],[4,5],[3,6],[5,8],[6,7],[7,8]]},
-	"crossed_halls":{"points":[[6,6],[17,7],[29,6],[7,18],[18,18],[30,18],[6,30],[18,30],[30,30]],"links":[[0,1],[1,2],[1,4],[4,3],[3,6],[4,5],[5,8],[4,7],[7,6],[7,8]]}
+	"branching":{"name":"맞물린 곁굴","points":[[7,7],[23,8],[40,7],[42,23],[29,24],[10,22],[7,40],[22,42],[40,40]],"radii":[5,6,4,5,7,5,4,5,7],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
+	"circuit":{"name":"고리 협곡","points":[[8,9],[23,6],[40,10],[43,26],[36,41],[21,43],[7,36],[6,22],[25,25]],"radii":[5,5,6,4,5,4,6,4,7],"links":[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[7,0],[1,8],[3,8],[5,8],[7,8]]},
+	"great_cavern":{"name":"겹친 대공동","points":[[8,7],[23,9],[41,7],[41,23],[25,25],[8,23],[8,41],[26,41],[42,41]],"radii":[5,6,4,6,8,5,4,6,6],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
+	"side_hollows":{"name":"휘감긴 지하수로","points":[[8,7],[25,6],[41,13],[34,27],[20,18],[7,23],[9,40],[24,41],[42,41]],"radii":[5,4,6,5,4,7,5,4,7],"links":[[0,1],[0,5],[1,2],[1,4],[2,3],[3,4],[4,5],[5,6],[6,7],[4,7],[7,8],[3,8]]},
+	"split_bridges":{"name":"쌍둥이 균열","points":[[7,12],[19,6],[34,7],[18,24],[33,24],[43,18],[8,40],[28,42],[43,37]],"radii":[5,6,4,4,7,5,6,4,7],"links":[[0,1],[0,6],[1,3],[3,6],[1,2],[3,4],[6,7],[2,5],[5,8],[8,7],[7,4],[4,2]]}
 }
+const RAID_LAYOUTS={
+	"raid_caldera":{"name":"심연 원형 전장","arena_style":0},
+	"raid_gallery":{"name":"왕좌의 대회랑","arena_style":1},
+	"raid_crucible":{"name":"마력 십자 성소","arena_style":2}
+}
+const RAID_POINTS=[[25,7],[25,17],[25,36]]
+const RAID_LINKS=[[0,1],[1,2]]
 
 func _init(value: int = 20260908,zone_name:String="forest",depth:int=0):
 	seed_value = value
@@ -114,53 +132,81 @@ func town_path(from:Vector2i,to:Vector2i):
 
 func generate_floor():
 	var layout_rng=RandomNumberGenerator.new();layout_rng.seed=seed_value+floor_number*4099
-	var types=LAYOUTS.keys()
-	# A run advances its seed by 7919 on travel. Keep that travel counter out
-	# of the family offset so descending visits all six layouts, not just three.
-	layout_id=types[posmod(floor_number-1+posmod(seed_value,7919),types.size())]
+	region_profile=Regions.profile(floor_number)
+	layout_id=Regions.choose_layout(region_profile,layout_rng)
 	layout_rotation=layout_rng.randi_range(0,7)
 	var definition:Dictionary=LAYOUTS[layout_id]
+	raid_arena=floor_number%10==0
+	if raid_arena:
+		layout_id=RAID_LAYOUTS.keys()[posmod(int(floor_number/10)-1,RAID_LAYOUTS.size())]
+		definition={"points":RAID_POINTS,"links":RAID_LINKS,"radii":[5,5,10]}
+		arena_radius=10.
 	for index in range(definition.points.size()):
 		var point=definition.points[index]
-		var anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-1,1),layout_rng.randi_range(-1,1))
+		var anchor=Vector2i(point[0],point[1])+Vector2i(layout_rng.randi_range(-2,2),layout_rng.randi_range(-2,2))
+		if not raid_arena:anchor=Vector2i((Vector2(anchor)*EXPLORATION_SCALE).round())
 		rooms.append(transform_anchor(anchor))
-		room_styles.append(posmod(index+layout_rng.randi_range(0,2),3))
-	spawn=Vector2(rooms[0]);exit_position=Vector2(rooms[8])
+		room_styles.append(posmod(index+layout_rng.randi_range(0,2),3) if raid_arena else Regions.room_style(region_profile,layout_rng))
+		var late_bonus=1 if not raid_arena and floor_number%10>=6 and index>0 and index<8 else 0
+		room_radii.append(int(definition.radii[index])+(0 if raid_arena else 2)+late_bonus)
+	spawn=Vector2(rooms[0]);exit_position=Vector2(rooms.back())
 	for index in range(rooms.size()):
-		var radius=6 if index==8 else 5 if index==0 else 4
-		if layout_id=="great_cavern" and index in [1,3,4,5,7]:radius=5
+		if raid_arena and index==rooms.size()-1:continue
+		var radius=int(room_radii[index])
 		carve_room(rooms[index],radius,int(room_styles[index]))
-	# Corridors have a full five-cell safe width, including every turn. This
+		# Offset lobes give large caverns an irregular shoreline, while small
+		# alcoves stay visibly smaller. This does not add collision props.
+		if index>0 and index<8 and radius>=6 and (raid_arena or region_profile.lobes):
+			carve_room(rooms[index]+Vector2i(2,-1),radius-2,0)
+	if raid_arena:carve_arena()
+	# Corridors have a full seven-cell safe width, including every turn. This
 	# gives the player room to sidestep a monster instead of body-blocking a door.
 	for link in definition.links:
 		var a=rooms[link[0]];var b=rooms[link[1]]
 		connections.append([int(link[0]),int(link[1])])
-		var bend=Vector2i(a.x,b.y) if layout_rng.randf()<.5 else Vector2i(b.x,a.y)
-		if layout_id in ["circuit","great_cavern","split_bridges"]:
-			carve_segment(a,b,2)
+		if raid_arena:
+			carve_segment(a,b,3)
 		else:
-			carve_segment(a,bend,2);carve_segment(bend,b,2)
+			# Bowed routes avoid a repeated horizontal/vertical lattice. Wide
+			# interleaved segments keep every turn traversable by the whole party.
+			var perpendicular=Vector2(b-a).normalized().orthogonal()*layout_rng.randf_range(-region_profile.bend,region_profile.bend)
+			var waypoint=Vector2i((Vector2(a+b)*.5+perpendicular).round())
+			var half_width=int(region_profile.width)
+			waypoint=waypoint.clamp(Vector2i.ONE*(half_width+1),Vector2i.ONE*(SIZE-half_width-2))
+			carve_segment(a,waypoint,half_width);carve_segment(waypoint,b,half_width)
 	if layout_id=="great_cavern":
 		# Overlapping lobes form one broad chamber, with several entrances and
 		# smaller alcoves at its perimeter, rather than another room/corridor grid.
-		carve_room(rooms[4],8,1)
+		carve_room(rooms[4],10,1)
 		carve_segment(rooms[4],rooms[7],3)
 	path_cells=floor_cells
 	build_encounters(layout_rng)
+	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
+	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)
+
+func carve_arena():
+	var style=int(RAID_LAYOUTS[layout_id].arena_style)
+	for dx in range(-12,13):
+		for dy in range(-11,12):
+			var inside=dx*dx+dy*dy<=100
+			if style==1:inside=absi(dx)<=11 and absi(dy)<=8
+			elif style==2:inside=(absi(dx)<=10 and absi(dy)<=7) or (absi(dx)<=7 and absi(dy)<=10)
+			if inside:carve_cell(rooms.back()+Vector2i(dx,dy))
 
 func transform_anchor(point:Vector2i)->Vector2i:
 	var result=point
-	if layout_rotation>=4:result.x=SIZE-1-result.x
-	for turn in range(layout_rotation%4):result=Vector2i(SIZE-1-result.y,result.x)
+	var extent=RAID_SIZE if raid_arena else SIZE
+	if layout_rotation>=4:result.x=extent-1-result.x
+	for turn in range(layout_rotation%4):result=Vector2i(extent-1-result.y,result.x)
 	return result
 
 func carve_room(center:Vector2i,radius:int,style:int):
 	for dx in range(-radius,radius+1):
 		for dy in range(-radius,radius+1):
 			var inside=dx*dx+dy*dy<=radius*radius+2
-			if layout_id=="crossed_halls":inside=absi(dx)<=radius and absi(dy)<=radius-1
-			elif style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1
+			if style==1:inside=float(dx*dx)/(radius*radius)+float(dy*dy)/((radius-1)*(radius-1))<=1.1
 			elif style==2:inside=absi(dx)+absi(dy)<=radius+2 and maxi(absi(dx),absi(dy))<=radius
+			elif style==3:inside=maxi(absi(dx),absi(dy))<=radius and absi(dx)+absi(dy)<=radius*2-2
 			if inside:carve_cell(center+Vector2i(dx,dy))
 
 func carve_cell(cell:Vector2i):
@@ -180,6 +226,9 @@ func carve_segment(a:Vector2i,b:Vector2i,half_width:int):
 		else:cursor.y+=signi(remaining.y)
 
 func build_encounters(layout_rng:RandomNumberGenerator):
+	if raid_arena:
+		encounters.append({"role":"guardian","pos":exit_position,"room":rooms.size()-1,"mob_index":0,"formation":-1})
+		return
 	var counts=[[2,4,2,3,4,2,4],[4,2,3,2,4,4,2],[2,3,4,4,2,3,3]][layout_rng.randi_range(0,2)]
 	var used:Array[Vector2]=[]
 	var sequence=0
@@ -221,7 +270,7 @@ func find_encounter_position(preferred:Vector2,center:Vector2i,used:Array[Vector
 	return best
 
 func valid_encounter_position(pos:Vector2,used:Array[Vector2])->bool:
-	if pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<4.0:return false
+	if pos.distance_to(spawn)<8.0 or pos.distance_to(exit_position)<(13.0 if raid_arena else 5.0):return false
 	# Receiving volumes may be larger than movement collision; give even the
 	# large commons a cell of floor around their feet and don't stack silhouettes.
 	for off in [Vector2.ZERO,Vector2.RIGHT,Vector2.LEFT,Vector2.UP,Vector2.DOWN]:

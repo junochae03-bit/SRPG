@@ -37,8 +37,8 @@ func open(key:String):
 	if not game.session.connected or game.session.sim.map.zone!="town":return
 	facility=key;var npc=World.RESIDENTS[key]
 	game.bag.hide();game.skill_tree.hide();game.help_panel.hide();game.codex.hide();game.town_panel.hide()
-	game.session.sim.combat.act(game.session.sim.players[game.session.local_id],"cancel_charge")
-	game.session.sim.set_input(game.session.local_id,Vector2.ZERO,game.session.sim.players[game.session.local_id].aim)
+	game.session.cancel_charge()
+	game.session.send_input(Vector2.ZERO,game.session.sim.players[game.session.local_id].aim)
 	speaker.text=npc.name;dialogue.text=npc.greeting
 	portrait.texture=Gat.portrait({"avatar":npc.avatar,"class_id":"warrior"})
 	service_button.text={"smith":"장비를 맡긴다","shop":"물건을 살펴본다","alchemy":"조합을 부탁한다","guild":"의뢰를 확인한다","inn":"쉬어 간다","costume":"코스튬을 살펴본다","training":"훈련 기록을 본다"}.get(key,"이용하기")
