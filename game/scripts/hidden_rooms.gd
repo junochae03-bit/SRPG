@@ -3,6 +3,7 @@ extends RefCounted
 const DISCOVERY_RADIUS=4.0
 const ROOM_RADIUS=4
 const Inventory=preload("res://scripts/inventory_model.gd")
+const Shortcuts=preload("res://scripts/exploration_shortcuts.gd")
 static func generate(map)->Array:
 	if map.floor_number<=0 or map.raid_arena:return []
 	var result=[];var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+89519
@@ -31,7 +32,10 @@ static func generate(map)->Array:
 			if distance<nearest:nearest=distance;clue=Vector2(cell)
 		if nearest>144 or clue.distance_to(map.spawn)<10:continue
 		result.append({"id":"hidden_%d"%result.size(),"kind":"secret","pos":clue,"center":Vector2(center),"room":-1,"tool":result.size()==1,"tier":int((map.floor_number-1)/10),"generation":"%d.%s.%d"%[map.seed_value,map.zone,map.floor_number]})
-		if result.size()==2:return result
+		if result.size()==2:break
+	if result.size()==2:
+		var shortcut=Shortcuts.select(map,result[0])
+		if not shortcut.is_empty():result[1].merge(shortcut,true)
 	return result
 static func discover(sim):
 	for region in sim.map.hidden_regions:
@@ -45,8 +49,11 @@ static func open(map,id:String)->bool:
 	if map.opened_regions.has(id):return false
 	for region in map.hidden_regions:
 		if region.id!=id:continue
-		map.carve_room(Vector2i(region.center),ROOM_RADIUS,0)
-		map.carve_segment(Vector2i(region.pos),Vector2i(region.center),1)
+		if region.get("shortcut",false):
+			for cell in Shortcuts.cells(region):map.carve_cell(cell)
+		else:
+			map.carve_room(Vector2i(region.center),ROOM_RADIUS,0)
+			map.carve_segment(Vector2i(region.pos),Vector2i(region.center),1)
 		map.opened_regions[id]=true;map.revealed_regions[id]=true;map.revision+=1
 		return true
 	return false
@@ -61,6 +68,9 @@ static func snapshots(sim,id:int)->Array:
 		var entry=region.duplicate(true);var opened=sim.map.opened_regions.has(region.id)
 		entry.merge({"name":"봉인된 보관실" if region.tool else "바람이 새는 벽","icon":"locked" if region.tool else "search","material":"essence","opened":opened,"claimed":sim.exploration_claims.get(id,{}).has(region.id),"remaining":0})
 		if opened:entry.pos=region.center;entry.name="숨겨진 보관실";entry.icon="quest_reward"
+		if region.get("shortcut",false):entry.name="열린 지름길" if opened else "바람이 통하는 봉인";entry.icon="quest_reward" if opened else "search"
+		for key in ["previous_distance","passage_distance","goal_saved","new_cells"]:entry.erase(key)
+		if not opened:entry.erase("forward_exit")
 		for enemy in sim.enemies.values():
 			if enemy.hp>0 and enemy.pos.distance_to(entry.pos)<8:entry.remaining+=1
 		result.append(entry)

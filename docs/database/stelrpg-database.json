@@ -374150,19 +374150,19 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "receive_checkpoint"
       },
       {
@@ -374192,19 +374192,19 @@
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
         "source_symbol": "exit_ack"
       }
     ],
@@ -374842,6 +374842,72 @@
       "threat_radius": 8,
       "version": 2
     },
+    "exploration_shortcut_source_rules": [
+      {
+        "source_code": "static func navigation(map)->AStarGrid2D:\n\tvar graph=AStarGrid2D.new();graph.region=Rect2i(0,0,map.SIZE,map.SIZE)\n\tgraph.diagonal_mode=AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES\n\tgraph.default_compute_heuristic=AStarGrid2D.HEURISTIC_OCTILE\n\tgraph.default_estimate_heuristic=AStarGrid2D.HEURISTIC_OCTILE\n\tgraph.update();graph.fill_solid_region(graph.region,true)\n\tfor cell in map.floor_cells:graph.set_point_solid(cell,false)\n\treturn graph",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "navigation"
+      },
+      {
+        "source_code": "static func distance(graph:AStarGrid2D,a:Vector2i,b:Vector2i)->float:\n\tvar path=graph.get_point_path(a,b)\n\tif path.is_empty():return INF\n\tvar total=0.\n\tfor i in range(1,path.size()):total+=path[i-1].distance_to(path[i])\n\treturn total",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "distance"
+      },
+      {
+        "source_code": "static func progress(map)->Dictionary:\n\tvar origin=Vector2i(map.spawn);var result={origin:0};var queue=[origin];var index=0\n\twhile index<queue.size():\n\t\tvar cell=queue[index];index+=1\n\t\tfor offset in [Vector2i.RIGHT,Vector2i.DOWN,Vector2i.LEFT,Vector2i.UP]:\n\t\t\tvar next=cell+offset\n\t\t\tif map.floor_cells.has(next) and not result.has(next):result[next]=result[cell]+1;queue.append(next)\n\treturn result",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "progress"
+      },
+      {
+        "source_code": "static func mouths(map,center:Vector2i)->Array:\n\tvar sectors={}\n\tfor dx in range(-12,13):\n\t\tfor dy in range(-12,13):\n\t\t\tvar squared=dx*dx+dy*dy\n\t\t\tif squared<=9 or squared>144:continue\n\t\t\tvar cell=center+Vector2i(dx,dy)\n\t\t\tif not map.floor_cells.has(cell) or Vector2(cell).distance_to(map.exit_position)<10.:continue\n\t\t\tvar sector=posmod(roundi(atan2(dy,dx)/(PI/4.)),8)\n\t\t\tif not sectors.has(sector) or squared<sectors[sector].distance:sectors[sector]={\"cell\":cell,\"distance\":squared}\n\treturn sectors.values().map(func(value):return value.cell)",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "mouths"
+      },
+      {
+        "source_code": "static func segment(result:Dictionary,a:Vector2i,b:Vector2i):\n\tvar cursor=a\n\twhile true:\n\t\tfor dx in range(-1,2):\n\t\t\tfor dy in range(-1,2):result[cursor+Vector2i(dx,dy)]=true\n\t\tif cursor==b:break\n\t\tvar remaining=b-cursor\n\t\tif absi(remaining.x)>=absi(remaining.y) and remaining.x!=0:cursor.x+=signi(remaining.x)\n\t\telse:cursor.y+=signi(remaining.y)",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "segment"
+      },
+      {
+        "source_code": "static func cells(region:Dictionary)->Dictionary:\n\tvar result={};var center=Vector2i(region.center)\n\tfor dx in range(-ROOM_RADIUS,ROOM_RADIUS+1):\n\t\tfor dy in range(-ROOM_RADIUS,ROOM_RADIUS+1):\n\t\t\tif dx*dx+dy*dy<=ROOM_RADIUS*ROOM_RADIUS+2:result[center+Vector2i(dx,dy)]=true\n\tsegment(result,Vector2i(region.pos),center);segment(result,center,Vector2i(region.forward_exit))\n\treturn result",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "cells"
+      },
+      {
+        "source_code": "static func select(map,retained:Dictionary)->Dictionary:\n\tif map.raid_arena or map.floor_number<=0:return {}\n\tvar candidates=[];var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+SEED_OFFSET\n\tfor y in range(8,map.SIZE-7,3):\n\t\tfor x in range(8,map.SIZE-7,3):candidates.append(Vector2i(x,y))\n\tfor index in range(candidates.size()-1,0,-1):\n\t\tvar other=rng.randi_range(0,index);var before=candidates[index];candidates[index]=candidates[other];candidates[other]=before\n\tvar steps=progress(map);var graph=navigation(map)\n\tfor center in candidates:\n\t\tif Vector2(center).distance_to(retained.center)<13.:continue\n\t\tvar clear=true\n\t\tfor dx in range(-ROOM_RADIUS-1,ROOM_RADIUS+2):\n\t\t\tfor dy in range(-ROOM_RADIUS-1,ROOM_RADIUS+2):\n\t\t\t\tif map.floor_cells.has(center+Vector2i(dx,dy)):clear=false;break\n\t\t\tif not clear:break\n\t\tif not clear:continue\n\t\tvar entries=mouths(map,center)\n\t\tentries.sort_custom(func(a,b):return steps.get(a,99999)<steps.get(b,99999) if steps.get(a,99999)!=steps.get(b,99999) else a<b)\n\t\tif entries.size()<2:continue\n\t\tvar entry:Vector2i=entries[0]\n\t\tif steps.get(entry,0)<12 or Vector2(entry).distance_to(map.spawn)<10.:continue\n\t\tvar entry_to_goal=distance(graph,entry,Vector2i(map.exit_position))\n\t\tfor exit_cell in entries.slice(1):\n\t\t\tif steps.get(exit_cell,0)-steps[entry]<8:continue\n\t\t\tif distance(graph,exit_cell,Vector2i(map.exit_position))>entry_to_goal-6.:continue\n\t\t\tvar old_length=distance(graph,entry,exit_cell)\n\t\t\tif not is_finite(old_length) or old_length<Vector2(entry).distance_to(Vector2(exit_cell))+MIN_SAVING:continue\n\t\t\tvar region={\"center\":Vector2(center),\"pos\":Vector2(entry),\"forward_exit\":Vector2(exit_cell),\"shortcut\":true,\"previous_distance\":old_length}\n\t\t\tvar added=[];var valid=true\n\t\t\tfor cell in cells(region):\n\t\t\t\tif cell.x<1 or cell.y<1 or cell.x>=map.SIZE-1 or cell.y>=map.SIZE-1 or Vector2(cell).distance_to(retained.center)<6. or Vector2(cell).distance_to(map.exit_position)<10. or Vector2(cell).distance_to(map.spawn)<8.:valid=false;break\n\t\t\t\tif not map.floor_cells.has(cell):added.append(cell)\n\t\t\tif not valid or added.size()>MAX_NEW_CELLS:continue\n\t\t\tfor cell in added:graph.set_point_solid(cell,false)\n\t\t\tvar new_length=distance(graph,entry,exit_cell);var new_to_goal=distance(graph,entry,Vector2i(map.exit_position))\n\t\t\tfor cell in added:graph.set_point_solid(cell,true)\n\t\t\tif old_length-new_length<MIN_SAVING or new_length>old_length*MAX_ROUTE_RATIO or entry_to_goal-new_to_goal<6.:continue\n\t\t\tregion[\"new_cells\"]=added.size();region[\"passage_distance\"]=new_length;region[\"goal_saved\"]=entry_to_goal-new_to_goal\n\t\t\treturn region\n\treturn {}",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "select"
+      },
+      {
+        "source_code": "static func draw(game):\n\tvar player=game.session.state.players.get(game.session.local_id,{})\n\tif player.is_empty():return\n\tfor region in game.dungeon.hidden_regions:\n\t\tif not region.get(\"shortcut\",false) or not game.dungeon.opened_regions.has(region.id):continue\n\t\tfor mouth in [region.pos,region.forward_exit]:\n\t\t\tif not game.vision.sees(mouth):continue\n\t\t\tvar art=preload(\"res://scripts/environment_art.gd\").frame(\"ruins_rubble\")\n\t\t\tvar at=game.world_point(mouth);var scale_value=26./art.height\n\t\t\tgame.draw_texture_rect(art.texture,Rect2(at-art.foot*scale_value,art.texture.get_size()*scale_value),false,Color(.8,.85,.82,.8))\n\t\t\tif player.pos.distance_to(mouth)<3.2 and game.dungeon.line_clear(player.pos,mouth):game.text_at(at+Vector2(0,32),\"열린 지름길\",15,Color(\"efdfb1\"),true)",
+        "source_path": "game/scripts/exploration_shortcuts.gd",
+        "source_sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+        "source_symbol": "draw"
+      }
+    ],
+    "exploration_shortcuts": {
+      "discovery": "local_wall_clue_then_shared_opening",
+      "distance": "eight_neighbor_shortest_path_without_corner_cutting",
+      "maximum_new_cells": 150,
+      "maximum_per_floor": 1,
+      "maximum_route_ratio": 0.75,
+      "minimum_goal_saved_tiles": 6,
+      "minimum_saved_tiles": 10,
+      "normal_geometry": "unchanged_until_discovered_and_opened",
+      "passage_half_width": 1,
+      "raid_enabled": false,
+      "replaces": "second_tool_pocket_when_a_useful_passage_fits",
+      "reward_scope": "existing_personal_secret_reward",
+      "room_radius": 2,
+      "seed_offset": 23917
+    },
     "exploration_source_rules": [
       {
         "source_code": "static func configuration()->Dictionary:\n\treturn {\"version\":2,\"definitions\":DEFINITIONS.duplicate(true),\"site_art\":SITE_ART,\"interaction_radius\":REACH,\"threat_radius\":THREAT_RADIUS,\"challenge\":Challenge.configuration(),\"sites_per_floor\":5,\"placement\":\"rest_on_spine_rewards_in_forward_rejoining_wings\",\"cache_potions\":2,\"cache_material\":\"4+tier\",\"sites_per_raid\":1,\"claim_scope\":\"one_per_player_per_generated_floor\",\"generation\":\"independent_seed_plus_57103\",\"request_generation_format\":\"seed.zone.floor\",\"reward_tier\":\"floor((floor-1)/10)\",\"gather_amount\":\"3+tier\",\"offering_potions\":1,\"offering_essence\":\"2+tier\",\"shrine_recovery\":0.35,\"rest_hp_stamina\":1.0}",
@@ -374923,39 +374989,39 @@
     },
     "hidden_room_source_rules": [
       {
-        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar result=[];var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+89519\n\tvar directions=[Vector2.RIGHT,Vector2.DOWN,Vector2.LEFT,Vector2.UP,Vector2(1,1).normalized(),Vector2(-1,1).normalized(),Vector2(1,-1).normalized(),Vector2(-1,-1).normalized()]\n\tvar first=rng.randi_range(1,7)\n\tvar candidates=[]\n\tfor offset in range(7):\n\t\tvar room=1+(first+offset)%7\n\t\tfor direction in directions:\n\t\t\tcandidates.append(Vector2i((Vector2(map.rooms[room])+direction*(map.room_radii[room]+8)).round()))\n\t# Interior voids supply a pocket when all perimeter anchors touch the edge.\n\tfor y in range(6,map.SIZE-6,4):\n\t\tfor x in range(6,map.SIZE-6,4):candidates.append(Vector2i(x,y))\n\tfor center in candidates:\n\t\tif center.x<6 or center.y<6 or center.x>map.SIZE-7 or center.y>map.SIZE-7:continue\n\t\tif result.any(func(region):return Vector2(center).distance_to(region.center)<13):continue\n\t\tvar free=true\n\t\tfor dx in range(-5,6):\n\t\t\tfor dy in range(-5,6):\n\t\t\t\tif map.floor_cells.has(center+Vector2i(dx,dy)):free=false;break\n\t\t\tif not free:break\n\t\tif not free:continue\n\t\tvar clue=Vector2.ZERO;var nearest=INF\n\t\tfor cell in map.floor_cells:\n\t\t\tvar distance=Vector2(center).distance_squared_to(Vector2(cell))\n\t\t\tif distance<nearest:nearest=distance;clue=Vector2(cell)\n\t\tif nearest>144 or clue.distance_to(map.spawn)<10:continue\n\t\tresult.append({\"id\":\"hidden_%d\"%result.size(),\"kind\":\"secret\",\"pos\":clue,\"center\":Vector2(center),\"room\":-1,\"tool\":result.size()==1,\"tier\":int((map.floor_number-1)/10),\"generation\":\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]})\n\t\tif result.size()==2:return result\n\treturn result",
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar result=[];var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+89519\n\tvar directions=[Vector2.RIGHT,Vector2.DOWN,Vector2.LEFT,Vector2.UP,Vector2(1,1).normalized(),Vector2(-1,1).normalized(),Vector2(1,-1).normalized(),Vector2(-1,-1).normalized()]\n\tvar first=rng.randi_range(1,7)\n\tvar candidates=[]\n\tfor offset in range(7):\n\t\tvar room=1+(first+offset)%7\n\t\tfor direction in directions:\n\t\t\tcandidates.append(Vector2i((Vector2(map.rooms[room])+direction*(map.room_radii[room]+8)).round()))\n\t# Interior voids supply a pocket when all perimeter anchors touch the edge.\n\tfor y in range(6,map.SIZE-6,4):\n\t\tfor x in range(6,map.SIZE-6,4):candidates.append(Vector2i(x,y))\n\tfor center in candidates:\n\t\tif center.x<6 or center.y<6 or center.x>map.SIZE-7 or center.y>map.SIZE-7:continue\n\t\tif result.any(func(region):return Vector2(center).distance_to(region.center)<13):continue\n\t\tvar free=true\n\t\tfor dx in range(-5,6):\n\t\t\tfor dy in range(-5,6):\n\t\t\t\tif map.floor_cells.has(center+Vector2i(dx,dy)):free=false;break\n\t\t\tif not free:break\n\t\tif not free:continue\n\t\tvar clue=Vector2.ZERO;var nearest=INF\n\t\tfor cell in map.floor_cells:\n\t\t\tvar distance=Vector2(center).distance_squared_to(Vector2(cell))\n\t\t\tif distance<nearest:nearest=distance;clue=Vector2(cell)\n\t\tif nearest>144 or clue.distance_to(map.spawn)<10:continue\n\t\tresult.append({\"id\":\"hidden_%d\"%result.size(),\"kind\":\"secret\",\"pos\":clue,\"center\":Vector2(center),\"room\":-1,\"tool\":result.size()==1,\"tier\":int((map.floor_number-1)/10),\"generation\":\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]})\n\t\tif result.size()==2:break\n\tif result.size()==2:\n\t\tvar shortcut=Shortcuts.select(map,result[0])\n\t\tif not shortcut.is_empty():result[1].merge(shortcut,true)\n\treturn result",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "generate"
       },
       {
         "source_code": "static func discover(sim):\n\tfor region in sim.map.hidden_regions:\n\t\tif sim.map.revealed_regions.has(region.id):continue\n\t\tfor p in sim.players.values():\n\t\t\tif p.hp>0 and p.pos.distance_to(region.pos)<=DISCOVERY_RADIUS and sim.map.line_clear(p.pos,region.pos):\n\t\t\t\tsim.map.revealed_regions[region.id]=true\n\t\t\t\tfor id in sim.players:sim.notice(id,\"벽 틈에서 바람이 느껴집니다.\")\n\t\t\t\tbreak",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "discover"
       },
       {
-        "source_code": "static func open(map,id:String)->bool:\n\tif map.opened_regions.has(id):return false\n\tfor region in map.hidden_regions:\n\t\tif region.id!=id:continue\n\t\tmap.carve_room(Vector2i(region.center),ROOM_RADIUS,0)\n\t\tmap.carve_segment(Vector2i(region.pos),Vector2i(region.center),1)\n\t\tmap.opened_regions[id]=true;map.revealed_regions[id]=true;map.revision+=1\n\t\treturn true\n\treturn false",
+        "source_code": "static func open(map,id:String)->bool:\n\tif map.opened_regions.has(id):return false\n\tfor region in map.hidden_regions:\n\t\tif region.id!=id:continue\n\t\tif region.get(\"shortcut\",false):\n\t\t\tfor cell in Shortcuts.cells(region):map.carve_cell(cell)\n\t\telse:\n\t\t\tmap.carve_room(Vector2i(region.center),ROOM_RADIUS,0)\n\t\t\tmap.carve_segment(Vector2i(region.pos),Vector2i(region.center),1)\n\t\tmap.opened_regions[id]=true;map.revealed_regions[id]=true;map.revision+=1\n\t\treturn true\n\treturn false",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "open"
       },
       {
         "source_code": "static func synchronize(map,opened:Array,discovered:Array):\n\tfor id in discovered:\n\t\tif map.hidden_regions.any(func(region):return region.id==id):map.revealed_regions[id]=true\n\tfor id in opened:open(map,id)",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "synchronize"
       },
       {
-        "source_code": "static func snapshots(sim,id:int)->Array:\n\tvar result=[]\n\tfor region in sim.map.hidden_regions:\n\t\tif not sim.map.revealed_regions.has(region.id):continue\n\t\tvar entry=region.duplicate(true);var opened=sim.map.opened_regions.has(region.id)\n\t\tentry.merge({\"name\":\"봉인된 보관실\" if region.tool else \"바람이 새는 벽\",\"icon\":\"locked\" if region.tool else \"search\",\"material\":\"essence\",\"opened\":opened,\"claimed\":sim.exploration_claims.get(id,{}).has(region.id),\"remaining\":0})\n\t\tif opened:entry.pos=region.center;entry.name=\"숨겨진 보관실\";entry.icon=\"quest_reward\"\n\t\tfor enemy in sim.enemies.values():\n\t\t\tif enemy.hp>0 and enemy.pos.distance_to(entry.pos)<8:entry.remaining+=1\n\t\tresult.append(entry)\n\treturn result",
+        "source_code": "static func snapshots(sim,id:int)->Array:\n\tvar result=[]\n\tfor region in sim.map.hidden_regions:\n\t\tif not sim.map.revealed_regions.has(region.id):continue\n\t\tvar entry=region.duplicate(true);var opened=sim.map.opened_regions.has(region.id)\n\t\tentry.merge({\"name\":\"봉인된 보관실\" if region.tool else \"바람이 새는 벽\",\"icon\":\"locked\" if region.tool else \"search\",\"material\":\"essence\",\"opened\":opened,\"claimed\":sim.exploration_claims.get(id,{}).has(region.id),\"remaining\":0})\n\t\tif opened:entry.pos=region.center;entry.name=\"숨겨진 보관실\";entry.icon=\"quest_reward\"\n\t\tif region.get(\"shortcut\",false):entry.name=\"열린 지름길\" if opened else \"바람이 통하는 봉인\";entry.icon=\"quest_reward\" if opened else \"search\"\n\t\tfor key in [\"previous_distance\",\"passage_distance\",\"goal_saved\",\"new_cells\"]:entry.erase(key)\n\t\tif not opened:entry.erase(\"forward_exit\")\n\t\tfor enemy in sim.enemies.values():\n\t\t\tif enemy.hp>0 and enemy.pos.distance_to(entry.pos)<8:entry.remaining+=1\n\t\tresult.append(entry)\n\treturn result",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "snapshots"
       },
       {
         "source_code": "static func use(sim,p:Dictionary,argument:String)->bool:\n\tvar parts=argument.split(\":\")\n\tif parts.size()!=3:return false\n\tvar choices=snapshots(sim,p.id).filter(func(entry):return entry.generation==parts[0] and entry.id==parts[1])\n\tif choices.is_empty():return false\n\tvar site=choices[0]\n\tif p.hp<=0 or p.get(\"down_time\",0)>0 or p.get(\"network_leaving\",false) or p.pos.distance_to(site.pos)>2.8 or not sim.map.line_clear(p.pos,site.pos):return false\n\tif site.remaining>0:sim.notice(p.id,\"주변 적을 먼저 처치하세요.\");return false\n\tif site.claimed:return false\n\tif parts[2]==\"open\" and not site.opened:\n\t\tif site.tool:\n\t\t\tif p.materials.get(\"tool\",0)<1:sim.notice(p.id,\"탐사 도구가 필요합니다. 마을 상점에서 구입할 수 있습니다.\");return false\n\t\t\tp.materials.tool-=1\n\t\t\tif p.materials.tool==0:p.bag_positions.erase(\"@mat:tool\")\n\t\topen(sim.map,site.id);sim.dirty[p.id]=true;sim.notice(p.id,\"숨겨진 길이 열렸습니다.\");return true\n\tif parts[2]!=\"collect\" or not site.opened:return false\n\tvar staged=p.duplicate(true);var amount=3+int(site.tier)\n\tif not Inventory.add_stack(staged,\"essence\",amount):sim.notice(p.id,Inventory.stack_failure_reason(p,\"essence\",amount));return false\n\tstaged.gold+=40+site.tier*20\n\tfor key in [\"materials\",\"bag_positions\",\"gold\"]:p[key]=staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=\"collect\";sim.dirty[p.id]=true;sim.notice(p.id,\"정수 +%d · 금화 +%d\"%[amount,40+site.tier*20]);return true",
         "source_path": "game/scripts/hidden_rooms.gd",
-        "source_sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+        "source_sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
         "source_symbol": "use"
       }
     ],
@@ -375277,7 +375343,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe",
+      "game/scripts/coop_session.gd": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -375304,16 +375370,17 @@
       "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
       "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
       "game/scripts/exploration_cues.gd": "06695e3ee16bb0c930207628eef4bb635d1c64ed554a78f6e102df4b452edfc4",
-      "game/scripts/exploration_panel.gd": "fa0b01d1eac9babf316731032f16063abd6efa2dd74b534be52415e441701ede",
+      "game/scripts/exploration_panel.gd": "3f3ff7635e819c70f5595c84d270740227b87f9c41a0a5d0970e58d7e3bf6c2f",
       "game/scripts/exploration_rooms.gd": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+      "game/scripts/exploration_shortcuts.gd": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283",
-      "game/scripts/game_database.gd": "977635fcfa63aff94ac119d6d6cec5f7df8bf96f80b1357601aeb6343be1e394",
+      "game/scripts/game_database.gd": "d5c15914f6de5bc9c2b202b4b0255cbd7644063812bb5fc0e08386a3da706b00",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
-      "game/scripts/hidden_rooms.gd": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb",
+      "game/scripts/hidden_rooms.gd": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
       "game/scripts/hud_sprite_button.gd": "bfc22a0129f21f12b4c438334c3329de45c41fefb8ce50d6fa169e3d91ddadc7",
       "game/scripts/icon_art.gd": "07fd7e9563a490540e74b97a1802cea7733d828a097a2eaaeadb81f55cc790a7",
       "game/scripts/icon_library.gd": "d076aa185e8fc2e14b6a36e167a748cd91db398574fb8fc1bbfbceb123f2c87b",
@@ -375331,7 +375398,7 @@
       "game/scripts/keyboard_panel.gd": "1c2a2c7e747ab0fed2a2ce3111d3e9eed67497f302a4032fdb0dc300fe21ced8",
       "game/scripts/local_session.gd": "93d1c20ce2cd640c2899160817f1aba9e5ee8af92bace9a8d40b2b91d6c02577",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "a7a7ccaede017959f61d833a47b76cb522d108f8a843d7b93affb0d9b916e2ed",
+      "game/scripts/main.gd": "8d0df1f9823fbca5fa6e4dc05dd85f6b5d85b2b46e70bffbeb0b56a8099a526e",
       "game/scripts/minimap.gd": "17f53a8a04c944f0d14d0b608cabdaa659511de02ccbb3bcc5b77dae6bba0493",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "884ad894cc4fecca29434a592a4b14020fb007b1a7ac8bf4290fa243c3494130",
@@ -375385,7 +375452,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "8da01a532cf6117930bd98be764b39fbb0de220864b9d401c3852d75f57b05f6",
+      "tools/game_db_rules.py": "208f07a5c4daf40a76df2abef5d8feb6aefb28f018be8fabacedb4fa2ac3d8dd",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [

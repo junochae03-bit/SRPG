@@ -27,8 +27,12 @@ func run():
 	var test_floor=12 if options.has("environment") else 1
 	var test_seed=531
 	if options.has("environment"):
-		for value in range(500,600):
-			if preload("res://scripts/expedition_environment.gd").select(value+7919,test_floor).id==options.environment:test_seed=value;break
+		var found_fixture=false
+		for value in range(500,800):
+			if preload("res://scripts/expedition_environment.gd").select(value+7919,test_floor).id!=options.environment:continue
+			var candidate=preload("res://scripts/dungeon.gd").new(value+7919,"cave",test_floor)
+			if candidate.hidden_regions.any(func(site):return site.get("shortcut",false)):test_seed=value;found_fixture=true;break
+		check(found_fixture,"environment fixture includes a real useful shortcut")
 	p.highest_floor=test_floor;p.cleared_floor=test_floor-1
 	var data=sim.persistent(1);data.world_seed=test_seed
 	check(session.write_save(data,session.save_path()),"isolated fixture saved")
@@ -185,6 +189,51 @@ func run():
 		await create_timer(.7).timeout
 		check(int(session.state.players[session.local_id].materials.get("essence",0))==essence+3+int((test_floor-1)/10),"each human receives secret reward exactly once")
 		check(session.state.players[session.local_id].expedition_goal.stage==3,"personal rumor completes through shared opening and private reward over ENet")
+		if options.has("environment"):
+			var shortcut=session.sim.map.hidden_regions[1];var shortcut_key=shortcut.generation+":"+shortcut.id
+			check(shortcut.get("shortcut",false),"actual network fixture contains a discovered onward passage")
+			var tools_before=0;var remote_id=session.state.players.keys().max()
+			var original_revision=session.sim.map.revision
+			if host:
+				for player in session.sim.players.values():
+					player.pos=session.sim.map.spawn if player.id==remote_id else shortcut.pos;preload("res://scripts/inventory_model.gd").add_stack(player,"tool",1);tools_before+=int(player.materials.tool)
+				preload("res://scripts/hidden_rooms.gd").discover(session.sim);session.refresh();session.publish_snapshot()
+			await create_timer(.7).timeout
+			if not host and session.local_id!=remote_id:
+				session.sequence+=1
+				session.receive_action.rpc_id(1,session.sequence,"explore",shortcut_key+":open")
+				session.receive_action.rpc_id(1,session.sequence,"explore",shortcut_key+":open")
+			await create_timer(.8).timeout
+			check(session.state.opened_regions.has(shortcut.id) and session.sim.map.walkable(shortcut.center),"concurrent guest discovery opens terrain on all six peers")
+			if host:
+				var tools_after=0
+				for player in session.sim.players.values():tools_after+=int(player.materials.tool)
+				check(tools_after==tools_before-1,"concurrent duplicate opening requests spend one tool total")
+			var shared_vision=preload("res://scripts/dungeon_vision.gd").new()
+			shared_vision.update(session.sim.map,session.state.players,session.state.clock)
+			check(session.sim.map.revision>original_revision and shared_vision.context[3]==session.sim.map.revision,"opening revision and visibility update even for a distant peer")
+			check(not shared_vision.discovered(session.sim.map.exit_position),"shared opening never reveals the whole destination")
+			if session.local_id==remote_id:check(session.state.players[session.local_id].pos==session.sim.map.spawn,"distant peer received opening while remaining at arrival")
+			if host:
+				session.sim.players[remote_id].pos=shortcut.pos;session.refresh();session.publish_snapshot()
+			await create_timer(.7).timeout
+			var navigator=preload("res://scripts/exploration_shortcuts.gd").navigation(session.sim.map)
+			var route=navigator.get_point_path(Vector2i(shortcut.pos),Vector2i(shortcut.forward_exit))
+			check(not route.is_empty(),"every peer reconstructs traversable shortcut")
+			if game!=null:game.set_physics_process(false)
+			var walk_deadline=Time.get_ticks_msec()+14000;var point_index=0
+			while point_index<route.size() and Time.get_ticks_msec()<walk_deadline:
+				var location=session.state.players[session.local_id].pos
+				if location.distance_to(route[point_index])<.32:point_index+=1;continue
+				session.send_input((route[point_index]-location).limit_length(1.),Vector2.RIGHT)
+				await create_timer(.035).timeout
+			session.send_input(Vector2.ZERO,Vector2.RIGHT);await create_timer(.2).timeout
+			check(session.state.players[session.local_id].pos.distance_to(shortcut.forward_exit)<.6,"real host and guest input walks through newly opened passage")
+			if game!=null:game.set_physics_process(true)
+			if host:
+				var party_deadline=Time.get_ticks_msec()+5000
+				while Time.get_ticks_msec()<party_deadline and not session.sim.players.values().all(func(player):return player.pos.distance_to(shortcut.forward_exit)<.8):await create_timer(.1).timeout
+				check(session.sim.players.values().all(func(player):return player.pos.distance_to(shortcut.forward_exit)<.8),"all six players arrive through the passage")
 		check(session.save_game(),"checkpoint saves local character")
 		check(session.parse_save(session.save_path())!=null,"checkpoint passes existing save validator")
 	if game!=null and session.connected:

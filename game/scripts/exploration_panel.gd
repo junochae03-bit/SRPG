@@ -67,6 +67,9 @@ func _process(_delta):
 			first.text="보물 회수 · 정수 +%d"%(3+int(active.tier)) if active.opened else "봉인 해제 · 탐사 도구 1" if active.tool else "틈새 열기"
 			if not blocked:detail.text="금화 +%d"%(40+active.tier*20) if active.opened else "보유 도구 %d"%p.get("materials",{}).get("tool",0) if active.tool else "벽 너머에 숨겨진 공간"
 			first.disabled=first.disabled or (not active.opened and active.tool and p.get("materials",{}).get("tool",0)<1)
+			if active.get("shortcut",false):
+				if not active.opened:first.text="지름길 개방 · 탐사 도구 1"
+				if not blocked:detail.text="앞 구역으로 이어진 길 · 금화 +%d"%(40+active.tier*20) if active.opened else "앞 구역으로 연결 · 보유 도구 %d"%p.get("materials",{}).get("tool",0)
 		"gather":
 			first.text="채집 · %s +%d"%[Rooms.Content.MATERIALS[active.material],int(active.get("gather_amount",3+int(active.tier)))]
 			first.size.x=487
