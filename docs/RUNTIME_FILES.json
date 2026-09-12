@@ -1671,8 +1671,8 @@
   },
   {
     "path": "game/scripts/skill_graph_view.gd",
-    "bytes": 17306,
-    "sha256": "04ba79d1ef7e55f44934eb92f6af96bf7e1752b39b443eabbbcb82ab3cee1c98"
+    "bytes": 16255,
+    "sha256": "a323ced58e3e1672ef195e36037814318ea137d93bbe9f0b277fc515c3214567"
   },
   {
     "path": "game/scripts/skill_node_roles.gd",
@@ -1681,8 +1681,8 @@
   },
   {
     "path": "game/scripts/skill_presentation.gd",
-    "bytes": 11134,
-    "sha256": "a1e5062c98b4926ae4897dc88c32d38e76ca23f2983530d1fe9d6e3ed77e5136"
+    "bytes": 14171,
+    "sha256": "746027daa898d6030775130006e0437725171df4e004174435084f41410f5560"
   },
   {
     "path": "game/scripts/skill_reach.gd",
@@ -1696,8 +1696,8 @@
   },
   {
     "path": "game/scripts/skill_tree_ui.gd",
-    "bytes": 38220,
-    "sha256": "41f63ea97529ad852f170ba8a249dfd908577c6a6df8d9c342c61eed352b95e4"
+    "bytes": 38801,
+    "sha256": "6da3c2c012847618aac7d2968658859d00beb5b3134f740c68eb9e92ceb22f35"
   },
   {
     "path": "game/scripts/skill_vfx.gd",

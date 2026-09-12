@@ -75,6 +75,7 @@ var next_step_button:Button
 var identity:Label
 var portrait:TextureRect
 var spent_label:Label
+var skill_summary:Label
 const DETAIL_WIDTH=360
 
 func setup(owner_game):
@@ -86,9 +87,9 @@ func setup(owner_game):
 	portrait=Art.picture(self,null,Vector2(31,20),Vector2(70,70));identity=game.label(self,"",Vector2(119,23),Vector2(420,43),30)
 	Library.picture(self,"skill_points",Vector2(555,35),Vector2(29,29));points=game.label(self,"",Vector2(600,30),Vector2(720,38),24);Library.attach(game.button(self,"닫기",Vector2(1400,26),Vector2(125,43),game.toggle_skills),"close",22)
 	role_label=game.label(self,"",Vector2(109,69),Vector2(760,24),16)
-	for i in range(5):
-		var b=game.button(self,"",Vector2(31,228+i*78),Vector2(180,60),func():show_branch(i));branch_buttons.append(b);view_controls.append(b)
-		var label=game.label(b,"",Vector2(12,16),Vector2(156,30),17);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;branch_labels.append(label)
+	for i in range(3):
+		var b=game.button(self,"",Vector2(31+i*349,202),Vector2(336,47),func():show_branch(-1 if graph.scope_cluster==i else i));branch_buttons.append(b);view_controls.append(b)
+		var label=game.label(b,"",Vector2(12,8),Vector2(312,31),23);label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;branch_labels.append(label)
 	for i in range(3):
 		var key=["skills","stats","class"][i];mode_buttons[key]=game.button(self,["스킬 지도","능력치","직업"][i],Vector2(974+i*182,87),Vector2(171,43),func():change_mode(key));Library.attach(mode_buttons[key],["skills","stat_points","class_warrior"][i],22)
 	search=game.line_edit(self,"",Vector2(31,148),Vector2(300,42));search.placeholder_text="스킬 · 효과 검색";search.clear_button_enabled=true;search.text_changed.connect(func(value):pending_search=.16 if value!=applied_search_text else 0.);search.text_submitted.connect(func(_v):apply_search());view_controls.append(search)
@@ -98,11 +99,11 @@ func setup(owner_game):
 	filter_picker.item_selected.connect(func(i):filter_index=i;focus_match());view_controls.append(filter_picker)
 	branch_picker=picker(self,Vector2(515,148),Vector2(279,42));branch_picker.item_selected.connect(func(i):show_branch(i-1));view_controls.append(branch_picker)
 	tag_picker=picker(self,Vector2(805,148),Vector2(265,42));tag_picker.item_selected.connect(func(i):tag_filter=str(tag_picker.get_item_metadata(i));focus_match());view_controls.append(tag_picker)
-	view_controls.append(Art.panel(self,Vector2(225,202),Vector2(855,578),"paper",21))
-	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(239,214);graph.size=Vector2(827,510);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
-	overview_button=game.button(self,"전체 지도",Vector2(46,736),Vector2(122,37),func():show_branch(-1 if graph.scope_cluster>=0 else int(Rules.definition(choice).get("cluster",0))));view_controls.append(overview_button)
+	view_controls.append(Art.panel(self,Vector2(31,252),Vector2(1045,472),"paper",21))
+	graph=preload("res://scripts/skill_graph_view.gd").new();graph.setup(self);graph.position=Vector2(34,258);graph.size=Vector2(1040,466);add_child(graph);scroll=graph;plot=graph;view_controls.append(graph)
+	overview_button=game.button(self,"전체 지도",Vector2(46,736),Vector2(122,37),func():show_branch(-1 if graph.scope_cluster>=0 else Presentation.tree_group(Rules.definition(choice))));view_controls.append(overview_button)
 	view_controls.append(game.button(self,"추천 경로",Vector2(179,736),Vector2(122,37),show_recommendations))
-	view_controls.append(game.button(self,"직업 빌드",Vector2(31,622),Vector2(180,37),func():var panel=preload("res://scripts/build_preset_panel.gd").new();add_child(panel);panel.setup(self)))
+	view_controls.append(game.button(self,"직업 빌드",Vector2(787,88),Vector2(169,43),func():var panel=preload("res://scripts/build_preset_panel.gd").new();add_child(panel);panel.setup(self)))
 	view_controls.append(game.button(self,"−",Vector2(899,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1./1.2)))
 	zoom_label=game.label(self,"",Vector2(945,740),Vector2(65,30),17);zoom_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;view_controls.append(zoom_label)
 	view_controls.append(game.button(self,"+",Vector2(1019,736),Vector2(41,37),func():graph.zoom_at(graph.size*.5,1.2)))
@@ -115,6 +116,7 @@ func setup(owner_game):
 	selected=game.label(details,"",Vector2(119,26),Vector2(287,72),26);selected.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	status=game.label(details,"",Vector2(25,113),Vector2(382,54),18);status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	description=game.label(details,"",Vector2(25,169),Vector2(382,43),18);description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	skill_summary=game.label(details,"",Vector2(25,172),Vector2(382,72),18);skill_summary.autowrap_mode=TextServer.AUTOWRAP_WORD
 	invest=game.button(details,"",Vector2(23,217),Vector2(386,49),invest_selected,true)
 	comparison_scroll=ScrollContainer.new();comparison_scroll.position=Vector2(25,282);comparison_scroll.size=Vector2(382,239);comparison_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;details.add_child(comparison_scroll)
 	comparison=Control.new();comparison.custom_minimum_size=Vector2(DETAIL_WIDTH,239);comparison_scroll.add_child(comparison)
@@ -143,7 +145,7 @@ func setup(owner_game):
 	Art.picture(class_panel,Art.texture("alcove"),Vector2(36,173),Vector2(257,375));class_portrait=Art.picture(class_panel,null,Vector2(73,231),Vector2(178,284));class_portrait.material=preload("res://scripts/gat_art.gd").material()
 	class_detail=game.label(class_panel,"",Vector2(332,190),Vector2(673,334),22);class_detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	class_commit=game.button(class_panel,"직업 선택",Vector2(333,558),Vector2(668,54),request_class_change)
-	spent_label=game.label(self,"",Vector2(31,666),Vector2(183,49),17);spent_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;view_controls.append(spent_label)
+	spent_label=game.label(self,"",Vector2(33,112),Vector2(500,26),17);spent_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;view_controls.append(spent_label)
 	style_tree(self)
 	queue_redraw()
 	hide()
@@ -156,8 +158,8 @@ func _draw():
 			draw_colored_polygon(PackedVector2Array([Vector2(x,y-5),Vector2(x+5,y),Vector2(x,y+5),Vector2(x-5,y)]),gold)
 	draw_line(Vector2(30,137),Vector2(size.x-30,137),Color("776454"),1)
 	if mode=="skills":
-		draw_line(Vector2(221,215),Vector2(221,717),Color("776454"),1)
-		for i in range(5):draw_rect(Rect2(Vector2(31,228+i*78),Vector2(180,60)),gold if graph!=null and graph.scope_cluster==i else Color("615751"),false,2)
+		for i in range(3):
+			draw_line(Vector2(31+i*349,249),Vector2(367+i*349,249),gold if graph!=null and graph.scope_cluster==i else Color("615751"),2)
 	draw_line(Vector2(1087,157),Vector2(1087,824),Color("776454"),1)
 
 func style_tree(control:Node):
@@ -218,17 +220,18 @@ func show_recommendations():
 func show_branch(cluster:int):
 	graph.set_scope(cluster);refund_mode=false
 	if cluster>=0:
-		var candidates=node_list.filter(func(n):return int(n.get("cluster",0))==cluster)
+		var candidates=node_list.filter(func(n):return Presentation.tree_group(n)==cluster)
 		if not candidates.any(func(n):return n.id==choice) and not candidates.is_empty():choice=candidates[0].id
 	refresh(true);graph.fit_scope()
 func refresh_branch_picker():
 	if branch_picker==null:return
 	branch_picker.clear();branch_picker.add_item("전체 지도 · %d개"%node_list.size())
-	for i in range(5):
-		var keys=node_list.filter(func(n):return int(n.get("cluster",0))==i and n.get("type","")=="keystone")
-		var purpose=Presentation.branch(keys[0]) if not keys.is_empty() else [str(graph.cluster_names.get(i,"성장")),""]
-		branch_picker.add_item(str(purpose[0])+" · "+str(purpose[1]))
-		branch_labels[i].text=("◆ " if graph.scope_cluster==i else "")+str(purpose[0]);branch_buttons[i].tooltip_text=str(graph.cluster_names.get(i,""))+"\n"+str(purpose[1]);branch_buttons[i].set_meta("branch_outcome",purpose[1])
+	var titles=Presentation.tree_group_names(player().class_id)
+	for i in range(3):
+		var count=node_list.filter(func(n):return Presentation.tree_group(n)==i).size()
+		branch_picker.add_item(str(titles[i])+" · %d개"%count)
+		branch_labels[i].text=str(titles[i]);branch_buttons[i].tooltip_text=str(titles[i])+" · %d개 기술"%count
+		branch_buttons[i].set_meta("branch_outcome",str(titles[i]))
 	branch_picker.select(graph.scope_cluster+1);overview_button.text="전체 지도" if graph.scope_cluster>=0 else "가지 보기"
 func focus_choice():graph.focus_node(choice)
 func focus_match():
@@ -311,7 +314,7 @@ func refresh(force=false):
 	content_refreshes+=1;signature=next;Content.initialize_jobs();node_list=Rules.nodes_for(p.class_id)
 	identity.text=str(p.get("name","모험가"))+" · 스킬"
 	if game.hud.get("portrait")!=null:portrait.texture=game.hud.portrait;portrait.material=preload("res://scripts/gat_art.gd").material()
-	spent_label.text="사용한 포인트\n%d SP"%Rules.spent_points(p)
+	spent_label.text="사용한 포인트 %d SP"%Rules.spent_points(p)
 	points.text="LV.%d · 스킬 %d SP · 능력치 %d"%[p.level,Rules.available_points(p),Progression.available(p)]
 	role_label.text=Content.CLASSES[p.class_id].name+" · "+Balance.role(p.class_id)[0];role_label.tooltip_text=Balance.role(p.class_id)[1]
 	for control in view_controls:control.visible=mode=="skills"
@@ -353,7 +356,10 @@ func refresh(force=false):
 	elif mode=="class":refresh_class()
 	for b in bind_buttons:b.visible=mode=="skills"
 	invest.visible=mode=="skills";path_button.visible=mode=="skills";refund_button.visible=mode=="skills"
-	comparison_scroll.position.y=282 if mode=="skills" else 226;comparison_scroll.size.y=239 if mode=="skills" else 295
+	skill_summary.visible=mode=="skills"
+	if mode=="skills":layout_skill_description()
+	else:
+		description.position.y=169;comparison_scroll.position.y=226;comparison_scroll.size.y=295
 	impact_summary.visible=mode=="skills";detail_body.position.y=147 if mode=="skills" else 0
 	selected_icon.material=Art.icon_material(selected_icon.texture)
 	Library.attach(mode_buttons["class"],"class_"+p.class_id,22)
@@ -364,7 +370,16 @@ func refresh(force=false):
 func paragraph(title:String,body:String)->String:return "[b]"+title+"[/b]\n"+body+"\n\n" if not body.is_empty() else ""
 func localized_tag(tag:String)->String:
 	return {"original":"원기술","active":"사용 기술","passive":"지속 효과","upgrade":"기술 강화","minor":"기반","notable":"주요 특성","keystone":"핵심 선택","constellation":"별자리 특화"}.get(tag,Scaling.EFFECT_NAMES.get(tag,Rules.effect_label(tag)))
+func layout_skill_description():
+	var height=maxf(26,skill_summary.get_line_count()*skill_summary.get_line_height()+4)
+	skill_summary.size.y=height
+	description.position.y=skill_summary.position.y+height+8
+	invest.position.y=description.position.y+description.size.y+8
+	comparison_scroll.position.y=invest.position.y+invest.size.y+17
+	comparison_scroll.size.y=prerequisites.position.y-comparison_scroll.position.y-6
+
 func show_details(skill:Dictionary,p:Dictionary):
+	skill_summary.text=Presentation.skill_summary(skill);skill_summary.tooltip_text=str(skill.get("description",""))
 	var state=Rules.node_state(p,skill.id);var rank=int(state.get("rank",0));var maximum=int(skill.max_rank)
 	selected.text=str(skill.name).get_slice(" · ",0) if skill.get("type","")=="minor" else str(skill.name).replace(" · ","\n");selected.tooltip_text=skill.name;selected_icon.texture=Icons.skill(skill)
 	selected.add_theme_font_size_override("font_size",22 if "\n" in selected.text else 26)

@@ -15,7 +15,7 @@ func run():
 	game.toggle_skills();var tree=game.skill_tree
 	for cls in ["warrior","ranger","mage"]:
 		session.act("class",cls);tree.filter_index=0;tree.choice="";tree.refresh(true)
-		check(tree.nodes.size()==95 and tree.graph.scope_cluster==-1 and tree.graph.zoom>=1.0 and tree.graph.centers.size()==5 and tree.graph.size.x>=700 and tree.graph.size.y>=460,"initial unfiltered skill map keeps readable nodes and five branches "+cls)
+		check(tree.nodes.size()==95 and tree.graph.scope_cluster==-1 and tree.graph.zoom>=1.0 and tree.graph.centers.size()==3 and tree.graph.size.x>=700 and tree.graph.size.y>=460,"initial unfiltered skill map keeps readable nodes and three display groups "+cls)
 		for node in Content.SKILLS[cls]:check(tree.nodes[node.id].size.x>=26 and tree.nodes[node.id].icon!=null,"illustrated zoomable node "+node.id)
 		var active=Content.SKILLS[cls].filter(func(n):return n.effect=="active")[0]
 		tree.search.text=active.name;tree.apply_search()

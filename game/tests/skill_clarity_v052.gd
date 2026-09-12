@@ -37,7 +37,7 @@ func run():
 	for class_id in Content.CLASSES:
 		p.class_id=class_id;p.level=100;p.skill_ranks={};p.constellation_allocations={};p.skill_loadout={};session.sim.combat.jobs.reset(p);session.sim.recalculate(p);session.refresh()
 		tree.choice="";tree.search.text="";tree.tag_filter="";tree.filter_index=0;tree.change_mode("skills")
-		check(tree.branch_buttons.size()==5,"five outcome tabs "+class_id)
+		check(tree.branch_buttons.size()==3,"three display groups "+class_id)
 		check(tree.graph.scope_cluster==-1 and Rules.node_state(p,tree.choice).can_invest,"first view opens unfiltered readable map with a learnable entry "+class_id)
 		check(tree.nodes.values().any(func(node):return node.visible and Rules.node_state(p,node.id).can_invest),"first view contains actual next investments "+class_id)
 		check(not tree.headline_rows.any(func(row):return str(row[1])=="0.0" and str(row[2])=="0.0"),"non-attacking skills omit zero stagger from main outcomes "+class_id)
@@ -51,7 +51,7 @@ func run():
 				check(tree.nodes[node.id].shape()=="active_square" and tree.nodes[node.id].active_badge(),"active shape and badge "+node.id)
 			else:check(not tree.nodes[node.id].active_badge(),"passive cannot impersonate active "+node.id)
 			if node.type=="keystone":keys+=1;check(Presentation.key_effect(node)!="","known branch result "+node.id)
-		for cluster in range(5):
+		for cluster in range(3):
 			# Browsing must preserve build and point allocation. Runtime rendering
 			# may refresh transient combat caches during the awaited input frame.
 			var unchanged=JSON.stringify([p.class_id,p.skill_ranks,p.constellation_allocations,p.skill_loadout,Rules.available_points(p)])
@@ -63,6 +63,8 @@ func run():
 			fitted(tree.branch_labels[cluster],"branch tab")
 			var visible=tree.nodes.values().filter(func(node):return node.visible)
 			for control in visible:
+				check(control.size.x>=64,"readable skill icon "+control.id)
+				if not control.name_label.visible:continue
 				fitted(control.name_label,"node "+control.id)
 				var label_rect=Rect2(control.position+control.name_label.position,Vector2(control.name_label.size.x,control.name_label.get_line_count()*control.name_label.get_line_height()))
 				check(Rect2(Vector2.ZERO,tree.graph.size).encloses(label_rect),"effect caption inside graph "+control.id)
@@ -106,7 +108,7 @@ func run():
 	tree.choice="";tree.refresh(true);tree.select_node("ranger:star:1:key");await process_frame
 	check(tree.invest.disabled and "배타" in tree.status.text,"exclusive route explains conflict")
 	fitted(tree.status,"exclusive route status");await capture("exclusive-route")
-	check(all_nodes==1510 and keys==100 and actives>200 and branch_checks==100,"all classes and branches retained")
+	check(all_nodes==1510 and keys==100 and actives>200 and branch_checks==60,"all classes and branches retained")
 	check(tree.comparison_scroll.get_rect().end.y<tree.prerequisites.position.y,"summary and long details stay within scrolling body")
 	var report={"suite":"skill_clarity_v052","checks":checks,"failures":failures,"nodes":all_nodes,"active_nodes":actives,"branches":branch_checks,"screenshots":screenshots}
 	var output=FileAccess.open("res://../artifacts/skill-clarity-v052.json",FileAccess.WRITE);output.store_string(JSON.stringify(report,"\t"));output.close()
