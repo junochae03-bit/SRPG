@@ -33,6 +33,10 @@ static func transition(previous:Dictionary,next:Dictionary,from_floor:int,to_flo
 
 static func recommendations(p:Dictionary)->Array:
 	var rows=[]
+	var objective=preload("res://scripts/expedition_goals.gd").describe(p)
+	if not objective.is_empty() and objective.ready and objective.facility!="portal" and int(p.expedition_goal.stage)<3:
+		var work=preload("res://scripts/expedition_goals.gd").work_status(p)
+		rows.append({"facility":objective.facility,"title":objective.title+" 확보","detail":"모은 재료로 작업하기" if work.ready else work.reason})
 	var contract=p.get("guild_contract",{})
 	if not contract.is_empty() and int(contract.progress)>=int(contract.target):
 		rows.append({"facility":"guild","title":"완료한 의뢰","detail":"길드에서 토벌 보상 받기"})

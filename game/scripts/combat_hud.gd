@@ -286,6 +286,10 @@ func refresh():
 		quest_title.text="B%d · %s"%[floor_number,"레이드" if floor_number%10==0 else "던전 탐사"]
 		quest_icon="trophy" if floor_number==100 and clear else "quest_complete" if clear else "boss" if floor_number%10==0 else "quest"
 		quest.text="100층 레이드 완료\n마력핵을 잠재웠습니다." if floor_number==100 and clear else "다음 층으로 향하는 길이\n열렸습니다." if clear else "최종 보스 격파" if floor_number==100 else "보스 격파 · 다음 층 해금" if floor_number%10==0 else "최심부 수문장 격파"
+	var chosen=preload("res://scripts/expedition_goals.gd").describe(p)
+	if p.tutorial_done and not chosen.is_empty():
+		quest_title.text=chosen.title;quest_icon="quest_complete" if chosen.ready else chosen.icon
+		quest.text="B%d · %s"%[chosen.floor,chosen.detail]
 	game.connection_label.text=""
 	quest_title.tooltip_text=quest_title.text
 	quest_emblem.texture=Icons.texture(quest_icon)

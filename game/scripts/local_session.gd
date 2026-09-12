@@ -112,7 +112,7 @@ func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
-	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset"]: return false
+	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset","select_goal"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
 		return travel("town")
@@ -239,6 +239,8 @@ func validate_save(value:Variant)->Variant:
 			if node.id==value.skill_loadout[action] and node.effect=="active" and value.get("skill_ranks",{}).get(node.id,0)>0:valid=true
 		if not valid:return null
 	if not value.get("guild_contract",{}) is Dictionary or not value.get("dungeon_clears",{}) is Dictionary:return null
+	if not preload("res://scripts/expedition_goals.gd").valid(value.get("expedition_goal",{})):return null
+	if value.has("expedition_goal"):value.expedition_goal=preload("res://scripts/expedition_goals.gd").restore(value.expedition_goal)
 	var contract=value.get("guild_contract",{})
 	if not contract.is_empty():
 		if contract.get("zone","") not in preload("res://scripts/world_catalog.gd").DUNGEONS:return null

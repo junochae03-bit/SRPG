@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "scope": "targeted_goal_save_ui_regression",
+  "results": [
+    {
+      "test": "expedition_goals",
+      "status": "PASS",
+      "checks": 843
+    },
+    {
+      "test": "expedition_goals_visual",
+      "status": "PASS",
+      "checks": 38
+    },
+    {
+      "test": "expedition_brief",
+      "status": "PASS",
+      "checks": 615
+    },
+    {
+      "test": "expedition_journal",
+      "status": "PASS",
+      "checks": 27
+    },
+    {
+      "test": "hidden_rooms",
+      "status": "PASS",
+      "checks": 616
+    },
+    {
+      "test": "exploration_challenge",
+      "status": "PASS",
+      "checks": 301
+    },
+    {
+      "test": "single_player",
+      "status": "PASS",
+      "checks": 30
+    },
+    {
+      "test": "coop_rules",
+      "status": "PASS",
+      "checks": 20
+    },
+    {
+      "test": "qa_save_v052",
+      "status": "PASS",
+      "checks": 33
+    },
+    {
+      "test": "performance_ui_v05",
+      "status": "PASS",
+      "checks": 912
+    },
+    {
+      "test": "hud_layout_v04",
+      "status": "PASS",
+      "checks": 385
+    },
+    {
+      "test": "database_metadata_v05",
+      "status": "PASS",
+      "checks": 5328
+    },
+    {
+      "test": "codex_cache_v053",
+      "status": "PASS",
+      "checks": 909
+    }
+  ],
+  "checks": 10057,
+  "run_directory": "runtime\\goals-checks\\20260913-045053",
+  "network_run": "runtime/coop-check-1789242468326520600",
+  "runtime_manifest_sha256": "e63049694c90cfab8c1dff80324baf65dcbc1eb6746ba418d156d4ea443d18b5",
+  "database_sha256": {
+    "json": "9bfd7df9dd88d401bb4c4b1f673dc576f974d5d91774ca51b66118d498b16285",
+    "sqlite": "63c8e7fc6335095d03187214b70fb35f5cee857c084170c1644cdf8681782128"
+  },
+  "limitations": [
+    "Targeted regression, not a repeated full verification gate",
+    "Local six-process ENet, not external long-session QA",
+    "Screenshots are deterministic UI fixtures"
+  ]
+}

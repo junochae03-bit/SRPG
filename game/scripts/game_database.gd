@@ -62,6 +62,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
 	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()
+	db.metadata["expedition_goals"]=preload("res://scripts/expedition_goals.gd").configuration()
 	db.metadata["expedition_journal"]=preload("res://scripts/expedition_journal.gd").configuration()
 	db.metadata["enemy_awareness"]=preload("res://scripts/enemy_awareness.gd").configuration()
 	db.metadata["dungeon_vision"]={"radius":preload("res://scripts/dungeon_vision.gd").RADIUS,"memory_light":preload("res://scripts/dungeon_vision.gd").MEMORY_LIGHT,"fade_seconds":preload("res://scripts/dungeon_vision.gd").FADE_SECONDS,"party_sight":"living_connected_members_union","occlusion":"opaque_cells_and_closed_corners","scope":"current_map_instance","minimap":"unknown_hidden_explored_dim_current_bright"}

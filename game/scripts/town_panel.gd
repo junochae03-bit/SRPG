@@ -31,6 +31,7 @@ var selected_index=0
 var selected_zone="forest"
 var selected_floor=1
 var chapter=0
+var portal_mode="floors"
 var last_receipt=""
 var receipt_success=false
 var confirm_button:Button
@@ -334,7 +335,11 @@ func inn(p:Dictionary):
 
 func portal(p:Dictionary):
 	var abyss=preload("res://scripts/abyss_catalog.gd")
-	game.label(body,"심층 탐사 기록  B%d / B100"%p.get("cleared_floor",0),Vector2(8,0),Vector2(705,36),26)
+	game.label(body,"심층 탐사  B%d / B100"%p.get("cleared_floor",0),Vector2(8,0),Vector2(360,36),24)
+	game.button(body,"층 선택",Vector2(396,0),Vector2(150,40),func():portal_mode="floors";refresh(),portal_mode=="floors")
+	game.button(body,"탐사 단서",Vector2(558,0),Vector2(150,40),func():portal_mode="clues";refresh(),portal_mode=="clues")
+	if portal_mode=="clues":
+		var clues=preload("res://scripts/expedition_goal_panel.gd").new();body.add_child(clues);clues.setup(self);return
 	for i in range(10):
 		var b=game.button(body,"%d–%d"%[i*10+1,i*10+10],Vector2(i%5*145,51+int(i/5)*49),Vector2(134,41),func():chapter=i;selected_floor=chapter*10+1;last_receipt="";refresh(),chapter==i)
 		b.tooltip_text=abyss.BIOMES[i].name
