@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 466678,
-    "sha256": "028142df75a37baf5ddc2ddf42bccf607d77576a7f0e64adb36629a5b092adae"
+    "bytes": 467046,
+    "sha256": "01ffcf98df00c1ee407b5c75883b406b95b2611b154a5dd75b794fb9669f3196"
   },
   {
     "path": "game/data/content_names.json",
@@ -1386,8 +1386,8 @@
   },
   {
     "path": "game/scripts/coop_session.gd",
-    "bytes": 22722,
-    "sha256": "39d40e0db9c65116020e5da6d44f2d0f82fd966f0fb57cfd312644c49ef47bfe"
+    "bytes": 22721,
+    "sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1521,13 +1521,18 @@
   },
   {
     "path": "game/scripts/exploration_panel.gd",
-    "bytes": 6350,
-    "sha256": "fa0b01d1eac9babf316731032f16063abd6efa2dd74b534be52415e441701ede"
+    "bytes": 6662,
+    "sha256": "3f3ff7635e819c70f5595c84d270740227b87f9c41a0a5d0970e58d7e3bf6c2f"
   },
   {
     "path": "game/scripts/exploration_rooms.gd",
     "bytes": 8609,
     "sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b"
+  },
+  {
+    "path": "game/scripts/exploration_shortcuts.gd",
+    "bytes": 6549,
+    "sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1"
   },
   {
     "path": "game/scripts/export_capture_v052.gd",
@@ -1546,8 +1551,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32676,
-    "sha256": "977635fcfa63aff94ac119d6d6cec5f7df8bf96f80b1357601aeb6343be1e394"
+    "bytes": 32780,
+    "sha256": "d5c15914f6de5bc9c2b202b4b0255cbd7644063812bb5fc0e08386a3da706b00"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1566,8 +1571,8 @@
   },
   {
     "path": "game/scripts/hidden_rooms.gd",
-    "bytes": 5138,
-    "sha256": "e1905f819e307cf7ee727f8f0ec460ba77e54c03acd4a3ad9f5739d9283befbb"
+    "bytes": 5728,
+    "sha256": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718"
   },
   {
     "path": "game/scripts/hud_sprite_button.gd",
@@ -1656,8 +1661,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 50984,
-    "sha256": "a7a7ccaede017959f61d833a47b76cb522d108f8a843d7b93affb0d9b916e2ed"
+    "bytes": 51046,
+    "sha256": "8d0df1f9823fbca5fa6e4dc05dd85f6b5d85b2b46e70bffbeb0b56a8099a526e"
   },
   {
     "path": "game/scripts/minimap.gd",

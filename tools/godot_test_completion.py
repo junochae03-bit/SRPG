@@ -14,6 +14,7 @@ ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v
 """.split()
 _PLAIN = """
 expedition_risk expedition_risk_visual
+exploration_shortcuts exploration_shortcuts_visual
 tactical_tools tactical_tools_visual
 combat_information combat_information_visual
 telegraph_priority telegraph_priority_visual

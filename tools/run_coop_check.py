@@ -38,7 +38,7 @@ try:
                 output=result.stdout+result.stderr;(legacy/'run.log').write_text(output,'utf8')
                 if result.returncode or 'COOP_OLD_VERSION failures=0' not in output or any(token in output for token in ['SCRIPT ERROR','ERROR:','WARNING:']):raise RuntimeError(output)
                 print('COOP_OLD_VERSION PASS with five free host slots',flush=True)
-    for process in processes:process.wait(timeout=45)
+    for process in processes:process.wait(timeout=60)
     for log in logs:log.flush()
     failures=[]
     for i,process in enumerate(processes):

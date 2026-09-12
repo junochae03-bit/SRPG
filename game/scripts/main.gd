@@ -684,6 +684,7 @@ func _draw():
 	if noise_feedback!=null:noise_feedback.draw_world()
 	if inspection_panel!=null:inspection_panel.draw_corpses()
 	for cue in dungeon.exploration_cues:preload("res://scripts/exploration_cues.gd").draw(self,cue)
+	preload("res://scripts/exploration_shortcuts.gd").draw(self)
 	for site in session.state.get("exploration_sites",[]):
 		if not vision.sees(site.pos):continue
 		var at=world_point(site.pos)

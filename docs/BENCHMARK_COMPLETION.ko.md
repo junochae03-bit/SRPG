@@ -6,7 +6,7 @@
 
 실행·인계 기록: [탐사 개선](EXPLORATION_REWORK.ko.md), [협동 기반](COOP_FOUNDATION.ko.md), `docs/qa/`의 검증 JSON. 표의 코드명은 `game/scripts/`, 테스트명은 `game/tests/` 기준이다. 표의 항목을 그대로 전체 완료 증거로 사용하지 않고 실제 코드·결과와 대조한다.
 
-기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 7로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
+기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 8로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
 
 ## Dungeon Settlers
 
@@ -27,7 +27,7 @@
 | E04 귀환 또는 추가 도전 | 부분 | 선택 정예 도전·공동 다음 층·공동 귀환 | 개별 귀환·잔류자·재접속의 원정 상태 정책/실행 |
 | E05 원정별 환경 변화 | 구현·로컬 검증 | expedition_environment.gd / expedition_environment·실제 ENet 안개 | 지역 의뢰 결과와의 변화 연결은 SQ03에서 후속 |
 | E06 중간 정비·휴식 지점 | 부분 | 주 경로 휴식 지점 / exploration_rooms | 거점 위치 이동과 그곳의 정비 기능·잔류자 처리 |
-| E07 재방문 구간 건너뛰기 | 구현·로컬 검증 | local_session.gd·coop_session.gd / expedition_brief·ENet | 재접속/분리 귀환과 결합된 이동 검증 |
+| E07 재방문 구간 건너뛰기 | 구현·로컬 검증 | local_session.gd·coop_session.gd·exploration_shortcuts.gd / expedition_brief·발견 후 전진 지름길·실제 6인 입력 이동 | 재접속/분리 귀환과 결합된 이동 검증 |
 | E08 방 배치의 지역·단계·가중치 분리 | 구현·로컬 검증 | dungeon_regions.gd·dungeon.gd·expedition_risk.gd / dungeon_exploration_routes·expedition_risk | 실제 플레이의 구역별 밀도와 이동 비용 검증 |
 | E09 출발 전 준비 검사 | 구현·로컬 검증 | expedition_brief.gd·expedition_brief_panel.gd / expedition_brief | 새로운 보급/내구도 정책 추가 시 준비 검사 확장 |
 | E10 귀환 성과와 다음 행동 연결 | 부분 | expedition_journal.gd / expedition_journal·ENet | 개인/파티 성과와 다음 행동 연결·재접속 (현재 기록은 세션 한정) |
@@ -69,8 +69,8 @@
 | SE01 주 목표 경로와 선택 탐사 분리 | 구현·로컬 검증 | 전진 주 경로·앞쪽 합류 보상 곁방 / dungeon_exploration_routes | 일반 플레이 탐사 선택 체감 |
 | SE02 문틀 전투를 줄이는 넓은 공간 | 부분 | 넓은 통로·공동·우회 / dungeon_exploration_routes | 6인 실제 전투에서 문틀 봉쇄 지배 여부 |
 | SE03 던전 종류별 다른 공간 규칙 | 구현·로컬 검증 | 10개 지역 문법·5개 공간군·단계 가중치·지역별 위험 상한 | 지역별 탐사 체감·동선 검증 |
-| SE04 탐색으로 찾는 비밀방 | 구현·로컬 검증 | hidden_rooms.gd / hidden_rooms_visual·ENet | 원정 재접속 시 발견 보존 |
-| SE05 도구로 여는 추가 보상 구역 | 구현·로컬 검증 | 탐사 도구/선택 보관실 / hidden_rooms·ENet | 원정 재접속 상태 보존 |
+| SE04 탐색으로 찾는 비밀방 | 구현·로컬 검증 | hidden_rooms.gd·exploration_shortcuts.gd / hidden_rooms_visual·거리 단축·공유 지형·실제 ENet; [상세](EXPLORATION_SHORTCUTS.ko.md) | 원정 재접속 시 발견 보존; 반복되는 발견·사건 종류 확장 |
+| SE05 도구로 여는 추가 보상 구역 | 구현·로컬 검증 | 탐사 도구/선택 보관실·발견 후 전진 통로 / hidden_rooms·exploration_shortcuts·동시 개방 ENet | 원정 재접속 상태 보존 |
 | SE07 출발 전에 얻는 던전 정보 | 구현·로컬 검증 | 규모·환경·실제 보스 패턴·몬스터 도감 / expedition_brief | 새 위험/보급 조건이 생기면 출발 정보 확장 |
 | SE08 지역별 위험 상한과 선택 도전 | 구현·로컬 검증 | expedition_risk.gd·공유 출발 조건/준비 확인·역할 조합 증원·개인 보상 / expedition_risk·expedition_risk_visual·6인 ENet; [상세](EXPEDITION_RISK.ko.md) | 외부 6인 장기 밸런스·경제 체감; 발견·동선 개선의 완료 근거와 구분 |
 | SE09 소문·지도에서 시작하는 탐사 | 구현·로컬 검증 | 지도/소문 목표·공동 발견/개인 보상 / expedition_goals·ENet | 원정 재접속 중간 단계 보존 |
