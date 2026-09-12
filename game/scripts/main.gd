@@ -38,6 +38,8 @@ var help_panel: Control
 var settings_panel:Control
 var combat_feedback:Control
 var exploration_panel:Control
+var inspection_panel:Control
+var noise_feedback:Control
 var damage_numbers:Node2D
 var preferences=preload("res://scripts/game_options.gd").new()
 var skill_tree: Control
@@ -332,6 +334,8 @@ func build_interface():
 	coop_panel=preload("res://scripts/coop_panel.gd").new();canvas.add_child(coop_panel);coop_panel.setup(self)
 	combat_feedback=preload("res://scripts/combat_feedback.gd").new();canvas.add_child(combat_feedback);combat_feedback.setup(self)
 	exploration_panel=preload("res://scripts/exploration_panel.gd").new();canvas.add_child(exploration_panel);exploration_panel.setup(self)
+	inspection_panel=preload("res://scripts/enemy_inspection_panel.gd").new();canvas.add_child(inspection_panel);inspection_panel.setup(self)
+	noise_feedback=preload("res://scripts/noise_feedback.gd").new();canvas.add_child(noise_feedback);noise_feedback.setup(self)
 
 func on_status(message: String):
 	status_text = message
@@ -647,6 +651,7 @@ func refresh_world_label_regions():
 	world_label_regions=hud.world_label_regions() if hud!=null else []
 	if exploration_panel!=null and exploration_panel.is_visible_in_tree():
 		world_label_regions.append(exploration_panel.card.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,exploration_panel.card.size))
+	if inspection_panel!=null and inspection_panel.is_visible_in_tree():world_label_regions.append(inspection_panel.card.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,inspection_panel.card.size))
 
 func world_label_rect(point:Vector2,value:String,font_size:int,centered:bool=false)->Rect2:
 	var width=fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x
@@ -674,6 +679,8 @@ func _draw():
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
 	var actors = forest.visible_props().filter(func(actor):return vision.scenery_brightness(actor.data.pos)>0.)
+	if noise_feedback!=null:noise_feedback.draw_world()
+	if inspection_panel!=null:inspection_panel.draw_corpses()
 	for cue in dungeon.exploration_cues:preload("res://scripts/exploration_cues.gd").draw(self,cue)
 	for site in session.state.get("exploration_sites",[]):
 		if not vision.sees(site.pos):continue

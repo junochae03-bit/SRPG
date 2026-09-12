@@ -83,6 +83,18 @@ func run():
 		check(session.sim.map.floor_number==test_floor and session.state.players.size()==6,"floor changes for every peer")
 		check(session.sim.map.environment==preload("res://scripts/expedition_environment.gd").select(test_seed+7919,test_floor),"every peer reconstructs the announced environment")
 		if options.has("environment"):check(session.sim.map.environment.id==options.environment,"non-neutral environment exercised over ENet")
+		# Known host-side fixtures verify the compressed wire fields separately
+		# from the six-owner emission/occlusion model tests.
+		if host:
+			var record={"id":-101,"kind":"rat","name":"조사 표식","pos":session.sim.map.spawn,"max_hp":1,"level":1,"floor":test_floor,"raid":false}
+			session.sim.inspection.record(record,session.sim.clock)
+			record.pos=Vector2(-100,-100);session.sim.inspection.record(record,session.sim.clock)
+			for peer in session.sim.players:
+				session.sim.awareness.feedback[peer]={"serial":peer,"pos":session.sim.players[peer].pos,"radius":6,"until":session.sim.clock+5.}
+			session.refresh();session.publish_snapshot()
+		await create_timer(.6).timeout
+		check(session.state.get("noise",{}).get("serial",0)==session.local_id,"compressed ENet snapshot carries only this peer's noise pulse")
+		check(session.state.get("corpses",[]).size()==1 and session.state.corpses[0].pos==session.sim.map.spawn,"compressed ENet snapshot omits unseen corpse record")
 		# An actual guest request must use the host's room guards and inventory,
 		# with personal claims surviving the next compressed world snapshot.
 		if host:

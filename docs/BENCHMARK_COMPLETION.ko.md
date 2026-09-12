@@ -16,7 +16,7 @@
 | C02 역할이 다른 적 조합 | 부분 | dungeon.gd·enemy_tactics.gd / dungeon_exploration_routes | 역할 조합 편성 규칙·합류 상한과 직업 조합 실전 검증 |
 | C03 대응법이 다른 적 방어 | 부분 | enemy_defense.gd·boss_stagger.gd / enemy_defense | 각 방어 유형의 1인 대체 공략과 직업 조합 검증 |
 | C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd / combat | 직접 설치 함정·투척물, 거리·자세 조건/대가 전달 |
-| C05 적·시체 조사와 도감 연결 | 미완료 | game_database.gd·codex_panel.gd의 도감 기반 | 생체 선택·시체 식별자 보존·현재 상태에서 도감으로 연결 |
+| C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |
 | C06 공격 방향·범위와 시야 밖 위협 안내 | 부분 | dungeon_vision.gd·monster_attacks.gd / dungeon_vision_visual | 화면 밖 위험 방향, 6인 겹친 예고 우선순위/가독성 |
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |
 | C09 전투 결과에 반응하는 특수 효과 | 부분 | 직업·장비 효과, 패배/맵 전환 초기화 기반 | 저체력·피격·층당 효과별 개인 귀속과 모든 초기화 경로 검증 |
@@ -63,7 +63,7 @@
 
 | 항목 | 상태 | 현재 근거 | 남은 범위/연결 검증 |
 | --- | --- | --- | --- |
-| SC05 소리로 적을 유인하는 전투 | 부분 | enemy_awareness.gd / enemy_awareness·expedition_environment | 파티 누적 소음/합류 상한·플레이어 위험 안내, 투척/함정 소음 연결 |
+| SC05 소리로 적을 유인하는 전투 | 부분 | enemy_awareness.gd·noise_feedback.gd의 전투/달리기 소음·파티 상한·범위 안내 / enemy_awareness·combat_information·combat_information_visual·6인 ENet | SC08 도구 구현 뒤 투척물 소음 연결; 외부 회선 직업 조합 체감 검증 |
 | SC06 위험 장판 회피·분산·추격하는 적 | 부분 | enemy_tactics.gd·enemy_awareness.gd / 관련 모델 | 외부 다인 전투의 도주 경로·분산/추격 밸런스 |
 | SC08 함정·투척물로 만드는 전술 | 미완료 | 직업 스킬의 일부 장판 기반 | 직접 설치 함정/투척·예고·소유·설치 수 상한 |
 | SE01 주 목표 경로와 선택 탐사 분리 | 구현·로컬 검증 | 전진 주 경로·앞쪽 합류 보상 곁방 / dungeon_exploration_routes | 일반 플레이 탐사 선택 체감 |
