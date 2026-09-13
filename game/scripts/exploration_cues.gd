@@ -1,36 +1,66 @@
 extends RefCounted
-const Rooms=preload("res://scripts/exploration_rooms.gd")
-const Art=preload("res://scripts/environment_art.gd")
+## Short visible traces teach destination types without captions or route overlays.
+const Art=preload("res://scripts/exploration_trace_art.gd")
+const Navigation=preload("res://scripts/exploration_shortcuts.gd")
+const MARKS=5
+const SPACING=1.8
+static func signature(site:Dictionary)->Dictionary:
+	var profile={"kind":str(site.get("kind","danger")),"trace":"tracks"}
+	match profile.kind:
+		"gather":profile.trace="herbs" if site.material=="seed" else "ore"
+		"shrine":profile.trace="magic"
+		"cache":profile.trace="supplies"
+	match site.get("event",""):
+		"herbalist":profile.trace="herbs"
+		"sealed_supplies":profile.trace="supplies"
+		"blood_altar":profile.trace="blood"
+		"echo_shrine":profile.trace="magic"
+	return profile
 static func generate(map)->Array:
 	if map.floor_number<=0 or map.raid_arena:return []
-	var cues=[]
+	var cues=[];var graph=Navigation.navigation(map)
+	var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+902731
 	for wing in [2,3,5,6]:
 		var junction=1 if wing<4 else 4
-		var direction=Vector2(map.rooms[junction]).direction_to(Vector2(map.rooms[wing]))
-		var position=Vector2(map.rooms[junction])+direction*(map.room_radii[junction]-2.)
-		if not map.walkable(position):position=Vector2(map.rooms[junction])+direction*3.
+		var path=graph.get_point_path(map.rooms[junction],map.rooms[wing])
 		var sites=map.exploration_sites.filter(func(site):return site.room==wing)
-		var kind="danger" if sites.is_empty() else str(sites[0].kind)
-		var art="ruins_rubble";var name="깊게 패인 발자국"
-		if kind=="gather":art=Rooms.SITE_ART[sites[0].material];name="광석 조각" if sites[0].material=="ore" else "떨어진 씨앗"
-		elif kind=="shrine":art="ruins_obelisk";name="희미한 마력"
-		elif kind=="cache":art="flood_shipwreck_crate";name="흩어진 보급품"
-		if not sites.is_empty() and not sites[0].get("event","").is_empty():
-			match sites[0].event:
-				"herbalist":art="autumn_berry_shrub";name="흩어진 약초"
-				"sealed_supplies":art="ruins_rubble";name="떨어진 쇠장식"
-				"blood_altar":art="ruins_obelisk";name="붉게 물든 흔적"
-				"echo_shrine":art="nebula_astral_lantern";name="가늘게 울리는 소리"
-		cues.append({"pos":position,"direction":direction,"room":wing,"kind":kind,"art":art,"name":name})
+		var cue=signature({} if sites.is_empty() else sites[0])
+		var length=0.
+		for index in range(1,path.size()):length+=path[index-1].distance_to(path[index])
+		var marks=[];var travelled=0.
+		var next=minf(maxf(3.,float(map.room_radii[junction])-2.),maxf(2.,length-9.))
+		for index in range(1,path.size()):
+			travelled+=path[index-1].distance_to(path[index])
+			if Vector2(path[index]).distance_to(Vector2(map.rooms[wing]))<4.5:continue
+			var before_turn=not marks.is_empty() and index+1<path.size() and not map.line_clear(marks[-1].pos,Vector2(path[index+1]))
+			if travelled<next and not before_turn:continue
+			var direction=Vector2(path[index]-path[index-1]).normalized()
+			var position=Vector2(path[index])+direction.orthogonal()*rng.randf_range(-.45,.45)
+			if not map.walkable(position) or not map.line_clear(Vector2(path[index]),position):position=Vector2(path[index])
+			if not marks.is_empty() and not map.line_clear(marks[-1].pos,position):position=Vector2(path[index])
+			# End a local trace before a blind turn instead of bridging its wall.
+			if not marks.is_empty() and not map.line_clear(marks[-1].pos,position):break
+			marks.append({"pos":position,"direction":direction,"index":marks.size(),"width":rng.randf_range(36.,48.),"rotation":rng.randf_range(-.45,.45)})
+			next=travelled+SPACING*rng.randf_range(.75,1.4)
+			if marks.size()==MARKS:break
+		if marks.is_empty():continue
+		cue.merge({"pos":marks[0].pos,"direction":marks[0].direction,"room":wing,"marks":marks})
+		cues.append(cue)
 	return cues
+static func visible_marks(game,cue:Dictionary)->Array:
+	return cue.marks.filter(func(mark):return game.vision.sees(mark.pos))
 static func draw(game,cue:Dictionary):
-	if not game.vision.sees(cue.pos):return
-	var data=Art.frame(cue.art);var height=26. if cue.kind!="shrine" else 34.
-	for step in range(2):
-		var at=game.world_point(cue.pos+cue.direction*float(step)*1.2)
-		var scale=(height-float(step)*6.)/float(data.height)
-		game.draw_texture_rect(data.texture,Rect2(at-data.foot*scale,data.texture.get_size()*scale),false,Color(.85,.82,.72,.85))
-	var p=game.session.state.players.get(game.session.local_id,{})
-	if not p.is_empty() and p.pos.distance_to(cue.pos)<3.5 and game.dungeon.line_clear(p.pos,cue.pos):
-		var at=game.world_point(cue.pos)
-		game.text_at(at+Vector2(0,38),cue.name,15,Color("efdfb1"),true)
+	for mark in visible_marks(game,cue):
+		var at=game.world_point(mark.pos)
+		if at.distance_to(game.screen_center())>1100:continue
+		var facing=(game.world_point(mark.pos+mark.direction)-at).angle()
+		var texture=Art.texture(cue.trace)
+		var dimensions=texture.get_size()*(float(mark.width)/texture.get_width())
+		# Rotate debris clusters, not full-size bushes, crates or destination props.
+		var rotation=float(mark.rotation)
+		if cue.trace=="tracks":rotation+=facing+PI*.75
+		game.draw_set_transform(at,rotation)
+		game.draw_texture_rect(texture,Rect2(-dimensions*.5,dimensions),false,Color(1,1,1,.92))
+		game.draw_set_transform(Vector2.ZERO)
+static func configuration()->Dictionary:
+	return {"maximum_branches":4,"maximum_marks_per_branch":MARKS,"spacing_tiles":SPACING,"spacing_variation":[.75,1.4],"lateral_variation_tiles":.45,"art_catalog":Art.CATALOG,"fragment_width_pixels":[36,48],"art_variation":"seeded_scale_rotation_and_walkable_offset","placement":"short_actual_walkable_route_at_junction","destination_mapping":"stable_material_event_or_elite_trace","captions":false,"visibility":"each_mark_current_sight_only","collision":"none","enemy_or_reward_reveal":false,"tutorial_and_raid":false}

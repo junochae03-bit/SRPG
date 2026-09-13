@@ -70,6 +70,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["telegraph_priority"]=preload("res://scripts/telegraph_priority.gd").configuration()
 	db.metadata["dungeon_vision"]={"radius":preload("res://scripts/dungeon_vision.gd").RADIUS,"memory_light":preload("res://scripts/dungeon_vision.gd").MEMORY_LIGHT,"fade_seconds":preload("res://scripts/dungeon_vision.gd").FADE_SECONDS,"party_sight":"living_connected_members_union","occlusion":"opaque_cells_and_closed_corners","scope":"current_map_instance","minimap":"unknown_hidden_explored_dim_current_bright"}
 	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
+	db.metadata["exploration_cues"]=preload("res://scripts/exploration_cues.gd").configuration()
 	db.metadata["guild_progression"]=preload("res://scripts/guild_progression.gd").configuration()
 	db.metadata["town_research"]=preload("res://scripts/town_research.gd").configuration()
 	db.metadata["research_journey"]=preload("res://scripts/research_journey.gd").configuration()

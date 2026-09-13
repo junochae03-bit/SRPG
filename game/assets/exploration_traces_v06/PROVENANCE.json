@@ -1,0 +1,25 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-09-13",
+  "purpose": "현재 시야 안의 짧은 갈림길 흔적",
+  "prompt": "Create ONE production-ready 2D RPG ground-debris sprite atlas, transparent alpha background, landscape 3 columns by 2 rows equal grid. No grid lines or labels or text. Six isolated small clusters centered in their cells with huge transparent gutters, nothing crossing cells. Painted fantasy game sprite style: hand-painted crisp dark outlines, modest faceted shading, warm natural worn textures, slightly cartoon but grounded, isometric top-down ground view. Objects lying flat, low profile, not upright monuments, no bases or tiles, no UI frames or icons, no complete buildings or bushes or crates, no sparkle stars. Top left: sparse scattered chipped grey ore fragments with small blue mineral facets, 4 unequal chips, not a mine or boulder pile. Top middle: 3 fallen green and ochre leaves with thin broken stems and 2 tiny seeds, no shrub or bush. Top right: 3 snapped weathered wooden splinters with one bent rusty nail, no crate. Bottom left: 3 broken pale stone flakes with faint cool cyan magical fissures, minimal glow. Bottom middle: a few small dried muted reddish-brown stains and scratches on the ground, no body parts. Bottom right: a short pair of broad three-toed monster footprints pressed into dust, flat irregular marks, no stones or legs. Each cluster must have a clearly readable asymmetrical silhouette when reduced to 36 to 48 pixels wide. Restrained detail, consistent sunlight from upper-left, tiny contact shadows only. Entire empty background must be actual transparency, not a checkerboard or opaque color.",
+  "sha256": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "alpha": "original preserved byte-for-byte",
+  "regions": "Each cell alpha>=16 bounds plus 12px gutter. AtlasTexture regions only; PNG is unmodified.",
+  "purple_rune": {
+    "tool": "built-in image_gen",
+    "date": "2026-09-13",
+    "sha256": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "alpha": "original preserved byte-for-byte",
+    "prompt": "A single production 2D game sprite on TRANSPARENT ALPHA BACKGROUND. Three small broken purple ceramic rune fragments lying flat on the ground, one clearly crescent-shaped half-ring shard, two triangular shards with violet runic grooves. Asymmetrical low pile of discarded fragments, no upright statue, no pedestal, no floor square, no labels or interface. Hand-painted fantasy RPG style, crisp black outlines, muted earthen edges, violet purple rune grooves with only a tiny local glow, warm upper-left light, isometric top-down view. Clearly readable at 40 pixels wide. Center the cluster with ample empty transparent space all around. Output actual alpha transparency like a cutout sticker PNG, never illustrate transparency with checkers. Empty background is alpha zero. No checkerboard, no background painting, no scenery, no border."
+  },
+  "usage": "Five ground atlas cells and the separate purple rune sprite are used. Original blue magic cell is superseded and has no runtime registry entry. RGB checkerboard edit attempts were rejected and are not shipped."
+}
