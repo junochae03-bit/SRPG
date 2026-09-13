@@ -809,7 +809,7 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var data:Dictionary
-		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0)
+		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0 or p.get("support_cast",0)>0)
 		if not themed.is_empty():
 			data=themed
 			rendered_monster=themed.art_id
@@ -851,6 +851,12 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
+	if not is_hero and p.get("support_cast",0)>0:
+		var progress=1.-float(p.support_cast)/preload("res://scripts/enemy_support.gd").WINDUP
+		var focus=point+Vector2(0,-dimensions.y-35)
+		draw_arc(focus,12,-PI*.5,-PI*.5+TAU*maxf(.02,progress),28,Color("80e4ad"),3,true)
+		draw_line(focus-Vector2(5,0),focus+Vector2(5,0),Color("bdffd6"),3,true)
+		draw_line(focus-Vector2(0,5),focus+Vector2(0,5),Color("bdffd6"),3,true)
 	if is_self and not rendered_costume.is_empty():record_art_usage("costume",rendered_costume.costume_id,int(rendered_costume.index),str(rendered_costume.get("frame_source_path","")))
 	if not is_hero:record_art_usage("monsters" if not rendered_monster.is_empty() else "monster_fallback",rendered_monster if not rendered_monster.is_empty() else role)
 	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):

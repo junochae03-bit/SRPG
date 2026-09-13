@@ -13,7 +13,7 @@
 | 항목 | 상태 | 현재 근거 | 남은 범위/연결 검증 |
 | --- | --- | --- | --- |
 | C01 벽 충돌을 유도하는 보스 | 구현·로컬 검증 | monster_attacks.gd / raid_engagement | 외부 6인 장시간 패턴 체감 검증 |
-| C02 역할이 다른 적 조합 | 부분 | dungeon.gd·enemy_tactics.gd / dungeon_exploration_routes | 역할 조합 편성 규칙·합류 상한과 직업 조합 실전 검증 |
+| C02 역할이 다른 적 조합 | 부분 | encounter_roles.gd·enemy_support.gd·enemy_tactics.gd / 초기 접근 방향 역할 편성·치유 시전/중단·공유 회복 상한; [상세](ENEMY_ROLE_SUPPORT.ko.md) | 여러 무리 직접 조우 시 합류 밀도·직업 조합별 공략 시간·외부 6인 실전 검증 |
 | C03 대응법이 다른 적 방어 | 부분 | enemy_defense.gd·boss_stagger.gd / enemy_defense | 각 방어 유형의 1인 대체 공략과 직업 조합 검증 |
 | C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd·tactical_tools.gd / combat·tactical_tools | 스킬의 거리·자세 조건/대가 전달; 직접 설치 함정·투척물은 SC08에서 연결 |
 | C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |

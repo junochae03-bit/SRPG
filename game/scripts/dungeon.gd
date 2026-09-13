@@ -61,7 +61,6 @@ func _init(value: int = 20260908,zone_name:String="forest",depth:int=0,risk:int=
 		return
 	if floor_number>0:
 		generate_floor()
-		preload("res://scripts/expedition_risk.gd").add_encounters(self)
 		return
 	var rng = RandomNumberGenerator.new()
 	rng.seed = value
@@ -189,6 +188,8 @@ func generate_floor():
 		carve_segment(rooms[4],rooms[7],3)
 	path_cells=floor_cells
 	build_encounters(layout_rng)
+	preload("res://scripts/expedition_risk.gd").add_encounters(self)
+	preload("res://scripts/encounter_roles.gd").apply(self)
 	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
 	exploration_cues=preload("res://scripts/exploration_cues.gd").generate(self)
 	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)

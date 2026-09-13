@@ -8,6 +8,7 @@ const BossStagger=preload("res://scripts/boss_stagger.gd")
 const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
 const Risk=preload("res://scripts/expedition_risk.gd")
+const Support=preload("res://scripts/enemy_support.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -50,7 +51,7 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0,ri
 			var kind=(dungeon_config.boss if raid else dungeon_config.elite) if guardian else dungeon_config.elite if placement.role=="elite" else dungeon_config.mobs[int(placement.mob_index)%dungeon_config.mobs.size()]
 			var enemy=spawn_enemy(placement.get("kind",kind),placement.pos,dungeon_config.level+(3 if placement.role=="elite" else 0),raid)
 			if placement.get("risk_reinforcement",false):enemy["risk_reinforcement"]=true
-			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation
+			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation;enemy["combat_role"]=placement.get("combat_role","")
 			if guardian:enemy["guardian"]=true
 			if raid:enemy.name=dungeon_config.title
 		return
@@ -481,10 +482,12 @@ func tick(delta: float):
 		e.attack_motion=maxf(0,e.get("attack_motion",0)-delta)
 		e["guard_break_time"]=maxf(0.,e.get("guard_break_time",0)-delta)
 		if e.hp <= 0:
+			Support.cancel(e)
 			if map.floor_number>0:continue
 			e.respawn -= delta
 			if e.respawn <= 0:
 				e.hp = e.max_hp;e["rewarded"]=false
+				e.erase("support_received");e.erase("support_lock_until")
 				e.pos = e.home
 				BossStagger.initialize(e,clock)
 			continue
@@ -493,14 +496,12 @@ func tick(delta: float):
 		e.cooldown = maxf(0, e.cooldown - delta)
 		e.ability_cd=maxf(0,e.get("ability_cd",4)-delta)
 		e.phase=2 if e.get("boss",false) and e.hp<e.max_hp*.5 else 1
-		if config.ai=="healer" and e.ability_cd<=0:
-			for friend in enemies.values():
-				if friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)
-			e.ability_cd=6;events.append({"type":"skill_fx","fx":"ranger_heal","pos":e.pos,"dir":Vector2.RIGHT,"owner":1,"duration":.6,"radius":2.0})
+		var was_stunned=float(e.get("stun_time",0))>0
 		e["slow_time"]=maxf(0,e.get("slow_time",0)-delta)
 		e["stun_time"]=maxf(0,e.get("stun_time",0)-delta)
 		if e.get("raid",false):e.stun_time=0.
-		if e.stun_time>0:e.windup=0;e.erase("attack_areas");continue
+		if was_stunned or e.stun_time>0:
+			e.windup=0;e.erase("attack_areas");Support.cancel(e,true);continue
 		var movement_origin=e.pos
 		var move_speed=e.get("speed",config.speed)*(0.45 if e.slow_time>0 else 1.0)
 		if config.ai=="charger" and e.ability_cd<1.0:move_speed*=2.2
@@ -530,7 +531,9 @@ func tick(delta: float):
 						if p.hp <= 0:player_defeated(p)
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
 			continue
+		var was_taunted=float(e.get("taunt_time",0))>0
 		e["taunt_time"]=maxf(0,e.get("taunt_time",0)-delta)
+		if was_taunted:Support.cancel(e,true)
 		var target: Dictionary = {}
 		var best = 18.0 if e.get("raid",false) else 6.5
 		for p in players.values():
@@ -539,7 +542,9 @@ func tick(delta: float):
 			if p.hp>0 and not p.get("network_leaving",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get("heard_until",0))>clock else 0.) and map.line_clear(e.pos, p.pos):
 				best = distance
 				target = p
-		if not target.is_empty() and preload("res://scripts/enemy_tactics.gd").avoid(self,e,move_speed,delta):continue
+		if not target.is_empty() and preload("res://scripts/enemy_tactics.gd").avoid(self,e,move_speed,delta):
+			Support.cancel(e,true);continue
+		if not was_taunted and Support.step(self,e,target,move_speed,delta):continue
 		if not target.is_empty():
 			if float(e.get("heard_until",0))>clock:e.heard_until=clock+4.
 			e.erase("search_path");e.erase("search_until");e["awareness_state"]="engaged"

@@ -1236,8 +1236,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 470130,
-    "sha256": "0f6082ec02b7cccf56b31dc0f56f2cc9bd088ce943db8d2f3c59cf7a7d80c6cb"
+    "bytes": 470532,
+    "sha256": "05bc3912d91021ee50c5c13fa8f8f2ba0507dd73fb5253eee31372519907ef1c"
   },
   {
     "path": "game/data/content_names.json",
@@ -1441,8 +1441,8 @@
   },
   {
     "path": "game/scripts/dungeon.gd",
-    "bytes": 15012,
-    "sha256": "24f5f688f6c3fe352d3cec200cbe04172d130a977e4cd404a98700932ac88c55"
+    "bytes": 15068,
+    "sha256": "cc23bba6439d5a3478ee43d64f613750299f8b36856ed06f6600c852c729cd32"
   },
   {
     "path": "game/scripts/dungeon_regions.gd",
@@ -1453,6 +1453,11 @@
     "path": "game/scripts/dungeon_vision.gd",
     "bytes": 3924,
     "sha256": "3307958dd06922bb16543b7aa16e29a0eca3e05f504807546c46a32b08980f29"
+  },
+  {
+    "path": "game/scripts/encounter_roles.gd",
+    "bytes": 3272,
+    "sha256": "06257af8546c4d0267202844a0231d65bd565d19b33cf362ca43ebeeb1ab579b"
   },
   {
     "path": "game/scripts/enemy_awareness.gd",
@@ -1478,6 +1483,11 @@
     "path": "game/scripts/enemy_inspection_panel.gd",
     "bytes": 5300,
     "sha256": "d6dcfb4804b5506bb9f075710b323121666be4a15354eb018c354cd0bd289e7c"
+  },
+  {
+    "path": "game/scripts/enemy_support.gd",
+    "bytes": 4151,
+    "sha256": "673a48717a4989acac48dc88dc94a2dffbe94d278377bece3e8e0f1f24c14df0"
   },
   {
     "path": "game/scripts/enemy_tactics.gd",
@@ -1596,8 +1606,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 36005,
-    "sha256": "39f7a8126efc1bb8bd53ce7f2d848f69ab3645edd67bdd1151c66217664e0f99"
+    "bytes": 36187,
+    "sha256": "1ce35f579817897143862d33bda305ddeb924b339f2f5faf7ae8085605f715fc"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1716,8 +1726,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 51562,
-    "sha256": "5f20b42ae301b9c8e0e8a8de4723981fbdaa0bc641365f7fa4bd2ac3649d1f3b"
+    "bytes": 52005,
+    "sha256": "ff7fb8cf65b753c95dcfafcc31f4405cac03bea09b316e4db3b7c83d5c884447"
   },
   {
     "path": "game/scripts/minimap.gd",
@@ -1801,8 +1811,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 34607,
-    "sha256": "11585c49fd30f909a978b7eb4572ecc6b49bdfef875bbd855e34b33d9d6aa525"
+    "bytes": 34771,
+    "sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b"
   },
   {
     "path": "game/scripts/skill_build.gd",

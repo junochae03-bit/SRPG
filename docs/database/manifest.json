@@ -40,12 +40,12 @@
       "sha256": "8af498675c733f91115da40da66c5b247a5398954c7522580d9623dbadbc15a3"
     },
     "stelrpg-database.json": {
-      "bytes": 14974712,
-      "sha256": "a6157bb72c84b03c93c8c13575d726c87efa1fc4907c647704019bd187a4725e"
+      "bytes": 14986388,
+      "sha256": "0e798281d819cf076949ff5c99e910c2cdd03d23edbb8373b58f38439713703c"
     },
     "stelrpg.sqlite": {
-      "bytes": 9519104,
-      "sha256": "7f3a386de9322175d7eece6e43e919246b41ea7558a73a30d7049913ce3ebf27"
+      "bytes": 9531392,
+      "sha256": "9e90d11a443088f613ac4cf82bd568a2ee1bf0610878dcca928b056beb822bf4"
     }
   },
   "schema_version": 5
