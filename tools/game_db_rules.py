@@ -39,6 +39,7 @@ SOURCES = {
     "exploration_events": "game/scripts/exploration_events.gd",
     "town_research": "game/scripts/town_research.gd",
     "research_journey": "game/scripts/research_journey.gd",
+    "guild_progression": "game/scripts/guild_progression.gd",
     "portrait_frame": "game/scripts/portrait_frame.gd",
     "character_presentation": "game/scripts/character_presentation.gd",
 }
@@ -59,6 +60,7 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
+    data["metadata"]["guild_progression_source_rules"] = [source_rule(root, "guild_progression", fn) for fn in ("valid_reputation", "valid_contract", "rank", "benefits", "stage", "use", "progress")]
     data["metadata"]["research_journey_source_rules"] = [source_rule(root, "research_journey", fn) for fn in ("valid", "eligible", "requirements", "destination", "need", "offer", "recommendation", "work_status", "describe")]
     data["metadata"]["town_research_source_rules"] = [source_rule(root, "town_research", fn) for fn in ("valid", "restore", "matches", "stage", "use", "tick")]
     data["metadata"]["exploration_event_source_rules"] = [source_rule(root, "exploration_events", fn) for fn in ("select", "choices", "quote", "describe", "detail", "use")]
@@ -85,12 +87,14 @@ def enrich(data, root):
     for key, row in operations.items():
         route = row["route"]
         row["access_rule"] = dispatcher
-        row["quote_rule"] = source_rule(root, "town_operations" if route == "town_operations" else "service_quote",
+        row["quote_rule"] = source_rule(root, route if route in ("town_operations", "guild_progression") else "service_quote",
                                          "describe" if route == "town_operations" else "quote")
+        if route == "guild_progression":
+            row["access_rule"] = source_rule(root, route, "use")
         quantities = sorted({s["quantity"] for s in data["service_samples"] if s["operation_id"] == key})
         row["sampled_quantities"] = quantities
         data["service_effects"].append({"id": key + ":state_transition", "operation_id": key,
-                                       "rule": source_rule(root, route, "stage" if route == "town_operations" else "transact"),
+                                       "rule": source_rule(root, route, "stage" if route in ("town_operations", "guild_progression") else "transact"),
                                        "dispatch_key": key, "representation": "authoritative_source_rule"})
     for row in data["facilities"]:
         row["access_rule"] = source_rule(root, "world", "nearest")
@@ -160,7 +164,11 @@ def validate(data):
         assert type(row["quantity"]) is int and row["quantity"] > 0
         assert row["gold_cost"] >= 0 and row["gold_reward"] >= 0
         assert not (row["gold_cost"] and row["gold_reward"])
-        assert row["storage_checked"] is False
+        assert type(row["storage_checked"]) is bool
+        if indexes["service_operations"][row["operation_id"]]["route"] == "guild_progression":
+            assert row["storage_checked"] is True
+            assert set(row["context"]) == {"request", "before", "after"}
+            assert row["context"]["after"]["gold"] - row["context"]["before"]["gold"] == row["gold_reward"] - row["gold_cost"]
     for table in ("service_inputs", "service_outputs"):
         for row in data[table]:
             assert row["item_id"] in indexes["item_definitions"]

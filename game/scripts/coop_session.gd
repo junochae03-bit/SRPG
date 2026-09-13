@@ -1,7 +1,7 @@
 extends "res://scripts/local_session.gd"
 
 # The host owns Simulation. A guest Simulation is a read-only presentation mirror.
-const PROTOCOL=11
+const PROTOCOL=12
 const MAX_PLAYERS=preload("res://scripts/party_rules.gd").MAX_PLAYERS
 const DEFAULT_PORT=24554
 var network_role="offline"
@@ -174,7 +174,7 @@ func receive_action(serial_number:int,kind:String,argument:String):
 	action_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)
 
 func receipt_values(p:Dictionary)->Dictionary:
-	return {"gold":p.gold,"potions":p.potions,"consumables":p.get("consumables",{}).duplicate(),"materials":p.materials.duplicate(),"hp":p.hp}
+	return {"gold":p.gold,"potions":p.potions,"consumables":p.get("consumables",{}).duplicate(),"materials":p.materials.duplicate(),"hp":p.hp,"guild_reputation":int(p.get("guild_reputation",0))}
 
 @rpc("authority","call_remote","reliable",2)
 func action_result(serial_number:int,kind:String,success:bool,packet:PackedByteArray,receipt:Dictionary):

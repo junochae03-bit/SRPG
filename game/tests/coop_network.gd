@@ -126,6 +126,7 @@ func run():
 		check(session.state.players[session.local_id].expedition_goal.kind=="advance","crafted players can choose next expedition")
 		session.act("select_goal",JSON.stringify({"id":"secret","floor":test_floor}))
 		await create_timer(.4).timeout
+		await guild_settlement_check(session,host)
 		check(session.state.departure_plan.floor==test_floor and session.state.departure_plan.risk==(1 if test_floor>10 else 0),"all peers see authoritative departure conditions")
 		session.act("ready","true:0")
 		await create_timer(.4).timeout
@@ -351,3 +352,35 @@ func run():
 	else:session.queue_free()
 	await process_frame
 	quit(0 if failures.is_empty() else 1)
+
+func guild_settlement_check(session,host:bool):
+	var Guild=preload("res://scripts/guild_progression.gd")
+	if host:
+		for player in session.sim.players.values():player.pos=Guild.World.FACILITIES.guild.pos
+		session.refresh();session.publish_snapshot()
+	await create_timer(.6).timeout
+	check(session.act("facility",JSON.stringify({"facility":"guild","operation":"accept","zone":"forest"})),"each owner sends personal guild contract")
+	await create_timer(.6).timeout
+	check(not session.state.players[session.local_id].guild_contract.is_empty(),"personal guild contract arrives")
+	var barrier=FileAccess.open(options.directory.path_join("guild-ready"),FileAccess.WRITE);barrier.store_string("ready");barrier.close()
+	if host:
+		var until=Time.get_ticks_msec()+8000
+		while Time.get_ticks_msec()<until and not range(6).all(func(index):return FileAccess.file_exists(options.directory.get_base_dir().path_join(str(index)+"/guild-ready"))):await create_timer(.1).timeout
+		check(range(6).all(func(index):return FileAccess.file_exists(options.directory.get_base_dir().path_join(str(index)+"/guild-ready"))),"all contracts observed before controlled objective completion")
+		for player in session.sim.players.values():
+			for index in range(10):Guild.progress(player,"forest",{})
+		session.refresh();session.publish_snapshot()
+	var until=Time.get_ticks_msec()+8000
+	while Time.get_ticks_msec()<until and session.state.players[session.local_id].guild_contract.progress<10:await create_timer(.1).timeout
+	var before=session.state.players[session.local_id].gold
+	var reward="gold" if int(options.directory.get_file())%2==0 else "reputation"
+	var request=JSON.stringify({"facility":"guild","operation":"claim","reward":reward})
+	if host:session.act("facility",request)
+	else:
+		session.sequence+=1;session.receive_action.rpc_id(1,session.sequence,"facility",request);session.receive_action.rpc_id(1,session.sequence,"facility",request)
+	await create_timer(.6).timeout
+	var p=session.state.players[session.local_id]
+	check(p.guild_contract.is_empty() and p.gold==before+(180 if reward=="gold" else 0) and p.guild_reputation==(25 if reward=="reputation" else 0),"different owners receive their chosen reward exactly once")
+	check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("guild_reputation") and not other.has("guild_contract")),"guild choices remain private in snapshots")
+	var saved=session.save_game();var loaded=session.parse_save(session.save_path())
+	check(saved and loaded!=null and loaded.guild_reputation==p.guild_reputation and loaded.guild_contract.is_empty(),"actual network save persists settlement and reputation")
