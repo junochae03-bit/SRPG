@@ -21,7 +21,7 @@
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |
 | C09 전투 결과에 반응하는 특수 효과 | 부분 | 직업·장비 효과, 패배/맵 전환 초기화 기반 | 저체력·피격·층당 효과별 개인 귀속과 모든 초기화 경로 검증 |
 | C10 다운된 동료 구조 | 구현·로컬 검증 | party_rules.gd / coop_rules·실제 ENet | 지연·중도 이탈 상황의 구조 실전 검증 |
-| E01 목적이 다른 선택 방 | 구현·로컬 검증 | exploration_rooms.gd·exploration_challenge.gd / exploration_visual | 자유 탐사 재미·선택 밀도 플레이 평가 |
+| E01 목적이 다른 선택 방 | 구현·로컬 검증 | exploration_rooms.gd·exploration_challenge.gd·exploration_cues.gd / 개별 시야의 지면 파편, 동일 분기에서 목적지까지 입력 이동; [환경 흔적](EXPLORATION_TRACES.ko.md) | 자유 탐사 재미·선택 밀도·처음 방문한 사람의 단서 추론 플레이 평가 |
 | E02 소지품·상태에 반응하는 사건 | 구현·로컬 검증 | exploration_events.gd의 약초·도구·생명력·기력 선택 / 모델·실제 UI·개인별 6인 ENet; [상세](EXPLORATION_EVENTS.ko.md) | 재접속 시 이용 기록 보존·장기 탐사에서 사건 반복/경제 체감 |
 | E03 필요 재료를 찾아가는 채집 | 구현·로컬 검증 | expedition_goals.gd·exploration_rooms.gd / expedition_goals | 연구·제작 목표와 연결(G01/G03); 길드·생산 목표 연동은 후속 |
 | E04 귀환 또는 추가 도전 | 부분 | 선택 정예 도전·공동 다음 층·공동 귀환 | 개별 귀환·잔류자·재접속의 원정 상태 정책/실행 |

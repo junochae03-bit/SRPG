@@ -1,0 +1,60 @@
+{
+  "sheet": "res://assets/exploration_traces_v06/ground-traces.png",
+  "sprites": {
+    "ore": {
+      "name": "광석 파편",
+      "rect": [
+        95,
+        139,
+        285,
+        239
+      ]
+    },
+    "herbs": {
+      "name": "낙엽과 씨앗",
+      "rect": [
+        581,
+        119,
+        372,
+        292
+      ]
+    },
+    "supplies": {
+      "name": "부서진 나무 조각",
+      "rect": [
+        1100,
+        121,
+        346,
+        281
+      ]
+    },
+    "magic": {
+      "name": "깨진 보라색 룬",
+      "sheet": "res://assets/exploration_traces_v06/purple-rune-fragments.png",
+      "rect": [
+        466,
+        259,
+        661,
+        523
+      ]
+    },
+    "blood": {
+      "name": "마른 얼룩과 긁힌 자국",
+      "rect": [
+        609,
+        664,
+        318,
+        221
+      ]
+    },
+    "tracks": {
+      "name": "커다란 발자국",
+      "rect": [
+        1111,
+        610,
+        338,
+        323
+      ]
+    }
+  }
+}

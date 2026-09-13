@@ -505,6 +505,21 @@
     "sha256": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2"
   },
   {
+    "path": "game/assets/exploration_traces_v06/catalog.json",
+    "bytes": 1044,
+    "sha256": "8ae63d0e6bf20caa7e04c1c8aa81d5e1786f0012a1782879688882dca14a146b"
+  },
+  {
+    "path": "game/assets/exploration_traces_v06/ground-traces.png",
+    "bytes": 1556003,
+    "sha256": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a"
+  },
+  {
+    "path": "game/assets/exploration_traces_v06/purple-rune-fragments.png",
+    "bytes": 1110280,
+    "sha256": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977"
+  },
+  {
     "path": "game/assets/floor_tiles_v04/catalog.json",
     "bytes": 2974,
     "sha256": "11839c3c8396b08c1745add842556804360dd5f7c765e7d4ceba37c25bc215e9"
@@ -1211,8 +1226,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 469938,
-    "sha256": "ba21447b8857e3b9bb507229da85e8cc143eb6575d6f3a75048000271114ad22"
+    "bytes": 470416,
+    "sha256": "32385ba72cb499bd46ea3224d546323a863ed4fa71937c9ef5fde444363e2934"
   },
   {
     "path": "game/data/content_names.json",
@@ -1266,8 +1281,8 @@
   },
   {
     "path": "game/scripts/art_registry.gd",
-    "bytes": 19055,
-    "sha256": "527a3f598aa385417fd8dbfd652a65f1b59beca654cac46f34f1e5ea1bdeaefc"
+    "bytes": 19664,
+    "sha256": "eccddefa9bc8fd66bd2e7e958d88943fb45ae32c4c303c4932ec87756eabf393"
   },
   {
     "path": "game/scripts/audio_director.gd",
@@ -1516,8 +1531,8 @@
   },
   {
     "path": "game/scripts/exploration_cues.gd",
-    "bytes": 2187,
-    "sha256": "6bde6af98af9d9fd27f45099280ca5e4b1d80ef5600375d9f1cc924ddaff8b44"
+    "bytes": 4039,
+    "sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb"
   },
   {
     "path": "game/scripts/exploration_events.gd",
@@ -1540,6 +1555,11 @@
     "sha256": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1"
   },
   {
+    "path": "game/scripts/exploration_trace_art.gd",
+    "bytes": 705,
+    "sha256": "c8af2355efa82c457217cc33406d674e0e2d267c340cf4fa7ecee54a38291e9c"
+  },
+  {
     "path": "game/scripts/export_capture_v052.gd",
     "bytes": 5755,
     "sha256": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595"
@@ -1556,8 +1576,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 35499,
-    "sha256": "fe5c3785127af090979fcfa1acb2e78f33c36d6587b5acc15cea2ce0d407b898"
+    "bytes": 35593,
+    "sha256": "dd26e9ba25b0be99cfb5a489cfbe021d13988ba92f11ac6d570e701cfbaf70ca"
   },
   {
     "path": "game/scripts/game_options.gd",

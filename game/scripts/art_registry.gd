@@ -77,6 +77,7 @@ func collect(db:Dictionary):
 		var id=add("art:town:"+str(i),"environment","마을 건물 원화 "+str(i),entry.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/world/catalog.json",{"foot":f.foot},i,"building")
 		use(id,"facilities",key,"game/scripts/main.gd:draw_building",{"facility_name":facility.name})
 	training_art()
+	exploration_trace_art()
 	characters(db)
 	companions()
 	ui_icons()
@@ -106,6 +107,14 @@ func render_cache_metadata():
 		var entry=prepared.descriptor(a.path,chroma)
 		assert(not entry.is_empty(),"Missing prepared art metadata: "+a.id)
 		if not entry.is_empty():a.metadata["render_cache"]={"catalog":prepared.CATALOG,"path":entry.path,"source":a.path,"key":chroma}
+
+func exploration_trace_art():
+	const Trace=preload("res://scripts/exploration_trace_art.gd")
+	var catalog=Trace.catalog()
+	for key in catalog.sprites:
+		var entry=catalog.sprites[key]
+		var id=add("art:exploration_trace:"+key,"environment",entry.name,entry.get("sheet",catalog.sheet),entry.rect,"game/assets/exploration_traces_v06/PROVENANCE.json",Trace.CATALOG,{"trace":key,"alpha":"original_preserved","role":"ground_debris"})
+		use(id,"runtime","exploration_trace:"+key,"game/scripts/exploration_cues.gd:draw",{"visibility":"individual_current_sight","collision":false})
 
 func training_art():
 	const TrainingArt=preload("res://scripts/training_art.gd")

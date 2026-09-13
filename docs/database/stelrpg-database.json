@@ -55235,6 +55235,150 @@
       "status": "applied"
     },
     {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:f7fecccb12357e880b4a0ea4",
+      "frame": -1,
+      "id": "art:exploration_trace:blood",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "blood"
+      },
+      "name": "마른 얼룩과 긁힌 자국",
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        609,
+        664,
+        318,
+        221
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:f7fecccb12357e880b4a0ea4",
+      "frame": -1,
+      "id": "art:exploration_trace:herbs",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "herbs"
+      },
+      "name": "낙엽과 씨앗",
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        581,
+        119,
+        372,
+        292
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:5854c3b1f0a5c47cf01ca6a0",
+      "frame": -1,
+      "id": "art:exploration_trace:magic",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "magic"
+      },
+      "name": "깨진 보라색 룬",
+      "path": "res://assets/exploration_traces_v06/purple-rune-fragments.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        466,
+        259,
+        661,
+        523
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:f7fecccb12357e880b4a0ea4",
+      "frame": -1,
+      "id": "art:exploration_trace:ore",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "ore"
+      },
+      "name": "광석 파편",
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        95,
+        139,
+        285,
+        239
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:f7fecccb12357e880b4a0ea4",
+      "frame": -1,
+      "id": "art:exploration_trace:supplies",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "supplies"
+      },
+      "name": "부서진 나무 조각",
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        1100,
+        121,
+        346,
+        281
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
+      "action": "",
+      "catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "category": "environment",
+      "file_id": "file:f7fecccb12357e880b4a0ea4",
+      "frame": -1,
+      "id": "art:exploration_trace:tracks",
+      "metadata": {
+        "alpha": "original_preserved",
+        "role": "ground_debris",
+        "trace": "tracks"
+      },
+      "name": "커다란 발자국",
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "provenance": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "rect": [
+        1111,
+        610,
+        338,
+        323
+      ],
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "status": "applied"
+    },
+    {
       "action": "ground_sample",
       "catalog": "res://assets/floor_tiles_v04/catalog.json",
       "category": "floor_tile",
@@ -65458,6 +65602,20 @@
       "width": 1254
     },
     {
+      "bytes": 1110280,
+      "height": 1024,
+      "id": "file:5854c3b1f0a5c47cf01ca6a0",
+      "origin": {
+        "scope": "Current project source; consult linked provenance document",
+        "tool": "built-in image_gen"
+      },
+      "path": "res://assets/exploration_traces_v06/purple-rune-fragments.png",
+      "representation": "raster",
+      "sha256": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977",
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "width": 1536
+    },
+    {
       "bytes": 1390496,
       "height": 1254,
       "id": "file:5aa2723a12ba0ae5e73cb29d",
@@ -67396,6 +67554,20 @@
       "width": 1774
     },
     {
+      "bytes": 1556003,
+      "height": 1024,
+      "id": "file:f7fecccb12357e880b4a0ea4",
+      "origin": {
+        "scope": "Current project source; consult linked provenance document",
+        "tool": "built-in image_gen"
+      },
+      "path": "res://assets/exploration_traces_v06/ground-traces.png",
+      "representation": "raster",
+      "sha256": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a",
+      "source_id": "source:fae1ea810ba8101e014c487f",
+      "width": 1536
+    },
+    {
       "bytes": 1633722,
       "height": 1536,
       "id": "file:f89c2e3e53b4001f446cc3d4",
@@ -67543,6 +67715,12 @@
       "kind": "project_provenance",
       "path": "docs/EQUIPMENT_ART_PROMPTS.json",
       "sha256": "10c63a2d07e8eb66b2d9f27720766cc18a60403f3052ebba11808d61203875b5"
+    },
+    {
+      "id": "source:fae1ea810ba8101e014c487f",
+      "kind": "catalog_provenance",
+      "path": "game/assets/exploration_traces_v06/PROVENANCE.json",
+      "sha256": "ed684dc6a0ad2350aa14c07c9f94f3cdd9acf0de510c7c5bf36091a8ae51c528"
     },
     {
       "id": "source:fd5d8572da56f00d8acd8831",
@@ -95600,6 +95778,18 @@
       "usage_kind": "runtime_mapping"
     },
     {
+      "art_id": "art:exploration_trace:ore",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:3657cc07ca1e6f5aaeccaa22",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:ore",
+      "target_table": "runtime",
+      "usage_kind": "runtime_mapping"
+    },
+    {
       "art_id": "art:character:costume:crimson-black-jacket:14",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:365bd94abc2dbe484f9be330",
@@ -106102,6 +106292,18 @@
       },
       "target_id": "shade",
       "target_table": "monsters",
+      "usage_kind": "runtime_mapping"
+    },
+    {
+      "art_id": "art:exploration_trace:blood",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:4990ec2939b1cbf14d7a0b46",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:blood",
+      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -131206,6 +131408,18 @@
       "usage_kind": "runtime_mapping"
     },
     {
+      "art_id": "art:exploration_trace:tracks",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:7b18d148b77d19be2fd38b4e",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:tracks",
+      "target_table": "runtime",
+      "usage_kind": "runtime_mapping"
+    },
+    {
       "art_id": "art:equipment:accessory_seed_necklace",
       "consumer": "game/scripts/equipment_art.gd:key",
       "id": "use:7b1d4e8f9187e36e3909be50",
@@ -142341,6 +142555,18 @@
       "usage_kind": "runtime_mapping"
     },
     {
+      "art_id": "art:exploration_trace:herbs",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:9133b23894ecffb6f5ac2787",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:herbs",
+      "target_table": "runtime",
+      "usage_kind": "runtime_mapping"
+    },
+    {
       "art_id": "art:character:costume:aqua-rabbit-stage:12",
       "consumer": "game/scripts/costume_art_v04.gd:frame",
       "id": "use:913541c6b70543df9227a2a3",
@@ -150995,6 +151221,18 @@
       },
       "target_id": "mage",
       "target_table": "classes",
+      "usage_kind": "runtime_mapping"
+    },
+    {
+      "art_id": "art:exploration_trace:supplies",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:a244820f52cc293ed11b8401",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:supplies",
+      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -162992,6 +163230,18 @@
       },
       "target_id": "tank",
       "target_table": "classes",
+      "usage_kind": "runtime_mapping"
+    },
+    {
+      "art_id": "art:exploration_trace:magic",
+      "consumer": "game/scripts/exploration_cues.gd:draw",
+      "id": "use:b95d7a6ecf7b3f037d8d8e59",
+      "mapping": {
+        "collision": false,
+        "visibility": "individual_current_sight"
+      },
+      "target_id": "exploration_trace:magic",
+      "target_table": "runtime",
       "usage_kind": "runtime_mapping"
     },
     {
@@ -374237,10 +374487,10 @@
     ],
     "counts": {
       "appearances": 568,
-      "art_assets": 1656,
-      "art_files": 183,
-      "art_sources": 11,
-      "art_uses": 10020,
+      "art_assets": 1662,
+      "art_files": 185,
+      "art_sources": 12,
+      "art_uses": 10026,
       "build_concepts": 100,
       "build_nodes": 1510,
       "classes": 20,
@@ -374772,6 +375022,67 @@
         "source_symbol": "guardian_drop"
       }
     ],
+    "exploration_cue_source_rules": [
+      {
+        "source_code": "static func signature(site:Dictionary)->Dictionary:\n\tvar profile={\"kind\":str(site.get(\"kind\",\"danger\")),\"trace\":\"tracks\"}\n\tmatch profile.kind:\n\t\t\"gather\":profile.trace=\"herbs\" if site.material==\"seed\" else \"ore\"\n\t\t\"shrine\":profile.trace=\"magic\"\n\t\t\"cache\":profile.trace=\"supplies\"\n\tmatch site.get(\"event\",\"\"):\n\t\t\"herbalist\":profile.trace=\"herbs\"\n\t\t\"sealed_supplies\":profile.trace=\"supplies\"\n\t\t\"blood_altar\":profile.trace=\"blood\"\n\t\t\"echo_shrine\":profile.trace=\"magic\"\n\treturn profile",
+        "source_path": "game/scripts/exploration_cues.gd",
+        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_symbol": "signature"
+      },
+      {
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar cues=[];var graph=Navigation.navigation(map)\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+902731\n\tfor wing in [2,3,5,6]:\n\t\tvar junction=1 if wing<4 else 4\n\t\tvar path=graph.get_point_path(map.rooms[junction],map.rooms[wing])\n\t\tvar sites=map.exploration_sites.filter(func(site):return site.room==wing)\n\t\tvar cue=signature({} if sites.is_empty() else sites[0])\n\t\tvar length=0.\n\t\tfor index in range(1,path.size()):length+=path[index-1].distance_to(path[index])\n\t\tvar marks=[];var travelled=0.\n\t\tvar next=minf(maxf(3.,float(map.room_radii[junction])-2.),maxf(2.,length-9.))\n\t\tfor index in range(1,path.size()):\n\t\t\ttravelled+=path[index-1].distance_to(path[index])\n\t\t\tif Vector2(path[index]).distance_to(Vector2(map.rooms[wing]))<4.5:continue\n\t\t\tvar before_turn=not marks.is_empty() and index+1<path.size() and not map.line_clear(marks[-1].pos,Vector2(path[index+1]))\n\t\t\tif travelled<next and not before_turn:continue\n\t\t\tvar direction=Vector2(path[index]-path[index-1]).normalized()\n\t\t\tvar position=Vector2(path[index])+direction.orthogonal()*rng.randf_range(-.45,.45)\n\t\t\tif not map.walkable(position) or not map.line_clear(Vector2(path[index]),position):position=Vector2(path[index])\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):position=Vector2(path[index])\n\t\t\t# End a local trace before a blind turn instead of bridging its wall.\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):break\n\t\t\tmarks.append({\"pos\":position,\"direction\":direction,\"index\":marks.size(),\"width\":rng.randf_range(36.,48.),\"rotation\":rng.randf_range(-.45,.45)})\n\t\t\tnext=travelled+SPACING*rng.randf_range(.75,1.4)\n\t\t\tif marks.size()==MARKS:break\n\t\tif marks.is_empty():continue\n\t\tcue.merge({\"pos\":marks[0].pos,\"direction\":marks[0].direction,\"room\":wing,\"marks\":marks})\n\t\tcues.append(cue)\n\treturn cues",
+        "source_path": "game/scripts/exploration_cues.gd",
+        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_symbol": "generate"
+      },
+      {
+        "source_code": "static func visible_marks(game,cue:Dictionary)->Array:\n\treturn cue.marks.filter(func(mark):return game.vision.sees(mark.pos))",
+        "source_path": "game/scripts/exploration_cues.gd",
+        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_symbol": "visible_marks"
+      },
+      {
+        "source_code": "static func draw(game,cue:Dictionary):\n\tfor mark in visible_marks(game,cue):\n\t\tvar at=game.world_point(mark.pos)\n\t\tif at.distance_to(game.screen_center())>1100:continue\n\t\tvar facing=(game.world_point(mark.pos+mark.direction)-at).angle()\n\t\tvar texture=Art.texture(cue.trace)\n\t\tvar dimensions=texture.get_size()*(float(mark.width)/texture.get_width())\n\t\t# Rotate debris clusters, not full-size bushes, crates or destination props.\n\t\tvar rotation=float(mark.rotation)\n\t\tif cue.trace==\"tracks\":rotation+=facing+PI*.75\n\t\tgame.draw_set_transform(at,rotation)\n\t\tgame.draw_texture_rect(texture,Rect2(-dimensions*.5,dimensions),false,Color(1,1,1,.92))\n\t\tgame.draw_set_transform(Vector2.ZERO)",
+        "source_path": "game/scripts/exploration_cues.gd",
+        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_symbol": "draw"
+      },
+      {
+        "source_code": "static func catalog()->Dictionary:\n\tif data.is_empty():data=JSON.parse_string(FileAccess.get_file_as_string(CATALOG))\n\treturn data",
+        "source_path": "game/scripts/exploration_trace_art.gd",
+        "source_sha256": "c8af2355efa82c457217cc33406d674e0e2d267c340cf4fa7ecee54a38291e9c",
+        "source_symbol": "catalog"
+      },
+      {
+        "source_code": "static func texture(key:String)->AtlasTexture:\n\tif not textures.has(key):\n\t\tvar entry=catalog();var rect=entry.sprites[key].rect\n\t\tvar atlas=AtlasTexture.new();atlas.atlas=load(entry.sprites[key].get(\"sheet\",entry.sheet))\n\t\tatlas.region=Rect2(rect[0],rect[1],rect[2],rect[3]);atlas.filter_clip=true\n\t\ttextures[key]=atlas\n\treturn textures[key]",
+        "source_path": "game/scripts/exploration_trace_art.gd",
+        "source_sha256": "c8af2355efa82c457217cc33406d674e0e2d267c340cf4fa7ecee54a38291e9c",
+        "source_symbol": "texture"
+      }
+    ],
+    "exploration_cues": {
+      "art_catalog": "res://assets/exploration_traces_v06/catalog.json",
+      "art_variation": "seeded_scale_rotation_and_walkable_offset",
+      "captions": false,
+      "collision": "none",
+      "destination_mapping": "stable_material_event_or_elite_trace",
+      "enemy_or_reward_reveal": false,
+      "fragment_width_pixels": [
+        36,
+        48
+      ],
+      "lateral_variation_tiles": 0.45,
+      "maximum_branches": 4,
+      "maximum_marks_per_branch": 5,
+      "placement": "short_actual_walkable_route_at_junction",
+      "spacing_tiles": 1.8,
+      "spacing_variation": [
+        0.75,
+        1.4
+      ],
+      "tutorial_and_raid": false,
+      "visibility": "each_mark_current_sight_only"
+    },
     "exploration_event_source_rules": [
       {
         "source_code": "static func select(map,site:Dictionary)->String:\n\tvar pool=[\"\"]\n\tfor key in DEFINITIONS:\n\t\tif DEFINITIONS[key].kind==site.kind:pool.append(key)\n\tif pool.size()==1:return \"\"\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+SEED_OFFSET+int(site.room)*193\n\treturn pool[rng.randi_range(0,pool.size()-1)]",
@@ -375506,6 +375817,10 @@
       "game/assets/equipment/weapons-adept.png": "454733f8ccb5f3554107dcff9686eb914e3a115a7dd883e12bd9dd38f3cba74e",
       "game/assets/equipment/weapons-relic.png": "54ead574f44c956d980400e568a1b8c79cc2c4fbbbd908d60332dc1f35fb3523",
       "game/assets/equipment/weapons-trail.png": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2",
+      "game/assets/exploration_traces_v06/PROVENANCE.json": "ed684dc6a0ad2350aa14c07c9f94f3cdd9acf0de510c7c5bf36091a8ae51c528",
+      "game/assets/exploration_traces_v06/catalog.json": "8ae63d0e6bf20caa7e04c1c8aa81d5e1786f0012a1782879688882dca14a146b",
+      "game/assets/exploration_traces_v06/ground-traces.png": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a",
+      "game/assets/exploration_traces_v06/purple-rune-fragments.png": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977",
       "game/assets/floor_tiles_v04/catalog.json": "11839c3c8396b08c1745add842556804360dd5f7c765e7d4ceba37c25bc215e9",
       "game/assets/floor_tiles_v04/ground.png": "53122ee4ab0894b320b63e7ffea4591d5fd6a5751adc0a15bd7dc8599e730877",
       "game/assets/gat/addition_01.png": "6ce032eb249bf67f257c9b23e6d528f8f827b18ecd40301871dd2fa021678bd5",
@@ -375654,7 +375969,7 @@
       "game/scripts/action_circle.gd": "556529bb8e3c667f04e8e6c2fdcfd4020648acdc9cc7e01a275feb0f9790f7b7",
       "game/scripts/active_skills.gd": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2",
       "game/scripts/appearance_rules.gd": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac",
-      "game/scripts/art_registry.gd": "527a3f598aa385417fd8dbfd652a65f1b59beca654cac46f34f1e5ea1bdeaefc",
+      "game/scripts/art_registry.gd": "eccddefa9bc8fd66bd2e7e958d88943fb45ae32c4c303c4932ec87756eabf393",
       "game/scripts/audio_director.gd": "7084677f584a1ace359e92a26f958d58ef89db5bb8a547a03a71cfa5affbdf36",
       "game/scripts/battle_camera.gd": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce",
       "game/scripts/boss_hud.gd": "29e3ee4924628600ce3cc4273fd1fa78a7130938386fe4cd130a3907093fa191",
@@ -375704,15 +376019,16 @@
       "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
       "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
       "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
-      "game/scripts/exploration_cues.gd": "6bde6af98af9d9fd27f45099280ca5e4b1d80ef5600375d9f1cc924ddaff8b44",
+      "game/scripts/exploration_cues.gd": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
       "game/scripts/exploration_events.gd": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
       "game/scripts/exploration_panel.gd": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19",
       "game/scripts/exploration_rooms.gd": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
       "game/scripts/exploration_shortcuts.gd": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+      "game/scripts/exploration_trace_art.gd": "c8af2355efa82c457217cc33406d674e0e2d267c340cf4fa7ecee54a38291e9c",
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283",
-      "game/scripts/game_database.gd": "fe5c3785127af090979fcfa1acb2e78f33c36d6587b5acc15cea2ce0d407b898",
+      "game/scripts/game_database.gd": "dd26e9ba25b0be99cfb5a489cfbe021d13988ba92f11ac6d570e701cfbaf70ca",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -375793,7 +376109,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "e254d18d254962f150a2a9f3724a2cf7c7a388bf949955c661634484414d2f17",
+      "tools/game_db_rules.py": "32e70d4c57978c928660b433cb4588e7fa565f0fbd876da526e8e9232f0abeb3",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [
