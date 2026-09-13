@@ -147,6 +147,67 @@ assert saved_before==saved_after,'Exported process restart changed saved fields'
 for key,value in saved_before.items():
     if key in restored['player']:assert restored['player'][key]==value,('Saved field not restored',key)
 assert played['world_seed']==restored['world_seed']
+
+# Migrate a real old five-stat portable save, then restart the same executable.
+# Keep this separate from the new-schema combat fixture and the player's slot.
+legacy_dir=RUN/'five-stat-migration';legacy_dir.mkdir()
+legacy_fixture=copy.deepcopy(saved_before)
+legacy_fixture.update(level=20,stat_schema_version=1,stats={'strength':11,'endurance':5,'technique':5,'agility':5,'magic':9})
+legacy_fixture.pop('stat_migration',None)
+legacy_fixture.pop('stats_refunded',None)
+legacy_path=legacy_dir/'slot-3.json'
+legacy_path.write_text(json.dumps(legacy_fixture,ensure_ascii=False),'utf8')
+run('five-stat-migration',['--play','--duration=2','--save-dir='+str(legacy_dir),'--report='+str(RUN/'five-stat-migration.json')])
+migrated=json.loads(legacy_path.read_text('utf8'))
+assert migrated['stat_schema_version']==2 and not any(migrated['stats'].values())
+assert migrated['stat_migration']['old_stats']==legacy_fixture['stats']
+for field in ['level','name','gold','inventory','equipment','skill_ranks','highest_floor','cleared_floor']:
+    assert migrated.get(field)==legacy_fixture.get(field),('Old-stat migration lost progression or property',field)
+run('five-stat-migration-resume',['--play','--duration=2','--save-dir='+str(legacy_dir),'--report='+str(RUN/'five-stat-migration-resume.json')])
+assert json.loads(legacy_path.read_text('utf8'))==migrated,'Stat migration repeated or changed the second load'
+
+# Check observer visibility before the longer menu and costume regression.
+art_captures=ROOT/'artifacts'/('export-art-'+KEY);art_captures.mkdir(exist_ok=True)
+environment_catalog=json.loads((ROOT/'game/assets/environment/biomes-v04/catalog.json').read_text('utf8'))
+monster_catalog=json.loads((ROOT/'game/assets/world/dungeon-v04/catalog.json').read_text('utf8'))
+monster_motions=json.loads((ROOT/'game/assets/monster_motions_v06/catalog.json').read_text('utf8'))
+assert len(environment_catalog['chapters'])==10
+biome_checks=[]
+for chapter,theme in enumerate(environment_catalog['chapters']):
+    floor=chapter*10+1
+    restored,capture=fixture_capture('biome-'+theme,
+        {'level':100,'tutorial_done':True,'quest_done':True,'highest_floor':floor,
+         'cleared_floor':floor-1,'raid_clears':{},'constellation_allocations':{}},
+        ['--floor='+str(floor),'--capture-view=encounter','--v052-audit'],art_captures/('biome-'+theme+'.png'))
+    assert restored['floor']==floor and restored['capture_view']=='encounter',('Encounter framing unavailable',theme,restored)
+    assert restored['v052']['dungeon_capture'].get('ordinary_sight') and restored['v052']['dungeon_capture']['from']!=restored['v052']['dungeon_capture']['to'],('Missing isolated observer placement',theme)
+    used=restored['art_usage'];environment=used['environment'];monsters=used['monsters']
+    assert ground_catalog['chapters'][chapter]==theme,('Floor and biome chapter catalog disagree',chapter,theme)
+    ground=ground_evidence(restored,theme)
+    expected_environment=set(environment_catalog['themes'][theme])
+    environment_ids=set(environment['drawn_ids'])
+    # Sparse scenery can be outside ordinary sight in the first encounter.
+    # When scenery is actually drawn it must belong to this biome.
+    assert environment['theme']==(theme if environment_ids else ''),('Wrong environment audit theme',theme,environment)
+    assert environment_ids<=expected_environment,('Wrong biome environment drawn',theme,environment)
+    variants=monster_motions['variants'].get(theme,{})
+    species_ids={variants.get(key,key) for key in monster_motions['base_ids']}
+    if theme in monster_motions['raid_bosses']:species_ids.add(monster_motions['raid_bosses'][theme])
+    submitted_ids={key+'_'+pose['phase']:key for key in species_ids for pose in monster_motions['species'][key]['frames']}
+    expected_monsters=set(submitted_ids)
+    monster_ids=set(monsters['drawn_ids'])
+    prepared=theme in monster_motions['variants']
+    assert monster_ids and monster_ids<=expected_monsters,('Wrong or missing authored biome monster',theme,monsters)
+    assert not monsters['fallback_kinds'],('Authored monster fell back to legacy art',theme,monsters)
+    # Match the actual submitted art IDs to prepared sheets inside the PCK.
+    for monster_id in monster_ids:
+        sheets=source_sheets(monster_motions['species'][submitted_ids[monster_id]])
+        assert sheets and all(any(key.startswith(source+'|') for key in used['prepared']) for source in sheets),('Monster prepared sheet not loaded',theme,monster_id,sheets)
+    biome_checks.append({'theme':theme,'floor':floor,'environment_drawn_ids':sorted(environment_ids),
+        'monster_drawn_ids':sorted(monster_ids),'legacy_monster_kinds':sorted(set(monsters['fallback_kinds'])),
+        'new_monster_pack_prepared':prepared,'isolated_observer_placed_in_room':True,'ground':ground,
+        'icons':icon_evidence(restored),'capture':capture})
+
 dialogue_dir=RUN/'dialogue';dialogue_dir.mkdir()
 dialogue_fixture=dict(saved_before);dialogue_fixture.update(tutorial_done=True,quest_done=True)
 (dialogue_dir/'slot-3.json').write_text(json.dumps(dialogue_fixture,ensure_ascii=False),'utf8')
@@ -224,8 +285,8 @@ def v052_fixture(name,updates,args):
     assert all(audit['packed_resources'].values()),('Required V0.5.2 resources missing from PCK',audit['packed_resources'])
     for path,files in audit['excluded_packs'].items():
         local=ROOT/'game'/path.removeprefix('res://')
-        assert local.is_dir() and any(local.glob('*.png')),('Excluded-pack probe must have real local source assets',path)
-        assert not files,('Unreleased V0.6 assets were packed into this executable',path,files)
+        assert local.is_dir() and any(local.rglob('*.png')),('Excluded-pack probe must have real local source assets',path)
+        assert not files,('Unneeded source PNGs were packed instead of prepared RGBA',path,files)
     # Opening/selecting/practising must preserve possessions and progression.
     # Runtime-derived fields such as stamina and motion are intentionally not saves.
     persistent=audit['persistent']
@@ -307,8 +368,8 @@ for job,definition in catalog['classes'].items():
 
 # These fixtures use the same parser, persistence, renderer and PCK as ordinary
 # saved characters. No source --script override or model-only sprite read counts.
-art_captures=ROOT/'artifacts'/('export-art-'+KEY);art_captures.mkdir(exist_ok=True)
 costume_catalog=json.loads((ROOT/'game/assets/costume_v04/catalog.json').read_text('utf8'))
+expanded_costumes=json.loads((ROOT/'game/assets/costume_v06/runtime.json').read_text('utf8'))['entries']
 assert len(costume_catalog)==33,('Expected the complete 33-costume release catalog',len(costume_catalog))
 costume_checks=[]
 matching=json.loads((ROOT/'game/assets/costume_v04/class_matching.json').read_text('utf8'))
@@ -324,7 +385,8 @@ for costume_id,definition in sorted(costume_catalog.items()):
     assert used['id']==costume_id and used['draws']>0 and not used['fallback'],('Costume did not reach draw branch',costume_id,used)
     assert 15 in used['frame_indices'],('Idle frame not submitted to renderer',costume_id,used)
     actual_sheets=set(used['source_sheets'])
-    assert actual_sheets and actual_sheets<=source_sheets(definition),('Wrong costume sheet consumed',costume_id,used)
+    expected_costume_sources=source_sheets(expanded_costumes[costume_id])
+    assert actual_sheets and actual_sheets<=expected_costume_sources,('Approved expanded costume sheet not consumed',costume_id,used)
     for source in actual_sheets:
         matches=[key for key in restored['art_usage']['prepared'] if key.startswith(source+'|')]
         assert matches and all(restored['art_usage']['prepared'][key]==render_cache[key]['path'] for key in matches),('Costume used legacy pixel processing in exported process',costume_id,source)
@@ -332,6 +394,7 @@ for costume_id,definition in sorted(costume_catalog.items()):
         'frame_indices':sorted(set(used['frame_indices'])),'source_sheets':sorted(actual_sheets),
         'fallback':False,'icons':icon_evidence(restored),'capture':capture})
 
+assert any(row['environment_drawn_ids'] for row in biome_checks), 'No scenery rendered in any exported biome'
 assert len(costume_checks)==30
 town,capture=fixture_capture('town-visitors',{'costume':'none','avatar':'auto','tutorial_done':True,'quest_done':True},[],art_captures/'town-visitors.png')
 npcs=set(town['art_usage'].get('npcs',[]))
@@ -339,45 +402,14 @@ expected_npcs={key for key in costume_catalog if matching[key]['runtime_role']==
 assert npcs==expected_npcs and len(npcs)==3,('All three gun sprites drawn by town NPCs',npcs)
 npc_checks={'drawn_ids':sorted(npcs),'capture':capture,'player_selection':'excluded because no current class uses guns'}
 
-environment_catalog=json.loads((ROOT/'game/assets/environment/biomes-v04/catalog.json').read_text('utf8'))
-monster_catalog=json.loads((ROOT/'game/assets/world/dungeon-v04/catalog.json').read_text('utf8'))
-assert len(environment_catalog['chapters'])==10
-biome_checks=[]
-for chapter,theme in enumerate(environment_catalog['chapters']):
-    floor=chapter*10+1
-    restored,capture=fixture_capture('biome-'+theme,
-        {'level':100,'tutorial_done':True,'quest_done':True,'highest_floor':floor,
-         'cleared_floor':floor-1,'raid_clears':{},'constellation_allocations':{}},
-        ['--floor='+str(floor),'--capture-view=encounter'],art_captures/('biome-'+theme+'.png'))
-    assert restored['floor']==floor and restored['capture_view']=='encounter',('Encounter framing unavailable',theme,restored)
-    used=restored['art_usage'];environment=used['environment'];monsters=used['monsters']
-    assert ground_catalog['chapters'][chapter]==theme,('Floor and biome chapter catalog disagree',chapter,theme)
-    ground=ground_evidence(restored,theme)
-    expected_environment=set(environment_catalog['themes'][theme])
-    environment_ids=set(environment['drawn_ids'])
-    assert environment['theme']==theme and environment_ids & expected_environment,('New environment not drawn',theme,environment)
-    assert environment_ids<=expected_environment,('Wrong biome environment drawn',theme,environment)
-    expected_monsters={key for key,value in monster_catalog['objects'].items() if value['theme']==theme}
-    monster_ids=set(monsters['drawn_ids'])
-    prepared=theme in monster_catalog['themes']
-    if prepared:
-        assert monster_ids & expected_monsters,('Prepared monster variant never drawn',theme,monsters)
-        assert monster_ids<=expected_monsters,('Wrong biome monster drawn',theme,monsters)
-        assert not monsters['fallback_kinds'],('Prepared biome unexpectedly used legacy monster',theme,monsters)
-    else:
-        assert monsters['fallback_kinds'] and not monster_ids,('Expected retained monster artwork',theme,monsters)
-    biome_checks.append({'theme':theme,'floor':floor,'environment_drawn_ids':sorted(environment_ids),
-        'monster_drawn_ids':sorted(monster_ids),'legacy_monster_kinds':sorted(set(monsters['fallback_kinds'])),
-        'new_monster_pack_prepared':prepared,'camera_only_encounter_framing':True,'ground':ground,
-        'icons':icon_evidence(restored),'capture':capture})
-
 isolated=RUN/'final-floor';isolated.mkdir()
-fixture=dict(saved_before);fixture.update(level=100,class_id='swordsman',stats={'strength':150,'endurance':90,'technique':30,'agility':27,'magic':0},tutorial_done=True,quest_done=True,highest_floor=100,cleared_floor=99,raid_clears={},inventory=[],equipment={},equipped='',bag_positions={},skill_ranks={},skill_loadout={})
+fixture=dict(saved_before);fixture.update(level=100,class_id='swordsman',stat_schema_version=2,stats={'power':100,'vitality':60,'fortitude':50,'swiftness':30,'precision':30,'specialization':27},tutorial_done=True,quest_done=True,highest_floor=100,cleared_floor=99,raid_clears={},inventory=[],equipment={},equipped='',bag_positions={},skill_ranks={},skill_loadout={})
 (isolated/'slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
-run('final-floor',['--play','--floor=100','--capture-view=raid','--duration=3','--save-dir='+str(isolated),'--report='+str(RUN/'final-floor.json'),'--capture-at=1','--capture='+str(ROOT/'artifacts/export-floor-100.png')],True)
+run('final-floor',['--play','--floor=100','--capture-view=raid','--v052-audit','--duration=3','--save-dir='+str(isolated),'--report='+str(RUN/'final-floor.json'),'--capture-at=1','--capture='+str(ROOT/'artifacts/export-floor-100.png')],True)
 final_floor=json.loads((RUN/'final-floor.json').read_text('utf8'))
 assert final_floor['floor']==100 and len(final_floor['guardians'])==1
 assert final_floor['capture_view']=='raid'
+assert final_floor['v052']['dungeon_capture'].get('ordinary_sight'), 'Raid screenshot must retain ordinary observer sight'
 final_boss_capture=screenshot_evidence(ROOT/'artifacts/export-floor-100.png')
 boss=final_floor['guardians'][0]
 assert boss['raid'] and boss['level']==100 and boss['max_hp']>=400000 and '아스트라' in boss['name'],boss
@@ -392,18 +424,19 @@ completed=json.loads((RUN/'final-resume.json').read_text('utf8'))
 assert completed['floor']==0 and completed['player']['cleared_floor']==100
 assert completed['player']['raid_clears']==fixture['raid_clears']
 report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
-report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['max_hp'],'five_stats_restored':True,'completed_save_fixture_restored':100,'saved_raid_clears':10,'all_100_floors_cleared_by_source_gate':True,'camera_only_raid_framing':True,'capture':final_boss_capture}
+report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['max_hp'],'six_stats_restored':True,'completed_save_fixture_restored':100,'saved_raid_clears':10,'all_100_floors_cleared_by_source_gate':True,'isolated_observer_placed_near_boss':True,'capture':final_boss_capture}
 report['exported_jobs_restored_and_rendered']=tested_jobs
 report['codex_tabs_restored_and_rendered']=codex_screens
 report['boss_stagger_state_present']=True
+report['five_stat_save_migration']={'stat_schema_version':2,'old_investments_refunded_once':True,'property_preserved':True,'second_load_identical':True}
 report['v052_features']={'fixtures':v052_checks,'added_runs':len(v052_checks),
-    'scope':'Actual exported Windows screenshots and runtime state: settings with nested keyboard, 120-cell bag and equipped-item comparison, giant training sprite plus live damage/stagger with all save fields unchanged, and a separate costume boutique preview. No costume purchase or personal save was used. Required resources and excluded V0.6 directories were probed inside the exported process.'}
+    'scope':'Actual exported Windows screenshots and runtime state: settings with nested keyboard, 120-cell bag and equipped-item comparison, giant training sprite plus live damage/stagger with all save fields unchanged, and a separate costume boutique preview. No costume purchase or personal save was used. Required resources and excluded source PNGs/imported textures were probed inside the exported process.'}
 report['title_creator_dialogue_rendered']=True
 report['empty_creator_does_not_write_save']=True
 report['pck_sha256']=hashlib.sha256((portable/'StelRPG.pck').read_bytes()).hexdigest()
 report['art_consumption']={'costumes':costume_checks,'town_visitors':npc_checks,'biomes':biome_checks,'icon_screens':icon_checks,'equipment':equipment_checks,
-    'costume_scope':'30 compatible player costumes restored and idle frames submitted in independent exported Windows processes; three gun sprites drawn by town visitors. Source-reader tests cover all 528 motion frames.',
-    'biome_scope':'Ten legal floor-entry save fixtures, with capture-only camera framing of the first encounter; these captures do not claim clearing those floors.',
+    'costume_scope':'30 compatible player costumes restored and approved expanded idle source sheets submitted in independent exported Windows processes; three retained gun sprites drawn by town visitors. Source-reader tests cover 87 approved expanded poses and retained legacy actions.',
+    'biome_scope':'Ten legal floor-entry save fixtures. Explicit isolated capture controls place the observer on walkable ground in the first encounter and retain ordinary sight; these captures do not claim walking to or clearing those floors.',
     'ground_scope':'Existing ten biome captures inspect the actual terrain ShaderMaterial atlas and panel parameters, shader resource, and positive draw signal count. Source atlas SHA256 matches the approved original.',
     'chroma_scope':'Actual PNG framebuffer: no solid 9x9 near-exact blue or magenta block. This does not replace visual review of transparency edges or icon style.',
     'runtime_reports':str(RUN.relative_to(ROOT))}

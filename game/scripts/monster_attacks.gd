@@ -121,7 +121,7 @@ func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
 	if amount<=0:return
 	p.erase("revive_target");p.erase("revive_progress")
-	p.combat_time=4;p.hp-=amount;p.hurt_time=.16;p.stamina=maxf(0,p.stamina-zone.drain)
+	p.combat_time=4;p.hp-=amount;p.hurt_time=.16*preload("res://scripts/progression.gd").hurt_duration_factor(p);p.stamina=maxf(0,p.stamina-zone.drain)
 	p.enemy_slow_time=maxf(p.enemy_slow_time,zone.slow)
 	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock*(1-sim.combat.jobs.passive(p,1)*.12 if p.class_id=="breaker" and (p.charge_time>=0 or not p.job_state.casting.is_empty()) else 1))
 	var reflected=int(Content.skill_bonus(p,"thorns"))

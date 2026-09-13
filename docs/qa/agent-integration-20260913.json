@@ -1,0 +1,1717 @@
+{
+  "status": "verified_release_candidate",
+  "scope": "기본·2차 직업의 승인 원화 및 6스탯 통합. 전체 벤치마킹 목표 완료를 의미하지 않음.",
+  "base_commit": "cf7e40bfc0c9e575a55f61ed7d8d278fb62d2dfb",
+  "runtime_art_regions": {
+    "art:character:skill_v06:": 236,
+    "art:character:costume_v06:": 87,
+    "art:monster:motion_v06:": 192,
+    "art:environment:exploration_v06:": 24,
+    "art:vfx:atlas_v06:": 108
+  },
+  "runtime_classes": 20,
+  "protocol": 16,
+  "prepared_sheets": 110,
+  "database_files": {
+    "docs/database/stelrpg-database.json": "b59d64e5e6eea06efe9506ae0acf2ecb69101530b50818a66d46b14f695e7c22",
+    "docs/database/stelrpg.sqlite": "5de0288a72be385384f45f6523e9cb6193f36727b1e1ee27f0c3547c5c723a02",
+    "docs/database/manifest.json": "2457c1776c08334a690a47b66fec62afb9c8078fe7d20cd0b199f000d1dcd172",
+    "game/data/codex-v053.bin": "de1bc95930c00e2b8253dd8327814cc36685fcf4f10be5ab2025e5ed3810dcf6"
+  },
+  "focused_log_directory": "runtime/agent-integration-final/20260913-161148",
+  "network": [
+    {
+      "mode": "6인 일반 협동 및 구15차단",
+      "status": "PASS",
+      "directory": "runtime/coop-check-1789285492896337700"
+    },
+    {
+      "mode": "마지막 생존자 강제 이탈 및 구15차단",
+      "status": "PASS",
+      "directory": "runtime/coop-check-1789285740672169000"
+    },
+    {
+      "mode": "살아 있는 동료 유지 중 강제 이탈 및 구15차단",
+      "status": "PASS",
+      "directory": "runtime/coop-check-1789285760597384000"
+    }
+  ],
+  "fixed_findings": [
+    "이동형 스킬 효과와 실제 타격 방향 불일치",
+    "이동 중 몬스터가 오래된 공격 좌표를 바라봄",
+    "회복 방출을 공격 포즈로 표시",
+    "초기 발 추정이 사신의 낫끝을 사용",
+    "녹색 경계 오염 및 보라색 원화 손실",
+    "자동 플레이의 구 스탯 투자 및 실패를 성공처럼 기록",
+    "도감의 구 능력치 설명 및 다른 직업 미리보기 보정",
+    "강제 이탈한 마지막 플레이어가 정리 시 보스 참여자로 남음"
+  ],
+  "qa_review": {
+    "task_id": "01a0874d-8f07-7e03-b0a4-9861b95ff8e8",
+    "scope": "6스탯 저장/단일 치명 및 peer_left 코드 읽기 전용 검토",
+    "peer_left_result": "추가 확정 결함 없음. 이탈 표시→개인 효과 정리→플레이어 제거→인원 보정→첫 스냅샷 순서와 참여자 제외 조건을 QA가 읽기 전용 확인. 외부 회선 장시간 검증/최종 커밋 인수와 분리.",
+    "final_source_read_review": "2026-09-13 QA팀: 기존 확정 결함의 수정 누락 없음. 추종 VFX 조준·몬스터 이동 시선·실제 탐험가 특화 표시·새 스탯 자동 투자·peer_left·전투 정리·발동 위치·힐러 중단·큰 몬스터 가림·환경 간격·길드 영수증 유지. 읽기 전용 검토이며 실제 화면/엔진/배포 인수와 구분.",
+    "capture_guard": "QA팀 읽기 전용 재확인: offline 이외 역할에서 상태 변경 전에 반환하고 host/client 위치 불변 검사 추가. 기존 P2 해소, 추가 확정 결함 없음."
+  },
+  "not_applied": [
+    {
+      "area": "3차 전직·전용 궁극기",
+      "reason": "현재 메인 요청에서 보류. 별도 설계 및 DPS 시뮬레이션을 게임 구현으로 집계하지 않음."
+    },
+    {
+      "area": "코스튬 이동·공격·회피 새 원화",
+      "reason": "검수 미승인 또는 추가 포즈/기준점 필요. 검수된 V04 유지."
+    },
+    {
+      "area": "신규 일반 몬스터 40종 및 신규 원화20종",
+      "reason": "기존 전투 ID와 대응하는48외형만 이번 연결. 신규 전투/드롭/경제/층 편성은 별도 연결 필요."
+    },
+    {
+      "area": "제작 재료·장비 설계 DB 및 장비 전용 특수 스탯18종",
+      "reason": "실제 획득·제작·강화·저장 경제 연결 및 미확정 강화 정책이 남음."
+    },
+    {
+      "area": "신규 크기 등급·보스 패턴 추가 효과·구조 후유증",
+      "reason": "설계 또는 추가 연결 단계. 이번 적용으로 집계하지 않음."
+    },
+    {
+      "area": "보스 등장 A+C/재조우 A와 격노·무력화·승리 외형",
+      "reason": "그래픽 디자인 확정 정책 접수. 보스/생물 선택 및 추가 원화·전장/상태 연동 필요."
+    }
+  ],
+  "captures": {
+    "artifacts/agent-art-v06-combat.png": "b66489f4629f54a2fdd45934ec43069b5c38b229805f3a794fbe34eb1557ed3b",
+    "artifacts/skill-motions-v06-page-2.png": "22e694965ebaae601125e5a49aee29fffd83de06cee615acc8e95009ac2179c6"
+  },
+  "design_only_latest": {
+    "third_job_catalog": "docs/design/third_job_advancement/catalog.json",
+    "third_job_runtime": "보류",
+    "boss_presentation": "docs/design/raid_presentation_v02/README.ko.md",
+    "boss_states": "docs/design/raid_presentation_v02/BOSS_STATES.ko.md",
+    "boss_animation_sample": "docs/design/boss_animation_v01/README.ko.md",
+    "size_reveal_policy": "가장 큰 보스 한 조우의 첫 만남에서만 한 번. 대상 보스 ID와 원화 선택 대기.",
+    "animation_sample_status": "사용자 원화 검수 전·게임 미적용"
+  },
+  "database_management_acceptance": {
+    "status": "PASS",
+    "scope": "최종 offline 제한 적용 후 DB 관리가 원본532개 SHA, 매니페스트, JSON/SQLite37테이블 전행·참조·무결성을 읽기 전용 재확인. 불일치와 등록 범위 누락0. 캐시는 직전 검증본과 동일하며 파일변동0. 엔진 검증과 별도.",
+    "task_id": "01a08625-292a-7953-b0a7-71bbb522155d",
+    "source_hashes": 532,
+    "art_files_and_sources": 344,
+    "sqlite_tables": 37,
+    "json_tables": 33,
+    "cache_tables": 29,
+    "integrity": "ok",
+    "foreign_key_errors": 0,
+    "mismatch_count": 0,
+    "runtime_classes": 20,
+    "equipment": 2500,
+    "monsters": 24,
+    "raids": 10,
+    "skills": 610,
+    "constellations": 900,
+    "base_drops": 132,
+    "raid_drops": 24,
+    "files_changed": false,
+    "rechecked_after_capture_fixture_fix": true,
+    "rechecked_after_offline_guard": true
+  },
+  "manual_framebuffer_review": {
+    "scope": "실제 1920x1080 EXE 캡처의 표시와 원화 가림 확인. 자동 픽셀 검사와 구분",
+    "screens": {
+      "artifacts/export-creator.png": "65275611622981373742225f5d0399771a1188242b65ab5e667ef3fabedd8218",
+      "artifacts/export-skills.png": "6e40cb718ee29536320594f69c9b5590ad61aafd3017a95b9f6ede2e6117f385"
+    },
+    "findings": "생성 화면의 6스탯·직업명·입력/버튼 글자 및 스킬 지도 3계열·스킬 설명 가림 없음. 선택 노드/투자 불가 상태·스크롤 영역 표시 확인."
+  },
+  "earlier_source_gate": {
+    "status": "PASS",
+    "scope": "complete",
+    "checks": 612764,
+    "verified_at": "2026-09-13 17:19:57",
+    "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\v01-checks\\20260913-170625",
+    "runtime_files": 560,
+    "runtime_mib": 811.47,
+    "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
+    "groups": 172,
+    "report_sha256": "47bbbad5d0626126f2b05f8abcc3c869379117bad4ff3a1530c464b363d825c3"
+  },
+  "export_fixture_correction": {
+    "failed_run": "runtime/export-checks/20260913-172046",
+    "reason": "기존 camera-only encounter 캡처는 플레이어가 입구에 남아 새 시야에 적이 나타나지 않음",
+    "change": "명시적 save-dir와 capture-view가 있는 격리된 검사에서 관찰자만 해당 방/보스 근처의 걸을 수 있는 위치에 배치. 실제 시야 유지, 재산/진행 보존",
+    "prior_export_successes": "이동·전투·신규/이전 저장·UI·도감·장비·전직15종·코스튬30종·NPC3종. 수정된 EXE의 최종 결과로 대체 전에는 배포 PASS로 집계하지 않음",
+    "qa_finding": "P2: 명시적 캡처 옵션이 있는 협동 세션에도 관찰자 배치가 적용될 수 있음",
+    "qa_fix": "관찰자 배치 함수 첫 줄에서 network_role != offline이면 반환; host/client 위치 불변 회귀 추가",
+    "source_scene_validation": {
+      "status": "PASS",
+      "directory": "runtime/v07-observer-smoke-174720",
+      "floors": [
+        1,
+        11,
+        21,
+        31,
+        41,
+        51,
+        61,
+        71,
+        81,
+        91,
+        100
+      ],
+      "scope": "실제 게임 진입점에서 격리된 원화 관찰자 및 일반 시야. 모든 지역에서 신규 몬스터 실제 draw 확인; 사람의 탐사 완주 기록과 구분."
+    },
+    "sparse_scenery_assertion": {
+      "failed_run": "runtime/export-checks/20260913-180230",
+      "reason": "첫 방 일반 시야에 희소 장식물이 없을 수 있는데 모든 캡처에 장식물을 요구함",
+      "change": "실제로 그려진 장식의 지역 일치와 전체 생태권 중 장식 실제 그리기를 검사. 각 지역 지면과 몬스터의 실제 표시는 계속 필수. 게임 런타임 변경 없음."
+    }
+  },
+  "database_files_before_capture_fixture_fix": {
+    "docs/database/stelrpg-database.json": "badd7586ca6ce26adf10d92fd451e1e8505e0c6b9af5443f77571000bdd39056",
+    "docs/database/stelrpg.sqlite": "11381787aa0f5a8de1cfe0b1d1844e47e121e035e4790bae64d7f9fbfacdfed1",
+    "docs/database/manifest.json": "b3e374e0a050edfcfc2a347c723baacf0f255d82e33ffd7a7c8218b5482b0203",
+    "game/data/codex-v053.bin": "de1bc95930c00e2b8253dd8327814cc36685fcf4f10be5ab2025e5ed3810dcf6"
+  },
+  "source_gate": {
+    "status": "PASS",
+    "scope": "complete",
+    "checks": 612770,
+    "verified_at": "2026-09-13 18:01:27",
+    "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\v01-checks\\20260913-174818",
+    "runtime_files": 560,
+    "runtime_mib": 811.48,
+    "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
+    "runtime_sha256": {
+      "game/assets/attacks/attack-arcane.png": "3f83eb1e09726bbe61a6994720c711bf5d19db1febc35d1c53e57722d184089a",
+      "game/assets/attacks/attack-dragon-wide.png": "422f0a31a118367e436ae3f85352b88c43ffb61ae07c946de75d81491b61e9cb",
+      "game/assets/attacks/attack-elements.png": "ed8c6824847bb820701da45ffdc1f75b9a68e44b4c6269f26f0f1beee4b26402",
+      "game/assets/attacks/attack-martial-wide.png": "531be6d7777f69c914fb892730a394f541061776a323e1995ddd4412cffb9a08",
+      "game/assets/attacks/attack-nature-wide.png": "e1f59b75504acf3278c14d908f29646668d58d577418f8613088e86b60f7108c",
+      "game/assets/attacks/attack-physical.png": "869c6833a3ede92e4ac5ffdeffb968a285c466b4fdd5f63f80e6c9b721870aef",
+      "game/assets/attacks/catalog.json": "7453f19fc1517bc77ae0016f087e72093d5960b9fe8f80a605f1be598baf91eb",
+      "game/assets/audio/axe_0.wav": "cc0537c2a0633ee2f84f31cb0de09025abf1dc43ae44598a451cbd048a429a19",
+      "game/assets/audio/axe_1.wav": "e531c4117b409a8e030187753c4b3dc127f64b524d554a8dcc42912c0d5c9abc",
+      "game/assets/audio/bow_0.wav": "1cf6042ed188bbc2171973f5636fa2c58481f7cb38a607ce8a1bf1a6874ea076",
+      "game/assets/audio/bow_1.wav": "a0d0594c5ff343ddfd346dd369253c65096b0002686e4cce54ae318b87c9e2c3",
+      "game/assets/audio/dodge_0.wav": "2c6483c0c6072849f6fb664ef522e976086b81f589587c0ca600d135673600bd",
+      "game/assets/audio/dodge_1.wav": "bcfb824705b79c8face2552686f5d0d9ece91152b3e34e7a1fdbf006a647c0b4",
+      "game/assets/audio/dodge_2.wav": "141067ce2e272747052cf64b6c4b6210f8113c626aa717791928a0c27f8df233",
+      "game/assets/audio/equip_0.wav": "1f2c9f3e22b7010785bd96cc54e0f700a8291952881f3b9c12a1d8d7b567fa3f",
+      "game/assets/audio/field_0.wav": "acc48f2c58ac00871bfb70147baec943fb946c03e8b0e392f7d2096d3e2a9559",
+      "game/assets/audio/heavy_0.wav": "00348d01a748653c0ef22b66fc6eca9e4ecd6a70bb3a48fa2348eea96c6a797d",
+      "game/assets/audio/hit_axe_0.wav": "662109f0ec780749a9d7f7e5ee5a1d6f98d98a626b2ecc444a7d1c3b3df8caa4",
+      "game/assets/audio/hit_axe_1.wav": "3726a2d51ec83d5b6e01e9c1f9a361043b91c26b25534bbad325b5ff9f66dab4",
+      "game/assets/audio/hit_bow_0.wav": "7c61befcba38895ae331d17a6fc86fb94bed270bd7a1d378cd83a48755c53af0",
+      "game/assets/audio/hit_bow_1.wav": "26c43c9198d00476c28cd8b7cbb9738e5b67283320f36160632f37bc158cc19d",
+      "game/assets/audio/hit_staff_0.wav": "4d473a1fcab723833285cc8bdce888899617d825ce25fec6e9282c4db7037eab",
+      "game/assets/audio/hit_staff_1.wav": "99d692c0ce49fb293c176ed8e18203f64adab3046d1412a5fafbbe7aff374c00",
+      "game/assets/audio/hit_sword_0.wav": "35cc62df84e0a9fb3f0b5254aa38ba290581e4d81c8e9719941230a4f083ddb7",
+      "game/assets/audio/hit_sword_1.wav": "7477cc067360c6d97830b410ad1c6b3711e06f8b00da1079d81a138ca5e79de5",
+      "game/assets/audio/hurt_0.wav": "d0dee9dd149a62e6f910c745cfc39638c4662a44829c8149c6a0613dc93ebab8",
+      "game/assets/audio/inventory_0.wav": "28f01d82220cad691a184d8e3836636f408764590823050da71c62043f2c6e96",
+      "game/assets/audio/invest_0.wav": "345bf2547553a621496f8dab34a4db65ced6955af1b9d6729847956683cd2bc5",
+      "game/assets/audio/levelup_0.wav": "53cbe401cd258378a9e31963f75cac6501522283a6451431ec2ef93dc0bc1cbf",
+      "game/assets/audio/mapping.json": "d06fc05d0737e8bd2c85f0b78ac5678fcb160e02b89f5fe1b4020d0add1c4852",
+      "game/assets/audio/move_item_0.wav": "d934ac67dbec8962d2cc7c5eadffd42fd16b4737a58ecaa7afb288127c76d8cd",
+      "game/assets/audio/nova_0.wav": "8e56487abbf5046bd24378198504cfa4eaf4664d1f486d49c0239dc3fa4fe577",
+      "game/assets/audio/pickup_0.wav": "46046ed19b508f3efd928a3916f8daeffb942ff999c082c87a4c360e118ace33",
+      "game/assets/audio/potion_0.wav": "bf43713e59cbc2a38d5294175c5bb2520068c061770becb78faf3a45c0710123",
+      "game/assets/audio/return_0.wav": "c20184af40ac6ac74073c24f601a30b29e86825d18c4725b875108501ebee83f",
+      "game/assets/audio/staff_0.wav": "84831d6dbafa2134ffdb3846e086554f38c11551ed9127b9355fb9d02a521898",
+      "game/assets/audio/staff_1.wav": "ed988b4b6fb7f9185cacd5d0dd730e33a601d6cc70cea4d31c1d4c0e659512e8",
+      "game/assets/audio/step_0.wav": "38d0fd8c5c40161ff1f57489550f6e053dda7c07f48271ffaa9bf252ceaf1915",
+      "game/assets/audio/step_1.wav": "79658ad774698dd51f2acdbfc73bc9457fc9508529f5ffb902e97a863609781f",
+      "game/assets/audio/step_2.wav": "af736aae9ca457751655248946c6c64f0dddb7293b283b2728fcaf3872548626",
+      "game/assets/audio/sword_0.wav": "292d97b2dba4634af000600f6d711ffdac0946bcd4144082151a978b3decb8bf",
+      "game/assets/audio/sword_1.wav": "4ac3892d9531f3b17e52a36601ab69e86abff039a7773b3a0250d56ca45c6958",
+      "game/assets/audio/sword_2.wav": "25e17cd6b0819ab3aa5184d2ea38ee2d2eb6fa7d80f8c7c801b4604076bf3d2b",
+      "game/assets/audio/title_0.wav": "710e2c99f465ece84bd45982c58e5419bfd91ba5f205492ddbdb68b018dc3ff9",
+      "game/assets/audio/town_0.wav": "704c5b6db82dbaa43ef30e095af03bd5e48201774363f07a81a6926e4b2cae0d",
+      "game/assets/cave_remains_v06/catalog.json": "53a7a1f1b8c9acf7cb1707bcb18ffd3460a527a83b3bf1fe6c350453a20f2bbf",
+      "game/assets/cave_remains_v06/remains.png": "7e43ccc25b82861cdd0304724f23d669304fbd94a7a5e7f8aaaa23028d89922d",
+      "game/assets/costume_v04/amethyst-purple-dress-sheet.png": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8",
+      "game/assets/costume_v04/amethyst-summer-shawl-sheet.png": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2",
+      "game/assets/costume_v04/aqua-goggles-explorer-sheet.png": "d2b0db9d9328615803af2319f8c33bf4ca5d198db57d0be6ab8d91b427108601",
+      "game/assets/costume_v04/aqua-pajama-sheet.png": "f735f329121728d2278d3e731c98b2a415f724e24ae188b0da963d6372726137",
+      "game/assets/costume_v04/aqua-rabbit-stage-sheet.png": "335c37486cf203e5793d9ad6809533fe3d29f7846503fdb5d88b92a78cd28075",
+      "game/assets/costume_v04/aqua-winter-hanbok-sheet.png": "780eb5b746cdd631e1bc28d7056dfb83fe33048f81d57e6cdf6cae42bde492cc",
+      "game/assets/costume_v04/catalog.json": "8b35996899db1cd185f3fa2aff8a20c6e7333b7fa0fe4691c8c0524ec7bff7b6",
+      "game/assets/costume_v04/class_matching.json": "6a91bff0239826a906847da27a98edbbcc23f0b68a8778d136779a24d1461a6d",
+      "game/assets/costume_v04/cobalt-black-ribbon-maid-sheet.png": "3fee4ea917e3b90478cb270e5e810683296d7fc3ff07ccc26e73ecb8ad517fc5",
+      "game/assets/costume_v04/cobalt-broom-maid-sheet.png": "e7f848bd53f3e46e1c5f638881e824baf70e42ad002ceb058e59dfc00487b761",
+      "game/assets/costume_v04/cobalt-navy-hanbok-sheet.png": "468bdeafbf11a7a04673796056e43dc9fdd955eb39fce79cdacb6eacd2e0b02e",
+      "game/assets/costume_v04/crimson-black-dress-sheet.png": "53eaefede0fd0e9ab728e24831f69313ab46c7b318a10674ba9cca3f71d68fcb",
+      "game/assets/costume_v04/crimson-black-jacket-sheet.png": "a1d9c747730843de4a474e97220ff84a4fcb8461bbfa3e953f4cd726da8e5ccd",
+      "game/assets/costume_v04/crimson-pastel-rabbit-sheet.png": "a7f732e15056c6fe28cc6fc8ccd85773f5026f18c69cc0ed7dea2a0e0e72e45d",
+      "game/assets/costume_v04/crimson-rose-gothic-sheet.png": "e8ff9dfa38670211aa4d6812d6c7497a41eacb1cda075f76926326947dbd8597",
+      "game/assets/costume_v04/lavender-sailor-sheet.png": "bcae4f6178ab86c2a76fc7d1e65a525276550c66d7a2fbd972e266fdeffe6778",
+      "game/assets/costume_v04/lavender-shrine-maiden-sheet.png": "61c97fe967d977d5769d39097d01aac1edca025433950fcdbf9f0ef93b12af03",
+      "game/assets/costume_v04/lavender-winter-hanbok-sheet.png": "1706348a89df7af80c5c6c99488bc149a95d76f1ea92465b179407e422ed30c8",
+      "game/assets/costume_v04/mint-hanbok-sheet.png": "4971c06409b32a814cea6784cd20450263fa080bba1c0b6905660ea0a24a344a",
+      "game/assets/costume_v04/mint-silver-knight-attacks-v04.png": "a9b9c91e6319cbc17b7ef5619ac7f71824708804e8bb5663b84ab40f55a5e6c7",
+      "game/assets/costume_v04/mint-silver-knight-sheet.png": "d7c8530cafc4ebf7509bdb136533d52c971ac6e84cefc36cefa15882bbb6a0fc",
+      "game/assets/costume_v04/mint-summer-attacks-v04.png": "1280135536aea64778e427e0caeb1663417fcadc03ad0ba1e107ba68cd2d53f3",
+      "game/assets/costume_v04/mint-summer-sheet.png": "6a57f04d50b2e9df1db35fd1a258ea77ebc1c264cbe8002496dd259ae71fe177",
+      "game/assets/costume_v04/pearlcat-sailor-sheet.png": "79a51b522657a8c22fcfb6d591124eb44c4a4e411124dabd99c6d39d62d20393",
+      "game/assets/costume_v04/pink-beret-gunner-sheet.png": "513119a2db90897e7be2716f024c0086cdf55fa2828aad884910c42fe7442aad",
+      "game/assets/costume_v04/pink-black-veil-hanbok-sheet.png": "1d40c4b3825eecaa7358ec7d0236f838dc3b759f558c8acdc9cbc6a1eb9b66c2",
+      "game/assets/costume_v04/pink-bunny-hoodie-sheet.png": "25b9b555faac1db096257154dca29522ab458f520322174685473172ec189129",
+      "game/assets/costume_v04/raven-black-punk-sheet.png": "1231ba97262120875d34b97994723b67b64c990ff7c1f2b7f09c90f3e45b3c94",
+      "game/assets/costume_v04/raven-navy-hanbok-sheet.png": "17bb573c8a1ae93be666fcf6652af582391111b520930b6d593e89a946effaaa",
+      "game/assets/costume_v04/raven-pink-dress-sheet.png": "2c2969c3f788217679a9264ab41fffe7397fc700ba40bd967c865c0c078a5be3",
+      "game/assets/costume_v04/raven-school-uniform-sheet.png": "ca6a8c6cfd985e80903b4a235028701d140f5a643dec834e494f84e84264307e",
+      "game/assets/costume_v04/raven-summer-resort-sheet.png": "ac87cdec41cd7053c6ef0f114aeba3aae1de098e6a007867e67ae98377cbdf97",
+      "game/assets/costume_v04/silvercat-black-uniform-sheet.png": "979ef0d99107479e3dfa163719a6f3de73a154f6c9636232a0b0ea0e847068bb",
+      "game/assets/costume_v04/silvercat-blossom-hanbok-sheet.png": "6b1fe0fd1a66acbb421ad318492462b1be3065b83735dd2645c6b833aaa5ca45",
+      "game/assets/costume_v04/silvercat-pink-maid-sheet.png": "4749725bd09b4b251b3aceb645c76d4ededd3faef6431eeaea351ead4ae224d8",
+      "game/assets/costume_v04/silvercat-street-sheet.png": "e6846ea94ff5f3a5ed6fee28f2c7862d63c2c47747c93926247c0052c6e426b6",
+      "game/assets/costume_v04/silvercat-summer-resort-sheet.png": "dda5a6e1e8f5ead8bbab607176b4ff5fcff7ade94506bb6da5b28b6ee4a8860d",
+      "game/assets/costume_v06/amethyst-purple-dress-32.png": "f7d91e71fd070bd41d18362faa08d5fc60d935fc9fc8e79d72a7ccc71ae50041",
+      "game/assets/costume_v06/amethyst-summer-shawl-32.png": "86cd23fcccc2f092417fa92d266f6b477c800180736e31cf7e7d04949c45f83b",
+      "game/assets/costume_v06/aqua-goggles-explorer-32.png": "09158def684e10377577bfb3083987e70762e62ace973f01cbd85c7d64408e9b",
+      "game/assets/costume_v06/aqua-pajama-32.png": "3f67a69a60e7c55f3941f0f387769153e524f6e000763d14724b19a429e5eccf",
+      "game/assets/costume_v06/aqua-rabbit-stage-32.png": "5ae4cbdf21f3af256bb958c9e919b34905cb69751b0b53bbc2142ced666ba7ad",
+      "game/assets/costume_v06/aqua-winter-hanbok-32.png": "995b7af8fad0870ff663b06f9e6abc1e2b68239290ccd51483cdfe790a2b1da4",
+      "game/assets/costume_v06/cobalt-black-ribbon-maid-32.png": "897ec03482d6f3565b2e18884137fe27cd6c5361ad1aa3d0d595de4c5f5cb2c7",
+      "game/assets/costume_v06/cobalt-broom-maid-32.png": "a4e0f1f77c0fdfced346490be1521cce88f35f8ccd80dadcda2d9118ee3e6a1a",
+      "game/assets/costume_v06/cobalt-navy-hanbok-32.png": "ae30154a6cd499735ea029d0d16d138d3c50f1a58abb9d7ea46d41d63e0a6dbf",
+      "game/assets/costume_v06/crimson-black-dress-32.png": "08604a427889a4baa2b1d663c6e7722d380e22c19fdc5e3dcfd056a8d9978edd",
+      "game/assets/costume_v06/crimson-black-jacket-32.png": "e004aba2e9ff3da189c329ee976249a57a7e46a7f8839894ad0db8a0364e9cd3",
+      "game/assets/costume_v06/crimson-pastel-rabbit-32.png": "6f49602b1c380297e608b0b50d2ad41bab5c49c2808fe958681e8c1edb6deed6",
+      "game/assets/costume_v06/crimson-rose-gothic-32.png": "ddaed4e7efd4dd41605e117cdd228b87fd2d7951d27adb55f96ab9e6ccd16faf",
+      "game/assets/costume_v06/lavender-sailor-32.png": "ed27a5eac072627e21d61d7646ff66327eecd60bc414ad37ed0a1af6e5bdb819",
+      "game/assets/costume_v06/lavender-shrine-maiden-32.png": "348a4ece658a35f0099d55cbe59c0b6f67b161761b3ccdfcd351482a7c1ddea4",
+      "game/assets/costume_v06/lavender-winter-hanbok-32.png": "adc39e8e5a207f2d1707cf267f0e8b521031f284525b6689ee0df795aeb70968",
+      "game/assets/costume_v06/mint-hanbok-32.png": "acaac90f43e22b484bc7384055ff459b0386edbe3000fab7981efc6520ee055b",
+      "game/assets/costume_v06/mint-silver-knight-32.png": "049bc8e4e66c8736e0ec23af225acf93b57b7f3df1d33a17b6280cc620492659",
+      "game/assets/costume_v06/mint-summer-32.png": "b1a63126e772d19f64403b41819a1c259c6fb0a593ede3229dd6bbb7c4c610e4",
+      "game/assets/costume_v06/pearlcat-sailor-32.png": "8ed9d28b7ee20d1d7639cda1eef628b955232d30d23cf1ec9585b4b7aa5c538e",
+      "game/assets/costume_v06/raven-black-punk-32.png": "afe0189082fb472fa1cbb0ef298709db464a44c2033645ece3c9a9f4ca810a02",
+      "game/assets/costume_v06/raven-navy-hanbok-32.png": "18c4b93079c0bc3186e3a4c5112832a7de7fcd0952874ebe33e1f36a78dad7a6",
+      "game/assets/costume_v06/raven-pink-dress-32.png": "e7663bbe03d1e63deb3302eff6217433fe4ac6919b1330211d4703ee7d6d016c",
+      "game/assets/costume_v06/raven-school-uniform-32.png": "3b2f3a440c057b9f0284c5140274e8120cede5df78a6c2322554d54de8c1611b",
+      "game/assets/costume_v06/raven-summer-resort-32.png": "c6e5b64dfcb8f2974767280ea1c198d430509df10d668a23213c6092e098b6f0",
+      "game/assets/costume_v06/runtime.json": "630a116be0ce99c619fb1ed06dd22e921d8529bfb5981f2e3686a9e634b38b16",
+      "game/assets/costume_v06/silvercat-black-uniform-32.png": "66b09bec3ac8dafb604521092cc5f2be2d78a282e5a440cfb9b0a4f1e6713d0c",
+      "game/assets/costume_v06/silvercat-blossom-hanbok-32.png": "7622757cd5793948096193b9d8885ca39594a0becab640bcdc7f72d79675d0de",
+      "game/assets/costume_v06/silvercat-pink-maid-32.png": "6cbacf6919608d4b9a7b2b70f425c01841fede01bcdd16ea4638ba4d946894a6",
+      "game/assets/costume_v06/silvercat-street-32.png": "7eba65f5f7c78f4c94379e043408cc2fc6b65095736349d7434262e91ac814f2",
+      "game/assets/costume_v06/silvercat-summer-resort-32.png": "aa9feca01910b35be19a24c73d2db34845ebe05047955c02a99fa5cd0a6662ed",
+      "game/assets/environment/biomes-v04/autumn.png": "bf46f4b57b21b8c0542898be453e4aa0a4097097c77b18f14af2947fd37e3e52",
+      "game/assets/environment/biomes-v04/bamboo.png": "939df64e22dac89df25832c09e74b89d87b4126f4fccd7a426cc7db93032ddb0",
+      "game/assets/environment/biomes-v04/catalog.json": "f751be51bce76ed2b6efd5f6499c90e23a0b74137f91f5dbb33bfebce1d97fea",
+      "game/assets/environment/biomes-v04/cave.png": "31aeca39ea5d25ec9f36aaa1f3a1cad4785ce023f55ae86d4f090fa45483aa3c",
+      "game/assets/environment/biomes-v04/core.png": "d0b9f3c570db045fb67661928d108bbd95bf8dd3eee7484578be2bfd60c5df7c",
+      "game/assets/environment/biomes-v04/desert.png": "2263ae6aadab84b0b916a3839aae8f6bdb649909fc03cf3d0abf01d7a1307e0f",
+      "game/assets/environment/biomes-v04/dragon.png": "4074d7228718134eb5112f049ba77541161b921cc4549db380f97834c93785e4",
+      "game/assets/environment/biomes-v04/flood.png": "16270efe722a04435dccfd6ab5fd608a90ea14cbaeb513dbd7f01afb7f8db8c8",
+      "game/assets/environment/biomes-v04/forest.png": "c3beba3599f958cb3861a95849ca596e15488f625cf29a54bdf4ba24a85cdfb3",
+      "game/assets/environment/biomes-v04/graveyard.png": "80759fc104d15a8e187bb63ea22f37f05e27a2a470abb9574d08d6d6569ac6b2",
+      "game/assets/environment/biomes-v04/ice.png": "6830bb7c49eee0d577d60474763a145334e3404cba2e7b5c92e133949b0c3663",
+      "game/assets/environment/biomes-v04/lava.png": "58e2e25e2073f39938efaf44fa31454a37010ef417f657479531e90cc5b57efb",
+      "game/assets/environment/biomes-v04/machine.png": "c9ed2aa139b8bc8d9a497a1d980a8c5615fff066eb53c4c5a623a61cb3f1598f",
+      "game/assets/environment/biomes-v04/marsh.png": "da60035ed3f220b01dea809709199e5a6ff847450b201b5f2fa9239126a705c2",
+      "game/assets/environment/biomes-v04/nebula.png": "4cc1f125d3a3eeecce7f2d2df74f0a0adf314ea8ebbaf64b612d173addbdc298",
+      "game/assets/environment/biomes-v04/ruins.png": "bc4f93cc30fabe265b3a0080918f74a643aebddc316677f12fb05a975b707d8f",
+      "game/assets/environment/biomes-v04/sky.png": "1ca6ce678242805ba3fbc84f893a6c4ce1b39e6372999248801134ce5b13e72e",
+      "game/assets/environment/biomes-v04/snow.png": "863a72bd776de1fab57cae3f346702a6a0123da4d1091306b25a045d23f7b166",
+      "game/assets/environment/biomes-v04/spore.png": "50ee204d87429178e385fe14c155681a6fde3b17b1629d64a1860088ee0bbda6",
+      "game/assets/equipment/accessories.png": "426eb64ca3a5dac3fd681bf0de8bf949ad5055c4fd4a47963ef4b8d6bc67626c",
+      "game/assets/equipment/armor-relic.png": "02658fa26f852ad7dfa754d79d59f98ec4b7879fa309a7246674f1fd5a900ee1",
+      "game/assets/equipment/armor-trail.png": "b654bff87f1dd80a00c217a3a83427791720a83f4cb61679b5697b3b95880774",
+      "game/assets/equipment/items.json": "09216f1db0134e689adb86974d0142416e691e33cf37429deeeada825c41a03a",
+      "game/assets/equipment/weapons-adept.png": "454733f8ccb5f3554107dcff9686eb914e3a115a7dd883e12bd9dd38f3cba74e",
+      "game/assets/equipment/weapons-relic.png": "54ead574f44c956d980400e568a1b8c79cc2c4fbbbd908d60332dc1f35fb3523",
+      "game/assets/equipment/weapons-trail.png": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2",
+      "game/assets/exploration_objects_v06/catalog.json": "d08b1aaf1d3697a2308b8c75cb4fadb7b032e469d425f6f1e9f9d36f341d9972",
+      "game/assets/exploration_objects_v06/sheets/exploration_caches.png": "34a9ac773a7264148052fab1ce4884ca193d2e491b222592985f77897cb09c57",
+      "game/assets/exploration_objects_v06/sheets/gatherables.png": "349d6ecc64f510903f4e28acff7fd9e62a4c53379d2a418f966002c692193775",
+      "game/assets/exploration_objects_v06/sheets/herbs.png": "252472e2e9b1ef4270a52a883f7e8b6c9467e9bf7e9d2b685243fe81464f3d68",
+      "game/assets/exploration_objects_v06/sheets/treasure_chests.png": "219b306bbb76aafe6eca9505d9836974903d63184c5144a53f071e55488a5332",
+      "game/assets/exploration_traces_v06/catalog.json": "80134ea98017dfc37aed8279eaafc0cc892a5863ed8d15cbd73fe396711c1e2b",
+      "game/assets/exploration_traces_v06/ground-traces.png": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a",
+      "game/assets/exploration_traces_v06/purple-rune-fragments.png": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977",
+      "game/assets/floor_tiles_v04/catalog.json": "11839c3c8396b08c1745add842556804360dd5f7c765e7d4ceba37c25bc215e9",
+      "game/assets/floor_tiles_v04/ground.png": "53122ee4ab0894b320b63e7ffea4591d5fd6a5751adc0a15bd7dc8599e730877",
+      "game/assets/fonts/dnf_bitbit_v2.ttf": "eebf8c20fea14a927e74216f972d6484d8a2398efdea356f6d0c5adcae531743",
+      "game/assets/fonts/dnf_forged_blade_medium.ttf": "364ea508e7f58114052406369bc9c6e5c7dfdc09e3693bd20f14ce35aef66af9",
+      "game/assets/gat/addition_01.png": "6ce032eb249bf67f257c9b23e6d528f8f827b18ecd40301871dd2fa021678bd5",
+      "game/assets/gat/addition_02.png": "fa0996a72ecb38dced0d5b5253878f97ec633f63027d61737f730b55d117c876",
+      "game/assets/gat/addition_03.png": "f9d52f2d15f91b869fad153e8213087c64c759db6c77172e36d698cf285a9bf4",
+      "game/assets/gat/addition_04.png": "18838a960409f531eeae5b99e5321134e80c20f38ada8426bd5a69ca5a49d3ee",
+      "game/assets/gat/addition_05.png": "32d017c4ab4426f305bca725617b0c7e37bb1c5aa3b3f270cb4cf1c27df8d207",
+      "game/assets/gat/addition_06.png": "c7de700fb150f682197918dc28dada9f4298df5b97d02db116ae412429e19c85",
+      "game/assets/gat/addition_07.png": "efb98727dd8f1db4b0489fb205bf09315a7e471d4fedb46e99477af14f281698",
+      "game/assets/gat/addition_08.png": "d8c549b2ca030020cc36468f617e89d994a594a54caa3cd28bae1d4235d38f64",
+      "game/assets/gat/addition_09.png": "4a4a64cac87a4019dc84c1201fa45019cd1b5e5d7b63cbcc14e34beaadcb9097",
+      "game/assets/gat/addition_10.png": "037eb46b85df988f4cdbe777ec768ab90836caac763b1687c9fa59dfe0522181",
+      "game/assets/gat/addition_11.png": "d42ee4c638227f99dc8401dd60d16679094dffd7904fa0325961a4928e4774b6",
+      "game/assets/gat/addition_12.png": "ef0de052305b79ccc09f43a576bfcbccc655befb35cd74103ed62ba77272aea3",
+      "game/assets/gat/blade_combat.png": "0c23470e684de7c3aeb36ad4659bf0f48830e71b1b91462a1fd63f5f632c47a1",
+      "game/assets/gat/catalog.json": "bb5a6e3b1ce610be72f515d3093b816665c6e64e6e9249e09cc71a7d1992448a",
+      "game/assets/gat/role_aoe.png": "73a84730fa5d2f2f68700158b7b7420829c4c2e1f46a7c105fbc491f89a188e8",
+      "game/assets/gat/role_buffer.png": "07487a00d3a0f532eae85ad90f860ceed270e44e69a8ad31d88831f768f33d8c",
+      "game/assets/gat/role_debuffer.png": "9000df7919e0179efaf799321a064c03400d95d6da17149a919662028ac5cc82",
+      "game/assets/gat/role_healer.png": "6e296d85cb30c0b38249cc9da39c5cd53a3d0778f276ddeab4bc6b5d34869338",
+      "game/assets/gat/role_single.png": "673915ca9d9e0dcb4bf141494376ffee873c87f77926b32d7b820d5dddb40e7c",
+      "game/assets/gat/role_tank.png": "9c8b385197c960024465203accba708e68fd9d72f49716819249bab110c725fc",
+      "game/assets/icons/job-weapons-v02.png": "743de35015683091295811ecff8a84b905d7d2900a82cf37994fe831d67d666d",
+      "game/assets/icons/semantic_catalog.json": "529ec9ba7b477cab2b2da4508a48a63d39c7229a3192de84411586d6d01de209",
+      "game/assets/icons/wood-abilities.png": "805741ad27d837acc0d9617404c1612f5624c92ce5598152ca907031e29ad4d1",
+      "game/assets/icons/wood-adventure.png": "e03ae05f9c11425e7c23003f78d2f7027df8c602d06b4ef29d7b9014fa1b6eb7",
+      "game/assets/icons/wood-combat.png": "5aa470d0a024476f0f54e59a69d8a818ab9e4798c2df575404e6a19f0826686e",
+      "game/assets/icons/wood-identity.png": "d4d6671355e104e58e5f1d6d5086cc58e27417a9dd13056b5d8cdf941cc79ce1",
+      "game/assets/icons/wood-interface.png": "204c7b855b3b9559d0a5c03235fc73b80678ec9e0234579038dcaa7eb47193f4",
+      "game/assets/icons/wood-inventory.png": "33163f55a00eba814076d5296799e6113e0d0c42330c0e743f7d3d7b5ca483d5",
+      "game/assets/icons/wood-status.png": "46f6cff3fd3d327afbcfe3bf5822238de39c37dbefe1d63ddcb0aca618c2f7e9",
+      "game/assets/jobs/breaker-effects.png": "4705b7141490f8dfc8b1b2a515afdbf022cd39e5d66039534b204fbc814d91a7",
+      "game/assets/jobs/breaker-sprite.png": "b7922289e4f637656f7a98173a31641e733f5a3943776698e6bd9336a77a20b2",
+      "game/assets/jobs/catalog.json": "12843c6f2ee5f92b7fab5168f1b3748231ba8582cee5df314354e9606ec8e5c4",
+      "game/assets/jobs/companions-sprite.png": "bdea2c87bf2a9a8f77d723d63e35a4cd5ad5d86455b3bf77d361e0576c59f35c",
+      "game/assets/jobs/elementalist-effects.png": "d079520e9be900d4f2c85140953a02e87877ff91838955308ffe9e42545ce310",
+      "game/assets/jobs/elementalist-sprite.png": "f9dba42d34abd4a558c839d17bd8eb5f0465b4e0a85e31f2a8f3c21fc114cebc",
+      "game/assets/jobs/explorer-effects.png": "18043c200984e49a19826e230b670fe768844257ea635e4ac714038e5b663b9a",
+      "game/assets/jobs/explorer-sprite.png": "04c8364e7b07ebc48d3802fcf0fc0cb4e8757ada2462a15981082c778c8032de",
+      "game/assets/jobs/fighter-sprite.png": "d65e64b72d5dc5bd7f7687affca6c90c50ae6e54fd4dd8e31584f4b94fbfa2c5",
+      "game/assets/jobs/gambler-effects.png": "49772bd8abf445308c4d1df8eb7d92737606dfefc62256fdd025f5575bff5d4a",
+      "game/assets/jobs/gambler-sprite.png": "6b0eb234dee32d687583cc41138229a0e01df7d082f136bbbb6538fdfa302aea",
+      "game/assets/jobs/healer-effects.png": "9b24da65b608f1e4a0d369b90ee3859e74d40a0c33b225aa37a4af57a642e145",
+      "game/assets/jobs/healer-sprite.png": "4dfcf1b47a6ff9f0b71deedfaf3ea12ae7a9cf8eb67002fc9faa8789b85c6a03",
+      "game/assets/jobs/hunter-effects.png": "aeb31ab3e0b12d8289434cb18d849c15ac01e2220f24889bb21d486542ddac3a",
+      "game/assets/jobs/hunter-sprite.png": "4c64e39b8e10626cd2c1fca73b79c374c063e19d32100c819d37d16553bf77a5",
+      "game/assets/jobs/hunter-wolf-v054.png": "f9be569c4f360e97137b0a566d0d3a62a630f45442706cd07cbbd831400e059f",
+      "game/assets/jobs/infighter-effects.png": "cc4a50cbdbab7c8efe7a37ba93d75d07f4ad85f59f2f75a70776875d4d8599ff",
+      "game/assets/jobs/infighter-sprite.png": "3f930271e2d625d29d3002efb5e3542dbab8c713564850175c7bde18a5072fcd",
+      "game/assets/jobs/martialist-effects.png": "42f3d104f985cdcd61dc2ea596028a0b6722f187451f096831fc0678f0f797ae",
+      "game/assets/jobs/martialist-sprite.png": "ea292904b65068092f184b5bdce4e4deb57ea53b145b1ec4d23ae258b655e0d8",
+      "game/assets/jobs/reaper-effects.png": "3aeb9ad4db86e4f430a0212290fb1074e088135157c01cffcf054ee08bc36199",
+      "game/assets/jobs/reaper-sprite.png": "b153bfd2f1115bb33874dec582a3c429a0f2f9e050f3a76d23afed4380b88217",
+      "game/assets/jobs/runesword-effects.png": "541a94ca70fcbdf14c8cf34746cc896c3c514d0df43d3354575d522dab694c53",
+      "game/assets/jobs/runesword-sprite.png": "dd0fb60b8c0a8e77b561ed02949c5f0758778612828a16e8b4be7493c65ffe7e",
+      "game/assets/jobs/sniper-effects.png": "bf2170f57290b2f8d3855a8c1cc4b26a3cce31b40d43b83d2e39ed9e8fde3aa8",
+      "game/assets/jobs/sniper-sprite.png": "63ed0faf26c60dd120e6131537e13592672982961f94456f52302f4a124d2883",
+      "game/assets/jobs/summoner-effects.png": "7057cfc1fd8667202a1dd905147648807d8c3ce08f9f2fe4409aa84d1ccbdd33",
+      "game/assets/jobs/summoner-sprite.png": "69f330a3b116c8ca015ea583f5388d87cbdc000f2eedd2b5de891ab8486ef39a",
+      "game/assets/jobs/swordsman-effects.png": "ab16d6d523e1b322a33c1848964db3b10b99c300cddad7d56b21584fe9b302da",
+      "game/assets/jobs/swordsman-sprite.png": "f19aa5037ac0767a33fe0ced8c05ef9280c924036f2910fe20d6dbba63472e62",
+      "game/assets/jobs/tank-effects.png": "1cc77d29df6fcd037c31a2ac7136b0b5d179d0d5c159cc265855bb5d5c10c806",
+      "game/assets/jobs/tank-sprite.png": "6c73c90b8794ba94815290751fc18498096a6f474569d87193a5bf275e8742f3",
+      "game/assets/jobs/thief-effects.png": "d5ea872e2a0c5b88ced866b237d58e1a7f62a87511636086bdea3fbc0f0ec093",
+      "game/assets/jobs/thief-sprite.png": "e9078ec6b2e691e97a4106210a9b75d19ae91529697ee354ec613fec623c69ee",
+      "game/assets/monster_motions_v06/catalog.json": "0e3f569a4f6cca37bef1161b4f724f396d99699a1d10a88ad15c79a06463151f",
+      "game/assets/monster_motions_v06/sheets/classic_bosses.png": "d5809d41c6489d2e4422880f486aab57b662f2d67a96a39e386db8ccfa52f0ac",
+      "game/assets/monster_motions_v06/sheets/classic_cave.png": "b0fbe938ca7b653ea320c76833c226146dc4ee0001e07f4cac1844ee21034f4c",
+      "game/assets/monster_motions_v06/sheets/classic_forest.png": "8846fd0d72d647565037141589b147de317cfb79495b0a526917380c3bb732ac",
+      "game/assets/monster_motions_v06/sheets/classic_ruins.png": "413a5d8027840a548455522a51eff4f601c861e7406369e8de20f9806fd0b088",
+      "game/assets/monster_motions_v06/sheets/core.png": "a86375957ec5c0131e68f71a42a29114492f03c1afb96804a9da2c6d0465c2cf",
+      "game/assets/monster_motions_v06/sheets/dungeon_bosses_a.png": "6415b591dfa5deb644b3a36b4e28f6eee75962a34a98e876d9faeb91351c3375",
+      "game/assets/monster_motions_v06/sheets/dungeon_bosses_b.png": "4e92f1247e5db3f902514bf3455e9ab982e5faf9421978d6f89e014e1ab3891c",
+      "game/assets/monster_motions_v06/sheets/flood.png": "f91ef1fbd5ba6cbb6d11b43e2a4543b01aaef30f7bc6ce38b894e755135f4ad0",
+      "game/assets/monster_motions_v06/sheets/lava.png": "025b61060dd2023dec77ef8e63e8e921c05a9ac8b0bb4faea988bf666deab815",
+      "game/assets/monster_motions_v06/sheets/machine.png": "e5c6d56354535774b934cf94405365889638dceab13a565dbca774df324dbc2e",
+      "game/assets/monster_motions_v06/sheets/nebula.png": "0ab711b1b6c9178dd078998a6a351e4c3f7fea39c0cc9fc2016a7bcb5917be58",
+      "game/assets/monster_motions_v06/sheets/reinforcement_elements.png": "8dac102378fc2d6b5ba53a5b1b6a46f098e24339bfdb4d49210f32041cafca37",
+      "game/assets/monster_motions_v06/sheets/reinforcement_elites.png": "34dd01ac5918a2862b7b23911909c8b4c1ffb4cc6167f6688104bf4c4b4a492e",
+      "game/assets/monster_motions_v06/sheets/reinforcement_fighters.png": "dff370cb03ed252850d056e82ce50b5d153e23837ed6bd42d45a93f65355f939",
+      "game/assets/monster_motions_v06/sheets/reinforcement_hunters.png": "af1edcfd0b478916a6d096d92a135a8b20d142733d946017e7f627e9fb52642f",
+      "game/assets/monster_motions_v06/sheets/spore.png": "6dca1eaca7719860fcf2c3a0cccde2a2b9fd5d9c8d9b0ed5bab095189f029cf7",
+      "game/assets/motions/catalog.json": "65d4fea23e830eb37a3de88c832f2d09354b75dae116d5ed8429dd1fb823ad00",
+      "game/assets/motions/mage-v05.png": "b773461ab6ee8f6c472c31ad4f902ea983815a2a5754a42def009a76eed24449",
+      "game/assets/motions/ranger-v05.png": "3dc2c1f207159cda491c7759f4687a636dc6181a38f60939d21c870aeac878b3",
+      "game/assets/motions/warrior-v05.png": "318de2fac2b8569cd0a882876d862ebe6a89300298c2b45e07ac8080ec0de740",
+      "game/assets/render_cache_v05/accessories-magenta.rgba.gz": "2194aad4b32cdf290450befa2a1def989790706d03ce30cd1eab898380ec9680",
+      "game/assets/render_cache_v05/amethyst-purple-dress-32-green.rgba.gz": "95ea6d8c56f7c2939cd6129b23b7b627b4600e79f2bf67a3903b76f59cec4aa3",
+      "game/assets/render_cache_v05/amethyst-purple-dress-sheet-blue.rgba.gz": "f55dd4670264296141d1c206d60f67d3b4751b3ac9022a4d5176b7b65202d143",
+      "game/assets/render_cache_v05/amethyst-summer-shawl-32-green.rgba.gz": "2bf6cba8fffcce7c7633525655231cb32b97d2298141e674e41314823a5bc813",
+      "game/assets/render_cache_v05/amethyst-summer-shawl-sheet-blue.rgba.gz": "17f5de7c788e5ff6cbe8af9477bdebfd79ca32eb7e1e6b1e60d3c0e7af371fb0",
+      "game/assets/render_cache_v05/aqua-goggles-explorer-32-green.rgba.gz": "a1c3f3997b940615968ad12f9892fd4b3553f2d9ead6a975796fb87ca286420d",
+      "game/assets/render_cache_v05/aqua-goggles-explorer-sheet-magenta.rgba.gz": "b2e6a8eb77440a73a3e31d0634915b3e18b186a7d4570b633acac6affa43a385",
+      "game/assets/render_cache_v05/aqua-pajama-32-green.rgba.gz": "d1aaa694921fc529d0058a8e0930d6e427329bd138de395ccc7c97dd03cd9c09",
+      "game/assets/render_cache_v05/aqua-pajama-sheet-magenta.rgba.gz": "be01bf72d263db1123b8103a6fdeb18399508c76a261a01912c4165c420ba9e9",
+      "game/assets/render_cache_v05/aqua-rabbit-stage-32-green.rgba.gz": "d0ac2bec96faf04c0636cdc7c14ebe4d26906690210194f34948ba932c72ebb0",
+      "game/assets/render_cache_v05/aqua-rabbit-stage-sheet-magenta.rgba.gz": "a6dab4bb74f8a4078093ab7b36978355db7d50479720af6a61b6f76d4448101d",
+      "game/assets/render_cache_v05/aqua-winter-hanbok-32-green.rgba.gz": "81b7258a3c3652b826b13a30a7342b8e616909c9151f1fc489ae8f52253d2f77",
+      "game/assets/render_cache_v05/aqua-winter-hanbok-sheet-magenta.rgba.gz": "a5a6fc6fa1bfb97947b19098386c8cbbe3b7fbd69b924b7e2d5e2c9718cc8aa4",
+      "game/assets/render_cache_v05/armor-relic-magenta.rgba.gz": "beb4fc5c40f731f5149e3f5b4b0c1b05d27c502d42b67415aa21fa8014e1d7cf",
+      "game/assets/render_cache_v05/armor-trail-magenta.rgba.gz": "13c8489c035d0317866f6b2672c1fb4f5e634617943b27ef6749b9660e4c7463",
+      "game/assets/render_cache_v05/breaker-green.rgba.gz": "59e3536408e3952ca74190bf0138fd5062033f9922a0c6ae189753b8532ee8e7",
+      "game/assets/render_cache_v05/catalog.json": "3b5aab2240da4fc2acd13d173e97481e638ff577d2f3de7aa6362187eedd68a9",
+      "game/assets/render_cache_v05/classic_bosses-magenta_narrow.rgba.gz": "b4f67658a7a0edff9f75b02bc1ce0b68d07a03e15ddd545ec920dfd23b152536",
+      "game/assets/render_cache_v05/classic_cave-magenta_narrow.rgba.gz": "d02c8a0c0acef41418df5496228e68fda9d2ee5a04157c8ee7827d106e873baf",
+      "game/assets/render_cache_v05/classic_forest-magenta_narrow.rgba.gz": "3d396953b8f9ec226a5ff2d0af39265f9fb1d267ea00fe552affcbeb155b2562",
+      "game/assets/render_cache_v05/classic_ruins-magenta_narrow.rgba.gz": "1b295653a403ffdeea3d7a8994dd2166dcaedeb7d0337f68f26e0c9aeb30af9a",
+      "game/assets/render_cache_v05/cobalt-black-ribbon-maid-32-green.rgba.gz": "0a1960d86483ae4d52a2dba5c5a255adaa1c3a142b7439de2d80db31b9c9ddd5",
+      "game/assets/render_cache_v05/cobalt-black-ribbon-maid-sheet-magenta.rgba.gz": "756872eafe1e99de3360e9ceb85e0bff5156c71732ca69977f1f60dcf1cc8f1d",
+      "game/assets/render_cache_v05/cobalt-broom-maid-32-green.rgba.gz": "767ec8abd0d8e485d486c4fb68b0d356520d071caded1cd09d75df04cbc8ceb8",
+      "game/assets/render_cache_v05/cobalt-broom-maid-sheet-magenta.rgba.gz": "64a7f3776972458aed3ee64c1a6f60520202d56d5586802a39d64923685b8981",
+      "game/assets/render_cache_v05/cobalt-navy-hanbok-32-green.rgba.gz": "d0ac5616ec96cc73a3d46dec91cff022dca6a5a39b587d8080801add6ec7e7d7",
+      "game/assets/render_cache_v05/cobalt-navy-hanbok-sheet-magenta.rgba.gz": "5b2a827e7877cc2ce8551e5e4831b9ef2c403bcd19eaeac310a801a36734a50e",
+      "game/assets/render_cache_v05/core-magenta_narrow.rgba.gz": "70168441be06e93fd7dd626cfe35ba2702bf544a0f6887414f17e10231299cb2",
+      "game/assets/render_cache_v05/crimson-black-dress-32-green.rgba.gz": "716377da376f0a99d5ac0e116ccf49a3642a67c3f2f7a12a5bf3046b519cf21f",
+      "game/assets/render_cache_v05/crimson-black-dress-sheet-blue.rgba.gz": "3171e4abb01ca68bcd8c378baeaee1217008955a13995a08339e5e73177d2c36",
+      "game/assets/render_cache_v05/crimson-black-jacket-32-green.rgba.gz": "5a1fd5a31858f457bbe45106a465c49009a461ffe72c36b509f5c7ab06edfbc9",
+      "game/assets/render_cache_v05/crimson-black-jacket-sheet-blue.rgba.gz": "9d4b2adcfeb242c078e2375979cf1371d4cf188d9e2c51c7efae4fc890b5f1e8",
+      "game/assets/render_cache_v05/crimson-pastel-rabbit-32-green.rgba.gz": "f861d1a88d9f986ace41ba1bef76b82d4e0c3cbb49a2311ab502f0db5522c8d3",
+      "game/assets/render_cache_v05/crimson-pastel-rabbit-sheet-blue.rgba.gz": "7d53f0ec3946143af6ece3df30dcbb86f9e60eb7b2bd3dc393271eb937636304",
+      "game/assets/render_cache_v05/crimson-rose-gothic-32-green.rgba.gz": "b126262c3b167b42a6fb5e7b24d1102993821a4f351c4db77f7e3d8559fdfd2d",
+      "game/assets/render_cache_v05/crimson-rose-gothic-sheet-blue.rgba.gz": "919d6da7e49d86a26228c6c5a61d4e6dcfc17077b6fd370e6567db60ff57cb0d",
+      "game/assets/render_cache_v05/dungeon_bosses_a-magenta_narrow.rgba.gz": "7122704bc29f0610eebd72d0b69206e72b4ea29baae3858be5e74000ee9b3ea2",
+      "game/assets/render_cache_v05/dungeon_bosses_b-magenta_narrow.rgba.gz": "7065d984af1a23cf9bee41981457226e738eb019d9d851d9995cb0f55b5d582a",
+      "game/assets/render_cache_v05/elementalist-green.rgba.gz": "46a46b83478e36b34dfcb00d33be69cf7add0b5df5e55a1e4f06d6c78b84ffd3",
+      "game/assets/render_cache_v05/exploration_caches-magenta_narrow.rgba.gz": "ab9c57f92e4d0e060755e3aaa84c32a60b2c0af5b2db09b29533ddc24297f14b",
+      "game/assets/render_cache_v05/explorer-green.rgba.gz": "415a152fa380a8eb910eb9406496cb6b051d86f2def5b572e1f3b03883036e93",
+      "game/assets/render_cache_v05/fighter-green.rgba.gz": "beff698adde687ff8aca19c23654c2e059982fc5e2c3cbd6aac3cab8601bede0",
+      "game/assets/render_cache_v05/flood-magenta_narrow.rgba.gz": "c568b71dd2506319d0893c15b853e5e4d4cbce7c82df95638c52b1f8377a8ebd",
+      "game/assets/render_cache_v05/gambler-green.rgba.gz": "c798f5fe3a9ef90864eb75e5904f288215895e3e3a48fc0b6fefe2259ffc5727",
+      "game/assets/render_cache_v05/gatherables-magenta_narrow.rgba.gz": "a3e6ef8e1d3a361efc2c47e92f72439e8e18f64df45350569a9f17137c1147d5",
+      "game/assets/render_cache_v05/healer-green.rgba.gz": "881f6ce10b96da1a51625a9ab8bc3feb22f13508347099be332133698e26ac2a",
+      "game/assets/render_cache_v05/herbs-magenta_narrow.rgba.gz": "a4f84396bcc6e307c0abaf4e7e5ab2ebe1c6698730dbb34b051f4edc04fb908f",
+      "game/assets/render_cache_v05/hunter-green.rgba.gz": "6fad05bbe2d9040d4490870de4c28705e5579e2392ea58663bcef8d6c4d6efda",
+      "game/assets/render_cache_v05/infighter-green.rgba.gz": "18b47360566d5fd87d26cebb2a21f7c307369142a458420a7e95e54ae857886b",
+      "game/assets/render_cache_v05/lava-magenta_narrow.rgba.gz": "87499b63608f70da213155cb7d3f4ba621ddc59fc991f8fdb503e7e12b483096",
+      "game/assets/render_cache_v05/lavender-sailor-32-green.rgba.gz": "55d053d259d207a1e10459f3400ea1229efd94f3057dd781905002084dacb1f1",
+      "game/assets/render_cache_v05/lavender-sailor-sheet-blue.rgba.gz": "b986fdfa8a59b603d3e53d2dca845df38e113148fba53965923ec93b738a1381",
+      "game/assets/render_cache_v05/lavender-shrine-maiden-32-green.rgba.gz": "7cbbdba13674385cd6b0ee8c0f05be23ff8def059bccfc903791a8f89c495e39",
+      "game/assets/render_cache_v05/lavender-shrine-maiden-sheet-blue.rgba.gz": "af0bb8865a5284573d35e44b4356940b3b4564047f0e38d31e469a4d649c9bff",
+      "game/assets/render_cache_v05/lavender-winter-hanbok-32-green.rgba.gz": "17bc1d1bedd5919e29bc92ccd4181eadcaff5cc83ab8c45c801e51a3e30026da",
+      "game/assets/render_cache_v05/lavender-winter-hanbok-sheet-blue.rgba.gz": "dcd96a5032c32af4f14d32f8654ab22146daca80b0a97a46142fe22339e4b0bf",
+      "game/assets/render_cache_v05/machine-magenta_narrow.rgba.gz": "d9702f039b1ee164158cefac9588cca8053738fc53eb9fd29c056a7dbb0688dd",
+      "game/assets/render_cache_v05/mage-green.rgba.gz": "7d4a33f6b7d4296e4f14325d2fb3cd4ac3adc1f703d57e71969f6ebf5bed2cdf",
+      "game/assets/render_cache_v05/martialist-green.rgba.gz": "f9fc699212af68467b228c837652628f7909f2c15b3a15094bbd00c62373e20d",
+      "game/assets/render_cache_v05/mint-hanbok-32-green.rgba.gz": "99f2f67ee9c74c29206407883949c73a20c36b740cc6b5995757397df4c66018",
+      "game/assets/render_cache_v05/mint-hanbok-sheet-magenta.rgba.gz": "68eb070cbf6c8f2e8b52b056fdcefba091b65f110fd54b98045594d9cdbadc5e",
+      "game/assets/render_cache_v05/mint-silver-knight-32-green.rgba.gz": "c6bd97f5afd6605c9f2a5be57c5be2f46db693cb819afecc629874682c7af3aa",
+      "game/assets/render_cache_v05/mint-silver-knight-attacks-v04-magenta.rgba.gz": "fbf82b590a41184a495cefbb2211c759022b0621cb66b91cddfcb7e55e162d25",
+      "game/assets/render_cache_v05/mint-silver-knight-sheet-magenta.rgba.gz": "c2e89c1bb0960c72ea1156338226d68c4b2e76f9e4186cbdfb53f0642e06d79d",
+      "game/assets/render_cache_v05/mint-summer-32-green.rgba.gz": "ec25c55fe4c987c873466809738cbd1e524d6dbe3f8ee8178ec7af727dda5533",
+      "game/assets/render_cache_v05/mint-summer-attacks-v04-magenta.rgba.gz": "925ee7054689e152221964e745fea38466366d1d9fce254bb6995894c6e389fc",
+      "game/assets/render_cache_v05/mint-summer-sheet-magenta.rgba.gz": "3a61922f8dc41ccf0d4d1e25d7cac8885f95732806ed0e39770f652fcad23322",
+      "game/assets/render_cache_v05/nebula-magenta_narrow.rgba.gz": "7198f05b579eaaed96a57d47de8301774221ee495adaa8c3677f3b65cd0e3103",
+      "game/assets/render_cache_v05/pearlcat-sailor-32-green.rgba.gz": "5b5f4128b1799600a36b0af4ea603ba43d8c991dfe2bca652e55f5224873ba14",
+      "game/assets/render_cache_v05/pearlcat-sailor-sheet-blue.rgba.gz": "4e585a843873ee68927854ccc95bdba2fcfc60a9acdfb2abae8ff34c0f442cc1",
+      "game/assets/render_cache_v05/pink-beret-gunner-sheet-blue.rgba.gz": "105c600de85e557f62060d0e70fd53515b07f1a4090d97baa18d7c2e3bf1171a",
+      "game/assets/render_cache_v05/pink-black-veil-hanbok-sheet-blue.rgba.gz": "443d86b32b09e2d1ceacce11d9844bab3e7c24a8c74e9776d9bac1bf818f3853",
+      "game/assets/render_cache_v05/pink-bunny-hoodie-sheet-blue.rgba.gz": "779e0a70cbd31724c521f32969b054d5bfd4998cd3b2d3c267a0448f0608009e",
+      "game/assets/render_cache_v05/ranger-green.rgba.gz": "6b7560dead80c550d25b7c09a81e947f9b4f7640399f74bfa18e465e29e32931",
+      "game/assets/render_cache_v05/raven-black-punk-32-green.rgba.gz": "adffaa98b828f01b89e74afef737d4c6823990c7343bc8326c77906fbea7eb96",
+      "game/assets/render_cache_v05/raven-black-punk-sheet-blue.rgba.gz": "bab27e756014e673d49c78a870549972d0602678ca9000054607a8e9d79fa0ba",
+      "game/assets/render_cache_v05/raven-navy-hanbok-32-green.rgba.gz": "67df6e930527317eaf6b299ad2c395d8e6f8acef641b3777cfe3f1051c81aa94",
+      "game/assets/render_cache_v05/raven-navy-hanbok-sheet-blue.rgba.gz": "81f11a707742694c0d009dfe6e07d91635ec047646187014a78861a42af72f9a",
+      "game/assets/render_cache_v05/raven-pink-dress-32-green.rgba.gz": "5083ae6009ddbde1cad7fea2227526e73a7a8c130146d9be459457cf614d3608",
+      "game/assets/render_cache_v05/raven-pink-dress-sheet-blue.rgba.gz": "f74cc4326d16ef3aeba5215674a5519b29b4e1cc04a6cc9303d5c248ab45c3d5",
+      "game/assets/render_cache_v05/raven-school-uniform-32-green.rgba.gz": "c4e1300bcb44a9eb90a8a1c8da5530f384bceefc376ce76480d3310cc204b788",
+      "game/assets/render_cache_v05/raven-school-uniform-sheet-blue.rgba.gz": "1b89403ef0cfeb2e7ad1d6f095ef9ca231f60d39e0c65cd9dd792acf71e2dbcf",
+      "game/assets/render_cache_v05/raven-summer-resort-32-green.rgba.gz": "faa429842b590ad7f387d076f15d3fb379b4dfba3479bee269b4c835c17d6ecc",
+      "game/assets/render_cache_v05/raven-summer-resort-sheet-blue.rgba.gz": "238ec7a708fdcf860e116055b35b964eca387ec184bb102d5c1c87dff28ce897",
+      "game/assets/render_cache_v05/reaper-green.rgba.gz": "c4b382913d597913c1ecfbe42c7df16bdbcb47315498613dc9c40ca6f337b482",
+      "game/assets/render_cache_v05/reinforcement_elements-magenta_narrow.rgba.gz": "bb8c35814906ff23164917d1cbe1e5d30f20104f44e37d679bb944b25fa2979e",
+      "game/assets/render_cache_v05/reinforcement_elites-magenta_narrow.rgba.gz": "88024d23050caf91a6c09eb52f6ad3a04c035b6d011e15a6c84f63a525d2951f",
+      "game/assets/render_cache_v05/reinforcement_fighters-magenta_narrow.rgba.gz": "2f5095a80677a970bf56ce5c950befada4072a9a07f1e96b410e91b90d0ad128",
+      "game/assets/render_cache_v05/reinforcement_hunters-magenta_narrow.rgba.gz": "f71fc0b77299bf3c7faa36415487fb988d351bff98461502f5e8b2c53cf4fa24",
+      "game/assets/render_cache_v05/runesword-green.rgba.gz": "343b4c21d6093713d4f252c23ad647f47843f7225bea7292243e9d75f3ea6c95",
+      "game/assets/render_cache_v05/silvercat-black-uniform-32-green.rgba.gz": "38e256cac8f8ec149bee0a50cfd86dfc264a81af97efc9c35d29c04f08ef0e6b",
+      "game/assets/render_cache_v05/silvercat-black-uniform-sheet-blue.rgba.gz": "2c77c791a3fb040e8ed87d0d54ad69387c771d7ef98c6cd3fee3d32549eb7e76",
+      "game/assets/render_cache_v05/silvercat-blossom-hanbok-32-green.rgba.gz": "91566f3f72822f2f2faddd31c722a3caf495d58931eebd6f7658f6770a69ca3b",
+      "game/assets/render_cache_v05/silvercat-blossom-hanbok-sheet-blue.rgba.gz": "6c07311e16dc85170c2115673dbf7820322dbf173a99d3d3cc058f5ce267aaf7",
+      "game/assets/render_cache_v05/silvercat-pink-maid-32-green.rgba.gz": "e0ae29085e535672fcb1ae67f6aef0a392c934b90d447405c80ac20de883a08c",
+      "game/assets/render_cache_v05/silvercat-pink-maid-sheet-blue.rgba.gz": "a766dc45723fd5fa0593c7328384783f2181730f603240e837de3111ae77c538",
+      "game/assets/render_cache_v05/silvercat-street-32-green.rgba.gz": "0946458b6930967ed9c996cc14a6f9750ac8ee0c0285e43fc7c068044254232e",
+      "game/assets/render_cache_v05/silvercat-street-sheet-blue.rgba.gz": "0b1ca478cbeedde43065ce898a9a344751c94b9d7d3592d6c1b75660712af59b",
+      "game/assets/render_cache_v05/silvercat-summer-resort-32-green.rgba.gz": "5d3f10cf23c8e6a155f295197d21b291684120ec3c9490ee582431a1f0676586",
+      "game/assets/render_cache_v05/silvercat-summer-resort-sheet-blue.rgba.gz": "99b5ca574bafff19b6753bc1671985245b3d6c130b8b5734a5d41efc8899e547",
+      "game/assets/render_cache_v05/sniper-green.rgba.gz": "cd576171acca322da18e878dd9196582b45f9cde6e901f8703e2ee7d6a36c280",
+      "game/assets/render_cache_v05/spore-magenta_narrow.rgba.gz": "a9dd21554f1d9f12f3cb00a332eb2135f10e94746704b6d46196a1515fa28b01",
+      "game/assets/render_cache_v05/summoner-green.rgba.gz": "00770b7c7fda3c04afa760438f854d87be8ddd8a159641c5730011c501aa6372",
+      "game/assets/render_cache_v05/swordsman-green.rgba.gz": "e30618e63210f6ae1d1dd3d1aeb4012a28b2a69acbcc160fe690de8a7c8ea15d",
+      "game/assets/render_cache_v05/tank-green.rgba.gz": "e2557a7ededd8bc828be0c39bfd32900d4643ec88e2b5afd3530c5c47e5d7a8c",
+      "game/assets/render_cache_v05/thief-green.rgba.gz": "27f2ead1b3467c1766c46132b9ce34c2b7a57b00be928a27a8580fe4c0686a05",
+      "game/assets/render_cache_v05/treasure_chests-magenta_narrow.rgba.gz": "f78fe6be19ebca3dc350ba7261976fee354c54d7acdddc18a1be7a7660218afe",
+      "game/assets/render_cache_v05/warrior-green.rgba.gz": "08d6af9c86664ac80ea23bae5dcb7e47dea466907723602b3cdd26636e46c976",
+      "game/assets/render_cache_v05/weapons-adept-magenta.rgba.gz": "4b610f6ef380721de5da119db1bd0e9089e334c65392560666191522079b4cfe",
+      "game/assets/render_cache_v05/weapons-relic-magenta.rgba.gz": "51a182a24d657a621e355aa2176cf3b06a6f1d1e22d72e63cd3a255a8f8bc475",
+      "game/assets/render_cache_v05/weapons-trail-magenta.rgba.gz": "f120453306b5f28fa8e9e57e80c54150f77b0420d0e3740dfa73d9b63439fdaf",
+      "game/assets/skill_motions_v06/breaker.png": "d322ed5a5b7b21772ebca638af4da24bae6125e7891c6c6498e63802d769f6fb",
+      "game/assets/skill_motions_v06/calibration.json": "d2a2833bd3d3ca39eaf5445269c527470440ffed932e6ce541f455aff9ac1a78",
+      "game/assets/skill_motions_v06/catalog.json": "fbcba539aac5067fa45e278a8c140bf19d2d5e81669c246bacfedb7483609088",
+      "game/assets/skill_motions_v06/elementalist.png": "7b7fb04a0e78ae12b850cc8a886e3c0259c1a883f3312d7dffa7c48e92fbb7f2",
+      "game/assets/skill_motions_v06/explorer.png": "aa6b7f35f32791228d085c1c1ca34386a35e6d293ab9e974b6c2599d40e3a404",
+      "game/assets/skill_motions_v06/fighter.png": "d45699ee46b212627b4a4e606c61ff9d585fc4d64e1280c3437d1e438b8a3329",
+      "game/assets/skill_motions_v06/gambler.png": "9ffc0eec4addd92643c8ea895f992b4b7373015323bf8dfe57618073b9bcd149",
+      "game/assets/skill_motions_v06/healer.png": "72439976e4c7b8c8641703040aef75c3bf5ab6912b526cd1f9bcf2c10b0ba81c",
+      "game/assets/skill_motions_v06/hunter.png": "aedf16707d04a3dbe0e2cbce7fbced910abf1a276bb0c23509f03fc1544bb89f",
+      "game/assets/skill_motions_v06/infighter.png": "da314c41e3835dd380f2a547e6be5f356baf949bd0b5f0340abf17323ec530e6",
+      "game/assets/skill_motions_v06/mage.png": "f7935d99329aaa8183cf772d323ac30091c9151c7fa5d027d35f1101d8cc4611",
+      "game/assets/skill_motions_v06/martialist.png": "6384a4f9724a18fc69b1b6a61a8ab4c71a258c51f86f68038471b9a2d4a1736b",
+      "game/assets/skill_motions_v06/ranger.png": "a4fd52cbd39a29705a9516b1ff6063f29db24e55ee4e04ce911fc49490f6ae42",
+      "game/assets/skill_motions_v06/reaper.png": "ff089c7e2534796c5e7518f6cf73b729ffc3121137ff62c3c3d09fa625692a4e",
+      "game/assets/skill_motions_v06/runesword.png": "8038409e6fff0731e4bb95c0d197c482559e2133ab85a79dcc25c873905c8b60",
+      "game/assets/skill_motions_v06/sniper.png": "2df039f5946e5153d6d7cbf9b6f00dfcfcc8a51bebbef6e13971af1499c5d987",
+      "game/assets/skill_motions_v06/summoner.png": "45f5cc1e0a695cf5f5b872b378be80f633068bc9c58a803a3a159da4b5e6e44d",
+      "game/assets/skill_motions_v06/swordsman.png": "3a2b371e09a63d14105e39a83e1c4688c6abf9c421382f2e510621e93579c215",
+      "game/assets/skill_motions_v06/tank.png": "4bc784500a4fbb35589a581b6595da28c097dff9896aacfe45f00d64ab4b53e6",
+      "game/assets/skill_motions_v06/thief.png": "a0ca649daceda6755df0a717addfeaa77fe5ba61b08c4bdf31b2583913b5f051",
+      "game/assets/skill_motions_v06/warrior.png": "13e353979a5c2fc9a78b823b19b4ea6d7535d7514564b412ebe9d4f19a7ce42f",
+      "game/assets/sprites/item_regions.json": "937eb65228ba083c7d4c5347575724068ef16f665a981ee338917049e0e0e71f",
+      "game/assets/sprites/items-v04.png": "3c8ecc94b75db03da79a0b71e1c9f468dbea5563cc88e2e82ff395e394b6384a",
+      "game/assets/town_v052/training-scarecrow.png": "0463c339cbacae25a6d87908071a2d6fbe3ff4d5224f337e068f36ce07c2ceee",
+      "game/assets/ui/atelier-kit-v01.png": "1a2deee8761564a8bf4bfe7a3fd8247d73e6ceaba4b2373ab91ebb4b6f8825e7",
+      "game/assets/ui/catalog.json": "9913adebcf13df81c6c045667595192b0b3e612dedbd8ae82c4920fd7f4fb120",
+      "game/assets/ui/facility-counters-v01.png": "46bff77e67fdafe42e0d0bbf93c454bad6a83508095d4101887dac983d7ac9f9",
+      "game/assets/ui/title-storybook-v04.png": "b19912b6326b4db32b2da54418bbc05e26eed0e5eb47adfff548386901cb5a39",
+      "game/assets/world/boss_bars-v05.png": "07a94018659340586ea8f53a07957057880761ec6b66f3c82aa02da19094f746",
+      "game/assets/world/bosses-v05.png": "02fafc660309716c7cdd290786d46ac1be411f82121de0e9eee251de13a6c58b",
+      "game/assets/world/catalog.json": "687d100cbfa221ecdae11ffb995393df5ac7bb96d6c1fe831535377ac7b94bea",
+      "game/assets/world/dungeon-v04/catalog.json": "21437698e6edcf689a129f5381c8bbf671957d8811ed779c9decb66f141e4195",
+      "game/assets/world/dungeon-v04/core-bosses.png": "4326e90c5c418275ea4bca8b2024b1f3593ae1a0d7f17a3c37ba90e7dd27109a",
+      "game/assets/world/dungeon-v04/core-monsters.png": "d573997a69b1619a93e66e8cb33029c0d053afc65a5b71ff34401d88f4e3c95b",
+      "game/assets/world/dungeon-v04/flood-bosses.png": "428ad5d547c8cc699dc580c0bdcb42abb5aea4fdd8c7c1998ca6475ae942b2a3",
+      "game/assets/world/dungeon-v04/flood-monsters.png": "1673f863164228d38c06882ab99fafb75775919ed841ac5772114375f984371f",
+      "game/assets/world/dungeon-v04/lava-bosses.png": "eae2756ec37a6d0ec285398840bf8d4029ca3185659d07fb9d304220dc783a5e",
+      "game/assets/world/dungeon-v04/lava-monsters.png": "462b3a8a69f35b011723679ffba51a43afb0e3b1b4de32fc6cf7fd54ed9f0192",
+      "game/assets/world/dungeon-v04/machine-bosses.png": "b35f3fa28ca645a044212ab241794bf9d992db55a9e3110cf9b2d667f9a7f312",
+      "game/assets/world/dungeon-v04/machine-monsters.png": "02e47c775a69f1039af7d36066b3623d17a3f37b40752a4b46ac5f299f31cf87",
+      "game/assets/world/dungeon-v04/nebula-bosses.png": "18e3915103097c1c329c1da96048d0d6623b8790a81d6c90d46c52ac3d340ca2",
+      "game/assets/world/dungeon-v04/nebula-monsters.png": "3229ced03397f3c58c7c3c9f78a24fb1bb7727014feeded69aa8dfaf77d8cae1",
+      "game/assets/world/dungeon-v04/spore-bosses.png": "79d6b7291f625b599cdc25d80e863b3ab92983ebbb29098cb5f712ff5a8561c0",
+      "game/assets/world/dungeon-v04/spore-monsters.png": "e797d23f8def72626f5b2b3a69b5ab2c4f86285bde9654e8fa79f977d61681fe",
+      "game/assets/world/enemies-classic-v05.png": "05984e46afd046f7da08e796e847e1da2f5af68a19289d55ac86eb5ee8932886",
+      "game/assets/world/reinforcements-classic-v05.png": "d0e6a96758a43eb791a945ab11272dd3a017aa8309ec04fd0f4775f7bbd55b74",
+      "game/assets/world/town-v05.png": "387727db1df5646f8091e883d55bb494c7075373218f7ed36df7928170428d5a",
+      "game/data/balance.json": "82b48a87f2f187dda7a823b76af2c9c1e871bea159aba1e88628e6fcc4e4be46",
+      "game/data/character_presentation.json": "37c392a948c8797331651c5b3606b17f92d99eb5d51d7e5a1823a2cc188b50b3",
+      "game/data/codex-v053.bin": "de1bc95930c00e2b8253dd8327814cc36685fcf4f10be5ab2025e5ed3810dcf6",
+      "game/data/content_names.json": "278773b66ca95f77c96e928c72669bb5887fb8e89553b102f7e184aa403a3c9c",
+      "game/data/drop_tables.json": "7fb8ebdc11b52ccbe1acb08b4bf77ba7c781d27fd3b3561bc355d070cc17467c",
+      "game/data/jobs/catalog.json": "5f2be9940a75ce4902b3e54012f3a7bfd60c95ed81f0bd4b9589b70491c60a4e",
+      "game/data/sprite_frame_regions.json": "a4ede35136addbeea577147e3da4f354b87f7b0de074541259c054782ee88f0b",
+      "game/main.tscn": "8643218a370179dde04b8ca9ce271a1b6d40824fdcd5118bd54c61508738388e",
+      "game/project.godot": "8940b3bf2d363e088c91c8a6517177ea37c601af5be71553c8503f38caa40db9",
+      "game/scripts/abyss_catalog.gd": "f2b54a71d1c3dafa0deed49a569123700f443d9dae4a1dce9dbb9d1ba9a282b6",
+      "game/scripts/action_circle.gd": "556529bb8e3c667f04e8e6c2fdcfd4020648acdc9cc7e01a275feb0f9790f7b7",
+      "game/scripts/active_skills.gd": "85ee2bb32b1763f339c84124f231f302d41e344ce148ca3dce2f5b83b813470d",
+      "game/scripts/actor_visibility.gd": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b",
+      "game/scripts/appearance_rules.gd": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac",
+      "game/scripts/art_registry.gd": "6dea3c693adcc41df8eb189945a62c21d219cd53f28aae81d623c9a24ce001b6",
+      "game/scripts/audio_director.gd": "7084677f584a1ace359e92a26f958d58ef89db5bb8a547a03a71cfa5affbdf36",
+      "game/scripts/battle_camera.gd": "41e97effd1fa3aa534f2dce6af42503d0f5fbdc1a5d90e398d35cea1028b1f67",
+      "game/scripts/boss_hud.gd": "29e3ee4924628600ce3cc4273fd1fa78a7130938386fe4cd130a3907093fa191",
+      "game/scripts/boss_stagger.gd": "d4cacc4d6c4cd3bdeb71c837ad8f33503e2de7e36f47d6a36c86953fa92c3820",
+      "game/scripts/build_preset_panel.gd": "82541c86e0d644b5282a0f824c140da3cdf27deb441978f69227e06de55f3943",
+      "game/scripts/build_presets.gd": "e9c358f852aeb8ee854cd944c605829b184603b2f163ad67389effa464d9c802",
+      "game/scripts/cave_remains.gd": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
+      "game/scripts/character_creation.gd": "5d3afccaad2da71d58ff889324d15bda7229980b3edac9016dde1774a05febca",
+      "game/scripts/character_motion.gd": "8c424545f767509dd6e06cc6024b90a8dd89a8252d14867739a6fe7b95b5228b",
+      "game/scripts/character_presentation.gd": "9b9354753f7f6f08b7abeba657b6dbd69b9eed428c2e2f92e35f70a885a7033a",
+      "game/scripts/character_preview.gd": "9c4089555fa89f81641b110c1c882977dae41dab539889ae385d877de01adf53",
+      "game/scripts/character_sheet_ui.gd": "4b5abfd6f2cb6eb3180bb47a79b30b8aaf3701984372d321f965096934d9deb8",
+      "game/scripts/codex_panel.gd": "d455577f69e7c75b344d76fb78d3d5ff87958b750489b9aa006c383e271e6e77",
+      "game/scripts/combat_feedback.gd": "0c63c32c87bf333f859d862fa50ba8dccd4ff174c95e21ec4ae45e09a8ad4678",
+      "game/scripts/combat_hud.gd": "3888b3df5aa39975b3dec49cd91cbae60f84e35346a8d30b001fbfe34280d349",
+      "game/scripts/combat_sprite_art.gd": "2ecd285af6a7c9892ac09d3828fdbf8e542709f8046a7e40e6191cc29c2a1582",
+      "game/scripts/combat_stats.gd": "e8075b1921e6a58c111a86abcd2f5f64371e473cfdd5eae7f0a8e404ee930de0",
+      "game/scripts/constellation_catalog.gd": "53f299fa2e8627c6c355b6dcd7796be77db9cb39fc0d32ca814b0435f7186656",
+      "game/scripts/constellation_effects.gd": "de7eee25200d06c70948bf8a5d16b76ebee96074ac5cac334edfc22c9530043c",
+      "game/scripts/consumable_bar.gd": "c0d4178a3cfbf5f4d004abb3b7fa451b875c926ba28b89609ad19eb2df377ff4",
+      "game/scripts/consumables.gd": "ac1a0baed7b4ca9e6424b13b66e1103bf4e2c670d8a3a9f57b80b07b278e5744",
+      "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
+      "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
+      "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
+      "game/scripts/coop_session.gd": "b2f5202327b16d27488167c0379164bb855b3b401108f7937d801c048242e1b3",
+      "game/scripts/costume_art_v04.gd": "05647485a526f9807fbf50f17ee7b4c02321a91f67160c30b31eb5758cec6019",
+      "game/scripts/costume_expanded_v06.gd": "89c75d7008ad50d3e68e9e7b1857694c5411afce99b5b29bb3b7deb43d34c081",
+      "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
+      "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
+      "game/scripts/dungeon.gd": "cc23bba6439d5a3478ee43d64f613750299f8b36856ed06f6600c852c729cd32",
+      "game/scripts/dungeon_regions.gd": "8b341250cbc1c7476b4ae1288d3778dbba4e4bf2b07c990d31b7f284c097ce68",
+      "game/scripts/dungeon_vision.gd": "3307958dd06922bb16543b7aa16e29a0eca3e05f504807546c46a32b08980f29",
+      "game/scripts/encounter_roles.gd": "06257af8546c4d0267202844a0231d65bd565d19b33cf362ca43ebeeb1ab579b",
+      "game/scripts/enemy_awareness.gd": "f161c6453eca390d2aa33ec2851be1eb13c17b48012073ebb45ef19b2485bbc3",
+      "game/scripts/enemy_defense.gd": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+      "game/scripts/enemy_defense_feedback.gd": "6a226a76339756886fccb59750892c27aa1ebfc65cf8fc0c94594f731b580026",
+      "game/scripts/enemy_hit_geometry.gd": "646114cc56a50eacf2e2b011b8ebf5488051493fcec179a007c531de41713442",
+      "game/scripts/enemy_inspection.gd": "1c13be2b009665c923a0e8cd517ec81f114d1c94862f32e81bf670b5218289a4",
+      "game/scripts/enemy_inspection_panel.gd": "cd7c3c0aa2a158e44e39977e039f2976c73719a9774784dc0464cf80673d718f",
+      "game/scripts/enemy_support.gd": "97fc21054129acd1f66d8ff136597596c2af489df35657078130540e4e071396",
+      "game/scripts/enemy_tactics.gd": "9f24c28b979c7a726ff85289a2f45c4f1ed79284ba97707b82ce8794dd449747",
+      "game/scripts/environment_art.gd": "c57190a3c16bc5f977cd80d22d90a18aebe4380508aea0af6274a7356a86e8e6",
+      "game/scripts/equipment_art.gd": "205a7f99fecd4469e05fd4cf10df84413d6025b4b373b140b9374dd714f2c3a5",
+      "game/scripts/equipment_catalog.gd": "711c569118b50a9aa5985da7d89f03fd6b927ebef5bb12261633aa7b7a250ed6",
+      "game/scripts/expedition_brief.gd": "a327c71f56b45eef45ee3a48c9e5bfc9890bc6ac1b7dafba3f8183c4d814b44d",
+      "game/scripts/expedition_brief_panel.gd": "ed6d8543728c206a82d2609473e76b0b5813f2a20b037e1dfaa791db26440261",
+      "game/scripts/expedition_environment.gd": "d6496a86b43854afb2dfe4d2e5865927a11b933c305ee481cb6e203cc4e59a60",
+      "game/scripts/expedition_goal_panel.gd": "37d408c6dd112c49b591694ca4aa85ab428b3ec465a571a14674a5b57951acbb",
+      "game/scripts/expedition_goals.gd": "e4fa26a025ece167cff5ff6531208e25a8a486be3f72d93c75d618c7bb9c6dac",
+      "game/scripts/expedition_hud_chrome.gd": "5c5b3cd98c8ff9699a14ca01ddd3496ab437fedfe59c7a3dbed42b4a42342b98",
+      "game/scripts/expedition_journal.gd": "ae0dfe6fc081dd4a60b56f9ba18e267372721135131a99538d2fd074e9afc343",
+      "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
+      "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
+      "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
+      "game/scripts/exploration_cues.gd": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
+      "game/scripts/exploration_events.gd": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+      "game/scripts/exploration_object_art_v06.gd": "5c4b89adb5c9b80582575f014829c517d2c2e92bed5b4c6271a16bdba2ea5241",
+      "game/scripts/exploration_panel.gd": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19",
+      "game/scripts/exploration_rooms.gd": "4d36784fa247de0245de5a50937a5f4703f7983a958c70aae5b20d9a2c691479",
+      "game/scripts/exploration_shortcuts.gd": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
+      "game/scripts/exploration_trace_art.gd": "c8af2355efa82c457217cc33406d674e0e2d267c340cf4fa7ecee54a38291e9c",
+      "game/scripts/export_capture_v052.gd": "a5facd0cb1b64597bcffe71d6a4d0e84d76fd03ac86a21593a2739db071ddd31",
+      "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
+      "game/scripts/forest_environment.gd": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af",
+      "game/scripts/game_database.gd": "a8b9f4b048cf04ebafccba1b74f8e84ad0c6c515971d65dc3e21c17c2ec7dc23",
+      "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
+      "game/scripts/gat_art.gd": "2761732713ed1ae34bec4dc1a43de512378df381bc4dd39d6a957f6a32a5012d",
+      "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
+      "game/scripts/guild_board.gd": "ca102c141a12ea8432b18fb0275a9ebfcab4aeef1193d1b5ce792203cd3c6b59",
+      "game/scripts/guild_progression.gd": "d04398f512a7d4bd3c5c9ee3e2c33cf1fdb03d8a4987a9b154b0d1e8d2dc836c",
+      "game/scripts/hidden_rooms.gd": "1d4e7e7efda559dcd06eb5a11e0ec3e1ede50e696e6fe43262cb0ad98e402718",
+      "game/scripts/hud_sprite_button.gd": "bfc22a0129f21f12b4c438334c3329de45c41fefb8ce50d6fa169e3d91ddadc7",
+      "game/scripts/icon_art.gd": "07fd7e9563a490540e74b97a1802cea7733d828a097a2eaaeadb81f55cc790a7",
+      "game/scripts/icon_library.gd": "d076aa185e8fc2e14b6a36e167a748cd91db398574fb8fc1bbfbceb123f2c87b",
+      "game/scripts/inventory_grid_ui.gd": "d89b43e412c48731ddccc98badf9925d918b8c956880b6741a6ffb3b32c50d58",
+      "game/scripts/inventory_item_ui.gd": "c83f98727d4e15aaaeceb008a75a6be91c3c34b59f474972f12027c4c3391fa1",
+      "game/scripts/inventory_model.gd": "f2e1c2b220a26e99a857ce870e3b16aef2f94cf2ee659695cf905004a38e648e",
+      "game/scripts/inventory_panel.gd": "8e9fff2a524fec71b9db3228572ac59f0f2a64935accdfd9dd6a799233ccf569",
+      "game/scripts/item_art.gd": "823bfb3b19bb88f4c86c19c94a368ba87c755d1bf24f1c8ce8410653b246b04d",
+      "game/scripts/job_art.gd": "2a91b2c133ede4b90a7fab45084bbb298b1b62df2cb6e71b6cdefc4cdbeef020",
+      "game/scripts/job_balance.gd": "004627904b5a4929eab9d640f61c4bdbbf284206581c8c87a0139fe02fa30e94",
+      "game/scripts/job_combat.gd": "8a4eab8f6ed023d8e77feb7b8e42a04db9b4dd26cdf4b6f63db44f51782fe7f2",
+      "game/scripts/job_item_art.gd": "726c113f113b932610d28c1daa9c18825e4cfd5eaf72e8825b59b2b2494d7fc8",
+      "game/scripts/job_resource_hud.gd": "72ca7986f59a903226d31740002a5c5f884b7ece9d44eace7d84a2e06cb00fc4",
+      "game/scripts/key_bindings.gd": "62c70dbffe3f1ff029b3214a290bccfa6419a8e737e23756c483a271bce15077",
+      "game/scripts/keyboard_panel.gd": "1c2a2c7e747ab0fed2a2ce3111d3e9eed67497f302a4032fdb0dc300fe21ced8",
+      "game/scripts/local_session.gd": "7ee45bf20de1e0631ce281df5e53146b78719be30ee4a9aae28740e6325e0ae4",
+      "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
+      "game/scripts/main.gd": "0cae16d63a0ca22f30155c48bd87c5dd0408abff6c76b5e017d720f08f304ebc",
+      "game/scripts/minimap.gd": "17f53a8a04c944f0d14d0b608cabdaa659511de02ccbb3bcc5b77dae6bba0493",
+      "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
+      "game/scripts/monster_attacks.gd": "fbac5a03fd7295e7e9e0256c8a3991f38f1d24b05ee086aa6af93ea245058cbb",
+      "game/scripts/monster_motion_art_v06.gd": "e562ca9f79e9b69cdeccb22cd2828b3955431644ca06108f291cb1641b4fa40b",
+      "game/scripts/noise_feedback.gd": "e4dd0d9d63923455d92512adbc8abf63a9f557ce22bd4888802abda3655da1d3",
+      "game/scripts/npc_dialogue.gd": "dffd059e5b1e9a28064f6e2a225219c44a3b10b3431970ef72acf058dc9e231d",
+      "game/scripts/party_hud.gd": "13edb3b5afe9b49b7fda6e427a62caa464f629ae0c079f54940337508b94954f",
+      "game/scripts/party_rules.gd": "6f871e022ef3ed8e9e698be31836855a5496714888ca41058161dd03c446bbba",
+      "game/scripts/player_combat.gd": "36b6945eda73682fd75786bfc7f654cb4f4a446d375452275b354682bbcfce74",
+      "game/scripts/player_stats.gd": "261c9b43f1bfe53ab25c1642648da0b2b867860da095fec654848bccba27ca7b",
+      "game/scripts/playtest_driver.gd": "fb48f92704a6b33050a218f0971473f7ff9719dfbb08e2362c0b90d2b3148bf5",
+      "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
+      "game/scripts/prepared_art_v05.gd": "b2b55ed83be9f0f4b781153d4d3272864d4ff12a7e69b400ef216529785fe79c",
+      "game/scripts/progression.gd": "d291e4632de2cd80aa461aee27360d31b39232ff1acdbac862e584f18a491864",
+      "game/scripts/research_journey.gd": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+      "game/scripts/service_quote.gd": "8259c17f850834c433b9ff91dd878ac7fca910106469fe315a320d1cf6d0b603",
+      "game/scripts/settings_panel.gd": "d442097b2e1beda0b2448960fe6ad9fb63416c22984b352d554f01b3edc83f09",
+      "game/scripts/simulation.gd": "2d9233a4ed0dda5959cc505fe0213f706e3a2ac827b4e67178ea3aed9a9999da",
+      "game/scripts/skill_atlas_v06.gd": "d7051271d2d992973e13979347e975476f14211ae7845e741923f9f22ad9319f",
+      "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
+      "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
+      "game/scripts/skill_conditions.gd": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
+      "game/scripts/skill_effects.gd": "6a81e931801c26c19238ac283add4c97a9559bba4c87d563b14a9fe10b177baf",
+      "game/scripts/skill_graph_view.gd": "a323ced58e3e1672ef195e36037814318ea137d93bbe9f0b277fc515c3214567",
+      "game/scripts/skill_motion_art_v06.gd": "2b81b9161c2334b0c9de6075944326b0d2e3502ef64b189736e4b6b8e024aa2d",
+      "game/scripts/skill_node_roles.gd": "87609bf62ef3610555bc8a9be830c63840742328a99794ac0a76ffad043c5bbf",
+      "game/scripts/skill_presentation.gd": "746027daa898d6030775130006e0437725171df4e004174435084f41410f5560",
+      "game/scripts/skill_reach.gd": "6c8fa2ead0c200a5f83a591110f3b58455eb5c6dcb9c05e37a4fd9a7cc6d28fd",
+      "game/scripts/skill_scaling.gd": "29ee235e7325bc30d1dd1da6a0ea82e3aa94fa054453329699258c0fb9b6e5a5",
+      "game/scripts/skill_tree_ui.gd": "14902611a5768b50d9d9ccd11a38721578f6762519640b196c46544d95c9d3e3",
+      "game/scripts/skill_vfx.gd": "29f66f899d247d20cd743462e2f5ebbc7c5658b6a42992e4c23b8a1efd251bcd",
+      "game/scripts/skill_vfx_catalog.gd": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c",
+      "game/scripts/sprite_frame_regions.gd": "bcddbb3fcef687d111f2a2272bcf460db600550ece39527daa5ebf444bb0cccc",
+      "game/scripts/sprite_names.gd": "d846283d3e3ba52b4144cfe60bb247ffb28efa6abc1042ffaf6b6713dff85ec9",
+      "game/scripts/stat_specialization.gd": "3329d2fb616e8d4ec0d245e99b3a7d52b588e688353ab45f4816f97aa42ae21d",
+      "game/scripts/status_markers.gd": "e59c3f258f86186f4795e48b27abe518df07836d85dc0da32902c2cc8f507781",
+      "game/scripts/status_strip.gd": "2e683d1e0c39f7d3e6ada6961f62e61065bbcb1db21e1f3fa7c7608d772331cc",
+      "game/scripts/tactical_tools.gd": "227436f70f3f3dab7fdfc7d027a1f2425746c0cc7b9033982cacd0b4c41cdafa",
+      "game/scripts/telegraph_priority.gd": "be1e22cbc69b4610932c01187ca96355c135f85ef12326929271b6dc6ae8d6ab",
+      "game/scripts/title_screen.gd": "fa13b3f9724eef0d50b0f8ec63563a602b4c15691ff1606bc68cb3aa1e1f15dd",
+      "game/scripts/town_operations.gd": "02f134a53fa3ff71c66b477871c431b31f166541b7f95ea7a4d03d16b94a27f8",
+      "game/scripts/town_panel.gd": "124bf5bb4ade589a707038776d269c64a11e756420f937e7cd11c5239422f41d",
+      "game/scripts/town_research.gd": "d013a0bd705f469cb3f384b7d42ab6186f2522c4956f66a0b58cee1be33984ba",
+      "game/scripts/town_research_panel.gd": "ab0a27c62d108c4d22a486de12ec7b822a45f3a3851175654e070c21390faa83",
+      "game/scripts/town_services.gd": "66e272c5b0f0e6d1d73f4176216bdad8ddfcbc9a5e557bcfbac42e82d54bca59",
+      "game/scripts/town_visitors.gd": "ee7b7f7185783504ae5597da3dde1838e90ddf319d2c5be0733e6ecc47536f13",
+      "game/scripts/training_art.gd": "aa70f36f97e8868db842853e0df811e0098a773aadcc89adb63c8728343f5741",
+      "game/scripts/training_ground.gd": "c8530c62956850fa865a04f3cb993517a1537b6fdafd132fb2708548b3b17795",
+      "game/scripts/ui_art.gd": "cff5c1cc5a0ee95da1435e1a7bf300d2398f42450c2bb9e08a7e3489b2598e5e",
+      "game/scripts/vfx_gallery.gd": "f6ce3b046240374d8fef049a82bc5d0346834bc1ed3c753709d4bc35036fa5d1",
+      "game/scripts/visible_telegraphs.gd": "e42bd55068312d9b236575acf14aa02a957d02c326f297a058fee0a92f500c41",
+      "game/scripts/wardrobe.gd": "3cbeccd2e524a1c44f1a2781e15faf50d64d3d41140e7c44c3d2724d0ec51230",
+      "game/scripts/wardrobe_shop.gd": "5f12550d1db03a0078db8bad262d16069f5607dc3b2900f819917d36708385a1",
+      "game/scripts/world_art.gd": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085",
+      "game/scripts/world_catalog.gd": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
+      "game/shaders/damage_gradient.gdshader": "e11eddba754d1260105eec08c2386243236bc04121d3d665431bac58cdb4fb1d",
+      "game/shaders/dungeon_fog.gdshader": "7bfeb3a702feefccdbcf4a16b0f24502dc859848e0e7eac6151eac2d5bf1d494",
+      "game/shaders/forest_ground.gdshader": "52e5ea98ec32b3cbb06d15334def4f609977c3dadc9d8259a7c543a93d411d35",
+      "game/shaders/gat_chroma.gdshader": "0b2c654ec4574743c98af2409a226b7501e918c18fd8e8a15d721ed8f129bb49",
+      "game/shaders/skill_atlas_v06.gdshader": "42d251d41472cad245beabe2e18b87f9ff012cbc4eaaac0cf524ed2bd21150fc",
+      "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5"
+    },
+    "groups": 172,
+    "results": [
+      {
+        "test": "removed_assets",
+        "status": "PASS",
+        "checks": 358
+      },
+      {
+        "test": "forest_stability",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "rules",
+        "status": "PASS",
+        "checks": 91
+      },
+      {
+        "test": "inventory_grid",
+        "status": "PASS",
+        "checks": 143
+      },
+      {
+        "test": "inventory_ui",
+        "status": "PASS",
+        "checks": 103
+      },
+      {
+        "test": "combat",
+        "status": "PASS",
+        "checks": 51
+      },
+      {
+        "test": "skills_v04",
+        "status": "PASS",
+        "checks": 210
+      },
+      {
+        "test": "loot_v04",
+        "status": "PASS",
+        "checks": 422
+      },
+      {
+        "test": "single_player",
+        "status": "PASS",
+        "checks": 30
+      },
+      {
+        "test": "expansion_ui",
+        "status": "PASS",
+        "checks": 32
+      },
+      {
+        "test": "appearance_v041",
+        "status": "PASS",
+        "checks": 1007
+      },
+      {
+        "test": "expansion_v05",
+        "status": "PASS",
+        "checks": 878
+      },
+      {
+        "test": "polish_v05",
+        "status": "PASS",
+        "checks": 1158
+      },
+      {
+        "test": "monsters_v05",
+        "status": "PASS",
+        "checks": 410
+      },
+      {
+        "test": "skills_v01",
+        "status": "PASS",
+        "checks": 1026
+      },
+      {
+        "test": "ui_v01",
+        "status": "PASS",
+        "checks": 232
+      },
+      {
+        "test": "jobs",
+        "status": "PASS",
+        "checks": 242
+      },
+      {
+        "test": "job_balance",
+        "status": "PASS",
+        "checks": 1408
+      },
+      {
+        "test": "job_ui",
+        "status": "PASS",
+        "checks": 1577
+      },
+      {
+        "test": "progression_v02",
+        "status": "PASS",
+        "checks": 112
+      },
+      {
+        "test": "equipment_v02",
+        "status": "PASS",
+        "checks": 872
+      },
+      {
+        "test": "dungeon_v02",
+        "status": "PASS",
+        "checks": 14853
+      },
+      {
+        "test": "floor_balance_v02",
+        "status": "PASS",
+        "checks": 335
+      },
+      {
+        "test": "database_v03",
+        "status": "PASS",
+        "checks": 12993
+      },
+      {
+        "test": "boss_stagger_v03",
+        "status": "PASS",
+        "checks": 1231
+      },
+      {
+        "test": "skill_vfx",
+        "status": "PASS",
+        "checks": 13184
+      },
+      {
+        "test": "skill_build_v04",
+        "status": "PASS",
+        "checks": 6622
+      },
+      {
+        "test": "database_v04",
+        "status": "PASS",
+        "checks": 5305
+      },
+      {
+        "test": "constellation_combat_v04",
+        "status": "PASS",
+        "checks": 6929
+      },
+      {
+        "test": "character_creation_v04",
+        "status": "PASS",
+        "checks": 103
+      },
+      {
+        "test": "skill_build_session_v04",
+        "status": "PASS",
+        "checks": 26
+      },
+      {
+        "test": "icons",
+        "status": "PASS",
+        "checks": 8307
+      },
+      {
+        "test": "environment_v04",
+        "status": "PASS",
+        "checks": 34499
+      },
+      {
+        "test": "dungeon_entry_v04",
+        "status": "PASS",
+        "checks": 2403
+      },
+      {
+        "test": "costume_art_v04",
+        "status": "PASS",
+        "checks": 6957
+      },
+      {
+        "test": "battle_camera_v04",
+        "status": "PASS",
+        "checks": 6370
+      },
+      {
+        "test": "appearance_matching_v04",
+        "status": "PASS",
+        "checks": 3027
+      },
+      {
+        "test": "database_world_rules_v052",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "content_names",
+        "status": "PASS",
+        "checks": 9542
+      },
+      {
+        "test": "tree_balance",
+        "status": "PASS",
+        "checks": 3210
+      },
+      {
+        "test": "progression_rewards_v053",
+        "status": "PASS",
+        "checks": 1197
+      },
+      {
+        "test": "codex_cache_v053",
+        "status": "PASS",
+        "checks": 909
+      },
+      {
+        "test": "dungeon_tactics_v053",
+        "status": "PASS",
+        "checks": 54
+      },
+      {
+        "test": "dungeon_vision",
+        "status": "PASS",
+        "checks": 14
+      },
+      {
+        "test": "enemy_awareness",
+        "status": "PASS",
+        "checks": 22
+      },
+      {
+        "test": "combat_information",
+        "status": "PASS",
+        "checks": 70
+      },
+      {
+        "test": "combat_information_visual",
+        "status": "PASS",
+        "checks": 25
+      },
+      {
+        "test": "telegraph_priority",
+        "status": "PASS",
+        "checks": 38
+      },
+      {
+        "test": "telegraph_priority_visual",
+        "status": "PASS",
+        "checks": 13
+      },
+      {
+        "test": "enemy_tactics",
+        "status": "PASS",
+        "checks": 11
+      },
+      {
+        "test": "enemy_support",
+        "status": "PASS",
+        "checks": 57
+      },
+      {
+        "test": "encounter_roles",
+        "status": "PASS",
+        "checks": 26079
+      },
+      {
+        "test": "enemy_support_visual",
+        "status": "PASS",
+        "checks": 4
+      },
+      {
+        "test": "enemy_defense",
+        "status": "PASS",
+        "checks": 10
+      },
+      {
+        "test": "enemy_defense_solo",
+        "status": "PASS",
+        "checks": 258
+      },
+      {
+        "test": "skill_conditions",
+        "status": "PASS",
+        "checks": 83
+      },
+      {
+        "test": "skill_conditions_visual",
+        "status": "PASS",
+        "checks": 12
+      },
+      {
+        "test": "enemy_defense_visual",
+        "status": "PASS",
+        "checks": 7
+      },
+      {
+        "test": "dungeon_exploration_routes",
+        "status": "PASS",
+        "checks": 5130
+      },
+      {
+        "test": "actor_visibility",
+        "status": "PASS",
+        "checks": 9
+      },
+      {
+        "test": "actor_visibility_visual",
+        "status": "PASS",
+        "checks": 6
+      },
+      {
+        "test": "monster_scale",
+        "status": "PASS",
+        "checks": 7407
+      },
+      {
+        "test": "monster_scale_visual",
+        "status": "PASS",
+        "checks": 14
+      },
+      {
+        "test": "cave_remains",
+        "status": "PASS",
+        "checks": 37712
+      },
+      {
+        "test": "cave_remains_visual",
+        "status": "PASS",
+        "checks": 15
+      },
+      {
+        "test": "exploration_cues",
+        "status": "PASS",
+        "checks": 5203
+      },
+      {
+        "test": "exploration_cues_visual",
+        "status": "PASS",
+        "checks": 32
+      },
+      {
+        "test": "exploration_cues_journey_visual",
+        "status": "PASS",
+        "checks": 27
+      },
+      {
+        "test": "dungeon_vision_visual",
+        "status": "PASS",
+        "checks": 12
+      },
+      {
+        "test": "sprite_frame_regions",
+        "status": "PASS",
+        "checks": 1233
+      },
+      {
+        "test": "coop_rules",
+        "status": "PASS",
+        "checks": 20
+      },
+      {
+        "test": "combat_lifecycle",
+        "status": "PASS",
+        "checks": 330
+      },
+      {
+        "test": "exploration_rooms",
+        "status": "PASS",
+        "checks": 2964
+      },
+      {
+        "test": "exploration_challenge",
+        "status": "PASS",
+        "checks": 301
+      },
+      {
+        "test": "hidden_rooms",
+        "status": "PASS",
+        "checks": 616
+      },
+      {
+        "test": "exploration_events",
+        "status": "PASS",
+        "checks": 647
+      },
+      {
+        "test": "exploration_events_visual",
+        "status": "PASS",
+        "checks": 53
+      },
+      {
+        "test": "exploration_shortcuts",
+        "status": "PASS",
+        "checks": 8777
+      },
+      {
+        "test": "exploration_shortcuts_visual",
+        "status": "PASS",
+        "checks": 17
+      },
+      {
+        "test": "build_presets",
+        "status": "PASS",
+        "checks": 1385
+      },
+      {
+        "test": "build_presets_visual",
+        "status": "PASS",
+        "checks": 8
+      },
+      {
+        "test": "expedition_brief",
+        "status": "PASS",
+        "checks": 917
+      },
+      {
+        "test": "town_research",
+        "status": "PASS",
+        "checks": 146
+      },
+      {
+        "test": "town_research_visual",
+        "status": "PASS",
+        "checks": 91
+      },
+      {
+        "test": "research_journey",
+        "status": "PASS",
+        "checks": 1236
+      },
+      {
+        "test": "research_journey_visual",
+        "status": "PASS",
+        "checks": 35
+      },
+      {
+        "test": "guild_progression",
+        "status": "PASS",
+        "checks": 65
+      },
+      {
+        "test": "guild_progression_visual",
+        "status": "PASS",
+        "checks": 62
+      },
+      {
+        "test": "expedition_risk",
+        "status": "PASS",
+        "checks": 2532
+      },
+      {
+        "test": "expedition_risk_visual",
+        "status": "PASS",
+        "checks": 384
+      },
+      {
+        "test": "expedition_environment",
+        "status": "PASS",
+        "checks": 3859
+      },
+      {
+        "test": "expedition_environment_visual",
+        "status": "PASS",
+        "checks": 11
+      },
+      {
+        "test": "expedition_goals",
+        "status": "PASS",
+        "checks": 1043
+      },
+      {
+        "test": "expedition_goals_visual",
+        "status": "PASS",
+        "checks": 44
+      },
+      {
+        "test": "expedition_journal",
+        "status": "PASS",
+        "checks": 27
+      },
+      {
+        "test": "hud_tabs",
+        "status": "PASS",
+        "checks": 46
+      },
+      {
+        "test": "consumables",
+        "status": "PASS",
+        "checks": 54
+      },
+      {
+        "test": "tactical_tools",
+        "status": "PASS",
+        "checks": 71
+      },
+      {
+        "test": "tactical_tools_visual",
+        "status": "PASS",
+        "checks": 21
+      },
+      {
+        "test": "character_presentation_v054",
+        "status": "PASS",
+        "checks": 7286
+      },
+      {
+        "test": "character_stats_v2",
+        "status": "PASS",
+        "checks": 61
+      },
+      {
+        "test": "costume_expanded_v06",
+        "status": "PASS",
+        "checks": 977
+      },
+      {
+        "test": "skill_motions_v06",
+        "status": "PASS",
+        "checks": 1258
+      },
+      {
+        "test": "skill_motions_visual_v06",
+        "status": "PASS",
+        "checks": 80
+      },
+      {
+        "test": "skill_atlas_v06",
+        "status": "PASS",
+        "checks": 827
+      },
+      {
+        "test": "monster_motion_art_v06",
+        "status": "PASS",
+        "checks": 6337
+      },
+      {
+        "test": "exploration_object_art_v06",
+        "status": "PASS",
+        "checks": 48533
+      },
+      {
+        "test": "agent_art_integration_visual",
+        "status": "PASS",
+        "checks": 17
+      },
+      {
+        "test": "target_crafting",
+        "status": "PASS",
+        "checks": 40
+      },
+      {
+        "test": "raid_engagement",
+        "status": "PASS",
+        "checks": 30
+      },
+      {
+        "test": "hidden_rooms_visual",
+        "status": "PASS",
+        "checks": 9
+      },
+      {
+        "test": "exploration_visual",
+        "status": "PASS",
+        "checks": 70
+      },
+      {
+        "test": "expedition_hud",
+        "status": "PASS",
+        "checks": 140
+      },
+      {
+        "test": "prepared_art_v05",
+        "status": "PASS",
+        "checks": 454
+      },
+      {
+        "test": "wardrobe_v05",
+        "status": "PASS",
+        "checks": 99
+      },
+      {
+        "test": "database_metadata_v05",
+        "status": "PASS",
+        "checks": 5328
+      },
+      {
+        "test": "performance_environment_v05",
+        "status": "PASS",
+        "checks": 71702
+      },
+      {
+        "test": "enemy_hit_geometry_v05",
+        "status": "PASS",
+        "checks": 236
+      },
+      {
+        "test": "combat_reach_v052",
+        "status": "PASS",
+        "checks": 1845
+      },
+      {
+        "test": "dungeon_variety_v052",
+        "status": "PASS",
+        "checks": 105053
+      },
+      {
+        "test": "town_services_v052",
+        "status": "PASS",
+        "checks": 266
+      },
+      {
+        "test": "training_ground_v052",
+        "status": "PASS",
+        "checks": 43
+      },
+      {
+        "test": "qa_combat_v052",
+        "status": "PASS",
+        "checks": 143
+      },
+      {
+        "test": "qa_inventory_v052",
+        "status": "PASS",
+        "checks": 238
+      },
+      {
+        "test": "qa_skill_rejection_v052",
+        "status": "PASS",
+        "checks": 83
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "legacy_save",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "visual_v05",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "visual_v01",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "visual_jobs",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "job_benchmark",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "ui_v02",
+        "status": "PASS",
+        "checks": 55
+      },
+      {
+        "test": "codex_ui_v03",
+        "status": "PASS",
+        "checks": 98
+      },
+      {
+        "test": "stagger_ui_v03",
+        "status": "PASS",
+        "checks": 25
+      },
+      {
+        "test": "visual_skill_vfx",
+        "status": "PASS",
+        "checks": 65
+      },
+      {
+        "test": "skill_tree_ui_v04",
+        "status": "PASS",
+        "checks": 16390
+      },
+      {
+        "test": "combat_polish_v053",
+        "status": "PASS",
+        "checks": 213
+      },
+      {
+        "test": "feedback_v054",
+        "status": "PASS",
+        "checks": 589
+      },
+      {
+        "test": "companion_visual_v054",
+        "status": "PASS",
+        "checks": 4
+      },
+      {
+        "test": "character_dialogue_ui_v04",
+        "status": "PASS",
+        "checks": 69
+      },
+      {
+        "test": "wardrobe_shop_ui_v05",
+        "status": "PASS",
+        "checks": 41
+      },
+      {
+        "test": "client_flow_v051",
+        "status": "PASS",
+        "checks": 53
+      },
+      {
+        "test": "keyboard_ui_v051",
+        "status": "PASS",
+        "checks": 893
+      },
+      {
+        "test": "performance_ui_v05",
+        "status": "PASS",
+        "checks": 912
+      },
+      {
+        "test": "settings_v052",
+        "status": "PASS",
+        "checks": 43
+      },
+      {
+        "test": "skill_clarity_v052",
+        "status": "PASS",
+        "checks": 5538
+      },
+      {
+        "test": "dungeon_variety_visual_v052",
+        "status": "PASS",
+        "checks": 48
+      },
+      {
+        "test": "town_clarity_ui_v052",
+        "status": "PASS",
+        "checks": 1103
+      },
+      {
+        "test": "combat_reach_visual_v052",
+        "status": "PASS",
+        "checks": 111
+      },
+      {
+        "test": "inventory_expansion_v052",
+        "status": "PASS",
+        "checks": 275
+      },
+      {
+        "test": "combat_feedback_v052",
+        "status": "PASS",
+        "checks": 265
+      },
+      {
+        "test": "town_renewal_visual_v052",
+        "status": "PASS",
+        "checks": 61
+      },
+      {
+        "test": "qa_save_v052",
+        "status": "PASS",
+        "checks": 33
+      },
+      {
+        "test": "hud_world_labels_v052",
+        "status": "PASS",
+        "checks": 97
+      },
+      {
+        "test": "visual_icons",
+        "status": "PASS",
+        "checks": 3635
+      },
+      {
+        "test": "environment_visual_v04",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "dungeon_entry_visual_v04",
+        "status": "PASS",
+        "checks": 7
+      },
+      {
+        "test": "costume_render_v04",
+        "status": "PASS",
+        "checks": 0
+      },
+      {
+        "test": "costume_session_v04",
+        "status": "PASS",
+        "checks": 1207
+      },
+      {
+        "test": "hud_layout_v04",
+        "status": "PASS",
+        "checks": 385
+      },
+      {
+        "test": "inventory_ui",
+        "status": "PASS",
+        "checks": 109
+      },
+      {
+        "test": "ui_legibility_v04",
+        "status": "PASS",
+        "checks": 2071
+      },
+      {
+        "test": "audio_shutdown_v04",
+        "status": "PASS",
+        "checks": 51
+      },
+      {
+        "test": "equipment_art",
+        "status": "PASS",
+        "checks": 16647
+      },
+      {
+        "test": "visual_equipment_art",
+        "status": "PASS",
+        "checks": 31
+      },
+      {
+        "test": "floor_tiles_v04",
+        "status": "PASS",
+        "checks": 7777
+      },
+      {
+        "test": "floor_tiles_visual_v04",
+        "status": "PASS",
+        "checks": 102
+      },
+      {
+        "test": "art_registry_v05",
+        "status": "PASS",
+        "checks": 42191
+      },
+      {
+        "test": "art_registry_portable",
+        "status": "PASS",
+        "checks": 2698
+      },
+      {
+        "test": "art_registry_cache",
+        "status": "PASS",
+        "checks": 16
+      },
+      {
+        "test": "godot_test_completion",
+        "status": "PASS",
+        "checks": 9
+      },
+      {
+        "test": "install_client",
+        "status": "PASS",
+        "checks": 15
+      }
+    ],
+    "report_sha256": "bb2ebf6e1c23a5faf6eaa5ee03239f765b284f72e74421f873c0c36a5d797970"
+  },
+  "windows_export": {
+    "status": "PASS",
+    "version": "V0.7",
+    "report_sha256": "8f1ef2404039f5d2bd9f1f527b369882b4e8e28a83e63be3c4f1acad92c91a3d",
+    "runtime_reports": "runtime\\export-checks\\20260913-180520",
+    "kills": 6,
+    "distance": 46.3600722700357,
+    "jobs": [
+      "tank",
+      "runesword",
+      "swordsman",
+      "summoner",
+      "elementalist",
+      "healer",
+      "sniper",
+      "hunter",
+      "explorer",
+      "thief",
+      "reaper",
+      "gambler",
+      "infighter",
+      "breaker",
+      "martialist"
+    ],
+    "costumes": 30,
+    "biomes": 10,
+    "five_stat_save_migration": {
+      "stat_schema_version": 2,
+      "old_investments_refunded_once": true,
+      "property_preserved": true,
+      "second_load_identical": true
+    },
+    "abyss": {
+      "rendered_floor": 100,
+      "boss_name": "심연의 왕 · 아스트라",
+      "boss_hp": 400478,
+      "six_stats_restored": true,
+      "completed_save_fixture_restored": 100,
+      "saved_raid_clears": 10,
+      "all_100_floors_cleared_by_source_gate": true,
+      "isolated_observer_placed_near_boss": true,
+      "capture": {
+        "path": "artifacts\\export-floor-100.png",
+        "sha256": "4e94c745e2d9ed91f2df473ee6ddcf5bb406a15a8d845c98601529aea35bb3c2",
+        "size": [
+          1920,
+          1080
+        ],
+        "chroma": {
+          "blue": {
+            "near_exact_pixels": 0,
+            "solid_9x9_block": false
+          },
+          "magenta": {
+            "near_exact_pixels": 0,
+            "solid_9x9_block": false
+          }
+        }
+      }
+    },
+    "files": [
+      {
+        "name": "StelRPG.exe",
+        "bytes": 104578048,
+        "sha256": "f9cb815a32a1ae3a73ad8699ed2b068cb76fe01636d7e8538243056fac05f37b"
+      },
+      {
+        "name": "StelRPG.pck",
+        "bytes": 503618044,
+        "sha256": "f0f8a90bceebcc17dd8134a49e29985333affd5ed71ea273634ac5665247c860"
+      },
+      {
+        "name": "시작 안내.txt",
+        "bytes": 10577,
+        "sha256": "2679da41d4f6b18de3c6db667bc27a3698ea8b4e8d3d92102ba5c77691a22447"
+      },
+      {
+        "name": "ASSET_SOURCES.md",
+        "bytes": 17085,
+        "sha256": "db8862dba4ae0ee89c8488fc74f0b424179074bc8c5ef0957d91a09cc48a6f0d"
+      },
+      {
+        "name": "GODOT_LICENSE.txt",
+        "bytes": 1149,
+        "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+      },
+      {
+        "name": "GODOT_COPYRIGHT.txt",
+        "bytes": 99790,
+        "sha256": "770b334b09db9d4b32f13a901f9c091695a252e73c35681d819a1190c313e9bc"
+      }
+    ]
+  },
+  "packages": [
+    {
+      "name": "StelRPG-V0.7-Windows.zip",
+      "bytes": 534657587,
+      "sha256": "73610f83faefce4d6c9520cca26be2ce6dc4e39bed09a69067b7777d6771adac"
+    },
+    {
+      "name": "StelRPG-V0.7-Database.zip",
+      "bytes": 3181979,
+      "sha256": "756ecb1dc05889a138a2a64c6d1cccfa5cf52d5c1f946a22ffe517b8b49b0f39"
+    }
+  ]
+}

@@ -1,0 +1,707 @@
+{
+  "version": 1,
+  "pack_id": "exploration_objects_v06",
+  "object_count": 12,
+  "authored_frame_count": 36,
+  "runtime_frame_count": 24,
+  "claim_scope": "authoritative_per_player_snapshot_claimed",
+  "inactive_states": [
+    "partial",
+    "opened"
+  ],
+  "pools": {
+    "seed": {
+      "forest": [
+        "starleaf_herb"
+      ],
+      "cave": [
+        "moonbell_herb"
+      ],
+      "flood": [
+        "moonbell_herb"
+      ],
+      "spore": [
+        "moonbell_herb"
+      ],
+      "lava": [
+        "starleaf_herb"
+      ],
+      "snow": [
+        "frostroot_herb"
+      ],
+      "machine": [
+        "moonbell_herb"
+      ],
+      "autumn": [
+        "starleaf_herb",
+        "moonbell_herb"
+      ],
+      "nebula": [
+        "moonbell_herb"
+      ],
+      "core": [
+        "moonbell_herb"
+      ]
+    },
+    "ore": {
+      "forest": [
+        "azure_ore"
+      ],
+      "cave": [
+        "azure_ore",
+        "amber_ore"
+      ],
+      "flood": [
+        "azure_ore"
+      ],
+      "spore": [
+        "azure_ore"
+      ],
+      "lava": [
+        "amber_ore"
+      ],
+      "snow": [
+        "azure_ore"
+      ],
+      "machine": [
+        "amber_ore"
+      ],
+      "autumn": [
+        "amber_ore"
+      ],
+      "nebula": [
+        "azure_ore"
+      ],
+      "core": [
+        "azure_ore",
+        "amber_ore"
+      ]
+    },
+    "cache": {
+      "forest": [
+        "oak_chest"
+      ],
+      "cave": [
+        "oak_chest",
+        "buried_urn"
+      ],
+      "flood": [
+        "sunken_cache"
+      ],
+      "spore": [
+        "oak_chest"
+      ],
+      "lava": [
+        "iron_chest"
+      ],
+      "snow": [
+        "iron_chest",
+        "oak_chest"
+      ],
+      "machine": [
+        "iron_chest"
+      ],
+      "autumn": [
+        "oak_chest",
+        "buried_urn"
+      ],
+      "nebula": [
+        "runic_casket"
+      ],
+      "core": [
+        "royal_chest",
+        "runic_casket"
+      ]
+    },
+    "herbalist": {
+      "*": [
+        "lantern_mushroom"
+      ]
+    }
+  },
+  "selection": "djb2_xor_31_utf8(generation|site_id|category|biome); no viewer/state/time/RNG input",
+  "objects": {
+    "starleaf_herb": {
+      "id": "starleaf_herb",
+      "name_ko": "별잎 약초",
+      "sheet": "res://assets/exploration_objects_v06/sheets/herbs.png",
+      "body_height": 305,
+      "suggested_display_height": 70,
+      "frames": {
+        "available": {
+          "rect": [
+            64,
+            76,
+            347,
+            309
+          ],
+          "foot": [
+            162.0,
+            306.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            472,
+            94,
+            345,
+            290
+          ],
+          "foot": [
+            148.0,
+            287.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            881,
+            181,
+            299,
+            203
+          ],
+          "foot": [
+            132.5,
+            200.0
+          ]
+        }
+      }
+    },
+    "moonbell_herb": {
+      "id": "moonbell_herb",
+      "name_ko": "달종꽃 약초",
+      "sheet": "res://assets/exploration_objects_v06/sheets/herbs.png",
+      "body_height": 336,
+      "suggested_display_height": 70,
+      "frames": {
+        "available": {
+          "rect": [
+            63,
+            428,
+            346,
+            340
+          ],
+          "foot": [
+            173.0,
+            337.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            470,
+            462,
+            325,
+            306
+          ],
+          "foot": [
+            173.0,
+            303.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            880,
+            535,
+            304,
+            234
+          ],
+          "foot": [
+            162.0,
+            231.0
+          ]
+        }
+      }
+    },
+    "frostroot_herb": {
+      "id": "frostroot_herb",
+      "name_ko": "서리뿌리 약초",
+      "sheet": "res://assets/exploration_objects_v06/sheets/herbs.png",
+      "body_height": 351,
+      "suggested_display_height": 70,
+      "frames": {
+        "available": {
+          "rect": [
+            59,
+            812,
+            337,
+            355
+          ],
+          "foot": [
+            183.0,
+            352.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            467,
+            839,
+            337,
+            328
+          ],
+          "foot": [
+            187.0,
+            325.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            885,
+            942,
+            311,
+            223
+          ],
+          "foot": [
+            172.0,
+            220.0
+          ]
+        }
+      }
+    },
+    "lantern_mushroom": {
+      "id": "lantern_mushroom",
+      "name_ko": "등불 버섯 그루터기",
+      "sheet": "res://assets/exploration_objects_v06/sheets/gatherables.png",
+      "body_height": 317,
+      "suggested_display_height": 100,
+      "frames": {
+        "available": {
+          "rect": [
+            39,
+            76,
+            383,
+            321
+          ],
+          "foot": [
+            241.0,
+            318.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            447,
+            77,
+            375,
+            319
+          ],
+          "foot": [
+            215.5,
+            316.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            845,
+            81,
+            380,
+            319
+          ],
+          "foot": [
+            236.0,
+            316.0
+          ]
+        }
+      }
+    },
+    "azure_ore": {
+      "id": "azure_ore",
+      "name_ko": "푸른 마력 광맥",
+      "sheet": "res://assets/exploration_objects_v06/sheets/gatherables.png",
+      "body_height": 358,
+      "suggested_display_height": 100,
+      "frames": {
+        "available": {
+          "rect": [
+            50,
+            426,
+            370,
+            362
+          ],
+          "foot": [
+            233.0,
+            359.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            451,
+            468,
+            363,
+            323
+          ],
+          "foot": [
+            229.0,
+            320.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            852,
+            516,
+            368,
+            281
+          ],
+          "foot": [
+            234.0,
+            278.0
+          ]
+        }
+      }
+    },
+    "amber_ore": {
+      "id": "amber_ore",
+      "name_ko": "호박빛 광맥",
+      "sheet": "res://assets/exploration_objects_v06/sheets/gatherables.png",
+      "body_height": 348,
+      "suggested_display_height": 100,
+      "frames": {
+        "available": {
+          "rect": [
+            41,
+            824,
+            378,
+            352
+          ],
+          "foot": [
+            201.0,
+            349.0
+          ]
+        },
+        "partial": {
+          "rect": [
+            444,
+            843,
+            365,
+            333
+          ],
+          "foot": [
+            191.5,
+            330.0
+          ]
+        },
+        "depleted": {
+          "rect": [
+            850,
+            853,
+            367,
+            325
+          ],
+          "foot": [
+            191.0,
+            322.0
+          ]
+        }
+      }
+    },
+    "oak_chest": {
+      "id": "oak_chest",
+      "name_ko": "참나무 보물 상자",
+      "sheet": "res://assets/exploration_objects_v06/sheets/treasure_chests.png",
+      "body_height": 290,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            46,
+            114,
+            356,
+            294
+          ],
+          "foot": [
+            250.0,
+            291.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            450,
+            43,
+            348,
+            365
+          ],
+          "foot": [
+            236.0,
+            362.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            855,
+            43,
+            348,
+            365
+          ],
+          "foot": [
+            236.0,
+            362.0
+          ]
+        }
+      }
+    },
+    "iron_chest": {
+      "id": "iron_chest",
+      "name_ko": "철갑 보물 상자",
+      "sheet": "res://assets/exploration_objects_v06/sheets/treasure_chests.png",
+      "body_height": 306,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            44,
+            493,
+            365,
+            310
+          ],
+          "foot": [
+            256.0,
+            307.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            451,
+            429,
+            347,
+            374
+          ],
+          "foot": [
+            230.0,
+            371.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            850,
+            429,
+            348,
+            374
+          ],
+          "foot": [
+            230.0,
+            371.0
+          ]
+        }
+      }
+    },
+    "royal_chest": {
+      "id": "royal_chest",
+      "name_ko": "왕실 보물 상자",
+      "sheet": "res://assets/exploration_objects_v06/sheets/treasure_chests.png",
+      "body_height": 311,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            42,
+            883,
+            369,
+            315
+          ],
+          "foot": [
+            248.0,
+            312.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            453,
+            818,
+            343,
+            386
+          ],
+          "foot": [
+            223.0,
+            383.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            854,
+            818,
+            342,
+            386
+          ],
+          "foot": [
+            222.0,
+            383.0
+          ]
+        }
+      }
+    },
+    "sunken_cache": {
+      "id": "sunken_cache",
+      "name_ko": "침수된 보급 상자",
+      "sheet": "res://assets/exploration_objects_v06/sheets/exploration_caches.png",
+      "body_height": 301,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            54,
+            99,
+            343,
+            305
+          ],
+          "foot": [
+            231.0,
+            302.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            449,
+            42,
+            357,
+            371
+          ],
+          "foot": [
+            228.0,
+            368.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            859,
+            42,
+            356,
+            369
+          ],
+          "foot": [
+            227.0,
+            366.0
+          ]
+        }
+      }
+    },
+    "runic_casket": {
+      "id": "runic_casket",
+      "name_ko": "봉인 유물함",
+      "sheet": "res://assets/exploration_objects_v06/sheets/exploration_caches.png",
+      "body_height": 295,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            68,
+            497,
+            325,
+            299
+          ],
+          "foot": [
+            226.0,
+            296.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            468,
+            427,
+            328,
+            388
+          ],
+          "foot": [
+            212.0,
+            385.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            868,
+            428,
+            328,
+            386
+          ],
+          "foot": [
+            212.0,
+            383.0
+          ]
+        }
+      }
+    },
+    "buried_urn": {
+      "id": "buried_urn",
+      "name_ko": "매장 보물 항아리",
+      "sheet": "res://assets/exploration_objects_v06/sheets/exploration_caches.png",
+      "body_height": 346,
+      "suggested_display_height": 100,
+      "frames": {
+        "closed": {
+          "rect": [
+            61,
+            840,
+            298,
+            350
+          ],
+          "foot": [
+            154.0,
+            347.0
+          ]
+        },
+        "opened": {
+          "rect": [
+            450,
+            854,
+            360,
+            335
+          ],
+          "foot": [
+            153.0,
+            332.0
+          ]
+        },
+        "empty": {
+          "rect": [
+            862,
+            854,
+            361,
+            336
+          ],
+          "foot": [
+            154.0,
+            333.0
+          ]
+        }
+      }
+    }
+  },
+  "sheets": {
+    "res://assets/exploration_objects_v06/sheets/herbs.png": {
+      "sha256": "252472e2e9b1ef4270a52a883f7e8b6c9467e9bf7e9d2b685243fe81464f3d68",
+      "size": [
+        1254,
+        1254
+      ],
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/exploration_objects_v06/sheets/gatherables.png": {
+      "sha256": "349d6ecc64f510903f4e28acff7fd9e62a4c53379d2a418f966002c692193775",
+      "size": [
+        1254,
+        1254
+      ],
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/exploration_objects_v06/sheets/treasure_chests.png": {
+      "sha256": "219b306bbb76aafe6eca9505d9836974903d63184c5144a53f071e55488a5332",
+      "size": [
+        1254,
+        1254
+      ],
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/exploration_objects_v06/sheets/exploration_caches.png": {
+      "sha256": "34a9ac773a7264148052fab1ce4884ca193d2e491b222592985f77897cb09c57",
+      "size": [
+        1254,
+        1254
+      ],
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    }
+  },
+  "provenance": {
+    "source": "RPG2/art/objects/exploration-20260913/catalog.json",
+    "source_catalog_sha256": "421d83fdfd30f938b7114e00789a2967ff9654934fad3b170e48fb7187c15b30"
+  }
+}

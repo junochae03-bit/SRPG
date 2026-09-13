@@ -12,21 +12,12 @@ static func rows(sim,p:Dictionary)->Array:
 		["최대 생명력",str(p.max_hp)],
 		["최대 기력","%d"%p.max_stamina],
 		["기본 공격 간격","%.2f초"%sim.combat.attack_interval(p)],
-		["민첩 이동 속도","+%.1f%%"%((Progression.move_speed(p)-1.)*100.)],
-		["기술 능력치 재사용 감소","%.1f%%"%((1.-Progression.cooldown_factor(p))*100.)]])
-	var technique=maxf(0,Progression.bonus(p,"technique"))
-	result.append(["기술 무력화 증가","+%.1f%%"%(60.*technique/(technique+60.))])
-	# Two independent critical rolls can both succeed in the existing combat rules.
-	var base=clampf(Content.skill_bonus(p,"critical"),0,.65)
-	var jobs=sim.combat.jobs
-	var extra=clampf(jobs.value(p,"crit")+(jobs.passive(p,4)*.02 if p.class_id=="swordsman" else 0)+(.15 if p.job_state.dice_time>0 and p.job_state.dice==3 else 0),0,1)
-	result.append(["치명타 확률","%.1f%%"%((1.-(1.-base)*(1.-extra))*100.)])
-	var multipliers=[]
-	var normal=1.5+Content.skill_bonus(p,"critical_damage")
-	var advanced=1.5+jobs.value(p,"crit_damage")+(jobs.passive(p,5)*.08 if p.class_id=="swordsman" else 0)
-	if base>0 and extra<1:multipliers.append(normal)
-	if extra>0:multipliers.append(advanced)
-	if base>0 and extra>0:multipliers.append(normal*advanced)
-	multipliers.sort()
-	result.append(["치명타 피해 배율","—" if multipliers.is_empty() else "×%.2f"%multipliers[0] if is_equal_approx(multipliers[0],multipliers[-1]) else "×%.2f ~ %.2f"%[multipliers[0],multipliers[-1]]])
+		["신속 이동 속도","+%.1f%%"%((Progression.move_speed(p)-1.)*100.)],
+		["신속 시전 속도","+%.1f%%"%((Progression.cast_speed(p)-1.)*100.)],
+		["받는 기술 회복","+%.1f%%"%((Progression.received_healing(p)-1.)*100.)],
+		["일반 피격 경직 감소","%.1f%%"%((1.-Progression.hurt_duration_factor(p))*100.)]])
+	var critical=preload("res://scripts/combat_stats.gd").critical(p,sim.combat.jobs)
+	result.append(["치명타 확률","%.1f%%"%(critical.chance*100.)])
+	result.append(["치명타 피해 배율","×%.2f"%critical.maximum])
+	result.append(["직업 특화",preload("res://scripts/stat_specialization.gd").description(p)])
 	return result

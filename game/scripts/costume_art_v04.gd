@@ -105,7 +105,7 @@ static func _source_image(path: String) -> Image:
 	return null
 
 static func _keyed_image(source: Image, key: String) -> Image:
-	if source == null or source.is_empty() or key not in ["blue", "magenta"]:
+	if source == null or source.is_empty() or key not in ["blue", "magenta", "green", "magenta_narrow"]:
 		return null
 	var converted = source.duplicate() as Image
 	if converted.is_compressed() and converted.decompress() != OK:
@@ -119,8 +119,29 @@ static func _keyed_image(source: Image, key: String) -> Image:
 		var blue = int(data[offset + 2])
 		# Exact byte equivalents of the documented strict normalized thresholds.
 		var is_key = red <= 63 and green <= 63 and blue >= 166 if key == "blue" else red >= 166 and blue >= 166 and green <= 89
+		if key == "green":is_key = green >= 166 and red <= 89 and blue <= 89
+		if key == "magenta_narrow":
+			var distance=maxi(maxi(255-red,green),255-blue)
+			var t=clampf((distance-38.25)/12.75,0.,1.)
+			data[offset+3]=roundi(data[offset+3]*t*t*(3.-2.*t));is_key=false
 		if is_key:
 			data[offset + 3] = 0
+	if key == "green":
+		var original=data.duplicate();var width=converted.get_width();var height=converted.get_height()
+		for y in range(height):
+			for x in range(width):
+				var offset=(y*width+x)*4;var edge=false
+				for step in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
+					var near=Vector2i(x,y)+step
+					if near.x>=0 and near.x<width and near.y>=0 and near.y<height and original[(near.y*width+near.x)*4+3]==0:edge=true;break
+				if not edge:continue
+				var mix=clampf((float(original[offset+1])-maxi(original[offset],original[offset+2]))/255.,0.,.85)
+				if mix<=0:continue
+				var coverage=1.-mix
+				data[offset]=roundi(clampf(original[offset]/coverage,0.,255.))
+				data[offset+1]=roundi(clampf((original[offset+1]-255.*mix)/coverage,0.,255.))
+				data[offset+2]=roundi(clampf(original[offset+2]/coverage,0.,255.))
+				data[offset+3]=roundi(original[offset+3]*coverage)
 	return Image.create_from_data(converted.get_width(), converted.get_height(), false, Image.FORMAT_RGBA8, data)
 
 static func _sheet_texture(path: String, key: String) -> ImageTexture:

@@ -1,0 +1,1057 @@
+{
+  "schema_version": 1,
+  "body_pixels": 112,
+  "measurement_basis": "frame 0 head crown to shoe sole; excludes projecting ears, hat silhouette, weapons and tails",
+  "limitations": "A head crown hidden by a hat is an anatomical estimate, not an observable pixel boundary. No per-pose density override is asserted from crouching alone.",
+  "coordinate_space": "reference landmarks are source-sheet pixels; foot_local is relative to catalog frame rect",
+  "catalog_sha256": "fbcba539aac5067fa45e278a8c140bf19d2d5e81669c246bacfedb7483609088",
+  "sprites": {
+    "warrior": {
+      "sheet_sha256": "13e353979a5c2fc9a78b823b19b4ea6d7535d7514564b412ebe9d4f19a7ce42f",
+      "body_height": 157,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          81,
+          50,
+          181,
+          180
+        ],
+        "crown_sheet": [
+          205,
+          70
+        ],
+        "sole_sheet_y": 227,
+        "shoe_contact_x_range": [
+          125,
+          256
+        ],
+        "foot_local": [
+          109.5,
+          177
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 173.0,
+      "scale_change": 1.1019,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "ranger": {
+      "sheet_sha256": "a4fd52cbd39a29705a9516b1ff6063f29db24e55ee4e04ce911fc49490f6ae42",
+      "body_height": 202,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          45,
+          40,
+          244,
+          264
+        ],
+        "crown_sheet": [
+          180,
+          100
+        ],
+        "sole_sheet_y": 302,
+        "shoe_contact_x_range": [
+          98,
+          224
+        ],
+        "foot_local": [
+          116.0,
+          262
+        ],
+        "crown_status": "occluded_under_hat_estimate",
+        "crown_uncertainty_px": 10
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 250.5,
+      "scale_change": 1.2401,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "mage": {
+      "sheet_sha256": "f7935d99329aaa8183cf772d323ac30091c9151c7fa5d027d35f1101d8cc4611",
+      "body_height": 232,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          36,
+          41,
+          234,
+          276
+        ],
+        "crown_sheet": [
+          165,
+          83
+        ],
+        "sole_sheet_y": 315,
+        "shoe_contact_x_range": [
+          100,
+          211
+        ],
+        "foot_local": [
+          119.5,
+          274
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 268.5,
+      "scale_change": 1.1573,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "fighter": {
+      "sheet_sha256": "d45699ee46b212627b4a4e606c61ff9d585fc4d64e1280c3437d1e438b8a3329",
+      "body_height": 272,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          29,
+          35,
+          230,
+          278
+        ],
+        "crown_sheet": [
+          166,
+          39
+        ],
+        "sole_sheet_y": 311,
+        "shoe_contact_x_range": [
+          83,
+          244
+        ],
+        "foot_local": [
+          134.5,
+          276
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 280.0,
+      "scale_change": 1.0294,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "thief": {
+      "sheet_sha256": "a0ca649daceda6755df0a717addfeaa77fe5ba61b08c4bdf31b2583913b5f051",
+      "body_height": 246,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          37,
+          46,
+          213,
+          273
+        ],
+        "crown_sheet": [
+          145,
+          71
+        ],
+        "sole_sheet_y": 317,
+        "shoe_contact_x_range": [
+          96,
+          217
+        ],
+        "foot_local": [
+          119.5,
+          271
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 253.0,
+      "scale_change": 1.0285,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "tank": {
+      "sheet_sha256": "4bc784500a4fbb35589a581b6595da28c097dff9896aacfe45f00d64ab4b53e6",
+      "body_height": 211,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          46,
+          30,
+          237,
+          218
+        ],
+        "crown_sheet": [
+          185,
+          35
+        ],
+        "sole_sheet_y": 246,
+        "shoe_contact_x_range": [
+          104,
+          226
+        ],
+        "foot_local": [
+          119.0,
+          216
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 212.0,
+      "scale_change": 1.0047,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "swordsman": {
+      "sheet_sha256": "3a2b371e09a63d14105e39a83e1c4688c6abf9c421382f2e510621e93579c215",
+      "body_height": 187,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          72,
+          40,
+          223,
+          195
+        ],
+        "crown_sheet": [
+          190,
+          46
+        ],
+        "sole_sheet_y": 233,
+        "shoe_contact_x_range": [
+          114,
+          233
+        ],
+        "foot_local": [
+          101.5,
+          193
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 197.0,
+      "scale_change": 1.0535,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "runesword": {
+      "sheet_sha256": "8038409e6fff0731e4bb95c0d197c482559e2133ab85a79dcc25c873905c8b60",
+      "body_height": 237,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          25,
+          63,
+          248,
+          248
+        ],
+        "crown_sheet": [
+          174,
+          72
+        ],
+        "sole_sheet_y": 309,
+        "shoe_contact_x_range": [
+          92,
+          236
+        ],
+        "foot_local": [
+          139.0,
+          246
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 246.0,
+      "scale_change": 1.038,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "summoner": {
+      "sheet_sha256": "45f5cc1e0a695cf5f5b872b378be80f633068bc9c58a803a3a159da4b5e6e44d",
+      "body_height": 228,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          38,
+          34,
+          233,
+          278
+        ],
+        "crown_sheet": [
+          165,
+          82
+        ],
+        "sole_sheet_y": 310,
+        "shoe_contact_x_range": [
+          96,
+          218
+        ],
+        "foot_local": [
+          119.0,
+          276
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 275.5,
+      "scale_change": 1.2083,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "elementalist": {
+      "sheet_sha256": "7b7fb04a0e78ae12b850cc8a886e3c0259c1a883f3312d7dffa7c48e92fbb7f2",
+      "body_height": 229,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          39,
+          37,
+          245,
+          276
+        ],
+        "crown_sheet": [
+          165,
+          82
+        ],
+        "sole_sheet_y": 311,
+        "shoe_contact_x_range": [
+          114,
+          212
+        ],
+        "foot_local": [
+          124.0,
+          274
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 273.0,
+      "scale_change": 1.1921,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "healer": {
+      "sheet_sha256": "72439976e4c7b8c8641703040aef75c3bf5ab6912b526cd1f9bcf2c10b0ba81c",
+      "body_height": 229,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          44,
+          36,
+          254,
+          281
+        ],
+        "crown_sheet": [
+          160,
+          86
+        ],
+        "sole_sheet_y": 315,
+        "shoe_contact_x_range": [
+          94,
+          222
+        ],
+        "foot_local": [
+          114.0,
+          279
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 277.5,
+      "scale_change": 1.2118,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "sniper": {
+      "sheet_sha256": "2df039f5946e5153d6d7cbf9b6f00dfcfcc8a51bebbef6e13971af1499c5d987",
+      "body_height": 224,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          30,
+          36,
+          241,
+          290
+        ],
+        "crown_sheet": [
+          168,
+          100
+        ],
+        "sole_sheet_y": 324,
+        "shoe_contact_x_range": [
+          96,
+          230
+        ],
+        "foot_local": [
+          133.0,
+          288
+        ],
+        "crown_status": "occluded_under_hat_estimate",
+        "crown_uncertainty_px": 10
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 276.0,
+      "scale_change": 1.2321,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "hunter": {
+      "sheet_sha256": "aedf16707d04a3dbe0e2cbce7fbced910abf1a276bb0c23509f03fc1544bb89f",
+      "body_height": 225,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          48,
+          31,
+          254,
+          292
+        ],
+        "crown_sheet": [
+          194,
+          96
+        ],
+        "sole_sheet_y": 321,
+        "shoe_contact_x_range": [
+          106,
+          239
+        ],
+        "foot_local": [
+          124.5,
+          290
+        ],
+        "crown_status": "occluded_under_hat_estimate",
+        "crown_uncertainty_px": 10
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 275.5,
+      "scale_change": 1.2244,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "explorer": {
+      "sheet_sha256": "aa6b7f35f32791228d085c1c1ca34386a35e6d293ab9e974b6c2599d40e3a404",
+      "body_height": 172,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          75,
+          23,
+          178,
+          227
+        ],
+        "crown_sheet": [
+          186,
+          76
+        ],
+        "sole_sheet_y": 248,
+        "shoe_contact_x_range": [
+          127,
+          232
+        ],
+        "foot_local": [
+          104.5,
+          225
+        ],
+        "crown_status": "occluded_under_hat_estimate",
+        "crown_uncertainty_px": 10
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 219.0,
+      "scale_change": 1.2733,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "reaper": {
+      "sheet_sha256": "ff089c7e2534796c5e7518f6cf73b729ffc3121137ff62c3c3d09fa625692a4e",
+      "body_height": 189,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          50,
+          34,
+          265,
+          226
+        ],
+        "crown_sheet": [
+          198,
+          69
+        ],
+        "sole_sheet_y": 258,
+        "shoe_contact_x_range": [
+          153,
+          235
+        ],
+        "foot_local": [
+          144.0,
+          224
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {
+        "2": {
+          "foot": [
+            103.5,
+            173
+          ],
+          "reason": "GPU-confirmed scythe-tip pivot; replace with both visible boot soles",
+          "measurement": {
+            "shoe_window_sheet": [
+              845,
+              236,
+              135,
+              24
+            ],
+            "sole_sheet_y": 256,
+            "contact_x_range": [
+              846,
+              975
+            ]
+          }
+        }
+      },
+      "previous_height": 196.0,
+      "scale_change": 1.037,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "gambler": {
+      "sheet_sha256": "9ffc0eec4addd92643c8ea895f992b4b7373015323bf8dfe57618073b9bcd149",
+      "body_height": 270,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          49,
+          41,
+          252,
+          287
+        ],
+        "crown_sheet": [
+          173,
+          56
+        ],
+        "sole_sheet_y": 326,
+        "shoe_contact_x_range": [
+          122,
+          214
+        ],
+        "foot_local": [
+          119.0,
+          285
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 281.0,
+      "scale_change": 1.0407,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "infighter": {
+      "sheet_sha256": "da314c41e3835dd380f2a547e6be5f356baf949bd0b5f0340abf17323ec530e6",
+      "body_height": 269,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          26,
+          34,
+          237,
+          277
+        ],
+        "crown_sheet": [
+          172,
+          39
+        ],
+        "sole_sheet_y": 308,
+        "shoe_contact_x_range": [
+          83,
+          238
+        ],
+        "foot_local": [
+          134.5,
+          274
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 275.0,
+      "scale_change": 1.0223,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "breaker": {
+      "sheet_sha256": "d322ed5a5b7b21772ebca638af4da24bae6125e7891c6c6498e63802d769f6fb",
+      "body_height": 277,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          27,
+          38,
+          231,
+          283
+        ],
+        "crown_sheet": [
+          172,
+          42
+        ],
+        "sole_sheet_y": 319,
+        "shoe_contact_x_range": [
+          81,
+          256
+        ],
+        "foot_local": [
+          141.5,
+          281
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 277.0,
+      "scale_change": 1.0,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    },
+    "martialist": {
+      "sheet_sha256": "6384a4f9724a18fc69b1b6a61a8ab4c71a258c51f86f68038471b9a2d4a1736b",
+      "body_height": 282,
+      "source_facing": 1,
+      "reference": {
+        "index": 0,
+        "rect": [
+          29,
+          26,
+          223,
+          289
+        ],
+        "crown_sheet": [
+          168,
+          31
+        ],
+        "sole_sheet_y": 313,
+        "shoe_contact_x_range": [
+          93,
+          233
+        ],
+        "foot_local": [
+          134.0,
+          287
+        ],
+        "crown_status": "visible_hair_crown",
+        "crown_uncertainty_px": 4
+      },
+      "density_review": {
+        "inspected_pose_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
+      },
+      "frame_overrides": {},
+      "previous_height": 281.5,
+      "scale_change": 0.9982,
+      "foot_status": "reference measurement only; full action foot trajectory not calibrated here"
+    }
+  }
+}

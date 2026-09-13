@@ -31,9 +31,9 @@ func run():
 		check(not a.path.contains("theme-") and not a.path.contains("/sources/") and not a.path.contains("/preview/"),"only integrated art "+a.id)
 		if a.metadata.has("render_cache"):
 			var ref=a.metadata.render_cache
-			check(ref.source==a.path and ref.key in ["blue","magenta"] and FileAccess.file_exists(ref.path),"prepared cache descriptor keeps authored source "+a.id)
+			check(ref.source==a.path and ref.key in ["blue","magenta","green","magenta_narrow"] and FileAccess.file_exists(ref.path),"prepared cache descriptor keeps authored source "+a.id)
 			prepared_paths[ref.path]=true
-	check(prepared_paths.size()==41,"35 costume sources and 6 equipment atlases have prepared cache mappings")
+	check(prepared_paths.size()==preload("res://scripts/prepared_art_v05.gd").entries.size(),"every prepared source has a live catalog mapping")
 	for u in db.art_uses:
 		check(assets.has(u.art_id),"use references asset "+u.id);uses[u.art_id]=true
 		if u.target_table not in ["runtime","catalog"]:check(db[u.target_table].any(func(r):return str(r.id)==u.target_id),"use references game owner "+u.id)
@@ -59,7 +59,7 @@ func run():
 	check(new_frames.filter(func(a):return a.status=="applied").size()==30*16+3,"480player poses+3NPCidle applied")
 	check(new_frames.filter(func(a):return a.status=="available_catalog").size()==45,"45 unusedNPCposes explicitlyavailable,notgameplayuses")
 	check(categories.icon==168,"all168 finished icon regions remain manageable")
-	check(db.art_assets.filter(func(a):return a.id.begins_with("art:environment:")).size()==108,"108decorations connected")
+	check(db.art_assets.filter(func(a):return a.id.begins_with("art:environment:") and not a.id.begins_with("art:environment:exploration_v06:")).size()==108,"108decorations connected")
 	check(db.art_assets.filter(func(a):return a.category=="vfx" and a.action=="procedural").size()==18,"18 live proceduralVFXfamilies")
 	start=Time.get_ticks_usec();DB.query("equipment",{"class_id":"warrior"});var cached_query_ms=(Time.get_ticks_usec()-start)/1000.
 	print("ART_REGISTRY_V05 checks=",checks," failures=",failures.size()," assets=",assets.size()," uses=",db.art_uses.size()," categories=",categories," base_snapshot_ms=",base_ms," management_extra_ms=",art_ms," cached_codex_query_ms=",cached_query_ms," costume_decodes=",Costume._sheet_textures.size()-costume_sheets)

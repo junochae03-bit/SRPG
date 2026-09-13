@@ -3,6 +3,8 @@ import re
 
 
 _STANDARD = """
+skill_motions_v06 skill_motions_visual_v06
+
 removed_assets appearance_matching_v04 appearance_v041 audio_shutdown_v04 battle_camera_v04
 character_creation_v04 character_dialogue_ui_v04 client_flow_v051 codex_ui_v03
 costume_session_v04 database_metadata_v05 database_v03 database_v04 dungeon_v02
@@ -33,6 +35,14 @@ town_renewal_visual_v052 town_services_v052 training_ground_v052
 """.split()
 COUNTED_PREFIXES = {name: name.upper() + "_TESTS" for name in _STANDARD}
 COUNTED_PREFIXES.update({name: name.upper() for name in _PLAIN})
+COUNTED_PREFIXES.update({
+    "character_stats_v2": "CHARACTER_STATS_V2",
+    "costume_expanded_v06": "COSTUME_EXPANDED_V06",
+    "skill_atlas_v06": "SKILL_ATLAS_V06",
+    "agent_art_integration_visual": "AGENT_ART_INTEGRATION_VISUAL",
+    "monster_motion_art_v06": "MONSTER_MOTION_ART_V06_DONE",
+    "exploration_object_art_v06": "EXPLORATION_OBJECT_ART_V06_DONE",
+})
 COUNTED_PREFIXES.update({
     "content_names": "CONTENT_NAMES",
     "tree_balance": "TREE_BALANCE",

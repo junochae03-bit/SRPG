@@ -37,7 +37,7 @@ static func step(sim,enemy:Dictionary,threat:Dictionary,speed:float,delta:float)
 		friend.hp+=amount
 		friend["support_received"]=float(friend.get("support_received",0))+float(amount)/friend.max_hp
 		friend["support_lock_until"]=sim.clock+TARGET_LOCK
-		enemy.ability_cd=COOLDOWN;enemy.attack_motion=.35
+		enemy.ability_cd=COOLDOWN;enemy.attack_motion=.35;enemy["attack_motion_kind"]="support"
 		sim.events.append({"type":"skill_fx","fx":"ranger_heal","pos":friend.pos,"dir":Vector2.RIGHT,"owner":0,"duration":.6,"radius":.85})
 		cancel(enemy);return true
 	if enemy.ability_cd>0 or enemy.windup>0:return false

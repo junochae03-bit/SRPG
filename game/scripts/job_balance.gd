@@ -93,7 +93,10 @@ static func profile(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:fl
 	s.power*=1.+gear.force;s.heal*=1.+gear.force;s.regen*=1.+gear.force;s.shield*=1.+gear.force;s.pet_power*=1.+gear.force;s.counter_power*=1.+gear.force
 	n.radius*=1.+gear.reach;n.range*=1.+gear.reach;n.duration*=1.+gear.echo;s.buff*=1.+gear.echo;s.pet_buff*=1.+gear.echo;s.meditate_rate*=1.+gear.echo;s.recall_heal*=1.+gear.echo;s.parry*=1.+gear.echo
 	s.cooldown=maxf(.5,s.cooldown*preload("res://scripts/progression.gd").cooldown_factor(p));s.cost=maxf(5,s.cost)
-	return preload("res://scripts/constellation_effects.gd").resolve(p,node,s,true)
+	s=preload("res://scripts/constellation_effects.gd").resolve(p,node,s,true)
+	s=preload("res://scripts/stat_specialization.gd").apply_job(p,node,s)
+	s.time=preload("res://scripts/progression.gd").cast_time(p,s.time,mode.begins_with("charge") or mode.begins_with("heavy") or preload("res://scripts/stat_specialization.gd").ultimate(node))
+	return s
 static func metrics(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:float)->Array:
 	if node.effect=="upgrade":
 		var context=p.duplicate(true);context.skill_ranks[node.id]=rank

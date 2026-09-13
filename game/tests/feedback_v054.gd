@@ -143,9 +143,9 @@ func run():
 		p.class_id=job;sim.combat.jobs.reset(p);p.skill_ranks={}
 		var before_report=var_to_bytes(p)
 		var report=preload("res://scripts/player_stats.gd").rows(sim,p)
-		check(report.size()==17 and var_to_bytes(p)==before_report,"stat sheet is complete and read only "+job)
+		check(report.size()==20 and var_to_bytes(p)==before_report,"stat sheet is complete and read only "+job)
 		sim.combat.attack(p,false,0)
-		check(report[11][1]=="%.2f초"%p.attack_cd,"displayed attack interval matches real attack "+job)
+		check(report.filter(func(row):return row[0]=="기본 공격 간격")[0][1]=="%.2f초"%p.attack_cd,"displayed attack interval matches real attack "+job)
 		for node in content.SKILLS[job]:
 			if node.get("effect","")!="active":continue
 			p.skill_ranks[node.id]=1

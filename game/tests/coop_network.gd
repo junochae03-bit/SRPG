@@ -59,12 +59,12 @@ func run():
 		check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("expedition_goal")),"other players' goals are omitted from network snapshots")
 		var before_clock=session.state.clock;session.paused=true
 		if not host:
-			var before=int(session.state.players[session.local_id].stats.strength)
-			session.receive_action.rpc_id(1,100,"stat","strength")
-			session.receive_action.rpc_id(1,100,"stat","strength")
+			var before=int(session.state.players[session.local_id].stats.power)
+			session.receive_action.rpc_id(1,100,"stat","power")
+			session.receive_action.rpc_id(1,100,"stat","power")
 			session.sequence=100
 			await create_timer(1.).timeout
-			check(int(session.state.players[session.local_id].stats.strength)==before+1,"duplicate action applied once")
+			check(int(session.state.players[session.local_id].stats.power)==before+1,"duplicate action applied once")
 			check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("inventory") and not other.has("gold")),"private inventory omitted")
 			# An old reliable action response must not undo a newer world snapshot.
 			var revision=session.accepted_revision;var current_clock=session.state.clock
@@ -330,8 +330,8 @@ func run():
 			check(session.act("facility",JSON.stringify({"facility":"shop","operation":"potion","quantity":1})),"purchase immediately before departure")
 			check(session.act("facility",JSON.stringify({"facility":"shop","operation":"mana_potion","quantity":1})),"new potion purchase before departure")
 			check(session.act("power_potion"),"new potion consumption before departure")
-			var endurance=int(session.state.players[session.local_id].stats.endurance)
-			session.act("stat","endurance")
+			var endurance=int(session.state.players[session.local_id].stats.fortitude)
+			session.act("stat","fortitude")
 			if options.get("exit-mode","")=="host":
 				var exit_deadline=Time.get_ticks_msec()+20000
 				while session.connected and Time.get_ticks_msec()<exit_deadline:await create_timer(.1).timeout
@@ -342,7 +342,7 @@ func run():
 					check(not await session.leave_room() and session.connected,"failed disk acknowledgement keeps client in room")
 					session.block_save=false;await create_timer(.2).timeout
 				check(await session.leave_room(),"client leaves after final save acknowledgement")
-			check(int(session.parse_save(session.save_path()).stats.endurance)==endurance+1,"action immediately before departure is durable")
+			check(int(session.parse_save(session.save_path()).stats.fortitude)==endurance+1,"action immediately before departure is durable")
 			var final_save=session.parse_save(session.save_path())
 			check(final_save.expedition_goal.kind=="secret" and final_save.expedition_goal.stage==3,"completed personal rumor survives authoritative departure checkpoint")
 			check(int(final_save.gold)==gold-int(quote.cost)-20 and int(final_save.potions)==potions+1,"purchase immediately before departure is durable")

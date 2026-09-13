@@ -21,14 +21,14 @@ func run():
 	p.class_id="swordsman";sim.combat.jobs.reset(p)
 	var legacy=E.make("sword",0,1,"legacy","focus","swordsman");legacy.affix="none";legacy.upgrade=2
 	E.normalize(legacy,p);check(legacy.affix=="focus","legacy rare empty option receives a working stat")
-	p.inventory=[legacy];p.equipment={"weapon":"legacy"};check(E.stat_values(p).get("strength",0)==3,"legacy unlocked option applies actual stat")
+	p.inventory=[legacy];p.equipment={"weapon":"legacy"};check(E.stat_values(p).get("power",0)==3,"legacy unlocked option applies actual stat")
 	for grade in range(5):
 		p.inventory=[];p.equipment={};p.equipped="";p.bag_positions={};I.initialize(p)
 		var gear=E.make("sword",5,grade,"gear","focus",p.class_id);I.add_gear(p,gear);check(I.equip(p,gear.id),"equip grade "+str(grade))
 		for enhance in range(6):
 			gear.upgrade=enhance;sim.recalculate(p)
 			check(E.active(gear)==(grade>0 and enhance>=E.UNLOCK[grade]),"option lock boundary")
-			if grade in [1,2]:check(p.gear_stats.get("strength",0)==(3*grade+10 if enhance>=E.UNLOCK[grade] else 0),"stat option real contribution")
+			if grade in [1,2]:check(p.gear_stats.get("power",0)==(3*grade+10 if enhance>=E.UNLOCK[grade] else 0),"stat option real contribution")
 			if grade>=3:check(E.skill_modifiers(p).values().any(func(v):return v>0)==(enhance>=E.UNLOCK[grade]),"skill option real contribution")
 		if grade>=3:
 			var capped=preload("res://scripts/service_quote.gd").quote(p,"smith","upgrade",{"item":"gear"})
@@ -46,10 +46,10 @@ func run():
 	var service=preload("res://scripts/town_services.gd")
 	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}),"upgrade +1")
 	check(not E.active(I.find_item(p,"rare")),"+1 remains locked")
-	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}) and p.gear_stats.strength==3,"+2 unlock applies stat")
+	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}) and p.gear_stats.power==3,"+2 unlock applies stat")
 	var local=preload("res://scripts/local_session.gd").new();root.add_child(local);local.sim=sim;local.connected=true;local.slot=3;local.save_directory=ProjectSettings.globalize_path("res://../runtime/equipment-v02");local.save_game()
 	var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==7,"new gear save parsed")
 	if saved!=null:
-		var restored=Sim.new(31,"town");var r=restored.add_player(1,"",saved);check(r.gear_stats.strength==3 and r.equipped=="rare","gear options persist")
+		var restored=Sim.new(31,"town");var r=restored.add_player(1,"",saved);check(r.gear_stats.power==3 and r.equipped=="rare","gear options persist")
 	local.connected=false;local.queue_free()
 	print("EQUIPMENT_V02_TESTS checks=",checks," failures=",failures.size());quit(0 if failures.is_empty() else 1)

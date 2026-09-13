@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-13",
+  "costume_gpu": {
+    "checks": 984,
+    "failures": 0,
+    "entries": 33,
+    "active_player_costumes": 30,
+    "approved_actions": 60,
+    "runtime_frames": 87
+  },
+  "job_gpu": {
+    "checks": 80,
+    "failures": 0,
+    "unique_classes": 19,
+    "reaper_pose2_foot_override_verified": true,
+    "hunter_gallery_headroom_verified": true
+  },
+  "clean_checkout_simulation": "PASS: standard builder only opens30 approved source sheets; review mode requires optional candidate sources",
+  "captures": [
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-0.png",
+      "sha256": "75eed5868820b0716dcd6f6dcab586d6e5305dc2e61a5388beb8de2105dfca4c"
+    },
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-1.png",
+      "sha256": "144d93a1d86510b48352bbac24f62f654c37157f67a8b1bd54d137495298dd25"
+    },
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-2.png",
+      "sha256": "04c1ef89e7311a40d8879335f38a16d76a433f08bac5f781c1bfd08f177b8fa3"
+    },
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-3.png",
+      "sha256": "0160aa89b93943b4b27471382c20363587683f6e8e1b23b10da3dfb9d44e4837"
+    },
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-4.png",
+      "sha256": "46642771abbfd5f3c2f09fa00a811ec7282f2e001877b498baa61f4e47dd8ce7"
+    },
+    {
+      "path": "runtime/costume-expanded-v06/hurt-page-5.png",
+      "sha256": "73bdf7205d7b7b532f21abda6e1a38a4631e49fe4e604e0291eff6208e6bfa20"
+    },
+    {
+      "path": "artifacts/skill-motions-v06-page-0.png",
+      "sha256": "703b5d75d69132a6770a08c44185a08de1a627b9d4d50b934100a5fb62939069"
+    },
+    {
+      "path": "artifacts/skill-motions-v06-page-1.png",
+      "sha256": "c98f576b0d46be855db5e23868f6f07b2b304b3ca15eda71a6b948073fa8c8f4"
+    },
+    {
+      "path": "artifacts/skill-motions-v06-page-2.png",
+      "sha256": "22e694965ebaae601125e5a49aee29fffd83de06cee615acc8e95009ac2179c6"
+    },
+    {
+      "path": "artifacts/skill-motions-v06-page-3.png",
+      "sha256": "ae2aea5aee0a2c4978d58327289fcc0b2ed2d122a9730200d71701bd4324f7d1"
+    }
+  ],
+  "limits": [
+    "Costume move/normal/strong/dodge retain V04 with per-ID reasons; not all989 candidates are approved",
+    "Hat-occluded head crowns for4 jobs are estimates",
+    "Per-pose anatomy differences are preserved; source PNGs unchanged"
+  ]
+}

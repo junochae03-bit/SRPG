@@ -219,11 +219,24 @@ func validate_save(value:Variant)->Variant:
 		spent+=int(rank)
 	if spent>int(value.level)-1:return null
 	if not value.get("stats",{}) is Dictionary or not value.get("skill_loadout",{}) is Dictionary:return null
+	var stat_version=value.get("stat_schema_version",1)
+	if (not stat_version is int and not stat_version is float) or float(stat_version) not in [1.,2.]:return null
+	var stat_keys=preload("res://scripts/progression.gd").NAMES.keys() if int(stat_version)==2 else preload("res://scripts/progression.gd").LEGACY_NAMES.keys() if int(value.schema_version)>=6 else ["strength","dexterity","intelligence","vitality"]
+	if value.has("stat_migration"):
+		var migration=value.stat_migration
+		if not migration is Dictionary or not migration.get("old_stats",{}) is Dictionary:return null
+		if migration.get("from_version",0)!=1:return null
+		migration.from_version=1
+		for old_key in migration.get("old_stats",{}):
+			if old_key not in ["strength","endurance","technique","agility","magic","dexterity","intelligence","vitality"]:return null
+			var old_value=migration.old_stats[old_key]
+			if (not old_value is int and not old_value is float) or not is_finite(float(old_value)) or old_value<0 or old_value>307 or old_value!=floor(old_value):return null
+			migration.old_stats[old_key]=int(old_value)
 	var stats_spent=0
 	for key in value.get("stats",{}):
-		if key not in (preload("res://scripts/progression.gd").NAMES.keys() if int(value.schema_version)>=6 else ["strength","dexterity","intelligence","vitality"]):return null
+		if key not in stat_keys:return null
 		var amount=value.stats[key]
-		if (not amount is float and not amount is int) or amount<0 or amount!=floor(amount):return null
+		if (not amount is float and not amount is int) or not is_finite(float(amount)) or amount<0 or amount!=floor(amount):return null
 		value.stats[key]=int(amount);stats_spent+=int(amount)
 	var creation_points=0
 	if int(value.schema_version)>=7:

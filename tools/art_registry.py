@@ -204,7 +204,7 @@ def validate(data, root):
             assert cache["representation"] == "rgba_gzip" and cache["path"] == ref["path"], "Invalid prepared load file"
             origin = cache["origin"]
             assert origin["source_file_id"] == file["id"] and origin["source"] == file["path"] == ref["source"], "Prepared cache original-file relationship mismatch"
-            assert origin["source_sha256"] == file["sha256"] and origin["key"] == ref["key"] in ("blue", "magenta"), "Prepared cache key/source hash mismatch"
+            assert origin["source_sha256"] == file["sha256"] and origin["key"] == ref["key"] in ("blue", "magenta", "green", "magenta_narrow"), "Prepared cache key/source hash mismatch"
             assert cache["width"] == file["width"]+1 and cache["height"] == file["height"]+1 and origin["rgba_bytes"] == cache["width"]*cache["height"]*4, "Prepared cache dimensions mismatch"
             assert cache["source_id"] in sources and origin["generator_source_id"] in sources and len(cache["sha256"]) == 64 and cache["bytes"] > 0
             assert len(origin["rgba_sha256"]) == 64 and origin["padding"] == [1, 1]
@@ -218,8 +218,8 @@ def validate(data, root):
     floors = {u["target_id"] for u in data["art_uses"] if u["target_table"] == "floors" and assets[u["art_id"]]["category"] == "floor_tile"}
     assert floors == owners["floors"], "Missing live floor material mapping"
     assert len([a for a in assets.values() if a["category"] == "floor_tile"]) == 6
-    assert len([a for a in assets.values() if a["id"].startswith("art:environment:")]) == 108
-    assert len([a for a in assets.values() if a["id"].startswith("art:monster:") and not a["id"].startswith("art:monster:legacy:")]) == 48
+    assert len([a for a in assets.values() if a["id"].startswith("art:environment:") and not a["id"].startswith("art:environment:exploration_v06:")]) == 108
+    assert len([a for a in assets.values() if a["id"].startswith("art:monster:") and not a["id"].startswith(("art:monster:legacy:", "art:monster:motion_v06:"))]) == 48
     for table in ("skills", "constellations"):
         covered = {u["target_id"] for u in data["art_uses"] if u["target_table"] == table and assets[u["art_id"]]["category"] == "icon"}
         assert covered == owners[table], f"Missing actual skill icon mapping: {table}"

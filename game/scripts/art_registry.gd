@@ -53,6 +53,8 @@ func collect(db:Dictionary):
 		if s.get("effect","")!="active":continue
 		var profile=s.ranks[0].profile;var node=profile.get("node",s.node)
 		var event={"skill_id":s.id,"class_id":s.class_id,"skill_mode":node.get("mode",profile.get("mode","")),"fx":s.node.get("fx",s.id)}
+		skill_motion(s,node)
+		skill_atlas(s,event)
 		var family=Vfx.family_for(event)
 		if family.is_empty():continue
 		var id=add("art:vfx:"+family,"vfx",family,"res://scripts/skill_vfx.gd",[],"docs/TEAM_HANDOFF_VFX.md","res://scripts/skill_vfx_catalog.gd",{"representation":"procedural_canvas","palette":Vfx.PALETTES[family]},-1,"procedural")
@@ -62,6 +64,7 @@ func collect(db:Dictionary):
 	for zone in ["town","forest"]:
 		for key in Env.ids(zone,0):environment(key,"runtime",zone,Env.theme(zone,0))
 	for a in db.appearances:
+		monster_motion(a.monster_id,int(a.floor_id),a.role=="raid","appearances",a.id)
 		var variant=World.variant(a.monster_id,a.floor_id,a.role=="raid")
 		if not variant.is_empty():
 			for pose in ["idle","attack"]:
@@ -70,7 +73,9 @@ func collect(db:Dictionary):
 				use(id,"appearances",a.id,"game/scripts/main.gd:draw_actor",{"monster_id":a.monster_id,"floor":a.floor_id,"role":a.role,"theme":entry.theme})
 		else:legacy_monster(a.monster_id,"appearances",a.id,{"floor":a.floor_id,"role":a.role})
 	# Base monsters still appear in the codex and tutorial independently of variants.
-	for m in db.monsters:legacy_monster(m.id,"monsters",m.id,{"base_catalog":true})
+	for m in db.monsters:
+		legacy_monster(m.id,"monsters",m.id,{"base_catalog":true})
+		monster_motion(m.id,0,false,"monsters",m.id)
 	for key in Creatures.FACILITIES:
 		if not Creatures.FACILITIES[key].get("footprint",true):continue
 		var facility=Creatures.FACILITIES[key];var i=int(facility.art);var entry=World.catalog.town;var f=entry.frames[i]
@@ -87,6 +92,8 @@ func collect(db:Dictionary):
 	use(title_id,"runtime","title","game/scripts/title_screen.gd:setup")
 	floor_tiles(db)
 	available_catalog()
+	expanded_costumes(db)
+	exploration_objects()
 	render_cache_metadata()
 	var applied={}
 	for u in uses.values():
@@ -99,6 +106,8 @@ func render_cache_metadata():
 	for a in assets.values():
 		var chroma=""
 		if a.metadata.has("equipment_key"):chroma="magenta"
+		elif a.id.begins_with("art:character:skill_v06:") or a.id.begins_with("art:character:costume_v06:"):chroma="green"
+		elif a.id.begins_with("art:monster:motion_v06:") or a.id.begins_with("art:environment:exploration_v06:"):chroma="magenta_narrow"
 		elif a.id.begins_with("art:character:costume:"):
 			var costume_id=str(a.id).split(":")[3]
 			var e=Costumes.catalog()[costume_id]
@@ -238,7 +247,7 @@ func ui_icons():
 	for key in Creatures.FACILITIES:icon(key,"runtime","town:"+key,"game/scripts/town_panel.gd:refresh")
 	for cls in Content.CLASSES:icon("class_"+cls,"classes",cls,"game/scripts/codex_panel.gd:configure_filters")
 	for slot in Content.SLOTS:icon(slot,"runtime","equipment_slot:"+slot,"game/scripts/inventory_item_ui.gd:_draw")
-	for key in preload("res://scripts/progression.gd").NAMES:icon(Library.canonical(key),"runtime","stat:"+key,"game/scripts/character_sheet_ui.gd:setup")
+	for key in preload("res://scripts/progression.gd").NAMES:icon(Library.canonical(preload("res://scripts/progression.gd").ICONS[key]),"runtime","stat:"+key,"game/scripts/character_sheet_ui.gd:setup")
 	for key in ["enrage","stagger","stagger_check","stagger_broken","stagger_immune"]:icon(key,"runtime","boss_status","game/scripts/boss_hud.gd:draw_stagger")
 
 func available_catalog():
@@ -281,3 +290,59 @@ func tile_mapping(cat:Dictionary,key:String,table:String,target:String):
 		var material_id=mapping[layer];var m=cat.materials[material_id]
 		var id=add("art:floor_tile:"+material_id,"floor_tile",m.get("name",material_id),cat.atlas,m.sample_rect,"game/assets/floor_tiles_v04/catalog.json","res://assets/floor_tiles_v04/catalog.json",{"authored_rect":m.rect,"sample_rect":m.sample_rect},-1,"ground_sample")
 		use(id,table,target,"res://shaders/forest_ground.gdshader",{"layer":layer,"theme":key,"profile":mapping})
+
+func skill_motion(skill:Dictionary,node:Dictionary):
+	var art=preload("res://scripts/skill_motion_art_v06.gd")
+	var row=art.row_for(skill.class_id,node)
+	if row<0:return
+	var key=art.sprite_id(skill.class_id);var entry=art.catalog().sprites[key]
+	for index in range(row*4,row*4+4):
+		var f=entry.frames[index]
+		var id=add("art:character:skill_v06:"+key+":"+str(index),"character",key+" "+f.phase,entry.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md",art.PATH,{"foot":art.foot_for(key,index),"body_height":art.body_height(key),"phase":f.phase,"row":row},index,f.phase)
+		use(id,"skills",skill.id,"game/scripts/skill_motion_art_v06.gd:frame",{"class_id":skill.class_id,"row":row,"selector":"default_only","clock":"actual_cast_release"})
+
+func monster_motion(kind:String,floor_number:int,raid:bool,table:String,target:String):
+	var art=preload("res://scripts/monster_motion_art_v06.gd")
+	var enemy={"kind":kind,"floor":floor_number,"raid":raid}
+	var key=art.species_id(enemy);var entry=art.data().species.get(key,{})
+	if entry.is_empty():return
+	for i in range(4):
+		var f=entry.frames[i]
+		var id=add("art:monster:motion_v06:"+key+":"+str(i),"monster",entry.name_ko,entry.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md",art.CATALOG_PATH,{"foot":f.foot,"body_height":entry.body_height,"species":key},i,f.phase)
+		use(id,table,target,"game/scripts/monster_motion_art_v06.gd:frame",{"monster_id":kind,"floor":floor_number,"raid":raid,"phase":f.phase})
+
+func skill_atlas(skill:Dictionary,event:Dictionary):
+	var art=preload("res://scripts/skill_atlas_v06.gd")
+	for channel in ["event","projectile"]:
+		var binding=art.binding(event,channel)
+		if binding.is_empty():continue
+		var entry=art.data().animations[binding.effect_id]
+		for i in range(entry.frames.size()):
+			var f=entry.frames[i]
+			var id=add("art:vfx:atlas_v06:"+binding.effect_id+":"+str(i),"vfx",entry.name,entry.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md","res://assets/attacks/catalog.json",{"pivot":f.pivot,"runtime_scale":entry.runtime_scale,"max_extent":224},i,"effect")
+			use(id,"skills",skill.id,"game/scripts/skill_atlas_v06.gd:render",binding)
+
+func expanded_costumes(db:Dictionary):
+	var art=preload("res://scripts/costume_expanded_v06.gd")
+	for cls in db.classes:
+		for costume in Content.costume_options(cls.id):
+			var entry=art.catalog().get(costume,{})
+			if entry.is_empty() or entry.role!="player_costume":continue
+			for action in entry.sequences:
+				var sequence=entry.sequences[action]
+				if not sequence.approved:continue
+				for pose in sequence.poses:
+					var f=entry.frames[str(int(pose))]
+					var id=add("art:character:costume_v06:"+costume+":"+str(int(pose)),"character",entry.name,f.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md",art.PATH,{"foot":f.foot,"body_height":f.body_height,"source_facing":f.source_facing},int(pose),action)
+					use(id,"classes",cls.id,"game/scripts/costume_expanded_v06.gd:frame",{"selector":"costume","costume":costume,"action":action})
+
+func exploration_objects():
+	var art=preload("res://scripts/exploration_object_art_v06.gd")
+	for category in art.data().pools:
+		for biome in art.data().pools[category]:
+			for key in art.data().pools[category][biome]:
+				var entry=art.data().objects[key]
+				for state in (["closed","empty"] if category=="cache" else ["available","depleted"]):
+					var f=entry.frames[state]
+					var id=add("art:environment:exploration_v06:"+key+":"+state,"environment",key,entry.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md",art.CATALOG_PATH,{"foot":f.foot,"body_height":entry.body_height},-1,state)
+					use(id,"runtime","exploration:"+category,"game/scripts/exploration_rooms.gd:draw_site",{"biome":biome,"category":category,"personal_claim_state":state})

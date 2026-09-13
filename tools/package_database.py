@@ -19,7 +19,7 @@ out=ROOT/'releases'/VERSION;out.mkdir(parents=True,exist_ok=True)
 archive=out/(prefix+'.zip')
 files={name:source/name for name in ['stelrpg.sqlite','stelrpg-database.json','schema.sql','queries.sql','manifest.json']}
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as package:
-    guides=['GAME_DATABASE.ko.md','ASSET_REGISTRY_V05.ko.md','DB_MANAGEMENT.ko.md','DB_CONTRACT_V052.ko.md','DB_WORLD_RULES_IMPLEMENTATION_V052.ko.md','DB_CONTRACT_V053.ko.md','CHARACTER_BALANCE.ko.md']
+    guides=['GAME_DATABASE.ko.md','ASSET_REGISTRY_V05.ko.md','DB_MANAGEMENT.ko.md','DB_CONTRACT_V052.ko.md','DB_WORLD_RULES_IMPLEMENTATION_V052.ko.md','DB_CONTRACT_V053.ko.md','CHARACTER_BALANCE.ko.md','CHARACTER_STATS_V2.ko.md','AGENT_ART_INTEGRATION.ko.md']
     for name in guides:package.write(ROOT/'docs'/name,prefix+'/'+name)
     for name,path in files.items():package.write(path,prefix+'/database/'+name)
 with zipfile.ZipFile(archive) as package:

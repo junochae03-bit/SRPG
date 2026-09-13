@@ -30,6 +30,7 @@ var enemy_impacts:Dictionary={}
 var actor_visibility=preload("res://scripts/actor_visibility.gd").new()
 var playtest_driver
 var effects: Array = []
+var skill_atlas
 var menu: Control
 var title_backdrop:TextureRect
 var coop_panel:Control
@@ -152,6 +153,7 @@ func _ready():
 	forest.rebuild(dungeon)
 	fog=ColorRect.new();fog.position=Vector2(-800,-450);fog.size=Vector2(3200,1800);fog.z_index=-5;fog.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	fog_material=ShaderMaterial.new();fog_material.shader=preload("res://shaders/dungeon_fog.gdshader");fog.material=fog_material;fog.hide();add_child(fog)
+	skill_atlas=preload("res://scripts/skill_atlas_v06.gd").new();skill_atlas.z_index=-2;add_child(skill_atlas)
 	visible_telegraphs=preload("res://scripts/visible_telegraphs.gd").new();add_child(visible_telegraphs);visible_telegraphs.setup(self)
 	audio_director=preload("res://scripts/audio_director.gd").new()
 	add_child(audio_director)
@@ -677,6 +679,7 @@ func text_at(point: Vector2, value: String, font_size: int, color: Color, center
 	draw_string(fonts, point, value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
 
 func _draw():
+	if skill_atlas!=null:skill_atlas.begin_frame()
 	actor_visibility.begin_frame()
 	monster_aim_frames.clear()
 	hidden_world_labels.clear();visible_world_labels.clear();refresh_world_label_regions()
@@ -809,8 +812,12 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var data:Dictionary
+		var authored=preload("res://scripts/monster_motion_art_v06.gd").frame(p,visual_time)
 		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0 or p.get("support_cast",0)>0)
-		if not themed.is_empty():
+		if not authored.is_empty():
+			data=authored;rendered_monster=authored.art_id;facing=authored.facing
+			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0))))/data.height
+		elif not themed.is_empty():
 			data=themed
 			rendered_monster=themed.art_id
 			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0))))/data.height
@@ -826,7 +833,7 @@ func draw_actor(actor: Dictionary):
 			data=preload("res://scripts/world_art.gd").frame(config.get("art_sheet","enemies"),config.art)
 			size_scale=preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0)))/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
 		frame=data.texture;foot=data.foot
-		if not boss:
+		if not boss and authored.is_empty():
 			var recoil=sin(clampf(p.get("attack_motion",0)/.35,0,1)*PI)
 			var direction=Dungeon.iso(p.attack_pos-p.pos).normalized()
 			pose.offset+=direction*recoil*(-8 if config.ai in ["ranged","healer"] else 10)

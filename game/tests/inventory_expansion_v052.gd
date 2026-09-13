@@ -66,7 +66,7 @@ func run():
 	var names=preload("res://scripts/content_names.gd");var saved_name=names.data.equipment["chest:warrior:1"]
 	names.data.equipment["chest:warrior:1"]="별들의 기억을 잇는 영원의 서약 — 잊힌 왕국의 마력 갑옷"
 	var old=E.make("chest",1,1,"compare-current","focus","warrior");old.upgrade=2
-	var choice=E.make("chest",1,1,"compare-new","fortune","warrior");choice.upgrade=2
+	var choice=E.make("chest",1,1,"compare-new","vigor","warrior");choice.upgrade=2
 	check(I.add_gear(p,old) and I.equip(p,old.id) and I.add_gear(p,choice),"comparison fixture retains worn and candidate armor")
 	check(I.move_item(p,choice.id,Vector2i(9,11),false),"최초 열기에서 선택할 장비를 실제 마지막 칸에 배치")
 	for index in range(65):check(I.add_gear(p,E.make("head",0,0,"client-%d"%index,"none","warrior")),"client expanded item "+str(index))
@@ -100,8 +100,8 @@ func run():
 		var row=bag.comparison_rows[index];check(row[1]==expected[index][0] and row[2]==expected[index][1],"compare uses actual derived stat "+str(row[0]))
 		for label in bag.comparison_values[index]:fitting(label)
 		check(bag.detail_scroll.get_global_rect().encloses(bag.comparison_values[index][0].get_global_rect()),"all five main stats visible before scrolling "+str(index))
-	check(bag.comparison_values[0][3].text.begins_with("▼") and bag.comparison_values[1][3].text.begins_with("▲"),"mixed upgrade shows loss and gain with distinct symbols")
-	check(bag.comparison_values[0][3].get_theme_color("font_color")!=bag.comparison_values[1][3].get_theme_color("font_color"),"gain and loss colors also differ")
+	check(bag.comparison_values[0][3].text.begins_with("▼") and bag.comparison_values[2][3].text.begins_with("▲"),"mixed upgrade shows loss and gain with distinct symbols")
+	check(bag.comparison_values[0][3].get_theme_color("font_color")!=bag.comparison_values[2][3].get_theme_color("font_color"),"gain and loss colors also differ")
 	check(bag.detail_body.text.contains(E.option_text(old)) and bag.detail_body.text.contains(E.option_text(choice)) and bag.detail_body.text.contains(E.restriction_text(choice)),"both option states and actual class restriction remain visible")
 	check(bag.primary.position.y>bag.detail_scroll.get_rect().end.y,"equip action pinned below scrollable comparison")
 	await capture("comparison")

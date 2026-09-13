@@ -17,7 +17,7 @@ const COLORS=[Color("d5ddd8"),Color("5aa8ed"),Color("c58ded"),Color("ecca61"),Co
 const UNLOCK=[0,2,3,4,5]
 const FAMILY_NAMES={"warrior":"전사","mage":"마법사","ranger":"궁수","rogue":"도적","fighter":"격투가"}
 const WEAPON_NAMES={"warrior":"장검","mage":"지팡이","ranger":"사냥활","rogue":"단검","fighter":"너클","tank":"수호검","swordsman":"결투검","runesword":"룬블레이드","summoner":"소환의 홀","elementalist":"원소 지팡이","healer":"치유의 성물","sniper":"저격궁","hunter":"사냥꾼 활","explorer":"탐사궁","thief":"쌍단검","reaper":"사슬낫","gambler":"마력 카드","infighter":"전투 건틀릿","breaker":"파쇄권","martialist":"연무권"}
-const AFFIXES={"none":{"name":"","stat":"none","value":0},"vigor":{"name":"인내의 ","stat":"endurance","value":3},"focus":{"name":"완력의 ","stat":"strength","value":3},"guard":{"name":"숙련의 ","stat":"technique","value":3},"breath":{"name":"신속의 ","stat":"agility","value":3},"fortune":{"name":"마력의 ","stat":"magic","value":3}}
+const AFFIXES={"none":{"name":"","stat":"none","value":0},"vigor":{"name":"인내의 ","stat":"fortitude","value":3},"focus":{"name":"완력의 ","stat":"power","value":3},"guard":{"name":"숙련의 ","stat":"specialization","value":3},"breath":{"name":"신속의 ","stat":"swiftness","value":3},"fortune":{"name":"마력의 ","stat":"power","value":3}}
 const RESONANCE={"force":"스킬 위력·회복·보호막","reach":"스킬 사거리·범위","echo":"스킬 지속시간·지원 효과"}
 static func make(type:String,tier:int,rarity:int,id:String,affix:String="none",job_id:String="warrior")->Dictionary:
 	Content.initialize_jobs();tier=clampi(tier,0,9);rarity=clampi(rarity,0,4)

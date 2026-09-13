@@ -99,6 +99,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:
 		if int(saved.get("schema_version",0))>=7 and saved.has(key):p[key]=saved[key]
 	Content.migrate_skills(p)
+	p["stat_schema_version"]=int(saved.get("stat_schema_version",Progression.STAT_SCHEMA_VERSION))
+	if saved.has("stat_migration"):p["stat_migration"]=saved.stat_migration.duplicate(true)
 	preload("res://scripts/wardrobe.gd").normalize(p,saved)
 	Progression.initialize(p)
 	if int(saved.get("schema_version",0))<3:p.bag_positions={}
@@ -112,6 +114,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["stat_schema_version"]=Progression.STAT_SCHEMA_VERSION
+	if players[id].has("stat_migration"):result["stat_migration"]=players[id].stat_migration.duplicate(true)
 	result["guild_reputation"]=int(players[id].get("guild_reputation",0))
 	result["town_research"]=players[id].get("town_research",{}).duplicate(true)
 	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
@@ -143,8 +147,8 @@ func damage_for(p: Dictionary,kind:String="") -> int:
 func recalculate(p: Dictionary):
 	var old_max=int(p.get("max_hp",120))
 	p["gear_stats"]=preload("res://scripts/equipment_catalog.gd").stat_values(p)
-	p.max_hp=120+(int(p.level)-1)*18+int(Content.skill_bonus(p,"health"))
-	p["defense"]=int(Content.skill_bonus(p,"defense"))+Progression.bonus(p,"endurance")*2
+	p.max_hp=120+(int(p.level)-1)*18+int(Content.skill_bonus(p,"health"))+Progression.health(p)
+	p["defense"]=int(Content.skill_bonus(p,"defense"))+Progression.defense(p)
 	for item in p.inventory:
 		if Inventory.is_equipped(p,item.id) and item.get("category","")=="armor" and preload("res://scripts/equipment_catalog.gd").reason(p,item).is_empty():
 			p.defense+=int(item.bonus)
@@ -478,6 +482,8 @@ func tick(delta: float):
 	combat.skills.tick(delta)
 	tactical.tick()
 	monster_attacks.tick(delta)
+	var previous_enemy_positions={}
+	for id in enemies:previous_enemy_positions[id]=enemies[id].pos
 	for e in enemies.values():
 		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
 		var config = balance.enemies[e.kind]
@@ -511,7 +517,7 @@ func tick(delta: float):
 		if e.windup > 0:
 			e.windup -= delta
 			if e.windup <= 0:
-				e.attack_motion=.35
+				e.attack_motion=.35;e["attack_motion_kind"]="attack"
 				if not e.get("boss",false) or e.get("raid",false):
 					monster_attacks.release(e);e.cooldown=1.7 if e.get("elite",false) else 1.25;continue
 				if e.get("boss",false):
@@ -528,7 +534,7 @@ func tick(delta: float):
 						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
 						p.erase("revive_target");p.erase("revive_progress")
 						p.hp -= received
-						p.hurt_time=.16
+						p.hurt_time=.16*Progression.hurt_duration_factor(p)
 						if config.ai=="spore":p.stamina=maxf(0,p.stamina-12)
 						events.append({"type":"damage","pos":p.pos,"amount":received,"enemy":false,"owner":p.id})
 						if p.hp <= 0:player_defeated(p)
@@ -569,6 +575,9 @@ func tick(delta: float):
 			e.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))
 		if not target.is_empty():preload("res://scripts/enemy_tactics.gd").spread(self,e,move_speed,delta,movement_origin)
 		if config.ai=="charger" and e.ability_cd<=0:e.ability_cd=3.0
+	for id in enemies:
+		var moved:Vector2=enemies[id].pos-previous_enemy_positions.get(id,enemies[id].pos)
+		if moved.length_squared()>.000001:enemies[id]["visual_direction"]=moved.normalized()
 	for key in drops.keys():
 		if drops[key].expires <= clock: drops.erase(key)
 
@@ -592,7 +601,7 @@ func reset_after_defeat(player_id:int):
 		var p=players[player_id]
 		combat.jobs.reset(p);combat.constellation.reset(p)
 		p.merge({"barrier_time":0.,"barrier_strength":0.,"haste_time":0.,"haste_speed":0.,"haste_attack":0.,"regen_fraction":0.,"charge_time":-1.,"dodge_time":0.,"invulnerable":0.,"motion_time":0.,"motion":"idle","hurt_time":0.,"enemy_slow_time":0.,"sprint":false},true)
-		for key in ["casting_vfx","casting_rank","constellation_cast","revive_target","revive_progress"]:p.erase(key)
+		for key in ["casting_vfx","casting_rank","constellation_cast","skill_motion","revive_target","revive_progress"]:p.erase(key)
 	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=player_id)
 	for e in enemies.values():
 		for key in e.get("job_status",{}).keys():

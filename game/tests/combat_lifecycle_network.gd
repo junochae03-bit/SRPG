@@ -85,7 +85,7 @@ func run():
 	await wait_for(func():return session.state.players.size()==5 and not session.state.players.has(departing),"actual disconnected peer removed")
 	check(not session.state.projectiles.any(func(shot):return shot.owner==departing),"departed owner shots removed over ENet")
 	var boss=session.state.enemies.values()[0]
-	if last_survivor:check(boss.hp==boss.max_hp,"last survivor disconnect immediately resets boss")
+	if last_survivor:check(boss.hp==boss.max_hp,"first peer-removal snapshot contains the reset boss")
 	else:
 		check(boss.hp<boss.max_hp,"living engaged party keeps encounter")
 		check(session.state.projectiles.any(func(shot):return shot.owner==1) and not session.state.players[1].job_state.buffs.is_empty(),"remaining owner effects survive peer disconnect")

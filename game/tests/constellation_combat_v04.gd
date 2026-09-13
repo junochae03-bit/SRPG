@@ -18,7 +18,7 @@ func check(ok:bool,label:String):
 func close(a:float,b:float,tolerance:float=.02)->bool:return absf(a-b)<=tolerance
 func fixture(job:String,keys:Array=[],all_routes:bool=false)->Dictionary:
 	var sim=Sim.new(177,"forest",10);sim.enemies.clear()
-	var p=sim.add_player(1,"별자리 전투 검사");p.class_id=job;p.level=99;p.stats={"technique":30};p.skill_ranks={};p.constellation_allocations={};p.skill_loadout={}
+	var p=sim.add_player(1,"별자리 전투 검사");p.class_id=job;p.level=99;p.stats={"specialization":30};p.skill_ranks={};p.constellation_allocations={};p.skill_loadout={}
 	for node in Content.SKILLS[job]:
 		if node.effect=="active":p.skill_ranks[node.id]=1
 	if all_routes:

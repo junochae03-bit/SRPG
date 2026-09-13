@@ -22,6 +22,7 @@ func weapon_type(p:Dictionary)->String:
 	return Inventory.find_item(p,p.equipped).get("weapon_type",Content.CLASSES[p.class_id].weapon)
 
 func initialize(p:Dictionary):
+	p.erase("skill_motion")
 	jobs.reset(p)
 	constellation.reset(p)
 	p.merge({"sprint":false,"dodge_cd":0.0,"dodge_time":0.0,"dodge_dir":Vector2.ZERO,"invulnerable":0.0,"charge_time":-1.0})
@@ -35,7 +36,8 @@ func tick_player(p:Dictionary,delta:float):
 	constellation.tick_player(p,delta)
 	jobs.tick(p,delta)
 	for key in ["dodge_cd","dodge_time","invulnerable","skill_f_cd","skill_v_cd","skill_c_cd","motion_time","hurt_time"]:p[key]=maxf(0,p[key]-delta)
-	if p.motion_time<=0 or p.dodge_time>0 or p.hurt_time>0 or p.get("down_time",0)>0:p.motion_aim_motion=""
+	if p.motion_time<=0 or p.dodge_time>0 or p.hurt_time>0 or p.get("down_time",0)>0:
+		p.motion_aim_motion="";p.erase("skill_motion")
 	for key in ["barrier_time","haste_time","combat_time","enemy_slow_time"]:p[key]=maxf(0,p[key]-delta)
 	for key in p.skill_cooldowns:p.skill_cooldowns[key]=maxf(0,p.skill_cooldowns[key]-delta)
 	for action in Content.ACTIONS:p[action+"_cd"]=p.skill_cooldowns.get(Content.active_node(p,action).get("id",""),0)
@@ -138,6 +140,7 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	if heavy:p.motion="slam" if type in ["sword","axe"] else "cast_high" if type=="staff" else "shoot_high"
 	# Basic attacks resolve immediately. Show their contact pose immediately;
 	# releasing a charged attack must not restart its already-shown windup.
+	p.erase("skill_motion")
 	p.motion_duration=0.5 if heavy else 0.46
 	p.motion_time=p.motion_duration*.48
 	p.motion_aim=p.aim;p.motion_aim_motion=p.motion;p.motion_aim_duration=p.motion_duration
@@ -177,10 +180,10 @@ func hit(p:Dictionary,e:Dictionary,amount:int,source:Variant=null,attribution:Va
 	if e.kind=="sentinel" and e.windup<=0:amount=maxi(1,roundi(amount*.70))
 	if float(e.hp)/e.max_hp<.3:amount=roundi(amount*(1+Content.skill_bonus(p,"execute")))
 	if e.kind in ["warden","golem","sentinel"] or e.get("elite",false):amount=roundi(amount*(1+Content.skill_bonus(p,"elite_damage")))
-	var critical=Content.skill_bonus(p,"critical")
+	var critical=preload("res://scripts/combat_stats.gd").critical(p,jobs)
 	var hit_details={"critical":false}
-	if critical>0 and sim.rng.randf()<minf(.65,critical):
-		amount=roundi(amount*(1.5+Content.skill_bonus(p,"critical_damage")));hit_details.critical=true
+	if critical.chance>0 and sim.rng.randf()<critical.chance:
+		amount=roundi(amount*critical.maximum);hit_details.critical=true
 	p.hp=mini(p.max_hp,p.hp+floori(amount*Content.skill_bonus(p,"lifesteal")))
 	amount=jobs.outgoing(p,e,amount,hit_details)
 	if e.get("stagger",{}).get("state","")=="down":amount=roundi(amount*BossStagger.DOWN_DAMAGE)
@@ -208,10 +211,11 @@ func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="st
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
 	if direction.length()<0.1:direction=Vector2.RIGHT
-	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context,"visual_start":p.pos,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,direction)})
+	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"age":0.,"lifetime":distance/speed if speed>0 else 0.,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context,"visual_start":p.pos,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,direction)})
 
 func tick_projectiles(delta:float):
 	for shot in projectiles:
+		shot["age"]=float(shot.get("age",0))+delta
 		var origin:Vector2=shot.pos
 		var step:Vector2=shot.dir*minf(shot.remaining,shot.speed*delta)
 		var next=origin+step
@@ -230,7 +234,8 @@ func tick_projectiles(delta:float):
 			var impact:Vector2=e.pos
 			# 거절된 표적은 투사체를 막거나 관통 횟수를 쓰지 않는다.
 			# 폭발도 유효한 주 표적이 있을 때만 발생하며 주 표적은 한 번 맞는다.
-			var accepted=hit(p,e,shot.amount,impact if shot.splash>0 else origin,shot.get("stagger",{}))
+			var shot_amount=roundi(shot.amount*preload("res://scripts/stat_specialization.gd").execute_factor(p,{"mode":shot.get("skill_mode","")},e))
+			var accepted=hit(p,e,shot_amount,impact if shot.splash>0 else origin,shot.get("stagger",{}))
 			if not accepted:continue
 			if shot.splash>0:area(p,impact,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}),[e.id])
 			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.,shot.get("stagger",{}))

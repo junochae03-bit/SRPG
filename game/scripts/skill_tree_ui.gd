@@ -135,9 +135,9 @@ func setup(owner_game):
 	stats_panel=Art.panel(self,Vector2(29,149),Vector2(1054,685),"paper",24);stats_text=game.label(stats_panel,"",Vector2(54,48),Vector2(966,74),25)
 	var index=0
 	for key in Progression.NAMES:
-		Library.picture(stats_panel,"intelligence" if key=="magic" else key,Vector2(31,143+index*92),Vector2(28,28));game.label(stats_panel,Progression.NAMES[key],Vector2(74,140+index*92),Vector2(70,34),25)
-		game.label(stats_panel,Progression.HELP[key],Vector2(150,142+index*92),Vector2(575,60),18).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		stat_buttons[key]=game.button(stats_panel,"+1",Vector2(846,135+index*92),Vector2(155,48),func():game.session.act("stat",key);refresh(true));Library.attach(stat_buttons[key],"stat_points",22);index+=1
+		Library.picture(stats_panel,Progression.ICONS[key],Vector2(31,143+index*82),Vector2(28,28));game.label(stats_panel,Progression.NAMES[key],Vector2(74,140+index*82),Vector2(70,34),25)
+		game.label(stats_panel,Progression.HELP[key],Vector2(150,142+index*82),Vector2(575,60),18).autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		stat_buttons[key]=game.button(stats_panel,"+1",Vector2(846,135+index*82),Vector2(155,48),func():game.session.act("stat",key);refresh(true));Library.attach(stat_buttons[key],"stat_points",22);index+=1
 	class_panel=Art.panel(self,Vector2(29,149),Vector2(1054,685),"paper",24);game.label(class_panel,"새로운 전투 방식",Vector2(54,48),Vector2(760,45),29)
 	class_picker=picker(class_panel,Vector2(54,112),Vector2(397,47))
 	for key in Content.CLASSES:class_picker.add_item(Content.CLASSES[key].name);class_picker.set_item_metadata(class_picker.item_count-1,key)
@@ -471,10 +471,12 @@ func refresh_impact():
 		value.add_theme_font_size_override("font_size",pixels)
 
 func show_stats(p:Dictionary):
-	stats_text.text="사용 가능한 능력치 %d\n힘 %d · 내구 %d · 기술 %d · 민첩 %d · 마력 %d"%[Progression.available(p),Progression.bonus(p,"strength"),Progression.bonus(p,"endurance"),Progression.bonus(p,"technique"),Progression.bonus(p,"agility"),Progression.bonus(p,"magic")]
+	var values=PackedStringArray()
+	for key in Progression.NAMES:values.append("%s %d"%[Progression.NAMES[key],Progression.bonus(p,key)])
+	stats_text.text="사용 가능한 능력치 %d\n%s"%[Progression.available(p)," · ".join(values)]
 	for key in stat_buttons:stat_buttons[key].disabled=Progression.available(p)<=0
 	selected.text="모험가의 성장";selected_icon.texture=Library.texture("stat_points");status.text="레벨마다 능력치 +3 / 스킬 +1";description.text="배분한 능력치와 개방된 장비 옵션을 합산합니다."
-	var rows=[["물리 / 마법 공격","%d / %d"%[game.session.sim.damage_for(p,"physical"),game.session.sim.damage_for(p,"magic")]],["물리 / 마법 방어","%d / %d"%[p.defense,p.magic_defense]],["받는 피해 감소","%.1f%%"%(Progression.mitigation(p)*100)],["스킬 재사용 감소","%.1f%%"%((1-Progression.cooldown_factor(p))*100)],["스킬 무력화 피해","+%.1f%%"%((Stagger.skill_profile({},1,p).multiplier-1)*100)],["공격 / 이동 속도","+%.1f%% / +%.1f%%"%[(Progression.attack_speed(p)-1)*100,(Progression.move_speed(p)-1)*100]],["최대 생명력",str(p.max_hp)]]
+	var rows=preload("res://scripts/player_stats.gd").rows(game.session.sim,p)
 	var parts=PackedStringArray()
 	for row in rows:parts.append("%s  [b]%s[/b]"%[row[0],row[1]])
 	detail_body.text="\n".join(parts);detail_body.size.x=DETAIL_WIDTH;comparison.custom_minimum_size.y=maxf(239,detail_body.get_content_height()+12);clear(prerequisites);invest.text="능력치 배분";invest.disabled=true

@@ -56,16 +56,16 @@ func setup(owner_game):
 	game.label(self,"초기 능력치",Vector2(909,162),Vector2(224,31),22)
 	balance_label=game.label(self,"",Vector2(1143,168),Vector2(170,24),18);balance_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 	for i in range(Stats.NAMES.size()):
-		var key=Stats.NAMES.keys()[i];var y=224+i*62
+		var key=Stats.NAMES.keys()[i];var y=218+i*56
 		game.label(self,Stats.NAMES[key],Vector2(896,y),Vector2(81,28),21)
-		var note=game.label(self,{"strength":"물리 공격","endurance":"물리 · 마법 방어","technique":"재사용 · 무력화","agility":"이동 · 공격 속도","magic":"마법 공격"}[key],Vector2(896,y+28),Vector2(229,23),14,game.MUTED)
+		var note=game.label(self,Stats.SHORT_HELP[key],Vector2(896,y+28),Vector2(229,23),14,game.MUTED)
 		note.tooltip_text=Stats.HELP[key];note.mouse_filter=Control.MOUSE_FILTER_PASS
 		stat_minus[key]=game.button(self,"−",Vector2(1147,y),Vector2(42,39),func():change_stat(key,-1))
 		stat_labels[key]=game.label(self,"0",Vector2(1197,y+4),Vector2(67,30),22);stat_labels[key].horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 		stat_plus[key]=game.button(self,"+",Vector2(1271,y),Vector2(42,39),func():change_stat(key,1))
-	game.button(self,"직업 추천",Vector2(909,554),Vector2(190,40),func():sheet.stats=Creation.suggested(sheet.class_id);refresh())
-	game.button(self,"초기화",Vector2(1120,554),Vector2(190,40),func():sheet.stats={};refresh())
-	derived_label=game.label(self,"",Vector2(909,615),Vector2(400,113),18);derived_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	game.button(self,"직업 추천",Vector2(909,566),Vector2(190,40),func():sheet.stats=Creation.suggested(sheet.class_id);refresh())
+	game.button(self,"초기화",Vector2(1120,566),Vector2(190,40),func():sheet.stats={};refresh())
+	derived_label=game.label(self,"",Vector2(909,615),Vector2(400,126),16);derived_label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	error_label=game.label(self,"",Vector2(52,784),Vector2(1041,32),18,Color("8c4239"))
 	create_button=game.button(self,"모험 시작",Vector2(1147,779),Vector2(209,47),submit,true)
 	avatar_keys=Content.avatar_options("warrior")
@@ -95,7 +95,7 @@ func refresh():
 	for key in job_buttons:job_buttons[key].text=("◆  " if sheet.class_id==key else "")+Content.CLASSES[key].name
 	class_description.text=Creation.DESCRIPTIONS[sheet.class_id]
 	var p={"class_id":sheet.class_id,"stats":sheet.stats,"level":1}
-	derived_label.text="물리 공격력 %d    마법 공격력 %d\n물리 · 마법 방어력 %d\n공격 속도 +%.1f%%    이동 속도 +%.1f%%\n재사용 시간 −%.1f%%"%[22+Stats.damage(p,"sword"),22+Stats.damage(p,"staff"),Stats.bonus(p,"endurance")*2+6,(Stats.attack_speed(p)-1)*100,(Stats.move_speed(p)-1)*100,(1-Stats.cooldown_factor(p))*100]
+	derived_label.text="능력치 추가 공격 +%d / 추가 생명력 +%d\n추가 방어 +%d / 치명 확률 +%.1f%%p\n공격·이동·시전 속도 +%.1f / %.1f / %.1f%%\n%s"%[Stats.damage(p,"sword"),Stats.health(p),Stats.defense(p),Stats.critical_chance(p,0)*100,(Stats.attack_speed(p)-1)*100,(Stats.move_speed(p)-1)*100,(Stats.cast_speed(p)-1)*100,preload("res://scripts/stat_specialization.gd").description(p)]
 	create_button.disabled=not Creation.reason(sheet).is_empty()
 	error_label.text=Creation.reason(sheet) if not sheet.name.is_empty() or spent()!=Creation.POINTS else ""
 func refresh_avatars():

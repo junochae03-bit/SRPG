@@ -16,6 +16,9 @@ static func prepare(game):
 	# Moving a capture fixture is permitted only for an explicitly isolated save.
 	if not game.session.connected or not game.options.has("save-dir"):return
 	var sim=game.session.sim
+	if sim.map.floor_number>0 and game.options.has("capture") and game.options.get("capture-view","") in ["encounter","raid"]:
+		prepare_dungeon_capture(game)
+		return
 	if sim.map.zone!="town":return
 	var p=sim.players[game.session.local_id]
 	var relocated=false
@@ -43,6 +46,24 @@ static func prepare(game):
 		game.smooth_positions.clear();game.update_battle_camera(p,0.,true);game.forest.update_camera(0.)
 		game.queue_redraw();game.map_overlay.queue_redraw()
 
+static func prepare_dungeon_capture(game):
+	# This isolated artwork fixture moves the observer, never disables sight.
+	# Camera-only captures cannot see a distant room under ordinary fog of war.
+	if game.session.network_role!="offline":return
+	var sim=game.session.sim;var p=sim.players[game.session.local_id]
+	var goal=Vector2(sim.map.rooms[1]) if sim.map.rooms.size()>1 else sim.map.spawn
+	if game.options.get("capture-view","")=="raid":
+		var bosses=sim.enemies.values().filter(func(e):return e.get("raid",false) and e.hp>0)
+		if bosses.is_empty():return
+		goal=bosses[0].pos+Vector2(2.2,2.2)
+	for offset in [Vector2.ZERO,Vector2(1,0),Vector2(-1,0),Vector2(0,1),Vector2(0,-1)]:
+		if not sim.map.walkable(goal+offset):continue
+		game.set_meta("export_dungeon_capture",{"from":p.pos,"to":goal+offset,"view":game.options["capture-view"],"ordinary_sight":true})
+		p.pos=goal+offset;p.dir=Vector2.ZERO;game.session.refresh();game.refresh_vision()
+		game.smooth_positions.clear();game.update_battle_camera(p,0.,true);game.forest.update_camera(0.)
+		game.queue_redraw();game.map_overlay.queue_redraw()
+		return
+
 static func packed_files(path:String)->Array:
 	var result=[]
 	if not DirAccess.dir_exists_absolute(path):return result
@@ -51,10 +72,10 @@ static func packed_files(path:String)->Array:
 	return result
 
 static func evidence(game)->Dictionary:
-	var result={"settings":{"visible":game.settings_panel.is_visible_in_tree(),"page":game.settings_panel.selected_page,"pages":game.settings_panel.pages.keys(),"keys_button":game.settings_panel.key_button.text,"keyboard":game.help_panel.is_visible_in_tree(),"keyboard_returns_to_settings":game.help_panel.return_panel==game.settings_panel},"inventory":{"visible":game.bag.is_visible_in_tree(),"capacity":Inventory.CAPACITY,"capacity_label":game.bag.capacity.text,"grid_size":[Inventory.WIDTH,Inventory.HEIGHT],"scroll":game.bag.grid_scroll.scroll_vertical,"comparison_visible":game.bag.comparison_panel.is_visible_in_tree(),"selected":game.bag.comparison_selected_id,"equipped":game.bag.comparison_current_id,"rows":game.bag.comparison_rows.duplicate(true),"current_name":game.bag.comparison_current_name.text},"facility":{"visible":game.town_panel.is_visible_in_tree(),"id":game.town_panel.facility},"packed_resources":{},"excluded_packs":{}}
+	var result={"settings":{"visible":game.settings_panel.is_visible_in_tree(),"page":game.settings_panel.selected_page,"pages":game.settings_panel.pages.keys(),"keys_button":game.settings_panel.key_button.text,"keyboard":game.help_panel.is_visible_in_tree(),"keyboard_returns_to_settings":game.help_panel.return_panel==game.settings_panel},"inventory":{"visible":game.bag.is_visible_in_tree(),"capacity":Inventory.CAPACITY,"capacity_label":game.bag.capacity.text,"grid_size":[Inventory.WIDTH,Inventory.HEIGHT],"scroll":game.bag.grid_scroll.scroll_vertical,"comparison_visible":game.bag.comparison_panel.is_visible_in_tree(),"selected":game.bag.comparison_selected_id,"equipped":game.bag.comparison_current_id,"rows":game.bag.comparison_rows.duplicate(true),"current_name":game.bag.comparison_current_name.text},"facility":{"visible":game.town_panel.is_visible_in_tree(),"id":game.town_panel.facility},"packed_resources":{},"excluded_packs":{},"dungeon_capture":game.get_meta("export_dungeon_capture",{})}
 	for path in [TrainingArt.SOURCE,"res://scripts/training_ground.gd","res://scripts/skill_reach.gd","res://scripts/monster_aim.gd","res://scripts/settings_panel.gd","res://scripts/town_operations.gd"]:
 		result.packed_resources[path]=ResourceLoader.exists(path)
-	for path in ["res://assets/costume_v06","res://assets/skill_motions_v06"]:result.excluded_packs[path]=packed_files(path)
+	for path in ["res://assets/costume_v06","res://assets/skill_motions_v06","res://assets/monster_motions_v06","res://assets/exploration_objects_v06"]:result.excluded_packs[path]=packed_files(path).filter(func(file):return file.ends_with(".png") or file.ends_with(".ctex") or file.ends_with(".png.remap"))
 	if not game.session.connected:return result
 	var sim=game.session.sim;var p=sim.players[game.session.local_id]
 	result["persistent"]=sim.persistent(p.id)

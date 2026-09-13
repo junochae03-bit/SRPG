@@ -120,7 +120,9 @@ func run():
 		check(game.bag.portrait.texture==Gat.frame(p,0.).texture and game.bag.portrait.material==Gat.material(),id+" bag consumes selected RGBA frame and shared material")
 		var frame=Gat.frame(p,0.)
 		check(TextureContract.hud_crop_matches(frame.texture,game.hud.portrait,game.hud.portrait_source_rect) and Rect2(Vector2(36,37)+game.hud.profile_offset,Vector2(72,72)).encloses(game.hud.portrait_rect()),id+" HUD consumes selected sheet with matching crop coordinates and full head fit")
-		check(TextureContract.same_anchor(frame,Costumes.frame(p,0.)),id+" costume preserves original source foot anchor")
+		var authored=preload("res://scripts/costume_expanded_v06.gd").frame(p,0.)
+		if authored.is_empty():authored=Costumes.frame(p,0.)
+		check(TextureContract.same_anchor(frame,authored),id+" costume preserves current authored foot anchor")
 		registered.append(id)
 		check(logical_viewport().encloses(canvas_rect(game.bag.costume_picker)),id+" selected costume control stays inside viewport")
 		var picker=game.bag.costume_picker

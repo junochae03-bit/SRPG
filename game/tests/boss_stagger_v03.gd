@@ -11,7 +11,7 @@ func check(ok:bool,label:String):
 func close(a:float,b:float)->bool:return absf(a-b)<.015
 func fixture(job:String="warrior")->Dictionary:
 	var sim=Sim.new(177,"forest",10);sim.enemies.clear()
-	var p=sim.add_player(1,"무력화 검사");p.class_id=job;p.level=100;p.stats={"technique":0};p.skill_ranks={};p.skill_loadout={}
+	var p=sim.add_player(1,"무력화 검사");p.class_id=job;p.level=100;p.stats={"specialization":0};p.skill_ranks={};p.skill_loadout={}
 	for n in Content.SKILLS[job]:
 		if n.effect=="active":p.skill_ranks[n.id]=1
 	sim.recalculate(p);sim.combat.jobs.reset(p);p.stamina=10000;p.max_stamina=10000
@@ -38,9 +38,9 @@ func total(f:Dictionary)->float:
 func run():
 	Content.initialize_jobs()
 	var node=node_for("breaker","charge")
-	var a=Stagger.skill_profile(node,1);var b=Stagger.skill_profile(node,3,{"stats":{"technique":30},"gear_stats":{"technique":30}})
-	check(a.value>0 and b.base>a.base and close(b.multiplier,1.30),"rank and total TECH including gear improve distinct stagger")
-	check(close(b.value,b.base*1.3),"shared profile exact TECH formula")
+	var a=Stagger.skill_profile(node,1);var b=Stagger.skill_profile(node,3,{"class_id":"tank","stats":{"specialization":30},"gear_stats":{"specialization":30}})
+	check(a.value>0 and b.base>a.base and close(b.multiplier,1.125),"rank and tank specialization including gear improve distinct stagger")
+	check(close(b.value,b.base*1.125),"shared profile exact tank specialization formula")
 	check(Stagger.skill_profile(node,0).value==0,"unlearned skill has no stagger")
 	for job in Content.CLASSES:
 		var rejected=fixture(job);var player=rejected.p;var battle=rejected.sim.combat
@@ -62,7 +62,7 @@ func run():
 			elif job in ["warrior","ranger","mage"]:check(first.mode==preload("res://scripts/skill_scaling.gd").profile(n,1).mode,"legacy mode matches actual skill dispatcher "+n.id)
 	var f=fixture();var p=f.p;var e=f.e;var sim=f.sim
 	check(sim.action(1,"attack") and close(total(f),7.),"real basic hit contributes seven")
-	p.attack_cd=0;p.stats.technique=999;check(sim.action(1,"attack") and close(total(f),14.),"TECH never amplifies basic")
+	p.attack_cd=0;p.stats.specialization=999;check(sim.action(1,"attack") and close(total(f),14.),"TECH never amplifies basic")
 	p.attack_cd=0;check(sim.action(1,"heavy_begin"),"heavy charge begins");p.charge_time=.9
 	check(sim.action(1,"heavy") and close(total(f),34.),"full heavy contributes twenty independently")
 	p.attack_cd=0;p.aim=Vector2.LEFT;sim.action(1,"attack");check(close(total(f),34.),"swing miss earns no stagger")
@@ -78,7 +78,7 @@ func run():
 		check(f.sim.combat.stagger_context.is_empty(),"synchronous cast scope restored "+str(pair))
 	f=fixture("sniper");node=node_for("sniper","shot");f.e.pos=f.p.pos+Vector2(4,0);var expected=Stagger.skill_profile(node,1,f.p).value
 	check(cast(f,node) and close(total(f),0.),"projectile cast does not stagger before impact")
-	f.p.stats.technique=900;advance(f,3.)
+	f.p.stats.specialization=900;advance(f,3.)
 	check(close(total(f),expected),"projectile actual impact retains cast TECH snapshot")
 	f=fixture("sniper");node=node_for("sniper","shot");f.p.aim=Vector2.LEFT
 	check(cast(f,node),"miss projectile cast accepted");advance(f,2.,Vector2.LEFT);check(close(total(f),0.),"miss projectile gives zero")
@@ -87,7 +87,7 @@ func run():
 	advance(f,1.);check(close(total(f),Stagger.skill_profile(node,1,f.p).value),"legacy nova alias retains real learned skill attribution")
 	f=fixture("breaker");node=node_for("breaker","charge");expected=Stagger.skill_profile(node,5,f.p).value
 	check(Content.max_rank(node)==5 and cast(f,node,5),"rank five charge dispatch")
-	f.p.stats.technique=999;f.p.gear_stats.technique=999;advance(f,6.)
+	f.p.stats.specialization=999;f.p.gear_stats.specialization=999;advance(f,6.)
 	check(close(total(f),expected),"rank five cast snapshot matches shared UI and DB value before later stat changes")
 	f=fixture("summoner");node=node_for("summoner","summon");expected=Stagger.skill_profile(node,1,f.p).value
 	check(cast(f,node),"summon real cast");advance(f,8.)

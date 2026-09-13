@@ -4,7 +4,7 @@ const Progression=preload("res://scripts/progression.gd")
 const POINTS=10
 const CLASSES=["warrior","ranger","mage","rogue","fighter"]
 const DESCRIPTIONS={"warrior":"검과 강인한 방어로\n전선을 지키는 근접 전사", "ranger":"활과 기동력으로\n거리를 벌리는 원거리 사수", "mage":"범위 마법과 제어로\n전장을 다루는 마법사", "rogue":"날렵한 단검과 교란으로\n빈틈을 노리는 도적", "fighter":"권격과 돌진으로\n적을 몰아붙이는 격투가"}
-const PRESETS={"warrior":[4,3,1,2,0],"ranger":[4,1,1,4,0],"mage":[0,2,2,1,5],"rogue":[4,1,2,3,0],"fighter":[4,3,1,2,0]}
+const PRESETS={"warrior":[4,2,2,1,0,1],"ranger":[4,1,0,3,1,1],"mage":[4,1,1,1,0,3],"rogue":[3,1,0,3,2,1],"fighter":[3,2,1,3,0,1]}
 static func suggested(class_id:String)->Dictionary:
 	var result={};var keys=Progression.NAMES.keys();var values=PRESETS.get(class_id,PRESETS.warrior)
 	for i in range(keys.size()):result[keys[i]]=values[i]
@@ -35,4 +35,4 @@ static func player_data(sheet:Dictionary)->Dictionary:
 	for type in ["sword","head","chest","feet"]:
 		var item=preload("res://scripts/equipment_catalog.gd").make(type,0,0,"starter-"+type,"none",sheet.class_id)
 		inventory.append(item);equipment[item.slot]=item.id
-	return {"schema_version":7,"skill_build_version":2,"constellation_allocations":{},"creation_points":POINTS,"name":sheet.name.strip_edges(),"class_id":sheet.class_id,"avatar":"auto","costume":"none","owned_appearances":[],"stats":stats,"tutorial_done":false,"inventory":inventory,"equipment":equipment,"equipped":equipment.weapon,"training_given":true}
+	return {"schema_version":7,"stat_schema_version":Progression.STAT_SCHEMA_VERSION,"skill_build_version":2,"constellation_allocations":{},"creation_points":POINTS,"name":sheet.name.strip_edges(),"class_id":sheet.class_id,"avatar":"auto","costume":"none","owned_appearances":[],"stats":stats,"tutorial_done":false,"inventory":inventory,"equipment":equipment,"equipped":equipment.weapon,"training_given":true}

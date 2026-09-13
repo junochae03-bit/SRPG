@@ -29,6 +29,7 @@ func _initialize():
 			var ratio=float(ally.hp-before)/ally.max_hp
 			check(ratio>.07 and ratio<=.081,"scaled healing meaningful B%d party%d"%[depth,count])
 			check(healer.ability_cd>5. and not healer.has("support_cast"),"cooldown only follows completed cast")
+			check(healer.get("attack_motion_kind","")=="support" and preload("res://scripts/monster_motion_art_v06.gd").pose_index(healer)==0,"healing release never displays an offensive strike")
 			advance(sim,40.)
 			check(float(ally.hp-before)/ally.max_hp<=.241 and float(ally.get("support_received",0))>.21,"per-recipient budget stops indefinite healing")
 	var sim=fixture();var healer=sim.enemies[1];var ally=sim.enemies[2];var before=ally.hp

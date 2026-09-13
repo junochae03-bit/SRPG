@@ -124,7 +124,7 @@ func run():
 	tree.show_branch(0);tree.search.text=R.definition("breaker:star:4:key").name;tree.apply_search();check(tree.graph.scope_cluster==2 and tree.nodes[tree.choice].visible,"cross-branch search reveals matching choice")
 	tree.search.text="존재하지않는별자리_xyz";tree.apply_search();check("조건에 맞는" in tree.notice.text,"empty search state")
 	tree.search.text="";tree.tag_filter="행동 변화";tree.refresh(true);check(tree.node_list.filter(func(n):return tree.matches(n,p)).size()==5,"tag filter finds five keystones")
-	tree.tag_filter="";tree.change_mode("stats");check(tree.stats_panel.visible and tree.stat_buttons.size()==5 and not tree.graph.visible,"five stats preserved");await capture("stats")
+	tree.tag_filter="";tree.change_mode("stats");check(tree.stats_panel.visible and tree.stat_buttons.size()==6 and not tree.graph.visible,"six stats displayed");await capture("stats")
 	tree.change_mode("class");var original_class=p.class_id;tree.class_picker.select(C.CLASSES.keys().find("ranger"));tree.class_picker.item_selected.emit(tree.class_picker.selected)
 	game.dungeon.zone="forest";tree.refresh_class();check(tree.class_commit.disabled,"forest safe area cannot bypass town-only class change");game.dungeon.zone="town";tree.refresh_class()
 	check(p.class_id==original_class and tree.class_commit.disabled==false,"class preview requires explicit commit");await capture("class");tree.class_commit.pressed.emit();check(p.class_id=="ranger","class commit works")

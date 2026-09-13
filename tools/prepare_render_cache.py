@@ -23,13 +23,45 @@ def sources():
             entries[path+'|'+key]=(path,key)
     equipment=json.loads((GAME/'assets/equipment/items.json').read_text('utf8'))
     for item in equipment['items'].values():entries[item['sheet']+'|magenta']=(item['sheet'],'magenta')
+    motions=json.loads((GAME/"assets/skill_motions_v06/catalog.json").read_text("utf8"))
+    for item in motions["sprites"].values():
+        entries[item["sheet"]+"|green"]=(item["sheet"],"green")
+    costumes_v06=json.loads((GAME/"assets/costume_v06/runtime.json").read_text("utf8"))
+    for item in costumes_v06["entries"].values():
+        for frame in item["frames"].values():
+            path=frame["sheet"]
+            entries[path+"|green"]=(path,"green")
+    monsters=json.loads((GAME/"assets/monster_motions_v06/catalog.json").read_text("utf8"))
+    for path in monsters["sheets"]:
+        entries[path+"|magenta_narrow"]=(path,"magenta_narrow")
+    objects=json.loads((GAME/"assets/exploration_objects_v06/catalog.json").read_text("utf8"))
+    for path in objects["sheets"]:
+        entries[path+"|magenta_narrow"]=(path,"magenta_narrow")
     return entries
 
 def prepared_bytes(path,key):
     with Image.open(path) as image: rgba=np.array(image.convert('RGBA'),copy=True)
     r,g,b=rgba[:,:,0],rgba[:,:,1],rgba[:,:,2]
     mask=((r<=63)&(g<=63)&(b>=166)) if key=='blue' else ((r>=166)&(b>=166)&(g<=89))
-    rgba[:,:,3][mask]=0
+    if key=="green":mask=(g>=166)&(r<=89)&(b<=89)
+    if key=="magenta_narrow":
+        distance=np.maximum(np.maximum(255-r,g),255-b).astype(np.float64)
+        t=np.clip((distance-38.25)/12.75,0,1)
+        rgba[:,:,3]=np.floor(rgba[:,:,3]*t*t*(3-2*t)+.5).astype(np.uint8)
+    else:rgba[:,:,3][mask]=0
+    if key=="green":
+        # Only unmix an outline pixel touching removed background. Mint hair
+        # and green clothes inside the silhouette are not globally desaturated.
+        clear=rgba[:,:,3]==0
+        edge=np.zeros(clear.shape,dtype=bool)
+        edge[1:]|=clear[:-1];edge[:-1]|=clear[1:]
+        edge[:,1:]|=clear[:,:-1];edge[:,:-1]|=clear[:,1:]
+        rgb=rgba[:,:,:3].astype(np.float64)
+        mix=np.clip((rgb[:,:,1]-np.maximum(rgb[:,:,0],rgb[:,:,2]))/255.,0,.85)*edge
+        coverage=1-mix
+        rgb[:,:,1]-=255*mix
+        rgba[:,:,:3]=np.floor(np.clip(rgb/coverage[:,:,None],0,255)+.5).astype(np.uint8)
+        rgba[:,:,3]=np.floor(rgba[:,:,3]*coverage+.5).astype(np.uint8)
     h,w=rgba.shape[:2]
     padded=np.zeros((h+1,w+1,4),dtype=np.uint8)
     # Godot Color.TRANSPARENT is transparent white; match padding RGB as well.
@@ -49,10 +81,15 @@ def build(check=False):
         if check:assert path.is_file() and path.read_bytes()==packed,('Stale render cache',name)
         else:path.write_bytes(packed)
         entries[identity]=row;total+=len(packed)
-    document={'schema_version':1,'algorithm':'strict byte chroma key; unchanged RGB; transparent right/bottom 1px padding; RGBA8 gzip','entries':entries}
+    document={'schema_version':1,'algorithm':'strict blue/magenta/green key; narrow magenta alpha; green boundary despill; original sources preserved; transparent right/bottom 1px padding; RGBA8 gzip','entries':entries}
     text=json.dumps(document,ensure_ascii=False,indent=2)+'\n'
     if check:assert MANIFEST.read_text('utf8')==text,'Stale render cache manifest'
     else:MANIFEST.write_text(text,'utf8')
+    if not check:
+        expected={Path(row["path"]).name for row in entries.values()}
+        for stale in OUT.glob("*.rgba.gz"):
+            assert stale.resolve().parent==OUT.resolve()
+            if stale.name not in expected:stale.unlink()
     print(json.dumps({'status':'PASS','check':check,'sheets':len(entries),'bytes':total}),flush=True)
     return document
 

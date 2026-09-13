@@ -1,7 +1,7 @@
 extends "res://scripts/local_session.gd"
 
 # The host owns Simulation. A guest Simulation is a read-only presentation mirror.
-const PROTOCOL=15
+const PROTOCOL=16
 const MAX_PLAYERS=preload("res://scripts/party_rules.gd").MAX_PLAYERS
 const DEFAULT_PORT=24554
 var network_role="offline"
@@ -97,6 +97,9 @@ func reject_join(reason:String):
 func peer_left(id:int):
 	if network_role!="host" or sim==null:return
 	if sim.players.has(id):
+		# An abrupt transport loss must stop counting as an engaged survivor
+		# before cleanup and before publishing the first departure snapshot.
+		sim.players[id]["network_leaving"]=true
 		sim.reset_after_defeat(id);sim.players.erase(id)
 	ready_players.erase(id);last_sequence.erase(id);action_budget.erase(id)
 	if not leaving:departures.erase(id)

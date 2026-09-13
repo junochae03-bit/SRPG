@@ -69,8 +69,9 @@ def main():
         assert count==2500;checks+=1
         assert con.execute("SELECT COUNT(*) FROM art_catalog WHERE category='floor_tile'").fetchone()[0]==6;checks+=1
         if prepared:
-            assert con.execute("SELECT COUNT(*) FROM art_files WHERE representation='rgba_gzip'").fetchone()[0]==41;checks+=1
-            assert con.execute("SELECT COUNT(DISTINCT render_path) FROM art_catalog WHERE render_cache_file_id IS NOT NULL").fetchone()[0]==41;checks+=1
+            expected_cache_count=len(json.loads((ROOT/"game/assets/render_cache_v05/catalog.json").read_text("utf8"))["entries"])
+            assert con.execute("SELECT COUNT(*) FROM art_files WHERE representation='rgba_gzip'").fetchone()[0]==expected_cache_count;checks+=1
+            assert con.execute("SELECT COUNT(DISTINCT render_path) FROM art_catalog WHERE render_cache_file_id IS NOT NULL").fetchone()[0]==expected_cache_count;checks+=1
             try:con.execute("UPDATE art_assets SET render_cache_file_id='missing' WHERE render_cache_file_id IS NOT NULL");con.commit()
             except sqlite3.IntegrityError:con.rollback();checks+=1
             else:raise AssertionError('SQLite accepted invalid prepared cache foreign key')

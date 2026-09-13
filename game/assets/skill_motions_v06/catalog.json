@@ -1,0 +1,5830 @@
+{
+  "schema_version": 1,
+  "status": "review_assets_not_runtime_bound",
+  "chroma_key": "#00ff00",
+  "phase_names": [
+    "prepare",
+    "anticipation",
+    "release",
+    "recover"
+  ],
+  "aliases": {
+    "rogue": "thief"
+  },
+  "sprites": {
+    "warrior": {
+      "sheet": "res://assets/skill_motions_v06/warrior.png",
+      "sha256": "13e353979a5c2fc9a78b823b19b4ea6d7535d7514564b412ebe9d4f19a7ce42f",
+      "size": [
+        1536,
+        1024
+      ],
+      "standing_height_estimate": 173.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "slash",
+          "description": "ONE TWO-HANDED GREATSWORD: both hands together on its long hilt, draw sword behind shoulder, torso twist, powerful horizontal sweep right, recover two-handed grip"
+        },
+        {
+          "row": 1,
+          "family": "spin",
+          "description": "ONE TWO-HANDED GREATSWORD: low two-hand grip, rotate torso back, heavy turning sweep with BOTH hands on hilt, settle"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "ONE TWO-HANDED GREATSWORD: ready low, both arms lift same sword overhead, powerful downward chop, lift blade back with both hands"
+        },
+        {
+          "row": 3,
+          "family": "barrier",
+          "description": "ONE TWO-HANDED GREATSWORD: ready, lift blade diagonally in front, brace with BOTH hands on same hilt, lower"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            81,
+            50,
+            181,
+            180
+          ],
+          "foot_estimate": [
+            146.0,
+            178
+          ],
+          "visible_height": 176,
+          "foreground_pixels": 17993
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            466,
+            47,
+            192,
+            182
+          ],
+          "foot_estimate": [
+            162.0,
+            180
+          ],
+          "visible_height": 178,
+          "foreground_pixels": 18140
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            842,
+            66,
+            269,
+            164
+          ],
+          "foot_estimate": [
+            127.5,
+            162
+          ],
+          "visible_height": 160,
+          "foreground_pixels": 17917
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            1226,
+            64,
+            247,
+            166
+          ],
+          "foot_estimate": [
+            139.0,
+            164
+          ],
+          "visible_height": 162,
+          "foreground_pixels": 17627
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            80,
+            301,
+            227,
+            179
+          ],
+          "foot_estimate": [
+            128.0,
+            177
+          ],
+          "visible_height": 175,
+          "foreground_pixels": 19995
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            465,
+            297,
+            201,
+            183
+          ],
+          "foot_estimate": [
+            170.0,
+            181
+          ],
+          "visible_height": 179,
+          "foreground_pixels": 18891
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            842,
+            303,
+            292,
+            174
+          ],
+          "foot_estimate": [
+            28.0,
+            172
+          ],
+          "visible_height": 170,
+          "foreground_pixels": 21059
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            1232,
+            301,
+            240,
+            180
+          ],
+          "foot_estimate": [
+            150.0,
+            178
+          ],
+          "visible_height": 176,
+          "foreground_pixels": 19870
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            80,
+            563,
+            231,
+            175
+          ],
+          "foot_estimate": [
+            130.0,
+            173
+          ],
+          "visible_height": 171,
+          "foreground_pixels": 19812
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            476,
+            530,
+            188,
+            208
+          ],
+          "foot_estimate": [
+            156.0,
+            206
+          ],
+          "visible_height": 204,
+          "foreground_pixels": 18555
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            844,
+            567,
+            237,
+            178
+          ],
+          "foot_estimate": [
+            218.0,
+            176
+          ],
+          "visible_height": 174,
+          "foreground_pixels": 20079
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            1230,
+            528,
+            202,
+            210
+          ],
+          "foot_estimate": [
+            141.0,
+            208
+          ],
+          "visible_height": 206,
+          "foreground_pixels": 19858
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            74,
+            799,
+            243,
+            174
+          ],
+          "foot_estimate": [
+            141.0,
+            172
+          ],
+          "visible_height": 170,
+          "foreground_pixels": 20095
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            471,
+            777,
+            212,
+            197
+          ],
+          "foot_estimate": [
+            150.0,
+            195
+          ],
+          "visible_height": 193,
+          "foreground_pixels": 18999
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            838,
+            799,
+            274,
+            174
+          ],
+          "foot_estimate": [
+            147.0,
+            172
+          ],
+          "visible_height": 170,
+          "foreground_pixels": 20818
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            1223,
+            799,
+            238,
+            174
+          ],
+          "foot_estimate": [
+            140.0,
+            172
+          ],
+          "visible_height": 170,
+          "foreground_pixels": 20043
+        }
+      ]
+    },
+    "ranger": {
+      "sheet": "res://assets/skill_motions_v06/ranger.png",
+      "sha256": "a4fd52cbd39a29705a9516b1ff6063f29db24e55ee4e04ce911fc49490f6ae42",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 250.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "shot",
+          "description": "Original crossbow: low ready, raise and brace, release bolt facing right with empty rail, lower to reload"
+        },
+        {
+          "row": 1,
+          "family": "rain",
+          "description": "Crossbow: crouch, aim skyward, fire upward, lower bow"
+        },
+        {
+          "row": 2,
+          "family": "blink",
+          "description": "Crossbow: aim right, shift weight backward, backward hop while firing, land"
+        },
+        {
+          "row": 3,
+          "family": "haste",
+          "description": "Crossbow: low ready, knees bend, lean forward to sprint, recover"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            45,
+            40,
+            244,
+            264
+          ],
+          "foot_estimate": [
+            89.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 27986
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            360,
+            39,
+            263,
+            265
+          ],
+          "foot_estimate": [
+            84.5,
+            263
+          ],
+          "visible_height": 261,
+          "foreground_pixels": 28519
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            663,
+            41,
+            259,
+            264
+          ],
+          "foot_estimate": [
+            82.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 27931
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            982,
+            40,
+            226,
+            265
+          ],
+          "foot_estimate": [
+            121.5,
+            263
+          ],
+          "visible_height": 261,
+          "foreground_pixels": 27122
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            40,
+            363,
+            261,
+            245
+          ],
+          "foot_estimate": [
+            77.0,
+            243
+          ],
+          "visible_height": 241,
+          "foreground_pixels": 27760
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            363,
+            359,
+            222,
+            251
+          ],
+          "foot_estimate": [
+            89.0,
+            249
+          ],
+          "visible_height": 247,
+          "foreground_pixels": 28187
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            671,
+            351,
+            218,
+            264
+          ],
+          "foot_estimate": [
+            74.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 28502
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            973,
+            370,
+            244,
+            240
+          ],
+          "foot_estimate": [
+            85.0,
+            238
+          ],
+          "visible_height": 236,
+          "foreground_pixels": 26932
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            45,
+            645,
+            261,
+            261
+          ],
+          "foot_estimate": [
+            146.0,
+            259
+          ],
+          "visible_height": 257,
+          "foreground_pixels": 28388
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            378,
+            652,
+            242,
+            252
+          ],
+          "foot_estimate": [
+            134.0,
+            250
+          ],
+          "visible_height": 248,
+          "foreground_pixels": 27694
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            663,
+            639,
+            270,
+            242
+          ],
+          "foot_estimate": [
+            182.0,
+            240
+          ],
+          "visible_height": 238,
+          "foreground_pixels": 27470
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            974,
+            657,
+            252,
+            249
+          ],
+          "foot_estimate": [
+            150.0,
+            247
+          ],
+          "visible_height": 245,
+          "foreground_pixels": 27954
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            43,
+            954,
+            237,
+            248
+          ],
+          "foot_estimate": [
+            148.0,
+            246
+          ],
+          "visible_height": 244,
+          "foreground_pixels": 27555
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            353,
+            960,
+            242,
+            239
+          ],
+          "foot_estimate": [
+            76.0,
+            237
+          ],
+          "visible_height": 235,
+          "foreground_pixels": 27402
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            674,
+            946,
+            251,
+            264
+          ],
+          "foot_estimate": [
+            141.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 30255
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            981,
+            949,
+            234,
+            258
+          ],
+          "foot_estimate": [
+            134.0,
+            256
+          ],
+          "visible_height": 254,
+          "foreground_pixels": 27860
+        }
+      ]
+    },
+    "mage": {
+      "sheet": "res://assets/skill_motions_v06/mage.png",
+      "sha256": "f7935d99329aaa8183cf772d323ac30091c9151c7fa5d027d35f1101d8cc4611",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 268.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "fire",
+          "description": "Open spellbook: read, free hand gathers at chest, forceful forward palm release, hand returns"
+        },
+        {
+          "row": 1,
+          "family": "frost",
+          "description": "Open book: lower stance, free hand raises, sweeps free palm down toward ground, stands"
+        },
+        {
+          "row": 2,
+          "family": "thunder",
+          "description": "Book held to side: hand at chest, raise arm, point overhead, lower"
+        },
+        {
+          "row": 3,
+          "family": "vortex",
+          "description": "Open book: reach forward, fingers curl, draw elbow back to pull, return"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            36,
+            41,
+            234,
+            276
+          ],
+          "foot_estimate": [
+            93.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 39554
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            336,
+            39,
+            261,
+            276
+          ],
+          "foot_estimate": [
+            147.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 42051
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            633,
+            39,
+            287,
+            276
+          ],
+          "foot_estimate": [
+            176.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 45121
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            974,
+            42,
+            250,
+            275
+          ],
+          "foot_estimate": [
+            147.0,
+            273
+          ],
+          "visible_height": 271,
+          "foreground_pixels": 41025
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            29,
+            364,
+            253,
+            253
+          ],
+          "foot_estimate": [
+            117.0,
+            251
+          ],
+          "visible_height": 249,
+          "foreground_pixels": 38341
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            332,
+            359,
+            270,
+            255
+          ],
+          "foot_estimate": [
+            170.0,
+            253
+          ],
+          "visible_height": 251,
+          "foreground_pixels": 41780
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            640,
+            371,
+            287,
+            246
+          ],
+          "foot_estimate": [
+            184.0,
+            244
+          ],
+          "visible_height": 242,
+          "foreground_pixels": 44096
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            982,
+            345,
+            228,
+            271
+          ],
+          "foot_estimate": [
+            92.0,
+            269
+          ],
+          "visible_height": 267,
+          "foreground_pixels": 37823
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            36,
+            643,
+            234,
+            277
+          ],
+          "foot_estimate": [
+            90.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 39709
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            336,
+            642,
+            253,
+            277
+          ],
+          "foot_estimate": [
+            170.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 43069
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            641,
+            637,
+            271,
+            282
+          ],
+          "foot_estimate": [
+            179.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 43705
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            973,
+            644,
+            244,
+            275
+          ],
+          "foot_estimate": [
+            95.0,
+            273
+          ],
+          "visible_height": 271,
+          "foreground_pixels": 40754
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            27,
+            948,
+            270,
+            269
+          ],
+          "foot_estimate": [
+            70.5,
+            267
+          ],
+          "visible_height": 265,
+          "foreground_pixels": 42836
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            326,
+            952,
+            283,
+            264
+          ],
+          "foot_estimate": [
+            87.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 45290
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            644,
+            941,
+            284,
+            276
+          ],
+          "foot_estimate": [
+            91.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 48899
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            973,
+            948,
+            251,
+            270
+          ],
+          "foot_estimate": [
+            150.0,
+            268
+          ],
+          "visible_height": 266,
+          "foreground_pixels": 40617
+        }
+      ]
+    },
+    "fighter": {
+      "sheet": "res://assets/skill_motions_v06/fighter.png",
+      "sha256": "d45699ee46b212627b4a4e606c61ff9d585fc4d64e1280c3437d1e438b8a3329",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 280.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "impact",
+          "description": "Straight punch: guard, draw rear fist back, punch straight right, return guard"
+        },
+        {
+          "row": 1,
+          "family": "impact",
+          "description": "Uppercut: guard, deep crouch fist low, upward punch extending legs, recover"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "Front kick: guard, raise bent knee, extend kicking leg right, set foot down"
+        },
+        {
+          "row": 3,
+          "family": "barrier",
+          "description": "Parry: guard, cross forearms, brace and deflect outward, restore guard"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            29,
+            35,
+            230,
+            278
+          ],
+          "foot_estimate": [
+            176.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 41399
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            331,
+            41,
+            252,
+            272
+          ],
+          "foot_estimate": [
+            185.0,
+            270
+          ],
+          "visible_height": 268,
+          "foreground_pixels": 41739
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            645,
+            41,
+            274,
+            272
+          ],
+          "foot_estimate": [
+            186.0,
+            270
+          ],
+          "visible_height": 268,
+          "foreground_pixels": 42688
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            964,
+            35,
+            227,
+            278
+          ],
+          "foot_estimate": [
+            171.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 41240
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            24,
+            334,
+            235,
+            286
+          ],
+          "foot_estimate": [
+            182.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 43490
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            327,
+            394,
+            273,
+            226
+          ],
+          "foot_estimate": [
+            145.0,
+            224
+          ],
+          "visible_height": 222,
+          "foreground_pixels": 42115
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            651,
+            333,
+            239,
+            287
+          ],
+          "foot_estimate": [
+            188.0,
+            285
+          ],
+          "visible_height": 283,
+          "foreground_pixels": 44763
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            964,
+            334,
+            233,
+            286
+          ],
+          "foot_estimate": [
+            175.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 42472
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            24,
+            640,
+            235,
+            285
+          ],
+          "foot_estimate": [
+            183.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 42592
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            337,
+            633,
+            223,
+            292
+          ],
+          "foot_estimate": [
+            154.5,
+            290
+          ],
+          "visible_height": 288,
+          "foreground_pixels": 40613
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            639,
+            642,
+            290,
+            283
+          ],
+          "foot_estimate": [
+            141.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 42246
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            969,
+            639,
+            230,
+            286
+          ],
+          "foot_estimate": [
+            161.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 41913
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            27,
+            946,
+            232,
+            283
+          ],
+          "foot_estimate": [
+            179.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 42651
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            331,
+            949,
+            245,
+            280
+          ],
+          "foot_estimate": [
+            199.5,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 42164
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            632,
+            949,
+            271,
+            280
+          ],
+          "foot_estimate": [
+            215.0,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 47504
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            962,
+            946,
+            231,
+            283
+          ],
+          "foot_estimate": [
+            175.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 42241
+        }
+      ]
+    },
+    "thief": {
+      "sheet": "res://assets/skill_motions_v06/thief.png",
+      "sha256": "a0ca649daceda6755df0a717addfeaa77fe5ba61b08c4bdf31b2583913b5f051",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 253.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "slash",
+          "description": "Single dagger: ready, reverse-grip windup, low rightward slash, retract"
+        },
+        {
+          "row": 1,
+          "family": "poison",
+          "description": "Dagger held aside: crouch, hand reaches belt, free hand places a small trap at ground, rise"
+        },
+        {
+          "row": 2,
+          "family": "blink",
+          "description": "Dagger: low stance, compressed crouch, forward lunge, low recovery"
+        },
+        {
+          "row": 3,
+          "family": "slash",
+          "description": "Dagger finisher: ready, raises dagger, decisive downward stab toward empty ground, withdraw"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            37,
+            46,
+            213,
+            273
+          ],
+          "foot_estimate": [
+            149.0,
+            271
+          ],
+          "visible_height": 269,
+          "foreground_pixels": 32532
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            362,
+            46,
+            206,
+            271
+          ],
+          "foot_estimate": [
+            87.0,
+            269
+          ],
+          "visible_height": 267,
+          "foreground_pixels": 32883
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            650,
+            69,
+            245,
+            250
+          ],
+          "foot_estimate": [
+            78.0,
+            248
+          ],
+          "visible_height": 246,
+          "foreground_pixels": 32156
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            995,
+            48,
+            200,
+            271
+          ],
+          "foot_estimate": [
+            134.0,
+            269
+          ],
+          "visible_height": 267,
+          "foreground_pixels": 31741
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            32,
+            387,
+            242,
+            241
+          ],
+          "foot_estimate": [
+            110.0,
+            239
+          ],
+          "visible_height": 237,
+          "foreground_pixels": 31733
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            353,
+            379,
+            221,
+            246
+          ],
+          "foot_estimate": [
+            89.0,
+            244
+          ],
+          "visible_height": 242,
+          "foreground_pixels": 31050
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            658,
+            397,
+            277,
+            228
+          ],
+          "foot_estimate": [
+            108.0,
+            226
+          ],
+          "visible_height": 224,
+          "foreground_pixels": 32985
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            983,
+            346,
+            220,
+            282
+          ],
+          "foot_estimate": [
+            153.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 33557
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            28,
+            691,
+            245,
+            213
+          ],
+          "foot_estimate": [
+            93.0,
+            211
+          ],
+          "visible_height": 209,
+          "foreground_pixels": 29043
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            338,
+            695,
+            250,
+            205
+          ],
+          "foot_estimate": [
+            106.0,
+            203
+          ],
+          "visible_height": 201,
+          "foreground_pixels": 29062
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            678,
+            669,
+            272,
+            235
+          ],
+          "foot_estimate": [
+            20.0,
+            233
+          ],
+          "visible_height": 231,
+          "foreground_pixels": 33424
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            974,
+            703,
+            229,
+            201
+          ],
+          "foot_estimate": [
+            177.0,
+            199
+          ],
+          "visible_height": 197,
+          "foreground_pixels": 27806
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            36,
+            939,
+            218,
+            278
+          ],
+          "foot_estimate": [
+            149.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 33752
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            358,
+            928,
+            215,
+            288
+          ],
+          "foot_estimate": [
+            146.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 33858
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            668,
+            961,
+            221,
+            265
+          ],
+          "foot_estimate": [
+            148.5,
+            263
+          ],
+          "visible_height": 261,
+          "foreground_pixels": 31716
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            974,
+            938,
+            221,
+            279
+          ],
+          "foot_estimate": [
+            152.0,
+            277
+          ],
+          "visible_height": 275,
+          "foreground_pixels": 34495
+        }
+      ]
+    },
+    "tank": {
+      "sheet": "res://assets/skill_motions_v06/tank.png",
+      "sha256": "4bc784500a4fbb35589a581b6595da28c097dff9896aacfe45f00d64ab4b53e6",
+      "size": [
+        1536,
+        1024
+      ],
+      "standing_height_estimate": 212.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "barrier",
+          "description": "Original sword AND shield: ready, shield lifts, firmly brace behind shield, lower slightly"
+        },
+        {
+          "row": 1,
+          "family": "impact",
+          "description": "Shield bash: shield near chest, weight on rear foot, thrust shield forward with front step, recover"
+        },
+        {
+          "row": 2,
+          "family": "slash",
+          "description": "Sword cut behind shield: ready, sword cocked back, sword cuts right while shield guards, recover"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Shield rush: shield ready, crouch, shield-first forward lean, stable stop"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            46,
+            30,
+            237,
+            218
+          ],
+          "foot_estimate": [
+            90.0,
+            216
+          ],
+          "visible_height": 214,
+          "foreground_pixels": 33357
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            443,
+            31,
+            257,
+            218
+          ],
+          "foot_estimate": [
+            145.0,
+            216
+          ],
+          "visible_height": 214,
+          "foreground_pixels": 34460
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            841,
+            59,
+            227,
+            190
+          ],
+          "foot_estimate": [
+            148.0,
+            188
+          ],
+          "visible_height": 186,
+          "foreground_pixels": 29377
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            1221,
+            30,
+            236,
+            218
+          ],
+          "foot_estimate": [
+            143.0,
+            216
+          ],
+          "visible_height": 214,
+          "foreground_pixels": 33420
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            49,
+            278,
+            227,
+            217
+          ],
+          "foot_estimate": [
+            140.0,
+            215
+          ],
+          "visible_height": 213,
+          "foreground_pixels": 32504
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            432,
+            288,
+            269,
+            207
+          ],
+          "foot_estimate": [
+            166.0,
+            205
+          ],
+          "visible_height": 203,
+          "foreground_pixels": 35565
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            833,
+            298,
+            284,
+            197
+          ],
+          "foot_estimate": [
+            170.0,
+            195
+          ],
+          "visible_height": 193,
+          "foreground_pixels": 33621
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            1230,
+            278,
+            220,
+            217
+          ],
+          "foot_estimate": [
+            134.0,
+            215
+          ],
+          "visible_height": 213,
+          "foreground_pixels": 32050
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            48,
+            529,
+            232,
+            215
+          ],
+          "foot_estimate": [
+            141.0,
+            213
+          ],
+          "visible_height": 211,
+          "foreground_pixels": 32870
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            428,
+            529,
+            252,
+            216
+          ],
+          "foot_estimate": [
+            166.0,
+            214
+          ],
+          "visible_height": 212,
+          "foreground_pixels": 34733
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            839,
+            534,
+            319,
+            211
+          ],
+          "foot_estimate": [
+            171.0,
+            209
+          ],
+          "visible_height": 207,
+          "foreground_pixels": 33382
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            1223,
+            529,
+            234,
+            217
+          ],
+          "foot_estimate": [
+            145.0,
+            215
+          ],
+          "visible_height": 213,
+          "foreground_pixels": 33782
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            46,
+            778,
+            233,
+            203
+          ],
+          "foot_estimate": [
+            81.0,
+            201
+          ],
+          "visible_height": 199,
+          "foreground_pixels": 31549
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            423,
+            797,
+            270,
+            184
+          ],
+          "foot_estimate": [
+            78.0,
+            182
+          ],
+          "visible_height": 180,
+          "foreground_pixels": 31557
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            827,
+            791,
+            279,
+            190
+          ],
+          "foot_estimate": [
+            65.0,
+            188
+          ],
+          "visible_height": 186,
+          "foreground_pixels": 32413
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            1214,
+            782,
+            242,
+            199
+          ],
+          "foot_estimate": [
+            157.0,
+            197
+          ],
+          "visible_height": 195,
+          "foreground_pixels": 30690
+        }
+      ]
+    },
+    "swordsman": {
+      "sheet": "res://assets/skill_motions_v06/swordsman.png",
+      "sha256": "3a2b371e09a63d14105e39a83e1c4688c6abf9c421382f2e510621e93579c215",
+      "size": [
+        1536,
+        1024
+      ],
+      "standing_height_estimate": 197.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "slash",
+          "description": "Original single sword: ready, sword back, horizontal cut, return"
+        },
+        {
+          "row": 1,
+          "family": "spin",
+          "description": "Single sword: low stance, quarter turn back, broad turning cut right, settle"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "Single sword: crouch, sword overhead, downward two-handed slash, recover"
+        },
+        {
+          "row": 3,
+          "family": "barrier",
+          "description": "Single sword: ready, blade across torso, firm diagonal parry, reset"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            72,
+            40,
+            223,
+            195
+          ],
+          "foot_estimate": [
+            126.0,
+            193
+          ],
+          "visible_height": 191,
+          "foreground_pixels": 24312
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            462,
+            38,
+            206,
+            197
+          ],
+          "foot_estimate": [
+            144.0,
+            195
+          ],
+          "visible_height": 193,
+          "foreground_pixels": 22841
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            824,
+            41,
+            276,
+            194
+          ],
+          "foot_estimate": [
+            147.0,
+            192
+          ],
+          "visible_height": 190,
+          "foreground_pixels": 24572
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            1208,
+            38,
+            228,
+            197
+          ],
+          "foot_estimate": [
+            132.0,
+            195
+          ],
+          "visible_height": 193,
+          "foreground_pixels": 23875
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            65,
+            277,
+            245,
+            207
+          ],
+          "foot_estimate": [
+            136.0,
+            205
+          ],
+          "visible_height": 203,
+          "foreground_pixels": 26279
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            463,
+            271,
+            223,
+            213
+          ],
+          "foot_estimate": [
+            174.5,
+            211
+          ],
+          "visible_height": 209,
+          "foreground_pixels": 26791
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            819,
+            276,
+            306,
+            209
+          ],
+          "foot_estimate": [
+            157.0,
+            207
+          ],
+          "visible_height": 205,
+          "foreground_pixels": 29486
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            1212,
+            276,
+            239,
+            209
+          ],
+          "foot_estimate": [
+            142.0,
+            207
+          ],
+          "visible_height": 205,
+          "foreground_pixels": 26956
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            72,
+            539,
+            248,
+            189
+          ],
+          "foot_estimate": [
+            57.0,
+            187
+          ],
+          "visible_height": 185,
+          "foreground_pixels": 24039
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            468,
+            486,
+            199,
+            250
+          ],
+          "foot_estimate": [
+            157.0,
+            248
+          ],
+          "visible_height": 246,
+          "foreground_pixels": 24137
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            830,
+            536,
+            206,
+            213
+          ],
+          "foot_estimate": [
+            114.0,
+            211
+          ],
+          "visible_height": 209,
+          "foreground_pixels": 25937
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            1201,
+            532,
+            216,
+            205
+          ],
+          "foot_estimate": [
+            158.0,
+            203
+          ],
+          "visible_height": 201,
+          "foreground_pixels": 26902
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            68,
+            772,
+            239,
+            207
+          ],
+          "foot_estimate": [
+            144.0,
+            205
+          ],
+          "visible_height": 203,
+          "foreground_pixels": 27115
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            454,
+            775,
+            234,
+            206
+          ],
+          "foot_estimate": [
+            164.0,
+            204
+          ],
+          "visible_height": 202,
+          "foreground_pixels": 26342
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            810,
+            775,
+            255,
+            207
+          ],
+          "foot_estimate": [
+            167.0,
+            205
+          ],
+          "visible_height": 203,
+          "foreground_pixels": 28358
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            1203,
+            775,
+            239,
+            207
+          ],
+          "foot_estimate": [
+            141.0,
+            205
+          ],
+          "visible_height": 203,
+          "foreground_pixels": 26469
+        }
+      ]
+    },
+    "runesword": {
+      "sheet": "res://assets/skill_motions_v06/runesword.png",
+      "sha256": "8038409e6fff0731e4bb95c0d197c482559e2133ab85a79dcc25c873905c8b60",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 246.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "slash",
+          "description": "Rune sword: ready, back swing, rightward slash, reset"
+        },
+        {
+          "row": 1,
+          "family": "rune",
+          "description": "Sword in one hand: free hand at chest, palm beside blade, free palm pushes forward, retract"
+        },
+        {
+          "row": 2,
+          "family": "frost",
+          "description": "Sword: ready, blade raises, touches tip to ground in front while crouching, rise"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Sword: ready, crouch, rapid forward thrust posture, recover"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            25,
+            63,
+            248,
+            248
+          ],
+          "foot_estimate": [
+            176.0,
+            246
+          ],
+          "visible_height": 244,
+          "foreground_pixels": 35192
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            343,
+            36,
+            246,
+            275
+          ],
+          "foot_estimate": [
+            180.0,
+            273
+          ],
+          "visible_height": 271,
+          "foreground_pixels": 39790
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            649,
+            76,
+            322,
+            235
+          ],
+          "foot_estimate": [
+            165.0,
+            233
+          ],
+          "visible_height": 231,
+          "foreground_pixels": 35561
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            970,
+            63,
+            230,
+            248
+          ],
+          "foot_estimate": [
+            168.0,
+            246
+          ],
+          "visible_height": 244,
+          "foreground_pixels": 34312
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            24,
+            352,
+            249,
+            252
+          ],
+          "foot_estimate": [
+            178.0,
+            250
+          ],
+          "visible_height": 248,
+          "foreground_pixels": 36666
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            337,
+            354,
+            246,
+            251
+          ],
+          "foot_estimate": [
+            180.5,
+            249
+          ],
+          "visible_height": 247,
+          "foreground_pixels": 33703
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            640,
+            362,
+            273,
+            242
+          ],
+          "foot_estimate": [
+            185.0,
+            240
+          ],
+          "visible_height": 238,
+          "foreground_pixels": 36400
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            963,
+            353,
+            241,
+            251
+          ],
+          "foot_estimate": [
+            179.5,
+            249
+          ],
+          "visible_height": 247,
+          "foreground_pixels": 35762
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            23,
+            667,
+            246,
+            252
+          ],
+          "foot_estimate": [
+            182.5,
+            250
+          ],
+          "visible_height": 248,
+          "foreground_pixels": 35930
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            340,
+            611,
+            232,
+            308
+          ],
+          "foot_estimate": [
+            181.0,
+            306
+          ],
+          "visible_height": 304,
+          "foreground_pixels": 37199
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            651,
+            714,
+            256,
+            203
+          ],
+          "foot_estimate": [
+            107.5,
+            201
+          ],
+          "visible_height": 199,
+          "foreground_pixels": 35093
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            969,
+            667,
+            237,
+            252
+          ],
+          "foot_estimate": [
+            180.0,
+            250
+          ],
+          "visible_height": 248,
+          "foreground_pixels": 35671
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            26,
+            960,
+            246,
+            246
+          ],
+          "foot_estimate": [
+            176.0,
+            244
+          ],
+          "visible_height": 242,
+          "foreground_pixels": 35468
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            307,
+            1001,
+            277,
+            195
+          ],
+          "foot_estimate": [
+            156.0,
+            193
+          ],
+          "visible_height": 191,
+          "foreground_pixels": 34187
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            628,
+            989,
+            344,
+            211
+          ],
+          "foot_estimate": [
+            157.5,
+            209
+          ],
+          "visible_height": 207,
+          "foreground_pixels": 35130
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            966,
+            959,
+            233,
+            247
+          ],
+          "foot_estimate": [
+            178.0,
+            245
+          ],
+          "visible_height": 243,
+          "foreground_pixels": 34606
+        }
+      ]
+    },
+    "summoner": {
+      "sheet": "res://assets/skill_motions_v06/summoner.png",
+      "sha256": "45f5cc1e0a695cf5f5b872b378be80f633068bc9c58a803a3a159da4b5e6e44d",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 275.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "summon",
+          "description": "Open book: read, free arm raises, free palm directs toward ground, return"
+        },
+        {
+          "row": 1,
+          "family": "summon",
+          "description": "Pet command: read, elbow bends, decisive pointing gesture forward, retract"
+        },
+        {
+          "row": 2,
+          "family": "heal",
+          "description": "Book to side: free hand at chest, opens palm, lifts open palm gently, return"
+        },
+        {
+          "row": 3,
+          "family": "barrier",
+          "description": "Book: holds low, raises open book before chest, free palm presses forward defensively, lower"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            38,
+            34,
+            233,
+            278
+          ],
+          "foot_estimate": [
+            142.5,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 39598
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            345,
+            28,
+            243,
+            284
+          ],
+          "foot_estimate": [
+            89.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 43295
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            646,
+            47,
+            260,
+            265
+          ],
+          "foot_estimate": [
+            133.5,
+            263
+          ],
+          "visible_height": 261,
+          "foreground_pixels": 42453
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            978,
+            31,
+            230,
+            281
+          ],
+          "foot_estimate": [
+            139.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 39619
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            34,
+            332,
+            231,
+            281
+          ],
+          "foot_estimate": [
+            144.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 40346
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            349,
+            332,
+            241,
+            281
+          ],
+          "foot_estimate": [
+            145.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 41595
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            646,
+            332,
+            281,
+            281
+          ],
+          "foot_estimate": [
+            161.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 43766
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            977,
+            332,
+            232,
+            281
+          ],
+          "foot_estimate": [
+            143.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 40224
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            32,
+            632,
+            238,
+            291
+          ],
+          "foot_estimate": [
+            156.0,
+            289
+          ],
+          "visible_height": 287,
+          "foreground_pixels": 43005
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            338,
+            632,
+            254,
+            291
+          ],
+          "foot_estimate": [
+            157.0,
+            289
+          ],
+          "visible_height": 287,
+          "foreground_pixels": 44063
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            655,
+            635,
+            241,
+            288
+          ],
+          "foot_estimate": [
+            150.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 45289
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            973,
+            635,
+            238,
+            288
+          ],
+          "foot_estimate": [
+            158.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 42922
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            36,
+            944,
+            233,
+            275
+          ],
+          "foot_estimate": [
+            77.0,
+            273
+          ],
+          "visible_height": 271,
+          "foreground_pixels": 40429
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            345,
+            941,
+            242,
+            278
+          ],
+          "foot_estimate": [
+            89.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 41829
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            649,
+            942,
+            253,
+            277
+          ],
+          "foot_estimate": [
+            83.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 42739
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            978,
+            942,
+            231,
+            277
+          ],
+          "foot_estimate": [
+            149.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 39814
+        }
+      ]
+    },
+    "elementalist": {
+      "sheet": "res://assets/skill_motions_v06/elementalist.png",
+      "sha256": "7b7fb04a0e78ae12b850cc8a886e3c0259c1a883f3312d7dffa7c48e92fbb7f2",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 273.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "fire",
+          "description": "Original ornate staff: ready, pulls staff back, points staff straight forward, retract"
+        },
+        {
+          "row": 1,
+          "family": "frost",
+          "description": "Staff: ready, lifts staff slightly, plants staff butt on ground with bent knees, rise"
+        },
+        {
+          "row": 2,
+          "family": "thunder",
+          "description": "Staff: ready, raises staff, holds staff fully overhead, lowers"
+        },
+        {
+          "row": 3,
+          "family": "chain",
+          "description": "Staff held beside body: free hand curls inward, windup, free arm points forward firmly, retract"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            39,
+            37,
+            245,
+            276
+          ],
+          "foot_estimate": [
+            106.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 39322
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            322,
+            29,
+            257,
+            283
+          ],
+          "foot_estimate": [
+            99.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 42866
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            619,
+            61,
+            360,
+            251
+          ],
+          "foot_estimate": [
+            84.0,
+            249
+          ],
+          "visible_height": 247,
+          "foreground_pixels": 39081
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            973,
+            36,
+            244,
+            277
+          ],
+          "foot_estimate": [
+            99.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 39414
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            39,
+            344,
+            248,
+            278
+          ],
+          "foot_estimate": [
+            108.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 40011
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            316,
+            342,
+            262,
+            280
+          ],
+          "foot_estimate": [
+            99.0,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 39954
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            616,
+            366,
+            269,
+            256
+          ],
+          "foot_estimate": [
+            84.0,
+            254
+          ],
+          "visible_height": 252,
+          "foreground_pixels": 41663
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            963,
+            346,
+            256,
+            277
+          ],
+          "foot_estimate": [
+            109.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 41997
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            32,
+            656,
+            255,
+            280
+          ],
+          "foot_estimate": [
+            112.0,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 40774
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            316,
+            632,
+            263,
+            303
+          ],
+          "foot_estimate": [
+            100.5,
+            301
+          ],
+          "visible_height": 299,
+          "foreground_pixels": 43864
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            618,
+            623,
+            265,
+            313
+          ],
+          "foot_estimate": [
+            88.5,
+            311
+          ],
+          "visible_height": 309,
+          "foreground_pixels": 44211
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            948,
+            659,
+            291,
+            277
+          ],
+          "foot_estimate": [
+            103.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 42160
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            36,
+            957,
+            250,
+            274
+          ],
+          "foot_estimate": [
+            105.0,
+            272
+          ],
+          "visible_height": 270,
+          "foreground_pixels": 40431
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            332,
+            958,
+            249,
+            272
+          ],
+          "foot_estimate": [
+            88.0,
+            270
+          ],
+          "visible_height": 268,
+          "foreground_pixels": 39559
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            624,
+            963,
+            265,
+            266
+          ],
+          "foot_estimate": [
+            101.0,
+            264
+          ],
+          "visible_height": 262,
+          "foreground_pixels": 42072
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            972,
+            957,
+            245,
+            273
+          ],
+          "foot_estimate": [
+            102.0,
+            271
+          ],
+          "visible_height": 269,
+          "foreground_pixels": 39079
+        }
+      ]
+    },
+    "healer": {
+      "sheet": "res://assets/skill_motions_v06/healer.png",
+      "sha256": "72439976e4c7b8c8641703040aef75c3bf5ab6912b526cd1f9bcf2c10b0ba81c",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 277.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "heal",
+          "description": "Original sun staff: ready, free hand over heart, lifts staff and opens free palm upward, return"
+        },
+        {
+          "row": 1,
+          "family": "barrier",
+          "description": "Sun staff: ready, brace staff near chest, free palm presses forward, relax"
+        },
+        {
+          "row": 2,
+          "family": "heal",
+          "description": "Cleanse: ready, staff tips outward, free hand sweeps out gently, return"
+        },
+        {
+          "row": 3,
+          "family": "rune",
+          "description": "Blessing: staff low, raise staff, hold staff overhead with upright posture, lower"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            44,
+            36,
+            254,
+            281
+          ],
+          "foot_estimate": [
+            139.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 40806
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            360,
+            42,
+            245,
+            275
+          ],
+          "foot_estimate": [
+            129.0,
+            273
+          ],
+          "visible_height": 271,
+          "foreground_pixels": 38926
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            674,
+            27,
+            242,
+            290
+          ],
+          "foot_estimate": [
+            147.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 42084
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            980,
+            37,
+            248,
+            280
+          ],
+          "foot_estimate": [
+            131.5,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 40095
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            43,
+            335,
+            256,
+            282
+          ],
+          "foot_estimate": [
+            137.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 40757
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            351,
+            349,
+            237,
+            268
+          ],
+          "foot_estimate": [
+            136.0,
+            266
+          ],
+          "visible_height": 264,
+          "foreground_pixels": 37705
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            645,
+            345,
+            299,
+            272
+          ],
+          "foot_estimate": [
+            154.0,
+            270
+          ],
+          "visible_height": 268,
+          "foreground_pixels": 42020
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            985,
+            335,
+            242,
+            282
+          ],
+          "foot_estimate": [
+            131.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 39762
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            47,
+            635,
+            251,
+            282
+          ],
+          "foot_estimate": [
+            136.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 40850
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            323,
+            635,
+            317,
+            282
+          ],
+          "foot_estimate": [
+            62.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 41146
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            655,
+            646,
+            271,
+            271
+          ],
+          "foot_estimate": [
+            184.0,
+            269
+          ],
+          "visible_height": 267,
+          "foreground_pixels": 42499
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            979,
+            635,
+            251,
+            282
+          ],
+          "foot_estimate": [
+            135.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 39976
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            42,
+            944,
+            250,
+            279
+          ],
+          "foot_estimate": [
+            136.0,
+            277
+          ],
+          "visible_height": 275,
+          "foreground_pixels": 39656
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            351,
+            928,
+            231,
+            294
+          ],
+          "foot_estimate": [
+            133.0,
+            292
+          ],
+          "visible_height": 290,
+          "foreground_pixels": 38635
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            667,
+            913,
+            228,
+            310
+          ],
+          "foot_estimate": [
+            86.5,
+            308
+          ],
+          "visible_height": 306,
+          "foreground_pixels": 38958
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            973,
+            944,
+            257,
+            279
+          ],
+          "foot_estimate": [
+            136.5,
+            277
+          ],
+          "visible_height": 275,
+          "foreground_pixels": 39992
+        }
+      ]
+    },
+    "sniper": {
+      "sheet": "res://assets/skill_motions_v06/sniper.png",
+      "sha256": "2df039f5946e5153d6d7cbf9b6f00dfcfcc8a51bebbef6e13971af1499c5d987",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 276.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "shot",
+          "description": "Original longbow: nock arrow, full draw to cheek, release string with empty bow, lower"
+        },
+        {
+          "row": 1,
+          "family": "rain",
+          "description": "Longbow: nock, draw aiming high, skyward release with empty bow, lower"
+        },
+        {
+          "row": 2,
+          "family": "shot",
+          "description": "Charged aim: low stance, deepest full bow draw, powerful release, recover"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Retreat shot: draw right, shift backward, backward step while releasing, regain stance"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            30,
+            36,
+            241,
+            290
+          ],
+          "foot_estimate": [
+            97.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 33898
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            343,
+            33,
+            271,
+            293
+          ],
+          "foot_estimate": [
+            97.0,
+            291
+          ],
+          "visible_height": 289,
+          "foreground_pixels": 34798
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            654,
+            32,
+            250,
+            294
+          ],
+          "foot_estimate": [
+            99.0,
+            292
+          ],
+          "visible_height": 290,
+          "foreground_pixels": 35354
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            975,
+            30,
+            230,
+            296
+          ],
+          "foot_estimate": [
+            100.5,
+            294
+          ],
+          "visible_height": 292,
+          "foreground_pixels": 33229
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            35,
+            351,
+            257,
+            286
+          ],
+          "foot_estimate": [
+            109.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 35285
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            343,
+            349,
+            258,
+            288
+          ],
+          "foot_estimate": [
+            175.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 35908
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            661,
+            351,
+            249,
+            289
+          ],
+          "foot_estimate": [
+            102.0,
+            287
+          ],
+          "visible_height": 285,
+          "foreground_pixels": 36081
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            978,
+            352,
+            234,
+            288
+          ],
+          "foot_estimate": [
+            111.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 34295
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            27,
+            665,
+            265,
+            270
+          ],
+          "foot_estimate": [
+            178.0,
+            268
+          ],
+          "visible_height": 266,
+          "foreground_pixels": 33062
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            334,
+            662,
+            309,
+            264
+          ],
+          "foot_estimate": [
+            210.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 36474
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            656,
+            671,
+            257,
+            253
+          ],
+          "foot_estimate": [
+            200.0,
+            251
+          ],
+          "visible_height": 249,
+          "foreground_pixels": 34402
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            968,
+            663,
+            246,
+            270
+          ],
+          "foot_estimate": [
+            162.0,
+            268
+          ],
+          "visible_height": 266,
+          "foreground_pixels": 33479
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            29,
+            949,
+            228,
+            274
+          ],
+          "foot_estimate": [
+            86.0,
+            272
+          ],
+          "visible_height": 270,
+          "foreground_pixels": 30697
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            342,
+            948,
+            275,
+            279
+          ],
+          "foot_estimate": [
+            188.0,
+            277
+          ],
+          "visible_height": 275,
+          "foreground_pixels": 34071
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            661,
+            949,
+            255,
+            278
+          ],
+          "foot_estimate": [
+            190.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 32768
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            977,
+            948,
+            225,
+            278
+          ],
+          "foot_estimate": [
+            156.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 31297
+        }
+      ]
+    },
+    "hunter": {
+      "sheet": "res://assets/skill_motions_v06/hunter.png",
+      "sha256": "aedf16707d04a3dbe0e2cbce7fbced910abf1a276bb0c23509f03fc1544bb89f",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 275.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "poison",
+          "description": "Trap placement: crossbow to side, crouch with original small trap, set trap on ground, rise"
+        },
+        {
+          "row": 1,
+          "family": "shot",
+          "description": "Crossbow: ready, shoulder and aim, fire right with empty rail, lower"
+        },
+        {
+          "row": 2,
+          "family": "summon",
+          "description": "Pet command: bow lowered, free hand near mouth as whistle, points forward, relax"
+        },
+        {
+          "row": 3,
+          "family": "haste",
+          "description": "Crossbow: ready, crouch, forward alert running lean, stop"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            48,
+            31,
+            254,
+            292
+          ],
+          "foot_estimate": [
+            98.0,
+            290
+          ],
+          "visible_height": 288,
+          "foreground_pixels": 35189
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            362,
+            95,
+            254,
+            230
+          ],
+          "foot_estimate": [
+            187.0,
+            228
+          ],
+          "visible_height": 226,
+          "foreground_pixels": 31029
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            664,
+            107,
+            261,
+            223
+          ],
+          "foot_estimate": [
+            206.5,
+            221
+          ],
+          "visible_height": 219,
+          "foreground_pixels": 31793
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            975,
+            25,
+            248,
+            299
+          ],
+          "foot_estimate": [
+            98.0,
+            297
+          ],
+          "visible_height": 295,
+          "foreground_pixels": 35829
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            41,
+            349,
+            257,
+            274
+          ],
+          "foot_estimate": [
+            147.0,
+            272
+          ],
+          "visible_height": 270,
+          "foreground_pixels": 34273
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            344,
+            350,
+            278,
+            273
+          ],
+          "foot_estimate": [
+            173.0,
+            271
+          ],
+          "visible_height": 269,
+          "foreground_pixels": 34867
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            660,
+            350,
+            275,
+            274
+          ],
+          "foot_estimate": [
+            176.0,
+            272
+          ],
+          "visible_height": 270,
+          "foreground_pixels": 34673
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            975,
+            347,
+            246,
+            276
+          ],
+          "foot_estimate": [
+            151.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 33207
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            40,
+            645,
+            250,
+            285
+          ],
+          "foot_estimate": [
+            89.5,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 35220
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            360,
+            646,
+            202,
+            285
+          ],
+          "foot_estimate": [
+            85.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 32674
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            662,
+            648,
+            255,
+            282
+          ],
+          "foot_estimate": [
+            95.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 35773
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            981,
+            644,
+            246,
+            285
+          ],
+          "foot_estimate": [
+            97.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 34619
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            40,
+            949,
+            259,
+            272
+          ],
+          "foot_estimate": [
+            160.0,
+            270
+          ],
+          "visible_height": 268,
+          "foreground_pixels": 34725
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            351,
+            986,
+            284,
+            233
+          ],
+          "foot_estimate": [
+            136.0,
+            231
+          ],
+          "visible_height": 229,
+          "foreground_pixels": 34120
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            673,
+            961,
+            257,
+            253
+          ],
+          "foot_estimate": [
+            123.0,
+            251
+          ],
+          "visible_height": 249,
+          "foreground_pixels": 35899
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            973,
+            948,
+            254,
+            276
+          ],
+          "foot_estimate": [
+            148.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 34718
+        }
+      ]
+    },
+    "explorer": {
+      "sheet": "res://assets/skill_motions_v06/explorer.png",
+      "sha256": "aa6b7f35f32791228d085c1c1ca34386a35e6d293ab9e974b6c2599d40e3a404",
+      "size": [
+        1536,
+        1024
+      ],
+      "standing_height_estimate": 219.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "impact",
+          "description": "Original whip: coiled ready, short overhead loop windup, whip snaps right fully inside cell, recoil"
+        },
+        {
+          "row": 1,
+          "family": "chain",
+          "description": "Grappling rope: ready, raise hook, throw hook to right with SHORT rope within cell, retract"
+        },
+        {
+          "row": 2,
+          "family": "vortex",
+          "description": "Rope pull: reaches with rope, braces feet, pulls both hands to torso, settle"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Rope coiled at belt: crouch, preload, forward leap, landing"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            75,
+            23,
+            178,
+            227
+          ],
+          "foot_estimate": [
+            121.0,
+            225
+          ],
+          "visible_height": 223,
+          "foreground_pixels": 21257
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            433,
+            14,
+            220,
+            232
+          ],
+          "foot_estimate": [
+            184.5,
+            230
+          ],
+          "visible_height": 228,
+          "foreground_pixels": 23097
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            803,
+            29,
+            365,
+            215
+          ],
+          "foot_estimate": [
+            132.0,
+            213
+          ],
+          "visible_height": 211,
+          "foreground_pixels": 21479
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            1242,
+            23,
+            206,
+            227
+          ],
+          "foot_estimate": [
+            133.0,
+            225
+          ],
+          "visible_height": 223,
+          "foreground_pixels": 21699
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            67,
+            275,
+            207,
+            231
+          ],
+          "foot_estimate": [
+            126.0,
+            229
+          ],
+          "visible_height": 227,
+          "foreground_pixels": 22535
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            451,
+            264,
+            187,
+            241
+          ],
+          "foot_estimate": [
+            146.0,
+            239
+          ],
+          "visible_height": 237,
+          "foreground_pixels": 23055
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            803,
+            281,
+            358,
+            223
+          ],
+          "foot_estimate": [
+            129.0,
+            221
+          ],
+          "visible_height": 219,
+          "foreground_pixels": 23140
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            1250,
+            275,
+            226,
+            232
+          ],
+          "foot_estimate": [
+            134.0,
+            230
+          ],
+          "visible_height": 228,
+          "foreground_pixels": 23080
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            45,
+            533,
+            278,
+            219
+          ],
+          "foot_estimate": [
+            126.0,
+            217
+          ],
+          "visible_height": 215,
+          "foreground_pixels": 21030
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            455,
+            537,
+            241,
+            212
+          ],
+          "foot_estimate": [
+            163.0,
+            210
+          ],
+          "visible_height": 208,
+          "foreground_pixels": 21337
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            817,
+            532,
+            214,
+            215
+          ],
+          "foot_estimate": [
+            183.0,
+            213
+          ],
+          "visible_height": 211,
+          "foreground_pixels": 21617
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            1249,
+            527,
+            180,
+            233
+          ],
+          "foot_estimate": [
+            88.5,
+            231
+          ],
+          "visible_height": 229,
+          "foreground_pixels": 21934
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            69,
+            805,
+            193,
+            193
+          ],
+          "foot_estimate": [
+            105.0,
+            191
+          ],
+          "visible_height": 189,
+          "foreground_pixels": 20571
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            453,
+            797,
+            197,
+            197
+          ],
+          "foot_estimate": [
+            96.5,
+            195
+          ],
+          "visible_height": 193,
+          "foreground_pixels": 20125
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            849,
+            772,
+            215,
+            208
+          ],
+          "foot_estimate": [
+            56.0,
+            206
+          ],
+          "visible_height": 204,
+          "foreground_pixels": 20979
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            1243,
+            809,
+            213,
+            189
+          ],
+          "foot_estimate": [
+            124.0,
+            187
+          ],
+          "visible_height": 185,
+          "foreground_pixels": 21113
+        }
+      ]
+    },
+    "reaper": {
+      "sheet": "res://assets/skill_motions_v06/reaper.png",
+      "sha256": "ff089c7e2534796c5e7518f6cf73b729ffc3121137ff62c3c3d09fa625692a4e",
+      "size": [
+        1536,
+        1024
+      ],
+      "standing_height_estimate": 196.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "slash",
+          "description": "Original scythe: ready, scythe back, sweeps low right, returns"
+        },
+        {
+          "row": 1,
+          "family": "spin",
+          "description": "Scythe: crouch, torso turns, turning horizontal sweep, settle"
+        },
+        {
+          "row": 2,
+          "family": "chain",
+          "description": "Scythe held upright: chain hand cocks back, braces, throws SHORT chain right within cell, retract"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Scythe: low stance, compress, forward dash lean, stable recovery"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            50,
+            34,
+            265,
+            226
+          ],
+          "foot_estimate": [
+            161.0,
+            224
+          ],
+          "visible_height": 222,
+          "foreground_pixels": 29546
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            437,
+            33,
+            239,
+            226
+          ],
+          "foot_estimate": [
+            178.0,
+            224
+          ],
+          "visible_height": 222,
+          "foreground_pixels": 27890
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            807,
+            83,
+            323,
+            189
+          ],
+          "foot_estimate": [
+            240.0,
+            187
+          ],
+          "visible_height": 185,
+          "foreground_pixels": 29398
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            1219,
+            33,
+            254,
+            227
+          ],
+          "foot_estimate": [
+            162.0,
+            225
+          ],
+          "visible_height": 223,
+          "foreground_pixels": 29038
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            33,
+            337,
+            257,
+            174
+          ],
+          "foot_estimate": [
+            46.0,
+            172
+          ],
+          "visible_height": 170,
+          "foreground_pixels": 26152
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            427,
+            295,
+            269,
+            211
+          ],
+          "foot_estimate": [
+            200.5,
+            209
+          ],
+          "visible_height": 207,
+          "foreground_pixels": 26874
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            815,
+            323,
+            334,
+            184
+          ],
+          "foot_estimate": [
+            156.0,
+            182
+          ],
+          "visible_height": 180,
+          "foreground_pixels": 29449
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            1224,
+            286,
+            226,
+            221
+          ],
+          "foot_estimate": [
+            161.0,
+            219
+          ],
+          "visible_height": 217,
+          "foreground_pixels": 27960
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            50,
+            524,
+            236,
+            231
+          ],
+          "foot_estimate": [
+            150.0,
+            229
+          ],
+          "visible_height": 227,
+          "foreground_pixels": 28028
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            432,
+            519,
+            280,
+            235
+          ],
+          "foot_estimate": [
+            174.0,
+            233
+          ],
+          "visible_height": 231,
+          "foreground_pixels": 32543
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            793,
+            569,
+            385,
+            185
+          ],
+          "foot_estimate": [
+            131.0,
+            183
+          ],
+          "visible_height": 181,
+          "foreground_pixels": 28442
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            1237,
+            523,
+            237,
+            231
+          ],
+          "foot_estimate": [
+            122.0,
+            229
+          ],
+          "visible_height": 227,
+          "foreground_pixels": 29096
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            33,
+            821,
+            269,
+            170
+          ],
+          "foot_estimate": [
+            208.0,
+            168
+          ],
+          "visible_height": 166,
+          "foreground_pixels": 27569
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            425,
+            822,
+            266,
+            168
+          ],
+          "foot_estimate": [
+            127.0,
+            166
+          ],
+          "visible_height": 164,
+          "foreground_pixels": 26734
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            796,
+            813,
+            301,
+            177
+          ],
+          "foot_estimate": [
+            111.0,
+            175
+          ],
+          "visible_height": 173,
+          "foreground_pixels": 28067
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            1223,
+            765,
+            250,
+            226
+          ],
+          "foot_estimate": [
+            159.0,
+            224
+          ],
+          "visible_height": 222,
+          "foreground_pixels": 29852
+        }
+      ]
+    },
+    "gambler": {
+      "sheet": "res://assets/skill_motions_v06/gambler.png",
+      "sha256": "9ffc0eec4addd92643c8ea895f992b4b7373015323bf8dfe57618073b9bcd149",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 281.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "cards",
+          "description": "Cards: hold deck, pull one card to shoulder, flick card hand forward without detached projectile, return"
+        },
+        {
+          "row": 1,
+          "family": "cards",
+          "description": "Fan: hold deck, spread cards in hand, fan-shaped throwing gesture without detached cards, recover"
+        },
+        {
+          "row": 2,
+          "family": "cards",
+          "description": "Dice: holds original die in palm, hand lowers, upward toss gesture without airborne die, returns"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Deck in hand: ready, crouch, quick sidestep lean, recover"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            49,
+            41,
+            252,
+            287
+          ],
+          "foot_estimate": [
+            105.0,
+            285
+          ],
+          "visible_height": 283,
+          "foreground_pixels": 44772
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            356,
+            41,
+            250,
+            287
+          ],
+          "foot_estimate": [
+            99.0,
+            285
+          ],
+          "visible_height": 283,
+          "foreground_pixels": 44578
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            661,
+            42,
+            289,
+            287
+          ],
+          "foot_estimate": [
+            96.5,
+            285
+          ],
+          "visible_height": 283,
+          "foreground_pixels": 47565
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            985,
+            41,
+            245,
+            288
+          ],
+          "foot_estimate": [
+            109.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 44066
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            46,
+            343,
+            251,
+            283
+          ],
+          "foot_estimate": [
+            104.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 44305
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            361,
+            343,
+            241,
+            282
+          ],
+          "foot_estimate": [
+            96.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 44247
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            669,
+            342,
+            279,
+            284
+          ],
+          "foot_estimate": [
+            98.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 48514
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            987,
+            343,
+            245,
+            283
+          ],
+          "foot_estimate": [
+            104.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 43445
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            46,
+            640,
+            250,
+            283
+          ],
+          "foot_estimate": [
+            107.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 43421
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            369,
+            642,
+            240,
+            281
+          ],
+          "foot_estimate": [
+            85.5,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 44756
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            656,
+            645,
+            273,
+            278
+          ],
+          "foot_estimate": [
+            114.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 48104
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            989,
+            643,
+            241,
+            280
+          ],
+          "foot_estimate": [
+            106.0,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 42062
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            42,
+            932,
+            257,
+            288
+          ],
+          "foot_estimate": [
+            106.0,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 45739
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            346,
+            979,
+            260,
+            241
+          ],
+          "foot_estimate": [
+            80.0,
+            239
+          ],
+          "visible_height": 237,
+          "foreground_pixels": 42002
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            674,
+            957,
+            256,
+            263
+          ],
+          "foot_estimate": [
+            63.0,
+            261
+          ],
+          "visible_height": 259,
+          "foreground_pixels": 42909
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            982,
+            932,
+            252,
+            288
+          ],
+          "foot_estimate": [
+            107.5,
+            286
+          ],
+          "visible_height": 284,
+          "foreground_pixels": 44752
+        }
+      ]
+    },
+    "infighter": {
+      "sheet": "res://assets/skill_motions_v06/infighter.png",
+      "sha256": "da314c41e3835dd380f2a547e6be5f356baf949bd0b5f0340abf17323ec530e6",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 275.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "impact",
+          "description": "Wrapped fists: guard, rear fist back, straight punch, guard"
+        },
+        {
+          "row": 1,
+          "family": "impact",
+          "description": "Hook: guard, torso rotates back, bent-arm hook right, recover"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "Uppercut: guard, fist dips low, upward fist strike, recover"
+        },
+        {
+          "row": 3,
+          "family": "blink",
+          "description": "Weave: guard, dips left, forward low shoulder weave, guard"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            26,
+            34,
+            237,
+            277
+          ],
+          "foot_estimate": [
+            84.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 43564
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            323,
+            34,
+            263,
+            276
+          ],
+          "foot_estimate": [
+            212.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 45852
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            630,
+            37,
+            302,
+            274
+          ],
+          "foot_estimate": [
+            83.0,
+            272
+          ],
+          "visible_height": 270,
+          "foreground_pixels": 46641
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            960,
+            33,
+            227,
+            278
+          ],
+          "foot_estimate": [
+            169.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 43018
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            27,
+            337,
+            236,
+            281
+          ],
+          "foot_estimate": [
+            84.5,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 44659
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            324,
+            342,
+            261,
+            278
+          ],
+          "foot_estimate": [
+            234.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 46189
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            634,
+            338,
+            261,
+            284
+          ],
+          "foot_estimate": [
+            214.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 47002
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            960,
+            338,
+            232,
+            282
+          ],
+          "foot_estimate": [
+            170.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 44107
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            28,
+            644,
+            234,
+            281
+          ],
+          "foot_estimate": [
+            78.0,
+            279
+          ],
+          "visible_height": 277,
+          "foreground_pixels": 44583
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            331,
+            668,
+            253,
+            259
+          ],
+          "foot_estimate": [
+            65.0,
+            257
+          ],
+          "visible_height": 255,
+          "foreground_pixels": 44399
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            640,
+            635,
+            262,
+            296
+          ],
+          "foot_estimate": [
+            225.0,
+            294
+          ],
+          "visible_height": 292,
+          "foreground_pixels": 49768
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            963,
+            644,
+            229,
+            283
+          ],
+          "foot_estimate": [
+            83.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 43690
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            25,
+            947,
+            238,
+            277
+          ],
+          "foot_estimate": [
+            85.0,
+            275
+          ],
+          "visible_height": 273,
+          "foreground_pixels": 44404
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            322,
+            976,
+            269,
+            237
+          ],
+          "foot_estimate": [
+            194.0,
+            235
+          ],
+          "visible_height": 233,
+          "foreground_pixels": 40746
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            648,
+            980,
+            293,
+            234
+          ],
+          "foot_estimate": [
+            55.5,
+            232
+          ],
+          "visible_height": 230,
+          "foreground_pixels": 45678
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            961,
+            947,
+            231,
+            276
+          ],
+          "foot_estimate": [
+            169.0,
+            274
+          ],
+          "visible_height": 272,
+          "foreground_pixels": 43490
+        }
+      ]
+    },
+    "breaker": {
+      "sheet": "res://assets/skill_motions_v06/breaker.png",
+      "sha256": "d322ed5a5b7b21772ebca638af4da24bae6125e7891c6c6498e63802d769f6fb",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 277.0,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "impact",
+          "description": "Charge palm: ready, deep low stance palm drawn back, heavy forward palm thrust, recover"
+        },
+        {
+          "row": 1,
+          "family": "impact",
+          "description": "Ground slam: crouch, fist raised, fist strikes empty ground, rise"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "Heavy kick: guard, knee tucked high, long side kick right, foot lowers"
+        },
+        {
+          "row": 3,
+          "family": "barrier",
+          "description": "Parry: guard, forearms cross, braces low against impact, restores guard"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            27,
+            38,
+            231,
+            283
+          ],
+          "foot_estimate": [
+            206.0,
+            281
+          ],
+          "visible_height": 279,
+          "foreground_pixels": 42313
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            317,
+            63,
+            289,
+            255
+          ],
+          "foot_estimate": [
+            265.0,
+            253
+          ],
+          "visible_height": 251,
+          "foreground_pixels": 45176
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            623,
+            41,
+            302,
+            278
+          ],
+          "foot_estimate": [
+            212.0,
+            276
+          ],
+          "visible_height": 274,
+          "foreground_pixels": 48020
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            960,
+            36,
+            227,
+            285
+          ],
+          "foot_estimate": [
+            203.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 42524
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            17,
+            377,
+            257,
+            240
+          ],
+          "foot_estimate": [
+            152.0,
+            238
+          ],
+          "visible_height": 236,
+          "foreground_pixels": 42071
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            333,
+            333,
+            259,
+            284
+          ],
+          "foot_estimate": [
+            66.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 49321
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            641,
+            367,
+            272,
+            251
+          ],
+          "foot_estimate": [
+            30.0,
+            249
+          ],
+          "visible_height": 247,
+          "foreground_pixels": 46734
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            957,
+            339,
+            238,
+            285
+          ],
+          "foot_estimate": [
+            207.5,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 43543
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            21,
+            642,
+            237,
+            280
+          ],
+          "foot_estimate": [
+            203.0,
+            278
+          ],
+          "visible_height": 276,
+          "foreground_pixels": 42411
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            323,
+            632,
+            232,
+            294
+          ],
+          "foot_estimate": [
+            158.0,
+            292
+          ],
+          "visible_height": 290,
+          "foreground_pixels": 40555
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            577,
+            661,
+            353,
+            264
+          ],
+          "foot_estimate": [
+            151.0,
+            262
+          ],
+          "visible_height": 260,
+          "foreground_pixels": 42300
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            957,
+            641,
+            245,
+            284
+          ],
+          "foot_estimate": [
+            216.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 43247
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            24,
+            944,
+            240,
+            282
+          ],
+          "foot_estimate": [
+            208.0,
+            280
+          ],
+          "visible_height": 278,
+          "foreground_pixels": 43312
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            329,
+            940,
+            253,
+            285
+          ],
+          "foot_estimate": [
+            216.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 43904
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            624,
+            981,
+            283,
+            241
+          ],
+          "foot_estimate": [
+            238.0,
+            239
+          ],
+          "visible_height": 237,
+          "foreground_pixels": 45160
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            954,
+            943,
+            239,
+            286
+          ],
+          "foot_estimate": [
+            203.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 43994
+        }
+      ]
+    },
+    "martialist": {
+      "sheet": "res://assets/skill_motions_v06/martialist.png",
+      "sha256": "6384a4f9724a18fc69b1b6a61a8ab4c71a258c51f86f68038471b9a2d4a1736b",
+      "size": [
+        1254,
+        1254
+      ],
+      "standing_height_estimate": 281.5,
+      "pivot_status": "automatic_estimate_requires_game_validation",
+      "actions": [
+        {
+          "row": 0,
+          "family": "impact",
+          "description": "Front kick: guard, knee chamber, extend front kick right, return"
+        },
+        {
+          "row": 1,
+          "family": "spin",
+          "description": "Roundhouse: guard, pivot support foot and chamber knee, arcing horizontal kick right, return"
+        },
+        {
+          "row": 2,
+          "family": "impact",
+          "description": "Knee strike: guard, lean back and chamber, drive knee forward, return"
+        },
+        {
+          "row": 3,
+          "family": "heal",
+          "description": "Meditation: guard, hands join at chest, calm standing palms open upward, return"
+        }
+      ],
+      "frames": [
+        {
+          "index": 0,
+          "row": 0,
+          "phase": "prepare",
+          "rect": [
+            29,
+            26,
+            223,
+            289
+          ],
+          "foot_estimate": [
+            103.0,
+            287
+          ],
+          "visible_height": 285,
+          "foreground_pixels": 42456
+        },
+        {
+          "index": 1,
+          "row": 0,
+          "phase": "anticipation",
+          "rect": [
+            329,
+            25,
+            218,
+            290
+          ],
+          "foot_estimate": [
+            128.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 39504
+        },
+        {
+          "index": 2,
+          "row": 0,
+          "phase": "release",
+          "rect": [
+            630,
+            24,
+            273,
+            291
+          ],
+          "foot_estimate": [
+            136.0,
+            289
+          ],
+          "visible_height": 287,
+          "foreground_pixels": 42342
+        },
+        {
+          "index": 3,
+          "row": 0,
+          "phase": "recover",
+          "rect": [
+            967,
+            25,
+            217,
+            290
+          ],
+          "foot_estimate": [
+            98.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 42383
+        },
+        {
+          "index": 4,
+          "row": 1,
+          "phase": "prepare",
+          "rect": [
+            24,
+            335,
+            226,
+            285
+          ],
+          "foot_estimate": [
+            104.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 42695
+        },
+        {
+          "index": 5,
+          "row": 1,
+          "phase": "anticipation",
+          "rect": [
+            333,
+            334,
+            222,
+            286
+          ],
+          "foot_estimate": [
+            130.5,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 40752
+        },
+        {
+          "index": 6,
+          "row": 1,
+          "phase": "release",
+          "rect": [
+            615,
+            352,
+            318,
+            268
+          ],
+          "foot_estimate": [
+            174.0,
+            266
+          ],
+          "visible_height": 264,
+          "foreground_pixels": 40678
+        },
+        {
+          "index": 7,
+          "row": 1,
+          "phase": "recover",
+          "rect": [
+            969,
+            336,
+            216,
+            284
+          ],
+          "foot_estimate": [
+            154.0,
+            282
+          ],
+          "visible_height": 280,
+          "foreground_pixels": 42603
+        },
+        {
+          "index": 8,
+          "row": 2,
+          "phase": "prepare",
+          "rect": [
+            25,
+            644,
+            221,
+            285
+          ],
+          "foot_estimate": [
+            103.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 43266
+        },
+        {
+          "index": 9,
+          "row": 2,
+          "phase": "anticipation",
+          "rect": [
+            333,
+            642,
+            227,
+            287
+          ],
+          "foot_estimate": [
+            126.0,
+            285
+          ],
+          "visible_height": 283,
+          "foreground_pixels": 41524
+        },
+        {
+          "index": 10,
+          "row": 2,
+          "phase": "release",
+          "rect": [
+            650,
+            634,
+            227,
+            295
+          ],
+          "foot_estimate": [
+            151.0,
+            293
+          ],
+          "visible_height": 291,
+          "foreground_pixels": 42471
+        },
+        {
+          "index": 11,
+          "row": 2,
+          "phase": "recover",
+          "rect": [
+            970,
+            644,
+            213,
+            285
+          ],
+          "foot_estimate": [
+            98.0,
+            283
+          ],
+          "visible_height": 281,
+          "foreground_pixels": 42538
+        },
+        {
+          "index": 12,
+          "row": 3,
+          "phase": "prepare",
+          "rect": [
+            23,
+            946,
+            221,
+            286
+          ],
+          "foot_estimate": [
+            100.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 42943
+        },
+        {
+          "index": 13,
+          "row": 3,
+          "phase": "anticipation",
+          "rect": [
+            335,
+            942,
+            219,
+            290
+          ],
+          "foot_estimate": [
+            113.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 42429
+        },
+        {
+          "index": 14,
+          "row": 3,
+          "phase": "release",
+          "rect": [
+            652,
+            942,
+            237,
+            290
+          ],
+          "foot_estimate": [
+            152.0,
+            288
+          ],
+          "visible_height": 286,
+          "foreground_pixels": 44498
+        },
+        {
+          "index": 15,
+          "row": 3,
+          "phase": "recover",
+          "rect": [
+            967,
+            946,
+            220,
+            286
+          ],
+          "foot_estimate": [
+            101.0,
+            284
+          ],
+          "visible_height": 282,
+          "foreground_pixels": 43541
+        }
+      ]
+    }
+  }
+}
