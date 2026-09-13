@@ -371251,7 +371251,7 @@
       {
         "source_code": "func damage_for(p: Dictionary,kind:String=\"\") -> int:\n\tvar magical=kind==\"magic\" or (kind==\"\" and Progression.magic_user(p))\n\tvar damage = 18 + int((p.level-1)*1.5) + Progression.damage(p,\"staff\" if magical else \"sword\") + int(Content.skill_bonus(p,\"damage\"))\n\tdamage+=int(preload(\"res://scripts/equipment_catalog.gd\").bonus(p,\"damage\"))\n\tfor item in p.inventory:\n\t\tif (item.id == p.equipped or item.id==p.equipment.get(\"accessory\",\"\")) and preload(\"res://scripts/equipment_catalog.gd\").reason(p,item).is_empty():\n\t\t\tdamage += int(item.bonus)\n\treturn damage",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "damage_for"
       }
     ],
@@ -371408,31 +371408,31 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "receive_checkpoint"
       },
       {
         "source_code": "func player_defeated(p:Dictionary):\n\ttactical.records=tactical.records.filter(func(record):return record.owner!=p.id)\n\tp.erase(\"revive_target\");p.erase(\"revive_progress\");p.dir=Vector2.ZERO;p.charge_time=-1.\n\tif players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):\n\t\tp.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,\"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.\")\n\telse:respawn_player(p)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "player_defeated"
       },
       {
         "source_code": "func reward_kill(id:int,enemy:Dictionary,config:Dictionary):\n\tvar p=players[id]\n\tp.xp += roundi(config.xp*(1+Content.skill_bonus(p,\"xp_bonus\")))\n\tp.gold += roundi(config.gold*(1+Content.skill_bonus(p,\"gold_bonus\")+preload(\"res://scripts/equipment_catalog.gd\").bonus(p,\"gold_bonus\")))\n\tp.kills += 1\n\tif map.floor_number==0 and map.zone==\"forest\" and not p.tutorial_done:\n\t\tp.tutorial_kills+=1\n\t\tif p.tutorial_kills>=5:notice(id,\"숲의 길이 열렸습니다. R로 햇살 마을에 도착하세요.\")\n\tif map.floor_number>0 and enemy.get(\"guardian\",false):\n\t\tp.cleared_floor=maxi(p.cleared_floor,map.floor_number);p.highest_floor=maxi(p.highest_floor,mini(100,map.floor_number+1))\n\t\tif enemy.get(\"raid\",false):p.raid_clears[str(map.floor_number)]=int(p.raid_clears.get(str(map.floor_number),0))+1\n\t\tnotice(id,\"100층 레이드 완료 · 마력핵을 잠재웠습니다!\" if map.floor_number==100 else \"B%d 돌파 · 출구에서 E로 다음 층 / R 마을 귀환\"%map.floor_number)\n\tpreload(\"res://scripts/guild_progression.gd\").progress(p,map.zone,enemy)\n\tif enemy.get(\"boss\",enemy.kind==\"warden\"):\n\t\tp.boss_kills += 1;p.dungeon_clears[map.zone]=int(p.dungeon_clears.get(map.zone,0))+1\n\t\tif map.floor_number==0:notice(id,\"보스 격파 · \"+enemy.name+\" · R로 마을 귀환\")\n\tapply_level_ups(p)\n\tif p.kills >= 5 and p.boss_kills >= 1 and not p.quest_done:\n\t\tp.quest_done = true\n\t\tp.gold += 100\n\t\tnotice(id, \"의뢰 완료 · 정원의 소란 · 금화 +100\")\n\tfor entry in loot_tables.roll(enemy.kind,rng,map.risk_level*Risk.DROP_PER_RANK+(combat.jobs.passive(p,4)*.03 if p.class_id==\"hunter\" and not p.job_state.pets.is_empty() else 0.0)):\n\t\tserial += 1\n\t\tvar item_id = str(Time.get_unix_time_from_system()).replace(\".\", \"\") + \"-\" + str(serial)\n\t\tvar item=loot_tables.item(entry,item_id,rng,balance)\n\t\tif item.category in [\"weapon\",\"armor\",\"accessory\"]:\n\t\t\tvar type=item.get(\"weapon_type\",\"sword\") if item.category==\"weapon\" else item.slot\n\t\t\tvar tier=clampi(int(preload(\"res://scripts/world_catalog.gd\").DUNGEONS[map.zone].theme)+rng.randi_range(0,1)+(1 if enemy.get(\"boss\",false) or enemy.get(\"elite\",false) else 0),0,4)\n\t\t\tif map.floor_number>0:tier=clampi(int((map.floor_number-1)/10),0,9)\n\t\t\telif map.zone==\"forest\" and not enemy.get(\"boss\",false) and not enemy.get(\"elite\",false):tier=0\n\t\t\tvar affixes=preload(\"res://scripts/equipment_catalog.gd\").AFFIXES.keys()\n\t\t\titem=preload(\"res://scripts/equipment_catalog.gd\").make(type,tier,int(item.rarity),item_id,affixes[rng.randi_range(0,affixes.size()-1)],p.class_id)\n\t\tvar offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)\n\t\tdrops[item_id] = {\"item\":item,\"pos\":map.move(enemy.pos,offset),\"owner\":id,\"expires\":clock + 90.0}\n\tRisk.guardian_drop(self,id,enemy)\n\tif enemy.get(\"raid\",false):\n\t\tserial+=1\n\t\tvar raid_id=\"raid-\"+str(Time.get_ticks_usec())+\"-\"+str(serial)\n\t\tvar slot=Content.SLOTS[rng.randi_range(0,Content.SLOTS.size()-1)]\n\t\tvar grade=preload(\"res://scripts/abyss_catalog.gd\").raid_grade(map.floor_number,rng.randf())\n\t\tvar raid_item=preload(\"res://scripts/equipment_catalog.gd\").make(\"sword\" if slot==\"weapon\" else slot,int((map.floor_number-1)/10),grade,raid_id,\"focus\",p.class_id)\n\t\tdrops[raid_id]={\"item\":raid_item,\"pos\":enemy.pos+Vector2(.2,.2),\"owner\":id,\"expires\":clock+300.}\n\tdirty[id]=true",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "reward_kill"
       },
       {
@@ -371442,27 +371442,27 @@
         "source_symbol": "rescale"
       },
       {
-        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/town_research.gd\").tick(self,delta)\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tGoals.observe(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"tool_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p.get(key,0.) - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\ttactical.tick()\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\te[\"guard_break_time\"]=maxf(0.,e.get(\"guard_break_time\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tSupport.cancel(e)\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\r\n\t\t\t\te.erase(\"support_received\");e.erase(\"support_lock_until\")\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tvar was_stunned=float(e.get(\"stun_time\",0))>0\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif was_stunned or e.stun_time>0:\r\n\t\t\te.windup=0;e.erase(\"attack_areas\");Support.cancel(e,true);continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\tvar was_taunted=float(e.get(\"taunt_time\",0))>0\r\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\r\n\t\tif was_taunted:Support.cancel(e,true)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):\r\n\t\t\tSupport.cancel(e,true);continue\r\n\t\tif not was_taunted and Support.step(self,e,target,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
+        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/town_research.gd\").tick(self,delta)\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tGoals.observe(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"tool_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p.get(key,0.) - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\ttactical.tick()\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\tDefense.tick(e,delta,clock)\n\t\tif e.hp <= 0:\n\t\t\tSupport.cancel(e)\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\r\n\t\t\t\te.erase(\"support_received\");e.erase(\"support_lock_until\")\r\n\t\t\t\tDefense.initialize(e)\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tvar was_stunned=float(e.get(\"stun_time\",0))>0\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif was_stunned or e.stun_time>0:\r\n\t\t\te.windup=0;e.erase(\"attack_areas\");Support.cancel(e,true);continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\tvar was_taunted=float(e.get(\"taunt_time\",0))>0\r\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\r\n\t\tif was_taunted:Support.cancel(e,true)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):\r\n\t\t\tSupport.cancel(e,true);continue\r\n\t\tif not was_taunted and Support.step(self,e,target,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "tick"
       },
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
         "source_symbol": "exit_ack"
       }
     ],
@@ -371824,13 +371824,103 @@
     },
     "enemy_defense": {
       "armored_mitigation": 0.75,
+      "brace_exposure": [
+        "attack_windup",
+        "attack_recovery",
+        "stun",
+        "guard_break"
+      ],
+      "brace_kinds": [
+        "centurion"
+      ],
       "break_seconds": 4,
+      "charged_or_high_stagger_chips": 2,
+      "layer_break_seconds": 5,
+      "layer_contact_cap": "min(3,max(chips,cast_hit_count))",
+      "layer_damage_over_time": false,
+      "layer_kinds": [
+        "clockwork"
+      ],
+      "layers": 3,
       "per_cast_cap": true,
       "pressure_reset_seconds": 4,
+      "profiles": {
+        "armor": {
+          "counter": "강공격 · 무력화",
+          "mitigation": 0.75,
+          "name": "단단한 갑피"
+        },
+        "brace": {
+          "counter": "공격 틈새 · 강공격",
+          "mitigation": 0.6,
+          "name": "방어 자세"
+        },
+        "layers": {
+          "counter": "연속 타격",
+          "mitigation": 0.75,
+          "name": "겹친 보호막"
+        }
+      },
       "raid_override": false,
       "source": "normalized_existing_stagger_budget",
       "threshold": 40
     },
+    "enemy_defense_source_rules": [
+      {
+        "source_code": "static func type_for(enemy:Dictionary)->String:\n\tif enemy.get(\"boss\",false) or enemy.get(\"raid\",false) or enemy.get(\"training\",false):return \"\"\n\tif enemy.get(\"kind\",\"\")==\"clockwork\":return \"layers\"\n\tif enemy.get(\"kind\",\"\")==\"centurion\":return \"brace\"\n\treturn \"armor\" if World.ENEMIES.get(enemy.get(\"kind\",\"\"),{}).get(\"ai\",\"\")==\"armored\" else \"\"",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "type_for"
+      },
+      {
+        "source_code": "static func initialize(enemy:Dictionary):\n\tfor key in [\"guard_pressure\",\"guard_last_hit\",\"guard_break_time\",\"guard_layers\"]:enemy.erase(key)\n\tif type_for(enemy)==\"layers\":enemy[\"guard_layers\"]=LAYERS",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "initialize"
+      },
+      {
+        "source_code": "static func tick(enemy:Dictionary,delta:float,clock:float):\n\tif enemy.hp<=0:return\n\tenemy[\"guard_break_time\"]=maxf(0.,float(enemy.get(\"guard_break_time\",0))-delta)\n\tif clock-float(enemy.get(\"guard_last_hit\",clock))>RESET_SECONDS:enemy[\"guard_pressure\"]=0.\n\tif type_for(enemy)==\"layers\" and enemy.guard_break_time<=0 and int(enemy.get(\"guard_layers\",LAYERS))<=0:enemy.guard_layers=LAYERS",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "tick"
+      },
+      {
+        "source_code": "static func factor(sim,enemy:Dictionary,context:Dictionary)->float:\n\t# Raid armor and its dedicated stagger state machine remain separate.\n\tif enemy.get(\"boss\",false):return .75\n\tvar kind=type_for(enemy)\n\tif kind.is_empty() or exposed(enemy):return 1.\n\tif kind==\"layers\":return layer_factor(sim,enemy,context)\n\tvar mitigation=float(PROFILES[kind].mitigation)\n\tvar budget:Dictionary=context.get(\"budget\",{})\n\tif budget.is_empty():return mitigation\n\tif sim.clock-float(enemy.get(\"guard_last_hit\",-100.))>RESET_SECONDS:enemy[\"guard_pressure\"]=0.\n\tenemy[\"guard_last_hit\"]=sim.clock\n\tif not budget.has(\"guard_spent\"):budget.guard_spent={}\n\tvar value=maxf(0.,float(budget.get(\"value\",0)))\n\tvar spent=float(budget.guard_spent.get(enemy.id,0))\n\tvar pressure=minf(value-spent,value*maxf(0.,float(context.get(\"weight\",1.))))\n\tif pressure<=0:return mitigation\n\tbudget.guard_spent[enemy.id]=spent+pressure\n\tenemy[\"guard_pressure\"]=float(enemy.get(\"guard_pressure\",0))+pressure\n\tif enemy.guard_pressure<THRESHOLD:return mitigation\n\tbreak_guard(sim,enemy,BREAK_SECONDS)\n\treturn 1.",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "factor"
+      },
+      {
+        "source_code": "static func layer_factor(sim,enemy:Dictionary,context:Dictionary)->float:\n\tvar budget:Dictionary=context.get(\"budget\",{})\n\tif budget.is_empty() or budget.get(\"dot\",false):return .75\n\t# Actual cast hit count bounds repeat contacts, including projectile splash.\n\tif not budget.has(\"ward_spent\"):budget.ward_spent={}\n\tvar chips=2 if (budget.get(\"source\",\"\")==\"heavy\" and budget.get(\"value\",0)>=19.9) or (budget.get(\"source\",\"\")!=\"basic\" and budget.get(\"value\",0)>=32.) else 1\n\tvar cap=mini(LAYERS,maxi(chips,int(budget.get(\"count\",1))))\n\tvar spent=int(budget.ward_spent.get(enemy.id,0));chips=mini(chips,cap-spent)\n\tif chips<=0:return .75\n\tbudget.ward_spent[enemy.id]=spent+chips\n\tenemy[\"guard_layers\"]=maxi(0,int(enemy.get(\"guard_layers\",LAYERS))-chips)\n\tif enemy.guard_layers>0:return .75\n\tbreak_guard(sim,enemy,LAYER_BREAK_SECONDS)\n\treturn 1.",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "layer_factor"
+      },
+      {
+        "source_code": "static func break_guard(sim,enemy:Dictionary,seconds:float):\n\tenemy.guard_pressure=0.;enemy.guard_break_time=seconds\n\tenemy.stun_time=maxf(float(enemy.get(\"stun_time\",0)),.5);enemy.windup=0.;enemy.erase(\"attack_areas\")\n\tsim.monster_attacks.zones=sim.monster_attacks.zones.filter(func(zone):return zone.enemy!=enemy.id)\n\tsim.events.append({\"type\":\"skill_fx\",\"fx\":\"guard_break\",\"pos\":enemy.pos,\"dir\":Vector2.RIGHT,\"owner\":0,\"duration\":.4,\"radius\":.8,\"sound\":\"heavy\"})",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "break_guard"
+      },
+      {
+        "source_code": "static func description(enemy:Dictionary)->Dictionary:\n\tvar kind=type_for(enemy)\n\tif kind.is_empty():return {}\n\tvar result:Dictionary=PROFILES[kind].duplicate();result[\"type\"]=kind;result[\"exposed\"]=exposed(enemy)\n\tresult[\"layers\"]=int(enemy.get(\"guard_layers\",LAYERS));result[\"pressure\"]=clampf(float(enemy.get(\"guard_pressure\",0))/THRESHOLD,0,1)\n\treturn result",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "description"
+      },
+      {
+        "source_code": "static func configuration()->Dictionary:\n\treturn {\"profiles\":PROFILES,\"layer_kinds\":[\"clockwork\"],\"brace_kinds\":[\"centurion\"],\"armored_mitigation\":.75,\"threshold\":THRESHOLD,\"break_seconds\":BREAK_SECONDS,\"pressure_reset_seconds\":RESET_SECONDS,\"source\":\"normalized_existing_stagger_budget\",\"per_cast_cap\":true,\"layers\":LAYERS,\"layer_break_seconds\":LAYER_BREAK_SECONDS,\"layer_damage_over_time\":false,\"layer_contact_cap\":\"min(3,max(chips,cast_hit_count))\",\"charged_or_high_stagger_chips\":2,\"brace_exposure\":[\"attack_windup\",\"attack_recovery\",\"stun\",\"guard_break\"],\"raid_override\":false}",
+        "source_path": "game/scripts/enemy_defense.gd",
+        "source_sha256": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+        "source_symbol": "configuration"
+      },
+      {
+        "source_code": "static func draw(game,enemy:Dictionary,at:Vector2):\n\tif enemy.get(\"hp\",0)<=0:return\n\tvar data=Defense.description(enemy)\n\tif data.is_empty():return\n\tvar color=Color(\"b7a3ef\") if data.type==\"layers\" else Color(\"e4bc73\")\n\tif data.exposed:color=Color(\"a9ecde\")\n\tvar shield=PackedVector2Array([at+Vector2(-9,-10),at+Vector2(9,-10),at+Vector2(8,2),at+Vector2(0,10),at+Vector2(-8,2),at+Vector2(-9,-10)])\n\tgame.draw_colored_polygon(shield,Color(\"171e24dc\"))\n\tgame.draw_polyline(shield,color,2.,true)\n\tif data.exposed:\n\t\tgame.draw_polyline(PackedVector2Array([at+Vector2(-2,-10),at+Vector2(3,-3),at+Vector2(-3,2),at+Vector2(2,8)]),color,2.,true)\n\telif data.type==\"layers\":\n\t\tfor index in range(3):game.draw_circle(at+Vector2((index-1)*5,-1),1.9,color if index<data.layers else Color(\"565361\"))\n\telif data.type==\"brace\":\n\t\tgame.draw_line(at+Vector2(-5,-5),at+Vector2(5,-5),color,2.,true)\n\t\tgame.draw_line(at+Vector2(0,-5),at+Vector2(0,5),color,2.,true)\n\telse:\n\t\tfor index in range(3):\n\t\t\tvar y=-5+index*4\n\t\t\tgame.draw_line(at+Vector2(-5,y),at+Vector2(5,y),color if data.pressure<(index+1)/3. else Color(\"65513b\"),2.,true)",
+        "source_path": "game/scripts/enemy_defense_feedback.gd",
+        "source_sha256": "6a226a76339756886fccb59750892c27aa1ebfc65cf8fc0c94594f731b580026",
+        "source_symbol": "draw"
+      }
+    ],
     "enemy_inspection": {
       "corpse_distance": 8,
       "max_corpses": 64,
@@ -372522,9 +372612,9 @@
         "source_symbol": "build_encounters"
       },
       {
-        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/town_research.gd\").tick(self,delta)\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tGoals.observe(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"tool_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p.get(key,0.) - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\ttactical.tick()\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\te[\"guard_break_time\"]=maxf(0.,e.get(\"guard_break_time\",0)-delta)\n\t\tif e.hp <= 0:\n\t\t\tSupport.cancel(e)\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\r\n\t\t\t\te.erase(\"support_received\");e.erase(\"support_lock_until\")\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tvar was_stunned=float(e.get(\"stun_time\",0))>0\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif was_stunned or e.stun_time>0:\r\n\t\t\te.windup=0;e.erase(\"attack_areas\");Support.cancel(e,true);continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\tvar was_taunted=float(e.get(\"taunt_time\",0))>0\r\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\r\n\t\tif was_taunted:Support.cancel(e,true)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):\r\n\t\t\tSupport.cancel(e,true);continue\r\n\t\tif not was_taunted and Support.step(self,e,target,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
+        "source_code": "func tick(delta: float):\n\tif delta<=0:return\n\tclock += delta\n\tpreload(\"res://scripts/town_research.gd\").tick(self,delta)\n\tpreload(\"res://scripts/hidden_rooms.gd\").discover(self)\n\tGoals.observe(self)\n\tfor p in players.values():\n\t\tif p.get(\"network_leaving\",false):p.dir=Vector2.ZERO;continue\n\t\tif p.get(\"down_time\",0)>0:\n\t\t\tp.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO\n\t\t\tif p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)\n\t\t\tcontinue\n\t\tif p.has(\"revive_target\"):\n\t\t\tvar target=players.get(p.revive_target,{})\n\t\t\tif target.get(\"down_time\",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\telse:\n\t\t\t\tp.revive_progress=float(p.get(\"revive_progress\",0))+delta;p.dir=Vector2.ZERO\n\t\t\t\tif p.revive_progress>=Party.RESCUE_SECONDS:\n\t\t\t\t\ttarget.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase(\"revive_target\");p.erase(\"revive_progress\");notice(target.id,\"동료의 도움으로 일어났습니다.\")\n\t\tp.input_age += delta\n\t\tif p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false\n\t\tfor key in [\"attack_cd\",\"nova_cd\",\"potion_cd\",\"tool_cd\",\"return_cd\",\"swing\"]:\n\t\t\tp[key] = maxf(0, p.get(key,0.) - delta)\n\t\tvar before=p.pos\n\t\tcombat.tick_player(p,delta)\n\t\tawareness.movement(p,before)\n\tcombat.tick_projectiles(delta)\n\tcombat.skills.tick(delta)\n\ttactical.tick()\n\tmonster_attacks.tick(delta)\n\tfor e in enemies.values():\n\t\tif e.get(\"training\",false):preload(\"res://scripts/training_ground.gd\").tick(self,e,delta);continue\n\t\tvar config = balance.enemies[e.kind]\n\t\te.attack_motion=maxf(0,e.get(\"attack_motion\",0)-delta)\n\t\tDefense.tick(e,delta,clock)\n\t\tif e.hp <= 0:\n\t\t\tSupport.cancel(e)\n\t\t\tif map.floor_number>0:continue\n\t\t\te.respawn -= delta\n\t\t\tif e.respawn <= 0:\n\t\t\t\te.hp = e.max_hp;e[\"rewarded\"]=false\r\n\t\t\t\te.erase(\"support_received\");e.erase(\"support_lock_until\")\r\n\t\t\t\tDefense.initialize(e)\n\t\t\t\te.pos = e.home\n\t\t\t\tBossStagger.initialize(e,clock)\n\t\t\tcontinue\n\t\tif e.get(\"raid\",false):e[\"stun_time\"]=0.\n\t\tif BossStagger.tick(self,e,delta):continue\n\t\te.cooldown = maxf(0, e.cooldown - delta)\n\t\te.ability_cd=maxf(0,e.get(\"ability_cd\",4)-delta)\n\t\te.phase=2 if e.get(\"boss\",false) and e.hp<e.max_hp*.5 else 1\n\t\tvar was_stunned=float(e.get(\"stun_time\",0))>0\n\t\te[\"slow_time\"]=maxf(0,e.get(\"slow_time\",0)-delta)\n\t\te[\"stun_time\"]=maxf(0,e.get(\"stun_time\",0)-delta)\n\t\tif e.get(\"raid\",false):e.stun_time=0.\n\t\tif was_stunned or e.stun_time>0:\r\n\t\t\te.windup=0;e.erase(\"attack_areas\");Support.cancel(e,true);continue\n\t\tvar movement_origin=e.pos\n\t\tvar move_speed=e.get(\"speed\",config.speed)*(0.45 if e.slow_time>0 else 1.0)\n\t\tif config.ai==\"charger\" and e.ability_cd<1.0:move_speed*=2.2\n\t\tif e.windup > 0:\n\t\t\te.windup -= delta\n\t\t\tif e.windup <= 0:\n\t\t\t\te.attack_motion=.35\n\t\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\t\tmonster_attacks.release(e);e.cooldown=1.7 if e.get(\"elite\",false) else 1.25;continue\n\t\t\t\tif e.get(\"boss\",false):\n\t\t\t\t\tevents.append({\"type\":\"skill_fx\",\"fx\":{\"warden\":\"ranger_field\",\"golem\":\"mage_burst\",\"sentinel\":\"warrior_nova_ring\"}[e.kind],\"pos\":e.attack_pos,\"dir\":Vector2.RIGHT,\"owner\":1,\"duration\":.8,\"radius\":config.range,\"sound\":\"heavy\"})\n\t\t\t\tfor p in players.values():\n\t\t\t\t\tif e.hp<=0 or e.get(\"stagger\",{}).get(\"state\",\"\") in [\"check\",\"down\"]:break\n\t\t\t\t\tvar impact=.9 if config.ai in [\"ranged\",\"healer\"] else config.range\n\t\t\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and p.invulnerable<=0 and not map.in_town(p.pos) and p.pos.distance_to(e.attack_pos) <= impact and map.line_clear(e.pos, p.pos):\n\t\t\t\t\t\tvar received=Progression.received(p,config.damage*(1.25 if e.phase==2 else 1.0),e.kind==\"golem\")\n\t\t\t\t\t\tif p.barrier_time>0:received=maxi(1,roundi(received*(1-p.barrier_strength)))\n\t\t\t\t\t\tp.combat_time=4.0\n\t\t\t\t\t\tvar reflected=int(Content.skill_bonus(p,\"thorns\"))\n\t\t\t\t\t\tif reflected>0 and e.pos.distance_to(p.pos)<2:combat.hit(p,e,reflected,null,{})\n\t\t\t\t\t\treceived=combat.jobs.receive(p,e,received,config.ai not in [\"ranged\",\"healer\",\"spore\"])\n\t\t\t\t\t\tp.erase(\"revive_target\");p.erase(\"revive_progress\")\n\t\t\t\t\t\tp.hp -= received\n\t\t\t\t\t\tp.hurt_time=.16\n\t\t\t\t\t\tif config.ai==\"spore\":p.stamina=maxf(0,p.stamina-12)\n\t\t\t\t\t\tevents.append({\"type\":\"damage\",\"pos\":p.pos,\"amount\":received,\"enemy\":false,\"owner\":p.id})\n\t\t\t\t\t\tif p.hp <= 0:player_defeated(p)\n\t\t\t\te.cooldown = 1.8 if e.get(\"boss\",false) else 1.2\n\t\t\tcontinue\n\t\tvar was_taunted=float(e.get(\"taunt_time\",0))>0\r\n\t\te[\"taunt_time\"]=maxf(0,e.get(\"taunt_time\",0)-delta)\r\n\t\tif was_taunted:Support.cancel(e,true)\n\t\tvar target: Dictionary = {}\n\t\tvar best = 18.0 if e.get(\"raid\",false) else 6.5\n\t\tfor p in players.values():\n\t\t\tif e.taunt_time>0 and players.has(e.get(\"taunt_owner\",0)) and p.id!=e.taunt_owner:continue\n\t\t\tvar distance = e.pos.distance_to(p.pos)\n\t\t\tif p.hp>0 and not p.get(\"network_leaving\",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get(\"heard_until\",0))>clock else 0.) and map.line_clear(e.pos, p.pos):\n\t\t\t\tbest = distance\n\t\t\t\ttarget = p\n\t\tif not target.is_empty() and preload(\"res://scripts/enemy_tactics.gd\").avoid(self,e,move_speed,delta):\r\n\t\t\tSupport.cancel(e,true);continue\r\n\t\tif not was_taunted and Support.step(self,e,target,move_speed,delta):continue\n\t\tif not target.is_empty():\n\t\t\tif float(e.get(\"heard_until\",0))>clock:e.heard_until=clock+4.\n\t\t\te.erase(\"search_path\");e.erase(\"search_until\");e[\"awareness_state\"]=\"engaged\"\n\t\tif target.is_empty():\n\t\t\tif awareness.investigate(e,move_speed,delta):continue\n\t\t\te.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))\n\t\telif best <= config.range and e.cooldown <= 0:\n\t\t\te.windup = 1.0 if e.get(\"boss\",false) else .65 if config.ai in [\"ranged\",\"spore\"] else .5\n\t\t\te.attack_pos = target.pos\n\t\t\tif not e.get(\"boss\",false) or e.get(\"raid\",false):\n\t\t\t\te.windup=.9 if e.get(\"elite\",false) or e.kind in [\"mole\",\"orc_axeman\",\"bat\"] else .65 if config.ai in [\"ranged\",\"healer\"] else .5\n\t\t\t\tif e.get(\"raid\",false):e.windup=1.25 if e.phase==1 else .95\n\t\t\t\tmonster_attacks.begin(e,target.pos)\n\t\t\te.pattern=int(e.get(\"pattern\",0))+1\n\t\t\tif not e.get(\"wall_charge\",false) and e.kind==\"golem\" and e.pattern%3==0 and map.line_clear(e.pos,target.pos):e.pos=map.move(e.pos,e.pos.direction_to(target.pos)*minf(1.0,best))\n\t\telif config.ai in [\"ranged\",\"healer\"] and best<2.0:\n\t\t\te.pos=map.move(e.pos,target.pos.direction_to(e.pos)*move_speed*delta)\n\t\telif best > config.range * 0.8:\n\t\t\te.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))\n\t\tif not target.is_empty():preload(\"res://scripts/enemy_tactics.gd\").spread(self,e,move_speed,delta,movement_origin)\n\t\tif config.ai==\"charger\" and e.ability_cd<=0:e.ability_cd=3.0\n\tfor key in drops.keys():\n\t\tif drops[key].expires <= clock: drops.erase(key)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "tick"
       }
     ],
@@ -373140,7 +373230,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "c702971dbcbcf0608e4e9cd4179bcc36a5d3d02ae5d3aa3d710b19b1f4a06544",
+      "game/scripts/coop_session.gd": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -373149,10 +373239,11 @@
       "game/scripts/dungeon_vision.gd": "3307958dd06922bb16543b7aa16e29a0eca3e05f504807546c46a32b08980f29",
       "game/scripts/encounter_roles.gd": "06257af8546c4d0267202844a0231d65bd565d19b33cf362ca43ebeeb1ab579b",
       "game/scripts/enemy_awareness.gd": "f161c6453eca390d2aa33ec2851be1eb13c17b48012073ebb45ef19b2485bbc3",
-      "game/scripts/enemy_defense.gd": "43ce269c32f9dc149e73811dd6ced9eca6a0ca3f7979ae27424b659982bd1838",
+      "game/scripts/enemy_defense.gd": "e0ce2484caad9ffa01b65764242870c88d41931cbf67407f8482f5ea5ee1c4ec",
+      "game/scripts/enemy_defense_feedback.gd": "6a226a76339756886fccb59750892c27aa1ebfc65cf8fc0c94594f731b580026",
       "game/scripts/enemy_hit_geometry.gd": "646114cc56a50eacf2e2b011b8ebf5488051493fcec179a007c531de41713442",
-      "game/scripts/enemy_inspection.gd": "141ac60c0ad2cebdaf293b7ddee00113c1a5af5d4e8e755fa7cdb00dd7d0d5c3",
-      "game/scripts/enemy_inspection_panel.gd": "d6dcfb4804b5506bb9f075710b323121666be4a15354eb018c354cd0bd289e7c",
+      "game/scripts/enemy_inspection.gd": "1c13be2b009665c923a0e8cd517ec81f114d1c94862f32e81bf670b5218289a4",
+      "game/scripts/enemy_inspection_panel.gd": "cd7c3c0aa2a158e44e39977e039f2976c73719a9774784dc0464cf80673d718f",
       "game/scripts/enemy_support.gd": "673a48717a4989acac48dc88dc94a2dffbe94d278377bece3e8e0f1f24c14df0",
       "game/scripts/enemy_tactics.gd": "9f24c28b979c7a726ff85289a2f45c4f1ed79284ba97707b82ce8794dd449747",
       "game/scripts/environment_art.gd": "c57190a3c16bc5f977cd80d22d90a18aebe4380508aea0af6274a7356a86e8e6",
@@ -373177,7 +373268,7 @@
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af",
-      "game/scripts/game_database.gd": "1ce35f579817897143862d33bda305ddeb924b339f2f5faf7ae8085605f715fc",
+      "game/scripts/game_database.gd": "af02c6a64a34f097ae9ad8832c7e9731c9722c192ad287b815a3a02393c24443",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -373201,7 +373292,7 @@
       "game/scripts/keyboard_panel.gd": "1c2a2c7e747ab0fed2a2ce3111d3e9eed67497f302a4032fdb0dc300fe21ced8",
       "game/scripts/local_session.gd": "f8e27ba05c407debe1b396bdf39197bec03aec0146297d36f7f210131b3af620",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "ff7fb8cf65b753c95dcfafcc31f4405cac03bea09b316e4db3b7c83d5c884447",
+      "game/scripts/main.gd": "227bd9c5df84dd0cace103a6692f4d579ea58fc5004d62cc265bf1f93f3da8de",
       "game/scripts/minimap.gd": "17f53a8a04c944f0d14d0b608cabdaa659511de02ccbb3bcc5b77dae6bba0493",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "884ad894cc4fecca29434a592a4b14020fb007b1a7ac8bf4290fa243c3494130",
@@ -373209,7 +373300,7 @@
       "game/scripts/npc_dialogue.gd": "dffd059e5b1e9a28064f6e2a225219c44a3b10b3431970ef72acf058dc9e231d",
       "game/scripts/party_hud.gd": "13edb3b5afe9b49b7fda6e427a62caa464f629ae0c079f54940337508b94954f",
       "game/scripts/party_rules.gd": "6f871e022ef3ed8e9e698be31836855a5496714888ca41058161dd03c446bbba",
-      "game/scripts/player_combat.gd": "7c7838532652b409e80dd6233023acba5a0c1fe1f37d745779e6bd2ae0c2143e",
+      "game/scripts/player_combat.gd": "8f03539fe1838937f5900d333590e83cd05005912192d0ba4079bf305b5770b6",
       "game/scripts/player_stats.gd": "b0f0a5624e7d2bafcf3be7f7fc0b7dec4030a0708bc673a6ae312277c7193ede",
       "game/scripts/playtest_driver.gd": "0c5ab2431e7faaeb5c974e5a24c21a1f5aec8762a27566222a75d9f3e51905bd",
       "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
@@ -373218,10 +373309,10 @@
       "game/scripts/research_journey.gd": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
       "game/scripts/service_quote.gd": "8259c17f850834c433b9ff91dd878ac7fca910106469fe315a320d1cf6d0b603",
       "game/scripts/settings_panel.gd": "d442097b2e1beda0b2448960fe6ad9fb63416c22984b352d554f01b3edc83f09",
-      "game/scripts/simulation.gd": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+      "game/scripts/simulation.gd": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
       "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
       "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
-      "game/scripts/skill_effects.gd": "cae93c16b3e414792e0ef3830822f60dbea6101e62f53cf41ea4e04dd5a52fc1",
+      "game/scripts/skill_effects.gd": "0e6baf8aee459098228598414aed0b0ace63485a10288448e9a1e8ceed857fb4",
       "game/scripts/skill_graph_view.gd": "a323ced58e3e1672ef195e36037814318ea137d93bbe9f0b277fc515c3214567",
       "game/scripts/skill_node_roles.gd": "87609bf62ef3610555bc8a9be830c63840742328a99794ac0a76ffad043c5bbf",
       "game/scripts/skill_presentation.gd": "746027daa898d6030775130006e0437725171df4e004174435084f41410f5560",
@@ -373258,7 +373349,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "14f5b09bf352b00e9cafe4d0949781c94eb29c80129e28dcce4aa003b0fb4727",
+      "tools/game_db_rules.py": "163f56bc8736b3ca096bb30e8beb64e58cddbe426b0d30da2d34a2987f0d491d",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [
@@ -373523,6 +373614,7 @@
         "sheet_key": "enemies"
       },
       "damage": 16,
+      "defense": {},
       "description": "직선 공격",
       "display_height": 109.2,
       "floors": [
@@ -373613,7 +373705,16 @@
         "sheet_key": "enemies"
       },
       "damage": 20,
-      "description": "원형 공격",
+      "defense": {
+        "counter": "강공격 · 무력화",
+        "exposed": false,
+        "layers": 3,
+        "mitigation": 0.75,
+        "name": "단단한 갑피",
+        "pressure": 0,
+        "type": "armor"
+      },
+      "description": "원형 공격\n방어 · 단단한 갑피\n공략 · 강공격 · 무력화",
       "display_height": 101.4,
       "floors": [
         11,
@@ -373721,6 +373822,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 15,
+      "defense": {},
       "description": "부채꼴 공격",
       "display_height": 92,
       "elite": false,
@@ -373823,7 +373925,16 @@
         "sheet_key": "reinforcements"
       },
       "damage": 45,
-      "description": "직선 공격 / 원형 공격",
+      "defense": {
+        "counter": "공격 틈새 · 강공격",
+        "exposed": false,
+        "layers": 3,
+        "mitigation": 0.6,
+        "name": "방어 자세",
+        "pressure": 0,
+        "type": "brace"
+      },
+      "description": "직선 공격 / 원형 공격\n방어 · 방어 자세\n공략 · 공격 틈새 · 강공격",
       "display_height": 236,
       "elite": true,
       "floors": [
@@ -374085,7 +374196,16 @@
         "sheet_key": "enemies"
       },
       "damage": 26,
-      "description": "직선 공격 / 원형 공격",
+      "defense": {
+        "counter": "연속 타격",
+        "exposed": false,
+        "layers": 3,
+        "mitigation": 0.75,
+        "name": "겹친 보호막",
+        "pressure": 0,
+        "type": "layers"
+      },
+      "description": "직선 공격 / 원형 공격\n방어 · 겹친 보호막\n공략 · 연속 타격",
       "display_height": 172,
       "floors": [
         61,
@@ -374229,6 +374349,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 17,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 92,
       "elite": false,
@@ -374437,6 +374558,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "defense": {},
       "description": "직선 공격",
       "display_height": 93.6,
       "floors": [
@@ -374536,6 +374658,7 @@
         "sheet_key": "enemies"
       },
       "damage": 24,
+      "defense": {},
       "description": "원형 공격 / 부채꼴 공격",
       "display_height": 111.8,
       "floors": [
@@ -374673,6 +374796,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 23,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 92,
       "elite": false,
@@ -374782,6 +374906,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 12,
+      "defense": {},
       "description": "직선 공격",
       "display_height": 111.8,
       "elite": false,
@@ -374873,6 +374998,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 23,
+      "defense": {},
       "description": "부채꼴 공격 / 직선 공격",
       "display_height": 179.2,
       "elite": true,
@@ -375060,6 +375186,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 24,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 117,
       "elite": false,
@@ -375249,6 +375376,7 @@
         "sheet_key": "bosses"
       },
       "damage": 45,
+      "defense": {},
       "description": "보스 전용 패턴 · 층별 레이드 항목에서 단계별 판정 확인",
       "display_height": 335,
       "floors": [
@@ -375318,6 +375446,7 @@
         "sheet_key": "enemies"
       },
       "damage": 14,
+      "defense": {},
       "description": "직선 공격",
       "display_height": 111.8,
       "floors": [
@@ -375453,6 +375582,7 @@
         "sheet_key": "enemies"
       },
       "damage": 24,
+      "defense": {},
       "description": "부채꼴 공격",
       "display_height": 180,
       "floors": [
@@ -375554,6 +375684,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 35,
+      "defense": {},
       "description": "부채꼴 공격",
       "display_height": 184,
       "elite": false,
@@ -375703,7 +375834,16 @@
         "sheet_key": "reinforcements"
       },
       "damage": 38,
-      "description": "고리 공격 / 부채꼴 공격",
+      "defense": {
+        "counter": "강공격 · 무력화",
+        "exposed": false,
+        "layers": 3,
+        "mitigation": 0.75,
+        "name": "단단한 갑피",
+        "pressure": 0,
+        "type": "armor"
+      },
+      "description": "고리 공격 / 부채꼴 공격\n방어 · 단단한 갑피\n공략 · 강공격 · 무력화",
       "display_height": 240,
       "elite": true,
       "floors": [
@@ -375833,6 +375973,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 8,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 92,
       "elite": false,
@@ -375959,6 +376100,7 @@
         "sheet_key": "bosses"
       },
       "damage": 55,
+      "defense": {},
       "description": "보스 전용 패턴 · 층별 레이드 항목에서 단계별 판정 확인",
       "display_height": 335,
       "floors": [
@@ -376027,6 +376169,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 92,
       "floors": [
@@ -376117,7 +376260,16 @@
         "sheet_key": "reinforcements"
       },
       "damage": 25,
-      "description": "직선 공격",
+      "defense": {
+        "counter": "강공격 · 무력화",
+        "exposed": false,
+        "layers": 3,
+        "mitigation": 0.75,
+        "name": "단단한 갑피",
+        "pressure": 0,
+        "type": "armor"
+      },
+      "description": "직선 공격\n방어 · 단단한 갑피\n공략 · 강공격 · 무력화",
       "display_height": 119.6,
       "elite": false,
       "floors": [
@@ -376262,6 +376414,7 @@
         "sheet_key": "enemies"
       },
       "damage": 30,
+      "defense": {},
       "description": "직선 공격",
       "display_height": 98.8,
       "floors": [
@@ -376442,6 +376595,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 19,
+      "defense": {},
       "description": "원형 공격",
       "display_height": 93.6,
       "elite": false,
@@ -376559,6 +376713,7 @@
         "sheet_key": "bosses"
       },
       "damage": 30,
+      "defense": {},
       "description": "보스 전용 패턴 · 층별 레이드 항목에서 단계별 판정 확인",
       "display_height": 335,
       "floors": [
@@ -509435,7 +509590,7 @@
       "reward_rule": {
         "source_code": "func kill(id: int, enemy: Dictionary):\n\tif enemy.get(\"training\",false):enemy.hp=enemy.max_hp;return\n\tif enemy.get(\"rewarded\",false):return\n\tenemy[\"rewarded\"]=true\n\tvar config = balance.enemies[enemy.kind].duplicate(true)\n\tfor key in [\"xp\",\"gold\"]:config[key]=enemy.get(key,config[key])\n\tenemy.hp = 0\n\tinspection.record(enemy,clock)\n\tenemy.respawn = 999999. if map.floor_number>0 else config.respawn\n\tenemy.windup = 0.0\n\tenemy[\"slow_time\"]=0.0;enemy[\"stun_time\"]=0.0;enemy[\"job_status\"]={};enemy.erase(\"taunt_owner\");enemy.erase(\"taunt_time\")\n\tvar recipients=[id]\n\tif players.size()>1:\n\t\trecipients=players.keys().filter(func(key):return key==id or enemy.get(\"guardian\",false) or players[key].pos.distance_to(enemy.pos)<=12.)\n\tfor recipient in recipients:\n\t\tif not players[recipient].get(\"network_leaving\",false):reward_kill(recipient,enemy,config)",
         "source_path": "game/scripts/simulation.gd",
-        "source_sha256": "7f92c57de31eea122aef3e1ac645f64f4b430f52c2a7c3440036837cd1157f3b",
+        "source_sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
         "source_symbol": "kill"
       },
       "rules": [

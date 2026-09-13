@@ -60,6 +60,6 @@ static func attack_shapes(enemy:Dictionary)->String:
 	return value
 static func description(enemy:Dictionary)->Dictionary:
 	var alive=enemy.get("hp",0)>0
-	return {"name":str(enemy.name),"subtitle":"LV.%d · %s%s"%[int(enemy.level),"레이드" if enemy.get("raid",false) else "보스" if enemy.get("boss",false) else "엘리트" if enemy.get("elite",false) else "일반", "" if alive else " · 처치됨"],"health":"%d / %d"%[maxi(0,int(enemy.hp)),int(enemy.max_hp)],"shapes":attack_shapes(enemy),"statuses":Status.keys_for(enemy,false),"codex_id":codex_id(enemy)}
+	return {"name":str(enemy.name),"subtitle":"LV.%d · %s%s"%[int(enemy.level),"레이드" if enemy.get("raid",false) else "보스" if enemy.get("boss",false) else "엘리트" if enemy.get("elite",false) else "일반", "" if alive else " · 처치됨"],"health":"%d / %d"%[maxi(0,int(enemy.hp)),int(enemy.max_hp)],"shapes":attack_shapes(enemy),"defense":preload("res://scripts/enemy_defense.gd").description(enemy),"statuses":Status.keys_for(enemy,false),"codex_id":codex_id(enemy)}
 static func configuration()->Dictionary:
 	return {"max_corpses":MAX_CORPSES,"nearby_corpses":NEARBY_CORPSES,"corpse_distance":CORPSE_DISTANCE,"visibility":"current_party_sight","scope":"map_local","rewards":false}

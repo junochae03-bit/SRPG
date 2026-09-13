@@ -99,6 +99,8 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 		var m=World.ENEMIES[kind].duplicate(true)
 		m.merge({"id":kind,"kind":kind,"monster_id":kind,"role":"boss" if m.ai=="boss" else "elite" if m.get("elite",false) else "normal","level":0,"floors":[],"asset":_monster_asset(kind),"display_height":World.display_height(kind)},true)
 		m["patterns"]=_patterns(kind);m["description"]=_pattern_text(m.patterns)
+		m["defense"]=preload("res://scripts/enemy_defense.gd").description({"kind":kind,"boss":m.ai=="boss"})
+		if not m.defense.is_empty():m.description+="\n방어 · "+m.defense.name+"\n공략 · "+m.defense.counter
 		if m.ai=="boss":m["stagger"]=_boss_stagger(0)
 		m["subtitle"]={"normal":"일반 몬스터","elite":"엘리트","boss":"보스 기본형"}[m.role]+" · 기본 수치 (층별 수치는 출현 정보 참조)"
 		db.monsters.append(m)

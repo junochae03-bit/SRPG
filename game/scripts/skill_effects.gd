@@ -31,6 +31,11 @@ static func render(game,e:Dictionary):
 	if kind.begins_with("warrior_") or kind.begins_with("ranger_") or kind.begins_with("mage_"):
 		extended(game,e,at,t,radius,angle,alpha);return
 	match kind:
+		"guard_break":
+			for index in range(7):
+				var ray=Vector2.from_angle(index*TAU/7)
+				var center=at+Vector2(0,-35)+ray*(15+t*35)
+				game.draw_line(center,center+ray*7,Color(.88,.94,.78,alpha),3,true)
 		"sun_cleave","blade_wave","whirlwind":
 			var spin=t*TAU*2 if kind=="whirlwind" else lerpf(-1.6,1.5,t)
 			var r=radius*(.65+t*.35)

@@ -866,6 +866,7 @@ func draw_actor(actor: Dictionary):
 		if not is_hero and not boss:
 			var elite=bool(p.get("elite",false))
 			var width=115 if elite else 55
+			preload("res://scripts/enemy_defense_feedback.gd").draw(self,p,point+Vector2(width*.5+16,-dimensions.y-13))
 			if elite and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-25),"◆ LV.%d %s" % [p.level,p.name],16,Color("ffe0a2"),true)
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width,7 if elite else 5)),Color("e4b96c") if elite else Color("e8d5c7"))
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width*float(p.hp)/p.max_hp,5)),Color("d8787d"))

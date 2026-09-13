@@ -9,6 +9,7 @@ const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
 const Risk=preload("res://scripts/expedition_risk.gd")
 const Support=preload("res://scripts/enemy_support.gd")
+const Defense=preload("res://scripts/enemy_defense.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -73,6 +74,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
 		if not boss:e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
 	BossStagger.initialize(e,clock)
+	Defense.initialize(e)
 	Risk.scale_enemy(e,map.risk_level)
 	enemies[id]=e;return e
 
@@ -480,7 +482,7 @@ func tick(delta: float):
 		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
 		var config = balance.enemies[e.kind]
 		e.attack_motion=maxf(0,e.get("attack_motion",0)-delta)
-		e["guard_break_time"]=maxf(0.,e.get("guard_break_time",0)-delta)
+		Defense.tick(e,delta,clock)
 		if e.hp <= 0:
 			Support.cancel(e)
 			if map.floor_number>0:continue
@@ -488,6 +490,7 @@ func tick(delta: float):
 			if e.respawn <= 0:
 				e.hp = e.max_hp;e["rewarded"]=false
 				e.erase("support_received");e.erase("support_lock_until")
+				Defense.initialize(e)
 				e.pos = e.home
 				BossStagger.initialize(e,clock)
 			continue
