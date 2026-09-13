@@ -80,6 +80,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		"hp":120,"max_hp":120,"level":1,"xp":0,"gold":0,"potions":5,"consumables":{},"inventory":[],"equipped":"",
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
+	p["guild_reputation"]=int(saved.get("guild_reputation",0))
 	p["town_research"]=preload("res://scripts/town_research.gd").restore(saved.get("town_research",{}))
 	p["expedition_goal"]=Goals.restore(saved.get("expedition_goal",{}))
 	Goals.reset_map_progress(p)
@@ -108,6 +109,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["guild_reputation"]=int(players[id].get("guild_reputation",0))
 	result["town_research"]=players[id].get("town_research",{}).duplicate(true)
 	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
 	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
@@ -411,7 +413,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 		p.cleared_floor=maxi(p.cleared_floor,map.floor_number);p.highest_floor=maxi(p.highest_floor,mini(100,map.floor_number+1))
 		if enemy.get("raid",false):p.raid_clears[str(map.floor_number)]=int(p.raid_clears.get(str(map.floor_number),0))+1
 		notice(id,"100층 레이드 완료 · 마력핵을 잠재웠습니다!" if map.floor_number==100 else "B%d 돌파 · 출구에서 E로 다음 층 / R 마을 귀환"%map.floor_number)
-	if not p.guild_contract.is_empty() and p.guild_contract.zone==map.zone:p.guild_contract.progress=mini(p.guild_contract.target,int(p.guild_contract.progress)+1)
+	preload("res://scripts/guild_progression.gd").progress(p,map.zone,enemy)
 	if enemy.get("boss",enemy.kind=="warden"):
 		p.boss_kills += 1;p.dungeon_clears[map.zone]=int(p.dungeon_clears.get(map.zone,0))+1
 		if map.floor_number==0:notice(id,"보스 격파 · "+enemy.name+" · R로 마을 귀환")
@@ -593,7 +595,7 @@ func snapshot(for_id: int) -> Dictionary:
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
-			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal","town_research"]:p.erase(private_key)
+			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal","town_research","guild_reputation","guild_contract"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:

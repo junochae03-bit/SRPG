@@ -6,6 +6,7 @@ static func price(p:Dictionary,index:int)->int:return 35+mini(9,int(p.level/10))
 static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	var facility=str(request.get("facility",""));var operation=str(request.get("operation",""))
 	if sim.map.zone!="town" or World.nearest(p.pos)!=facility:return false
+	if facility=="guild" and preload("res://scripts/guild_progression.gd").handles(operation):return preload("res://scripts/guild_progression.gd").use(sim,p,request)
 	if operation.begins_with("research_"):return preload("res://scripts/town_research.gd").use(sim,p,request)
 	if preload("res://scripts/town_operations.gd").handles(facility,operation):
 		var result=preload("res://scripts/town_operations.gd").stage(p,facility,operation,request)
@@ -56,15 +57,6 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 			if staged.gold<40 or staged.materials.get("ore",0)<5 or staged.materials.get("seed",0)<5:return false
 			if not Inventory.add_stack(staged,"essence",1):return false
 			staged.gold-=40;staged.materials.ore-=5;staged.materials.seed-=5;success=true;message="정원의 정수 합성"
-		"guild:accept":
-			if not staged.guild_contract.is_empty():return false
-			var zone=str(request.get("zone","forest"))
-			if zone not in World.DUNGEONS:return false
-			staged.guild_contract={"zone":zone,"progress":0,"target":10};success=true;message=World.DUNGEONS[zone].name+" 토벌 의뢰 수락 · 10마리"
-		"guild:claim":
-			if staged.guild_contract.is_empty() or staged.guild_contract.progress<staged.guild_contract.target:return false
-			if not Inventory.add_stack(staged,"essence",1):return false
-			staged.gold+=180;staged.guild_contract={};success=true;message="길드 의뢰 보상 · 180금화 / 정수 1"
 		"inn:rest":
 			if staged.gold<10:return false
 			staged.gold-=10;staged.hp=staged.max_hp;staged.stamina=staged.max_stamina;success=true;message="여관에서 푹 쉬었습니다. 생명력·기력 회복"

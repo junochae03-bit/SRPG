@@ -70,6 +70,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["telegraph_priority"]=preload("res://scripts/telegraph_priority.gd").configuration()
 	db.metadata["dungeon_vision"]={"radius":preload("res://scripts/dungeon_vision.gd").RADIUS,"memory_light":preload("res://scripts/dungeon_vision.gd").MEMORY_LIGHT,"fade_seconds":preload("res://scripts/dungeon_vision.gd").FADE_SECONDS,"party_sight":"living_connected_members_union","occlusion":"opaque_cells_and_closed_corners","scope":"current_map_instance","minimap":"unknown_hidden_explored_dim_current_bright"}
 	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
+	db.metadata["guild_progression"]=preload("res://scripts/guild_progression.gd").configuration()
 	db.metadata["town_research"]=preload("res://scripts/town_research.gd").configuration()
 	db.metadata["research_journey"]=preload("res://scripts/research_journey.gd").configuration()
 	db.metadata["exploration_events"]=preload("res://scripts/exploration_events.gd").configuration()
@@ -424,6 +425,37 @@ static func _append_world_rules(db:Dictionary):
 				for potions in range(Inv.MAX_POTIONS+1):
 					p.potions=potions;_service_sample(db,key,p,{"quantity":1},{"potions":potions})
 			else:_service_sample(db,key,p,{"quantity":quantity},{})
+
+	_append_guild_services(db)
+
+static func _append_guild_services(db:Dictionary):
+	const Guild=preload("res://scripts/guild_progression.gd")
+	var operations=["accept","claim"]+Guild.SERVICES.keys()
+	for operation in operations:
+		db.service_operations.append({"id":"guild:"+operation,"facility_id":"guild","operation":operation,"route":"guild_progression","evaluation":"reference_samples_not_universal_prices"})
+	for kind in Guild.CONTRACTS:
+		var contract=Guild.CONTRACTS[kind];var p=_service_reference_player()
+		p.guild_contract={};p.guild_reputation=Guild.RANKS[contract.rank].required
+		_guild_service_sample(db,p,"accept",{"contract_kind":kind,"zone":"forest"})
+		p.guild_contract={"zone":"forest","kind":kind,"target":contract.target,"progress":contract.target}
+		for reward in ["gold","reputation"]:_guild_service_sample(db,p,"claim",{"reward":reward})
+	for operation in Guild.SERVICES:
+		var p=_service_reference_player();p.guild_reputation=Guild.RANKS[Guild.SERVICES[operation].rank].required
+		_guild_service_sample(db,p,operation,{})
+
+static func _guild_service_sample(db:Dictionary,p:Dictionary,operation:String,extra:Dictionary):
+	var outcome=preload("res://scripts/guild_progression.gd").stage(p,operation,extra)
+	var quote=outcome.quote
+	assert(quote.reason.is_empty(),"Guild DB reference must execute: "+operation+" "+quote.reason)
+	var key="guild:"+operation;var id=key+":sample:"+str(db.service_samples.size())
+	var before={};var after={}
+	for field in ["gold","guild_reputation","guild_contract"]:
+		before[field]=p.get(field,0);after[field]=outcome.player.get(field,0)
+	db.service_samples.append({"id":id,"operation_id":key,"quantity":1,"context":{"request":extra.duplicate(true),"before":before,"after":after},"gold_cost":maxi(0,int(quote.cost)),"gold_reward":maxi(0,-int(quote.cost)),"result":quote.result,"reference":"기준 캐릭터의 해당 등급·계약 상태에서 실제 길드 거래와 가방 수용 검사를 수행한 예시. context에 요청과 정산 전후 상태를 보존합니다.","storage_checked":true})
+	for direction in ["inputs","outputs"]:
+		var amounts=quote.materials if direction=="inputs" else quote.outputs
+		for item_id in amounts:
+			db["service_"+direction].append({"id":id+":"+direction+":"+item_id,"operation_id":key,"sample_id":id,"item_id":item_id,"amount":int(amounts[item_id])})
 
 static func _service_reference_player()->Dictionary:
 	return {"class_id":"warrior","level":100,"gold":1000000,"materials":{"seed":10000,"ore":10000,"essence":10000},"potions":0,"hp":1,"max_hp":1000,"stamina":1,"max_stamina":100,"guild_contract":{"zone":"forest","progress":0,"target":10},"inventory":[],"equipment":{},"equipped":"","bag_positions":{}}

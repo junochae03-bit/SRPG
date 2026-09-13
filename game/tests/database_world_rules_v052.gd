@@ -19,7 +19,19 @@ func run():
 		check(layout.points==live.points and layout.links==live.links and layout.points_are_example,"live generated layout example "+layout.id)
 	check(data.training_rules[0].health==Training.HEALTH,"training target health")
 	check(data.training_rules[0].empty_summary.dps==0,"empty DPS")
-	check(data.service_operations.size()==Town.OPERATIONS.size(),"primary routing count")
+	const Guild=preload("res://scripts/guild_progression.gd")
+	check(data.service_operations.size()==Town.OPERATIONS.size()+2+Guild.SERVICES.size(),"all first-route operations registered")
+	var guild_samples=data.service_samples.filter(func(row):return row.operation_id in ["guild:accept","guild:claim","guild:field_supply","guild:raid_supply"])
+	check(guild_samples.size()==Guild.CONTRACTS.size()*3+Guild.SERVICES.size(),"every contract, reward alternative and supply sampled")
+	for sample in guild_samples:
+		var p=DB._service_reference_player();p.merge(sample.context.before,true)
+		var live=Guild.stage(p,sample.operation_id.get_slice(":",1),sample.context.request)
+		check(live.quote.reason.is_empty() and sample.storage_checked,"DB guild reference actually succeeds")
+		for field in sample.context.after:check(live.player.get(field,0)==sample.context.after[field],"DB actual guild state "+field)
+		var outputs={}
+		for row in data.service_outputs:
+			if row.sample_id==sample.id:outputs[row.item_id]=row.amount
+		check(outputs==live.quote.outputs,"DB exact shared and supply rewards")
 	var found_batch=false
 	for sample in data.service_samples:
 		if sample.operation_id=="alchemy:potion" and sample.quantity==5:

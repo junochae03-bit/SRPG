@@ -242,17 +242,21 @@ func validate_save(value:Variant)->Variant:
 			if node.id==value.skill_loadout[action] and node.effect=="active" and value.get("skill_ranks",{}).get(node.id,0)>0:valid=true
 		if not valid:return null
 	if not value.get("guild_contract",{}) is Dictionary or not value.get("dungeon_clears",{}) is Dictionary:return null
+	if not preload("res://scripts/guild_progression.gd").valid_reputation(value.get("guild_reputation",0)):return null
+	if value.has("guild_reputation"):value.guild_reputation=int(value.guild_reputation)
+	if not preload("res://scripts/guild_progression.gd").valid_contract(value.get("guild_contract",{})):return null
 	if not preload("res://scripts/town_research.gd").valid(value.get("town_research",{})):return null
 	if value.has("town_research"):value.town_research=preload("res://scripts/town_research.gd").restore(value.town_research)
 	if not preload("res://scripts/expedition_goals.gd").valid(value.get("expedition_goal",{})):return null
 	if value.has("expedition_goal"):value.expedition_goal=preload("res://scripts/expedition_goals.gd").restore(value.expedition_goal)
 	var contract=value.get("guild_contract",{})
 	if not contract.is_empty():
+		if preload("res://scripts/guild_progression.gd").rank(value)<preload("res://scripts/guild_progression.gd").CONTRACTS[contract.get("kind","hunt")].rank:return null
 		if contract.get("zone","") not in preload("res://scripts/world_catalog.gd").DUNGEONS:return null
 		for key in ["progress","target"]:
 			if (not contract.get(key) is float and not contract.get(key) is int) or contract[key]<0:return null
 			contract[key]=int(contract[key])
-		if contract.target!=10 or contract.progress>10:return null
+		if contract.target!=preload("res://scripts/guild_progression.gd").CONTRACTS[contract.get("kind","hunt")].target or contract.progress>contract.target:return null
 	for zone in value.get("dungeon_clears",{}):
 		if zone not in preload("res://scripts/world_catalog.gd").DUNGEONS:return null
 		var count=value.dungeon_clears[zone]

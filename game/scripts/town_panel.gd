@@ -34,6 +34,7 @@ var chapter=0
 var portal_mode="floors"
 var last_receipt=""
 var receipt_success=false
+var receipt_gold={}
 var confirm_button:Button
 var preview={}
 var products={}
@@ -45,6 +46,8 @@ var product_scroll:ScrollContainer
 var product_scroll_value=0
 var departure_stamp=-1
 var risk_buttons=[]
+var guild_reward="gold"
+var guild_kind="hunt"
 var research_mode=false
 var research_button:Button
 
@@ -91,7 +94,7 @@ func inset_buttons(parent:Node):
 func player()->Dictionary:return game.session.sim.players[game.session.local_id]
 func open(key:String):
 	if not World.FACILITIES.has(key):return
-	research_mode=false
+	research_mode=false;guild_reward="gold";guild_kind="hunt"
 	if game.npc_dialogue!=null:game.npc_dialogue.hide()
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
 	target_quantity=0
@@ -126,6 +129,8 @@ func receipt_changes(before:Dictionary,after:Dictionary)->String:
 	for key in Content.MATERIALS:
 		var difference=int(after.materials.get(key,0))-int(before.materials.get(key,0))
 		if difference!=0:rows.append(Content.MATERIALS[key]+" %+d"%difference)
+	var reputation=int(after.get("guild_reputation",0))-int(before.get("guild_reputation",0))
+	if reputation!=0:rows.append("길드 평판 %+d"%reputation)
 	if int(after.hp)>int(before.hp):rows.append("생명력 회복")
 	return " · ".join(rows)
 
@@ -138,6 +143,7 @@ func request(kind:String,extras:Dictionary={})->bool:
 	if success and game.session.get("network_role")=="client":
 		pending_receipt={"before":before,"kind":kind,"title":q.title,"request_kind":"facility","serial":game.session.sequence};last_receipt="거래 확인 중…";receipt_success=false;refresh();return true
 	if success:
+		receipt_gold={"before":int(before.gold),"after":int(player().gold)}
 		last_receipt=OP_NAMES.get(kind,q.title)+" 완료\n"+receipt_changes(before,player())
 		game.audio_director.play_sound("equip" if facility=="smith" else "potion" if facility in ["alchemy","inn"] else "pickup")
 		if kind in ["sell","salvage"]:selected_item=""
@@ -148,7 +154,10 @@ func on_request_completed(kind:String,success:bool):
 	if pending_receipt.is_empty() or kind!=pending_receipt.get("request_kind","facility") or game.session.completed_sequence!=pending_receipt.serial:return
 	var receipt=pending_receipt;pending_receipt={};receipt_success=success
 	var confirmed=game.session.get("transaction_receipt")
-	var difference=receipt_changes(confirmed.before,confirmed.after) if confirmed is Dictionary and confirmed.has("before") else receipt_changes(receipt.before,player())
+	var actual_before=confirmed.before if confirmed is Dictionary and confirmed.has("before") else receipt.before
+	var actual_after=confirmed.after if confirmed is Dictionary and confirmed.has("after") else player()
+	var difference=receipt_changes(actual_before,actual_after)
+	if success:receipt_gold={"before":int(actual_before.gold),"after":int(actual_after.gold)}
 	last_receipt=OP_NAMES.get(receipt.kind,receipt.title)+" 완료\n"+difference if success else "거래하지 못했습니다. 현재 비용과 공간을 확인하세요."
 	if success and receipt.kind in ["sell","salvage"]:selected_item=""
 	if success:game.audio_director.play_sound("pickup")
@@ -160,10 +169,12 @@ func choose(kind:String,extras:Dictionary={}):
 		quantity=1;product_scroll_value=0
 		if is_instance_valid(product_scroll):product_scroll.scroll_vertical=0
 		if kind in ["sell","salvage"] and not extras.has("item"):selected_item=""
+	guild_kind=str(extras.get("contract_kind",guild_kind));guild_reward=str(extras.get("reward",guild_reward))
 	operation=kind;selected_item=str(extras.get("item",selected_item));selected_index=int(extras.get("index",selected_index));selected_zone=str(extras.get("zone",selected_zone))
 	last_receipt="";receipt_success=false;refresh()
 func extra()->Dictionary:
 	var result={"index":selected_index,"item":selected_item,"zone":selected_zone,"quantity":quantity}
+	if facility=="guild":result.contract_kind=guild_kind;result.reward=guild_reward
 	if facility=="alchemy" and target_quantity>0:result.target_quantity=target_quantity
 	return result
 func select_target(value:int):
@@ -198,7 +209,7 @@ func refresh():
 		"portal":portal(p)
 		"costume":costume(p)
 		"training":training(p)
-	if facility=="guild" and operation=="report":pass
+	if facility=="guild" and operation in ["report","guild_board"]:pass
 	elif facility!="costume" and (facility!="shop" or shop_mode!="costume"):review(p)
 	inset_buttons(body)
 
@@ -328,21 +339,31 @@ func alchemy(_p:Dictionary):
 		var recipe=recipes[i];service_card(list,recipe[0],recipe[1],recipe[2],recipe[3],Vector2(0,i*172),func():choose(recipe[0]),operation==recipe[0],158)
 
 func guild(p:Dictionary):
-	operation_tabs([["claim" if not p.guild_contract.is_empty() else "accept","토벌 의뢰"],["supply","재료 납품"],["report","원정 기록"]])
+	operation_tabs([["claim" if not p.guild_contract.is_empty() else "accept","토벌 의뢰"],["supply","재료 납품"],["report","원정 기록"],["guild_board","길드 등급"]])
+	if operation=="guild_board":preload("res://scripts/guild_board.gd").build(self,p);return
+	if preload("res://scripts/guild_progression.gd").SERVICES.has(operation):
+		var service=preload("res://scripts/guild_progression.gd").SERVICES[operation]
+		service_card(body,operation,service.name,"해금 등급 · "+preload("res://scripts/guild_progression.gd").RANKS[service.rank].name+"\n선택한 보급품과 비용을 확인하세요.",service.icon,Vector2(0,76),func():choose(operation),true,170)
+		game.button(body,"길드 등급으로",Vector2(16,278),Vector2(690,46),func():choose("guild_board"));return
 	if operation=="report":preload("res://scripts/expedition_report.gd").build(self,p);return
 	if operation=="supply":
 		service_card(body,"supply","길드 보급품 납품","별씨앗 10 + 광석 5 → 300 G","quest_reward",Vector2(0,76),func():choose("supply"),true,170)
 		return
 	if p.guild_contract.is_empty():
+		var selected_contract=preload("res://scripts/guild_progression.gd").CONTRACTS[guild_kind]
 		var list=list_surface(Vector2(0,66),Vector2(722,618),610);var i=0
 		for zone in World.DUNGEONS:
 			var data=World.DUNGEONS[zone]
-			service_card(list,zone,data.name+" 토벌","10마리 · 권장 LV.%d\n180 G + 정수 1"%data.level,"quest",Vector2(0,i*183),func():choose("accept",{"zone":zone}),operation=="accept" and selected_zone==zone,167);i+=1
+			service_card(list,zone,data.name+" · "+selected_contract.name,"목표 %d회 · %d G 또는 평판 %d\n공통 보상 · 정수 %d"%[selected_contract.target,selected_contract.gold,selected_contract.reputation,selected_contract.essence],"quest",Vector2(0,i*183),func():choose("accept",{"zone":zone}),operation=="accept" and selected_zone==zone,167);i+=1
 	else:
-		var contract=p.guild_contract
-		service_card(body,"claim",World.DUNGEONS[contract.zone].name+" 토벌","진행 %d / %d  ·  보상 180 G + 정수 1"%[contract.progress,contract.target],"quest_complete" if contract.progress>=contract.target else "quest",Vector2(0,76),func():choose("claim"),operation=="claim",164)
-		for i in range(10):Library.picture(body,"quest_complete" if i<contract.progress else "quest",Vector2(18+i*68,272),Vector2(52,52)).modulate=Color.WHITE if i<contract.progress else Color(1,1,1,.32)
-		var cancel=game.button(body,"현재 의뢰 포기",Vector2(16,382),Vector2(320,48),func():choose("cancel"),operation=="cancel");operation_buttons.cancel=cancel
+		var contract=p.guild_contract;var definition=preload("res://scripts/guild_progression.gd").definition(p)
+		service_card(body,"claim",World.DUNGEONS[contract.zone].name+" · "+definition.name,"진행 %d / %d · 공통 정수 %d\n%d G 또는 평판 %d 선택"%[contract.progress,contract.target,definition.essence,definition.gold,definition.reputation],"quest_complete" if contract.progress>=contract.target else "quest",Vector2(0,76),func():choose("claim"),operation=="claim",164)
+		for i in range(int(contract.target)):Library.picture(body,"quest_complete" if i<contract.progress else "quest",Vector2(18+i*68,272),Vector2(52,52)).modulate=Color.WHITE if i<contract.progress else Color(1,1,1,.32)
+		for index in range(2):
+			var reward=["gold","reputation"][index];var caption="금화 %d G"%definition.gold if reward=="gold" else "길드 평판 +%d"%definition.reputation
+			var button=game.button(body,caption,Vector2(16+index*351,340),Vector2(335,48),func():choose("claim",{"reward":reward}),guild_reward==reward)
+			operation_buttons["reward_"+reward]=button
+		var cancel=game.button(body,"현재 의뢰 포기",Vector2(16,412),Vector2(320,48),func():choose("cancel"),operation=="cancel");operation_buttons.cancel=cancel
 
 func inn(p:Dictionary):
 	game.label(body,"머무르기",Vector2(6,4),Vector2(710,38),28)
@@ -414,7 +435,7 @@ func review(p:Dictionary):
 	Art.picture(panel,tex,Vector2(32,86),Vector2(98,102))
 	var name_text=preview.item.get("name",preview.title) if facility=="smith" else preview.title
 	review_labels.name=wrapped(panel,name_text,Vector2(150,84),Vector2(328,110),22,3)
-	Library.picture(panel,"physical_attack" if facility=="training" else "gold",Vector2(32,214),Vector2(27,27))
+	var price_icon=Library.picture(panel,"physical_attack" if facility=="training" else "gold",Vector2(32,214),Vector2(27,27))
 	review_labels.price=wrapped(panel,("받는 금화  %d G"%-preview.cost) if preview.cost<0 else "지불 금화  %d G"%preview.cost,Vector2(76,210),Vector2(402,35),23,1)
 	review_labels.balance=wrapped(panel,"금화  %d → %d G"%[p.gold,p.gold-preview.cost],Vector2(32,254),Vector2(446,34),20,1)
 	var mats:PackedStringArray=[]
@@ -436,12 +457,21 @@ func review(p:Dictionary):
 		result.text="%s  %d → %d\n%s\n%s"%[attribute,current.get("bonus",0),item.bonus,Equipment.restriction_text(item),Equipment.option_text(item)]
 		review_labels["comparison_attribute"]=attribute
 	review_labels.result=result
+	if facility=="guild" and operation=="claim" and guild_reward=="reputation":
+		price_icon.hide();review_labels.price.hide();review_labels.balance.hide();review_labels.materials.hide()
+		review_result_scroll.position.y=210;review_result_scroll.size.y=287
 	# A completed transaction stays visible when the next quote becomes invalid.
 	var message=last_receipt if not last_receipt.is_empty() else preview.reason
 	var success=not last_receipt.is_empty() and receipt_success
 	if success:
 		# Keep every resource delta in the scrollable body, without line limits.
 		review_labels.materials.hide()
+		if facility!="training" and not receipt_gold.is_empty():
+			price_icon.show();review_labels.price.show();review_labels.balance.show()
+			var paid=int(receipt_gold.before)-int(receipt_gold.after)
+			review_labels.price.text=("받은 금화  %d G"%-paid) if paid<0 else "지불한 금화  %d G"%paid
+			review_labels.balance.text="금화  %d → %d G"%[receipt_gold.before,receipt_gold.after]
+			for label in [review_labels.price,review_labels.balance]:label.tooltip_text=label.text
 		review_result_scroll.position.y=298;review_result_scroll.size.y=199
 		result.text=last_receipt.replace(" · ","\n")
 		message=last_receipt.get_slice("\n",0)
@@ -452,6 +482,7 @@ func review(p:Dictionary):
 	if facility=="training":caption="기록 · 기술 대기시간 초기화"
 	if Consumables.ITEMS.has(operation):caption="조제하기" if facility=="alchemy" else "소모품 구매"
 	if operation=="resupply_small":caption="회복 · 물약 5개 채우기"
+	if facility=="guild" and preload("res://scripts/guild_progression.gd").SERVICES.has(operation):caption="보급품 받기"
 	confirm_button=game.button(panel,caption,Vector2(32,614),Vector2(446,48),func():
 		if facility=="portal":
 			if game.session.enter_floor(selected_floor):close()

@@ -4,7 +4,7 @@
     "art_assets": 1656,
     "art_files": 183,
     "art_sources": 11,
-    "art_uses": 10017,
+    "art_uses": 10020,
     "build_concepts": 100,
     "build_nodes": 1510,
     "classes": 20,
@@ -24,11 +24,11 @@
     "monsters": 24,
     "raid_drops": 24,
     "raids": 10,
-    "service_effects": 24,
-    "service_inputs": 26,
-    "service_operations": 24,
-    "service_outputs": 109,
-    "service_samples": 110,
+    "service_effects": 26,
+    "service_inputs": 30,
+    "service_operations": 26,
+    "service_outputs": 120,
+    "service_samples": 121,
     "skill_parents": 651,
     "skill_ranks": 2030,
     "skills": 610,
@@ -40,12 +40,12 @@
       "sha256": "8af498675c733f91115da40da66c5b247a5398954c7522580d9623dbadbc15a3"
     },
     "stelrpg-database.json": {
-      "bytes": 15050747,
-      "sha256": "3aa276b1342cc5d100b79e1897147552e139c34d3246acc028f8054a6bc29658"
+      "bytes": 15046606,
+      "sha256": "b8a764f17eae3c1e03ad1dbd7d702c303593d64cb6f8301a201d5e80dd99c6c1"
     },
     "stelrpg.sqlite": {
-      "bytes": 9576448,
-      "sha256": "e41f400da9a2f87205140da2c18c4e38013f1f5bcd25e03a94fd88f3891c3e03"
+      "bytes": 9580544,
+      "sha256": "0c622e705a6ff774689cf32a81385b0127faeb2df2bd4142d83a08c000fcbd8e"
     }
   },
   "schema_version": 5
