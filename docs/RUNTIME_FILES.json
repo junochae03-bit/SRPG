@@ -1236,8 +1236,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 472241,
-    "sha256": "56d6b4914c48613c91f11eb4fe0ed25e1033ef670e55d4153fff02d62835b56b"
+    "bytes": 472245,
+    "sha256": "532762894bdc9d205d6e28d97f7e943fae47c08687713d0492285f8883a20507"
   },
   {
     "path": "game/data/content_names.json",
@@ -1422,7 +1422,7 @@
   {
     "path": "game/scripts/coop_session.gd",
     "bytes": 22773,
-    "sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd"
+    "sha256": "3490804ac68d123f0c02e5d73cba895bd2e96c0f6f7b1c1024616c41f2ec90a7"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1611,8 +1611,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 36495,
-    "sha256": "537437fcb56f8b2a7b60cab0dc4e0823ba8131de5819f705c64dc9e26281f56d"
+    "bytes": 36715,
+    "sha256": "4a96fb14eb6624b977079c5705a82097da2cf334b3619f1e2b57272e0c93d62d"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1816,8 +1816,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 34843,
-    "sha256": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460"
+    "bytes": 35410,
+    "sha256": "6a9e243f708ae727c63ababe4e8f7adb8db06b401a6eeca3824b081720b2abfd"
   },
   {
     "path": "game/scripts/skill_build.gd",

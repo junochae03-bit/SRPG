@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "scope": "C03 적 방어별 단독 공략과 화면 표시의 로컬 검증",
-  "baseline": "4cec917",
+  "scope": "C09 쓰러짐·구조 후 소유자별 전투 상태 정리; C09 전체는 부분",
+  "baseline": "7e44404",
   "full_gate": {
     "status": "PASS",
-    "checks": 540784,
+    "checks": 541217,
     "results": [
       {
         "test": "removed_assets",
@@ -339,7 +339,7 @@
         "status": "PASS",
         "checks": 909,
         "markers": [
-          "CODEX_CACHE_V053 checks=909 failures=0 prepared_ms=140.655 live_ms=782.766"
+          "CODEX_CACHE_V053 checks=909 failures=0 prepared_ms=145.130 live_ms=801.283"
         ]
       },
       {
@@ -444,6 +444,22 @@
         "checks": 258,
         "markers": [
           "ENEMY_DEFENSE_SOLO checks=258 failures=0 scenarios=120"
+        ]
+      },
+      {
+        "test": "skill_conditions",
+        "status": "PASS",
+        "checks": 83,
+        "markers": [
+          "SKILL_CONDITIONS checks=83 failures=0"
+        ]
+      },
+      {
+        "test": "skill_conditions_visual",
+        "status": "PASS",
+        "checks": 12,
+        "markers": [
+          "SKILL_CONDITIONS_VISUAL checks=12 failures=0"
         ]
       },
       {
@@ -556,6 +572,14 @@
         "checks": 20,
         "markers": [
           "COOP_RULES checks=20 failures=0"
+        ]
+      },
+      {
+        "test": "combat_lifecycle",
+        "status": "PASS",
+        "checks": 330,
+        "markers": [
+          "COMBAT_LIFECYCLE checks=330 failures=0"
         ]
       },
       {
@@ -843,7 +867,7 @@
         "status": "PASS",
         "checks": 5328,
         "markers": [
-          "DATABASE_METADATA_V05_TESTS checks=5328 failures=0 cold_snapshot_ms=142.035 loaded_equipment_sheets=1"
+          "DATABASE_METADATA_V05_TESTS checks=5328 failures=0 cold_snapshot_ms=142.605 loaded_equipment_sheets=1"
         ]
       },
       {
@@ -1002,9 +1026,9 @@
       {
         "test": "skill_tree_ui_v04",
         "status": "PASS",
-        "checks": 16388,
+        "checks": 16390,
         "markers": [
-          "SKILL_TREE_UI_V04_TESTS checks=16388 failures=0"
+          "SKILL_TREE_UI_V04_TESTS checks=16390 failures=0"
         ]
       },
       {
@@ -1260,15 +1284,15 @@
         "status": "PASS",
         "checks": 30658,
         "markers": [
-          "ART_REGISTRY_V05 checks=30658 failures=0 assets=1666 uses=9737 categories={ \"equipment\": 120, \"icon\": 168, \"vfx\": 110, \"environment\": 124, \"monster\": 79, \"character\": 1058, \"ui\": 1, \"floor_tile\": 6 } base_snapshot_ms=144.017 management_extra_ms=204.907 cached_codex_query_ms=6.475 costume_decodes=0"
+          "ART_REGISTRY_V05 checks=30658 failures=0 assets=1666 uses=9737 categories={ \"equipment\": 120, \"icon\": 168, \"vfx\": 110, \"environment\": 124, \"monster\": 79, \"character\": 1058, \"ui\": 1, \"floor_tile\": 6 } base_snapshot_ms=142.75 management_extra_ms=204.721 cached_codex_query_ms=6.873 costume_decodes=0"
         ]
       },
       {
         "test": "art_registry_portable",
         "status": "PASS",
-        "checks": 1957,
+        "checks": 1963,
         "markers": [
-          "ART_REGISTRY_PORTABLE PASS checks=1957 files=186 regions=1666 uses=9737"
+          "ART_REGISTRY_PORTABLE PASS checks=1963 files=186 regions=1666 uses=9737"
         ]
       },
       {
@@ -1310,17 +1334,17 @@
           "test_unverified_or_wrong_version_export_refused (__main__.ClientInstallTests.test_unverified_or_wrong_version_export_refused) ... ok",
           "",
           "----------------------------------------------------------------------",
-          "Ran 15 tests in 1.163s",
+          "Ran 15 tests in 1.140s",
           "",
           "OK"
         ]
       }
     ],
     "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
-    "runtime_files": 402,
+    "runtime_files": 403,
     "runtime_mib": 468.6,
-    "verified_at": "2026-09-13 14:03:29",
-    "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\v01-checks\\20260913-135044",
+    "verified_at": "2026-09-13 15:04:00",
+    "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\v01-checks\\20260913-145107",
     "runtime_sha256": {
       "game/assets/audio/axe_0.wav": "cc0537c2a0633ee2f84f31cb0de09025abf1dc43ae44598a451cbd048a429a19",
       "game/assets/audio/axe_1.wav": "e531c4117b409a8e030187753c4b3dc127f64b524d554a8dcc42912c0d5c9abc",
@@ -1569,7 +1593,7 @@
       "game/assets/world/town-v05.png": "387727db1df5646f8091e883d55bb494c7075373218f7ed36df7928170428d5a",
       "game/data/balance.json": "82b48a87f2f187dda7a823b76af2c9c1e871bea159aba1e88628e6fcc4e4be46",
       "game/data/character_presentation.json": "37c392a948c8797331651c5b3606b17f92d99eb5d51d7e5a1823a2cc188b50b3",
-      "game/data/codex-v053.bin": "5dbe0706034f9fa965d67b311150526b0529604a606945aacd373c43014036da",
+      "game/data/codex-v053.bin": "532762894bdc9d205d6e28d97f7e943fae47c08687713d0492285f8883a20507",
       "game/data/content_names.json": "278773b66ca95f77c96e928c72669bb5887fb8e89553b102f7e184aa403a3c9c",
       "game/data/drop_tables.json": "7fb8ebdc11b52ccbe1acb08b4bf77ba7c781d27fd3b3561bc355d070cc17467c",
       "game/data/jobs/catalog.json": "5f2be9940a75ce4902b3e54012f3a7bfd60c95ed81f0bd4b9589b70491c60a4e",
@@ -1606,7 +1630,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+      "game/scripts/coop_session.gd": "3490804ac68d123f0c02e5d73cba895bd2e96c0f6f7b1c1024616c41f2ec90a7",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -1644,7 +1668,7 @@
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af",
-      "game/scripts/game_database.gd": "af02c6a64a34f097ae9ad8832c7e9731c9722c192ad287b815a3a02393c24443",
+      "game/scripts/game_database.gd": "4a96fb14eb6624b977079c5705a82097da2cf334b3619f1e2b57272e0c93d62d",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -1660,8 +1684,8 @@
       "game/scripts/inventory_panel.gd": "8e9fff2a524fec71b9db3228572ac59f0f2a64935accdfd9dd6a799233ccf569",
       "game/scripts/item_art.gd": "823bfb3b19bb88f4c86c19c94a368ba87c755d1bf24f1c8ce8410653b246b04d",
       "game/scripts/job_art.gd": "2a91b2c133ede4b90a7fab45084bbb298b1b62df2cb6e71b6cdefc4cdbeef020",
-      "game/scripts/job_balance.gd": "9b43b521ad554f6f78c75d0395754667677df36d3401da403512110a078c3163",
-      "game/scripts/job_combat.gd": "c59061729a4c5588deaea1cfba9dc3471b8d75e72d60db305e627e670b6681ba",
+      "game/scripts/job_balance.gd": "02fb1a0b4b17ea230ee80bc3e1a2e037c60493c173078fedda9d55543326b5b8",
+      "game/scripts/job_combat.gd": "e54181afc54a5049062c617ff5a5258029f2e9d7d62202907cbc19384eb9d5ac",
       "game/scripts/job_item_art.gd": "726c113f113b932610d28c1daa9c18825e4cfd5eaf72e8825b59b2b2494d7fc8",
       "game/scripts/job_resource_hud.gd": "72ca7986f59a903226d31740002a5c5f884b7ece9d44eace7d84a2e06cb00fc4",
       "game/scripts/key_bindings.gd": "62c70dbffe3f1ff029b3214a290bccfa6419a8e737e23756c483a271bce15077",
@@ -1676,7 +1700,7 @@
       "game/scripts/npc_dialogue.gd": "dffd059e5b1e9a28064f6e2a225219c44a3b10b3431970ef72acf058dc9e231d",
       "game/scripts/party_hud.gd": "13edb3b5afe9b49b7fda6e427a62caa464f629ae0c079f54940337508b94954f",
       "game/scripts/party_rules.gd": "6f871e022ef3ed8e9e698be31836855a5496714888ca41058161dd03c446bbba",
-      "game/scripts/player_combat.gd": "8f03539fe1838937f5900d333590e83cd05005912192d0ba4079bf305b5770b6",
+      "game/scripts/player_combat.gd": "ae6c7baebe07d7bb91df584a9c9b86c31a6d9d67856f0fb170d5dcd47fdfd596",
       "game/scripts/player_stats.gd": "b0f0a5624e7d2bafcf3be7f7fc0b7dec4030a0708bc673a6ae312277c7193ede",
       "game/scripts/playtest_driver.gd": "0c5ab2431e7faaeb5c974e5a24c21a1f5aec8762a27566222a75d9f3e51905bd",
       "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
@@ -1685,16 +1709,17 @@
       "game/scripts/research_journey.gd": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
       "game/scripts/service_quote.gd": "8259c17f850834c433b9ff91dd878ac7fca910106469fe315a320d1cf6d0b603",
       "game/scripts/settings_panel.gd": "d442097b2e1beda0b2448960fe6ad9fb63416c22984b352d554f01b3edc83f09",
-      "game/scripts/simulation.gd": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
+      "game/scripts/simulation.gd": "6a9e243f708ae727c63ababe4e8f7adb8db06b401a6eeca3824b081720b2abfd",
       "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
       "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
+      "game/scripts/skill_conditions.gd": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
       "game/scripts/skill_effects.gd": "0e6baf8aee459098228598414aed0b0ace63485a10288448e9a1e8ceed857fb4",
       "game/scripts/skill_graph_view.gd": "a323ced58e3e1672ef195e36037814318ea137d93bbe9f0b277fc515c3214567",
       "game/scripts/skill_node_roles.gd": "87609bf62ef3610555bc8a9be830c63840742328a99794ac0a76ffad043c5bbf",
       "game/scripts/skill_presentation.gd": "746027daa898d6030775130006e0437725171df4e004174435084f41410f5560",
       "game/scripts/skill_reach.gd": "6c8fa2ead0c200a5f83a591110f3b58455eb5c6dcb9c05e37a4fd9a7cc6d28fd",
       "game/scripts/skill_scaling.gd": "0339dff31a34f871b50e4ca6b69052831634ee33560929cb0fd97fa8131b3232",
-      "game/scripts/skill_tree_ui.gd": "6da3c2c012847618aac7d2968658859d00beb5b3134f740c68eb9e92ceb22f35",
+      "game/scripts/skill_tree_ui.gd": "646e0669f88cc6e7f90e39d9471ab351d1b09f57a726d89e5895d26fc727d147",
       "game/scripts/skill_vfx.gd": "29f66f899d247d20cd743462e2f5ebbc7c5658b6a42992e4c23b8a1efd251bcd",
       "game/scripts/skill_vfx_catalog.gd": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c",
       "game/scripts/sprite_frame_regions.gd": "bcddbb3fcef687d111f2a2272bcf460db600550ece39527daa5ebf444bb0cccc",
@@ -1905,7 +1930,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275703805768500,
+            "mtime_ns": 1789279334433205800,
             "sha256": "8fc1d2e5d8c5c5defc34e72daaf05f372e57ddde158619d78a7914ca3aa2a6a0",
             "bright_magenta_pixels": 0,
             "keyed_background": [
@@ -1925,7 +1950,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275704018959000,
+            "mtime_ns": 1789279334651203600,
             "sha256": "df3eef6c288220abbf48b9ace445cc359cf0d545abc043d680cdf2c1366a5208",
             "bright_magenta_pixels": 0,
             "keyed_background": [
@@ -1945,7 +1970,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275704241540400,
+            "mtime_ns": 1789279334881034600,
             "sha256": "eca96e679cccf8050d2f6a697ea7ed20c4614b5efc3da60f4e7e42924fa8b1b1",
             "bright_magenta_pixels": 0,
             "keyed_background": [
@@ -1965,7 +1990,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275708551927100,
+            "mtime_ns": 1789279339227204500,
             "sha256": "6aaf337ec002dae8aed9bce9149953b81606eca8ed6d76265ec3749ac4f93d23"
           },
           {
@@ -1974,7 +1999,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275708774644800,
+            "mtime_ns": 1789279339458751400,
             "sha256": "d56b4943249166954c1c5f2cf65c30aad2ddff6d2380ebff67ad1c3de6f775fc"
           },
           {
@@ -1983,7 +2008,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275708991719200,
+            "mtime_ns": 1789279339680711900,
             "sha256": "772de439d48815d3d8e800fdb42023cf5abdce75989216968ca9487424bfd539"
           },
           {
@@ -1992,7 +2017,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275709132529100,
+            "mtime_ns": 1789279339824271800,
             "sha256": "06d0bf8687757226f3842c0b768cd76c904b37fc7266f0deac5298c086de479e"
           },
           {
@@ -2001,7 +2026,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275709413308000,
+            "mtime_ns": 1789279340106108400,
             "sha256": "d0a2de4d4d5d41875d4ab5b7d12ed14b7bc72b4f883f4275c377baa4410370ae"
           },
           {
@@ -2010,7 +2035,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275709594859200,
+            "mtime_ns": 1789279340290643100,
             "sha256": "dce8cb7aeaf38c4b24fcd3abd524faf7d37c6a2aa1f61a635c16f19e4db5bbf2"
           },
           {
@@ -2019,7 +2044,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275709876554000,
+            "mtime_ns": 1789279340571291700,
             "sha256": "9d67bdf5ce59b490a0bfa2b181b14f630f0d3a1318bdca3622890d7e24bc690d"
           },
           {
@@ -2028,7 +2053,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275710108559300,
+            "mtime_ns": 1789279340808176200,
             "sha256": "263118f180abf6cfffb59efc515b6d3b421e03631382089345d1985430b79730"
           },
           {
@@ -2037,7 +2062,7 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275710435007100,
+            "mtime_ns": 1789279341144314900,
             "sha256": "421b64c4c304c28e563a10395e476407fd14fb146683be0877cebce849965951"
           },
           {
@@ -2046,1027 +2071,57 @@
               1920,
               1080
             ],
-            "mtime_ns": 1789275710651989000,
+            "mtime_ns": 1789279341362910500,
             "sha256": "1baf75f399c4e48c3add99de61b24e4d563352b6e01ed36dda2c506f635306a8"
           }
         ],
         "failures": [],
-        "capture_started_ns": 1789275702305901000,
-        "checked_at_ns": 1789275711381504800,
+        "capture_started_ns": 1789279332946660800,
+        "checked_at_ns": 1789279342095907700,
         "scope": "Post-render validation only: supplied Godot result, 13 fresh FullHD captures, gallery native chroma/calibration, and image hashes. No additional engine run; asset/model coverage is recorded by the caller."
       }
     },
     "scope": "complete",
     "start_at": null
   },
+  "qa_team": "2026-09-13 읽기 전용 코드 인수 완료, 신규 확정 결함 없음. 엔진 결과는 메인 실행 근거",
   "database": {
     "local_rebuild_check": "PASS",
+    "sources": 374,
+    "source_rules": 5,
     "integrity": "ok",
     "foreign_key_errors": 0,
-    "sources": 373,
-    "defense_source_rules": 9,
     "sha256": {
-      "docs/database/stelrpg-database.json": "d5e7d81a5795fcef92293310b29b2347b1a453510980b865c884af86a9b0e005",
-      "docs/database/stelrpg.sqlite": "c539d3ebe1b8f23cd05fe34707a974de2cee431d67f62af66f80d5d0f8b0d6d0",
-      "docs/database/manifest.json": "f0dc8600a3414f100ae7550ef63b7fffa81d08abe849b0a30c12dc6cd8a5b45e",
-      "game/data/codex-v053.bin": "5dbe0706034f9fa965d67b311150526b0529604a606945aacd373c43014036da",
-      "docs/RUNTIME_FILES.json": "19c351d645fb22a147f897eb5e35d23972e094e6e6ea81d8062b5eb6c05d8821"
+      "docs/database/stelrpg-database.json": "d9ec5fc58917fe83dcee0ae272072e5150175a5e7384364798149b8b222701bc",
+      "docs/database/stelrpg.sqlite": "15638b6d10b84b8c4aa80ed65a8b2e33bf676c683eca73d10b20e7d8dca12cb5",
+      "docs/database/manifest.json": "5b14ccc9f31106b1e43d5f3419e5c180aa5508857e1ad8d9f049949a15def6d6",
+      "game/data/codex-v053.bin": "532762894bdc9d205d6e28d97f7e943fae47c08687713d0492285f8883a20507",
+      "docs/RUNTIME_FILES.json": "f467b5f0e03914c6127378eb160e3bda792f6b76b87cbcb7ccb637dd330833cf"
     },
-    "manager_intake": "2026-09-13 확정 커밋 읽기 전용 인수 완료, 불일치 0. docs/qa/team-intake-20260913.ko.md 참조",
-    "destination_thread": "01a08625-292a-7953-b0a7-71bbb522155d"
+    "manager_intake": "2026-09-13 고정 정본 읽기 전용 인수 완료, 불일치 0; 최종 커밋 및 전체 기록 후속 전달"
   },
-  "review": {
-    "qa": "읽기 전용 코드 검토와 실제 렌더러의 네 장면 검토 완료. 지속 피해의 실제 스킬 경로 보강 후 통과. 장시간 혼전 가독성은 미검증."
-  },
-  "solo_input_scenarios": [
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.55
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.6
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 1.05
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.6
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.55
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "warrior",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.6
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 3.05
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.7
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 1.25
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.7
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 3.05
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "ranger",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.7
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "mage",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 3.6
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "mage",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.95
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "mage",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 1.45
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "mage",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.9
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "mage",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 3.55
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "mage",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.9
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "tank",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "tank",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "tank",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "tank",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "tank",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "tank",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "runesword",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "swordsman",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.35
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.55
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "summoner",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.35
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.55
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "elementalist",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "healer",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.35
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "healer",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.55
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "healer",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "healer",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "healer",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "healer",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "sniper",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "hunter",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "explorer",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "thief",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "thief",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "thief",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "thief",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "thief",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "thief",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "reaper",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "gambler",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 1.2
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.2
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.55
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.2
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 1.2
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "infighter",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.2
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 4.04999999999999
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 3.05
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 1.65
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 3.05
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 4.04999999999999
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "breaker",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 3.05
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "martialist",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "rogue",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "beetle",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "beetle",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 3,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "clockwork",
-      "method": "basic",
-      "seconds": 0.95
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "clockwork",
-      "method": "heavy",
-      "seconds": 2.5
-    },
-    {
-      "attacks": 6,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "centurion",
-      "method": "basic",
-      "seconds": 2.3
-    },
-    {
-      "attacks": 2,
-      "broken": true,
-      "class": "fighter",
-      "enemy": "centurion",
-      "method": "heavy",
-      "seconds": 2.5
-    }
-  ],
   "network": {
-    "protocol": 13,
-    "rejected_old_protocol": 12,
-    "scope": "로컬 6개 독립 ENet 프로세스의 기존 연결·이동·귀환, 정원 초과와 구버전 거절. 새 방어 적을 상대로 한 6인 전투 검증과는 구분함",
-    "directory": "runtime\\coop-check-1789275486008089400",
+    "protocol": 15,
+    "old_protocol": 14,
+    "scope": "로컬 실제 ENet 6인 초기 강화·쓰러짐·게스트 구조 입력·마을 이동 스냅샷, 정원 초과 및 구버전 거절",
     "logs": {
-      "runtime\\coop-check-1789275486008089400\\0\\run.log": "71d73e6b6a5650432e2aab60ca70fbf44edbdb90d62204e261289e898bad644b",
-      "runtime\\coop-check-1789275486008089400\\1\\run.log": "7fc4425c5e1378502c79b1c1f0605f3a5ad589bae64c7658fdde3ed4de694d27",
-      "runtime\\coop-check-1789275486008089400\\2\\run.log": "7fc4425c5e1378502c79b1c1f0605f3a5ad589bae64c7658fdde3ed4de694d27",
-      "runtime\\coop-check-1789275486008089400\\3\\run.log": "7fc4425c5e1378502c79b1c1f0605f3a5ad589bae64c7658fdde3ed4de694d27",
-      "runtime\\coop-check-1789275486008089400\\4\\run.log": "7fc4425c5e1378502c79b1c1f0605f3a5ad589bae64c7658fdde3ed4de694d27",
-      "runtime\\coop-check-1789275486008089400\\5\\run.log": "7fc4425c5e1378502c79b1c1f0605f3a5ad589bae64c7658fdde3ed4de694d27",
-      "runtime\\coop-check-1789275486008089400\\6\\run.log": "800f9c7e6e5160bf8ec5584ece8327d1e6058b488756fee332838a58f2f800e9",
-      "runtime\\coop-check-1789275486008089400\\old-version\\run.log": "0380233ec0f1295613f97cb06bb7d21db430671c10f7b269e99ea617137ca92f"
+      "runtime\\coop-check-1789278589911828100\\0\\run.log": "4ddf89a1b10fe57ee6d92b68e7e71483047ab63b3b4e34a6cc2121112984e4d4",
+      "runtime\\coop-check-1789278589911828100\\1\\run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+      "runtime\\coop-check-1789278589911828100\\2\\run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+      "runtime\\coop-check-1789278589911828100\\3\\run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+      "runtime\\coop-check-1789278589911828100\\4\\run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+      "runtime\\coop-check-1789278589911828100\\5\\run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+      "runtime\\coop-check-1789278589911828100\\6\\run.log": "2dd63b48d5a071a07070d9bcf50c7d96f1dd29f1c595dab1ddc3b2eda5db401f",
+      "runtime\\coop-check-1789278589911828100\\old-version\\run.log": "0380233ec0f1295613f97cb06bb7d21db430671c10f7b269e99ea617137ca92f"
     }
-  },
-  "screenshots": {
-    "enemy-defense-intact.png": "75a02ca45bba81c39b4655621eb966a03ddcb3f9185fa537015ce829aa284b1c",
-    "enemy-defense-damaged.png": "0c8a2e5cec7d6769453d131940b7a83ba908782fd4458b9d58c00de7dcb9cf60",
-    "enemy-defense-broken.png": "fe8eef417aed8ec2380cb8f247236b209030626479882fb4f35665bf857e250b",
-    "enemy-defense-inspection.png": "71850442bff16330c9945094141701618f962e7ad7007daefbfd09e9753a2007"
   },
   "limits": [
-    "120개 입력 경로는 움직이지 않는 높은 체력 표적을 사용함",
-    "비교 화면의 방어 상태는 모델 함수 호출로 설정함",
-    "상호 회피·공격, 직업 조합별 최종 난도, 외부 회선 장시간 플레이는 미검증",
-    "main 병합·푸시는 기존 승인 검토 차단으로 보류; DB 관리 인수 완료",
-    "새 Windows 빌드와 릴리스는 하지 않음"
+    "외부 회선·지연·손실·재접속은 이번 검사 대상이 아님",
+    "공유 파일은 시험 단계 동기화만 담당하며 게임 상태를 전달하지 않음",
+    "적을 제거한 구조 시험. 실제 적 공격 중 구조 난도는 미검증",
+    "player_defeated 직접 호출: 실제 치명 피해에서 쓰러짐 전환은 별도 경계 검사 필요",
+    "이탈은 reset_after_defeat 함수 검사: 갑작스러운 연결 종료 이벤트 및 마지막 생존자 이탈 시 보스 초기화는 별도 검사 필요",
+    "저체력·피격·층당 조건부 효과 전체, 적 공유 감속·기절 타이머의 소유권 분리는 후속 대상",
+    "main 병합·푸시와 Windows 배포는 미완료"
   ]
 }

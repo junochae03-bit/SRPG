@@ -18,7 +18,7 @@ try:
             else:raise RuntimeError('Six players never became ready for the capacity probe')
         folder=run/str(i);folder.mkdir();log=(folder/'run.log').open('w',encoding='utf8');logs.append(log)
         role='host' if i==0 else 'late' if closing_race and i==2 else 'overflow' if i==6 else 'guest'
-        script='coop_exit_race' if closing_race else 'coop_network'
+        script='coop_exit_race' if closing_race else 'combat_lifecycle_network' if '--lifecycle' in sys.argv else 'coop_network'
         command=[engine(),'--headless','--path',str(ROOT/'game'),'--script','res://tests/'+script+'.gd','--','--role='+role,'--directory='+str(folder),'--port='+str(port)]
         if '--host-exit' in sys.argv:command+=['--exit-mode=host']
         for arg in sys.argv[1:]:

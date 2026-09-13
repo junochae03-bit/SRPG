@@ -6,7 +6,7 @@
 
 실행·인계 기록: [탐사 개선](EXPLORATION_REWORK.ko.md), [협동 기반](COOP_FOUNDATION.ko.md), `docs/qa/`의 검증 JSON. 표의 코드명은 `game/scripts/`, 테스트명은 `game/tests/` 기준이다. 표의 항목을 그대로 전체 완료 증거로 사용하지 않고 실제 코드·결과와 대조한다.
 
-기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 14로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
+기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 15로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
 
 ## Dungeon Settlers
 
@@ -19,7 +19,7 @@
 | C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |
 | C06 공격 방향·범위와 시야 밖 위협 안내 | 구현·로컬 검증 | telegraph_priority.gd·danger_hud.gd·visible_telegraphs.gd / telegraph_priority·telegraph_priority_visual·dungeon_vision_visual | 외부 6인 장기 전투의 예고 체감/성능 검증; 합성 카메라/배치 검사와 구분 |
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |
-| C09 전투 결과에 반응하는 특수 효과 | 부분 | 직업·장비 효과, 패배/맵 전환 초기화 기반 | 저체력·피격·층당 효과별 개인 귀속과 모든 초기화 경로 검증 |
+| C09 전투 결과에 반응하는 특수 효과 | 부분 | 직업·장비 효과, 쓰러짐·구조·소유자별 대기 효과 정리 / 20직업·로컬 6인; [범위](COMBAT_LIFECYCLE.ko.md) | 저체력·피격·층당 효과별 개인 귀속과 모든 초기화 경로 검증 |
 | C10 다운된 동료 구조 | 구현·로컬 검증 | party_rules.gd / coop_rules·실제 ENet | 지연·중도 이탈 상황의 구조 실전 검증 |
 | E01 목적이 다른 선택 방 | 구현·로컬 검증 | exploration_rooms.gd·exploration_challenge.gd·exploration_cues.gd / 개별 시야의 지면 파편, 동일 분기에서 목적지까지 입력 이동; [환경 흔적](EXPLORATION_TRACES.ko.md) | 자유 탐사 재미·선택 밀도·처음 방문한 사람의 단서 추론 플레이 평가 |
 | E02 소지품·상태에 반응하는 사건 | 구현·로컬 검증 | exploration_events.gd의 약초·도구·생명력·기력 선택 / 모델·실제 UI·개인별 6인 ENet; [상세](EXPLORATION_EVENTS.ko.md) | 재접속 시 이용 기록 보존·장기 탐사에서 사건 반복/경제 체감 |

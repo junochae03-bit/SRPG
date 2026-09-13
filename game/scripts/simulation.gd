@@ -576,23 +576,29 @@ func player_defeated(p:Dictionary):
 	tactical.records=tactical.records.filter(func(record):return record.owner!=p.id)
 	p.erase("revive_target");p.erase("revive_progress");p.dir=Vector2.ZERO;p.charge_time=-1.
 	if players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):
-		p.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
+		p.hp=0;p.down_time=Party.DOWN_SECONDS;reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
 	else:respawn_player(p)
 
 func respawn_player(p:Dictionary):
 	p.down_time=0.;p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0.;p.charge_time=-1.
-	combat.jobs.reset(p);reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
+	reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
 
 func reset_after_defeat(player_id:int):
 	tactical.records=tactical.records.filter(func(record):return record.owner!=player_id)
 	# Defeat removes the owner's pending attacks. The encounter resets only when
 	# nobody remains in its arena, so this also has sensible future party behavior.
 	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=player_id)
-	if players.has(player_id):combat.constellation.reset(players[player_id])
+	if players.has(player_id):
+		var p=players[player_id]
+		combat.jobs.reset(p);combat.constellation.reset(p)
+		p.merge({"barrier_time":0.,"barrier_strength":0.,"haste_time":0.,"haste_speed":0.,"haste_attack":0.,"regen_fraction":0.,"charge_time":-1.,"dodge_time":0.,"invulnerable":0.,"motion_time":0.,"motion":"idle","hurt_time":0.,"enemy_slow_time":0.,"sprint":false},true)
+		for key in ["casting_vfx","casting_rank","constellation_cast","revive_target","revive_progress"]:p.erase(key)
 	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=player_id)
 	for e in enemies.values():
 		for key in e.get("job_status",{}).keys():
 			if e.job_status[key].owner==player_id:e.job_status.erase(key)
+		if e.has("constellation_marks"):e.constellation_marks.erase(str(player_id))
+		if e.get("taunt_owner",0)==player_id:e.taunt_time=0.;e.erase("taunt_owner")
 		if e.get("boss",false) and e.hp>0 and BossStagger.engaged_players(self,e).is_empty():BossStagger.reset(self,e)
 
 func snapshot(for_id: int) -> Dictionary:

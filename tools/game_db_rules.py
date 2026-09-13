@@ -70,6 +70,7 @@ def source_rule(root, source, symbol):
 
 def enrich(data, root):
     data["metadata"]["actor_visibility_source_rules"] = [source_rule(root, "actor_visibility", fn) for fn in ("player", "opacity", "tick")]
+    data["metadata"]["combat_lifecycle_source_rules"] = [source_rule(root, "simulation", fn) for fn in ("player_defeated", "respawn_player", "reset_after_defeat", "clear_build_runtime")] + [source_rule(root, "coop", "peer_left")]
     data["metadata"]["skill_condition_source_rules"] = [source_rule(root, "skill_conditions", fn) for fn in ("target_failure", "casting_speed", "rows", "configuration")]
     data["metadata"]["enemy_defense_source_rules"] = [source_rule(root, "enemy_defense", fn) for fn in ("type_for", "initialize", "tick", "factor", "layer_factor", "break_guard", "description", "configuration")] + [source_rule(root, "enemy_defense_feedback", "draw")]
     data["metadata"]["enemy_support_source_rules"] = [source_rule(root, "enemy_support", fn) for fn in ("cancel", "eligible", "step", "configuration")]
