@@ -80,6 +80,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		"hp":120,"max_hp":120,"level":1,"xp":0,"gold":0,"potions":5,"consumables":{},"inventory":[],"equipped":"",
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
+	p["town_research"]=preload("res://scripts/town_research.gd").restore(saved.get("town_research",{}))
 	p["expedition_goal"]=Goals.restore(saved.get("expedition_goal",{}))
 	Goals.reset_map_progress(p)
 	saved=saved.duplicate(true)
@@ -107,6 +108,7 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["town_research"]=players[id].get("town_research",{}).duplicate(true)
 	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
 	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:result[key]=players[id][key]
@@ -444,6 +446,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 func tick(delta: float):
 	if delta<=0:return
 	clock += delta
+	preload("res://scripts/town_research.gd").tick(self,delta)
 	preload("res://scripts/hidden_rooms.gd").discover(self)
 	Goals.observe(self)
 	for p in players.values():
@@ -590,7 +593,7 @@ func snapshot(for_id: int) -> Dictionary:
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
-			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal"]:p.erase(private_key)
+			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal","town_research"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:

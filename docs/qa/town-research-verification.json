@@ -1,0 +1,791 @@
+{
+  "status": "PASS",
+  "checks": 542709,
+  "verified_at": "2026-09-13 09:38:27",
+  "runtime_files": 388,
+  "runtime_mib": 464.04,
+  "save_integrity": "original SHA256 unchanged; copied save migrated and restarted",
+  "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\v01-checks\\20260913-092715",
+  "scope": "complete_gate_for_town_research_and_recipe_unlocks",
+  "groups": 143,
+  "gate_sha256": "6abd70224664cb4a8a8a1ffb54a563bd6de451998803326305d6c25afed310ff",
+  "runtime_manifest_sha256": "e149afa9a302aa7ec92c45ad63c46b656a2ce4f1a9668ac35aab760513d82309",
+  "results": [
+    {
+      "test": "removed_assets",
+      "status": "PASS",
+      "checks": 358
+    },
+    {
+      "test": "forest_stability",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "rules",
+      "status": "PASS",
+      "checks": 91
+    },
+    {
+      "test": "inventory_grid",
+      "status": "PASS",
+      "checks": 143
+    },
+    {
+      "test": "inventory_ui",
+      "status": "PASS",
+      "checks": 103
+    },
+    {
+      "test": "combat",
+      "status": "PASS",
+      "checks": 51
+    },
+    {
+      "test": "skills_v04",
+      "status": "PASS",
+      "checks": 210
+    },
+    {
+      "test": "loot_v04",
+      "status": "PASS",
+      "checks": 422
+    },
+    {
+      "test": "single_player",
+      "status": "PASS",
+      "checks": 30
+    },
+    {
+      "test": "expansion_ui",
+      "status": "PASS",
+      "checks": 32
+    },
+    {
+      "test": "appearance_v041",
+      "status": "PASS",
+      "checks": 1007
+    },
+    {
+      "test": "expansion_v05",
+      "status": "PASS",
+      "checks": 878
+    },
+    {
+      "test": "polish_v05",
+      "status": "PASS",
+      "checks": 1158
+    },
+    {
+      "test": "monsters_v05",
+      "status": "PASS",
+      "checks": 410
+    },
+    {
+      "test": "skills_v01",
+      "status": "PASS",
+      "checks": 1026
+    },
+    {
+      "test": "ui_v01",
+      "status": "PASS",
+      "checks": 232
+    },
+    {
+      "test": "jobs",
+      "status": "PASS",
+      "checks": 242
+    },
+    {
+      "test": "job_balance",
+      "status": "PASS",
+      "checks": 1408
+    },
+    {
+      "test": "job_ui",
+      "status": "PASS",
+      "checks": 1577
+    },
+    {
+      "test": "progression_v02",
+      "status": "PASS",
+      "checks": 112
+    },
+    {
+      "test": "equipment_v02",
+      "status": "PASS",
+      "checks": 872
+    },
+    {
+      "test": "dungeon_v02",
+      "status": "PASS",
+      "checks": 14853
+    },
+    {
+      "test": "floor_balance_v02",
+      "status": "PASS",
+      "checks": 335
+    },
+    {
+      "test": "database_v03",
+      "status": "PASS",
+      "checks": 12993
+    },
+    {
+      "test": "boss_stagger_v03",
+      "status": "PASS",
+      "checks": 1231
+    },
+    {
+      "test": "skill_vfx",
+      "status": "PASS",
+      "checks": 13184
+    },
+    {
+      "test": "skill_build_v04",
+      "status": "PASS",
+      "checks": 6622
+    },
+    {
+      "test": "database_v04",
+      "status": "PASS",
+      "checks": 5305
+    },
+    {
+      "test": "constellation_combat_v04",
+      "status": "PASS",
+      "checks": 6929
+    },
+    {
+      "test": "character_creation_v04",
+      "status": "PASS",
+      "checks": 103
+    },
+    {
+      "test": "skill_build_session_v04",
+      "status": "PASS",
+      "checks": 26
+    },
+    {
+      "test": "icons",
+      "status": "PASS",
+      "checks": 8307
+    },
+    {
+      "test": "environment_v04",
+      "status": "PASS",
+      "checks": 61372
+    },
+    {
+      "test": "dungeon_entry_v04",
+      "status": "PASS",
+      "checks": 2403
+    },
+    {
+      "test": "costume_art_v04",
+      "status": "PASS",
+      "checks": 6957
+    },
+    {
+      "test": "battle_camera_v04",
+      "status": "PASS",
+      "checks": 5390
+    },
+    {
+      "test": "appearance_matching_v04",
+      "status": "PASS",
+      "checks": 3027
+    },
+    {
+      "test": "database_world_rules_v052",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "content_names",
+      "status": "PASS",
+      "checks": 9542
+    },
+    {
+      "test": "tree_balance",
+      "status": "PASS",
+      "checks": 3210
+    },
+    {
+      "test": "progression_rewards_v053",
+      "status": "PASS",
+      "checks": 1197
+    },
+    {
+      "test": "codex_cache_v053",
+      "status": "PASS",
+      "checks": 909
+    },
+    {
+      "test": "dungeon_tactics_v053",
+      "status": "PASS",
+      "checks": 54
+    },
+    {
+      "test": "dungeon_vision",
+      "status": "PASS",
+      "checks": 14
+    },
+    {
+      "test": "enemy_awareness",
+      "status": "PASS",
+      "checks": 22
+    },
+    {
+      "test": "combat_information",
+      "status": "PASS",
+      "checks": 70
+    },
+    {
+      "test": "combat_information_visual",
+      "status": "PASS",
+      "checks": 25
+    },
+    {
+      "test": "telegraph_priority",
+      "status": "PASS",
+      "checks": 38
+    },
+    {
+      "test": "telegraph_priority_visual",
+      "status": "PASS",
+      "checks": 13
+    },
+    {
+      "test": "enemy_tactics",
+      "status": "PASS",
+      "checks": 11
+    },
+    {
+      "test": "enemy_defense",
+      "status": "PASS",
+      "checks": 10
+    },
+    {
+      "test": "dungeon_exploration_routes",
+      "status": "PASS",
+      "checks": 5130
+    },
+    {
+      "test": "dungeon_vision_visual",
+      "status": "PASS",
+      "checks": 12
+    },
+    {
+      "test": "sprite_frame_regions",
+      "status": "PASS",
+      "checks": 1233
+    },
+    {
+      "test": "coop_rules",
+      "status": "PASS",
+      "checks": 20
+    },
+    {
+      "test": "exploration_rooms",
+      "status": "PASS",
+      "checks": 2964
+    },
+    {
+      "test": "exploration_challenge",
+      "status": "PASS",
+      "checks": 301
+    },
+    {
+      "test": "hidden_rooms",
+      "status": "PASS",
+      "checks": 616
+    },
+    {
+      "test": "exploration_events",
+      "status": "PASS",
+      "checks": 647
+    },
+    {
+      "test": "exploration_events_visual",
+      "status": "PASS",
+      "checks": 53
+    },
+    {
+      "test": "exploration_shortcuts",
+      "status": "PASS",
+      "checks": 8777
+    },
+    {
+      "test": "exploration_shortcuts_visual",
+      "status": "PASS",
+      "checks": 17
+    },
+    {
+      "test": "build_presets",
+      "status": "PASS",
+      "checks": 1385
+    },
+    {
+      "test": "build_presets_visual",
+      "status": "PASS",
+      "checks": 8
+    },
+    {
+      "test": "expedition_brief",
+      "status": "PASS",
+      "checks": 917
+    },
+    {
+      "test": "town_research",
+      "status": "PASS",
+      "checks": 146
+    },
+    {
+      "test": "town_research_visual",
+      "status": "PASS",
+      "checks": 91
+    },
+    {
+      "test": "expedition_risk",
+      "status": "PASS",
+      "checks": 2532
+    },
+    {
+      "test": "expedition_risk_visual",
+      "status": "PASS",
+      "checks": 384
+    },
+    {
+      "test": "expedition_environment",
+      "status": "PASS",
+      "checks": 3859
+    },
+    {
+      "test": "expedition_environment_visual",
+      "status": "PASS",
+      "checks": 11
+    },
+    {
+      "test": "expedition_goals",
+      "status": "PASS",
+      "checks": 843
+    },
+    {
+      "test": "expedition_goals_visual",
+      "status": "PASS",
+      "checks": 38
+    },
+    {
+      "test": "expedition_journal",
+      "status": "PASS",
+      "checks": 27
+    },
+    {
+      "test": "hud_tabs",
+      "status": "PASS",
+      "checks": 46
+    },
+    {
+      "test": "consumables",
+      "status": "PASS",
+      "checks": 54
+    },
+    {
+      "test": "tactical_tools",
+      "status": "PASS",
+      "checks": 71
+    },
+    {
+      "test": "tactical_tools_visual",
+      "status": "PASS",
+      "checks": 21
+    },
+    {
+      "test": "character_presentation_v054",
+      "status": "PASS",
+      "checks": 7286
+    },
+    {
+      "test": "target_crafting",
+      "status": "PASS",
+      "checks": 40
+    },
+    {
+      "test": "raid_engagement",
+      "status": "PASS",
+      "checks": 30
+    },
+    {
+      "test": "hidden_rooms_visual",
+      "status": "PASS",
+      "checks": 9
+    },
+    {
+      "test": "exploration_visual",
+      "status": "PASS",
+      "checks": 70
+    },
+    {
+      "test": "expedition_hud",
+      "status": "PASS",
+      "checks": 140
+    },
+    {
+      "test": "prepared_art_v05",
+      "status": "PASS",
+      "checks": 247
+    },
+    {
+      "test": "wardrobe_v05",
+      "status": "PASS",
+      "checks": 99
+    },
+    {
+      "test": "database_metadata_v05",
+      "status": "PASS",
+      "checks": 5328
+    },
+    {
+      "test": "performance_environment_v05",
+      "status": "PASS",
+      "checks": 124734
+    },
+    {
+      "test": "enemy_hit_geometry_v05",
+      "status": "PASS",
+      "checks": 236
+    },
+    {
+      "test": "combat_reach_v052",
+      "status": "PASS",
+      "checks": 1845
+    },
+    {
+      "test": "dungeon_variety_v052",
+      "status": "PASS",
+      "checks": 105053
+    },
+    {
+      "test": "town_services_v052",
+      "status": "PASS",
+      "checks": 266
+    },
+    {
+      "test": "training_ground_v052",
+      "status": "PASS",
+      "checks": 43
+    },
+    {
+      "test": "qa_combat_v052",
+      "status": "PASS",
+      "checks": 143
+    },
+    {
+      "test": "qa_inventory_v052",
+      "status": "PASS",
+      "checks": 238
+    },
+    {
+      "test": "qa_skill_rejection_v052",
+      "status": "PASS",
+      "checks": 83
+    },
+    {
+      "test": "legacy_save",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "legacy_save",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "visual_v05",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "visual_v01",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "visual_jobs",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "job_benchmark",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "ui_v02",
+      "status": "PASS",
+      "checks": 55
+    },
+    {
+      "test": "codex_ui_v03",
+      "status": "PASS",
+      "checks": 97
+    },
+    {
+      "test": "stagger_ui_v03",
+      "status": "PASS",
+      "checks": 25
+    },
+    {
+      "test": "visual_skill_vfx",
+      "status": "PASS",
+      "checks": 65
+    },
+    {
+      "test": "skill_tree_ui_v04",
+      "status": "PASS",
+      "checks": 16388
+    },
+    {
+      "test": "combat_polish_v053",
+      "status": "PASS",
+      "checks": 213
+    },
+    {
+      "test": "feedback_v054",
+      "status": "PASS",
+      "checks": 589
+    },
+    {
+      "test": "companion_visual_v054",
+      "status": "PASS",
+      "checks": 4
+    },
+    {
+      "test": "character_dialogue_ui_v04",
+      "status": "PASS",
+      "checks": 68
+    },
+    {
+      "test": "wardrobe_shop_ui_v05",
+      "status": "PASS",
+      "checks": 41
+    },
+    {
+      "test": "client_flow_v051",
+      "status": "PASS",
+      "checks": 53
+    },
+    {
+      "test": "keyboard_ui_v051",
+      "status": "PASS",
+      "checks": 893
+    },
+    {
+      "test": "performance_ui_v05",
+      "status": "PASS",
+      "checks": 912
+    },
+    {
+      "test": "settings_v052",
+      "status": "PASS",
+      "checks": 43
+    },
+    {
+      "test": "skill_clarity_v052",
+      "status": "PASS",
+      "checks": 5538
+    },
+    {
+      "test": "dungeon_variety_visual_v052",
+      "status": "PASS",
+      "checks": 48
+    },
+    {
+      "test": "town_clarity_ui_v052",
+      "status": "PASS",
+      "checks": 1099
+    },
+    {
+      "test": "combat_reach_visual_v052",
+      "status": "PASS",
+      "checks": 111
+    },
+    {
+      "test": "inventory_expansion_v052",
+      "status": "PASS",
+      "checks": 275
+    },
+    {
+      "test": "combat_feedback_v052",
+      "status": "PASS",
+      "checks": 265
+    },
+    {
+      "test": "town_renewal_visual_v052",
+      "status": "PASS",
+      "checks": 61
+    },
+    {
+      "test": "qa_save_v052",
+      "status": "PASS",
+      "checks": 33
+    },
+    {
+      "test": "hud_world_labels_v052",
+      "status": "PASS",
+      "checks": 97
+    },
+    {
+      "test": "visual_icons",
+      "status": "PASS",
+      "checks": 3635
+    },
+    {
+      "test": "environment_visual_v04",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "dungeon_entry_visual_v04",
+      "status": "PASS",
+      "checks": 7
+    },
+    {
+      "test": "costume_render_v04",
+      "status": "PASS",
+      "checks": 0
+    },
+    {
+      "test": "costume_session_v04",
+      "status": "PASS",
+      "checks": 1207
+    },
+    {
+      "test": "hud_layout_v04",
+      "status": "PASS",
+      "checks": 385
+    },
+    {
+      "test": "inventory_ui",
+      "status": "PASS",
+      "checks": 109
+    },
+    {
+      "test": "ui_legibility_v04",
+      "status": "PASS",
+      "checks": 2059
+    },
+    {
+      "test": "audio_shutdown_v04",
+      "status": "PASS",
+      "checks": 51
+    },
+    {
+      "test": "equipment_art",
+      "status": "PASS",
+      "checks": 16647
+    },
+    {
+      "test": "visual_equipment_art",
+      "status": "PASS",
+      "checks": 31
+    },
+    {
+      "test": "floor_tiles_v04",
+      "status": "PASS",
+      "checks": 7777
+    },
+    {
+      "test": "floor_tiles_visual_v04",
+      "status": "PASS",
+      "checks": 102
+    },
+    {
+      "test": "art_registry_v05",
+      "status": "PASS",
+      "checks": 31208
+    },
+    {
+      "test": "art_registry_portable",
+      "status": "PASS",
+      "checks": 1871
+    },
+    {
+      "test": "art_registry_cache",
+      "status": "PASS",
+      "checks": 16
+    },
+    {
+      "test": "godot_test_completion",
+      "status": "PASS",
+      "checks": 9
+    },
+    {
+      "test": "install_client",
+      "status": "PASS",
+      "checks": 15
+    }
+  ],
+  "database": {
+    "json": "3cf52a70442152500e1bc8d2bd7464c4d3565f85385dd1ccb9e3b75de3c23697",
+    "sqlite": "59b54733ba93ee04341292f2ab47b972ac313f01c41593b06aeb4feb3f7c90a6",
+    "manifest": "ebbe74e8262ee811e5b27ae92b8d61301258525e66873b532bf5a33c36e4564d",
+    "codex_cache": "6ab661f673922ba36be0fe08ad322b6c6e87c6feaa8e6a792f7902381e035f11"
+  },
+  "screenshots": {
+    "research-smith-initial.png": "9c5ab6c77fa9df60a92ffd2fbddc82d4a69941c6bd73096eac3bc41c7b31ea4b",
+    "research-smith-queue.png": "13332d212f5acc47c2cf61948dddfd7a8c161088ada860e9da47bf29fe3ee8ba",
+    "research-smith-unlocked.png": "3e9d3dd89d5f4393b51603059cea1d2586eb46a064c8f585d31f6c86a9eaeb45",
+    "research-alchemy-initial.png": "11a8813318c4bac04abefcd2f40c89f1293f3890e9121b007246d8dfb346ed09",
+    "research-alchemy-queue.png": "3e438d9444eff7939e69a6649ad6ee8aeaf26ac33f20a037b396e78b54c7aa94",
+    "research-alchemy-unlocked.png": "8ebe05e5c5cef068f25ced3dd7e61d9a4057d1ab29ea0f55f2caaad4f0cc9e14",
+    "research-inn-initial.png": "9a7107ad264a3a825f9e03a2d639fa0d120a6d3439292659f91944538d45f45d",
+    "research-inn-queue.png": "acc061c1416e1aa5a6d579afe347e655f00efac4c990d91fde8ccbe5da427932",
+    "research-inn-unlocked.png": "5e4ae754c5d573df872fed9db50f9f42bd972a06ddbc6103dabfafb96090f2a1"
+  },
+  "network": {
+    "run_directory": "D:\\SSRPG\\publish\\SRPG-v04\\runtime\\coop-check-1789259075760427500",
+    "status": "PASS",
+    "protocol": 10,
+    "rejected_protocol": 9,
+    "players": 6,
+    "overflow_rejected": true,
+    "checks": [
+      "Each peer reserves one personal study with current owned costs",
+      "Duplicate enqueue does not charge again",
+      "Research omitted from other player snapshots",
+      "Each peer saves actual reserved queue checkpoint",
+      "Barrier waits for all six checkpoint observations before controlled host completion",
+      "Host advances research by 30 simulation seconds, then publishes actual completion",
+      "Unlocked recipe duplicate serial produces one item per owner",
+      "Existing expedition events, shortcuts, actual input traversal, rewards and exit acknowledgment"
+    ],
+    "clock_scope": "Controlled 30-second research advance; not a 30-second wall-clock completion test"
+  },
+  "targeted": {
+    "run_directory": "runtime/combat-information-checks/20260913-092516",
+    "model_checks": 146,
+    "visual_checks": 91,
+    "facilities": 3,
+    "research_nodes": 6,
+    "recipes": 6,
+    "queue_capacity": 3,
+    "screenshots": 9,
+    "save_scope": "Actual personal file roundtrip and map-transition restore"
+  },
+  "review": {
+    "qa": "Existing QA task reviewed code and nine actual captures. Fixed formal product-name search omission and clarified personal online-only shared queue capacity. Follow-up accepted changes and captures. Main also fixed clipped heading, missing semantic icon IDs and stale header currency. QA did not run engine.",
+    "db": "Existing DB management accepted 357 source files and 388 runtime hashes/sizes; all JSON/SQLite metadata and body counts match. Integrity/FK pass. Six source rules match. Full 14654172-byte cache restored and research metadata matched. Read-only review."
+  },
+  "limits": [
+    "Research queue is not a production queue",
+    "G01 research-material objective suggestions, G03 first craft flow, G06 guild rank and G09 appearance/dialogue growth remain follow-up work",
+    "Search currently covers the selected facility",
+    "No mid-expedition reconnect or individual return",
+    "No offline research progression by design; connected menus and expeditions progress",
+    "No external six-player long-session, latency/loss or long-term economy test",
+    "Not completion of all selected benchmarks",
+    "Remote publishing remains pending approval"
+  ]
+}

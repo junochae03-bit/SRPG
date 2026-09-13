@@ -242,6 +242,8 @@ func validate_save(value:Variant)->Variant:
 			if node.id==value.skill_loadout[action] and node.effect=="active" and value.get("skill_ranks",{}).get(node.id,0)>0:valid=true
 		if not valid:return null
 	if not value.get("guild_contract",{}) is Dictionary or not value.get("dungeon_clears",{}) is Dictionary:return null
+	if not preload("res://scripts/town_research.gd").valid(value.get("town_research",{})):return null
+	if value.has("town_research"):value.town_research=preload("res://scripts/town_research.gd").restore(value.town_research)
 	if not preload("res://scripts/expedition_goals.gd").valid(value.get("expedition_goal",{})):return null
 	if value.has("expedition_goal"):value.expedition_goal=preload("res://scripts/expedition_goals.gd").restore(value.expedition_goal)
 	var contract=value.get("guild_contract",{})
@@ -362,8 +364,9 @@ func _physics_process(delta: float):
 	if connected and save_failed:
 		save_retry=maxf(0.,save_retry-delta)
 		if save_retry<=0:save_game()
-	if not connected or paused:return
-	sim.tick(delta)
+	if not connected:return
+	if paused:preload("res://scripts/town_research.gd").tick(sim,delta)
+	else:sim.tick(delta)
 	flush_events()
 	refresh()
 	save_time+=delta

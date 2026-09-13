@@ -81,6 +81,41 @@ func run():
 		await create_timer(2.).timeout
 		check(session.state.clock>before_clock+1.,"personal menu does not pause world")
 		session.paused=false
+		if host:
+			for player in session.sim.players.values():
+				player.pos=preload("res://scripts/world_catalog.gd").FACILITIES.smith.pos
+				preload("res://scripts/inventory_model.gd").add_stack(player,"ore",20)
+				preload("res://scripts/inventory_model.gd").add_stack(player,"seed",20)
+			session.refresh();session.publish_snapshot()
+		await create_timer(.7).timeout
+		var research_gold=session.state.players[session.local_id].gold
+		var research_request=JSON.stringify({"facility":"smith","operation":"research_start","research":"field_tools"})
+		session.act("facility",research_request);session.act("facility",research_request)
+		await create_timer(2.2).timeout
+		var research_state=session.state.players[session.local_id].town_research
+		check(research_state.queue.size()==1 and research_state.queue[0].elapsed>0,"each peer receives one progressing personal research")
+		check(session.state.players[session.local_id].gold==research_gold-20,"duplicate enqueue reserves cost once")
+		check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("town_research")),"other players research remains private")
+		var checkpoint_ok=session.save_game();var checkpoint=session.parse_save(session.save_path())
+		check(checkpoint_ok and checkpoint.town_research.queue.size()==1 and checkpoint.town_research.queue[0].id=="field_tools","network checkpoint persists reserved study")
+		var barrier=FileAccess.open(options.directory.path_join("research-ready"),FileAccess.WRITE);barrier.store_string("ready");barrier.close()
+		if host:
+			var barrier_deadline=Time.get_ticks_msec()+8000
+			while Time.get_ticks_msec()<barrier_deadline and not range(6).all(func(index):return FileAccess.file_exists(options.directory.get_base_dir().path_join(str(index)+"/research-ready"))):await create_timer(.1).timeout
+			check(range(6).all(func(index):return FileAccess.file_exists(options.directory.get_base_dir().path_join(str(index)+"/research-ready"))),"all peers observed reserved checkpoint before controlled completion")
+			preload("res://scripts/town_research.gd").tick(session.sim,30.)
+			session.refresh();session.publish_snapshot()
+		var completion_deadline=Time.get_ticks_msec()+9000
+		while Time.get_ticks_msec()<completion_deadline and "field_tools" not in session.state.players[session.local_id].town_research.completed:await create_timer(.1).timeout
+		check("field_tools" in session.state.players[session.local_id].town_research.completed,"host completion unlock reaches all owners")
+		var craft_request=JSON.stringify({"facility":"smith","operation":"research_craft","research":"field_tools"})
+		if host:session.act("facility",craft_request)
+		else:
+			session.sequence+=1
+			session.receive_action.rpc_id(1,session.sequence,"facility",craft_request)
+			session.receive_action.rpc_id(1,session.sequence,"facility",craft_request)
+		await create_timer(.7).timeout
+		check(int(session.state.players[session.local_id].materials.get("tool",0))==1 and session.state.players[session.local_id].gold==research_gold-30,"unlocked recipe cost and output once per reliable request")
 		check(session.state.departure_plan.floor==test_floor and session.state.departure_plan.risk==(1 if test_floor>10 else 0),"all peers see authoritative departure conditions")
 		session.act("ready","true:0")
 		await create_timer(.4).timeout
