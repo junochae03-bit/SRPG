@@ -1,0 +1,8 @@
+{
+  "tool": "image_gen.imagegen",
+  "prompt": "Production sprite atlas for a hand-painted isometric fantasy RPG, FOUR isolated small ground props in a 2 by 2 equal grid, transparent ALPHA PNG background. Crisp ink outlines and warm faceted painted shading, slightly cartoon yet grounded, NOT cute mascots, no horror gore. Top left: a weathered horned beast skull lying flat with two scattered small bones. Top right: an old incomplete monster ribcage collapsed on the ground with scattered vertebrae, irregular asymmetrical silhouette, NOT an archway or building. Bottom left: a dead small cave lizard curled on its side, dry muted grey-brown scales, closed eye, intact body, no blood, no organs, not a standing live creature. Bottom right: a broken abandoned beetle carapace with a few detached chitin fragments, hollow and clearly lifeless. No human bodies. Low profile resting on natural cave ground but do NOT draw floor tiles, stones under them, bases, shadows spanning cells, walls or any architecture. All four cells have huge transparent gutters and all objects are centered within their cells. Warm upper-left lighting. Consistent top-down isometric perspective. Each silhouette readable at 60 to 90 pixels wide. No labels, no icons, no grid lines, no UI, no checkerboard. Actual transparent alpha in empty space.",
+  "original_sha256": "7e43ccc25b82861cdd0304724f23d669304fbd94a7a5e7f8aaaa23028d89922d",
+  "runtime_file": "remains.png",
+  "processing": "Original RGBA PNG preserved byte-for-byte; AtlasTexture regions only.",
+  "purpose": "Sparse noninteractive aged monster remains; no fresh kill or loot indicators."
+}

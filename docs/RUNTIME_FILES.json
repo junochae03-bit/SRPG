@@ -190,6 +190,16 @@
     "sha256": "704c5b6db82dbaa43ef30e095af03bd5e48201774363f07a81a6926e4b2cae0d"
   },
   {
+    "path": "game/assets/cave_remains_v06/catalog.json",
+    "bytes": 699,
+    "sha256": "a0ab37905826eee36dff0f87da0888fb1f50f54e6fa7afd64cb99b09f5516a49"
+  },
+  {
+    "path": "game/assets/cave_remains_v06/remains.png",
+    "bytes": 2062721,
+    "sha256": "7e43ccc25b82861cdd0304724f23d669304fbd94a7a5e7f8aaaa23028d89922d"
+  },
+  {
     "path": "game/assets/costume_v04/amethyst-purple-dress-sheet.png",
     "bytes": 2121626,
     "sha256": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8"
@@ -1226,8 +1236,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 470416,
-    "sha256": "32385ba72cb499bd46ea3224d546323a863ed4fa71937c9ef5fde444363e2934"
+    "bytes": 469562,
+    "sha256": "b401f9bbad02a549073d5864e91bdc90a2b3e3d1e153a504aacce43c4304de73"
   },
   {
     "path": "game/data/content_names.json",
@@ -1281,8 +1291,8 @@
   },
   {
     "path": "game/scripts/art_registry.gd",
-    "bytes": 19664,
-    "sha256": "eccddefa9bc8fd66bd2e7e958d88943fb45ae32c4c303c4932ec87756eabf393"
+    "bytes": 20244,
+    "sha256": "c5d0a28fdccec04fc514218d179b4039dbc5af6e563eba40388952f9976e34a3"
   },
   {
     "path": "game/scripts/audio_director.gd",
@@ -1313,6 +1323,11 @@
     "path": "game/scripts/build_presets.gd",
     "bytes": 3598,
     "sha256": "e9c358f852aeb8ee854cd944c605829b184603b2f163ad67389effa464d9c802"
+  },
+  {
+    "path": "game/scripts/cave_remains.gd",
+    "bytes": 3509,
+    "sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e"
   },
   {
     "path": "game/scripts/character_creation.gd",
@@ -1421,8 +1436,8 @@
   },
   {
     "path": "game/scripts/dungeon.gd",
-    "bytes": 14912,
-    "sha256": "56823b60156bc9743cb5f0947ada129e561f225d25e9913ffa20c840184ada28"
+    "bytes": 15012,
+    "sha256": "24f5f688f6c3fe352d3cec200cbe04172d130a977e4cd404a98700932ac88c55"
   },
   {
     "path": "game/scripts/dungeon_regions.gd",
@@ -1466,8 +1481,8 @@
   },
   {
     "path": "game/scripts/environment_art.gd",
-    "bytes": 3172,
-    "sha256": "d6bafb2e7dfc27ca77586ca936a1ce921a6f89993d97e102a53080d5db296278"
+    "bytes": 2772,
+    "sha256": "c57190a3c16bc5f977cd80d22d90a18aebe4380508aea0af6274a7356a86e8e6"
   },
   {
     "path": "game/scripts/equipment_art.gd",
@@ -1571,13 +1586,13 @@
   },
   {
     "path": "game/scripts/forest_environment.gd",
-    "bytes": 9293,
-    "sha256": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283"
+    "bytes": 9344,
+    "sha256": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af"
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 35593,
-    "sha256": "dd26e9ba25b0be99cfb5a489cfbe021d13988ba92f11ac6d570e701cfbaf70ca"
+    "bytes": 35680,
+    "sha256": "e94bc7c848f8ff2a91e19e36d2a839d32b9f4327266d24aff15f659ca175bdbf"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1696,8 +1711,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 51046,
-    "sha256": "8d0df1f9823fbca5fa6e4dc05dd85f6b5d85b2b46e70bffbeb0b56a8099a526e"
+    "bytes": 51115,
+    "sha256": "789f2b4e1e0599aa9a0d89e49c9127ee264ba08ca108529f82e1c2edbae4b2bb"
   },
   {
     "path": "game/scripts/minimap.gd",

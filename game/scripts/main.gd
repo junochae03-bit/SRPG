@@ -681,6 +681,7 @@ func _draw():
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
 	var actors = forest.visible_props().filter(func(actor):return vision.scenery_brightness(actor.data.pos)>0.)
+	preload("res://scripts/cave_remains.gd").draw(self,forest.remains)
 	if noise_feedback!=null:noise_feedback.draw_world()
 	if inspection_panel!=null:inspection_panel.draw_corpses()
 	for cue in dungeon.exploration_cues:preload("res://scripts/exploration_cues.gd").draw(self,cue)

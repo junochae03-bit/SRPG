@@ -59,6 +59,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
+	db.metadata["cave_remains"]=preload("res://scripts/cave_remains.gd").configuration()
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
 	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()

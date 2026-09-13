@@ -78,6 +78,7 @@ func collect(db:Dictionary):
 		use(id,"facilities",key,"game/scripts/main.gd:draw_building",{"facility_name":facility.name})
 	training_art()
 	exploration_trace_art()
+	cave_remains_art()
 	characters(db)
 	companions()
 	ui_icons()
@@ -107,6 +108,14 @@ func render_cache_metadata():
 		var entry=prepared.descriptor(a.path,chroma)
 		assert(not entry.is_empty(),"Missing prepared art metadata: "+a.id)
 		if not entry.is_empty():a.metadata["render_cache"]={"catalog":prepared.CATALOG,"path":entry.path,"source":a.path,"key":chroma}
+
+func cave_remains_art():
+	const Remains=preload("res://scripts/cave_remains.gd")
+	var catalog=Remains.catalog()
+	for key in catalog.sprites:
+		var entry=catalog.sprites[key]
+		var id=add("art:cave_remains:"+key,"environment",entry.name,catalog.sheet,entry.rect,"game/assets/cave_remains_v06/PROVENANCE.json",Remains.CATALOG,{"role":"aged_ground_remains","alpha":"original_preserved"})
+		use(id,"runtime","cave_remains:"+key,"game/scripts/cave_remains.gd:draw",{"visibility":"current_sight","collision":false,"maximum_per_floor":Remains.MAX_REMAINS})
 
 func exploration_trace_art():
 	const Trace=preload("res://scripts/exploration_trace_art.gd")

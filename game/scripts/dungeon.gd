@@ -24,6 +24,7 @@ var raid_arena=false
 var arena_radius=0.0
 var exploration_sites:Array=[]
 var exploration_cues:Array=[]
+var ground_remains:Array=[]
 var hidden_regions:Array=[]
 var revealed_regions={}
 var opened_regions={}
@@ -191,6 +192,7 @@ func generate_floor():
 	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
 	exploration_cues=preload("res://scripts/exploration_cues.gd").generate(self)
 	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)
+	ground_remains=preload("res://scripts/cave_remains.gd").generate(self)
 
 static func exploration_route(family:String,rng:RandomNumberGenerator)->Dictionary:
 	# Four encounters lead forward. Each optional wing rejoins farther ahead;
