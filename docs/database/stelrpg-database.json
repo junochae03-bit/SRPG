@@ -374150,19 +374150,19 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "receive_checkpoint"
       },
       {
@@ -374192,19 +374192,19 @@
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+        "source_sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
         "source_symbol": "exit_ack"
       }
     ],
@@ -374744,6 +374744,123 @@
         "source_symbol": "guardian_drop"
       }
     ],
+    "exploration_event_source_rules": [
+      {
+        "source_code": "static func select(map,site:Dictionary)->String:\n\tvar pool=[\"\"]\n\tfor key in DEFINITIONS:\n\t\tif DEFINITIONS[key].kind==site.kind:pool.append(key)\n\tif pool.size()==1:return \"\"\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+SEED_OFFSET+int(site.room)*193\n\treturn pool[rng.randi_range(0,pool.size()-1)]",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "select"
+      },
+      {
+        "source_code": "static func choices(site:Dictionary)->Array:\n\treturn DEFINITIONS.get(site.get(\"event\",\"\"),{}).get(\"choices\",[])",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "choices"
+      },
+      {
+        "source_code": "static func quote(p:Dictionary,site:Dictionary,choice:String)->Dictionary:\n\tvar result={\"choice\":choice,\"text\":\"\",\"reason\":\"\",\"cost\":{},\"reward\":{},\"hp\":0,\"stamina\":0}\n\tif choice not in choices(site):result.reason=\"선택할 수 없는 행동입니다.\";return result\n\tvar tier=int(site.tier)\n\tmatch choice:\n\t\t\"brew\":result.cost={\"seed\":2};result.reward={\"potion\":3};result.text=\"별씨앗 2 → 물약 3\"\n\t\t\"herbs\":result.reward={\"seed\":3+tier};result.text=\"약초 채집 · 별씨앗 +%d\"%(3+tier)\n\t\t\"unlock\":result.cost={\"tool\":1};result.reward={\"essence\":5+tier};result.text=\"도구 1 → 정수 %d\"%(5+tier)\n\t\t\"scrap\":result.reward={\"ore\":2+tier};result.text=\"부품 회수 · 광석 +%d\"%(2+tier)\n\t\t\"sacrifice\":\n\t\t\tresult.hp=-maxi(1,ceili(p.max_hp*.2));result.reward={\"essence\":4+tier};result.text=\"HP %d → 정수 %d\"%[-result.hp,4+tier]\n\t\t\tif p.hp<=-result.hp:result.reason=\"생명력이 부족합니다.\"\n\t\t\"mend\":\n\t\t\tresult.hp=mini(p.max_hp-p.hp,maxi(1,roundi(p.max_hp*.3)));result.text=\"생명력 +%d\"%result.hp\n\t\t\tif result.hp<=0:result.reason=\"생명력이 가득 찼습니다.\"\n\t\t\"channel\":\n\t\t\tresult.stamina=-40;result.reward={\"essence\":3+tier};result.text=\"기력 40 → 정수 %d\"%(3+tier)\n\t\t\tif p.stamina<40:result.reason=\"기력 40이 필요합니다.\"\n\t\t\"focus\":\n\t\t\tresult.stamina=minf(p.max_stamina-p.stamina,maxf(1.,p.max_stamina*.6));result.text=\"기력 +%d\"%roundi(result.stamina)\n\t\t\tif result.stamina<=0:result.reason=\"기력이 가득 찼습니다.\"\n\tif not result.reason.is_empty():return result\n\tvar staged=p.duplicate(true)\n\tfor material in result.cost:\n\t\tif int(staged.materials.get(material,0))<int(result.cost[material]):result.reason=Content.MATERIALS[material]+\" %d개가 필요합니다.\"%int(result.cost[material]);return result\n\t\tstaged.materials[material]-=int(result.cost[material])\n\t\tif staged.materials[material]==0:staged.bag_positions.erase(\"@mat:\"+material)\n\tfor item in result.reward:\n\t\tif not Inventory.add_stack(staged,item,result.reward[item]):result.reason=Inventory.stack_failure_reason(staged,item,result.reward[item]);return result\n\tstaged.hp+=result.hp;staged.stamina+=result.stamina\n\tresult[\"staged\"]=staged\n\treturn result",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "quote"
+      },
+      {
+        "source_code": "static func describe(site:Dictionary):\n\tvar definition=DEFINITIONS[site.event]\n\tsite.name=definition.name;site.icon=definition.icon;site[\"event_art\"]=definition.art",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "describe"
+      },
+      {
+        "source_code": "static func detail(p:Dictionary,site:Dictionary)->String:\n\tmatch site.event:\n\t\t\"herbalist\":return \"택 1 · 물약 %d · 별씨앗 %d\"%[p.potions,int(p.materials.get(\"seed\",0))]\n\t\t\"sealed_supplies\":return \"택 1 · 보유 탐사 도구 %d\"%int(p.materials.get(\"tool\",0))\n\t\t\"blood_altar\":return \"택 1 · 생명력 %d / %d\"%[p.hp,p.max_hp]\n\t\t\"echo_shrine\":return \"택 1 · 기력 %d / %d\"%[roundi(p.stamina),roundi(p.max_stamina)]\n\treturn \"\"",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "detail"
+      },
+      {
+        "source_code": "static func use(sim,p:Dictionary,site:Dictionary,choice:String)->bool:\n\tvar offer=quote(p,site,choice)\n\tif not offer.reason.is_empty():sim.notice(p.id,offer.reason);return false\n\tfor key in [\"hp\",\"stamina\",\"potions\",\"materials\",\"bag_positions\"]:p[key]=offer.staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=choice;sim.dirty[p.id]=true\n\tsim.notice(p.id,offer.text)\n\treturn true",
+        "source_path": "game/scripts/exploration_events.gd",
+        "source_sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+        "source_symbol": "use"
+      }
+    ],
+    "exploration_events": {
+      "claims": "one_choice_per_player_per_generated_floor",
+      "cost_validation": "current_authoritative_personal_state",
+      "definitions": {
+        "blood_altar": {
+          "art": "core_core_altar",
+          "choices": [
+            "sacrifice",
+            "mend"
+          ],
+          "icon": "essence",
+          "kind": "shrine",
+          "name": "생명의 제단"
+        },
+        "echo_shrine": {
+          "art": "nebula_astral_lantern",
+          "choices": [
+            "channel",
+            "focus"
+          ],
+          "icon": "stamina",
+          "kind": "shrine",
+          "name": "메아리의 등불"
+        },
+        "herbalist": {
+          "art": "autumn_mushroom_stump",
+          "choices": [
+            "brew",
+            "herbs"
+          ],
+          "icon": "seed",
+          "kind": "cache",
+          "name": "약초 그루터기"
+        },
+        "sealed_supplies": {
+          "art": "flood_shipwreck_crate",
+          "choices": [
+            "unlock",
+            "scrap"
+          ],
+          "icon": "bag",
+          "kind": "cache",
+          "name": "잠긴 보급 상자"
+        }
+      },
+      "placement": "replace_existing_cache_or_shrine_without_extra_rooms",
+      "reconnect": "not_yet_supported",
+      "rules": {
+        "brew": {
+          "potions": 3,
+          "seed": 2
+        },
+        "channel": {
+          "essence": "3+tier",
+          "stamina_cost": 40
+        },
+        "focus": {
+          "max_stamina_recovery": 0.6
+        },
+        "herbs": "seed 3+tier",
+        "mend": {
+          "max_hp_recovery": 0.3
+        },
+        "sacrifice": {
+          "cannot_kill": true,
+          "essence": "4+tier",
+          "max_hp_cost": 0.2
+        },
+        "scrap": "ore 2+tier",
+        "unlock": {
+          "essence": "5+tier",
+          "tool": 1
+        }
+      },
+      "save_version": 7,
+      "seed_offset": 103331,
+      "selection": "two_variants_and_original_equal_weight_per_kind",
+      "transaction": "stage_all_costs_and_rewards_before_commit"
+    },
     "exploration_rules": {
       "cache_material": "4+tier",
       "cache_potions": 2,
@@ -374912,37 +375029,37 @@
       {
         "source_code": "static func configuration()->Dictionary:\n\treturn {\"version\":2,\"definitions\":DEFINITIONS.duplicate(true),\"site_art\":SITE_ART,\"interaction_radius\":REACH,\"threat_radius\":THREAT_RADIUS,\"challenge\":Challenge.configuration(),\"sites_per_floor\":5,\"placement\":\"rest_on_spine_rewards_in_forward_rejoining_wings\",\"cache_potions\":2,\"cache_material\":\"4+tier\",\"sites_per_raid\":1,\"claim_scope\":\"one_per_player_per_generated_floor\",\"generation\":\"independent_seed_plus_57103\",\"request_generation_format\":\"seed.zone.floor\",\"reward_tier\":\"floor((floor-1)/10)\",\"gather_amount\":\"3+tier\",\"offering_potions\":1,\"offering_essence\":\"2+tier\",\"shrine_recovery\":0.35,\"rest_hp_stamina\":1.0}",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "configuration"
       },
       {
-        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0:return []\n\tvar generation=\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]\n\tif map.raid_arena:return [{\"id\":\"room_1\",\"room\":1,\"kind\":\"rest\",\"pos\":Vector2(map.rooms[1]),\"material\":\"ore\",\"tier\":int((map.floor_number-1)/10),\"generation\":generation}]\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+57103\n\tvar pool=[2,3,5,6]\n\tfor index in range(pool.size()-1,0,-1):\n\t\tvar other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before\n\tvar result=[];var kinds=DEFINITIONS.keys()\n\tfor index in range(kinds.size()):\n\t\tvar kind=kinds[index];var room=4 if kind==\"rest\" else int(pool[1] if kind==\"challenge\" else pool[index]);var pos=Vector2(map.rooms[room])\n\t\tvar material=\"seed\" if map.zone==\"forest\" else \"ore\"\n\t\tresult.append({\"id\":\"room_%d\"%room,\"room\":room,\"kind\":kind,\"pos\":pos,\"material\":material,\"tier\":int((map.floor_number-1)/10),\"generation\":generation})\n\treturn result",
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0:return []\n\tvar generation=\"%d.%s.%d\"%[map.seed_value,map.zone,map.floor_number]\n\tif map.raid_arena:return [{\"id\":\"room_1\",\"room\":1,\"kind\":\"rest\",\"pos\":Vector2(map.rooms[1]),\"material\":\"ore\",\"tier\":int((map.floor_number-1)/10),\"generation\":generation}]\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+57103\n\tvar pool=[2,3,5,6]\n\tfor index in range(pool.size()-1,0,-1):\n\t\tvar other=rng.randi_range(0,index);var before=pool[index];pool[index]=pool[other];pool[other]=before\n\tvar result=[];var kinds=DEFINITIONS.keys()\n\tfor index in range(kinds.size()):\n\t\tvar kind=kinds[index];var room=4 if kind==\"rest\" else int(pool[1] if kind==\"challenge\" else pool[index]);var pos=Vector2(map.rooms[room])\n\t\tvar material=\"seed\" if map.zone==\"forest\" else \"ore\"\n\t\tresult.append({\"id\":\"room_%d\"%room,\"room\":room,\"kind\":kind,\"pos\":pos,\"material\":material,\"tier\":int((map.floor_number-1)/10),\"generation\":generation})\n\t\tresult[-1][\"event\"]=Events.select(map,result[-1])\n\treturn result",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "generate"
       },
       {
         "source_code": "static func threats(sim,site:Dictionary)->int:\n\tvar count=0\n\tfor enemy in sim.enemies.values():\n\t\tif enemy.hp>0 and (enemy.get(\"encounter_room\",-1)==site.room or enemy.pos.distance_to(site.pos)<THREAT_RADIUS):count+=1\n\treturn count",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "threats"
       },
       {
         "source_code": "static func failure(sim,p:Dictionary,site:Dictionary)->String:\n\tif p.get(\"down_time\",0)>0 or p.get(\"network_leaving\",false) or p.hp<=0:return \"지금은 이용할 수 없습니다.\"\n\tif p.pos.distance_to(site.pos)>REACH or not sim.map.line_clear(p.pos,site.pos):return \"가까이 다가가세요.\"\n\tif sim.exploration_claims.get(p.id,{}).has(site.id):return \"이미 이용했습니다.\"\n\tif threats(sim,site)>0:return \"주변 적을 먼저 처치하세요.\"\n\treturn \"\"",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "failure"
       },
       {
-        "source_code": "static func use(sim,p:Dictionary,argument:String)->bool:\n\tvar parts=argument.split(\":\")\n\tif parts.size()!=3:return false\n\tif parts[1].begins_with(\"hidden_\"):return preload(\"res://scripts/hidden_rooms.gd\").use(sim,p,argument)\n\tvar site={}\n\tfor entry in sim.map.exploration_sites:\n\t\tif entry.id==parts[1] and entry.generation==parts[0]:site=entry;break\n\tif site.is_empty() or parts[2] not in DEFINITIONS[site.kind].choices:return false\n\tvar reason=failure(sim,p,site)\n\tif not reason.is_empty():sim.notice(p.id,reason);return false\n\tif site.kind==\"challenge\":return Challenge.use(sim,p,site,parts[2])\n\t# Stage both cost and reward. A full bag or potion shortage must leave\n\t# the choice, inventory, currency and per-player claim untouched.\n\tvar staged=p.duplicate(true);var message=\"\"\n\tmatch parts[2]:\n\t\t\"gather\":\n\t\t\tvar amount=gather_amount(sim.map,site)\n\t\t\tif not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false\n\t\t\tmessage=Content.MATERIALS[site.material]+\" ×%d\"%amount\n\t\t\"supplies\",\"salvage\":\n\t\t\tvar item=\"potion\" if parts[2]==\"supplies\" else str(site.material)\n\t\t\tvar amount=2 if parts[2]==\"supplies\" else 4+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,item,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,item,amount));return false\n\t\t\tmessage=(\"물약\" if item==\"potion\" else Content.MATERIALS[item])+\" +%d\"%amount\n\t\t\"rest\":\n\t\t\tif p.hp>=p.max_hp and p.stamina>=p.max_stamina:sim.notice(p.id,\"생명력과 기력이 가득 찼습니다.\");return false\n\t\t\tstaged.hp=p.max_hp;staged.stamina=p.max_stamina;message=\"생명력 · 기력 회복\"\n\t\t\"recover\":\n\t\t\tif p.hp>=p.max_hp:sim.notice(p.id,\"생명력이 가득 찼습니다.\");return false\n\t\t\tvar amount=mini(p.max_hp-p.hp,maxi(1,roundi(p.max_hp*.35)))\n\t\t\tstaged.hp+=amount;message=\"생명력 +%d\"%amount\n\t\t\"offering\":\n\t\t\tif p.potions<1:sim.notice(p.id,\"물약 1개가 필요합니다.\");return false\n\t\t\tstaged.potions-=1\n\t\t\tif staged.potions==0:staged.bag_positions.erase(\"@potion\")\n\t\t\tvar amount=2+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,\"essence\",amount):sim.notice(p.id,Inventory.stack_failure_reason(staged,\"essence\",amount));return false\n\t\t\tmessage=\"물약 −1 · 정수 +%d\"%amount\n\tfor key in [\"hp\",\"stamina\",\"potions\",\"materials\",\"bag_positions\"]:p[key]=staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=parts[2]\n\tsim.dirty[p.id]=true\n\tsim.notice(p.id,message)\n\treturn true",
+        "source_code": "static func use(sim,p:Dictionary,argument:String)->bool:\n\tvar parts=argument.split(\":\")\n\tif parts.size()!=3:return false\n\tif parts[1].begins_with(\"hidden_\"):return preload(\"res://scripts/hidden_rooms.gd\").use(sim,p,argument)\n\tvar site={}\n\tfor entry in sim.map.exploration_sites:\n\t\tif entry.id==parts[1] and entry.generation==parts[0]:site=entry;break\n\tif site.is_empty():return false\n\tvar choices=Events.choices(site) if not site.get(\"event\",\"\").is_empty() else DEFINITIONS[site.kind].choices\n\tif parts[2] not in choices:return false\n\tvar reason=failure(sim,p,site)\n\tif not reason.is_empty():sim.notice(p.id,reason);return false\n\tif not site.get(\"event\",\"\").is_empty():return Events.use(sim,p,site,parts[2])\n\tif site.kind==\"challenge\":return Challenge.use(sim,p,site,parts[2])\n\t# Stage both cost and reward. A full bag or potion shortage must leave\n\t# the choice, inventory, currency and per-player claim untouched.\n\tvar staged=p.duplicate(true);var message=\"\"\n\tmatch parts[2]:\n\t\t\"gather\":\n\t\t\tvar amount=gather_amount(sim.map,site)\n\t\t\tif not Inventory.add_stack(staged,site.material,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,site.material,amount));return false\n\t\t\tmessage=Content.MATERIALS[site.material]+\" ×%d\"%amount\n\t\t\"supplies\",\"salvage\":\n\t\t\tvar item=\"potion\" if parts[2]==\"supplies\" else str(site.material)\n\t\t\tvar amount=2 if parts[2]==\"supplies\" else 4+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,item,amount):sim.notice(p.id,Inventory.stack_failure_reason(p,item,amount));return false\n\t\t\tmessage=(\"물약\" if item==\"potion\" else Content.MATERIALS[item])+\" +%d\"%amount\n\t\t\"rest\":\n\t\t\tif p.hp>=p.max_hp and p.stamina>=p.max_stamina:sim.notice(p.id,\"생명력과 기력이 가득 찼습니다.\");return false\n\t\t\tstaged.hp=p.max_hp;staged.stamina=p.max_stamina;message=\"생명력 · 기력 회복\"\n\t\t\"recover\":\n\t\t\tif p.hp>=p.max_hp:sim.notice(p.id,\"생명력이 가득 찼습니다.\");return false\n\t\t\tvar amount=mini(p.max_hp-p.hp,maxi(1,roundi(p.max_hp*.35)))\n\t\t\tstaged.hp+=amount;message=\"생명력 +%d\"%amount\n\t\t\"offering\":\n\t\t\tif p.potions<1:sim.notice(p.id,\"물약 1개가 필요합니다.\");return false\n\t\t\tstaged.potions-=1\n\t\t\tif staged.potions==0:staged.bag_positions.erase(\"@potion\")\n\t\t\tvar amount=2+int(site.tier)\n\t\t\tif not Inventory.add_stack(staged,\"essence\",amount):sim.notice(p.id,Inventory.stack_failure_reason(staged,\"essence\",amount));return false\n\t\t\tmessage=\"물약 −1 · 정수 +%d\"%amount\n\tfor key in [\"hp\",\"stamina\",\"potions\",\"materials\",\"bag_positions\"]:p[key]=staged[key]\n\tif not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}\n\tsim.exploration_claims[p.id][site.id]=parts[2]\n\tsim.dirty[p.id]=true\n\tsim.notice(p.id,message)\n\treturn true",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "use"
       },
       {
-        "source_code": "static func snapshot(sim,id:int)->Array:\n\tvar result=[];var claims=sim.exploration_claims.get(id,{})\n\tfor original in sim.map.exploration_sites:\n\t\tvar site=original.duplicate(true);var definition=DEFINITIONS[site.kind]\n\t\tsite.merge({\"name\":definition.name,\"icon\":definition.icon,\"claimed\":claims.has(site.id),\"remaining\":threats(sim,site)})\n\t\tif site.kind==\"gather\":site[\"gather_amount\"]=gather_amount(sim.map,site);site.name=\"별씨앗 군락\" if site.material==\"seed\" else \"반짝 광맥\";site.icon=site.material\n\t\tif site.kind==\"challenge\":Challenge.describe(sim,site)\n\t\tresult.append(site)\n\tresult.append_array(preload(\"res://scripts/hidden_rooms.gd\").snapshots(sim,id))\n\treturn result",
+        "source_code": "static func snapshot(sim,id:int)->Array:\n\tvar result=[];var claims=sim.exploration_claims.get(id,{})\n\tfor original in sim.map.exploration_sites:\n\t\tvar site=original.duplicate(true);var definition=DEFINITIONS[site.kind]\n\t\tsite.merge({\"name\":definition.name,\"icon\":definition.icon,\"claimed\":claims.has(site.id),\"remaining\":threats(sim,site)})\n\t\tif site.kind==\"gather\":site[\"gather_amount\"]=gather_amount(sim.map,site);site.name=\"별씨앗 군락\" if site.material==\"seed\" else \"반짝 광맥\";site.icon=site.material\n\t\tif site.kind==\"challenge\":Challenge.describe(sim,site)\n\t\tif not site.get(\"event\",\"\").is_empty():Events.describe(site)\n\t\tresult.append(site)\n\tresult.append_array(preload(\"res://scripts/hidden_rooms.gd\").snapshots(sim,id))\n\treturn result",
         "source_path": "game/scripts/exploration_rooms.gd",
-        "source_sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+        "source_sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
         "source_symbol": "snapshot"
       },
       {
@@ -375343,7 +375460,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623",
+      "game/scripts/coop_session.gd": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -375369,14 +375486,15 @@
       "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
       "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
       "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
-      "game/scripts/exploration_cues.gd": "06695e3ee16bb0c930207628eef4bb635d1c64ed554a78f6e102df4b452edfc4",
-      "game/scripts/exploration_panel.gd": "3f3ff7635e819c70f5595c84d270740227b87f9c41a0a5d0970e58d7e3bf6c2f",
-      "game/scripts/exploration_rooms.gd": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b",
+      "game/scripts/exploration_cues.gd": "6bde6af98af9d9fd27f45099280ca5e4b1d80ef5600375d9f1cc924ddaff8b44",
+      "game/scripts/exploration_events.gd": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+      "game/scripts/exploration_panel.gd": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19",
+      "game/scripts/exploration_rooms.gd": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
       "game/scripts/exploration_shortcuts.gd": "7538c1ee50dd8b46fe1556d2fb19d2a53185bddbd8c840e19cb54e37b8efa1b1",
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283",
-      "game/scripts/game_database.gd": "d5c15914f6de5bc9c2b202b4b0255cbd7644063812bb5fc0e08386a3da706b00",
+      "game/scripts/game_database.gd": "71e90af75cb62a080be47ac675bd231a3403f76e77a26d76c836384bde32fef4",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -375452,7 +375570,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "208f07a5c4daf40a76df2abef5d8feb6aefb28f018be8fabacedb4fa2ac3d8dd",
+      "tools/game_db_rules.py": "0092250668acbbe5f96f299872a7dc34dc9b85dfa7274e10a4686741533e9f4b",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [

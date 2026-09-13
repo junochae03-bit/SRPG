@@ -3,6 +3,7 @@ extends RefCounted
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Challenge=preload("res://scripts/exploration_challenge.gd")
 const Content=preload("res://scripts/content.gd")
+const Events=preload("res://scripts/exploration_events.gd")
 const REACH=2.8
 const THREAT_RADIUS=8.0
 const DEFINITIONS={
@@ -23,6 +24,7 @@ static func draw_site(game,site:Dictionary):
 		preload("res://scripts/icon_library.gd").draw(game,"confirm" if site.claimed else site.icon,Rect2(at+Vector2(25,-30),Vector2(26,26)))
 		return
 	var art_id=SITE_ART[site.material if site.kind=="gather" else site.kind]
+	if not site.get("event","").is_empty():art_id=site.event_art
 	var data=preload("res://scripts/environment_art.gd").frame(art_id)
 	var scale_value=100.0/float(data.height);var at=game.world_point(site.pos)
 	var dimensions=data.texture.get_size()*scale_value
@@ -45,6 +47,7 @@ static func generate(map)->Array:
 		var kind=kinds[index];var room=4 if kind=="rest" else int(pool[1] if kind=="challenge" else pool[index]);var pos=Vector2(map.rooms[room])
 		var material="seed" if map.zone=="forest" else "ore"
 		result.append({"id":"room_%d"%room,"room":room,"kind":kind,"pos":pos,"material":material,"tier":int((map.floor_number-1)/10),"generation":generation})
+		result[-1]["event"]=Events.select(map,result[-1])
 	return result
 
 static func nearest(sites:Array,pos:Vector2)->Dictionary:
@@ -70,6 +73,7 @@ static func snapshot(sim,id:int)->Array:
 		site.merge({"name":definition.name,"icon":definition.icon,"claimed":claims.has(site.id),"remaining":threats(sim,site)})
 		if site.kind=="gather":site["gather_amount"]=gather_amount(sim.map,site);site.name="별씨앗 군락" if site.material=="seed" else "반짝 광맥";site.icon=site.material
 		if site.kind=="challenge":Challenge.describe(sim,site)
+		if not site.get("event","").is_empty():Events.describe(site)
 		result.append(site)
 	result.append_array(preload("res://scripts/hidden_rooms.gd").snapshots(sim,id))
 	return result
@@ -88,9 +92,12 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 	var site={}
 	for entry in sim.map.exploration_sites:
 		if entry.id==parts[1] and entry.generation==parts[0]:site=entry;break
-	if site.is_empty() or parts[2] not in DEFINITIONS[site.kind].choices:return false
+	if site.is_empty():return false
+	var choices=Events.choices(site) if not site.get("event","").is_empty() else DEFINITIONS[site.kind].choices
+	if parts[2] not in choices:return false
 	var reason=failure(sim,p,site)
 	if not reason.is_empty():sim.notice(p.id,reason);return false
+	if not site.get("event","").is_empty():return Events.use(sim,p,site,parts[2])
 	if site.kind=="challenge":return Challenge.use(sim,p,site,parts[2])
 	# Stage both cost and reward. A full bag or potion shortage must leave
 	# the choice, inventory, currency and per-player claim untouched.

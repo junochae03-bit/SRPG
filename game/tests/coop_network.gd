@@ -31,7 +31,7 @@ func run():
 		for value in range(500,800):
 			if preload("res://scripts/expedition_environment.gd").select(value+7919,test_floor).id!=options.environment:continue
 			var candidate=preload("res://scripts/dungeon.gd").new(value+7919,"cave",test_floor)
-			if candidate.hidden_regions.any(func(site):return site.get("shortcut",false)):test_seed=value;found_fixture=true;break
+			if candidate.hidden_regions.any(func(site):return site.get("shortcut",false)) and candidate.exploration_sites[3].get("event","")=="herbalist":test_seed=value;found_fixture=true;break
 		check(found_fixture,"environment fixture includes a real useful shortcut")
 	p.highest_floor=test_floor;p.cleared_floor=test_floor-1
 	var data=sim.persistent(1);data.world_seed=test_seed
@@ -147,6 +147,27 @@ func run():
 		session.act("explore",site.generation+":"+site.id+":gather")
 		await create_timer(.7).timeout
 		check(session.state.exploration_sites[0].claimed and int(session.state.players[session.local_id].materials.get(site.material,0))==gathered+int(site.gather_amount),"host-approved room reward once per human")
+		if options.has("environment"):
+			var event_site=session.sim.map.exploration_sites[3]
+			check(event_site.get("event","")=="herbalist","same generated event on all peers")
+			if host:
+				for player in session.sim.players.values():
+					player.pos=event_site.pos;player.materials.seed=2 if player.id==1 else 0
+					preload("res://scripts/inventory_model.gd").initialize(player)
+				session.refresh();session.publish_snapshot()
+			await create_timer(.7).timeout
+			var event_key=event_site.generation+":"+event_site.id+":"
+			var potions_before=session.state.players[session.local_id].potions
+			session.act("explore",event_key+"brew");session.act("explore",event_key+"brew")
+			await create_timer(.7).timeout
+			var claimed=session.state.exploration_sites[3].claimed
+			check(claimed==host,"only player owning ingredients can brew")
+			check(session.state.players[session.local_id].potions==potions_before+(3 if host else 0),"event cost and reward applied once to owning player")
+			check(int(session.state.players[session.local_id].materials.get("seed",0))==0,"no negative ingredients after duplicate request")
+			if not host:session.act("explore",event_key+"herbs");session.act("explore",event_key+"herbs")
+			await create_timer(.7).timeout
+			check(session.state.exploration_sites[3].claimed,"each guest can choose alternative after failed cost")
+			check(int(session.state.players[session.local_id].materials.get("seed",0))==(0 if host else 3+int(event_site.tier)),"alternative reward remains personal and deduplicated")
 		if host:
 			var challenge_site=session.sim.map.exploration_sites[4]
 			for player in session.sim.players.values():player.pos=challenge_site.pos
