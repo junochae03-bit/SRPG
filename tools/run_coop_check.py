@@ -22,7 +22,7 @@ try:
         command=[engine(),'--headless','--path',str(ROOT/'game'),'--script','res://tests/'+script+'.gd','--','--role='+role,'--directory='+str(folder),'--port='+str(port)]
         if '--host-exit' in sys.argv:command+=['--exit-mode=host']
         for arg in sys.argv[1:]:
-            if arg in ('--environment=echo','--environment=mist'):command.append(arg)
+            if arg in ('--environment=echo','--environment=mist','--last-survivor=true'):command.append(arg)
         if '--visual' in sys.argv and i<6:
             command.remove('--headless');command+=['--visual=true']
         processes.append(subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT,**hidden_options()))

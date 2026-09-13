@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "baseline": "8a67333",
+  "runtime_changed": false,
+  "previous_full_gate": {
+    "groups": 164,
+    "checks": 541217,
+    "status": "PASS"
+  },
+  "tests": {
+    "game/tests/combat_lifecycle_network.gd": "951eed4b1fa4a84786c1c07c7df7da25df05b1954bb2c2a1372cd6c7d6daa850",
+    "tools/run_coop_check.py": "459c7f513702c469f6522482b04afe202b14e5fb6436aa4651e6745100490e2b"
+  },
+  "network_runs": [
+    {
+      "last_survivor": true,
+      "status": "PASS",
+      "logs": {
+        "runtime/coop-check-1789279718942448600/0/run.log": "4ddf89a1b10fe57ee6d92b68e7e71483047ab63b3b4e34a6cc2121112984e4d4",
+        "runtime/coop-check-1789279718942448600/1/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279718942448600/2/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279718942448600/3/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279718942448600/4/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279718942448600/5/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279718942448600/6/run.log": "2dd63b48d5a071a07070d9bcf50c7d96f1dd29f1c595dab1ddc3b2eda5db401f"
+      }
+    },
+    {
+      "last_survivor": false,
+      "status": "PASS",
+      "logs": {
+        "runtime/coop-check-1789279786280836000/0/run.log": "4ddf89a1b10fe57ee6d92b68e7e71483047ab63b3b4e34a6cc2121112984e4d4",
+        "runtime/coop-check-1789279786280836000/1/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279786280836000/2/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279786280836000/3/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279786280836000/4/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279786280836000/5/run.log": "0e9f98eff7e4364ca00234d6add7102ce68b5c92eac08b1a4a8862ab611cd98c",
+        "runtime/coop-check-1789279786280836000/6/run.log": "2dd63b48d5a071a07070d9bcf50c7d96f1dd29f1c595dab1ddc3b2eda5db401f",
+        "runtime/coop-check-1789279786280836000/old-version/run.log": "0380233ec0f1295613f97cb06bb7d21db430671c10f7b269e99ea617137ca92f"
+      }
+    }
+  ],
+  "coverage": [
+    "실제 rat 공격 예고부터 영역 판정·치명 피해·쓰러짐·게스트 구조 입력까지 실제 틱과 ENet 스냅샷",
+    "게스트 전송 연결 직접 종료 후 실제 peer_disconnected 처리와 소유자 투사체 제거",
+    "생존 동료의 투사체·강화 및 진행 중 보스 체력 유지",
+    "마지막 생존자 연결 종료 뒤 보스 체력 초기화"
+  ],
+  "limits": [
+    "로컬 6개 프로세스이며 외부 회선 지연·손실·장시간 균형 검증은 아님",
+    "통제된 방 배치·피해량·무적 상태 사용. 일반 난도의 구조 성공률이나 보스 난도 증거가 아님",
+    "전체 필수 검사는 8a67333의 결과이며 이번에는 변경된 통신 시험 두 경로를 별도 실행함",
+    "재접속·분리 귀환 및 C09 저체력·피격·층당 효과 전체는 미완료"
+  ]
+}
