@@ -72,6 +72,8 @@ func verify_status_markers():
 	sim = null
 
 func run():
+	for facility in preload("res://scripts/world_catalog.gd").FACILITIES:
+		check(Library.has_key(facility),"town facility has semantic artwork "+facility)
 	Content.initialize_jobs()
 	var catalog = JSON.parse_string(FileAccess.get_file_as_string("res://assets/icons/semantic_catalog.json"))
 	var known: Array = Library.keys()

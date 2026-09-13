@@ -69,15 +69,15 @@ func material_goals():
 	var sim=Sim.new(912,"town");var p=sim.add_player(1,"강화 준비");p.tutorial_done=true
 	var sword=Equipment.make("sword",0,1,"goal-sword","none","warrior");Inventory.add_gear(p,sword);Inventory.equip(p,sword.id)
 	var early=Goals.material_offer(p,1)
-	check(early.goal.material=="seed" and early.goal.operation=="ore" and early.goal.target==5,"early ore shortage routes through real seed refinement recipe")
+	check(early.goal.material=="loot:forest:metal" and early.goal.operation=="upgrade" and early.goal.target==1,"early enhancement routes to an obtainable regional material")
 	p.highest_floor=12;p.cleared_floor=11;p.level=20;sword.upgrade=2
 	var item=Inventory.find_item(p,sword.id);item.upgrade=2
 	var offer=Goals.material_offer(p,12)
-	check(offer.goal.material=="ore" and offer.goal.target==3 and offer.goal.floor==12,"equipment upgrade need comes from actual current quote")
+	check(offer.goal.material=="loot:forest:core" and offer.goal.target==3 and offer.goal.floor==9,"equipment upgrade need comes from actual current quote")
 	check(choose(sim,p,"materials",12),"register actual material goal")
-	p.materials.ore=2
+	p.materials[offer.goal.material]=2
 	check(not Goals.describe(p).ready,"insufficient material is not ready")
-	p.materials.ore=3
+	p.materials[offer.goal.material]=3
 	check(Goals.describe(p).ready,"exact required materials become ready")
 	p.gold=0
 	check(not Goals.work_status(p).ready and Goals.work_status(p).reason.contains("금화"),"materials secured is distinct from affordable work")
@@ -86,7 +86,7 @@ func material_goals():
 	Goals.service_completed(p,{"facility":"smith","operation":"upgrade","item":"another-item"})
 	check(p.expedition_goal.stage==0,"another equipment operation cannot complete goal")
 	Goals.service_completed(p,{"facility":"smith","operation":"upgrade","item":sword.id})
-	p.materials.ore=0
+	p.materials[offer.goal.material]=0
 	check(Goals.describe(p).ready and p.expedition_goal.stage==3,"using materials for intended work remains completed")
 	p.equipment.weapon="";p.equipped="";p.materials.clear();p.potions=5
 	var recipe=Goals.material_offer(p,12);p.expedition_goal=recipe.goal

@@ -31,7 +31,7 @@ func run():
 	game.update_battle_camera(p,1.,true);session.refresh();game.forest.update_camera();game.exploration_panel.hide()
 	var hud=game.hud;var chrome=hud.expedition
 	click(chrome.tabs[0]);await process_frame
-	check(hud.job_resource.display_mode==0 and not game.skill_tree.visible,"stats tab remains compact")
+	check(game.skill_tree.visible,"stats tab opens detailed stats")
 	var crit=preload("res://scripts/combat_stats.gd").critical(p,session.sim.combat.jobs)
 	check(is_zero_approx(crit.chance),"no invented base critical chance")
 	var base=session.sim.damage_for(p,"physical");session.sim.combat.jobs.buff(p,"attack",.2,10.)
@@ -40,14 +40,17 @@ func run():
 	p.job_state.buffs.crit={"time":10.,"value":.2};session.refresh()
 	check(is_equal_approx(preload("res://scripts/combat_stats.gd").critical(p,session.sim.combat.jobs).chance,.2),"critical updates with live buff")
 	await capture("stats")
+	game.skill_tree.hide();hud.refresh();await process_frame
 	for rect in hud.job_resource.content_draw_rects:check(hud.job_resource.content_bounds().encloses(rect),"stat text inside content area")
 	p.class_id="gambler";session.sim.combat.jobs.reset(p);session.refresh();click(chrome.tabs[1]);await process_frame
-	check(hud.job_resource.display_mode==1 and not p.job_state.hand.is_empty(),"skill tab shows actual gambler hand")
+	check(game.skill_tree.visible and not p.job_state.hand.is_empty(),"skill screen opens without destroying gambler state")
+	game.skill_tree.hide();hud.refresh();await process_frame
 	await capture("identity")
 	click(chrome.tabs[2]);await process_frame
-	check(not game.bag.visible and chrome.consumables.position==Vector2(106,802),"bag tab contains existing quick slots")
+	check(game.bag.visible,"bag tab opens inventory")
+	game.bag.hide();hud.refresh();await process_frame
 	var panel_bounds=hud.job_resource.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,hud.job_resource.size)
-	for slot in chrome.consumables.slots:check(panel_bounds.encloses(slot.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,slot.size)),"quick slot within compact panel")
+	for slot in chrome.consumables.slots:check(not panel_bounds.intersects(slot.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,slot.size)),"quick slots have their own row outside identity")
 	click(chrome.consumables.slots[1]);await process_frame
 	check(chrome.consumables.picker.visible,"empty quick slot opens real registration")
 	click(chrome.consumables.assign_button);await process_frame

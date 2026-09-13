@@ -68,7 +68,8 @@ func run():
 	for seed_value in range(1,81):
 		var rng=RandomNumberGenerator.new();rng.seed=seed_value;var expected=rng.randf()<.5*(1.+.15*2)
 		sim.rng.seed=seed_value;sim.drops.clear();enemy.hp=enemy.max_hp;enemy.erase("rewarded");sim.kill(1,enemy)
-		check(not sim.drops.is_empty()==expected,"real kill uses risk drop probability")
+		var ore_drops=sim.drops.values().filter(func(drop):return drop.item.get("material","")=="ore")
+		check(not ore_drops.is_empty()==expected,"real kill uses risk drop probability")
 	var guardian=sim.enemies.values().filter(func(e):return e.get("guardian",false))[0]
 	friend=sim.add_player(2,"여울");friend.pos=sim.map.spawn;sim.drops.clear();sim.kill(1,guardian)
 	var reward=sim.drops.values().filter(func(d):return d.item.id.begins_with("risk-"))

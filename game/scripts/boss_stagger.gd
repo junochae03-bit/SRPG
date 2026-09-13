@@ -14,6 +14,7 @@ const DOWN_DAMAGE=1.20
 
 static func skill_profile(node:Dictionary,rank:int,player:Dictionary={})->Dictionary:
 	var multiplier=1. if preload("res://scripts/stat_specialization.gd").ultimate(node) else preload("res://scripts/stat_specialization.gd").stagger_factor(player)
+	if not preload("res://scripts/stat_specialization.gd").ultimate(node):multiplier=preload("res://scripts/equipment_special_stats.gd").stagger(player,multiplier)
 	var mode=str(node.get("mode",LEGACY_MODES.get(node.get("id",""),"")))
 	var base=24.;var grade="중간"
 	if rank<=0 or node.get("effect","active")!="active" or mode in SUPPORT or mode.is_empty():base=0.;grade="없음"
@@ -30,8 +31,9 @@ static func token(node:Dictionary,rank:int,p:Dictionary,clock:float,count:int=1)
 	var profile=skill_profile(node,rank,p)
 	return {"value":profile.value,"count":maxi(1,count),"spent":{},"created":clock,"dot":profile.mode in DOT_MODES,"source":str(node.get("id","")),"kind":"skill"}
 
-static func basic_token(heavy:bool,charge:float,clock:float)->Dictionary:
-	return {"value":14.+6.*clampf(charge,0,1) if heavy else 7.,"count":1,"spent":{},"created":clock,"dot":false,"source":"heavy" if heavy else "basic","kind":"basic"}
+static func basic_token(heavy:bool,charge:float,clock:float,player:Dictionary={})->Dictionary:
+	var base=14.+6.*clampf(charge,0,1) if heavy else 7.
+	return {"value":preload("res://scripts/equipment_special_stats.gd").stagger(player,base),"count":1,"spent":{},"created":clock,"dot":false,"source":"heavy" if heavy else "basic","kind":"basic"}
 
 static func context(budget:Dictionary,weight:float=-1.)->Dictionary:
 	if budget.is_empty():return {}

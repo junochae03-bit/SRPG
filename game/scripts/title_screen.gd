@@ -39,7 +39,7 @@ func wood_button(caption:String,at:Vector2,dimensions:Vector2,callback:Callable,
 	b.add_theme_stylebox_override("focus",focus);b.pressed.connect(callback);add_child(b);return b
 func refresh_records():
 	for i in range(records.size()):
-		var path=game.session.save_directory.path_join("slot-%d.json"%(i+1))
+		var path=game.session.slot_read_path(i+1)
 		var saved=game.session.parse_save(path)
 		if saved==null:saved=game.session.parse_save(path+".bak")
 		var prefix="◆ " if game.slot_picker.selected==i else ""

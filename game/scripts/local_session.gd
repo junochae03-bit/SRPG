@@ -27,12 +27,14 @@ var last_save_error=""
 func start_game(chosen_name: String, slot_number: int):
 	var previous_slot=slot
 	slot = clampi(slot_number,1,3)
+	if slot_state(slot)=="damaged":
+		status_changed.emit("저장 기록을 읽을 수 없습니다. 원본과 백업을 보존했습니다.");slot=previous_slot;return
 	DirAccess.make_dir_recursive_absolute(save_directory)
 	var saved = load_slot()
 	if not enter_saved(saved,chosen_name):slot=previous_slot
 
 func slot_state(slot_number:int)->String:
-	var path=save_directory.path_join("slot-%d.json"%clampi(slot_number,1,3))
+	var path=slot_read_path(slot_number)
 	if not FileAccess.file_exists(path) and not FileAccess.file_exists(path+".bak"):return "empty"
 	return "saved" if parse_save(path)!=null or parse_save(path+".bak")!=null else "damaged"
 
@@ -110,11 +112,12 @@ func refresh():
 	received_snapshots+=1
 	changed.emit()
 
-func send_input(direction: Vector2, aim: Vector2, sprint: bool = false):
-	if connected and not paused:sim.set_input(local_id,direction,aim,sprint)
+func send_input(direction: Vector2, aim: Vector2, sprint: bool = false, interact_held:bool=false):
+	if connected:sim.set_input(local_id,Vector2.ZERO if paused else direction,aim,sprint and not paused,interact_held and not paused)
 
 func act(kind: String, argument: String = "") -> bool:
 	if not connected: return false
+	if kind=="interact" and sim.Revival.consumes(sim,sim.players[local_id]):return sim.action(local_id,kind,argument)
 	if paused and kind not in ["equip","unequip","unequip_to","discard","move_item","sort_bag","invest","uninvest","reset_skills","apply_build","class","costume","avatar","buy_appearance","wear_appearance","claim_starters","potion","mana_potion","power_potion","stat","reset_stats","bind_skill","facility","training_reset","select_goal","plan_expedition"]: return false
 	if kind=="return":
 		if sim.map.zone=="town" or sim.players[local_id].return_cd>0:return false
@@ -147,7 +150,16 @@ func disconnect_game()->bool:
 	return true
 
 func save_path() -> String:
-	return save_directory.path_join("slot-%d.json" % slot)
+	return slot_write_path(slot)
+
+func slot_write_path(slot_number:int)->String:
+	return save_directory.path_join("v071").path_join("slot-%d.json"%clampi(slot_number,1,3))
+
+func slot_read_path(slot_number:int)->String:
+	var current=slot_write_path(slot_number)
+	# Once this generation exists, a broken new save must never roll back to the old generation.
+	if FileAccess.file_exists(current) or FileAccess.file_exists(current+".bak"):return current
+	return save_directory.path_join("slot-%d.json"%clampi(slot_number,1,3))
 
 func parse_save(path: String) -> Variant:
 	Content.initialize_jobs()
@@ -157,7 +169,8 @@ func parse_save(path: String) -> Variant:
 	return validate_save(parser.data)
 
 func validate_save(value:Variant)->Variant:
-	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6,7]:return null
+	if value is Dictionary and not preload("res://scripts/revival_aftereffects.gd").valid(value):return null
+	if not value is Dictionary or int(value.get("schema_version",0)) not in [1,2,3,4,5,6,7,8]:return null
 	for key in ["level","xp","gold","potions","kills","boss_kills","world_seed"]:
 		if not value.get(key) is float and not value.get(key) is int:return null
 		if value[key]<0:return null
@@ -167,6 +180,10 @@ func validate_save(value:Variant)->Variant:
 	var ids=[]
 	for item in value.inventory:
 		if not item is Dictionary:return null
+		if not preload("res://scripts/equipment_special_stats.gd").valid_item(item):return null
+		if item.has("special_stats_version"):
+			item.special_stats_version=int(item.special_stats_version)
+			for option in item.special_stats:option.points=int(option.points)
 		if not item.get("id") is String or not item.get("name") is String:return null
 		if ids.has(item.id):return null
 		ids.append(item.id)
@@ -192,7 +209,7 @@ func validate_save(value:Variant)->Variant:
 	if value.get("equipment",{}).get("weapon",value.equipped)!=value.equipped:return null
 	for key in value.get("materials",{}):
 		var amount=value.materials[key]
-		if key not in Content.MATERIALS or (not amount is float and not amount is int) or amount<0 or amount>Inventory.MAX_MATERIALS or amount!=floor(amount):return null
+		if key not in Content.MATERIALS or (not amount is float and not amount is int) or amount<0 or amount>Inventory.stack_limit(key) or amount!=floor(amount):return null
 		value.materials[key]=int(amount)
 	if not value.get("consumables",{}) is Dictionary:return null
 	for key in value.get("consumables",{}):
@@ -258,6 +275,8 @@ func validate_save(value:Variant)->Variant:
 	if not preload("res://scripts/guild_progression.gd").valid_reputation(value.get("guild_reputation",0)):return null
 	if value.has("guild_reputation"):value.guild_reputation=int(value.guild_reputation)
 	if not preload("res://scripts/guild_progression.gd").valid_contract(value.get("guild_contract",{})):return null
+	if not preload("res://scripts/production_queue.gd").valid(value.get("production",{})):return null
+	if value.has("production"):value.production=preload("res://scripts/production_queue.gd").restore(value.production)
 	if not preload("res://scripts/town_research.gd").valid(value.get("town_research",{})):return null
 	if value.has("town_research"):value.town_research=preload("res://scripts/town_research.gd").restore(value.town_research)
 	if not preload("res://scripts/expedition_goals.gd").valid(value.get("expedition_goal",{})):return null
@@ -323,14 +342,14 @@ func validate_save(value:Variant)->Variant:
 	return value
 
 func load_slot() -> Dictionary:
-	var path=save_path()
+	var path=slot_read_path(slot)
 	var value=parse_save(path)
 	if value!=null:return value
 	if not FileAccess.file_exists(path):
 		var backup_only=parse_save(path+".bak")
 		if backup_only!=null:return backup_only
 	if FileAccess.file_exists(path):
-		DirAccess.copy_absolute(path,path+".corrupt-"+str(Time.get_ticks_msec()))
+		if path==save_path():DirAccess.copy_absolute(path,path+".corrupt-"+str(Time.get_ticks_msec()))
 		var backup=parse_save(path+".bak")
 		if backup!=null:return backup
 	return {}
@@ -382,7 +401,9 @@ func _physics_process(delta: float):
 		save_retry=maxf(0.,save_retry-delta)
 		if save_retry<=0:save_game()
 	if not connected:return
-	if paused:preload("res://scripts/town_research.gd").tick(sim,delta)
+	if paused:
+		preload("res://scripts/town_research.gd").tick(sim,delta)
+		preload("res://scripts/production_queue.gd").tick(sim,delta)
 	else:sim.tick(delta)
 	flush_events()
 	refresh()
@@ -395,4 +416,6 @@ func _exit_tree():
 	if connected:save_game()
 
 func cancel_charge():
-	if connected and sim.players.has(local_id):sim.combat.act(sim.players[local_id],"cancel_charge")
+	if connected and sim.players.has(local_id):
+		sim.Revival.cancel(sim.players[local_id])
+		sim.combat.act(sim.players[local_id],"cancel_charge")

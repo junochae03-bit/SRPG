@@ -94,6 +94,8 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 	var staged=p.duplicate(true);var amount=3+int(site.tier)
 	if not Inventory.add_stack(staged,"essence",amount):sim.notice(p.id,Inventory.stack_failure_reason(p,"essence",amount));return false
 	staged.gold+=40+site.tier*20
+	var material_reason=preload("res://scripts/exploration_material_rewards.gd").stage_site(sim,staged,site,"secret_claim")
+	if not material_reason.is_empty():sim.notice(p.id,material_reason);return false
 	for key in ["materials","bag_positions","gold"]:p[key]=staged[key]
 	if not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}
 	sim.exploration_claims[p.id][site.id]="collect";sim.dirty[p.id]=true;sim.notice(p.id,"정수 +%d · 금화 +%d"%[amount,40+site.tier*20]);return true

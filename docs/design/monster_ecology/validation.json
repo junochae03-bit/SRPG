@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scope": "design data validation only; no engine/playtest/runtime integration",
+  "monsters": 24,
+  "raids": 10,
+  "items": 24,
+  "regions": 10,
+  "checks": [
+    "exact existing IDs",
+    "drop bounds",
+    "pattern timing",
+    "item references",
+    "actual encounter snapshots",
+    "runtime source hashes unchanged"
+  ],
+  "catalog_sha256": "e46a094a3932e77a04ba9855087bb59623c9c54df6cd46c577641776eff7bb8b"
+}

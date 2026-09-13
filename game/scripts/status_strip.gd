@@ -11,7 +11,7 @@ class Marker extends Control:
 	func _draw():
 		if entry.is_empty():return
 		Icons.draw(self,entry.icon,Rect2(5,0,32,32))
-		var value="%d초"%ceili(entry.remaining)
+		var value="치료" if entry.get("persistent",false) else "%d초"%ceili(entry.remaining)
 		var width=game.fonts.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
 		var baseline=Vector2((size.x-width)*.5,49)
 		draw_string_outline(game.fonts,baseline,value,HORIZONTAL_ALIGNMENT_LEFT,-1,13,4,Color("243d39"))
@@ -25,4 +25,4 @@ func refresh(p:Dictionary):
 	for i in range(markers.size()):
 		var marker=markers[i];marker.visible=i<entries.size()
 		if not marker.visible:continue
-		marker.entry=entries[i];marker.tooltip_text=entries[i].name+"\n%d초"%ceili(entries[i].remaining);marker.queue_redraw()
+		marker.entry=entries[i];marker.tooltip_text=entries[i].name+("" if entries[i].get("persistent",false) else "\n%d초"%ceili(entries[i].remaining));marker.queue_redraw()

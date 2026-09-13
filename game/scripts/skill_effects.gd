@@ -95,6 +95,9 @@ static func render(game,e:Dictionary):
 				star(game,at+offset+Vector2(0,-20*(1-t)),(8 if i%2 else 14)*(1-t*.6),Color(.95,.88,1,alpha),t*2+i)
 
 static func launch_flash(game,event:Dictionary):
+	if game.get("projectile_visual")!=null:
+		var sample={"type":event.get("weapon",""),"class_id":event.get("class_id","")}
+		if not preload("res://scripts/projectile_visual_v071.gd").family(sample).is_empty():return
 	var age=float(event.max_life)-float(event.life)
 	if age<0 or age>=.14:return
 	var direction=Dungeon.iso(event.dir).normalized()
@@ -110,6 +113,7 @@ static func launch_flash(game,event:Dictionary):
 		game.draw_line(at-direction*8.,at+direction*10.,color,2.,true)
 
 static func projectile(game,shot:Dictionary):
+	if game.get("projectile_visual")!=null and game.projectile_visual.render_shot(game,shot):return
 	if game.get("skill_atlas")!=null and float(shot.get("lifetime",0))>0:
 		if game.skill_atlas.render(game,shot,float(shot.get("age",0)),float(shot.lifetime),"projectile"):return
 	if preload("res://scripts/skill_vfx.gd").projectile(game,shot):return

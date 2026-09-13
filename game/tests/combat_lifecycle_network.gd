@@ -53,7 +53,12 @@ func run():
 	check(session.state.players.values().filter(func(actor):return actor.id!=1).all(func(actor):return actor.constellation_state.last_time>0 and not actor.job_state.buffs.is_empty()),"other five players keep buffs")
 	await barrier("downed")
 	var rescuer=session.state.players.keys().filter(func(id):return id!=1).min()
-	if session.local_id==rescuer:check(session.act("interact"),"real guest rescue action")
+	if session.local_id==rescuer:
+		check(session.act("interact"),"real guest rescue action")
+		for i in range(66):
+			session.send_input(Vector2.ZERO,Vector2.RIGHT,false,true)
+			await create_timer(.05).timeout
+		session.send_input(Vector2.ZERO,Vector2.RIGHT,false,false)
 	await wait_for(func():return session.state.players.get(1,{}).get("hp",0)>0,"replicated rescue completes")
 	var revived=session.state.players[1]
 	check(revived.down_time==0 and revived.constellation_state.last_time==0 and revived.constellation_state.move_time==0 and revived.constellation_state.support_time==0 and revived.job_state.buffs.is_empty(),"rescue never restores old state on any peer")

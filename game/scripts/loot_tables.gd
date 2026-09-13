@@ -1,20 +1,23 @@
 extends RefCounted
 const Content=preload("res://scripts/content.gd")
 var tables:Dictionary
-func _init():tables=JSON.parse_string(FileAccess.get_file_as_string("res://data/drop_tables.json")).monsters
+const Ecology=preload("res://scripts/monster_ecology_v071.gd")
+func _init():
+	tables=JSON.parse_string(FileAccess.get_file_as_string("res://data/drop_tables.json")).monsters
+	for kind in Ecology.data().monsters:tables[kind]=Ecology.drop_rows(kind)
 
-func roll(kind:String,rng:RandomNumberGenerator,chance_bonus:float=0.0)->Array:
+func roll(kind:String,rng:RandomNumberGenerator,chance_bonus:float=0.0,floor_number:int=0)->Array:
 	var result=[]
-	for entry in tables.get(kind,[]):
+	for entry in tables.get(kind,[])+Ecology.equipment_rows(kind,floor_number,tables):
 		var draw=rng.randf()
-		if float(entry.chance)>=1.0 or draw<minf(1.0,float(entry.chance)*(1+chance_bonus)):result.append(entry.duplicate(true))
+		if float(entry.chance)>=1.0 or draw<minf(1.0,float(entry.chance)*(1+(chance_bonus if entry.get("risk_bonus",true) else 0.))):result.append(entry.duplicate(true))
 	return result
 
 func item(entry:Dictionary,id:String,rng:RandomNumberGenerator,balance:Dictionary)->Dictionary:
 	var result={"id":id,"category":entry.kind,"rarity":int(entry.get("rarity",0)),"bonus":0}
 	if entry.kind in ["material","consumable"]:result.amount=int(entry.get("amount",1))
 	match entry.kind:
-		"material":result.material=entry.material;result.name=Content.MATERIALS[entry.material]
+		"material":result.material=entry.material;result.name=Content.MATERIALS[entry.material];result.rarity=int(preload("res://scripts/exploration_crafting_data.gd").materials().get(entry.material,{}).get("rarity",entry.get("rarity",0)))
 		"consumable":result.name="회복 물약";result.bonus=60
 		"weapon":
 			var weapon=entry.get("weapon","sword")

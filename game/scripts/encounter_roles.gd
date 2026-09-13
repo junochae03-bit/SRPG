@@ -9,13 +9,13 @@ static func role(kind:String)->String:
 		"charger":return "flanker"
 	return "frontline"
 
-static func apply(map):
+static func apply(map,known_distances:Dictionary={}):
 	if map.floor_number<=0 or map.raid_arena:return
 	var pool:Array=Abyss.config(map.floor_number).mobs
 	var fronts=pool.filter(func(kind):return role(kind) in ["frontline","flanker"])
 	var backs=pool.filter(func(kind):return role(kind) in ["ranged","support"])
 	var without_healer=pool.filter(func(kind):return role(kind)!="support")
-	var distances=ingress_distances(map)
+	var distances=ingress_distances(map) if known_distances.is_empty() else known_distances
 	for room in range(1,8):
 		var base=map.encounters.filter(func(entry):return entry.room==room and entry.role!="guardian" and not entry.get("risk_reinforcement",false))
 		var extras=map.encounters.filter(func(entry):return entry.room==room and entry.get("risk_reinforcement",false))

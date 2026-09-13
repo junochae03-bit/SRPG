@@ -19,7 +19,8 @@ func run():
 		var data=Env.frame(id);check(data.texture!=null and data.foot.y<=data.height,"valid environment texture and foot "+id)
 	for f in range(1,101):
 		var config=Abyss.config(f);var map=Dungeon.new(20260909+f,config.terrain,f);renderer.rebuild(map)
-		var allowed=Env.ids(config.terrain,f)
+		var allowed=Env.ids(config.terrain,f).duplicate()
+		if not map.raid_arena and int((f-1)/10) in [0,1,2,3,6]:allowed.append("cave_mine_arch")
 		for id in allowed:expected_environment[id]=true;check(Env.catalog.objects.has(id),"curated art stays registered")
 		check(not renderer.props.is_empty(),"scenery populated B%d"%f)
 		for prop in renderer.props:
@@ -47,7 +48,7 @@ func run():
 	check(species.size()==18,"every new common monster appearance reachable")
 	check(boss_species.size()==6,"every new raid appearance reachable")
 	var db=preload("res://scripts/game_database.gd").snapshot()
-	check(db.floors.size()==100 and db.monsters.size()==24,"gameplay IDs and floor count preserved")
+	check(db.floors.size()==100 and db.monsters.size()==53,"gameplay IDs and floor count preserved")
 	for row in db.appearances:
 		var expected=Art.variant_frame(row.monster_id,row.floor_id,row.role=="raid")
 		if not expected.is_empty():check(row.asset.art_id==expected.art_id,"database and runtime share appearance")

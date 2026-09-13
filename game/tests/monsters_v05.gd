@@ -36,7 +36,8 @@ func run():
 			else:check(item.amount==entry.amount,"monster stack quantity preserved "+kind+entry.key)
 		if e.boss:continue
 		e.hp=e.max_hp;e.pos=p.pos-Vector2.RIGHT;e.attack_pos=p.pos;e.pattern=0;p.hp=10000;p.defense=0;sim.events.clear()
-		var areas=Attacks.pattern(kind,e.pos,p.pos);signatures[JSON.stringify(areas)]=true
+		var areas=Attacks.pattern(kind,e.pos,p.pos)
+		if kind in World.BASE_ENEMIES:signatures[JSON.stringify(areas)]=true
 		check(not areas.is_empty(),"distinct attack pattern exists "+kind)
 		sim.monster_attacks.begin(e,p.pos);sim.monster_attacks.release(e)
 		for i in range(20):sim.monster_attacks.tick(.1)

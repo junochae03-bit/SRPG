@@ -62,7 +62,7 @@ func run():
 	local.set_physics_process(false);game.set_physics_process(false);game.set_process(false)
 	p=local.sim.players[1];p.level=100;p.highest_floor=100;local.sim.recalculate(p)
 	check(local.sim.map.layout_id=="town_plaza" and local.sim.map.walkable(p.pos),"renewed plaza retains valid arrival")
-	check(World.FACILITIES.size()==8 and World.RESIDENTS.size()==7,"dedicated boutique and instructor")
+	check(World.FACILITIES.size()==9 and World.RESIDENTS.size()==8 and World.FACILITIES.has("church"),"dedicated boutique, instructor and recovery church")
 	await capture("plaza")
 	for key in ["smith","shop","alchemy","guild","inn","costume"]:
 		var destination=World.FACILITIES[key].pos+Vector2(2.5,1.8)

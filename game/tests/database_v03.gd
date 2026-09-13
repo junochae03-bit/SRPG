@@ -13,7 +13,7 @@ func check(ok:bool,label:String):
 func run():
 	var db=DB.snapshot()
 	check(db.equipment.size()==2500,"all gear grade combinations")
-	check(db.monsters.size()==24 and db.raids.size()==10 and db.floors.size()==100,"monster and floor catalogs")
+	check(db.monsters.size()==53 and db.raids.size()==10 and db.floors.size()==100,"monster and floor catalogs")
 	check(db.skills.size()==610 and db.classes.size()==20,"every original and advanced class skill")
 	var ids={}
 	for e in db.equipment:

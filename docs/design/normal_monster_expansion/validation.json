@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "monsters": 40,
+  "new_art_species": 20,
+  "reuse_art_species": 20,
+  "appearances": 360,
+  "drop_rows": 120,
+  "checks": [
+    "고유ID",
+    "기존종 ID 충돌 없음",
+    "층별 실제 기준행",
+    "일반종만 포함",
+    "재료 참조",
+    "SQLite 무결성·외래 키",
+    "정본 미변경"
+  ],
+  "runtime_tested": false
+}

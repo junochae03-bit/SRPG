@@ -36,7 +36,7 @@ func refresh():
 		row.actor=players[ids[i]];row.buffs=buffs_for(row.actor)
 		row.position=Vector2(0,y);row.size=Vector2(294,maxf(34,ceilf(row.buffs.size()/8.)*19));y+=row.size.y+4
 		row.tooltip_text="%s\n생명력 %d / %d\n%s %d / %d"%[row.actor.name,row.actor.hp,row.actor.max_hp,"마나" if row.actor.has("mana") else "기력",resource(row.actor),resource_max(row.actor)]
-		for buff in row.buffs:row.tooltip_text+="\n%s · %d초"%[buff.name,ceili(buff.remaining)]
+		for buff in row.buffs:row.tooltip_text+="\n"+buff.name+("" if buff.get("persistent",false) else " · %d초"%ceili(buff.remaining))
 		row.queue_redraw()
 	size=Vector2(294,y);visible=not ids.is_empty()
 func world_regions()->Array[Rect2]:

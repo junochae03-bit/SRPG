@@ -192,11 +192,12 @@ func act(p:Dictionary,kind:String)->bool:
 	var s=p.job_state
 	if kind=="cancel_charge":s.casting={};p.charge_time=-1.;s.heavy_grit=0.;return true
 	if kind=="dodge":
-		if s.dash_charges<=0 or p.stamina<10:return false
+		var cost=preload("res://scripts/equipment_special_stats.gd").stamina_cost(p,10.)
+		if s.dash_charges<=0 or p.stamina<cost:return false
 		s.dash_charges-=1;s["after_dash"]=2.
 		if p.class_id=="martialist":p.attack_cd=maxf(0,p.attack_cd-passive(p,4)*.025)
 		if s.dash_timer<=0:s.dash_timer=8. if p.class_id=="breaker" else 2.5
-		p.stamina-=10;p.dodge_time=.3 if p.class_id=="breaker" else .22;p.dash_speed=16.;p.invulnerable=.12
+		p.stamina-=cost;p.dodge_time=.3 if p.class_id=="breaker" else .22;p.dash_speed=16.;p.invulnerable=.12
 		p.dodge_dir=p.dir.normalized() if p.dir.length()>.1 else p.aim.normalized();p.charge_time=-1.;s.casting={};s.heavy_grit=0.
 		if p.dodge_dir==Vector2.ZERO:p.dodge_dir=Vector2.RIGHT
 		combat.constellation.pending=combat.constellation.pending.filter(func(hit):return hit.owner!=p.id or hit.kind!="flurry")
@@ -204,15 +205,17 @@ func act(p:Dictionary,kind:String)->bool:
 		fx(p,p.class_id+":"+str(3 if p.class_id in ["breaker","martialist"] else 2),p.pos);return true
 	if sim.map.in_town(p.pos) or p.dodge_time>0:return false
 	if kind=="heavy_begin":
-		if p.attack_cd>0 or not s.casting.is_empty() or p.charge_time>=0 or p.stamina<20:return false
+		if p.attack_cd>0 or not s.casting.is_empty() or p.charge_time>=0 or p.stamina<preload("res://scripts/equipment_special_stats.gd").stamina_cost(p,20.):return false
 		p.charge_time=0.;s.natural_heavy=true
 		if p.class_id=="breaker":
-			s.heavy_grit=spend_grit(p,100.);p.charge_time=minf(.45,s.heavy_grit*.004);s.shield+=s.heavy_grit*.7;s.shield_time=2.
+			s.heavy_grit=spend_grit(p,100.);p.charge_time=minf(.45,s.heavy_grit*.004);s.shield+=preload("res://scripts/equipment_special_stats.gd").shield(p,s.heavy_grit*.7);s.shield_time=2.
 		if p.class_id=="reaper" and s.instant>0:p.charge_time=.9;s.instant=0.;s.natural_heavy=false
 		return true
 	if kind=="heavy":
 		if p.charge_time<0:return false
-		var charge=p.charge_time/.9;p.charge_time=-1.;p.stamina-=20
+		var cost=preload("res://scripts/equipment_special_stats.gd").stamina_cost(p,20.)
+		if p.stamina<cost:p.charge_time=-1.;return false
+		var charge=p.charge_time/.9;p.charge_time=-1.;p.stamina-=cost
 		s.natural_heavy=s.get("natural_heavy",false) and charge>=.99
 		if p.class_id=="breaker" and charge>=.99 and s.get("heavy_proc_cd",0)<=0:s.dash_timer=maxf(1.,s.dash_timer-passive(p,5)*.2);s.heavy_proc_cd=3.
 		return combat.attack(p,true,charge)
@@ -242,7 +245,7 @@ func act(p:Dictionary,kind:String)->bool:
 		cast.power*=payout(s.hand);cast["blackjack"]=hand_total(s.hand)==21;dispose_hand(p)
 	if p.class_id=="breaker" and mode.begins_with("charge"):
 		var consumed=spend_grit(p,100.);cast.power*=1+consumed/75.;cast.time=maxf(.45,cast.time-consumed*.006)
-		s.shield+=consumed*.7;s.shield_time=cast.time+.5
+		s.shield+=preload("res://scripts/equipment_special_stats.gd").shield(p,consumed*.7);s.shield_time=cast.time+.5
 		if s.counter>0:cast.power*=1.5;s.counter=0.
 	if p.class_id=="reaper" and mode.begins_with("heavy") and s.instant>0:cast.time=0.;s.instant=0.
 	if p.class_id=="gambler" and mode.begins_with("settle"):

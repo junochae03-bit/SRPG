@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "target_version": "V0.7.2",
+  "status": "handoff_ready_runtime_not_applied",
+  "runtime_applied": false,
+  "number_reference": "docs/design/exploration_object_guide/overview.png",
+  "user_confirmed_removals": [
+    {
+      "guide_number": 3,
+      "name": "여행자의 화로",
+      "selector": "kind",
+      "value": "rest"
+    },
+    {
+      "guide_number": 4,
+      "name": "갈림길의 제단",
+      "selector": "kind",
+      "value": "shrine"
+    },
+    {
+      "guide_number": 6,
+      "name": "정예의 은닉품",
+      "selector": "kind",
+      "value": "challenge"
+    },
+    {
+      "guide_number": 9,
+      "name": "생명의 제단",
+      "selector": "event",
+      "value": "blood_altar"
+    },
+    {
+      "guide_number": 10,
+      "name": "메아리의 등불",
+      "selector": "event",
+      "value": "echo_shrine"
+    }
+  ],
+  "retained_site_kinds": [
+    "gather",
+    "cache",
+    "secret"
+  ],
+  "retained_events": [
+    "herbalist",
+    "sealed_supplies"
+  ],
+  "shared_asset_deletion": false,
+  "proposed_layout_parameters": {
+    "normal_reward_sites": {
+      "gather": 1,
+      "cache": 1
+    },
+    "raid_reward_sites": 0,
+    "hidden_rooms": "existing optional generation retained",
+    "reward_amount_changes": false,
+    "material_kind_changes": false,
+    "primary_site_id_policy": "preserve room_N for retained room; no ID based on float coordinates",
+    "determinism": "world seed + floor + stable placement version; independent RNG, never frame/camera/player/claim state",
+    "edge_distance_tiles": {
+      "ore": [
+        0.8,
+        1.8
+      ],
+      "seed": [
+        1.2,
+        2.8
+      ],
+      "cache": [
+        1.2,
+        2.2
+      ]
+    },
+    "approach_clear_radius_tiles": 1.0,
+    "minimum_approach_cells": 2,
+    "interaction_radius_tiles": 2.8,
+    "spawn_clearance_tiles": 6.0,
+    "exit_clearance_tiles": 5.0,
+    "main_route_clearance_tiles": 2.0,
+    "site_separation_tiles": 5.0,
+    "render_height_px": {
+      "seed": 70,
+      "ore": 95,
+      "cache": 85,
+      "herbalist": 90
+    },
+    "scale_jitter": [
+      0.97,
+      1.03
+    ],
+    "decorative_cluster_size": [
+      2,
+      4
+    ],
+    "decorative_cluster_radius_tiles": [
+      1.0,
+      2.2
+    ],
+    "decorative_cluster_reward_objects": 1,
+    "prop_art_pool": "existing EnvironmentArt.LIVE_POOLS only",
+    "projection_overlap_fraction_max": 0.15,
+    "placement_failure": "expand search along same room perimeter; then next eligible wing; no room-center fallback or inaccessible wall placement",
+    "fallback_note": "candidate failure must be surfaced by generation test; reducing required count silently is not a pass"
+  },
+  "biome_composition": [
+    {
+      "biome": "forest",
+      "theme": "식생이 이어지는 가장자리의 낮은 군락, 바위 옆에 광맥"
+    },
+    {
+      "biome": "cave",
+      "theme": "암벽 오목한 부분의 광맥, 드문 낮은 버섯"
+    },
+    {
+      "biome": "flood",
+      "theme": "마른 발판의 상자, 물가 암벽의 광맥"
+    },
+    {
+      "biome": "spore",
+      "theme": "기존 버섯·균사와 이어지는 군락, 시야를 막지 않는 낮은 식생"
+    },
+    {
+      "biome": "lava",
+      "theme": "암벽의 호박빛 광맥, 용암길에서 떨어진 상자"
+    },
+    {
+      "biome": "snow",
+      "theme": "설원 가장자리의 서리 식생, 바위 곁의 푸른 광맥"
+    },
+    {
+      "biome": "machine",
+      "theme": "잔해가 모이는 벽 쪽의 광맥·상자, 통로는 비움"
+    },
+    {
+      "biome": "autumn",
+      "theme": "낙엽·관목 가장자리 군락, 같은 색감의 소규모 묶음"
+    },
+    {
+      "biome": "nebula",
+      "theme": "결정 암벽 곁의 광맥, 상자·유물함 사이 넉넉한 여백"
+    },
+    {
+      "biome": "core",
+      "theme": "마력핵 파편 주변의 광맥, 중앙 전투 공간과 분리한 보물"
+    }
+  ],
+  "source_sha256": {
+    "game/scripts/exploration_rooms.gd": "5776952d626bf0f37a41fec412502d2ca421538ad0213e0d4643018ee6572116",
+    "game/scripts/exploration_events.gd": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
+    "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
+    "game/scripts/exploration_panel.gd": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19",
+    "game/scripts/expedition_goals.gd": "1fb67575e9d5ee23276f920650bf4aa93509d89a66dfd9ece88a9f0584ce8ce5",
+    "game/scripts/exploration_cues.gd": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
+    "game/scripts/dungeon.gd": "7def32b9223cf2f71c1c14e48472acfb4a46a6b6a9277429b706db5a6184c10d",
+    "game/scripts/forest_environment.gd": "f72f3a326f8c51e2bc4c215ca8fc51ade1eb89c14081a2b6df68382226ad4227",
+    "game/scripts/cave_dressing_v071.gd": "588333033eb58b0f5f2c696cbd5b0f62a11df0ea6a1f06467f138a7b1a24c48c",
+    "game/scripts/game_database.gd": "f8f5466a6211921a96257b937e638865d23ee4ee19aebca131309eb961ddbdce",
+    "game/scripts/simulation.gd": "f8d99539150e00379da3a915d3c351f39b98490d82b64d1466b62603d91bffb5",
+    "game/scripts/exploration_object_art_v06.gd": "5c4b89adb5c9b80582575f014829c517d2c2e92bed5b4c6271a16bdba2ea5241"
+  },
+  "implementation_owner": "main after V071 release freeze",
+  "verification_required": [
+    "no_removed_site_generation_or_action",
+    "old_challenge_goal_save_migration",
+    "reachable_interaction_and_LOS",
+    "same_seed_same_sites_and_props",
+    "no_duplicate_reward_or_player_specific_geometry",
+    "all10_biomes_multiple_seeds",
+    "before_after_live_captures_same_seed_camera_zoom",
+    "DB_JSON_SQLite_metadata_catalog_alignment"
+  ]
+}

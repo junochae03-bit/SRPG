@@ -48,6 +48,8 @@ var departure_stamp=-1
 var risk_buttons=[]
 var guild_reward="gold"
 var guild_kind="hunt"
+var production_mode=false
+var production_button:Button
 var research_mode=false
 var research_button:Button
 
@@ -59,8 +61,9 @@ func setup(owner_game):
 	position=Vector2(64,24);size=Vector2(1312,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",6)
 	facility_icon=Art.picture(self,null,Vector2(28,22),Vector2(70,70))
-	title=game.label(self,"",Vector2(116,25),Vector2(770,43),32)
-	research_button=game.button(self,"시설 연구",Vector2(920,28),Vector2(190,46),func():research_mode=not research_mode;refresh())
+	title=game.label(self,"",Vector2(116,25),Vector2(570,43),32)
+	production_button=game.button(self,"제작 대기열",Vector2(718,28),Vector2(186,46),func():production_mode=not production_mode;research_mode=false;refresh())
+	research_button=game.button(self,"시설 연구",Vector2(920,28),Vector2(190,46),func():research_mode=not research_mode;production_mode=false;refresh())
 	Library.attach(game.button(self,"닫기  ESC",Vector2(1128,28),Vector2(152,46),close),"close")
 	Library.picture(self,"gold",Vector2(116,80),Vector2(25,25))
 	money=game.label(self,"",Vector2(152,78),Vector2(270,29),20)
@@ -94,7 +97,7 @@ func inset_buttons(parent:Node):
 func player()->Dictionary:return game.session.sim.players[game.session.local_id]
 func open(key:String):
 	if not World.FACILITIES.has(key):return
-	research_mode=false;guild_reward="gold";guild_kind="hunt"
+	production_mode=false;research_mode=false;guild_reward="gold";guild_kind="hunt"
 	if game.npc_dialogue!=null:game.npc_dialogue.hide()
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
 	target_quantity=0
@@ -102,7 +105,7 @@ func open(key:String):
 	if key=="portal":
 		var goal=preload("res://scripts/expedition_goals.gd").describe(player())
 		if not goal.is_empty():selected_floor=clampi(int(goal.floor),1,int(player().highest_floor));chapter=int((selected_floor-1)/10)
-	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel","costume":"buy","training":"training_reset"}[key]
+	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","church":"treat","portal":"travel","costume":"buy","training":"training_reset"}[key]
 	if key=="inn":operation=TownOperations.DEFAULT_INN_OPERATION
 	var personal_goal=player().get("expedition_goal",{})
 	if personal_goal.get("kind","")=="research" and int(personal_goal.stage)<3:
@@ -132,6 +135,8 @@ func receipt_changes(before:Dictionary,after:Dictionary)->String:
 	var reputation=int(after.get("guild_reputation",0))-int(before.get("guild_reputation",0))
 	if reputation!=0:rows.append("길드 평판 %+d"%reputation)
 	if int(after.hp)>int(before.hp):rows.append("생명력 회복")
+	if before.get("revival_weakness",false) and not after.get("revival_weakness",false):rows.append("쇠약 치료")
+	if before.get("revival_injury",false) and not after.get("revival_injury",false):rows.append("부상 치료 · 최대 생명력 회복")
 	return " · ".join(rows)
 
 func request(kind:String,extras:Dictionary={})->bool:
@@ -192,12 +197,17 @@ func refresh():
 	products.clear();shop_tabs.clear();quantity_buttons.clear();operation_buttons.clear();wardrobe_view=null;review_panel=null;review_result_scroll=null;confirm_button=null;product_scroll=null;review_labels.clear()
 	var p=player()
 	title.text=World.FACILITIES[facility].name
-	facility_icon.texture=Library.texture({"costume":"chest","training":"physical_attack"}.get(facility,facility))
+	facility_icon.texture=Library.texture({"church":"guild","costume":"chest","training":"physical_attack"}.get(facility,facility))
 	facility_icon.material=Art.icon_material(facility_icon.texture)
 	money.text="보유 금화  %d G"%p.gold
 	for key in resource_labels:resource_labels[key].text=Content.MATERIALS[key]+"  "+str(p.materials.get(key,0))
 	research_button.visible=facility in ["smith","alchemy","inn"]
 	research_button.text="거래로 돌아가기" if research_mode else "시설 연구"
+	production_button.visible=facility in ["smith","alchemy","inn"]
+	production_button.text="거래로 돌아가기" if production_mode else "제작 대기열"
+	if production_mode:
+		var production_view=preload("res://scripts/production_panel.gd").new();body.add_child(production_view);production_view.setup(self);return
+
 	if research_mode:
 		var research_view=preload("res://scripts/town_research_panel.gd").new();body.add_child(research_view);research_view.setup(self);return
 	match facility:
@@ -206,10 +216,12 @@ func refresh():
 		"alchemy":alchemy(p)
 		"guild":guild(p)
 		"inn":inn(p)
+		"church":church(p)
 		"portal":portal(p)
 		"costume":costume(p)
 		"training":training(p)
-	if facility=="guild" and operation in ["report","guild_board"]:pass
+	if facility=="smith" and operation=="craft_equipment":pass
+	elif facility=="guild" and operation in ["report","guild_board"]:pass
 	elif facility!="costume" and (facility!="shop" or shop_mode!="costume"):review(p)
 	inset_buttons(body)
 
@@ -313,7 +325,9 @@ static func smith_items(p:Dictionary,action:String)->Array:
 	equipped.append_array(items.filter(func(item):return not Inventory.is_equipped(p,item.id)))
 	return equipped
 func smith(p:Dictionary):
-	operation_tabs([["upgrade","장비 강화"],["reforge","옵션 재련"],["salvage","장비 분해"]])
+	operation_tabs([["craft_equipment","장비 제작"],["upgrade","장비 강화"],["reforge","옵션 재련"],["salvage","장비 분해"]])
+	if operation=="craft_equipment":
+		var crafting=preload("res://scripts/exploration_crafting_panel.gd").new();body.add_child(crafting);crafting.setup(self);return
 	var items=smith_items(p,operation)
 	# A completed sale/dismantle never silently selects the next inventory row.
 	var list=list_surface(Vector2(0,64),Vector2(722,620),maxf(610,ceili(items.size()/2.0)*134.))
@@ -365,9 +379,12 @@ func guild(p:Dictionary):
 			operation_buttons["reward_"+reward]=button
 		var cancel=game.button(body,"현재 의뢰 포기",Vector2(16,412),Vector2(320,48),func():choose("cancel"),operation=="cancel");operation_buttons.cancel=cancel
 
+func church(p:Dictionary):
+	var q=Quote.quote(p,"church","treat")
+	service_card(body,"treat","쇠약 치료 · %d G"%q.cost,q.result,"guild",Vector2(0,70),func():choose("treat"),operation=="treat",158)
 func inn(p:Dictionary):
 	game.label(body,"머무르기",Vector2(6,4),Vector2(710,38),28)
-	service_card(body,"rest","숙박 · 10 G","생명력 %d → %d · 기력 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina],"inn",Vector2(0,70),func():choose("rest"),operation=="rest",158)
+	service_card(body,"rest","숙박 · 10 G",Quote.quote(p,"inn","rest").result,"inn",Vector2(0,70),func():choose("rest"),operation=="rest",158)
 	for i in range(2):
 		var key=["resupply_small","resupply"][i];var q=Quote.quote(p,"inn",key)
 		var target=maxi(int(TownOperations.INN_RESUPPLY_TARGETS[key]),int(p.potions))

@@ -65,7 +65,7 @@ func run():
 	tap(KEY_J);check(not game.bag.visible and game.skill_tree.visible,"typing cannot switch modals")
 	tap(KEY_ESCAPE);check(not game.skill_tree.visible,"ESC still closes a focused text modal")
 	release_focus();tap(KEY_O);check(game.codex.visible and local.paused,"mapped codex key opens encyclopedia")
-	tap(KEY_ESCAPE);release_focus()
+	tap(KEY_ESCAPE);release_focus();root.grab_focus();await process_frame;await process_frame
 	key(KEY_UP);key(KEY_CTRL);game._physics_process(.06)
 	check(p.dir.is_equal_approx(game.Dungeon.from_iso(Vector2.UP).normalized()) and p.sprint,"movement polling uses mapped direction and sprint")
 	key(KEY_UP,false);key(KEY_CTRL,false);key(KEY_W);game._physics_process(.06)

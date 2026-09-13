@@ -60,6 +60,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
 	db.metadata["monster_display"]={"hero_body_pixels":112.,"heavy_body_heights":World.HEAVY_BODY_HEIGHTS,"heavy_species_heights":World.HEAVY_SPECIES_HEIGHTS,"boss_body_pixels":335.,"scope":"species_specific_visual_scale_and_receiving_radius"}
+	db.metadata["cave_dressing_v071"]=preload("res://scripts/cave_dressing_v071.gd").configuration()
 	db.metadata["cave_remains"]=preload("res://scripts/cave_remains.gd").configuration()
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
 	db.metadata["character_stats"]=preload("res://scripts/progression.gd").configuration()
@@ -79,6 +80,9 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
 	db.metadata["exploration_cues"]=preload("res://scripts/exploration_cues.gd").configuration()
 	db.metadata["guild_progression"]=preload("res://scripts/guild_progression.gd").configuration()
+	db.metadata["production"]=preload("res://scripts/production_queue.gd").configuration()
+	db.metadata["revival_aftereffects"]=preload("res://scripts/revival_aftereffects.gd").configuration()
+	db.metadata["exploration_crafting"]=preload("res://scripts/exploration_crafting_data.gd").catalog().duplicate(true)
 	db.metadata["town_research"]=preload("res://scripts/town_research.gd").configuration()
 	db.metadata["research_journey"]=preload("res://scripts/research_journey.gd").configuration()
 	db.metadata["exploration_events"]=preload("res://scripts/exploration_events.gd").configuration()
@@ -116,6 +120,8 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 		f["description"]=f.lore;db.floors.append(f)
 		if not f.raid:
 			for kind in f.mobs:_appearance(db,f,kind,"normal")
+			for kind in preload("res://scripts/monster_ecology_v071.gd").data().monsters:
+				if not preload("res://scripts/monster_ecology_v071.gd").stats(kind,floor_number).is_empty():_appearance(db,f,kind,"normal")
 			_appearance(db,f,f.elite,"elite")
 		_appearance(db,f,f.guardian_id,"raid" if f.raid else "guardian")
 		if f.raid:
@@ -136,7 +142,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 			var d=entry.duplicate(true);var item={"category":d.kind,"slot":d.get("slot","weapon"),"weapon_type":d.get("weapon",d.get("weapons",["sword"])[0])}
 			if d.kind=="material":item.material=d.material
 			var name=Content.MATERIALS[d.material] if d.kind=="material" else "회복 물약" if d.kind=="consumable" else Equipment.GRADES[int(d.get("rarity",0))]+" "+("현재 직업 무기" if d.kind=="weapon" else Content.SLOT_NAMES[d.slot])
-			d.merge({"id":"drop:"+kind+":"+d.key,"monster_id":kind,"monster_name":World.ENEMIES[kind].name,"name":name,"rarity":int(d.get("rarity",0)),"amount":int(d.get("amount",1)),"roll_mode":"independent_per_entry","slot":"weapon" if d.kind=="weapon" else d.get("slot",""),"asset":_item_asset(item),"description":"항목별 독립 판정입니다. 장비 부위·등급은 이 행을 따르고, 무기 형태는 처치한 캐릭터의 전용 무기로 변환됩니다. 던전 장비 단계는 해당 층에 따릅니다." if d.kind in ["weapon","armor","accessory"] else "항목별 독립 판정입니다. 다른 항목과 동시에 드랍될 수 있습니다.","subtitle":World.ENEMIES[kind].name+" · 독립 "+Scaling.number(float(d.chance)*100)+"%"},true)
+			d.merge({"id":"drop:"+kind+":"+d.key,"monster_id":kind,"monster_name":World.ENEMIES[kind].name,"name":name,"rarity":int(preload("res://scripts/exploration_crafting_data.gd").materials().get(d.get("material",""),{}).get("rarity",d.get("rarity",0))),"amount":int(d.get("amount",1)),"roll_mode":"independent_per_entry","slot":"weapon" if d.kind=="weapon" else d.get("slot",""),"asset":_item_asset(item),"description":"항목별 독립 판정입니다. 장비 부위·등급은 이 행을 따르고, 무기 형태는 처치한 캐릭터의 전용 무기로 변환됩니다. 던전 장비 단계는 해당 층에 따릅니다." if d.kind in ["weapon","armor","accessory"] else "항목별 독립 판정입니다. 다른 항목과 동시에 드랍될 수 있습니다.","subtitle":World.ENEMIES[kind].name+" · 독립 "+Scaling.number(float(d.chance)*100)+"%"},true)
 			db.drops.append(d)
 	for class_id in class_ids:
 		for node in Content.SKILLS[class_id]:
@@ -185,7 +191,7 @@ static func _with_art()->Dictionary:
 
 static func _equipment(slot:String,owner:String,tier:int,grade:int)->Dictionary:
 	var id="eq:%s:%s:%02d:%d"%[owner,"weapon" if slot=="sword" else slot,tier,grade]
-	var e=Equipment.make(slot,tier,grade,id,"focus",owner)
+	var e=Equipment.make(slot,tier,grade,id,"focus",owner,false)
 	e.merge({"grade_name":Equipment.GRADES[grade],"grade_color":Equipment.COLORS[grade].to_html(),"slot_name":Content.SLOT_NAMES[e.slot],"restriction":Equipment.restriction_text(e),"option_unlock":Equipment.UNLOCK[grade],"option_summary":_option_summary(e),"subtitle":Equipment.GRADES[grade]+" · "+Equipment.restriction_text(e),"description":"기본 강화 +0 기준. 도감은 부위·착용 직업/계열·단계·등급의 조합이며 실제 전리품의 추가 옵션은 별도 결정됩니다.","asset":_item_asset(e)},true)
 	return e
 
@@ -212,11 +218,12 @@ static func _option_summary(item:Dictionary)->String:
 	return "+%d 강화 시 위력·회복·보호막 / 사거리·범위 / 지속·지원 중 1종 +%d%%"%[Equipment.UNLOCK[item.rarity],8 if item.rarity==3 else 12]
 
 static func _appearance(db:Dictionary,f:Dictionary,kind:String,role:String):
-	var a=Abyss.enemy_stats(kind,f.floor,role=="raid",role in ["guardian","raid"])
+	var a=preload("res://scripts/monster_ecology_v071.gd").stats(kind,f.floor)
+	if a.is_empty():a=Abyss.enemy_stats(kind,f.floor,role=="raid",role in ["guardian","raid"])
 	a["asset"]=_monster_asset(kind,f.floor,role=="raid")
 	a["display_height"]=335. if role=="raid" else World.display_height(kind,f.floor)
 	a["name"]=f.title if role=="raid" else WorldArt.appearance_name(kind,f.floor,World.ENEMIES[kind].name)
-	a.merge({"id":"appearance:%03d:%s:%s"%[f.floor,kind,role],"floor_id":f.floor,"monster_id":kind,"role":role,"level":f.level+(3 if role=="elite" else 0),"raid_id":f.raid_id if role=="raid" else ""},true);db.appearances.append(a)
+	a.merge({"id":"appearance:%03d:%s:%s"%[f.floor,kind,role],"floor_id":f.floor,"monster_id":kind,"role":role,"level":a.get("level",f.level+(3 if role=="elite" else 0)),"raid_id":f.raid_id if role=="raid" else ""},true);db.appearances.append(a)
 
 static func _grade_tail(floor_number:int,grade:int)->float:
 	if grade<=2:return 1.
@@ -256,6 +263,10 @@ static func _texture_ref(texture:Texture2D)->Dictionary:
 	return {"path":texture.resource_path,"rect":[0,0,texture.get_width(),texture.get_height()]}
 
 static func _monster_asset(kind:String,floor_number:int=0,raid:bool=false)->Dictionary:
+	var ecology=preload("res://scripts/monster_ecology_art_v071.gd").data().get("species",{}).get(kind,{})
+	if not ecology.is_empty():
+		var pose=ecology.frames[0]
+		return {"path":ecology.sheet,"rect":pose.rect,"art_id":kind+"_idle","species":kind,"appearance_name":ecology.name_ko,"foot":pose.foot,"body_height":ecology.body_height,"animation":"idle/windup/impact/recover"}
 	var themed=preload("res://scripts/world_art.gd").variant_frame(kind,floor_number,raid)
 	if not themed.is_empty():
 		var asset=_texture_ref(themed.texture)
@@ -380,6 +391,8 @@ static func detail(kind:String,id:String)->Dictionary:
 static func asset_texture(row:Dictionary)->Texture2D:
 	var a=row.get("asset",{})
 	if a.is_empty():return null
+	if preload("res://scripts/monster_ecology_art_v071.gd").recognizes(str(a.get("species",""))):
+		return preload("res://scripts/monster_ecology_art_v071.gd").frame({"kind":a.species,"hp":1}).texture
 	if str(a.get("path","")).contains("/assets/equipment/"):return preload("res://scripts/equipment_art.gd").texture_for_asset(a)
 	var key=str(a)
 	if not _textures.has(key):

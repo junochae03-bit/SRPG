@@ -75,6 +75,7 @@ func run():
 	for i in range(7):check(service(sim,p,"shop","buy",{"index":i}),"buy equipment family "+str(i))
 	check(p.inventory.size()==7,"seven class equipment slots stocked")
 	var first=p.inventory[0];Inventory.equip(p,first.id);var old=first.bonus
+	for target in range(1,6):p.materials[preload("res://scripts/exploration_crafting_data.gd").enhancement_material(first,target)]=99
 	check(service(sim,p,"smith","upgrade",{"item":first.id}),"blacksmith upgrade succeeds")
 	first=Inventory.find_item(p,first.id);check(first.bonus==old+2 and first.upgrade==1,"upgrade actual stats")
 	for i in range(4):check(service(sim,p,"smith","upgrade",{"item":first.id}),"upgrade to cap")
@@ -117,7 +118,7 @@ func run():
 	p=session.sim.players[1];p.pos=Vector2(session.sim.map.rooms[1]);check(not session.travel("ruins"),"cannot change dungeon in combat field")
 	check(session.act("return") and session.sim.map.zone=="town","R returns to town")
 	p=session.sim.players[1];p.level=10;session.act("stat","fortitude");session.save_game();var loaded=session.parse_save(session.save_path())
-	check(loaded!=null and loaded.schema_version==7 and loaded.stats.fortitude==1,"v5 stats saved and validated")
+	check(loaded!=null and loaded.schema_version==8 and loaded.stats.fortitude==1,"v5 stats saved and validated")
 	session.disconnect_game();session.queue_free();await process_frame
 	print("V05_TESTS checks=",checks," failures=",failed.size())
 	quit(0 if failed.is_empty() else 1)

@@ -21,5 +21,7 @@ static func rename_constellations(nodes:Array,class_id:String):
 				if node.tags[i]==old_theme:node.tags[i]=node.cluster_name
 			if node.get("family","")=="ranger":
 				node.tradeoff=str(node.tradeoff).replace("단일 결의와 갈라지는 사냥길은 함께 선택할 수 없습니다.",str(data.clusters[class_id][1])+"와 "+str(data.clusters[class_id][3])+"은 함께 선택할 수 없습니다.")
+static func monster(id:String,fallback:String)->String:
+	initialize();return data.get("monsters",{}).get(id,fallback)
 static func equipment(slot:String,owner:String,tier:int,fallback:String)->String:
 	initialize();return data.equipment.get(slot+":"+owner+":"+str(tier),fallback)

@@ -1,10 +1,13 @@
 {
   "counts": {
-    "appearances": 568,
-    "art_assets": 2313,
-    "art_files": 330,
-    "art_sources": 14,
-    "art_uses": 13654,
+    "alchemy_inputs": 230,
+    "alchemy_outputs": 80,
+    "alchemy_recipes": 80,
+    "appearances": 829,
+    "art_assets": 2464,
+    "art_files": 374,
+    "art_sources": 16,
+    "art_uses": 14941,
     "build_concepts": 100,
     "build_nodes": 1510,
     "classes": 20,
@@ -12,23 +15,30 @@
     "constellation_effects": 900,
     "constellation_exclusions": 4,
     "constellations": 900,
-    "drops": 132,
+    "crafting_ingredients": 14140,
+    "crafting_recipes": 2000,
+    "drops": 219,
     "dungeon_layouts": 5,
     "effect_definitions": 33,
+    "enhancement_bands": 6,
+    "enhancement_materials": 60,
     "equipment": 2500,
     "exclusive_groups": 40,
-    "facilities": 8,
+    "exploration_acquisition": 200,
+    "exploration_biomes": 10,
+    "exploration_materials": 110,
+    "facilities": 9,
     "floors": 100,
     "inventory_rules": 1,
-    "item_definitions": 10,
-    "monsters": 24,
+    "item_definitions": 120,
+    "monsters": 53,
     "raid_drops": 24,
     "raids": 10,
-    "service_effects": 26,
+    "service_effects": 27,
     "service_inputs": 30,
-    "service_operations": 26,
+    "service_operations": 27,
     "service_outputs": 120,
-    "service_samples": 121,
+    "service_samples": 122,
     "skill_parents": 651,
     "skill_ranks": 2030,
     "skills": 610,
@@ -36,17 +46,17 @@
   },
   "files": {
     "schema.sql": {
-      "bytes": 16774,
-      "sha256": "8af498675c733f91115da40da66c5b247a5398954c7522580d9623dbadbc15a3"
+      "bytes": 22863,
+      "sha256": "c5ce699dcb6886d3fd8cce4d0b3f52804edbc46e2d8d4a6bf959e3869178c780"
     },
     "stelrpg-database.json": {
-      "bytes": 17652638,
-      "sha256": "b59d64e5e6eea06efe9506ae0acf2ecb69101530b50818a66d46b14f695e7c22"
+      "bytes": 27696260,
+      "sha256": "c7b206a9123a1414d891a6c73d8f53b836f2ff0fac6d4fa7c7b07fea73837272"
     },
     "stelrpg.sqlite": {
-      "bytes": 11751424,
-      "sha256": "5de0288a72be385384f45f6523e9cb6193f36727b1e1ee27f0c3547c5c723a02"
+      "bytes": 24252416,
+      "sha256": "3cf0fa75b90cbf3eb8f5162eccfd8d46e5843db63e6772df7386e40459b98268"
     }
   },
-  "schema_version": 5
+  "schema_version": 6
 }

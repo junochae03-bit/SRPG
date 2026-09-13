@@ -1,0 +1,22 @@
+{
+  "pack_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913",
+  "zip_sha256": "7246e5f37c1e41edf9c9d94ffa312e4a12da0cafdfa4773a57dae1c5df5c5507",
+  "status": "keyed_art_ready_rgba_pending",
+  "runtime_integrated": false,
+  "species_count": 4,
+  "frame_count": 16,
+  "verified": [
+    "ZIP SHA256",
+    "ZIP CRC",
+    "manifest hashes",
+    "size_class/display_ratio",
+    "four phases per species"
+  ],
+  "producer_reported": [
+    "Godot playback",
+    "96 grounding combinations",
+    "reuse 9 species; 11 species need 16 poses"
+  ],
+  "rgba_original_delivered": false,
+  "reuse_review_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\reuse_review.json"
+}

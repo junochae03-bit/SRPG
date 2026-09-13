@@ -240,6 +240,7 @@ func _gui_input(event):
 func _draw():
 	if owner_tree==null:return
 	var p=owner_tree.player();var chosen=owner_tree.choice
+	var ancestry=selected_ancestry(chosen)
 	for cluster in centers:
 		if scope_cluster>=0 and cluster!=scope_cluster:continue
 		var left=world_to_view(Vector2(centers[cluster].x-167,0))
@@ -251,7 +252,7 @@ func _draw():
 		var node=definitions[id]
 		for parent in node.get("parents",[]):
 			if not positions.has(parent) or not in_scope(parent):continue
-			var focus=id==chosen or parent==chosen or id==hover_id or parent==hover_id
+			var focus=(ancestry.has(id) and ancestry.has(parent)) or id==hover_id or parent==hover_id
 			var planned=id in planned_ids and (parent in planned_ids or int(states.get(parent,{}).get("rank",0))>0)
 			if Presentation.tree_group(node)!=Presentation.tree_group(definitions[parent]) and not focus and not planned:continue
 			var a=world_to_view(positions[parent])+Vector2(0,node_controls[parent].size.y*.5+18)
@@ -264,7 +265,16 @@ func _draw():
 				# Long prerequisite edges travel in the column gutter, never through intervening icons.
 				var gutter=world_to_view(Vector2(centers[Presentation.tree_group(node)].x-157,0)).x
 				path=PackedVector2Array([a,Vector2(a.x,a.y+9*zoom),Vector2(gutter,a.y+9*zoom),Vector2(gutter,b.y-9*zoom),Vector2(b.x,b.y-9*zoom),b])
-			draw_polyline(path,color,2 if focus or planned else 1,true)
+			draw_polyline(path,color,3 if focus else 2 if planned else 1,true)
+
+func selected_ancestry(id:String)->Dictionary:
+	var result={};var pending=[id]
+	while not pending.is_empty():
+		var current=pending.pop_back()
+		if result.has(current) or not definitions.has(current):continue
+		result[current]=true
+		pending.append_array(definitions[current].get("parents",[]))
+	return result
 
 func text_center(value:String,point:Vector2,font_size:int,color:Color):
 	var font=owner_tree.game.fonts;point.x-=font.get_string_size(value,HORIZONTAL_ALIGNMENT_LEFT,-1,font_size).x*.5

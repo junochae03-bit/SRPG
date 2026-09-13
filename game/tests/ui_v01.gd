@@ -32,6 +32,7 @@ func run():
 	check(game.bag.grid.CELL==64 and game.bag.size.x==1560,"Full HD illustrated inventory with readable item cells")
 	game.toggle_bag()
 	p.inventory.filter(func(i):return i.id=="training-sword")[0].rarity=1
+	p.materials[preload("res://scripts/exploration_crafting_data.gd").enhancement_material(p.inventory.filter(func(i):return i.id=="training-sword")[0],1)]=99
 	var panel=game.town_panel
 	for facility in ["shop","smith","alchemy","guild","inn"]:
 		p.pos=World.resident_pos(facility);session.refresh();session.act("interact")

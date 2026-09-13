@@ -3,6 +3,7 @@ const Content=preload("res://scripts/content.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
 const HitGeometry=preload("res://scripts/enemy_hit_geometry.gd")
+const Special=preload("res://scripts/equipment_special_stats.gd")
 var sim_ref:WeakRef
 var sim:
 	get:return sim_ref.get_ref()
@@ -62,7 +63,7 @@ func tick_player(p:Dictionary,delta:float):
 		for i in range(steps):p.pos=sim.map.move(p.pos,displacement/steps)
 	elif p.sprint and p.dir.length()>0.1 and p.stamina>0 and p.charge_time<0:
 		p.pos=sim.map.move(p.pos,p.dir*speed*1.65*delta)
-		p.stamina=maxf(0,p.stamina-maxf(5,23-Content.skill_bonus(p,"sprint_discount"))*delta)
+		p.stamina=maxf(0,p.stamina-Special.stamina_cost(p,maxf(5,23-Content.skill_bonus(p,"sprint_discount")))*delta)
 	else:
 		p.pos=sim.map.move(p.pos,p.dir*speed*(0.4 if p.charge_time>=0 else 1.0)*delta)
 		if p.charge_time<0:p.stamina=minf(p.max_stamina,p.stamina+(18+Content.skill_bonus(p,"stamina_regen"))*delta)
@@ -73,7 +74,7 @@ func act(p:Dictionary,kind:String)->bool:
 	if Content.job(p):return jobs.act(p,kind)
 	if kind in Content.ACTIONS:return skills.cast(p,kind)
 	if kind=="dodge":
-		var cost=maxf(5,25-Content.skill_bonus(p,"dodge_discount"))
+		var cost=Special.stamina_cost(p,maxf(5,25-Content.skill_bonus(p,"dodge_discount")))
 		if p.dodge_cd>0 or p.stamina<cost:return false
 		p.stamina-=cost;p.dodge_cd=0.8;p.dodge_time=0.26;p.dash_speed=14.5;p.invulnerable=0.24;p.charge_time=-1.0
 		p.invulnerable+=Content.skill_bonus(p,"dodge_duration")
@@ -85,13 +86,14 @@ func act(p:Dictionary,kind:String)->bool:
 	if kind=="cancel_charge":p.charge_time=-1.0;return true
 	if sim.map.in_town(p.pos) or p.dodge_time>0:return false
 	if kind=="heavy_begin":
-		if p.attack_cd>0 or p.charge_time>=0 or p.stamina<maxf(5,20-Content.skill_bonus(p,"heavy_discount")):return false
+		if p.attack_cd>0 or p.charge_time>=0 or p.stamina<Special.stamina_cost(p,maxf(5,20-Content.skill_bonus(p,"heavy_discount"))):return false
 		p.charge_time=0.0;return true
 	if kind=="heavy":
 		if p.charge_time<0:return false
 		var charge=p.charge_time/0.9;p.charge_time=-1.0
-		if p.attack_cd>0 or p.stamina<maxf(5,20-Content.skill_bonus(p,"heavy_discount")):return false
-		p.stamina-=maxf(5,20-Content.skill_bonus(p,"heavy_discount"))
+		var cost=Special.stamina_cost(p,maxf(5,20-Content.skill_bonus(p,"heavy_discount")))
+		if p.attack_cd>0 or p.stamina<cost:return false
+		p.stamina-=cost
 		return attack(p,true,charge)
 	if p.charge_time>=0:return false
 	if kind in ["skill_f","skill_v","skill_c"]:return skills.cast(p,kind)
@@ -117,7 +119,7 @@ func act(p:Dictionary,kind:String)->bool:
 
 func attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	var previous=stagger_context
-	stagger_context=BossStagger.context(BossStagger.basic_token(heavy,charge,sim.clock))
+	stagger_context=BossStagger.context(BossStagger.basic_token(heavy,charge,sim.clock,p))
 	var result=_attack(p,heavy,charge)
 	stagger_context=previous
 	return result
@@ -148,7 +150,7 @@ func _attack(p:Dictionary,heavy:bool,charge:float)->bool:
 	if Content.job(p):multiplier*=jobs.attack_multiplier(p,heavy)
 	var amount=roundi(sim.damage_for(p)*config.multiplier*multiplier)
 	var radius=config.range+Content.skill_bonus(p,"range" if config.projectile else "melee_range")
-	sim.events.append({"type":"heavy" if heavy else "attack","pos":p.pos,"dir":p.aim,"owner":p.id,"weapon":type,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,p.aim)})
+	sim.events.append({"type":"heavy" if heavy else "attack","pos":p.pos,"dir":p.aim,"owner":p.id,"weapon":type,"class_id":p.class_id,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,p.aim)})
 	if config.projectile:
 		launch(p,type,p.aim,amount,radius+(2 if heavy else 0),config.speed,1.4 if type=="staff" else 0)
 		projectiles.back()["basic"]=not heavy
@@ -211,10 +213,25 @@ func area(p:Dictionary,center:Vector2,radius:float,amount:int,fx_kind:String="st
 func launch(p:Dictionary,type:String,direction:Vector2,amount:int,distance:float,speed:float,splash:float):
 	speed+=Content.skill_bonus(p,"projectile_speed")
 	if direction.length()<0.1:direction=Vector2.RIGHT
-	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"age":0.,"lifetime":distance/speed if speed>0 else 0.,"type":type,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context,"visual_start":p.pos,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,direction)})
+	projectiles.append({"pos":p.pos,"dir":direction.normalized(),"amount":amount,"remaining":distance,"speed":speed,"age":0.,"lifetime":distance/speed if speed>0 else 0.,"type":type,"class_id":p.class_id,"splash":splash,"owner":p.id,"pierce":int(Content.skill_bonus(p,"pierce")) if type=="bow" else 0,"hit":[],"stagger":stagger_context,"visual_start":p.pos,"visual_origin":preload("res://scripts/gat_art.gd").launch_offset(p,direction)})
+
+func projectile_event(shot:Dictionary,kind:String,at:Vector2):
+	var sample=shot.duplicate()
+	sample.pos=at
+	var event={"type":kind,"projectile_type":shot.type,"owner":shot.owner,"pos":at,"dir":shot.dir,
+		"visual_origin":shot.get("visual_origin",Vector2(0,-70)),
+		"visual_offset":preload("res://scripts/character_presentation.gd").projectile_offset(sample),
+		"duration":.1 if kind=="projectile_launch" else .24}
+	for key in ["class_id","skill_id","skill_mode","vfx","fx","visual_family"]:
+		if shot.has(key):event[key]=shot[key]
+	sim.events.append(event)
 
 func tick_projectiles(delta:float):
 	for shot in projectiles:
+		# Skills annotate the shot after launch(); emit once with final metadata.
+		if not shot.get("visual_launch_emitted",false):
+			projectile_event(shot,"projectile_launch",shot.get("visual_start",shot.pos))
+			shot["visual_launch_emitted"]=true
 		shot["age"]=float(shot.get("age",0))+delta
 		var origin:Vector2=shot.pos
 		var step:Vector2=shot.dir*minf(shot.remaining,shot.speed*delta)
@@ -237,6 +254,7 @@ func tick_projectiles(delta:float):
 			var shot_amount=roundi(shot.amount*preload("res://scripts/stat_specialization.gd").execute_factor(p,{"mode":shot.get("skill_mode","")},e))
 			var accepted=hit(p,e,shot_amount,impact if shot.splash>0 else origin,shot.get("stagger",{}))
 			if not accepted:continue
+			projectile_event(shot,"projectile_impact",impact)
 			if shot.splash>0:area(p,impact,shot.splash,shot.amount,"star_impact",shot.get("stagger",{}),[e.id])
 			if shot.get("status","") in ["bleed","root","slow"]:jobs.status(p,e,shot.status,4.,shot.get("stagger",{}))
 			if shot.get("basic",false):jobs.basic_hit(p,e)

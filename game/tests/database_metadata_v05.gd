@@ -13,7 +13,7 @@ func run():
 	var start=Time.get_ticks_usec();var db=DB.snapshot();var elapsed_ms=(Time.get_ticks_usec()-start)/1000.
 	check(EquipmentArt.sheets.is_empty() and EquipmentArt.cache.is_empty(),"cold snapshot reads equipment metadata without decoding any sheet")
 	check(DB._textures.is_empty(),"metadata snapshot does not populate visible-card texture cache")
-	check(db.equipment.size()==2500 and db.drops.size()==132 and db.raid_drops.size()==24,"all existing item records remain present")
+	check(db.equipment.size()==2500 and db.drops.size()==219 and db.raid_drops.size()==24,"all existing item records remain present")
 	# Compare the published portable records independently of the new helper.
 	var baseline_path=ProjectSettings.globalize_path("res://../docs/database/stelrpg-database.json")
 	var published=JSON.parse_string(FileAccess.get_file_as_string(baseline_path))

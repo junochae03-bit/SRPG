@@ -11,6 +11,8 @@ static func timed_for(actor:Dictionary)->Array:
 	for row in [["enemy_slow_time","slow","둔화"],["invulnerable","invulnerable","무적"],["barrier_time","shield","보호막"],["haste_time","haste","가속"]]:
 		var remaining=float(actor.get(row[0],0))
 		if remaining>0:entries.append({"key":row[0],"icon":row[1],"name":row[2],"remaining":remaining})
+	for row in [["revival_weakness","weaken","쇠약 · 공격력/방어력 -15% · 성당 치료"],["revival_injury","vulnerable","부상 · 최대 생명력 -20% · 여관 치료"]]:
+		if actor.get(row[0],false):entries.append({"key":row[0],"icon":row[1],"name":row[2],"remaining":0.,"persistent":true})
 	var state=actor.get("job_state",{})
 	for row in [["parry","guard","반격 자세"],["counter","counter","반격 준비"],["shield_time","shield","보호막"]]:
 		var remaining=float(state.get(row[0],0))

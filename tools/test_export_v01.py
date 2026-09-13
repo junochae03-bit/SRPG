@@ -13,7 +13,7 @@ for row in manifest['files']:
     source=OUT/row['name'];assert source.parent==OUT and hashlib.sha256(source.read_bytes()).hexdigest()==row['sha256']
     shutil.copy2(source,portable/source.name)
 EXE=portable/'StelRPG.exe'
-save=portable/'saves/slot-3.json'
+save=portable/'saves/v071/slot-3.json'
 assert not save.exists(),'Use a fresh output directory; do not overwrite a player save.'
 def run(name,args,graphics=False):
     print('EXPORT_CHECK',name,flush=True)
@@ -158,19 +158,23 @@ legacy_fixture.pop('stats_refunded',None)
 legacy_path=legacy_dir/'slot-3.json'
 legacy_path.write_text(json.dumps(legacy_fixture,ensure_ascii=False),'utf8')
 run('five-stat-migration',['--play','--duration=2','--save-dir='+str(legacy_dir),'--report='+str(RUN/'five-stat-migration.json')])
-migrated=json.loads(legacy_path.read_text('utf8'))
+migrated_path=legacy_dir/'v071/slot-3.json'
+migrated=json.loads(migrated_path.read_text('utf8'))
+assert json.loads(legacy_path.read_text('utf8'))==legacy_fixture,'Legacy source was modified'
 assert migrated['stat_schema_version']==2 and not any(migrated['stats'].values())
 assert migrated['stat_migration']['old_stats']==legacy_fixture['stats']
 for field in ['level','name','gold','inventory','equipment','skill_ranks','highest_floor','cleared_floor']:
     assert migrated.get(field)==legacy_fixture.get(field),('Old-stat migration lost progression or property',field)
 run('five-stat-migration-resume',['--play','--duration=2','--save-dir='+str(legacy_dir),'--report='+str(RUN/'five-stat-migration-resume.json')])
-assert json.loads(legacy_path.read_text('utf8'))==migrated,'Stat migration repeated or changed the second load'
+assert json.loads(migrated_path.read_text('utf8'))==migrated,'Stat migration repeated or changed the second load'
 
 # Check observer visibility before the longer menu and costume regression.
 art_captures=ROOT/'artifacts'/('export-art-'+KEY);art_captures.mkdir(exist_ok=True)
 environment_catalog=json.loads((ROOT/'game/assets/environment/biomes-v04/catalog.json').read_text('utf8'))
 monster_catalog=json.loads((ROOT/'game/assets/world/dungeon-v04/catalog.json').read_text('utf8'))
 monster_motions=json.loads((ROOT/'game/assets/monster_motions_v06/catalog.json').read_text('utf8'))
+ecology_art=json.loads((ROOT/'game/assets/monster_ecology_v071/catalog.json').read_text('utf8'))
+ecology_data=json.loads((ROOT/'game/data/monster_ecology_v071.json').read_text('utf8'))
 assert len(environment_catalog['chapters'])==10
 biome_checks=[]
 for chapter,theme in enumerate(environment_catalog['chapters']):
@@ -178,7 +182,10 @@ for chapter,theme in enumerate(environment_catalog['chapters']):
     restored,capture=fixture_capture('biome-'+theme,
         {'level':100,'tutorial_done':True,'quest_done':True,'highest_floor':floor,
          'cleared_floor':floor-1,'raid_clears':{},'constellation_allocations':{}},
-        ['--floor='+str(floor),'--capture-view=encounter','--v052-audit'],art_captures/('biome-'+theme+'.png'))
+        ['--floor='+str(floor),'--capture-view=encounter','--v052-audit']+(['--v071-art-audit'] if chapter==0 else []),art_captures/('biome-'+theme+'.png'))
+    if chapter==0:
+        ecology_evidence=restored['v052']['ecology_art']
+        assert len(ecology_evidence['resolved'])==116 and not ecology_evidence['missing'],ecology_evidence
     assert restored['floor']==floor and restored['capture_view']=='encounter',('Encounter framing unavailable',theme,restored)
     assert restored['v052']['dungeon_capture'].get('ordinary_sight') and restored['v052']['dungeon_capture']['from']!=restored['v052']['dungeon_capture']['to'],('Missing isolated observer placement',theme)
     used=restored['art_usage'];environment=used['environment'];monsters=used['monsters']
@@ -194,6 +201,8 @@ for chapter,theme in enumerate(environment_catalog['chapters']):
     species_ids={variants.get(key,key) for key in monster_motions['base_ids']}
     if theme in monster_motions['raid_bosses']:species_ids.add(monster_motions['raid_bosses'][theme])
     submitted_ids={key+'_'+pose['phase']:key for key in species_ids for pose in monster_motions['species'][key]['frames']}
+    ecology_ids={key+'_'+pose['phase']:key for key,row in ecology_art['species'].items() if str(floor) in ecology_data['monsters'][key]['appearances'] for pose in row['frames']}
+    submitted_ids.update(ecology_ids)
     expected_monsters=set(submitted_ids)
     monster_ids=set(monsters['drawn_ids'])
     prepared=theme in monster_motions['variants']
@@ -201,7 +210,8 @@ for chapter,theme in enumerate(environment_catalog['chapters']):
     assert not monsters['fallback_kinds'],('Authored monster fell back to legacy art',theme,monsters)
     # Match the actual submitted art IDs to prepared sheets inside the PCK.
     for monster_id in monster_ids:
-        sheets=source_sheets(monster_motions['species'][submitted_ids[monster_id]])
+        species=submitted_ids[monster_id]
+        sheets=source_sheets(ecology_art['species'][species] if monster_id in ecology_ids else monster_motions['species'][species])
         assert sheets and all(any(key.startswith(source+'|') for key in used['prepared']) for source in sheets),('Monster prepared sheet not loaded',theme,monster_id,sheets)
     biome_checks.append({'theme':theme,'floor':floor,'environment_drawn_ids':sorted(environment_ids),
         'monster_drawn_ids':sorted(monster_ids),'legacy_monster_kinds':sorted(set(monsters['fallback_kinds'])),
@@ -418,16 +428,17 @@ assert boss['stagger']['state']=='ready' and boss['stagger']['max_value']==650 a
 # The release template disables script/path overrides. Exercise persisted completion
 # through the public game entry point; the source gate separately clears all 100 floors.
 fixture.update(cleared_floor=100,raid_clears={str(f):1 for f in range(10,101,10)})
-(isolated/'slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
+(isolated/'v071/slot-3.json').write_text(json.dumps(fixture,ensure_ascii=False),'utf8')
 run('final-resume',['--play','--duration=2','--save-dir='+str(isolated),'--report='+str(RUN/'final-resume.json')])
 completed=json.loads((RUN/'final-resume.json').read_text('utf8'))
 assert completed['floor']==0 and completed['player']['cleared_floor']==100
 assert completed['player']['raid_clears']==fixture['raid_clears']
-report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
+report={'status':'PASS','version':VERSION,'kills':played['kills'],'distance':played['distance'],'portable_save':'saves/v071/slot-3.json beside the executable','restart_persistence':'all persistent player fields identical','rendered_screens':['export-inventory.png','export-skills.png'],'executable_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest()}
 report['abyss']={'rendered_floor':100,'boss_name':boss['name'],'boss_hp':boss['max_hp'],'six_stats_restored':True,'completed_save_fixture_restored':100,'saved_raid_clears':10,'all_100_floors_cleared_by_source_gate':True,'isolated_observer_placed_near_boss':True,'capture':final_boss_capture}
 report['exported_jobs_restored_and_rendered']=tested_jobs
 report['codex_tabs_restored_and_rendered']=codex_screens
 report['boss_stagger_state_present']=True
+report['ecology_prepared_frames']=ecology_evidence
 report['five_stat_save_migration']={'stat_schema_version':2,'old_investments_refunded_once':True,'property_preserved':True,'second_load_identical':True}
 report['v052_features']={'fixtures':v052_checks,'added_runs':len(v052_checks),
     'scope':'Actual exported Windows screenshots and runtime state: settings with nested keyboard, 120-cell bag and equipped-item comparison, giant training sprite plus live damage/stagger with all save fields unchanged, and a separate costume boutique preview. No costume purchase or personal save was used. Required resources and excluded source PNGs/imported textures were probed inside the exported process.'}

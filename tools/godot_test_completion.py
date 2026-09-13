@@ -17,7 +17,7 @@ ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v
 _PLAIN = """
 cave_remains cave_remains_visual monster_scale monster_scale_visual actor_visibility actor_visibility_visual
 exploration_cues exploration_cues_visual exploration_cues_journey_visual
-expedition_risk expedition_risk_visual town_research town_research_visual research_journey research_journey_visual guild_progression guild_progression_visual
+expedition_risk expedition_risk_visual save_generation revival_aftereffects exploration_crafting_v071 monster_ecology_v071 monster_integration_v071 integration_visual_v071 production_queue production_visual town_research town_research_visual research_journey research_journey_visual guild_progression guild_progression_visual
 exploration_shortcuts exploration_shortcuts_visual exploration_events exploration_events_visual
 tactical_tools tactical_tools_visual
 combat_information combat_information_visual
@@ -37,6 +37,15 @@ COUNTED_PREFIXES = {name: name.upper() + "_TESTS" for name in _STANDARD}
 COUNTED_PREFIXES.update({name: name.upper() for name in _PLAIN})
 COUNTED_PREFIXES.update({
     "character_stats_v2": "CHARACTER_STATS_V2",
+    "equipment_special_stats": "EQUIPMENT_SPECIAL_STATS_TESTS",
+    "skill_motion_facing_v071": "SKILL_MOTION_FACING_V071",
+    "skill_motion_facing_visual_v071": "SKILL_MOTION_FACING_VISUAL_V071",
+    "revival_aftereffects": "REVIVAL_AFTEREFFECTS_TESTS",
+    "monster_ecology_art_v071": "MONSTER_ECOLOGY_ART_V071_DONE",
+    "monster_ecology_v071": "MONSTER_ECOLOGY_V071_DONE",
+    "projectile_visual_v071": "PROJECTILE_VISUAL_V071",
+    "projectile_combat_v071": "PROJECTILE_COMBAT_V071",
+    "projectile_live_visual_v071": "PROJECTILE_LIVE_VISUAL_V071",
     "costume_expanded_v06": "COSTUME_EXPANDED_V06",
     "skill_atlas_v06": "SKILL_ATLAS_V06",
     "agent_art_integration_visual": "AGENT_ART_INTEGRATION_VISUAL",

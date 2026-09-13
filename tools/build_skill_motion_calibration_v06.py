@@ -73,6 +73,12 @@ def build():
             'previous_height':entry['standing_height_estimate'],
             'scale_change':round(entry['standing_height_estimate']/height,4),
             'foot_status':'reference measurement only; full action foot trajectory not calibrated here'}
+        if key=='thief':
+            # Only the first row faces left; the forward dash in row 2 faces right.
+            for index in range(4):
+                result['sprites'][key]['frame_overrides'][str(index)]={
+                    'source_facing':-1,
+                    'reason':'Visually inspected row 0: face and dagger thrust point left; other rows retain their existing facing'}
         if key=='reaper':
             # Release pose 2 has a scythe below both boots. The generic lowest
             # foreground pivot anchors the blade and visibly levitates the feet.

@@ -44,11 +44,12 @@ func run():
 	p.class_id="thief";p.pos=preload("res://scripts/world_catalog.gd").FACILITIES.smith.pos;p.gold=10000;p.materials={"ore":100,"essence":10}
 	var rare=E.make("sword",0,1,"rare","focus","thief");I.add_gear(p,rare);I.equip(p,"rare")
 	var service=preload("res://scripts/town_services.gd")
+	for target in range(1,6):p.materials[preload("res://scripts/exploration_crafting_data.gd").enhancement_material(preload("res://scripts/inventory_model.gd").find_item(p,"rare"),target)]=99
 	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}),"upgrade +1")
 	check(not E.active(I.find_item(p,"rare")),"+1 remains locked")
 	check(service.transact(sim,p,{"facility":"smith","operation":"upgrade","item":"rare"}) and p.gear_stats.power==3,"+2 unlock applies stat")
 	var local=preload("res://scripts/local_session.gd").new();root.add_child(local);local.sim=sim;local.connected=true;local.slot=3;local.save_directory=ProjectSettings.globalize_path("res://../runtime/equipment-v02");local.save_game()
-	var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==7,"new gear save parsed")
+	var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==8,"new gear save parsed")
 	if saved!=null:
 		var restored=Sim.new(31,"town");var r=restored.add_player(1,"",saved);check(r.gear_stats.power==3 and r.equipped=="rare","gear options persist")
 	local.connected=false;local.queue_free()

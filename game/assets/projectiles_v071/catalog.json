@@ -1,0 +1,474 @@
+{
+  "schema_version": 1,
+  "families": {
+    "arrow": {
+      "sheet": "res://assets/projectiles_v071/physical.png",
+      "key": "magenta",
+      "frames": [
+        {
+          "rect": [
+            40,
+            131,
+            245,
+            67
+          ],
+          "tip": [
+            243,
+            33.5
+          ]
+        },
+        {
+          "rect": [
+            352,
+            126,
+            246,
+            72
+          ],
+          "tip": [
+            244,
+            36.0
+          ]
+        },
+        {
+          "rect": [
+            662,
+            131,
+            250,
+            67
+          ],
+          "tip": [
+            248,
+            33.5
+          ]
+        },
+        {
+          "rect": [
+            977,
+            139,
+            248,
+            63
+          ],
+          "tip": [
+            246,
+            31.5
+          ]
+        }
+      ],
+      "scale": 0.24390243902439024,
+      "loop_fps": 12,
+      "trail_color": "aecda4",
+      "impact_id": "heavy_impact"
+    },
+    "bolt": {
+      "sheet": "res://assets/projectiles_v071/physical.png",
+      "key": "magenta",
+      "frames": [
+        {
+          "rect": [
+            56,
+            423,
+            215,
+            84
+          ],
+          "tip": [
+            213,
+            42.0
+          ]
+        },
+        {
+          "rect": [
+            371,
+            416,
+            213,
+            91
+          ],
+          "tip": [
+            211,
+            45.5
+          ]
+        },
+        {
+          "rect": [
+            682,
+            424,
+            216,
+            83
+          ],
+          "tip": [
+            214,
+            41.5
+          ]
+        },
+        {
+          "rect": [
+            996,
+            429,
+            215,
+            77
+          ],
+          "tip": [
+            213,
+            38.5
+          ]
+        }
+      ],
+      "scale": 0.21226415094339623,
+      "loop_fps": 12,
+      "trail_color": "deb987",
+      "impact_id": "heavy_impact"
+    },
+    "dagger": {
+      "sheet": "res://assets/projectiles_v071/physical.png",
+      "key": "magenta",
+      "frames": [
+        {
+          "rect": [
+            40,
+            737,
+            233,
+            76
+          ],
+          "tip": [
+            231,
+            38.0
+          ]
+        },
+        {
+          "rect": [
+            353,
+            736,
+            233,
+            77
+          ],
+          "tip": [
+            231,
+            38.5
+          ]
+        },
+        {
+          "rect": [
+            666,
+            737,
+            234,
+            76
+          ],
+          "tip": [
+            232,
+            38.0
+          ]
+        },
+        {
+          "rect": [
+            981,
+            737,
+            233,
+            76
+          ],
+          "tip": [
+            231,
+            38.0
+          ]
+        }
+      ],
+      "scale": 0.20869565217391303,
+      "loop_fps": 12,
+      "trail_color": "c8d9e6",
+      "impact_id": "cross_slash"
+    },
+    "arcane": {
+      "sheet": "res://assets/projectiles_v071/physical.png",
+      "key": "magenta",
+      "frames": [
+        {
+          "rect": [
+            56,
+            1044,
+            218,
+            83
+          ],
+          "tip": [
+            216,
+            41.5
+          ]
+        },
+        {
+          "rect": [
+            366,
+            1043,
+            221,
+            84
+          ],
+          "tip": [
+            219,
+            42.0
+          ]
+        },
+        {
+          "rect": [
+            678,
+            1044,
+            223,
+            83
+          ],
+          "tip": [
+            221,
+            41.5
+          ]
+        },
+        {
+          "rect": [
+            992,
+            1044,
+            222,
+            83
+          ],
+          "tip": [
+            220,
+            41.5
+          ]
+        }
+      ],
+      "scale": 0.1917808219178082,
+      "loop_fps": 12,
+      "trail_color": "cfacff",
+      "impact_id": "holy_judgment"
+    },
+    "fire": {
+      "sheet": "res://assets/projectiles_v071/elements.png",
+      "key": "alpha",
+      "frames": [
+        {
+          "rect": [
+            88,
+            160,
+            177,
+            96
+          ],
+          "tip": [
+            175,
+            48.0
+          ]
+        },
+        {
+          "rect": [
+            364,
+            151,
+            206,
+            110
+          ],
+          "tip": [
+            204,
+            55.0
+          ]
+        },
+        {
+          "rect": [
+            652,
+            146,
+            216,
+            124
+          ],
+          "tip": [
+            214,
+            62.0
+          ]
+        },
+        {
+          "rect": [
+            960,
+            151,
+            199,
+            121
+          ],
+          "tip": [
+            197,
+            60.5
+          ]
+        }
+      ],
+      "scale": 0.22641509433962265,
+      "loop_fps": 12,
+      "trail_color": "ff9b45",
+      "impact_id": "fire_burst"
+    },
+    "frost": {
+      "sheet": "res://assets/projectiles_v071/elements.png",
+      "key": "alpha",
+      "frames": [
+        {
+          "rect": [
+            76,
+            448,
+            204,
+            77
+          ],
+          "tip": [
+            202,
+            38.5
+          ]
+        },
+        {
+          "rect": [
+            356,
+            438,
+            233,
+            87
+          ],
+          "tip": [
+            231,
+            43.5
+          ]
+        },
+        {
+          "rect": [
+            657,
+            431,
+            245,
+            95
+          ],
+          "tip": [
+            243,
+            47.5
+          ]
+        },
+        {
+          "rect": [
+            959,
+            443,
+            216,
+            78
+          ],
+          "tip": [
+            214,
+            39.0
+          ]
+        }
+      ],
+      "scale": 0.2157676348547718,
+      "loop_fps": 12,
+      "trail_color": "8ae4ff",
+      "impact_id": "ice_shatter"
+    },
+    "thunder": {
+      "sheet": "res://assets/projectiles_v071/elements.png",
+      "key": "alpha",
+      "frames": [
+        {
+          "rect": [
+            76,
+            714,
+            209,
+            87
+          ],
+          "tip": [
+            207,
+            43.5
+          ]
+        },
+        {
+          "rect": [
+            349,
+            708,
+            246,
+            104
+          ],
+          "tip": [
+            244,
+            52.0
+          ]
+        },
+        {
+          "rect": [
+            652,
+            693,
+            250,
+            124
+          ],
+          "tip": [
+            248,
+            62.0
+          ]
+        },
+        {
+          "rect": [
+            966,
+            714,
+            215,
+            94
+          ],
+          "tip": [
+            213,
+            47.0
+          ]
+        }
+      ],
+      "scale": 0.22764227642276422,
+      "loop_fps": 12,
+      "trail_color": "c4a1ff",
+      "impact_id": "chain_lightning"
+    },
+    "shadow": {
+      "sheet": "res://assets/projectiles_v071/elements.png",
+      "key": "alpha",
+      "frames": [
+        {
+          "rect": [
+            76,
+            982,
+            194,
+            129
+          ],
+          "tip": [
+            192,
+            64.5
+          ]
+        },
+        {
+          "rect": [
+            348,
+            971,
+            233,
+            149
+          ],
+          "tip": [
+            231,
+            74.5
+          ]
+        },
+        {
+          "rect": [
+            652,
+            967,
+            242,
+            158
+          ],
+          "tip": [
+            240,
+            79.0
+          ]
+        },
+        {
+          "rect": [
+            966,
+            977,
+            212,
+            136
+          ],
+          "tip": [
+            210,
+            68.0
+          ]
+        }
+      ],
+      "scale": 0.19327731092436976,
+      "loop_fps": 12,
+      "trail_color": "9576d8",
+      "impact_id": "void_rend"
+    }
+  },
+  "sources_sha256": {
+    "physical.png": "7ac0de7a9d991647cabb36c04aebea23b250396e22426a44249bb6b23e0525d7",
+    "elements.png": "be6d8268fc3065219f7155b189389990d506b5a98c215ac838abc8f5bb79e065"
+  },
+  "status": "V071 integrated; 292 visual, 76 combat, 65 live GPU checks PASS; see docs/projectiles_v071/verification.json"
+}

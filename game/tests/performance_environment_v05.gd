@@ -56,7 +56,12 @@ func run():
 		var zone="town" if floor_number==101 else "forest" if floor_id==0 else Abyss.config(floor_id).terrain
 		if floor_number==101:floor_id=0
 		var map=Dungeon.new(20260909+floor_number,zone,floor_id);renderer.rebuild(map)
-		var old=original_props(renderer);original_count+=old.size();retained_count+=renderer.props.size()
+		var old=original_props(renderer);original_count+=old.size()
+		var natural=renderer.props.filter(func(prop):return not prop.get("explorer_trace",false))
+		var traces=renderer.props.filter(func(prop):return prop.get("explorer_trace",false))
+		retained_count+=natural.size()
+		check(traces.size()<=2 and traces.all(func(prop):return not map.walkable(prop.pos) and renderer.clear_for_prop(prop.pos)),"at most two traces stay beyond passage clearance")
+		if not traces.is_empty():expected_ids["cave_mine_arch"]=true
 		var unfiltered=original_props(renderer,false)
 		for id in Art.ids(zone,floor_id):expected_ids[id]=true
 		check(old.size()<=unfiltered.size(),"curation leaves rejected prop positions empty without replacement")
@@ -66,16 +71,17 @@ func run():
 		check(old.all(func(prop):return legacy_by_position.get(prop.pos,{})==prop),"curation preserves accepted source position scale and flip")
 		var by_position:Dictionary={};var old_ids:Dictionary={};var kept_ids:Dictionary={}
 		for prop in old:by_position[prop.pos]=prop;old_ids[prop.art_id]=true
-		check(renderer.props.size()==ceili(old.size()*.55),"45 percent density reduction floor %d"%floor_number)
+		check(natural.size()==ceili(old.size()*.55),"45 percent natural decoration density reduction floor %d"%floor_number)
 		check(renderer._geometry.size()==renderer.props.size(),"one immutable geometry per retained decoration")
 		var expected_alpha:Array=[]
 		for i in range(renderer.props.size()):
-			var prop=renderer.props[i];var original=by_position[prop.pos];var geometry=renderer._geometry[i];var frame=Art.frame(prop.art_id)
+			var prop=renderer.props[i];var original=prop if prop.get("explorer_trace",false) else by_position.get(prop.pos,{});var geometry=renderer._geometry[i];var frame=Art.frame(prop.art_id)
 			var scale=prop.size/frame.height;var rect=Rect2(-frame.foot*scale,frame.texture.get_size()*scale)
 			check(prop.art_id==original.art_id and prop.size==original.size and prop.flip==original.flip and prop.render_id==i,"retained artwork/scale/flip and stable ordering unchanged")
 			check(geometry.point==Dungeon.iso(prop.pos) and geometry.texture==frame.texture and geometry.local_rect==rect and geometry.shadow_radius==prop.size*.19,"cached sprite/shadow geometry equals old draw arguments")
 			check(geometry.bounds==Rect2(Dungeon.iso(prop.pos)+rect.position,rect.size) and renderer.clear_for_prop(prop.pos),"unflipped coverage rectangle and entrance clearance unchanged")
-			expected_alpha.append(1.);kept_ids[prop.art_id]=true;all_ids[prop.art_id]=true
+			expected_alpha.append(1.);all_ids[prop.art_id]=true
+			if not prop.get("explorer_trace",false):kept_ids[prop.art_id]=true
 		check(kept_ids.size()==old_ids.size(),"each biome decoration identity remains represented")
 		var immutable=renderer.props.duplicate(true)
 		# Walk through decorative bounds (including flipped sprites), teleport the

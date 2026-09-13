@@ -39,7 +39,7 @@ func _initialize():
 		# Actual rescue input advances the world; no artificial resurrection writes.
 		sim.enemies.clear();ally.pos=p.pos;ally.charge_time=-1.;ally.dodge_time=0.
 		check(sim.action(2,"interact"),job+" rescue begins")
-		for i in range(31):sim.tick(.1)
+		for i in range(31):sim.set_input(2,Vector2.ZERO,Vector2.RIGHT,false,true);sim.tick(.1)
 		check(p.hp>0 and p.down_time==0 and p.gold==gold,job+" rescue without death penalty")
 		check(p.constellation_state.last_time==0 and p.constellation_state.move_time==0 and p.constellation_state.support_time==0,job+" rescue cannot restore old combo")
 		check(p.job_state.buffs.is_empty() and p.barrier_time==0 and p.haste_time==0,job+" rescue cannot restore old buffs")

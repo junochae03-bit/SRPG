@@ -6,12 +6,14 @@ static func price(p:Dictionary,index:int)->int:return 35+mini(9,int(p.level/10))
 static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	var facility=str(request.get("facility",""));var operation=str(request.get("operation",""))
 	if sim.map.zone!="town" or World.nearest(p.pos)!=facility:return false
+	if operation=="craft_equipment":return preload("res://scripts/exploration_crafting.gd").use(sim,p,request)
 	if facility=="guild" and preload("res://scripts/guild_progression.gd").handles(operation):return preload("res://scripts/guild_progression.gd").use(sim,p,request)
+	if operation.begins_with("production_"):return preload("res://scripts/production_queue.gd").use(sim,p,request)
 	if operation.begins_with("research_"):return preload("res://scripts/town_research.gd").use(sim,p,request)
 	if preload("res://scripts/town_operations.gd").handles(facility,operation):
 		var result=preload("res://scripts/town_operations.gd").stage(p,facility,operation,request)
 		if not result.quote.reason.is_empty() or result.player.is_empty():return false
-		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina"]:p[key]=result.player[key]
+		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina","revival_weakness","revival_injury"]:p[key]=result.player[key]
 		Inventory.initialize(p);sim.gear_changed(p);sim.notice(p.id,result.quote.title+" · 완료");return true
 	var staged=p.duplicate(true);var success=false;var message=""
 	match facility+":"+operation:
@@ -38,7 +40,7 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 			var rank=int(item.get("upgrade",0));var upgrading=operation=="upgrade"
 			if upgrading and rank>=5:return false
 			if not upgrading and item.rarity==0:return false
-			var cost=(rank+1)*50 if upgrading else 80;var material="ore" if upgrading else "essence";var quantity=rank+1 if upgrading else 1
+			var cost=(rank+1)*50 if upgrading else 80;var material=preload("res://scripts/exploration_crafting_data.gd").enhancement_material(item,rank+1) if upgrading else "essence";var quantity=rank+1 if upgrading else 1
 			if staged.gold<cost or staged.materials.get(material,0)<quantity:return false
 			staged.gold-=cost;staged.materials[material]-=quantity
 			if upgrading:item.upgrade=rank+1;item.bonus+=2 if item.slot=="weapon" else 1
@@ -59,8 +61,8 @@ static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 			staged.gold-=40;staged.materials.ore-=5;staged.materials.seed-=5;success=true;message="정원의 정수 합성"
 		"inn:rest":
 			if staged.gold<10:return false
-			staged.gold-=10;staged.hp=staged.max_hp;staged.stamina=staged.max_stamina;success=true;message="여관에서 푹 쉬었습니다. 생명력·기력 회복"
+			staged.gold-=10;preload("res://scripts/revival_aftereffects.gd").rest(staged);success=true;message="여관에서 푹 쉬었습니다. 부상 치료·생명력·기력 회복"
 	if success:
-		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina"]:p[key]=staged[key]
+		for key in ["inventory","equipment","equipped","bag_positions","materials","potions","consumables","gold","guild_contract","hp","stamina","revival_weakness","revival_injury"]:p[key]=staged[key]
 		Inventory.initialize(p);sim.gear_changed(p);sim.notice(p.id,message)
 	return success

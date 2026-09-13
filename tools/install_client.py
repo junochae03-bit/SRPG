@@ -27,7 +27,8 @@ DELIVERY = {
     "GODOT_COPYRIGHT.txt": "licenses/GODOT_COPYRIGHT.txt",
 }
 SETTINGS = ("sprite-names.json", "keybindings.json", "game-options.json")
-SAVE_NAMES = tuple(f"slot-{i}.json{suffix}" for i in range(1, 4) for suffix in ("", ".bak"))
+SAVE_NAMES = tuple(f"{generation}slot-{i}.json{suffix}" for generation in ("", "v071/")
+                   for i in range(1, 4) for suffix in ("", ".bak"))
 # Same envelope as LocalSession.parse_save: 120 bag cells plus seven equipped slots.
 MAX_SAVED_EQUIPMENT = 120 + 7
 
@@ -74,7 +75,7 @@ def number(value):
 
 
 def valid_slot(value):
-    if not number(value.get("schema_version")) or value["schema_version"] not in range(1, 8):
+    if not number(value.get("schema_version")) or value["schema_version"] not in range(1, 9):
         return False
     if not isinstance(value.get("name"), str) or not value["name"].strip():
         return False
@@ -182,10 +183,10 @@ def save_records(directory):
             continue
         unchanged([record])
         records.append(record)
-        slots.add(name[5])
+        slots.add(name.removesuffix(".bak"))
     # Never silently discard an existing character whose primary and backup fail.
     for invalid in skipped:
-        require(invalid["name"][5] in slots,
+        require(invalid["name"].removesuffix(".bak") in slots,
                 f"No valid primary/backup for {invalid['name']}; source remains untouched")
     require(bool(slots), "No valid source slot JSON or backup found")
     for name in SETTINGS:
@@ -210,7 +211,8 @@ def exact_files(directory, records):
     require(directory.is_dir(), f"Missing client directory: {directory}")
     expected = {row["path"]: row for row in records}
     require(len(expected) == len(records), "Duplicate receipt destination")
-    expected_dirs = {str(Path(name).parent).replace("\\", "/") for name in expected if "/" in name}
+    expected_dirs = {parent.as_posix() for name in expected for parent in Path(name).parents
+                     if parent != Path(".")}
     found, dirs = set(), set()
     for path in directory.rglob("*"):
         regular_path(path)

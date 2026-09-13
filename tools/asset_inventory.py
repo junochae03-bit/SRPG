@@ -4,7 +4,7 @@ import re,hashlib,json
 ROOT=Path(__file__).resolve().parents[1]
 # 실행 파일 검증은 제외된 원화 폴더가 비었는지만 읽으며 자산을 로딩하지 않습니다.
 DIRECTORY_PROBES={
-    'game/scripts/export_capture_v052.gd': {'assets/costume_v06','assets/skill_motions_v06','assets/monster_motions_v06','assets/exploration_objects_v06'},
+    'game/scripts/export_capture_v052.gd': {'assets/costume_v06','assets/skill_motions_v06','assets/monster_motions_v06','assets/exploration_objects_v06','assets/monster_ecology_v071','assets/dungeon_clutter_v071'},
 }
 def referenced_files():
     game=ROOT/'game'

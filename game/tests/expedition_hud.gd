@@ -25,18 +25,17 @@ func run():
 	var hud=game.hud;var chrome=hud.expedition
 	session.refresh();hud.refresh()
 	check(not hud.bag_button.visible and not hud.growth_button.visible,"no duplicate top bag and growth controls")
-	check(hud.codex_button.visible,"unrelated codex remains available")
+	check(not hud.codex_button.visible and game.codex!=null,"codex hotkey screen retained without minimap book button")
 	check(not hud.circles.has("attack") and not hud.circles.has("heavy") and not hud.circles.has("dodge"),"no extra attack controls")
 	check(chrome.PROFILE.size.y<180,"character pane reserves less than 180 logical pixels")
 	for label in [hud.name_label,hud.hp_label]:check(label.get_rect().end.y<800,"health strip stays above skill icons")
-	check(hud.job_resource.position==chrome.PROFILE.position,"class detail occupies requested lower-left area")
+	check(hud.job_resource.position.x==490,"class detail aligned above center skills")
 	check(hud.status_strip.get_rect().end.y<chrome.tabs[0].position.y,"all three status rows stay above tabs")
 	for index in range(3):
 		chrome.tabs[index].pressed.emit();hud.refresh_chrome()
-		check(hud.chrome.visible and chrome.visible and not game.bag.visible and not game.skill_tree.visible,"tab stays inside compact HUD")
-		check(hud.job_resource.display_mode==index,"tab selects stats identity or quick slots")
-		check(chrome.consumables.position==Vector2(106,802) if index==2 else chrome.consumables.position==Vector2(665,744),"same live slots move into bag tab")
-	chrome.open_tab(1)
+		check(game.bag.visible if index==2 else game.skill_tree.visible,"tab opens its functional screen")
+		check(hud.job_resource.display_mode==1,"identity remains dedicated real job state")
+		game.bag.hide();game.skill_tree.hide();hud.refresh_chrome()
 	for panel in [game.settings_panel,game.npc_dialogue,game.codex]:
 		panel.show();hud.refresh_chrome();check(not chrome.visible,"modal hides backdrop and tabs")
 		panel.hide();hud.refresh_chrome();check(chrome.visible,"modal restores backdrop and tabs")
@@ -92,6 +91,9 @@ func run():
 	check(not regions.any(func(rect):return rect.has_point(gap)),"empty space between profile and skills stays unobstructed")
 	await check_consumables(session,p)
 	await check_inputs(session,p)
+	p.pos=session.sim.map.spawn;p.potion_cd=0
+	for index in [1,2,3]:chrome.consumables.assign(index,"")
+	session.refresh();hud.refresh();game.update_battle_camera(p,1.,true);game.forest.update_camera(1.)
 	await capture("solo")
 	check(await game.audio_director.shutdown(),"audio drained")
 	session.connected=false;game.queue_free();await process_frame;await process_frame
@@ -100,7 +102,13 @@ func run():
 
 func check_consumables(session,p):
 	var bar=game.hud.expedition.consumables
-	check(bar.slots.size()==4 and bar.get_rect().end.y<game.hud.circles.skill_q.position.y,"four consumable slots directly above skill bar")
+	var bounds=bar.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,bar.size)
+	var viewport=game.get_viewport_rect()
+	check(bar.slots.size()==4 and viewport.grow(-12).encloses(bounds),"four consumable slots stay inside the screen edge")
+	check(bounds.position.x>game.hud.circles.skill_x.get_global_rect().end.x+12,"consumables sit to the right of the skill bar")
+	check((viewport.end-bounds.end).is_equal_approx(Vector2(24,24)),"consumables anchor to bottom right with safe margin")
+	var picker_bounds=bar.picker.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,bar.picker.size)
+	check(viewport.encloses(picker_bounds) and picker_bounds.end.y<bounds.position.y,"registration opens upward without screen clipping")
 	check(bar.assign(1,"potion") and bar.assign(2,"potion") and bar.assign(3,"potion"),"all four slots can register owned consumable")
 	check(not bar.assign(0,"not-a-consumable") and not bar.assign(4,"potion"),"invalid registrations rejected")
 	var saved=bar.assignments.duplicate();bar.loaded_path="";bar.load_preferences()

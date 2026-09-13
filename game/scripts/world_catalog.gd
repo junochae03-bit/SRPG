@@ -3,7 +3,8 @@ const DUNGEONS={
 	"forest":{"name":"꽃바람 숲","level":1,"theme":0,"boss":"warden","elite":"goblin_captain","mobs":["shade","imp","fairy","rat","goblin_archer"],"description":"꽃길과 굽은 오솔길 · 슬라임·고블린·벌과 고블린 대장"},
 	"cave":{"name":"푸른 수정 동굴","level":5,"theme":1,"boss":"golem","elite":"orc_champion","mobs":["beetle","bat","mole","ember_slime","cave_bat","spider"],"description":"넓은 채굴장과 좁은 연결로 · 곤충·야수·오크와 동굴 투사"},
 	"ruins":{"name":"햇무리 유적","level":10,"theme":2,"boss":"sentinel","elite":"centurion","mobs":["clockwork","spellbook","fox","frost_slime","goblin_shaman","orc_axeman","skeleton"],"description":"격자 회랑과 추가 지름길 · 기계·야수·언데드와 백인대장"}}
-const ENEMIES={
+static var ENEMIES:Dictionary=_all_enemies()
+const BASE_ENEMIES={
 	"shade": {
 		"name": "풀빛 슬라임",
 		"health": 70,
@@ -348,6 +349,7 @@ const ENEMIES={
 	}
 }
 const FACILITIES={
+	"church":{"name":"별빛 성당","pos":Vector2(31,9),"art":3,"height":440.0},
 	"smith":{"name":"대장간","pos":Vector2(11,17),"art":0,"height":430.0},
 	"shop":{"name":"별씨앗 상점","pos":Vector2(18,12),"art":1,"height":430.0},
 	"alchemy":{"name":"연금술 공방","pos":Vector2(27,17),"art":2,"height":460.0},
@@ -357,6 +359,7 @@ const FACILITIES={
 	"costume":{"name":"별실 부티크","pos":Vector2(9,8),"art":1,"height":400.0},
 	"training":{"name":"모험가 수련장","pos":Vector2(34,33),"art":5,"height":0.0,"footprint":false}}
 const RESIDENTS={
+	"church":{"name":"사제 엘린","avatar":"gat_role_healer_2","greeting":"탐사의 쇠약은 이곳에서 치료해 드릴게요. 체력의 부상은 여관에서 쉬어 회복하세요."},
 	"smith":{"name":"대장장이 루아","avatar":"gat_blade_combat","greeting":"날이 무뎌졌나요? 광석을 가져오면 단단하게 벼려드릴게요."},
 	"shop":{"name":"상인 밀리","avatar":"gat_addition_04_1","greeting":"여행에 필요한 물건이라면 여기 있어요. 안 쓰는 장비도 받아요!"},
 	"alchemy":{"name":"연금술사 로제","avatar":"gat_role_healer_2","greeting":"별씨앗 한 줌에는 뜻밖의 힘이 숨어 있답니다."},
@@ -376,6 +379,7 @@ const HEAVY_BODY_HEIGHTS={"mole":180.,"orc_axeman":184.,"clockwork":172.,"orc_ch
 const HEAVY_SPECIES_HEIGHTS={"flood_bastion_tortoise":[180.,224.],"lava_obsidian_rhino":[184.,236.],"machine_foundry_ogre":[188.,248.],"machine_mortar_tripod":[168.,220.],"core_horned_ram":[180.,228.],"spore_crown_toad":[152.,216.]}
 static func display_height(kind:String,floor_number:int=0)->float:
 	var c=ENEMIES[kind]
+	if c.get("ecology",false):return float(c.height)
 	if c.ai=="boss":return 335.
 	var base=float(c.get("height",160))*1.12 if c.get("elite",false) else maxf(92.,float(c.get("height",86))*1.3)
 	# Read species metadata only; hit tests must not decode a sprite texture.
@@ -384,3 +388,10 @@ static func display_height(kind:String,floor_number:int=0)->float:
 		var heights=HEAVY_SPECIES_HEIGHTS.get(appearance.species,[base,base])
 		return maxf(base,float(heights[1 if c.get("elite",false) else 0]))
 	return maxf(base,float(HEAVY_BODY_HEIGHTS.get(kind,base)))
+
+static func _all_enemies()->Dictionary:
+	var result=BASE_ENEMIES.duplicate(true)
+	var added=preload("res://scripts/monster_ecology_v071.gd").inject_definitions(result)
+	assert(added.ok,"Monster identity collision")
+	for kind in result:result[kind].name=preload("res://scripts/content_names.gd").monster(kind,result[kind].name)
+	return result

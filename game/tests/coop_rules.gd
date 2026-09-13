@@ -44,10 +44,10 @@ func run():
 	check(not sim.combat.hit(p,target_enemy,100) and p.hp==0,"downed projectiles cannot deal damage or heal through lifesteal")
 	sim.enemies.clear()
 	q.pos=p.pos;check(sim.action(2,"interact"),"nearby player starts rescue")
-	sim.tick(1.);sim.set_input(2,Vector2.RIGHT,Vector2.RIGHT)
+	sim.set_input(2,Vector2.ZERO,Vector2.RIGHT,false,true);sim.tick(.1);sim.set_input(2,Vector2.RIGHT,Vector2.RIGHT,false,true)
 	check(not q.has("revive_target"),"movement cancels rescue")
 	sim.set_input(2,Vector2.ZERO,Vector2.RIGHT);sim.action(2,"interact")
-	for i in range(31):sim.tick(.1)
+	for i in range(31):sim.set_input(2,Vector2.ZERO,Vector2.RIGHT,false,true);sim.tick(.1)
 	check(p.hp>0 and p.down_time==0. and not q.has("revive_target"),"three-second rescue succeeds")
 	var original=sim.map;sim.players.clear();sim.enemies.clear();e=sim.spawn_enemy("warden",Vector2.ZERO,10,true);e.raid=true;e.pattern=3
 	var arena=Arena.new();sim.map=arena

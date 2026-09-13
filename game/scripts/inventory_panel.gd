@@ -111,9 +111,11 @@ func setup(owner_game):
 	var stats_card=Art.panel(stats_overlay,Vector2(460,64),Vector2(640,724),"paper",25)
 	game.label(stats_card,"캐릭터 능력치",Vector2(42,30),Vector2(340,40),28)
 	game.button(stats_card,"닫기",Vector2(484,30),Vector2(112,42),func():stats_overlay.hide())
-	for i in range(17):
-		var title=game.label(stats_card,"",Vector2(42,95+i*34),Vector2(310,30),20)
-		var value=game.label(stats_card,"",Vector2(370,95+i*34),Vector2(226,30),21);value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
+	var stats_scroll=ScrollContainer.new();stats_scroll.position=Vector2(42,95);stats_scroll.size=Vector2(556,585);stats_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;stats_card.add_child(stats_scroll)
+	var stats_grid=GridContainer.new();stats_grid.columns=2;stats_grid.size_flags_horizontal=Control.SIZE_EXPAND_FILL;stats_grid.add_theme_constant_override("h_separation",12);stats_grid.add_theme_constant_override("v_separation",8);stats_scroll.add_child(stats_grid)
+	for i in range(20):
+		var title=flow_label(stats_grid,19);title.custom_minimum_size=Vector2(265,30)
+		var value=flow_label(stats_grid,20);value.custom_minimum_size=Vector2(246,30);value.size_flags_horizontal=Control.SIZE_EXPAND_FILL;value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 		stats_values.append([title,value])
 	stats_overlay.hide()
 	visibility_changed.connect(func():if not is_visible_in_tree():stats_overlay.hide())
@@ -265,7 +267,12 @@ func refresh(force=false):
 	elif item.category=="consumable":
 		detail_body.text=preload("res://scripts/consumables.gd").description(p,item.get("consumable","potion"));primary.text="퀵슬롯에 등록" if preload("res://scripts/consumables.gd").ITEMS[item.get("consumable","potion")].get("tool",false) else "물약 사용하기"
 		Library.attach(primary,"consumable",22)
-	else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다.\n\n별씨앗 · 물약 조제\n광석 · 장비 강화\n정수 · 장비 옵션 재련" % item.count
+	else:
+		var key=str(item.id).trim_prefix("@mat:");var data=preload("res://scripts/exploration_crafting_data.gd")
+		if data.materials().has(key):
+			var material=data.materials()[key];var biome=data.catalog().biomes[material.biome]
+			detail_body.text="보유 %d / %d\n\n%s · B%d–%d\n\n장비 제작 재료"%[item.count,data.limit(key),biome.name,biome.floor_min,biome.floor_max]
+		else:detail_body.text="보유 %d개\n\n마을에서 제작과 장비 정비에 사용합니다."%item.count
 
 func refresh_appearance(p:Dictionary):
 	var wardrobe=preload("res://scripts/wardrobe.gd")

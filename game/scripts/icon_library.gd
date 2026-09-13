@@ -14,7 +14,7 @@ const ALIASES={
 	"skill_power":"arcane","melee_range":"range","dodge":"dash",
 	"break_armor":"armor_break","crit":"critical","crit_damage":"critical_damage",
 	"attack":"physical_attack","stand":"card_hold","buff":"haste","effects":"sound",
-	"costume":"chest","training":"physical_attack"
+	"costume":"chest","training":"physical_attack","church":"heal"
 }
 static func initialize():
 	if not entries.is_empty():return

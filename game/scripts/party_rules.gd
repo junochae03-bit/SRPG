@@ -7,8 +7,9 @@ const RESCUE_SECONDS=3.
 const RESCUE_RADIUS=1.8
 const RESCUE_HEALTH=.35
 const RESCUE_INVULNERABLE=1.
+const RESCUE_INPUT_TIMEOUT=.35
 static func configuration()->Dictionary:
-	return {"max_players":MAX_PLAYERS,"health_per_guest":HEALTH_PER_GUEST,"stagger_per_guest":STAGGER_PER_GUEST,"down_seconds":DOWN_SECONDS,"rescue_seconds":RESCUE_SECONDS,"rescue_radius":RESCUE_RADIUS,"rescue_health":RESCUE_HEALTH,"rescue_invulnerable":RESCUE_INVULNERABLE,"authority":"host","matchmaking":false,"join_zone":"town","world_pauses_for_personal_ui":false,"solo_pauses_for_personal_ui":true}
+	return {"max_players":MAX_PLAYERS,"health_per_guest":HEALTH_PER_GUEST,"stagger_per_guest":STAGGER_PER_GUEST,"down_seconds":DOWN_SECONDS,"rescue_seconds":RESCUE_SECONDS,"rescue_radius":RESCUE_RADIUS,"rescue_health":RESCUE_HEALTH,"rescue_invulnerable":RESCUE_INVULNERABLE,"rescue_hold_required":true,"rescue_input_timeout":RESCUE_INPUT_TIMEOUT,"authority":"host","matchmaking":false,"join_zone":"town","world_pauses_for_personal_ui":false,"solo_pauses_for_personal_ui":true}
 # More participants increase endurance, not unavoidable damage or enemy count.
 static func health_factor(count:int)->float:return 1.+HEALTH_PER_GUEST*(clampi(count,1,MAX_PLAYERS)-1)
 static func stagger_factor(count:int)->float:return 1.+STAGGER_PER_GUEST*(clampi(count,1,MAX_PLAYERS)-1)
