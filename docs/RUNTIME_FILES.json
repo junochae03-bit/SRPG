@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 467046,
-    "sha256": "01ffcf98df00c1ee407b5c75883b406b95b2611b154a5dd75b794fb9669f3196"
+    "bytes": 466397,
+    "sha256": "e4ac39f99cda1340b8828bec07d1f6f89b2a22e13d555432803d309f971e8bda"
   },
   {
     "path": "game/data/content_names.json",
@@ -1387,7 +1387,7 @@
   {
     "path": "game/scripts/coop_session.gd",
     "bytes": 22721,
-    "sha256": "77ae2d02f552968810080350c051e6e199b884a1b90ac6141bbcefdae3785623"
+    "sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1516,18 +1516,23 @@
   },
   {
     "path": "game/scripts/exploration_cues.gd",
-    "bytes": 1812,
-    "sha256": "06695e3ee16bb0c930207628eef4bb635d1c64ed554a78f6e102df4b452edfc4"
+    "bytes": 2187,
+    "sha256": "6bde6af98af9d9fd27f45099280ca5e4b1d80ef5600375d9f1cc924ddaff8b44"
+  },
+  {
+    "path": "game/scripts/exploration_events.gd",
+    "bytes": 5212,
+    "sha256": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88"
   },
   {
     "path": "game/scripts/exploration_panel.gd",
-    "bytes": 6662,
-    "sha256": "3f3ff7635e819c70f5595c84d270740227b87f9c41a0a5d0970e58d7e3bf6c2f"
+    "bytes": 7308,
+    "sha256": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19"
   },
   {
     "path": "game/scripts/exploration_rooms.gd",
-    "bytes": 8609,
-    "sha256": "4ca3b1fd3a487bd202a4e8480005d09ff7dc469597633545ffca5ae04fad6c0b"
+    "bytes": 9025,
+    "sha256": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069"
   },
   {
     "path": "game/scripts/exploration_shortcuts.gd",
@@ -1551,8 +1556,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32780,
-    "sha256": "d5c15914f6de5bc9c2b202b4b0255cbd7644063812bb5fc0e08386a3da706b00"
+    "bytes": 32878,
+    "sha256": "71e90af75cb62a080be47ac675bd231a3403f76e77a26d76c836384bde32fef4"
   },
   {
     "path": "game/scripts/game_options.gd",

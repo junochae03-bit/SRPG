@@ -31,6 +31,7 @@ func completed(kind:String,_success:bool):
 func choose(index:int):
 	if pending>0 or active.is_empty():return
 	var choices=["collect" if active.get("opened",false) else "open"] if active.kind=="secret" else Rooms.DEFINITIONS[active.kind].choices
+	if not active.get("event","").is_empty():choices=Rooms.Events.choices(active)
 	if index>=choices.size():return
 	if active.kind=="challenge":choices=Rooms.Challenge.choices(active)
 	if index>=choices.size():return
@@ -57,7 +58,7 @@ func _process(_delta):
 	if context==last_context:return
 	last_context=context
 	emblem.texture=Icons.texture(active.icon);heading.text=active.name
-	second.tooltip_text=""
+	first.tooltip_text="";second.tooltip_text=""
 	var blocked=active.remaining>0
 	detail.text="주변 적 %d"%active.remaining if blocked else "각자 한 번 이용" if game.session.state.players.size()>1 else ""
 	first.disabled=blocked or pending>0;second.disabled=blocked or pending>0;second.visible=active.kind in ["shrine","cache"]
@@ -100,4 +101,15 @@ func _process(_delta):
 			first.size.x=236;first.text="생명력 +35%";second.text="물약 1 → 정수 %d"%(2+int(active.tier))
 			first.disabled=first.disabled or p.hp>=p.max_hp;second.disabled=second.disabled or p.potions<1
 			if not blocked:detail.text="택 1 · 보유 물약 %d"%p.potions
+	if not active.get("event","").is_empty():
+		first.size.x=236;second.show()
+		var choices=Rooms.Events.choices(active)
+		var buttons=[first,second]
+		for index in range(2):
+			var offer=Rooms.Events.quote(p,active,choices[index])
+			buttons[index].text=offer.text;buttons[index].disabled=blocked or pending>0 or not offer.reason.is_empty()
+			buttons[index].tooltip_text=offer.reason
+		if not blocked:
+			detail.text=Rooms.Events.detail(p,active)
+			if game.session.state.players.size()>1:detail.text=detail.text.replace("택 1","각자 택 1")
 	if pending>0:detail.text="선택 확인 중…"

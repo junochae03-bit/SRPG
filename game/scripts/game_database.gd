@@ -70,6 +70,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["telegraph_priority"]=preload("res://scripts/telegraph_priority.gd").configuration()
 	db.metadata["dungeon_vision"]={"radius":preload("res://scripts/dungeon_vision.gd").RADIUS,"memory_light":preload("res://scripts/dungeon_vision.gd").MEMORY_LIGHT,"fade_seconds":preload("res://scripts/dungeon_vision.gd").FADE_SECONDS,"party_sight":"living_connected_members_union","occlusion":"opaque_cells_and_closed_corners","scope":"current_map_instance","minimap":"unknown_hidden_explored_dim_current_bright"}
 	db.metadata["exploration_rules"]=preload("res://scripts/exploration_rooms.gd").configuration()
+	db.metadata["exploration_events"]=preload("res://scripts/exploration_events.gd").configuration()
 	db.metadata["dungeon_region_rules"]=preload("res://scripts/dungeon_regions.gd").configuration()
 	db.metadata["hidden_room_rules"]={"discovery_radius":preload("res://scripts/hidden_rooms.gd").DISCOVERY_RADIUS,"radius":preload("res://scripts/hidden_rooms.gd").ROOM_RADIUS,"maximum_per_floor":2,"tool_item":"tool","tool_cost":1,"tool_shop_gold":25,"claim_scope":"personal_per_generated_floor","discovery_scope":"party","raid_enabled":false}
 	db.metadata["raid_layouts"]={"templates":preload("res://scripts/dungeon.gd").RAID_LAYOUTS,"points":preload("res://scripts/dungeon.gd").RAID_POINTS,"links":preload("res://scripts/dungeon.gd").RAID_LINKS,"size":preload("res://scripts/dungeon.gd").RAID_SIZE,"cadence":10,"common_exclusion_radius":13.0}

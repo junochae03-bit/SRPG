@@ -15,6 +15,12 @@ static func generate(map)->Array:
 		if kind=="gather":art=Rooms.SITE_ART[sites[0].material];name="광석 조각" if sites[0].material=="ore" else "떨어진 씨앗"
 		elif kind=="shrine":art="ruins_obelisk";name="희미한 마력"
 		elif kind=="cache":art="flood_shipwreck_crate";name="흩어진 보급품"
+		if not sites.is_empty() and not sites[0].get("event","").is_empty():
+			match sites[0].event:
+				"herbalist":art="autumn_berry_shrub";name="흩어진 약초"
+				"sealed_supplies":art="ruins_rubble";name="떨어진 쇠장식"
+				"blood_altar":art="ruins_obelisk";name="붉게 물든 흔적"
+				"echo_shrine":art="nebula_astral_lantern";name="가늘게 울리는 소리"
 		cues.append({"pos":position,"direction":direction,"room":wing,"kind":kind,"art":art,"name":name})
 	return cues
 static func draw(game,cue:Dictionary):

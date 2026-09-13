@@ -36,6 +36,7 @@ SOURCES = {
     "tactical_tools": "game/scripts/tactical_tools.gd",
     "expedition_risk": "game/scripts/expedition_risk.gd",
     "exploration_shortcuts": "game/scripts/exploration_shortcuts.gd",
+    "exploration_events": "game/scripts/exploration_events.gd",
     "portrait_frame": "game/scripts/portrait_frame.gd",
     "character_presentation": "game/scripts/character_presentation.gd",
 }
@@ -56,6 +57,7 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
+    data["metadata"]["exploration_event_source_rules"] = [source_rule(root, "exploration_events", fn) for fn in ("select", "choices", "quote", "describe", "detail", "use")]
     data["metadata"]["expedition_risk_source_rules"] = [source_rule(root, "expedition_risk", fn) for fn in ("cap", "info", "change_plan", "add_encounters", "scale_enemy", "guardian_drop")]
     data["metadata"]["exploration_shortcut_source_rules"] = [source_rule(root, "exploration_shortcuts", fn) for fn in ("navigation", "distance", "progress", "mouths", "segment", "cells", "select", "draw")]
     data["metadata"]["tactical_tool_source_rules"] = [source_rule(root, "tactical_tools", fn) for fn in ("reason", "place", "tick", "activate", "snapshot")]
