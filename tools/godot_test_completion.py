@@ -13,7 +13,7 @@ skill_build_v04 skill_tree_ui_v04 skill_vfx skills_v01 skills_v04 stagger_ui_v03
 ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v05
 """.split()
 _PLAIN = """
-expedition_risk expedition_risk_visual
+expedition_risk expedition_risk_visual town_research town_research_visual
 exploration_shortcuts exploration_shortcuts_visual exploration_events exploration_events_visual
 tactical_tools tactical_tools_visual
 combat_information combat_information_visual

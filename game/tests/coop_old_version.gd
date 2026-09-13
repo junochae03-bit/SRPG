@@ -4,7 +4,7 @@ class LegacySession extends "res://scripts/coop_session.gd":
  func prepare_network():
   if network_signals:return
   network_signals=true
-  multiplayer.connected_to_server.connect(func():register_player.rpc_id(1,8,pending_character))
+  multiplayer.connected_to_server.connect(func():register_player.rpc_id(1,9,pending_character))
   multiplayer.connection_failed.connect(func():close_network("연결 실패"))
   multiplayer.server_disconnected.connect(func():close_network("서버 종료"))
 var options={}

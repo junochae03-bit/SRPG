@@ -45,6 +45,8 @@ var product_scroll:ScrollContainer
 var product_scroll_value=0
 var departure_stamp=-1
 var risk_buttons=[]
+var research_mode=false
+var research_button:Button
 
 func setup(owner_game):
 	game=owner_game
@@ -54,7 +56,8 @@ func setup(owner_game):
 	position=Vector2(64,24);size=Vector2(1312,852);mouse_filter=Control.MOUSE_FILTER_STOP
 	add_theme_stylebox_override("panel",StyleBoxEmpty.new());Art.decorate(self,"paper",6)
 	facility_icon=Art.picture(self,null,Vector2(28,22),Vector2(70,70))
-	title=game.label(self,"",Vector2(116,25),Vector2(970,43),32)
+	title=game.label(self,"",Vector2(116,25),Vector2(770,43),32)
+	research_button=game.button(self,"시설 연구",Vector2(920,28),Vector2(190,46),func():research_mode=not research_mode;refresh())
 	Library.attach(game.button(self,"닫기  ESC",Vector2(1128,28),Vector2(152,46),close),"close")
 	Library.picture(self,"gold",Vector2(116,80),Vector2(25,25))
 	money=game.label(self,"",Vector2(152,78),Vector2(270,29),20)
@@ -88,6 +91,7 @@ func inset_buttons(parent:Node):
 func player()->Dictionary:return game.session.sim.players[game.session.local_id]
 func open(key:String):
 	if not World.FACILITIES.has(key):return
+	research_mode=false
 	if game.npc_dialogue!=null:game.npc_dialogue.hide()
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
 	target_quantity=0
@@ -173,6 +177,10 @@ func refresh():
 	facility_icon.material=Art.icon_material(facility_icon.texture)
 	money.text="보유 금화  %d G"%p.gold
 	for key in resource_labels:resource_labels[key].text=Content.MATERIALS[key]+"  "+str(p.materials.get(key,0))
+	research_button.visible=facility in ["smith","alchemy","inn"]
+	research_button.text="거래로 돌아가기" if research_mode else "시설 연구"
+	if research_mode:
+		var research_view=preload("res://scripts/town_research_panel.gd").new();body.add_child(research_view);research_view.setup(self);return
 	match facility:
 		"shop":shop(p)
 		"smith":smith(p)

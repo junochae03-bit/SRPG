@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 466397,
-    "sha256": "e4ac39f99cda1340b8828bec07d1f6f89b2a22e13d555432803d309f971e8bda"
+    "bytes": 467312,
+    "sha256": "6ab661f673922ba36be0fe08ad322b6c6e87c6feaa8e6a792f7902381e035f11"
   },
   {
     "path": "game/data/content_names.json",
@@ -1386,8 +1386,8 @@
   },
   {
     "path": "game/scripts/coop_session.gd",
-    "bytes": 22721,
-    "sha256": "df4062c444125b56b8fe931976129ccea4088a9a0024bebe098942444eb02e10"
+    "bytes": 22722,
+    "sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1556,8 +1556,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32878,
-    "sha256": "71e90af75cb62a080be47ac675bd231a3403f76e77a26d76c836384bde32fef4"
+    "bytes": 32966,
+    "sha256": "ac8fa655dd1ed26e9660752c44c9ed75fea81a694fcf85b274faf4a83d7cd1f3"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1656,8 +1656,8 @@
   },
   {
     "path": "game/scripts/local_session.gd",
-    "bytes": 20473,
-    "sha256": "93d1c20ce2cd640c2899160817f1aba9e5ee8af92bace9a8d40b2b91d6c02577"
+    "bytes": 20758,
+    "sha256": "0690438191fbfedac44a3bc91cfb10a40c9a82483dd554b5b46826958a11b4d3"
   },
   {
     "path": "game/scripts/loot_tables.gd",
@@ -1746,8 +1746,8 @@
   },
   {
     "path": "game/scripts/simulation.gd",
-    "bytes": 34273,
-    "sha256": "d16eda4d07018403037dc7b19897115d5d4c6e4ef97f57de57605cb24bb2f806"
+    "bytes": 34527,
+    "sha256": "0ae70ab911dd9b4e171e4db32e196c7dabfbd7d282ac9928f2c1ec223a3e1e91"
   },
   {
     "path": "game/scripts/skill_build.gd",
@@ -1846,13 +1846,23 @@
   },
   {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 31763,
-    "sha256": "eef187133beefb6adf9a5790ff3ad722db5b99a74404a99805dfae8bfceed0e4"
+    "bytes": 32271,
+    "sha256": "43093b3f5caff72a13d081bc8d19530f41d747f184f084a71541cb32eaaa6790"
+  },
+  {
+    "path": "game/scripts/town_research.gd",
+    "bytes": 8003,
+    "sha256": "d013a0bd705f469cb3f384b7d42ab6186f2522c4956f66a0b58cee1be33984ba"
+  },
+  {
+    "path": "game/scripts/town_research_panel.gd",
+    "bytes": 7193,
+    "sha256": "dc1e3763dce4ff6e8dc1ff19598b9dcf0af511ea438c7254846a0f7e13748fcf"
   },
   {
     "path": "game/scripts/town_services.gd",
-    "bytes": 5247,
-    "sha256": "dcda7ca8a7ae7ee1d8502b1c59f58933be4ad51b05b1362918f2a24f13b90c25"
+    "bytes": 5354,
+    "sha256": "7759102023e91b2be35c652120a8f91d8594cf165e0c2bec1a4a96b769913f81"
   },
   {
     "path": "game/scripts/town_visitors.gd",

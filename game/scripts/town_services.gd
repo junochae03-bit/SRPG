@@ -6,6 +6,7 @@ static func price(p:Dictionary,index:int)->int:return 35+mini(9,int(p.level/10))
 static func transact(sim,p:Dictionary,request:Dictionary)->bool:
 	var facility=str(request.get("facility",""));var operation=str(request.get("operation",""))
 	if sim.map.zone!="town" or World.nearest(p.pos)!=facility:return false
+	if operation.begins_with("research_"):return preload("res://scripts/town_research.gd").use(sim,p,request)
 	if preload("res://scripts/town_operations.gd").handles(facility,operation):
 		var result=preload("res://scripts/town_operations.gd").stage(p,facility,operation,request)
 		if not result.quote.reason.is_empty() or result.player.is_empty():return false
