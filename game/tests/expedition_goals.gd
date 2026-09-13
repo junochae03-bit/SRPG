@@ -15,7 +15,7 @@ func _initialize():run.call_deferred()
 func run():
 	var town=Sim.new(84,"town");var p=town.add_player(1,"목표 검사");p.tutorial_done=true
 	var offers=Goals.offers(p,1)
-	check(offers.size()==4 and offers.all(func(row):return Goals.valid(row.goal)),"four concrete offers have valid persistent payloads")
+	check(offers.size()==5 and offers.all(func(row):return Goals.valid(row.goal)),"four concrete offers have valid persistent payloads")
 	check(choose(town,p,"secret",1),"choose rumor in town")
 	check(not choose(town,p,"secret",1),"duplicate selection cannot reset discovery")
 	check(choose(town,p,"clear",1) and p.expedition_goal.is_empty(),"personal goal can be removed without changing progress")

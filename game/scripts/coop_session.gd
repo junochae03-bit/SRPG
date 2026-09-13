@@ -1,7 +1,7 @@
 extends "res://scripts/local_session.gd"
 
 # The host owns Simulation. A guest Simulation is a read-only presentation mirror.
-const PROTOCOL=10
+const PROTOCOL=11
 const MAX_PLAYERS=preload("res://scripts/party_rules.gd").MAX_PLAYERS
 const DEFAULT_PORT=24554
 var network_role="offline"

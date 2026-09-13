@@ -88,6 +88,9 @@ func run():
 				preload("res://scripts/inventory_model.gd").add_stack(player,"seed",20)
 			session.refresh();session.publish_snapshot()
 		await create_timer(.7).timeout
+		session.act("select_goal",JSON.stringify({"id":"research:field_tools","floor":test_floor}))
+		await create_timer(.5).timeout
+		check(session.state.players[session.local_id].expedition_goal.kind=="research","all peers select research preparation goal over ENet")
 		var research_gold=session.state.players[session.local_id].gold
 		var research_request=JSON.stringify({"facility":"smith","operation":"research_start","research":"field_tools"})
 		session.act("facility",research_request);session.act("facility",research_request)
@@ -98,6 +101,7 @@ func run():
 		check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("town_research")),"other players research remains private")
 		var checkpoint_ok=session.save_game();var checkpoint=session.parse_save(session.save_path())
 		check(checkpoint_ok and checkpoint.town_research.queue.size()==1 and checkpoint.town_research.queue[0].id=="field_tools","network checkpoint persists reserved study")
+		check(checkpoint.expedition_goal.kind=="research" and checkpoint.expedition_goal.stage==0,"actual network save retains unfinished research journey")
 		var barrier=FileAccess.open(options.directory.path_join("research-ready"),FileAccess.WRITE);barrier.store_string("ready");barrier.close()
 		if host:
 			var barrier_deadline=Time.get_ticks_msec()+8000
@@ -116,6 +120,12 @@ func run():
 			session.receive_action.rpc_id(1,session.sequence,"facility",craft_request)
 		await create_timer(.7).timeout
 		check(int(session.state.players[session.local_id].materials.get("tool",0))==1 and session.state.players[session.local_id].gold==research_gold-30,"unlocked recipe cost and output once per reliable request")
+		check(session.state.players[session.local_id].expedition_goal.stage==3,"actual matching craft completes personal goal over ENet")
+		session.act("select_goal",JSON.stringify({"id":"advance","floor":test_floor}))
+		await create_timer(.4).timeout
+		check(session.state.players[session.local_id].expedition_goal.kind=="advance","crafted players can choose next expedition")
+		session.act("select_goal",JSON.stringify({"id":"secret","floor":test_floor}))
+		await create_timer(.4).timeout
 		check(session.state.departure_plan.floor==test_floor and session.state.departure_plan.risk==(1 if test_floor>10 else 0),"all peers see authoritative departure conditions")
 		session.act("ready","true:0")
 		await create_timer(.4).timeout

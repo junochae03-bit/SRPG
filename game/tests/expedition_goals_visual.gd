@@ -32,7 +32,7 @@ func run():
 	game.session.sim=sim;game.session.refresh();game.on_entered()
 	game.town_panel.open("portal");game.town_panel.portal_mode="clues";game.town_panel.refresh()
 	await process_frame
-	check(panel().rows.size()==4,"rumors, materials and advancement appear together")
+	check(panel().rows.size()==5,"research, rumors, materials and advancement available together")
 	labels_fit(panel());await capture("expedition-goals-selection")
 	var material=panel().rows.filter(func(row):return row.offer.id=="materials")[0]
 	material.button.pressed.emit();await process_frame

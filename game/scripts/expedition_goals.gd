@@ -3,7 +3,8 @@ const Abyss=preload("res://scripts/abyss_catalog.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Content=preload("res://scripts/content.gd")
 const Quote=preload("res://scripts/service_quote.gd")
-const KINDS=["materials","secret","challenge","advance"]
+const Journey=preload("res://scripts/research_journey.gd")
+const KINDS=["materials","secret","challenge","advance","research"]
 const DEFINITIONS={
 	"secret":{"title":"지도 조각 · 숨은 보관실","clue":"바람이 새는 벽 틈에 숨은 공간이 있습니다.","icon":"codex","source":"길드 지도","steps":["바람이 새는 벽 틈 찾기","발견한 벽 틈 열기","보관실 보상 회수","보관실 탐사 완료"]},
 	"challenge":{"title":"탐사자의 소문 · 정예 은닉품","clue":"큰 발자국이 이어지는 곁굴에 은닉품이 있습니다.","icon":"boss","source":"탐사자의 소문","steps":["큰 발자국을 따라 곁굴 찾기","은닉품의 보상 선택","추가 적 처치 · 정수 회수","은닉품 탐사 완료"]}
@@ -22,14 +23,15 @@ static func valid(value)->bool:
 	for key in ["floor","target","stage"]:
 		if (not value[key] is int and not value[key] is float) or not is_finite(float(value[key])) or value[key]!=floor(value[key]):return false
 	if value.kind not in KINDS or value.floor<1 or value.floor>100 or value.target<1 or value.target>999999 or value.stage<0 or value.stage>3:return false
-	if value.material not in ["","seed","ore","essence"] or value.facility not in ["portal","smith","alchemy"] or value.operation not in ["","upgrade","potion","ore","essence"]:return false
+	if value.material not in ["","seed","ore","essence"] or value.facility not in ["portal","smith","alchemy","inn"] or value.operation not in ["","upgrade","potion","ore","essence","research_craft"]:return false
 	if not value.item is String or value.item.length()>128:return false
 	if not value.requirements is Dictionary:return false
 	for material in value.requirements:
 		var amount=value.requirements[material]
 		if material not in ["seed","ore","essence"] or (not amount is int and not amount is float) or not is_finite(float(amount)) or amount!=floor(amount) or amount<1 or amount>999999:return false
+	if value.kind=="research":return Journey.valid(value)
 	if value.kind=="materials":
-		if value.stage not in [0,3] or value.requirements.get(value.material,0)!=value.target:return false
+		if int(value.stage) not in [0,3] or value.requirements.get(value.material,0)!=value.target:return false
 		if value.facility=="smith":return value.operation=="upgrade" and value.item!="" and value.material=="ore" and value.requirements.size()==1 and value.target<=5
 		if value.facility!="alchemy" or value.item!="":return false
 		if value.operation in ["potion","ore"]:return value.material=="seed" and value.requirements.size()==1
@@ -82,6 +84,8 @@ static func material_offer(p:Dictionary,preferred:int)->Dictionary:
 static func offers(p:Dictionary,preferred:int)->Array:
 	var result=[];var depth=clampi(preferred,1,mini(100,int(p.highest_floor)))
 	if depth%10==0:depth-=1
+	var research=Journey.recommendation(p,depth)
+	if not research.is_empty():result.append(research)
 	var material=material_offer(p,depth)
 	if not material.is_empty():result.append(material)
 	result.append({"id":"secret","goal":goal("secret",depth),"title":DEFINITIONS.secret.title,"detail":"B%d · 정수와 금화"%depth,"clue":DEFINITIONS.secret.clue,"icon":DEFINITIONS.secret.icon})
@@ -99,7 +103,11 @@ static func select(sim,p:Dictionary,argument:String)->bool:
 	if request.id=="clear":
 		if p.get("expedition_goal",{}).is_empty():return false
 		p.expedition_goal={};sim.dirty[p.id]=true;return true
-	for offer in offers(p,int(depth)):
+	var available=offers(p,int(depth))
+	if request.id.begins_with("research:"):
+		var research=Journey.offer(p,request.id.trim_prefix("research:"),int(depth))
+		if not research.is_empty():available.append(research)
+	for offer in available:
 		if offer.id!=request.id:continue
 		var current=p.get("expedition_goal",{})
 		if not current.is_empty() and FIELDS.filter(func(key):return key!="stage").all(func(key):return current[key]==offer.goal[key]):return false
@@ -129,7 +137,11 @@ static func observe(sim):
 
 static func service_completed(p:Dictionary,request:Dictionary):
 	var data=p.get("expedition_goal",{})
-	if data.is_empty() or data.kind!="materials":return
+	if data.is_empty():return
+	if data.kind=="research":
+		if request.get("facility","")==data.facility and request.get("operation","")=="research_craft" and request.get("research","")==data.item:data.stage=3
+		return
+	if data.kind!="materials":return
 	if request.get("facility","")==data.facility and request.get("operation","")==data.operation and (data.item=="" or request.get("item","")==data.item):data.stage=3
 
 static func reset_map_progress(p:Dictionary):
@@ -138,6 +150,7 @@ static func reset_map_progress(p:Dictionary):
 
 static func work_status(p:Dictionary)->Dictionary:
 	var data=p.get("expedition_goal",{})
+	if not data.is_empty() and data.kind=="research":return Journey.work_status(p,data)
 	if data.is_empty() or data.kind!="materials":return {"ready":false,"reason":"작업 목표가 없습니다."}
 	if int(data.stage)==3:return {"ready":false,"reason":"이미 완료한 작업입니다."}
 	var quote=Quote.quote(p,data.facility,data.operation,{"item":data.item})
@@ -146,6 +159,7 @@ static func work_status(p:Dictionary)->Dictionary:
 static func describe(p:Dictionary)->Dictionary:
 	var data=p.get("expedition_goal",{})
 	if data.is_empty():return {}
+	if data.kind=="research":return Journey.describe(p,data)
 	var ready=false;var detail="";var title="";var icon="quest"
 	match data.kind:
 		"materials":
