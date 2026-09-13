@@ -71,6 +71,7 @@ func _cast(p:Dictionary,action:String,profile:Dictionary)->bool:
 	for i in range(before,combat.projectiles.size()):
 		combat.projectiles[i].width=s.width;combat.projectiles[i].visual_scale=1+.25*(rank-1);combat.projectiles[i].skill_rank=rank
 		combat.projectiles[i].merge(p.casting_vfx,true);combat.projectiles[i]["class_id"]=p.class_id;combat.projectiles[i]["fx"]=node.get("fx",node.id);combat.projectiles[i]["origin"]=combat.projectiles[i].pos
+	preload("res://scripts/skill_motion_art_v06.gd").start(p,node)
 	p.erase("casting_rank")
 	p.erase("casting_vfx")
 	if s.mode in combat.constellation.MOVEMENT:combat.constellation.moved(p)
@@ -108,7 +109,7 @@ func cast_extended(p:Dictionary,node:Dictionary,power:float,s:Dictionary):
 				if not combat.hit(p,e,roundi(power),center):continue
 				if e.hp>0 and not e.get("training",false):
 					for i in range(12+4*(s.rank-1)):e.pos=combat.sim.map.move(e.pos,e.pos.direction_to(center)*.12)
-		"heal":p.hp=mini(p.max_hp,p.hp+roundi(p.max_hp*s.heal));center=p.pos
+		"heal":p.hp=mini(p.max_hp,p.hp+roundi(p.max_hp*s.heal*preload("res://scripts/progression.gd").received_healing(p)));center=p.pos
 		"barrier":p.barrier_time=s.duration;p.barrier_strength=s.barrier;center=p.pos
 		"haste":p.haste_time=s.duration;p.haste_speed=s.haste_speed;p.haste_attack=s.haste_attack;center=p.pos
 		"nova_ring":p.motion="cast_high";add_zone(p,node.fx,p.pos,radius,power,pulses(s.count,.1,.55));return

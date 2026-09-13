@@ -28,6 +28,13 @@ SOURCES = {
     "exploration": "game/scripts/exploration_rooms.gd",
     "exploration_cues": "game/scripts/exploration_cues.gd",
     "exploration_trace_art": "game/scripts/exploration_trace_art.gd",
+    "cave_remains": "game/scripts/cave_remains.gd",
+    "actor_visibility": "game/scripts/actor_visibility.gd",
+    "enemy_support": "game/scripts/enemy_support.gd",
+    "enemy_defense": "game/scripts/enemy_defense.gd",
+    "enemy_defense_feedback": "game/scripts/enemy_defense_feedback.gd",
+    "skill_conditions": "game/scripts/skill_conditions.gd",
+    "encounter_roles": "game/scripts/encounter_roles.gd",
     "hidden_rooms": "game/scripts/hidden_rooms.gd",
     "build_presets": "game/scripts/build_presets.gd",
     "expedition_brief": "game/scripts/expedition_brief.gd",
@@ -62,6 +69,14 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
+    data["metadata"]["actor_visibility_source_rules"] = [source_rule(root, "actor_visibility", fn) for fn in ("player", "opacity", "tick")]
+    data["metadata"]["combat_lifecycle_source_rules"] = [source_rule(root, "simulation", fn) for fn in ("player_defeated", "respawn_player", "reset_after_defeat", "clear_build_runtime")] + [source_rule(root, "coop", "peer_left")]
+    data["metadata"]["skill_condition_source_rules"] = [source_rule(root, "skill_conditions", fn) for fn in ("target_failure", "casting_speed", "rows", "configuration")]
+    data["metadata"]["enemy_defense_source_rules"] = [source_rule(root, "enemy_defense", fn) for fn in ("type_for", "initialize", "tick", "factor", "layer_factor", "break_guard", "description", "configuration")] + [source_rule(root, "enemy_defense_feedback", "draw")]
+    data["metadata"]["enemy_support_source_rules"] = [source_rule(root, "enemy_support", fn) for fn in ("cancel", "eligible", "step", "configuration")]
+    data["metadata"]["encounter_role_source_rules"] = [source_rule(root, "encounter_roles", fn) for fn in ("role", "apply", "ingress_distances", "configuration")]
+    data["metadata"]["monster_display_source_rules"] = [source_rule(root, "world", "display_height")]
+    data["metadata"]["cave_remains_source_rules"] = [source_rule(root, "cave_remains", fn) for fn in ("generate", "suitable", "footprint", "visible", "draw", "configuration")]
     data["metadata"]["exploration_cue_source_rules"] = [source_rule(root, "exploration_cues", fn) for fn in ("signature", "generate", "visible_marks", "draw")] + [source_rule(root, "exploration_trace_art", fn) for fn in ("catalog", "texture")]
     data["metadata"]["guild_progression_source_rules"] = [source_rule(root, "guild_progression", fn) for fn in ("valid_reputation", "valid_contract", "rank", "benefits", "stage", "use", "progress")]
     data["metadata"]["research_journey_source_rules"] = [source_rule(root, "research_journey", fn) for fn in ("valid", "eligible", "requirements", "destination", "need", "offer", "recommendation", "work_status", "describe")]

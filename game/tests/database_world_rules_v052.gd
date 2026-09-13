@@ -54,16 +54,24 @@ func run():
 	var applied_environment=0
 	var available_environment=0
 	for asset in art.art_assets:
-		if not asset.id.begins_with("art:environment:"):continue
+		if not asset.id.begins_with("art:environment:") or asset.id.begins_with("art:environment:exploration_v06:"):continue
 		registered_environment+=1
 		if asset.status=="applied":applied_environment+=1
 		else:available_environment+=1
 		check((asset.status=="applied")==expected_live.has(asset.id),"배경 적용 상태와 실제 배치 목록 일치: "+asset.id)
 	check(registered_environment==108 and registered_environment==environment.catalog.objects.size(),"배경 원화 108개 전체 등록")
-	check(applied_environment==68 and available_environment==40,"배경 적용 68개 및 준비 40개 구분")
+	check(applied_environment==41 and available_environment==67,"배경 적용 41개 및 준비 67개 구분")
 	for use_row in art.art_uses:
-		if use_row.art_id.begins_with("art:environment:") and not expected_live.has(use_row.art_id):
+		if use_row.art_id.begins_with("art:environment:") and not use_row.art_id.begins_with("art:environment:exploration_v06:") and not expected_live.has(use_row.art_id):
 			check(use_row.target_table=="catalog" and use_row.usage_kind=="catalog_available","미배치 배경은 준비 목록에만 연결")
+	var exploration_frames=art.art_assets.filter(func(a):return a.id.begins_with("art:environment:exploration_v06:"))
+	check(exploration_frames.size()==24,"탐사 오브젝트 24개 사용 상태 등록")
+	for asset in exploration_frames:
+		check(asset.status=="applied","탐사 상호작용 상태는 실제 사용 원화")
+		var links=art.art_uses.filter(func(u):return u.art_id==asset.id)
+		check(not links.is_empty(),"탐사 상태의 실제 사용 연결 존재")
+		for link in links:
+			check(link.target_table=="runtime" and link.mapping.has("personal_claim_state") and link.mapping.personal_claim_state==asset.action,"개인 수령 상태별 원화 연결")
 	var shared_building_owners=[]
 	var facility_icons={}
 	for use_row in art.art_uses:

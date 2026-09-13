@@ -20,7 +20,7 @@ func run():
 	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/codex-v03/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
-	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;p.stats={"strength":80,"endurance":80,"technique":100,"agility":37,"magic":0};local.sim.recalculate(p);local.refresh()
+	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;p.stats={"power":80,"vitality":0,"fortitude":80,"specialization":100,"swiftness":37,"precision":0};local.sim.recalculate(p);local.refresh()
 	var before=JSON.stringify(p)
 	key(KEY_B);await process_frame;var panel=game.codex
 	check(panel.visible and local.paused,"B journal pauses game")
@@ -69,10 +69,17 @@ func run():
 	panel.open("skills",{"class_id":"breaker","effect":"active"});check(panel.result.total>0,"class skill filter")
 	var skill=panel.result.items[0];panel.select_record(skill.id);var rank_one=panel.detail_body.text
 	panel.rank_index=int(skill.max_rank)-1;panel.refresh_detail();check(panel.detail_body.text!=rank_one,"rank changes displayed values")
-	check(panel.rank_picker.visible and panel.reference_picker.visible,"rank and technique controls")
-	var reference=panel.detail_body.text;panel.use_player_stats=true;panel.refresh_detail();check(reference!=panel.detail_body.text,"current technique changes stagger display")
-	check("공격력 100" in panel.detail_body.text and "내 기술 선택" in panel.detail_body.text,"reference assumptions explicit")
+	check(panel.rank_picker.visible and panel.reference_picker.visible,"rank and specialization controls")
+	var reference=panel.detail_body.text;panel.use_player_stats=true;panel.refresh_detail();check(reference==panel.detail_body.text,"foreign profession never borrows current specialization")
+	check("공격력 100" in panel.detail_body.text and "내 보정" in panel.detail_body.text,"reference assumptions explicit")
+	var saved_class=p.class_id;p.class_id="tank";local.refresh()
+	panel.use_player_stats=false;panel.open("skills",{"class_id":"tank","effect":"active"})
+	var tank_skill=panel.result.items.filter(func(row):return float(row.ranks[0].get("stagger",{}).get("value",0))>0)[0]
+	panel.select_record(tank_skill.id);var tank_reference=panel.detail_body.text
+	panel.use_player_stats=true;panel.refresh_detail();check(tank_reference!=panel.detail_body.text,"tank specialization changes own skill stagger preview")
+	p.class_id=saved_class;local.refresh()
 	await capture("skills")
+	panel.open("skills",{"class_id":"breaker","effect":"active"})
 	var with_parent=DB.query("skills",{"class_id":"breaker"},0,100).items.filter(func(row):return not row.parents.is_empty())[0]
 	panel.select_record(with_parent.id);panel.follow_link();check(panel.selected_id==str(with_parent.parents[0]),"parent skill navigation")
 	panel.open("skills",{"class_id":"warrior","effect":"passive"});check(panel.result.total>0,"legacy passive effect filter supported")

@@ -39,7 +39,7 @@ func run():
 	await capture("character-sheet")
 	click(panel.create_button);await process_frame;local.set_physics_process(false);game.set_physics_process(false)
 	check(local.connected and not panel.visible and game.hud.visible,"finish enters tutorial")
-	var p=local.sim.players[1];check(p.name=="새벽별" and p.class_id=="mage" and p.stats.magic==5,"sheet committed")
+	var p=local.sim.players[1];check(p.name=="새벽별" and p.class_id=="mage" and p.stats.power==4,"sheet committed")
 	check(not game.connection_label.visible and game.connection_label.text.is_empty(),"persistent save explanation removed")
 	await capture("clean-hud")
 	p.tutorial_kills=5;check(local.travel("town"),"town arrival");local.set_physics_process(false)

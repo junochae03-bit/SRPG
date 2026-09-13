@@ -9,8 +9,6 @@ def audit():
     for name in names:
         p=ROOT/name
         if not name or p.suffix not in SUFFIXES or not p.is_file():continue
-        # Separate art teams' unfinished packs are not part of this release.
-        if any(t in name for t in ['_v06/','_V06.','_v06.py']):continue
         count+=1
         try:text=p.read_bytes().decode('utf-8-sig',errors='strict')
         except UnicodeDecodeError as e:failures.append(f'{name}: invalid UTF-8 at byte {e.start}');continue

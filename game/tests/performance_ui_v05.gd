@@ -64,9 +64,9 @@ func run():
 	for i in range(6):p.skill_ranks[nodes[i].id]=2;p.skill_loadout[Content.ACTIONS[i]]=nodes[i].id
 	local.sim.recalculate(p);local.refresh();hud.refresh()
 	p.skill_ranks[nodes[0].id]=3;changed(hud,p,"rank")
-	p.stats.technique+=3;changed(hud,p,"technique")
+	p.stats.specialization+=3;changed(hud,p,"technique")
 	p.level+=1;changed(hud,p,"level")
-	p.gear_stats.technique=int(p.gear_stats.get("technique",0))+7;changed(hud,p,"gear stats")
+	p.gear_stats.specialization=int(p.gear_stats.get("specialization",0))+7;changed(hud,p,"gear stats")
 	p.inventory.append(preload("res://scripts/equipment_catalog.gd").make("sword",0,1,"cache-probe","guard",p.class_id));changed(hud,p,"inventory change")
 	p.inventory[0].upgrade=2;changed(hud,p,"equipment upgrade")
 	p.inventory.clear();changed(hud,p,"inventory removal")

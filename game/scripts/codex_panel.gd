@@ -80,7 +80,7 @@ func setup(owner_game):
 	detail_subtitle=game.label(detail,"",Vector2(171,123),Vector2(303,52),16);detail_subtitle.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	detail_subtitle.max_lines_visible=2;detail_subtitle.clip_text=true;detail_subtitle.clip_contents=true;detail_subtitle.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;detail_subtitle.mouse_filter=Control.MOUSE_FILTER_PASS
 	rank_picker=picker(detail,Vector2(27,181),Vector2(161,36));rank_picker.item_selected.connect(func(index):rank_index=index;refresh_detail())
-	reference_picker=picker(detail,Vector2(200,181),Vector2(277,36));reference_picker.add_item("무력화 · 기술 0 기준");reference_picker.add_item("무력화 · 내 기술 적용")
+	reference_picker=picker(detail,Vector2(200,181),Vector2(277,36));reference_picker.add_item("무력화 · 기본 수치");reference_picker.add_item("무력화 · 내 보정")
 	Library.attach(reference_picker,"technique",20)
 	reference_picker.item_selected.connect(func(index):use_player_stats=index==1;refresh_detail())
 	detail_scroll=ScrollContainer.new();detail_scroll.position=Vector2(29,231);detail_scroll.size=Vector2(452,288);detail_scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;detail.add_child(detail_scroll)
@@ -297,7 +297,7 @@ func monster_detail(row:Dictionary):
 		text+=section("공격 예고",lines(values))
 	text+=section("수치 읽는 법","레이드는 표시된 층의 실제 능력치입니다. 일반 몬스터 기본형의 수치는 원형 기준이며 던전 층에 따라 강해집니다.")
 	if row.get("role","") in ["boss","raid"]:
-		var stagger:Dictionary=row.get("stagger",{});var body="공격을 적중시켜 HP 피해와 별도로 무력화를 축적합니다. 기술 능력치는 스킬 무력화 피해를 높입니다."
+		var stagger:Dictionary=row.get("stagger",{});var body="공격을 적중시켜 HP 피해와 별도로 무력화를 축적합니다. 탱커의 특화는 스킬 무력화 피해를 높입니다."
 		if not stagger.is_empty():body+="\n\n일반 게이지  %s\n제한시간 체크  %s / %.0f초\n성공 시 %.0f초 넘어짐 · 받는 피해 +%.0f%%\n회복 후 %.0f초 재무력화 유예"%[stagger.get("max_value",0),stagger.get("check_max",0),float(stagger.get("check_seconds",0)),float(stagger.get("down_seconds",0)),(float(stagger.get("down_damage_multiplier",1))-1)*100,float(stagger.get("immunity_seconds",0))]
 		text+=section("무력화",body)
 	detail_body.text=text;link_button.text="이 몬스터의 전리품 보기";Library.attach(link_button,"pickup");link_target={"tab":"drops","filters":{"monster_id":row.id}}
@@ -338,12 +338,12 @@ func skill_detail(row:Dictionary):
 	detail_scroll.position.y=231;detail_scroll.size.y=288;detail_body.custom_minimum_size.y=284
 	var rank:Dictionary=ranks[rank_index] if rank_index<ranks.size() else {}
 	var stagger:Dictionary=rank.get("stagger",{})
-	if use_player_stats:stagger=preload("res://scripts/boss_stagger.gd").skill_profile(node,rank_index+1,player())
+	if use_player_stats and row.get("class_id","")==player().get("class_id",""):stagger=preload("res://scripts/boss_stagger.gd").skill_profile(node,rank_index+1,player())
 	var metrics:Array=[];var summary:Array=[]
 	for metric in rank.get("metrics",[]):
 		var line="%s   %s"%[str(metric[0]),str(metric[1])];metrics.append(line)
 		if summary.is_empty() or str(metric[0])=="재사용 시간":summary.append(line)
-	summary.append("무력화 %s · %s"%[str(stagger.get("grade","없음")),str(snappedf(float(stagger.get("value",0)),.1))]);summary.append("기술 보정 ×%.3f"%float(stagger.get("multiplier",1)))
+	summary.append("무력화 %s · %s"%[str(stagger.get("grade","없음")),str(snappedf(float(stagger.get("value",0)),.1))]);summary.append("특화 보정 ×%.3f"%float(stagger.get("multiplier",1)))
 	var text=section("랭크 %d 핵심 수치"%(rank_index+1),lines(summary))
 	text+=section("스킬 효과",str(row.get("description",node.get("description",""))))
 	var parent_names=PackedStringArray()
@@ -351,7 +351,7 @@ func skill_detail(row:Dictionary):
 		var other=DB.detail("skills",str(parent));parent_names.append(str(other.get("name",parent)))
 	text+=section("습득 조건","%s · LV.%d 이상\n%s"%[row.get("class_name",""),int(node.get("level",1)),"선행 없음" if parent_names.is_empty() else ("선행 모두: " if node.get("parent_mode","any")=="all" else "선행 중 하나: ")+" / ".join(parent_names)+" (랭크 %d)"%int(node.get("required_rank",1))])
 	text+=section("랭크 %d 수치"%(rank_index+1),lines(metrics) if not metrics.is_empty() else "설명에 표시된 효과가 랭크에 따라 강화됩니다.")
-	text+=section("수치 기준",str(DB.REFERENCE.note)+"\n내 기술 선택은 무력화 수치에만 적용합니다.")
+	text+=section("수치 기준",str(DB.REFERENCE.note)+"\n내 보정은 내 직업 스킬의 무력화에만 적용합니다.")
 	detail_body.text=text
 	if not row.get("parents",[]).is_empty():link_button.text="첫 선행 스킬 살펴보기";Library.attach(link_button,"chain");link_target={"tab":"skills","id":str(row.parents[0])}
 

@@ -10,6 +10,7 @@ var game:Node2D
 var terrain:ColorRect
 var material:ShaderMaterial
 var props:Array=[]
+var remains:Array=[]
 # Decoration geometry is immutable for the lifetime of a generated map. Keep
 # it separate from the public prop records, whose alpha changes during play.
 var _geometry:Array=[]
@@ -43,6 +44,7 @@ func rebuild(dungeon):
 	build_material_regions()
 	ground_draws=0;terrain.queue_redraw()
 	props.clear();_geometry.clear()
+	remains=map.ground_remains
 	var ids=Art.available_ids(map.zone,map.floor_number);var allowed=Art.ids(map.zone,map.floor_number)
 	var candidate_index=0;var rng=RandomNumberGenerator.new();rng.seed=map.seed_value+419
 	# Stable art IDs replace old hard-coded forest-sheet slots. Every decorative

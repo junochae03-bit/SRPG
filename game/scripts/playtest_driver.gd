@@ -126,7 +126,7 @@ func drive(delta:float):
 		if p.kills>previous.kills:last_progress=seconds()
 	previous={"level":p.level,"inventory":p.inventory.size(),"kills":p.kills}
 	if Stats.available(p)>0:
-		perform("stat","endurance" if Stats.available(p)%3==0 else "magic" if Content.base_class(p.class_id)=="mage" else "strength");milestone("first-stat")
+		if perform("stat","fortitude" if Stats.available(p)%3==0 else "power"):milestone("first-stat")
 	if Rules.available_points(p)>0:
 		var choices=Rules.nodes_for(p.class_id).filter(func(n):return n.effect=="active" and Rules.rank(p,n)==0 and Rules.node_state(p,n.id).can_invest)
 		if choices.is_empty():choices=Rules.nodes_for(p.class_id).filter(func(n):return Rules.node_state(p,n.id).can_invest)

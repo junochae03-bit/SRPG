@@ -8,6 +8,8 @@ const BossStagger=preload("res://scripts/boss_stagger.gd")
 const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
 const Risk=preload("res://scripts/expedition_risk.gd")
+const Support=preload("res://scripts/enemy_support.gd")
+const Defense=preload("res://scripts/enemy_defense.gd")
 var map
 var balance: Dictionary
 var players: Dictionary = {}
@@ -50,7 +52,7 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0,ri
 			var kind=(dungeon_config.boss if raid else dungeon_config.elite) if guardian else dungeon_config.elite if placement.role=="elite" else dungeon_config.mobs[int(placement.mob_index)%dungeon_config.mobs.size()]
 			var enemy=spawn_enemy(placement.get("kind",kind),placement.pos,dungeon_config.level+(3 if placement.role=="elite" else 0),raid)
 			if placement.get("risk_reinforcement",false):enemy["risk_reinforcement"]=true
-			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation
+			enemy["encounter_room"]=placement.room;enemy["formation"]=placement.formation;enemy["combat_role"]=placement.get("combat_role","")
 			if guardian:enemy["guardian"]=true
 			if raid:enemy.name=dungeon_config.title
 		return
@@ -72,6 +74,7 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
 		if not boss:e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
 	BossStagger.initialize(e,clock)
+	Defense.initialize(e)
 	Risk.scale_enemy(e,map.risk_level)
 	enemies[id]=e;return e
 
@@ -96,6 +99,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	for key in ["skill_build_version","constellation_allocations","creation_points"]:
 		if int(saved.get("schema_version",0))>=7 and saved.has(key):p[key]=saved[key]
 	Content.migrate_skills(p)
+	p["stat_schema_version"]=int(saved.get("stat_schema_version",Progression.STAT_SCHEMA_VERSION))
+	if saved.has("stat_migration"):p["stat_migration"]=saved.stat_migration.duplicate(true)
 	preload("res://scripts/wardrobe.gd").normalize(p,saved)
 	Progression.initialize(p)
 	if int(saved.get("schema_version",0))<3:p.bag_positions={}
@@ -109,6 +114,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 
 func persistent(id: int) -> Dictionary:
 	var result = {"schema_version":7}
+	result["stat_schema_version"]=Progression.STAT_SCHEMA_VERSION
+	if players[id].has("stat_migration"):result["stat_migration"]=players[id].stat_migration.duplicate(true)
 	result["guild_reputation"]=int(players[id].get("guild_reputation",0))
 	result["town_research"]=players[id].get("town_research",{}).duplicate(true)
 	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
@@ -140,8 +147,8 @@ func damage_for(p: Dictionary,kind:String="") -> int:
 func recalculate(p: Dictionary):
 	var old_max=int(p.get("max_hp",120))
 	p["gear_stats"]=preload("res://scripts/equipment_catalog.gd").stat_values(p)
-	p.max_hp=120+(int(p.level)-1)*18+int(Content.skill_bonus(p,"health"))
-	p["defense"]=int(Content.skill_bonus(p,"defense"))+Progression.bonus(p,"endurance")*2
+	p.max_hp=120+(int(p.level)-1)*18+int(Content.skill_bonus(p,"health"))+Progression.health(p)
+	p["defense"]=int(Content.skill_bonus(p,"defense"))+Progression.defense(p)
 	for item in p.inventory:
 		if Inventory.is_equipped(p,item.id) and item.get("category","")=="armor" and preload("res://scripts/equipment_catalog.gd").reason(p,item).is_empty():
 			p.defense+=int(item.bonus)
@@ -475,16 +482,21 @@ func tick(delta: float):
 	combat.skills.tick(delta)
 	tactical.tick()
 	monster_attacks.tick(delta)
+	var previous_enemy_positions={}
+	for id in enemies:previous_enemy_positions[id]=enemies[id].pos
 	for e in enemies.values():
 		if e.get("training",false):preload("res://scripts/training_ground.gd").tick(self,e,delta);continue
 		var config = balance.enemies[e.kind]
 		e.attack_motion=maxf(0,e.get("attack_motion",0)-delta)
-		e["guard_break_time"]=maxf(0.,e.get("guard_break_time",0)-delta)
+		Defense.tick(e,delta,clock)
 		if e.hp <= 0:
+			Support.cancel(e)
 			if map.floor_number>0:continue
 			e.respawn -= delta
 			if e.respawn <= 0:
 				e.hp = e.max_hp;e["rewarded"]=false
+				e.erase("support_received");e.erase("support_lock_until")
+				Defense.initialize(e)
 				e.pos = e.home
 				BossStagger.initialize(e,clock)
 			continue
@@ -493,21 +505,19 @@ func tick(delta: float):
 		e.cooldown = maxf(0, e.cooldown - delta)
 		e.ability_cd=maxf(0,e.get("ability_cd",4)-delta)
 		e.phase=2 if e.get("boss",false) and e.hp<e.max_hp*.5 else 1
-		if config.ai=="healer" and e.ability_cd<=0:
-			for friend in enemies.values():
-				if friend.hp>0 and friend.pos.distance_to(e.pos)<3:friend.hp=mini(friend.max_hp,friend.hp+12)
-			e.ability_cd=6;events.append({"type":"skill_fx","fx":"ranger_heal","pos":e.pos,"dir":Vector2.RIGHT,"owner":1,"duration":.6,"radius":2.0})
+		var was_stunned=float(e.get("stun_time",0))>0
 		e["slow_time"]=maxf(0,e.get("slow_time",0)-delta)
 		e["stun_time"]=maxf(0,e.get("stun_time",0)-delta)
 		if e.get("raid",false):e.stun_time=0.
-		if e.stun_time>0:e.windup=0;e.erase("attack_areas");continue
+		if was_stunned or e.stun_time>0:
+			e.windup=0;e.erase("attack_areas");Support.cancel(e,true);continue
 		var movement_origin=e.pos
 		var move_speed=e.get("speed",config.speed)*(0.45 if e.slow_time>0 else 1.0)
 		if config.ai=="charger" and e.ability_cd<1.0:move_speed*=2.2
 		if e.windup > 0:
 			e.windup -= delta
 			if e.windup <= 0:
-				e.attack_motion=.35
+				e.attack_motion=.35;e["attack_motion_kind"]="attack"
 				if not e.get("boss",false) or e.get("raid",false):
 					monster_attacks.release(e);e.cooldown=1.7 if e.get("elite",false) else 1.25;continue
 				if e.get("boss",false):
@@ -524,13 +534,15 @@ func tick(delta: float):
 						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
 						p.erase("revive_target");p.erase("revive_progress")
 						p.hp -= received
-						p.hurt_time=.16
+						p.hurt_time=.16*Progression.hurt_duration_factor(p)
 						if config.ai=="spore":p.stamina=maxf(0,p.stamina-12)
 						events.append({"type":"damage","pos":p.pos,"amount":received,"enemy":false,"owner":p.id})
 						if p.hp <= 0:player_defeated(p)
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
 			continue
+		var was_taunted=float(e.get("taunt_time",0))>0
 		e["taunt_time"]=maxf(0,e.get("taunt_time",0)-delta)
+		if was_taunted:Support.cancel(e,true)
 		var target: Dictionary = {}
 		var best = 18.0 if e.get("raid",false) else 6.5
 		for p in players.values():
@@ -539,7 +551,9 @@ func tick(delta: float):
 			if p.hp>0 and not p.get("network_leaving",false) and distance < best and not map.in_town(p.pos) and p.pos.distance_to(e.home) < maxf(BossStagger.engagement_radius(e),14. if float(e.get("heard_until",0))>clock else 0.) and map.line_clear(e.pos, p.pos):
 				best = distance
 				target = p
-		if not target.is_empty() and preload("res://scripts/enemy_tactics.gd").avoid(self,e,move_speed,delta):continue
+		if not target.is_empty() and preload("res://scripts/enemy_tactics.gd").avoid(self,e,move_speed,delta):
+			Support.cancel(e,true);continue
+		if not was_taunted and Support.step(self,e,target,move_speed,delta):continue
 		if not target.is_empty():
 			if float(e.get("heard_until",0))>clock:e.heard_until=clock+4.
 			e.erase("search_path");e.erase("search_until");e["awareness_state"]="engaged"
@@ -561,6 +575,9 @@ func tick(delta: float):
 			e.pos = map.move(e.pos, e.pos.direction_to(target.pos) * minf(best,move_speed * delta))
 		if not target.is_empty():preload("res://scripts/enemy_tactics.gd").spread(self,e,move_speed,delta,movement_origin)
 		if config.ai=="charger" and e.ability_cd<=0:e.ability_cd=3.0
+	for id in enemies:
+		var moved:Vector2=enemies[id].pos-previous_enemy_positions.get(id,enemies[id].pos)
+		if moved.length_squared()>.000001:enemies[id]["visual_direction"]=moved.normalized()
 	for key in drops.keys():
 		if drops[key].expires <= clock: drops.erase(key)
 
@@ -568,23 +585,29 @@ func player_defeated(p:Dictionary):
 	tactical.records=tactical.records.filter(func(record):return record.owner!=p.id)
 	p.erase("revive_target");p.erase("revive_progress");p.dir=Vector2.ZERO;p.charge_time=-1.
 	if players.size()>1 and players.values().any(func(other):return other.id!=p.id and other.hp>0):
-		p.hp=0;p.down_time=Party.DOWN_SECONDS;combat.jobs.reset(p);notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
+		p.hp=0;p.down_time=Party.DOWN_SECONDS;reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"쓰러짐 · 동료가 가까이에서 E로 구조할 수 있습니다.")
 	else:respawn_player(p)
 
 func respawn_player(p:Dictionary):
 	p.down_time=0.;p.gold=int(p.gold*.9);p.hp=p.max_hp;p.pos=map.spawn;p.dir=Vector2.ZERO;p.enemy_slow_time=0.;p.charge_time=-1.
-	combat.jobs.reset(p);reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
+	reset_after_defeat(p.id);dirty[p.id]=true;notice(p.id,"안전지대에서 회복했습니다. 금화 10%를 잃었습니다.")
 
 func reset_after_defeat(player_id:int):
 	tactical.records=tactical.records.filter(func(record):return record.owner!=player_id)
 	# Defeat removes the owner's pending attacks. The encounter resets only when
 	# nobody remains in its arena, so this also has sensible future party behavior.
 	combat.projectiles=combat.projectiles.filter(func(shot):return shot.owner!=player_id)
-	if players.has(player_id):combat.constellation.reset(players[player_id])
+	if players.has(player_id):
+		var p=players[player_id]
+		combat.jobs.reset(p);combat.constellation.reset(p)
+		p.merge({"barrier_time":0.,"barrier_strength":0.,"haste_time":0.,"haste_speed":0.,"haste_attack":0.,"regen_fraction":0.,"charge_time":-1.,"dodge_time":0.,"invulnerable":0.,"motion_time":0.,"motion":"idle","hurt_time":0.,"enemy_slow_time":0.,"sprint":false},true)
+		for key in ["casting_vfx","casting_rank","constellation_cast","skill_motion","revive_target","revive_progress"]:p.erase(key)
 	combat.skills.zones=combat.skills.zones.filter(func(zone):return zone.owner!=player_id)
 	for e in enemies.values():
 		for key in e.get("job_status",{}).keys():
 			if e.job_status[key].owner==player_id:e.job_status.erase(key)
+		if e.has("constellation_marks"):e.constellation_marks.erase(str(player_id))
+		if e.get("taunt_owner",0)==player_id:e.taunt_time=0.;e.erase("taunt_owner")
 		if e.get("boss",false) and e.hp>0 and BossStagger.engaged_players(self,e).is_empty():BossStagger.reset(self,e)
 
 func snapshot(for_id: int) -> Dictionary:

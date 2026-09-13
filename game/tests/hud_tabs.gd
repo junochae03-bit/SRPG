@@ -70,9 +70,9 @@ func run():
 	await capture("registered-potions")
 	for level in [1,30,60,100]:
 		p.level=level;session.refresh();await capture("portrait-level-"+str(level))
-	p.class_id="healer";p.stats.technique=0;p.gear_stats={}
+	p.class_id="healer";p.stats.specialization=0;p.gear_stats={}
 	var details=preload("res://scripts/combat_stats.gd").details(session.sim,p)
-	check(details.contains("기술 무력화 보정 +0.0%") and details.contains("직업 무력화 보정 +42.9%"),"technique and low damage role stagger contributions are separate")
+	check(details.contains("특화 무력화 보정 +0.0%") and details.contains("직업 무력화 보정 +42.9%"),"technique and low damage role stagger contributions are separate")
 	check(await game.audio_director.shutdown(),"audio drained")
 	session.connected=false;game.queue_free();await process_frame;await process_frame
 	print("HUD_TABS checks=%d failures=%d"%[checks,failures.size()]);quit(0 if failures.is_empty() else 1)

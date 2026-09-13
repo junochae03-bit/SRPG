@@ -24,6 +24,7 @@ var raid_arena=false
 var arena_radius=0.0
 var exploration_sites:Array=[]
 var exploration_cues:Array=[]
+var ground_remains:Array=[]
 var hidden_regions:Array=[]
 var revealed_regions={}
 var opened_regions={}
@@ -60,7 +61,6 @@ func _init(value: int = 20260908,zone_name:String="forest",depth:int=0,risk:int=
 		return
 	if floor_number>0:
 		generate_floor()
-		preload("res://scripts/expedition_risk.gd").add_encounters(self)
 		return
 	var rng = RandomNumberGenerator.new()
 	rng.seed = value
@@ -188,9 +188,12 @@ func generate_floor():
 		carve_segment(rooms[4],rooms[7],3)
 	path_cells=floor_cells
 	build_encounters(layout_rng)
+	preload("res://scripts/expedition_risk.gd").add_encounters(self)
+	preload("res://scripts/encounter_roles.gd").apply(self)
 	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
 	exploration_cues=preload("res://scripts/exploration_cues.gd").generate(self)
 	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)
+	ground_remains=preload("res://scripts/cave_remains.gd").generate(self)
 
 static func exploration_route(family:String,rng:RandomNumberGenerator)->Dictionary:
 	# Four encounters lead forward. Each optional wing rejoins farther ahead;

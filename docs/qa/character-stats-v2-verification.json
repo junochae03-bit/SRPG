@@ -1,0 +1,180 @@
+{
+  "status": "focused_pass_final_integration_pending",
+  "scope": "6스탯 실제 연결 및 저장 이관; 메인 최종 DB/전체 게이트와 분리",
+  "recorded_at": "2026-09-13T16:13:33+09:00",
+  "policy": "docs/CHARACTER_STATS_V2.ko.md",
+  "source_hashes": {
+    "game/scripts/progression.gd": "8576a527183b38082ead1a1fc41c2724a223c4c31e6fc6527ecc51183a67ced9",
+    "game/scripts/stat_specialization.gd": "0f72740bc729819337af7672cc03c477ac2ae7881f0f972e0e4abb677683f987",
+    "game/scripts/character_creation.gd": "5d3afccaad2da71d58ff889324d15bda7229980b3edac9016dde1774a05febca",
+    "game/scripts/character_sheet_ui.gd": "4b5abfd6f2cb6eb3180bb47a79b30b8aaf3701984372d321f965096934d9deb8",
+    "game/scripts/skill_tree_ui.gd": "14902611a5768b50d9d9ccd11a38721578f6762519640b196c46544d95c9d3e3",
+    "game/scripts/equipment_catalog.gd": "711c569118b50a9aa5985da7d89f03fd6b927ebef5bb12261633aa7b7a250ed6",
+    "game/scripts/local_session.gd": "7ee45bf20de1e0631ce281df5e53146b78719be30ee4a9aae28740e6325e0ae4",
+    "game/scripts/simulation.gd": "2824adbe169a84f89a5b976f396e6b705c517b13b4e2134587f2560f646af81f",
+    "game/scripts/player_stats.gd": "261c9b43f1bfe53ab25c1642648da0b2b867860da095fec654848bccba27ca7b",
+    "game/scripts/combat_stats.gd": "a01ac3b5d33af8e5ddc1110e06934f978c0e0d8f7bc8900f59143b07e7d8aba7",
+    "game/scripts/job_balance.gd": "004627904b5a4929eab9d640f61c4bdbbf284206581c8c87a0139fe02fa30e94",
+    "game/scripts/skill_scaling.gd": "29ee235e7325bc30d1dd1da6a0ea82e3aa94fa054453329699258c0fb9b6e5a5",
+    "game/scripts/boss_stagger.gd": "d4cacc4d6c4cd3bdeb71c837ad8f33503e2de7e36f47d6a36c86953fa92c3820"
+  },
+  "source_ownership_note": "메인 소유 전투 hook은 메인이 작성. simulation은 stat부분만 DB 담당 소유. 공유파일 해시는 관찰 시점 기준.",
+  "tests": [
+    {
+      "test": "boss_stagger_v03",
+      "checks": 1231,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/boss_stagger_v03.log",
+      "sha256": "37c92f27ba7beaf59e64500b5d60bffda26984331130f0290eb1c206d21df582"
+    },
+    {
+      "test": "character_creation_v04",
+      "checks": 103,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/character_creation_v04.log",
+      "sha256": "2ae9e15ea51847839be5cb25a3957728f6b241f41df7d5dd2977e7bfe6862a5a"
+    },
+    {
+      "test": "character_dialogue_ui_v04",
+      "checks": 69,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/character_dialogue_ui_v04.log",
+      "sha256": "1e7232eb30e59cd57657c2762a9346f748e581562a70801e0c4758d91dfc92ae"
+    },
+    {
+      "test": "character_stats_v2",
+      "checks": 61,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/agent-integration-final/20260913-161148/character_stats_v2.log",
+      "sha256": "9cca9206fd240a6aa8ba77c4b8a33ddb575342d7160b8f0f1702704b2ab76387"
+    },
+    {
+      "test": "combat_lifecycle",
+      "checks": 330,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/combat_lifecycle.log",
+      "sha256": "8970ea5a4195f5a4bbba0dbf824125176bd653fb3a39cfb44eb76d53d5c74680"
+    },
+    {
+      "test": "constellation_combat_v04",
+      "checks": 6929,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/constellation_combat_v04.log",
+      "sha256": "58cbf31791633e300b6894e33ed4aa7f01cf1b04bbbe71e24531e71594676912"
+    },
+    {
+      "test": "equipment_v02",
+      "checks": 872,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/equipment_v02.log",
+      "sha256": "25f2a8bfc397501851c55b48aa089abbbbaf897edb5afd5e9d1931a04f93134c"
+    },
+    {
+      "test": "expansion_v05",
+      "checks": 878,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/expansion_v05.log",
+      "sha256": "4bb75f5a50163e422cc678bcdc847f9e2def39afc2f1eea39539218d521c61fb"
+    },
+    {
+      "test": "hud_tabs",
+      "checks": 46,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/hud_tabs.log",
+      "sha256": "a229a7afe609266e471916b8bce500652ed46f54d54146852c325bee9fd3f649"
+    },
+    {
+      "test": "job_balance",
+      "checks": 1408,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/job_balance.log",
+      "sha256": "b627ed68127ac4dccabacbe605102448eca92ac9aa1a1baa734b642d19ad199b"
+    },
+    {
+      "test": "progression_rewards_v053",
+      "checks": 1197,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/progression_rewards_v053.log",
+      "sha256": "3e0dc872e00f0159cce7e2f6a3912201fca2f2efafb3fd91b8ee041c1f27af82"
+    },
+    {
+      "test": "progression_v02",
+      "checks": 112,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/progression_v02.log",
+      "sha256": "bec182da6d4652bbd3dc32013c356eea7aa44738a0a4efa24809bded46d248c5"
+    },
+    {
+      "test": "qa_combat_v052",
+      "checks": 143,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/qa_combat_v052.log",
+      "sha256": "aeddb929994c3c1f4dddb52a5acf027279750c260457301eac08333d0acff151"
+    },
+    {
+      "test": "skill_tree_ui_v04",
+      "checks": 16390,
+      "failures": 0,
+      "status": "PASS",
+      "log": "runtime/stats-v2-intake/skill_tree_ui_v04.log",
+      "sha256": "9706102e2504b462aca55d24d4adf4def3a7f47a5f97aa4231441d42f2dd1660"
+    }
+  ],
+  "latest_fixture_change": {
+    "test": "character_stats_v2",
+    "checks": 61,
+    "runtime_bug": false,
+    "result": "시프 취약 단독 검사에서 기존 자동 공격버프를 비워 검증 조건을 분리한 뒤, 메인 최종 재실행 61개 검사 통과",
+    "status": "PASS"
+  },
+  "resolved_bug": "구 저장 이관 기록 from_version/old_stats의 JSON 숫자를 정수 정규화하여 두 번째 저장 바이트 변화 방지; 생성검사103개 통과",
+  "visual_review": [
+    {
+      "path": "artifacts/v04-character-sheet.png",
+      "sha256": "ae6405b5802c98ef52206379e9016e96c2b2dff3e3704ebad37bea96debe793f",
+      "result": "6행·설명·버튼 잘림 및 겹침 없음"
+    },
+    {
+      "path": "artifacts/v04-tree-stats.png",
+      "sha256": "bbc0c0cfb51072466ed6b85989046c898b1f5f950a9777d7e9ab29ccb1f8ba3a",
+      "result": "6행·설명·버튼 잘림 및 겹침 없음"
+    }
+  ],
+  "static_checks": {
+    "owned_source_cjk_kana_candidates": 0,
+    "git_diff_check": "PASS",
+    "runtime_direct_legacy_stat_field_references": 0
+  },
+  "pending": [
+    "전체 게이트 및 최종 운영DB/SQLite/cache 동기화",
+    "새 네트워크 저장 이관 통합 검사"
+  ],
+  "excluded": [
+    "장비전용 특수18종 활성화",
+    "강화 미정 정책",
+    "3차 전직"
+  ],
+  "notes": [
+    "앞선 관리 편입 문서는 이관 시작 전 시점 기록으로 보존",
+    "도박사 포커/시프 독/탐험가 속도 지원은 미구현 부분을 예정으로 표시",
+    "신규 전리품/제작/몬스터40종은 이번 스탯 작업으로 적용하지 않음"
+  ],
+  "focused_summary": {
+    "groups": 14,
+    "checks": 29769,
+    "failures": 0
+  }
+}

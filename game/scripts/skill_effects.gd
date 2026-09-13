@@ -13,6 +13,9 @@ static func star(game,at:Vector2,radius:float,color:Color,angle:float=0):
 
 static func render(game,e:Dictionary):
 	preload("res://scripts/skill_vfx.gd").render_ground(game,e)
+	if game.get("skill_atlas")!=null:
+		var handled=game.skill_atlas.render(game,e,maxf(0.,float(e.max_life)-float(e.life)),float(e.max_life))
+		if handled and not preload("res://scripts/skill_atlas_v06.gd").binding(e).get("keep_procedural_link",false):return
 	if preload("res://scripts/skill_vfx.gd").render(game,e):return
 	if preload("res://scripts/job_art.gd").render(game,e):return
 	var t=clampf(1.0-e.life/e.max_life,0,1)
@@ -31,6 +34,11 @@ static func render(game,e:Dictionary):
 	if kind.begins_with("warrior_") or kind.begins_with("ranger_") or kind.begins_with("mage_"):
 		extended(game,e,at,t,radius,angle,alpha);return
 	match kind:
+		"guard_break":
+			for index in range(7):
+				var ray=Vector2.from_angle(index*TAU/7)
+				var center=at+Vector2(0,-35)+ray*(15+t*35)
+				game.draw_line(center,center+ray*7,Color(.88,.94,.78,alpha),3,true)
 		"sun_cleave","blade_wave","whirlwind":
 			var spin=t*TAU*2 if kind=="whirlwind" else lerpf(-1.6,1.5,t)
 			var r=radius*(.65+t*.35)
@@ -102,6 +110,8 @@ static func launch_flash(game,event:Dictionary):
 		game.draw_line(at-direction*8.,at+direction*10.,color,2.,true)
 
 static func projectile(game,shot:Dictionary):
+	if game.get("skill_atlas")!=null and float(shot.get("lifetime",0))>0:
+		if game.skill_atlas.render(game,shot,float(shot.get("age",0)),float(shot.lifetime),"projectile"):return
 	if preload("res://scripts/skill_vfx.gd").projectile(game,shot):return
 	var at=game.world_point(shot.pos)+preload("res://scripts/character_presentation.gd").projectile_offset(shot)
 	var direction=Dungeon.iso(shot.dir).normalized()

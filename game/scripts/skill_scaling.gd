@@ -32,7 +32,8 @@ static func profile(node:Dictionary,rank:int,bonuses:Dictionary={})->Dictionary:
 		"heal":[.22,.32,.45][level-1],"duration":[5.0,6.5,8.0][level-1],"barrier":[.4,.5,.6][level-1],"haste_speed":[.25,.4,.55][level-1],"haste_attack":[.3,.4,.5][level-1],"width":.42+.12*(level-1)}
 	result.multiplier*=1.+gear.force;result.heal*=1.+gear.force;result.barrier=minf(.8,result.barrier*(1.+gear.force))
 	result.radius*=1.+gear.reach;result.range*=1.+gear.reach;result.duration*=1.+gear.echo;result.haste_speed*=1.+gear.echo;result.haste_attack=minf(.7,result.haste_attack*(1.+gear.echo))
-	return preload("res://scripts/constellation_effects.gd").resolve(bonuses.get("player",{}),node,result)
+	result=preload("res://scripts/constellation_effects.gd").resolve(bonuses.get("player",{}),node,result)
+	return preload("res://scripts/stat_specialization.gd").apply_base(bonuses.get("player",{}),node,result)
 static func passive_text(node:Dictionary,rank:int)->String:
 	var value=float(node.value)*rank
 	return ("+%s%%" % number(value*100)) if node.effect in PERCENT else "+"+number(value)

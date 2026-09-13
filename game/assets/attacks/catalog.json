@@ -1,0 +1,2153 @@
+{
+  "schema_version": 1,
+  "animations": {
+    "crescent_slash": {
+      "name": "초승달 검격",
+      "sheet": "res://assets/attacks/attack-physical.png",
+      "duration": 0.32,
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            230,
+            264
+          ],
+          "pivot": [
+            128,
+            128
+          ]
+        },
+        {
+          "rect": [
+            230,
+            0,
+            251,
+            264
+          ],
+          "pivot": [
+            154,
+            128
+          ]
+        },
+        {
+          "rect": [
+            481,
+            0,
+            285,
+            264
+          ],
+          "pivot": [
+            159,
+            128
+          ]
+        },
+        {
+          "rect": [
+            766,
+            0,
+            264,
+            264
+          ],
+          "pivot": [
+            130,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1030,
+            0,
+            260,
+            264
+          ],
+          "pivot": [
+            122,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1290,
+            0,
+            246,
+            264
+          ],
+          "pivot": [
+            118,
+            128
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 270,
+      "peak_visible_extent": 213,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0057896205357144,
+      "visible_extents": [
+        81,
+        157,
+        214,
+        195,
+        174,
+        113
+      ],
+      "runtime_scale": 0.8345669196444329,
+      "rotation_safe_extents": [
+        103.85566907973777,
+        194.61243536834948,
+        268.4026825499328,
+        246.62927644543743,
+        217.20036832381294,
+        150.23315213360866
+      ]
+    },
+    "cross_slash": {
+      "name": "교차 참격",
+      "sheet": "res://assets/attacks/attack-physical.png",
+      "duration": 0.34,
+      "frames": [
+        {
+          "rect": [
+            0,
+            264,
+            232,
+            250
+          ],
+          "pivot": [
+            128,
+            120
+          ]
+        },
+        {
+          "rect": [
+            232,
+            264,
+            264,
+            250
+          ],
+          "pivot": [
+            152,
+            120
+          ]
+        },
+        {
+          "rect": [
+            496,
+            264,
+            266,
+            250
+          ],
+          "pivot": [
+            144,
+            120
+          ]
+        },
+        {
+          "rect": [
+            762,
+            264,
+            270,
+            250
+          ],
+          "pivot": [
+            134,
+            120
+          ]
+        },
+        {
+          "rect": [
+            1032,
+            264,
+            267,
+            250
+          ],
+          "pivot": [
+            120,
+            120
+          ]
+        },
+        {
+          "rect": [
+            1299,
+            264,
+            237,
+            250
+          ],
+          "pivot": [
+            109,
+            120
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 302,
+      "peak_visible_extent": 190,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.001255580357143,
+      "visible_extents": [
+        116,
+        175,
+        190,
+        196,
+        180,
+        129
+      ],
+      "runtime_scale": 0.9031083442225641,
+      "rotation_safe_extents": [
+        128.80993750483694,
+        213.32838535928593,
+        247.7518920210298,
+        248.03225596683993,
+        220.87100307645636,
+        159.6151621870554
+      ]
+    },
+    "piercing_thrust": {
+      "name": "관통 찌르기",
+      "sheet": "res://assets/attacks/attack-physical.png",
+      "duration": 0.3,
+      "frames": [
+        {
+          "rect": [
+            0,
+            514,
+            214,
+            190
+          ],
+          "pivot": [
+            128,
+            126
+          ]
+        },
+        {
+          "rect": [
+            214,
+            514,
+            256,
+            190
+          ],
+          "pivot": [
+            170,
+            126
+          ]
+        },
+        {
+          "rect": [
+            470,
+            514,
+            290,
+            190
+          ],
+          "pivot": [
+            170,
+            126
+          ]
+        },
+        {
+          "rect": [
+            760,
+            514,
+            276,
+            190
+          ],
+          "pivot": [
+            136,
+            126
+          ]
+        },
+        {
+          "rect": [
+            1036,
+            514,
+            268,
+            190
+          ],
+          "pivot": [
+            116,
+            126
+          ]
+        },
+        {
+          "rect": [
+            1304,
+            514,
+            232,
+            190
+          ],
+          "pivot": [
+            104,
+            126
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 237,
+      "peak_visible_extent": 242,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0003487723214284,
+      "visible_extents": [
+        108,
+        200,
+        244,
+        230,
+        205,
+        121
+      ],
+      "runtime_scale": 0.8518896282237223,
+      "rotation_safe_extents": [
+        112.64102272262978,
+        207.4246851269154,
+        262.94486114012574,
+        247.7175811281872,
+        216.3007165961315,
+        130.92364186807515
+      ]
+    },
+    "heavy_impact": {
+      "name": "묵직한 타격",
+      "sheet": "res://assets/attacks/attack-physical.png",
+      "duration": 0.44,
+      "frames": [
+        {
+          "rect": [
+            0,
+            704,
+            224,
+            320
+          ],
+          "pivot": [
+            128,
+            192
+          ]
+        },
+        {
+          "rect": [
+            224,
+            704,
+            254,
+            320
+          ],
+          "pivot": [
+            160,
+            192
+          ]
+        },
+        {
+          "rect": [
+            478,
+            704,
+            283,
+            320
+          ],
+          "pivot": [
+            162,
+            192
+          ]
+        },
+        {
+          "rect": [
+            761,
+            704,
+            270,
+            320
+          ],
+          "pivot": [
+            135,
+            192
+          ]
+        },
+        {
+          "rect": [
+            1031,
+            704,
+            257,
+            320
+          ],
+          "pivot": [
+            121,
+            192
+          ]
+        },
+        {
+          "rect": [
+            1288,
+            704,
+            248,
+            320
+          ],
+          "pivot": [
+            120,
+            192
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 240,
+      "peak_visible_extent": 239,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0005580357142856,
+      "visible_extents": [
+        114,
+        188,
+        239,
+        223,
+        200,
+        159
+      ],
+      "runtime_scale": 0.9372384937238494,
+      "rotation_safe_extents": [
+        114,
+        188,
+        239,
+        223,
+        200,
+        159
+      ]
+    },
+    "fire_burst": {
+      "name": "화염 폭발",
+      "sheet": "res://assets/attacks/attack-elements.png",
+      "duration": 0.5,
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            234,
+            252
+          ],
+          "pivot": [
+            128,
+            128
+          ]
+        },
+        {
+          "rect": [
+            234,
+            0,
+            248,
+            252
+          ],
+          "pivot": [
+            150,
+            128
+          ]
+        },
+        {
+          "rect": [
+            482,
+            0,
+            288,
+            252
+          ],
+          "pivot": [
+            158,
+            128
+          ]
+        },
+        {
+          "rect": [
+            770,
+            0,
+            260,
+            252
+          ],
+          "pivot": [
+            126,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1030,
+            0,
+            256,
+            252
+          ],
+          "pivot": [
+            122,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1286,
+            0,
+            250,
+            252
+          ],
+          "pivot": [
+            122,
+            128
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 298,
+      "peak_visible_extent": 193,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0059291294642856,
+      "visible_extents": [
+        73,
+        118,
+        194,
+        171,
+        151,
+        109
+      ],
+      "runtime_scale": 1.1546391752577319,
+      "rotation_safe_extents": [
+        73,
+        118,
+        194,
+        171,
+        151,
+        109
+      ]
+    },
+    "ice_shatter": {
+      "name": "얼음 파쇄",
+      "sheet": "res://assets/attacks/attack-elements.png",
+      "duration": 0.46,
+      "frames": [
+        {
+          "rect": [
+            0,
+            252,
+            227,
+            244
+          ],
+          "pivot": [
+            128,
+            132
+          ]
+        },
+        {
+          "rect": [
+            227,
+            252,
+            267,
+            244
+          ],
+          "pivot": [
+            157,
+            132
+          ]
+        },
+        {
+          "rect": [
+            494,
+            252,
+            270,
+            244
+          ],
+          "pivot": [
+            146,
+            132
+          ]
+        },
+        {
+          "rect": [
+            764,
+            252,
+            260,
+            244
+          ],
+          "pivot": [
+            132,
+            132
+          ]
+        },
+        {
+          "rect": [
+            1024,
+            252,
+            264,
+            244
+          ],
+          "pivot": [
+            128,
+            132
+          ]
+        },
+        {
+          "rect": [
+            1288,
+            252,
+            248,
+            244
+          ],
+          "pivot": [
+            120,
+            132
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 280,
+      "peak_visible_extent": 205,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.001953125,
+      "visible_extents": [
+        62,
+        148,
+        206,
+        168,
+        156,
+        116
+      ],
+      "runtime_scale": 1.087378640776699,
+      "rotation_safe_extents": [
+        62,
+        148,
+        206,
+        168,
+        156,
+        116
+      ]
+    },
+    "chain_lightning": {
+      "name": "연쇄 번개",
+      "sheet": "res://assets/attacks/attack-elements.png",
+      "duration": 0.32,
+      "frames": [
+        {
+          "rect": [
+            0,
+            496,
+            243,
+            260
+          ],
+          "pivot": [
+            128,
+            144
+          ]
+        },
+        {
+          "rect": [
+            243,
+            496,
+            240,
+            260
+          ],
+          "pivot": [
+            141,
+            144
+          ]
+        },
+        {
+          "rect": [
+            483,
+            496,
+            292,
+            260
+          ],
+          "pivot": [
+            157,
+            144
+          ]
+        },
+        {
+          "rect": [
+            775,
+            496,
+            255,
+            260
+          ],
+          "pivot": [
+            121,
+            144
+          ]
+        },
+        {
+          "rect": [
+            1030,
+            496,
+            254,
+            260
+          ],
+          "pivot": [
+            122,
+            144
+          ]
+        },
+        {
+          "rect": [
+            1284,
+            496,
+            252,
+            260
+          ],
+          "pivot": [
+            124,
+            144
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 254,
+      "peak_visible_extent": 226,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0020926339285716,
+      "visible_extents": [
+        81,
+        177,
+        227,
+        190,
+        175,
+        124
+      ],
+      "runtime_scale": 0.986784140969163,
+      "rotation_safe_extents": [
+        81,
+        177,
+        227,
+        190,
+        175,
+        124
+      ]
+    },
+    "wind_spiral": {
+      "name": "바람 회오리",
+      "sheet": "res://assets/attacks/attack-elements.png",
+      "duration": 0.48,
+      "frames": [
+        {
+          "rect": [
+            0,
+            756,
+            235,
+            268
+          ],
+          "pivot": [
+            128,
+            140
+          ]
+        },
+        {
+          "rect": [
+            235,
+            756,
+            254,
+            268
+          ],
+          "pivot": [
+            149,
+            140
+          ]
+        },
+        {
+          "rect": [
+            489,
+            756,
+            281,
+            268
+          ],
+          "pivot": [
+            151,
+            140
+          ]
+        },
+        {
+          "rect": [
+            770,
+            756,
+            259,
+            268
+          ],
+          "pivot": [
+            126,
+            140
+          ]
+        },
+        {
+          "rect": [
+            1029,
+            756,
+            261,
+            268
+          ],
+          "pivot": [
+            123,
+            140
+          ]
+        },
+        {
+          "rect": [
+            1290,
+            756,
+            246,
+            268
+          ],
+          "pivot": [
+            118,
+            140
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 272,
+      "peak_visible_extent": 211,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.001674107142857,
+      "visible_extents": [
+        84,
+        153,
+        213,
+        191,
+        183,
+        150
+      ],
+      "runtime_scale": 1.051643192488263,
+      "rotation_safe_extents": [
+        84,
+        153,
+        213,
+        191,
+        183,
+        150
+      ]
+    },
+    "void_rend": {
+      "name": "암흑 균열",
+      "sheet": "res://assets/attacks/attack-arcane.png",
+      "duration": 0.46,
+      "frames": [
+        {
+          "rect": [
+            0,
+            260,
+            216,
+            236
+          ],
+          "pivot": [
+            128,
+            124
+          ]
+        },
+        {
+          "rect": [
+            216,
+            260,
+            254,
+            236
+          ],
+          "pivot": [
+            168,
+            124
+          ]
+        },
+        {
+          "rect": [
+            470,
+            260,
+            284,
+            236
+          ],
+          "pivot": [
+            170,
+            124
+          ]
+        },
+        {
+          "rect": [
+            754,
+            260,
+            282,
+            236
+          ],
+          "pivot": [
+            142,
+            124
+          ]
+        },
+        {
+          "rect": [
+            1036,
+            260,
+            256,
+            236
+          ],
+          "pivot": [
+            116,
+            124
+          ]
+        },
+        {
+          "rect": [
+            1292,
+            260,
+            244,
+            236
+          ],
+          "pivot": [
+            116,
+            124
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 250,
+      "peak_visible_extent": 230,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0054408482142856,
+      "visible_extents": [
+        80,
+        158,
+        232,
+        238,
+        201,
+        169
+      ],
+      "runtime_scale": 0.7219798712929983,
+      "rotation_safe_extents": [
+        110.34491379306978,
+        222.73975846265077,
+        310.2579571904643,
+        290.7455932598119,
+        250.80071770232237,
+        207.85090810482401
+      ]
+    },
+    "holy_judgment": {
+      "name": "성광 강타",
+      "sheet": "res://assets/attacks/attack-arcane.png",
+      "duration": 0.56,
+      "frames": [
+        {
+          "rect": [
+            0,
+            496,
+            232,
+            253
+          ],
+          "pivot": [
+            128,
+            144
+          ]
+        },
+        {
+          "rect": [
+            232,
+            496,
+            236,
+            253
+          ],
+          "pivot": [
+            152,
+            144
+          ]
+        },
+        {
+          "rect": [
+            468,
+            496,
+            300,
+            253
+          ],
+          "pivot": [
+            172,
+            144
+          ]
+        },
+        {
+          "rect": [
+            768,
+            496,
+            258,
+            253
+          ],
+          "pivot": [
+            128,
+            144
+          ]
+        },
+        {
+          "rect": [
+            1026,
+            496,
+            274,
+            253
+          ],
+          "pivot": [
+            126,
+            144
+          ]
+        },
+        {
+          "rect": [
+            1300,
+            496,
+            236,
+            253
+          ],
+          "pivot": [
+            108,
+            144
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 240,
+      "peak_visible_extent": 239,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0005580357142856,
+      "visible_extents": [
+        112,
+        182,
+        240,
+        200,
+        192,
+        131
+      ],
+      "runtime_scale": 0.9333333333333333,
+      "rotation_safe_extents": [
+        112,
+        182,
+        240,
+        200,
+        192,
+        131
+      ]
+    },
+    "whirlwind_blade": {
+      "name": "회전 검무",
+      "sheet": "res://assets/attacks/attack-martial-wide.png",
+      "duration": 0.55,
+      "frames": [
+        {
+          "rect": [
+            0,
+            0,
+            236,
+            255
+          ],
+          "pivot": [
+            128,
+            128
+          ]
+        },
+        {
+          "rect": [
+            236,
+            0,
+            254,
+            255
+          ],
+          "pivot": [
+            148,
+            128
+          ]
+        },
+        {
+          "rect": [
+            490,
+            0,
+            280,
+            255
+          ],
+          "pivot": [
+            150,
+            128
+          ]
+        },
+        {
+          "rect": [
+            770,
+            0,
+            258,
+            255
+          ],
+          "pivot": [
+            126,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1028,
+            0,
+            265,
+            255
+          ],
+          "pivot": [
+            124,
+            128
+          ]
+        },
+        {
+          "rect": [
+            1293,
+            0,
+            243,
+            255
+          ],
+          "pivot": [
+            115,
+            128
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 238,
+      "peak_visible_extent": 241,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.00048828125,
+      "visible_extents": [
+        159,
+        203,
+        245,
+        226,
+        225,
+        185
+      ],
+      "runtime_scale": 0.9142857142857143,
+      "rotation_safe_extents": [
+        159,
+        203,
+        245,
+        226,
+        225,
+        185
+      ]
+    },
+    "rising_cleave": {
+      "name": "승천 베기",
+      "sheet": "res://assets/attacks/attack-martial-wide.png",
+      "duration": 0.46,
+      "frames": [
+        {
+          "rect": [
+            0,
+            255,
+            233,
+            245
+          ],
+          "pivot": [
+            128,
+            129
+          ]
+        },
+        {
+          "rect": [
+            233,
+            255,
+            255,
+            245
+          ],
+          "pivot": [
+            151,
+            129
+          ]
+        },
+        {
+          "rect": [
+            488,
+            255,
+            291,
+            245
+          ],
+          "pivot": [
+            152,
+            129
+          ]
+        },
+        {
+          "rect": [
+            779,
+            255,
+            257,
+            245
+          ],
+          "pivot": [
+            117,
+            129
+          ]
+        },
+        {
+          "rect": [
+            1036,
+            255,
+            262,
+            245
+          ],
+          "pivot": [
+            116,
+            129
+          ]
+        },
+        {
+          "rect": [
+            1298,
+            255,
+            238,
+            245
+          ],
+          "pivot": [
+            110,
+            129
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 229,
+      "peak_visible_extent": 251,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0047084263392856,
+      "visible_extents": [
+        132,
+        193,
+        251,
+        200,
+        186,
+        148
+      ],
+      "runtime_scale": 0.6724513663510724,
+      "rotation_safe_extents": [
+        162.63148526653748,
+        248.79308672067236,
+        333.1095915761058,
+        275.86228448267445,
+        256.7586415293554,
+        198.31288409984865
+      ]
+    },
+    "earth_fissure": {
+      "name": "대지 균열",
+      "sheet": "res://assets/attacks/attack-martial-wide.png",
+      "duration": 0.65,
+      "frames": [
+        {
+          "rect": [
+            0,
+            500,
+            230,
+            247
+          ],
+          "pivot": [
+            128,
+            140
+          ]
+        },
+        {
+          "rect": [
+            230,
+            500,
+            243,
+            247
+          ],
+          "pivot": [
+            154,
+            140
+          ]
+        },
+        {
+          "rect": [
+            473,
+            500,
+            293,
+            247
+          ],
+          "pivot": [
+            167,
+            140
+          ]
+        },
+        {
+          "rect": [
+            766,
+            500,
+            268,
+            247
+          ],
+          "pivot": [
+            130,
+            140
+          ]
+        },
+        {
+          "rect": [
+            1034,
+            500,
+            261,
+            247
+          ],
+          "pivot": [
+            118,
+            140
+          ]
+        },
+        {
+          "rect": [
+            1295,
+            500,
+            241,
+            247
+          ],
+          "pivot": [
+            113,
+            140
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 210,
+      "peak_visible_extent": 274,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0068359375,
+      "visible_extents": [
+        171,
+        210,
+        275,
+        244,
+        223,
+        183
+      ],
+      "runtime_scale": 0.8145454545454546,
+      "rotation_safe_extents": [
+        171,
+        210,
+        275,
+        244,
+        223,
+        183
+      ]
+    },
+    "arrow_volley": {
+      "name": "연속 화살",
+      "sheet": "res://assets/attacks/attack-martial-wide.png",
+      "duration": 0.55,
+      "frames": [
+        {
+          "rect": [
+            0,
+            747,
+            221,
+            277
+          ],
+          "pivot": [
+            128,
+            149
+          ]
+        },
+        {
+          "rect": [
+            221,
+            747,
+            255,
+            277
+          ],
+          "pivot": [
+            163,
+            149
+          ]
+        },
+        {
+          "rect": [
+            476,
+            747,
+            300,
+            277
+          ],
+          "pivot": [
+            164,
+            149
+          ]
+        },
+        {
+          "rect": [
+            776,
+            747,
+            259,
+            277
+          ],
+          "pivot": [
+            120,
+            149
+          ]
+        },
+        {
+          "rect": [
+            1035,
+            747,
+            259,
+            277
+          ],
+          "pivot": [
+            117,
+            149
+          ]
+        },
+        {
+          "rect": [
+            1294,
+            747,
+            242,
+            277
+          ],
+          "pivot": [
+            114,
+            149
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 215,
+      "peak_visible_extent": 267,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0021275111607144,
+      "visible_extents": [
+        137,
+        206,
+        268,
+        219,
+        209,
+        172
+      ],
+      "runtime_scale": 0.6818502462773387,
+      "rotation_safe_extents": [
+        174.4505660638566,
+        257.2003110418026,
+        328.5178838358728,
+        274.2006564543564,
+        260.20376630633154,
+        226.25870149013053
+      ]
+    },
+    "thorn_eruption": {
+      "name": "가시 덩굴",
+      "sheet": "res://assets/attacks/attack-nature-wide.png",
+      "duration": 0.62,
+      "frames": [
+        {
+          "rect": [
+            0,
+            266,
+            214,
+            229
+          ],
+          "pivot": [
+            128,
+            118
+          ]
+        },
+        {
+          "rect": [
+            214,
+            266,
+            256,
+            229
+          ],
+          "pivot": [
+            170,
+            118
+          ]
+        },
+        {
+          "rect": [
+            470,
+            266,
+            302,
+            229
+          ],
+          "pivot": [
+            170,
+            118
+          ]
+        },
+        {
+          "rect": [
+            772,
+            266,
+            254,
+            229
+          ],
+          "pivot": [
+            124,
+            118
+          ]
+        },
+        {
+          "rect": [
+            1026,
+            266,
+            264,
+            229
+          ],
+          "pivot": [
+            126,
+            118
+          ]
+        },
+        {
+          "rect": [
+            1290,
+            266,
+            246,
+            229
+          ],
+          "pivot": [
+            118,
+            118
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 208,
+      "peak_visible_extent": 277,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.009486607142857,
+      "visible_extents": [
+        140,
+        208,
+        277,
+        224,
+        211,
+        166
+      ],
+      "runtime_scale": 0.8086642599277978,
+      "rotation_safe_extents": [
+        140,
+        208,
+        277,
+        224,
+        211,
+        166
+      ]
+    },
+    "meteor_fall": {
+      "name": "유성 낙하",
+      "sheet": "res://assets/attacks/attack-nature-wide.png",
+      "duration": 0.7,
+      "frames": [
+        {
+          "rect": [
+            0,
+            495,
+            196,
+            227
+          ],
+          "pivot": [
+            128,
+            145
+          ]
+        },
+        {
+          "rect": [
+            196,
+            495,
+            254,
+            227
+          ],
+          "pivot": [
+            188,
+            145
+          ]
+        },
+        {
+          "rect": [
+            450,
+            495,
+            317,
+            227
+          ],
+          "pivot": [
+            190,
+            145
+          ]
+        },
+        {
+          "rect": [
+            767,
+            495,
+            268,
+            227
+          ],
+          "pivot": [
+            129,
+            145
+          ]
+        },
+        {
+          "rect": [
+            1035,
+            495,
+            251,
+            227
+          ],
+          "pivot": [
+            117,
+            145
+          ]
+        },
+        {
+          "rect": [
+            1286,
+            495,
+            250,
+            227
+          ],
+          "pivot": [
+            122,
+            145
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 205,
+      "peak_visible_extent": 281,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0091029575892856,
+      "visible_extents": [
+        122,
+        202,
+        282,
+        232,
+        193,
+        160
+      ],
+      "runtime_scale": 0.7943262411347518,
+      "rotation_safe_extents": [
+        122,
+        202,
+        282,
+        232,
+        193,
+        160
+      ]
+    },
+    "snow_tornado": {
+      "name": "눈보라 회오리",
+      "sheet": "res://assets/attacks/attack-nature-wide.png",
+      "duration": 0.65,
+      "frames": [
+        {
+          "rect": [
+            0,
+            722,
+            219,
+            302
+          ],
+          "pivot": [
+            128,
+            174
+          ]
+        },
+        {
+          "rect": [
+            219,
+            722,
+            245,
+            302
+          ],
+          "pivot": [
+            165,
+            174
+          ]
+        },
+        {
+          "rect": [
+            464,
+            722,
+            296,
+            302
+          ],
+          "pivot": [
+            176,
+            174
+          ]
+        },
+        {
+          "rect": [
+            760,
+            722,
+            265,
+            302
+          ],
+          "pivot": [
+            136,
+            174
+          ]
+        },
+        {
+          "rect": [
+            1025,
+            722,
+            249,
+            302
+          ],
+          "pivot": [
+            127,
+            174
+          ]
+        },
+        {
+          "rect": [
+            1274,
+            722,
+            262,
+            302
+          ],
+          "pivot": [
+            134,
+            174
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 214,
+      "peak_visible_extent": 269,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0077427455357144,
+      "visible_extents": [
+        150,
+        225,
+        272,
+        221,
+        189,
+        172
+      ],
+      "runtime_scale": 0.8235294117647058,
+      "rotation_safe_extents": [
+        150,
+        225,
+        272,
+        221,
+        189,
+        172
+      ]
+    },
+    "astral_lances": {
+      "name": "별빛 창우",
+      "sheet": "res://assets/attacks/attack-dragon-wide.png",
+      "duration": 0.68,
+      "frames": [
+        {
+          "rect": [
+            0,
+            734,
+            213,
+            290
+          ],
+          "pivot": [
+            128,
+            162
+          ]
+        },
+        {
+          "rect": [
+            213,
+            734,
+            255,
+            290
+          ],
+          "pivot": [
+            171,
+            162
+          ]
+        },
+        {
+          "rect": [
+            468,
+            734,
+            294,
+            290
+          ],
+          "pivot": [
+            172,
+            162
+          ]
+        },
+        {
+          "rect": [
+            762,
+            734,
+            267,
+            290
+          ],
+          "pivot": [
+            134,
+            162
+          ]
+        },
+        {
+          "rect": [
+            1029,
+            734,
+            255,
+            290
+          ],
+          "pivot": [
+            123,
+            162
+          ]
+        },
+        {
+          "rect": [
+            1284,
+            734,
+            252,
+            290
+          ],
+          "pivot": [
+            124,
+            162
+          ]
+        }
+      ],
+      "blend": "add",
+      "reference_size": 256,
+      "recommended_world_size": 236,
+      "peak_visible_extent": 243,
+      "reference_character_height": 112,
+      "peak_character_ratio": 2.0001395089285716,
+      "visible_extents": [
+        108,
+        179,
+        244,
+        229,
+        211,
+        172
+      ],
+      "runtime_scale": 0.9180327868852459,
+      "rotation_safe_extents": [
+        108,
+        179,
+        244,
+        229,
+        211,
+        172
+      ]
+    }
+  },
+  "source_sha256": {
+    "attack-physical.png": "869c6833a3ede92e4ac5ffdeffb968a285c466b4fdd5f63f80e6c9b721870aef",
+    "attack-elements.png": "ed8c6824847bb820701da45ffdc1f75b9a68e44b4c6269f26f0f1beee4b26402",
+    "attack-arcane.png": "3f83eb1e09726bbe61a6994720c711bf5d19db1febc35d1c53e57722d184089a",
+    "attack-martial-wide.png": "531be6d7777f69c914fb892730a394f541061776a323e1995ddd4412cffb9a08",
+    "attack-nature-wide.png": "e1f59b75504acf3278c14d908f29646668d58d577418f8613088e86b60f7108c",
+    "attack-dragon-wide.png": "422f0a31a118367e436ae3f85352b88c43ffb61ae07c946de75d81491b61e9cb"
+  },
+  "style": "Actual forest game reference; soft cel-painted shapes and existing skill palette.",
+  "integration": "Reader prepared; main owns call-site integration and Godot execution.",
+  "bindings": {
+    "blade_wave": {
+      "effect_id": "crescent_slash",
+      "class_id": "warrior",
+      "mode": "wave",
+      "channel": "projectile",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "warrior_chain": {
+      "effect_id": "cross_slash",
+      "class_id": "warrior",
+      "mode": "chain",
+      "channel": "event",
+      "keep_procedural_link": true,
+      "directional": true
+    },
+    "swordsman_a06": {
+      "effect_id": "cross_slash",
+      "class_id": "swordsman",
+      "mode": "combo",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "piercing_shot": {
+      "effect_id": "piercing_thrust",
+      "class_id": "ranger",
+      "mode": "piercing",
+      "channel": "projectile",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "sniper_a01": {
+      "effect_id": "piercing_thrust",
+      "class_id": "sniper",
+      "mode": "shot",
+      "channel": "projectile",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "swordsman_a11": {
+      "effect_id": "piercing_thrust",
+      "class_id": "swordsman",
+      "mode": "strike",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "tank_a09": {
+      "effect_id": "heavy_impact",
+      "class_id": "tank",
+      "mode": "slow",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "breaker_a01": {
+      "effect_id": "heavy_impact",
+      "class_id": "breaker",
+      "mode": "charge",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "elementalist_a04": {
+      "effect_id": "fire_burst",
+      "class_id": "elementalist",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "ranger_burst": {
+      "effect_id": "fire_burst",
+      "class_id": "ranger",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "frost_nova": {
+      "effect_id": "ice_shatter",
+      "class_id": "mage",
+      "mode": "frost",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "elementalist_a05": {
+      "effect_id": "ice_shatter",
+      "class_id": "elementalist",
+      "mode": "slow",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "elementalist_a08": {
+      "effect_id": "ice_shatter",
+      "class_id": "elementalist",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "thunder": {
+      "effect_id": "chain_lightning",
+      "class_id": "mage",
+      "mode": "thunder",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "mage_chain": {
+      "effect_id": "chain_lightning",
+      "class_id": "mage",
+      "mode": "chain",
+      "channel": "event",
+      "keep_procedural_link": true,
+      "directional": false
+    },
+    "elementalist_a09": {
+      "effect_id": "chain_lightning",
+      "class_id": "elementalist",
+      "mode": "chain",
+      "channel": "event",
+      "keep_procedural_link": true,
+      "directional": false
+    },
+    "elementalist_a10": {
+      "effect_id": "chain_lightning",
+      "class_id": "elementalist",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "ranger_pull": {
+      "effect_id": "wind_spiral",
+      "class_id": "ranger",
+      "mode": "pull",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "ranger_nova_ring": {
+      "effect_id": "wind_spiral",
+      "class_id": "ranger",
+      "mode": "nova_ring",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "reaper_a05": {
+      "effect_id": "void_rend",
+      "class_id": "reaper",
+      "mode": "heavy",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "reaper_a06": {
+      "effect_id": "void_rend",
+      "class_id": "reaper",
+      "mode": "heavy",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "reaper_a08": {
+      "effect_id": "void_rend",
+      "class_id": "reaper",
+      "mode": "heavy_execute",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "healer_a12": {
+      "effect_id": "holy_judgment",
+      "class_id": "healer",
+      "mode": "strike",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "whirlwind": {
+      "effect_id": "whirlwind_blade",
+      "class_id": "warrior",
+      "mode": "spin",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "swordsman_a02": {
+      "effect_id": "rising_cleave",
+      "class_id": "swordsman",
+      "mode": "strike",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "tank_a12": {
+      "effect_id": "earth_fissure",
+      "class_id": "tank",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "warrior_burst": {
+      "effect_id": "earth_fissure",
+      "class_id": "warrior",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "breaker_a02": {
+      "effect_id": "earth_fissure",
+      "class_id": "breaker",
+      "mode": "charge_area",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "breaker_a04": {
+      "effect_id": "earth_fissure",
+      "class_id": "breaker",
+      "mode": "charge_execute",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "ranger_fan": {
+      "effect_id": "arrow_volley",
+      "class_id": "ranger",
+      "mode": "fan",
+      "channel": "projectile",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "sniper_a04": {
+      "effect_id": "arrow_volley",
+      "class_id": "sniper",
+      "mode": "fan",
+      "channel": "projectile",
+      "keep_procedural_link": false,
+      "directional": true
+    },
+    "ranger_field": {
+      "effect_id": "thorn_eruption",
+      "class_id": "ranger",
+      "mode": "field",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "mage_burst": {
+      "effect_id": "meteor_fall",
+      "class_id": "mage",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "elementalist_a03": {
+      "effect_id": "meteor_fall",
+      "class_id": "elementalist",
+      "mode": "burst",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "mage_field": {
+      "effect_id": "snow_tornado",
+      "class_id": "mage",
+      "mode": "field",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "elementalist_a07": {
+      "effect_id": "snow_tornado",
+      "class_id": "elementalist",
+      "mode": "field",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    },
+    "mage_nova_ring": {
+      "effect_id": "astral_lances",
+      "class_id": "mage",
+      "mode": "nova_ring",
+      "channel": "event",
+      "keep_procedural_link": false,
+      "directional": false
+    }
+  },
+  "excluded_bindings": {
+    "runesword_a02": "canonical enchant is support, not an attack release; no forced slash"
+  },
+  "canonical_database_sha256": "d9ec5fc58917fe83dcee0ae272072e5150175a5e7384364798149b8b222701bc"
+}

@@ -3,6 +3,8 @@ import re
 
 
 _STANDARD = """
+skill_motions_v06 skill_motions_visual_v06
+
 removed_assets appearance_matching_v04 appearance_v041 audio_shutdown_v04 battle_camera_v04
 character_creation_v04 character_dialogue_ui_v04 client_flow_v051 codex_ui_v03
 costume_session_v04 database_metadata_v05 database_v03 database_v04 dungeon_v02
@@ -13,6 +15,7 @@ skill_build_v04 skill_tree_ui_v04 skill_vfx skills_v01 skills_v04 stagger_ui_v03
 ui_legibility_v04 ui_v01 ui_v02 visual_skill_vfx wardrobe_shop_ui_v05 wardrobe_v05
 """.split()
 _PLAIN = """
+cave_remains cave_remains_visual monster_scale monster_scale_visual actor_visibility actor_visibility_visual
 exploration_cues exploration_cues_visual exploration_cues_journey_visual
 expedition_risk expedition_risk_visual town_research town_research_visual research_journey research_journey_visual guild_progression guild_progression_visual
 exploration_shortcuts exploration_shortcuts_visual exploration_events exploration_events_visual
@@ -20,7 +23,7 @@ tactical_tools tactical_tools_visual
 combat_information combat_information_visual
 telegraph_priority telegraph_priority_visual
 progression_rewards_v053 codex_cache_v053 dungeon_tactics_v053 combat_polish_v053
-expedition_environment expedition_environment_visual expedition_goals expedition_goals_visual expedition_journal sprite_frame_regions dungeon_exploration_routes enemy_awareness enemy_tactics enemy_defense dungeon_vision dungeon_vision_visual coop_rules exploration_challenge exploration_rooms exploration_visual expedition_hud hidden_rooms hidden_rooms_visual build_presets build_presets_visual expedition_brief hud_tabs raid_engagement consumables target_crafting character_presentation_v054
+expedition_environment expedition_environment_visual expedition_goals expedition_goals_visual expedition_journal sprite_frame_regions dungeon_exploration_routes enemy_awareness enemy_tactics enemy_support encounter_roles enemy_support_visual enemy_defense enemy_defense_solo enemy_defense_visual skill_conditions skill_conditions_visual dungeon_vision dungeon_vision_visual coop_rules combat_lifecycle exploration_challenge exploration_rooms exploration_visual expedition_hud hidden_rooms hidden_rooms_visual build_presets build_presets_visual expedition_brief hud_tabs raid_engagement consumables target_crafting character_presentation_v054
 feedback_v054 companion_visual_v054
 art_registry_v05 combat_feedback_v052 combat_reach_v052 combat_reach_visual_v052
 dungeon_entry_visual_v04 dungeon_variety_v052 dungeon_variety_visual_v052
@@ -32,6 +35,14 @@ town_renewal_visual_v052 town_services_v052 training_ground_v052
 """.split()
 COUNTED_PREFIXES = {name: name.upper() + "_TESTS" for name in _STANDARD}
 COUNTED_PREFIXES.update({name: name.upper() for name in _PLAIN})
+COUNTED_PREFIXES.update({
+    "character_stats_v2": "CHARACTER_STATS_V2",
+    "costume_expanded_v06": "COSTUME_EXPANDED_V06",
+    "skill_atlas_v06": "SKILL_ATLAS_V06",
+    "agent_art_integration_visual": "AGENT_ART_INTEGRATION_VISUAL",
+    "monster_motion_art_v06": "MONSTER_MOTION_ART_V06_DONE",
+    "exploration_object_art_v06": "EXPLORATION_OBJECT_ART_V06_DONE",
+})
 COUNTED_PREFIXES.update({
     "content_names": "CONTENT_NAMES",
     "tree_balance": "TREE_BALANCE",

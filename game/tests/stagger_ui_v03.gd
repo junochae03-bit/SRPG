@@ -16,7 +16,7 @@ func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/stagger-ui-v03/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.level=100;p.tutorial_done=true;p.highest_floor=100;p.cleared_floor=99
-	p.stats={"strength":90,"endurance":87,"technique":60,"agility":60,"magic":0};p.skill_ranks={"blade_wave":1};local.sim.recalculate(p);local.travel("town");local.refresh()
+	p.stats={"power":90,"vitality":0,"fortitude":87,"specialization":60,"swiftness":60,"precision":0};p.skill_ranks={"blade_wave":1};local.sim.recalculate(p);local.travel("town");local.refresh()
 	game.toggle_skills();game.skill_tree.choice="blade_wave";game.skill_tree.refresh(true)
 	var rows=game.skill_tree.comparison_rows.filter(func(row):return row[0]=="시전당 무력화")
 	check(rows.size()==1,"learned active has stagger comparison")

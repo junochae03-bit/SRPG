@@ -21,7 +21,7 @@ func learn(p:Dictionary,id:String,rank:int=1):
 		p.skill_ranks=next.player.skill_ranks;p.constellation_allocations=next.player.constellation_allocations
 func fixture(floor_number:int,strategy:String,seed_value:int)->Dictionary:
 	var sim=Sim.new(seed_value,"forest",floor_number)
-	var p=sim.add_player(1,"전술 비교",{"schema_version":7,"class_id":"warrior","level":10,"creation_points":10,"stats":{"strength":20,"endurance":10,"technique":4,"agility":3,"magic":0},"tutorial_done":true,"skill_ranks":{},"constellation_allocations":{},"gold":300,"potions":5})
+	var p=sim.add_player(1,"전술 비교",{"schema_version":7,"stat_schema_version":2,"class_id":"warrior","level":10,"creation_points":10,"stats":{"power":20,"vitality":0,"fortitude":10,"specialization":4,"swiftness":3,"precision":0},"tutorial_done":true,"skill_ranks":{},"constellation_allocations":{},"gold":300,"potions":5})
 	var wanted=["warrior_fan","warrior_burst","blade_wave"] if strategy=="cleave" else ["warrior_fan","warrior_heal","warrior_barrier"]
 	for id in wanted:learn(p,id)
 	for id in wanted:learn(p,id,3)

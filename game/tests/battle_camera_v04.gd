@@ -12,12 +12,16 @@ func check(ok:bool,message:String):
 	if not ok:failures.append(message);push_error(message)
 func drawn_annotations(boss:Dictionary)->Array:
 	var result=[]
-	for index in 3:
-		var sprite=Art.variant_frame(boss.kind,int(boss.get("floor",0)),boss.get("raid",false),index>0)
+	for index in 4:
+		var sample=boss.duplicate(true)
+		sample.hp=1;sample.stun_time=0.;sample.support_cast=0.;sample.attack_motion_kind="attack";sample.stagger={}
+		sample.windup=1. if index==1 else 0.;sample.attack_motion=.35 if index==2 else .05 if index==3 else 0.
+		var sprite=preload("res://scripts/monster_motion_art_v06.gd").frame(sample)
 		var scale=1.0
+		if sprite.is_empty():sprite=Art.variant_frame(boss.kind,int(boss.get("floor",0)),boss.get("raid",false),index>0)
 		if sprite.is_empty():
 			var at=["warden","golem","sentinel"].find(boss.kind)*3
-			sprite=Art.frame("bosses",at+index);scale=335.0/Art.frame("bosses",at).height
+			sprite=Art.frame("bosses",at+mini(index,2));scale=335.0/Art.frame("bosses",at).height
 		else:scale=335.0/sprite.height
 		var height=sprite.texture.get_height()*scale
 		# Reconstruct main/status_markers draw coordinates independently of Camera.

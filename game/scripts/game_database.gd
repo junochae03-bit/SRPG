@@ -10,7 +10,7 @@ const Scaling=preload("res://scripts/skill_scaling.gd")
 const Jobs=preload("res://scripts/job_balance.gd")
 const Attacks=preload("res://scripts/monster_attacks.gd")
 const Build=preload("res://scripts/skill_build.gd")
-const REFERENCE={"damage":100.0,"max_hp":1000,"level":100,"technique":0,"note":"공격력 100 / 최대 HP 1000 / 기술 0 / 장비·별자리·다른 패시브·직업 자원 보정 없음. 강화 노드는 원기술 3랭크 기준. 실전 피해·쿨타임은 캐릭터와 적 상태에 따라 달라집니다."}
+const REFERENCE={"damage":100.0,"max_hp":1000,"level":100,"specialization":0,"note":"공격력 100 / 최대 HP 1000 / 특화 0 / 장비·별자리·다른 패시브·직업 자원 보정 없음. 강화 노드는 원기술 3랭크 기준. 실전 피해·쿨타임은 캐릭터와 적 상태에 따라 달라집니다."}
 static var _cache:Dictionary={}
 static var _art_cache:Dictionary={}
 static var _textures:Dictionary={}
@@ -59,9 +59,16 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
+	db.metadata["monster_display"]={"hero_body_pixels":112.,"heavy_body_heights":World.HEAVY_BODY_HEIGHTS,"heavy_species_heights":World.HEAVY_SPECIES_HEIGHTS,"boss_body_pixels":335.,"scope":"species_specific_visual_scale_and_receiving_radius"}
+	db.metadata["cave_remains"]=preload("res://scripts/cave_remains.gd").configuration()
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
+	db.metadata["character_stats"]=preload("res://scripts/progression.gd").configuration()
+	db.metadata["combat_lifecycle"]={"downed_cleanup":true,"owner_only_pending_cleanup":true,"defeat_cooldown_refund":false,"delivered_ally_buffs":"keep_remaining_duration","map_transition":"fresh_runtime_for_each_player"}
+	db.metadata["skill_conditions"]=preload("res://scripts/skill_conditions.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
 	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()
+	db.metadata["enemy_support"]=preload("res://scripts/enemy_support.gd").configuration()
+	db.metadata["encounter_roles"]=preload("res://scripts/encounter_roles.gd").configuration()
 	db.metadata["expedition_environment"]=preload("res://scripts/expedition_environment.gd").configuration()
 	db.metadata["expedition_goals"]=preload("res://scripts/expedition_goals.gd").configuration()
 	db.metadata["expedition_journal"]=preload("res://scripts/expedition_journal.gd").configuration()
@@ -95,6 +102,8 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 		var m=World.ENEMIES[kind].duplicate(true)
 		m.merge({"id":kind,"kind":kind,"monster_id":kind,"role":"boss" if m.ai=="boss" else "elite" if m.get("elite",false) else "normal","level":0,"floors":[],"asset":_monster_asset(kind),"display_height":World.display_height(kind)},true)
 		m["patterns"]=_patterns(kind);m["description"]=_pattern_text(m.patterns)
+		m["defense"]=preload("res://scripts/enemy_defense.gd").description({"kind":kind,"boss":m.ai=="boss"})
+		if not m.defense.is_empty():m.description+="\n방어 · "+m.defense.name+"\n공략 · "+m.defense.counter
 		if m.ai=="boss":m["stagger"]=_boss_stagger(0)
 		m["subtitle"]={"normal":"일반 몬스터","elite":"엘리트","boss":"보스 기본형"}[m.role]+" · 기본 수치 (층별 수치는 출현 정보 참조)"
 		db.monsters.append(m)
@@ -199,12 +208,13 @@ static func _item_asset(item:Dictionary)->Dictionary:
 
 static func _option_summary(item:Dictionary)->String:
 	if item.rarity==0:return "일반 · 추가 옵션 없음"
-	if item.rarity<3:return "+%d 강화 시 힘·내구·기술·민첩·마력 중 1종 +%d"%[Equipment.UNLOCK[item.rarity],3*item.rarity+2*item.tier]
+	if item.rarity<3:return "+%d 강화 시 위력·견고·신속·특화 중 1종 +%d"%[Equipment.UNLOCK[item.rarity],3*item.rarity+2*item.tier]
 	return "+%d 강화 시 위력·회복·보호막 / 사거리·범위 / 지속·지원 중 1종 +%d%%"%[Equipment.UNLOCK[item.rarity],8 if item.rarity==3 else 12]
 
 static func _appearance(db:Dictionary,f:Dictionary,kind:String,role:String):
 	var a=Abyss.enemy_stats(kind,f.floor,role=="raid",role in ["guardian","raid"])
 	a["asset"]=_monster_asset(kind,f.floor,role=="raid")
+	a["display_height"]=335. if role=="raid" else World.display_height(kind,f.floor)
 	a["name"]=f.title if role=="raid" else WorldArt.appearance_name(kind,f.floor,World.ENEMIES[kind].name)
 	a.merge({"id":"appearance:%03d:%s:%s"%[f.floor,kind,role],"floor_id":f.floor,"monster_id":kind,"role":role,"level":f.level+(3 if role=="elite" else 0),"raid_id":f.raid_id if role=="raid" else ""},true);db.appearances.append(a)
 
@@ -227,7 +237,7 @@ static func _boss_stagger(floor_number:int)->Dictionary:
 	return result
 
 static func _reference_player(class_id:String)->Dictionary:
-	return {"class_id":class_id,"level":100,"stats":{"strength":0,"endurance":0,"technique":0,"agility":0,"magic":0},"gear_stats":{},"skill_ranks":{},"constellation_allocations":{},"inventory":[],"equipment":{}}
+	return {"class_id":class_id,"level":100,"stat_schema_version":2,"stats":{"power":0,"vitality":0,"fortitude":0,"swiftness":0,"precision":0,"specialization":0},"gear_stats":{},"skill_ranks":{},"constellation_allocations":{},"inventory":[],"equipment":{}}
 
 static func _skill_rank(class_id:String,node:Dictionary,rank:int)->Dictionary:
 	var p=_reference_player(class_id);var advanced=node.get("runtime","")=="job" or Content.CLASSES[class_id].has("base") or class_id in ["rogue","fighter"]

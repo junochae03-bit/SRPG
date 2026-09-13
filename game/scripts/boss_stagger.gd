@@ -13,8 +13,7 @@ const CHECK_SECONDS=12.0
 const DOWN_DAMAGE=1.20
 
 static func skill_profile(node:Dictionary,rank:int,player:Dictionary={})->Dictionary:
-	var technique=maxf(0,float(player.get("stats",{}).get("technique",0))+float(player.get("gear_stats",{}).get("technique",0)))
-	var multiplier=1.0+.60*technique/(technique+60.)
+	var multiplier=1. if preload("res://scripts/stat_specialization.gd").ultimate(node) else preload("res://scripts/stat_specialization.gd").stagger_factor(player)
 	var mode=str(node.get("mode",LEGACY_MODES.get(node.get("id",""),"")))
 	var base=24.;var grade="중간"
 	if rank<=0 or node.get("effect","active")!="active" or mode in SUPPORT or mode.is_empty():base=0.;grade="없음"

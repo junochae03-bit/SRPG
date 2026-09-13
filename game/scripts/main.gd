@@ -27,8 +27,10 @@ var aim_pointer_received=false
 var art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 var visual_time = 0.0
 var enemy_impacts:Dictionary={}
+var actor_visibility=preload("res://scripts/actor_visibility.gd").new()
 var playtest_driver
 var effects: Array = []
+var skill_atlas
 var menu: Control
 var title_backdrop:TextureRect
 var coop_panel:Control
@@ -151,6 +153,7 @@ func _ready():
 	forest.rebuild(dungeon)
 	fog=ColorRect.new();fog.position=Vector2(-800,-450);fog.size=Vector2(3200,1800);fog.z_index=-5;fog.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	fog_material=ShaderMaterial.new();fog_material.shader=preload("res://shaders/dungeon_fog.gdshader");fog.material=fog_material;fog.hide();add_child(fog)
+	skill_atlas=preload("res://scripts/skill_atlas_v06.gd").new();skill_atlas.z_index=-2;add_child(skill_atlas)
 	visible_telegraphs=preload("res://scripts/visible_telegraphs.gd").new();add_child(visible_telegraphs);visible_telegraphs.setup(self)
 	audio_director=preload("res://scripts/audio_director.gd").new()
 	add_child(audio_director)
@@ -358,6 +361,7 @@ func on_status(message: String):
 		refresh_slot_summary()
 
 func on_entered():
+	actor_visibility.reset()
 	town_destination="";town_path.clear()
 	art_usage={"costume":{"id":"","draws":0,"frame_indices":[],"source_sheets":[],"fallback":false},"environment":{"theme":"","drawn_ids":[]},"monsters":{"drawn_ids":[],"fallback_kinds":[]}}
 	bag.hide();skill_tree.hide();help_panel.hide();town_panel.hide();codex.hide();npc_dialogue.hide();character_sheet.hide()
@@ -572,6 +576,7 @@ func _process(delta: float):
 	if session == null: return
 	if playtest_driver!=null:playtest_driver.process(delta)
 	visual_time += delta
+	actor_visibility.tick(delta)
 	refresh_vision()
 	for target_id in enemy_impacts.keys():
 		if float(enemy_impacts[target_id].until)<=visual_time:enemy_impacts.erase(target_id)
@@ -674,6 +679,8 @@ func text_at(point: Vector2, value: String, font_size: int, color: Color, center
 	draw_string(fonts, point, value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
 
 func _draw():
+	if skill_atlas!=null:skill_atlas.begin_frame()
+	actor_visibility.begin_frame()
 	monster_aim_frames.clear()
 	hidden_world_labels.clear();visible_world_labels.clear();refresh_world_label_regions()
 	if session == null or dungeon == null: return
@@ -681,6 +688,7 @@ func _draw():
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
 	var actors = forest.visible_props().filter(func(actor):return vision.scenery_brightness(actor.data.pos)>0.)
+	preload("res://scripts/cave_remains.gd").draw(self,forest.remains)
 	if noise_feedback!=null:noise_feedback.draw_world()
 	if inspection_panel!=null:inspection_panel.draw_corpses()
 	for cue in dungeon.exploration_cues:preload("res://scripts/exploration_cues.gd").draw(self,cue)
@@ -804,11 +812,15 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var data:Dictionary
-		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0)
-		if not themed.is_empty():
+		var authored=preload("res://scripts/monster_motion_art_v06.gd").frame(p,visual_time)
+		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0 or p.get("support_cast",0)>0)
+		if not authored.is_empty():
+			data=authored;rendered_monster=authored.art_id;facing=authored.facing
+			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0))))/data.height
+		elif not themed.is_empty():
 			data=themed
 			rendered_monster=themed.art_id
-			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role))/data.height
+			size_scale=(335.0 if boss else preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0))))/data.height
 			if boss and p.get("stagger",{}).get("state","")=="down":pose.scale=Vector2(1.04,.84);pose.angle=.10
 		elif boss:
 			var boss_index=["warden","golem","sentinel"].find(role)
@@ -819,9 +831,9 @@ func draw_actor(actor: Dictionary):
 			if p.get("stagger",{}).get("state","")=="down":pose.scale=Vector2(1.04,.84);pose.angle=.10
 		else:
 			data=preload("res://scripts/world_art.gd").frame(config.get("art_sheet","enemies"),config.art)
-			size_scale=preload("res://scripts/world_catalog.gd").display_height(role)/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
+			size_scale=preload("res://scripts/world_catalog.gd").display_height(role,int(p.get("floor",0)))/data.height;pose.offset.y=-absf(sin(visual_time*4+p.id))*3
 		frame=data.texture;foot=data.foot
-		if not boss:
+		if not boss and authored.is_empty():
 			var recoil=sin(clampf(p.get("attack_motion",0)/.35,0,1)*PI)
 			var direction=Dungeon.iso(p.attack_pos-p.pos).normalized()
 			pose.offset+=direction*recoil*(-8 if config.ai in ["ranged","healer"] else 10)
@@ -839,10 +851,19 @@ func draw_actor(actor: Dictionary):
 			tint=tint.lerp(Color(1.5,1.3,1.15) if impact.critical else Color(1.3,1.3,1.3),remaining)
 	if is_hero and p.get("down_time",0)>0:pose.angle=PI*.4;tint=Color("bfa7a7")
 	if is_hero and p.get("invulnerable",0)>0:tint=Color(0.6,0.9,1,0.6)
+	var actor_transform=Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset)
+	if is_self:actor_visibility.player(actor_transform*rect)
+	elif not is_hero:tint.a*=actor_visibility.opacity(int(p.id),actor_transform*rect)
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
+	if not is_hero and p.get("support_cast",0)>0:
+		var progress=1.-float(p.support_cast)/preload("res://scripts/enemy_support.gd").WINDUP
+		var focus=point+Vector2(0,-dimensions.y-35)
+		draw_arc(focus,12,-PI*.5,-PI*.5+TAU*maxf(.02,progress),28,Color("80e4ad"),3,true)
+		draw_line(focus-Vector2(5,0),focus+Vector2(5,0),Color("bdffd6"),3,true)
+		draw_line(focus-Vector2(0,5),focus+Vector2(0,5),Color("bdffd6"),3,true)
 	if is_self and not rendered_costume.is_empty():record_art_usage("costume",rendered_costume.costume_id,int(rendered_costume.index),str(rendered_costume.get("frame_source_path","")))
 	if not is_hero:record_art_usage("monsters" if not rendered_monster.is_empty() else "monster_fallback",rendered_monster if not rendered_monster.is_empty() else role)
 	if not is_hero and (p.get("stun_time",0)>0 or p.get("stagger",{}).get("state","")=="down"):
@@ -852,6 +873,7 @@ func draw_actor(actor: Dictionary):
 		if not is_hero and not boss:
 			var elite=bool(p.get("elite",false))
 			var width=115 if elite else 55
+			preload("res://scripts/enemy_defense_feedback.gd").draw(self,p,point+Vector2(width*.5+16,-dimensions.y-13))
 			if elite and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-25),"◆ LV.%d %s" % [p.level,p.name],16,Color("ffe0a2"),true)
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width,7 if elite else 5)),Color("e4b96c") if elite else Color("e8d5c7"))
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width*float(p.hp)/p.max_hp,5)),Color("d8787d"))

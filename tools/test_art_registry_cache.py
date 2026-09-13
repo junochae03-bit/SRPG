@@ -34,7 +34,7 @@ def main():
     assert len(data['art_assets']) == len(original_assets) and data['art_uses'] == original_uses
     assert data['equipment'] == original_equipment
     assert all((a['path'], a['rect']) == original_assets[a['id']] for a in data['art_assets'])
-    assert len([f for f in data['art_files'] if f['representation'] == 'rgba_gzip']) == 41
+    assert len([f for f in data['art_files'] if f['representation'] == 'rgba_gzip']) == len(manifest["entries"])
     checks = 5
     prepared_id = next(a['id'] for a in data['art_assets'] if a.get('render_cache_file_id'))
     def asset(d): return next(a for a in d['art_assets'] if a['id'] == prepared_id)
@@ -64,13 +64,13 @@ def main():
             con.execute('PRAGMA foreign_keys=ON')
             assert con.execute('PRAGMA integrity_check').fetchone()[0] == 'ok'; checks += 1
             assert con.execute('PRAGMA foreign_key_check').fetchall() == []; checks += 1
-            assert con.execute("SELECT COUNT(DISTINCT render_path) FROM art_catalog WHERE render_representation='rgba_gzip'").fetchone()[0] == 41; checks += 1
+            assert con.execute("SELECT COUNT(DISTINCT render_path) FROM art_catalog WHERE render_representation='rgba_gzip'").fetchone()[0] == len(manifest["entries"]); checks += 1
             assert con.execute("SELECT COUNT(DISTINCT target_id) FROM art_usage WHERE category='equipment' AND target_table='equipment' AND render_representation='rgba_gzip'").fetchone()[0] == 2500; checks += 1
             for sql in ["UPDATE art_assets SET render_cache_file_id='missing' WHERE render_cache_file_id IS NOT NULL", "DELETE FROM art_files WHERE representation='rgba_gzip'"]:
                 try: con.execute(sql); con.commit()
                 except sqlite3.IntegrityError: con.rollback(); checks += 1
                 else: raise AssertionError('SQLite accepted a dangling prepared file relationship')
-    print('ART_REGISTRY_CACHE PASS checks='+str(checks)+' source_regions='+str(len(original_assets))+' prepared_files=41 files='+str(len(data['art_files']))+' uses='+str(len(data['art_uses'])))
+    print('ART_REGISTRY_CACHE PASS checks='+str(checks)+' source_regions='+str(len(original_assets))+' prepared_files='+str(len(manifest['entries']))+' files='+str(len(data['art_files']))+' uses='+str(len(data['art_uses'])))
 
 
 if __name__ == '__main__': main()

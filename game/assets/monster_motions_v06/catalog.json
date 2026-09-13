@@ -1,0 +1,4962 @@
+{
+  "version": 1,
+  "pack_id": "monster_motions_v06",
+  "scope": "existing_24_combat_ids_and_exact_existing_appearance_variants",
+  "species_count": 48,
+  "frame_count": 192,
+  "base_ids": [
+    "shade",
+    "imp",
+    "fairy",
+    "warden",
+    "beetle",
+    "bat",
+    "mole",
+    "golem",
+    "clockwork",
+    "spellbook",
+    "fox",
+    "sentinel",
+    "ember_slime",
+    "frost_slime",
+    "cave_bat",
+    "rat",
+    "spider",
+    "goblin_archer",
+    "goblin_shaman",
+    "orc_axeman",
+    "skeleton",
+    "goblin_captain",
+    "orc_champion",
+    "centurion"
+  ],
+  "variants": {
+    "flood": {
+      "spider": "flood_rustclaw_crab",
+      "frost_slime": "flood_rustclaw_crab",
+      "goblin_shaman": "flood_bell_nautilus",
+      "skeleton": "flood_bastion_tortoise",
+      "centurion": "flood_bastion_tortoise"
+    },
+    "spore": {
+      "spider": "spore_blade_cricket",
+      "ember_slime": "spore_blade_cricket",
+      "fairy": "spore_lantern_moth",
+      "goblin_shaman": "spore_crown_toad",
+      "goblin_captain": "spore_crown_toad"
+    },
+    "lava": {
+      "ember_slime": "lava_coal_salamander",
+      "bat": "lava_vent_snail",
+      "orc_axeman": "lava_obsidian_rhino",
+      "beetle": "lava_obsidian_rhino",
+      "orc_champion": "lava_obsidian_rhino"
+    },
+    "machine": {
+      "clockwork": "machine_saw_wheel",
+      "beetle": "machine_saw_wheel",
+      "spellbook": "machine_mortar_tripod",
+      "skeleton": "machine_foundry_ogre",
+      "centurion": "machine_foundry_ogre"
+    },
+    "nebula": {
+      "spider": "nebula_quartz_scorpion",
+      "clockwork": "nebula_quartz_scorpion",
+      "spellbook": "nebula_comet_cuttlefish",
+      "frost_slime": "nebula_crown_manta",
+      "centurion": "nebula_crown_manta"
+    },
+    "core": {
+      "clockwork": "core_rune_leech",
+      "skeleton": "core_rune_leech",
+      "spellbook": "core_bound_grimoire",
+      "goblin_shaman": "core_bound_grimoire",
+      "orc_axeman": "core_horned_ram",
+      "centurion": "core_horned_ram"
+    }
+  },
+  "raid_bosses": {
+    "flood": "boss_flood_anchor_admiral",
+    "spore": "boss_spore_threefold_hydra",
+    "lava": "boss_lava_caldera_drake",
+    "machine": "boss_machine_siege_engine",
+    "nebula": "boss_nebula_starwhale",
+    "core": "boss_core_crowned_wraith"
+  },
+  "chapters": [
+    "forest",
+    "cave",
+    "flood",
+    "spore",
+    "lava",
+    "snow",
+    "machine",
+    "autumn",
+    "nebula",
+    "core"
+  ],
+  "phases": [
+    "idle",
+    "windup",
+    "impact",
+    "recover"
+  ],
+  "attack_motion_duration": 0.35,
+  "impact_remaining_fraction": 0.54,
+  "size_policy": {
+    "measurement": "visible_sprite_outer_height_relative_to_reference_character",
+    "character_reference": "동일한 기준 캐릭터의 외곽 표시 높이 1.0; 캐릭터 코스튬/공격 포즈마다 재계산하지 않음",
+    "collision_policy": "표시 크기만 배정. 충돌·히트박스·사거리·스탯·스폰 수 변경 없음",
+    "precedence": "레이드 ID 지정값 > 종별 지정값; 정예라는 이유만으로 추가 확대하지 않음"
+  },
+  "size_policy_applied": false,
+  "raid_size_overrides": {
+    "raid:010": {
+      "raid_id": "raid:010",
+      "name": "뿌리의 문지기",
+      "base_monster_id": "warden",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    "raid:020": {
+      "raid_id": "raid:020",
+      "name": "광맥의 심장",
+      "base_monster_id": "golem",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    "raid:030": {
+      "raid_id": "raid:030",
+      "name": "침수 성채의 파수기사",
+      "base_monster_id": "sentinel",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    "raid:040": {
+      "raid_id": "raid:040",
+      "name": "균사의 군주",
+      "base_monster_id": "warden",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    "raid:050": {
+      "raid_id": "raid:050",
+      "name": "용암 심장 거인",
+      "base_monster_id": "golem",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    "raid:060": {
+      "raid_id": "raid:060",
+      "name": "영구빙의 지배자",
+      "base_monster_id": "golem",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    "raid:070": {
+      "raid_id": "raid:070",
+      "name": "철의 지휘관",
+      "base_monster_id": "sentinel",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    "raid:080": {
+      "raid_id": "raid:080",
+      "name": "황혼의 고목왕",
+      "base_monster_id": "warden",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    "raid:090": {
+      "raid_id": "raid:090",
+      "name": "별을 삼킨 거상",
+      "base_monster_id": "golem",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    "raid:100": {
+      "raid_id": "raid:100",
+      "name": "심연의 왕 · 아스트라",
+      "base_monster_id": "sentinel",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    }
+  },
+  "species": {
+    "bat": {
+      "id": "bat",
+      "name_ko": "바위 멧돼지",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_cave.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            40,
+            356,
+            306,
+            270
+          ],
+          "content_rect": [
+            42,
+            358,
+            302,
+            266
+          ],
+          "foot": [
+            142.0,
+            267.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            426,
+            373,
+            313,
+            245
+          ],
+          "content_rect": [
+            428,
+            375,
+            309,
+            241
+          ],
+          "foot": [
+            45.0,
+            242.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            752,
+            373,
+            430,
+            252
+          ],
+          "content_rect": [
+            754,
+            375,
+            426,
+            248
+          ],
+          "foot": [
+            150.0,
+            249.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1195,
+            358,
+            305,
+            267
+          ],
+          "content_rect": [
+            1197,
+            360,
+            301,
+            263
+          ],
+          "foot": [
+            131.0,
+            264.0
+          ]
+        }
+      ],
+      "body_height": 266,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "bat",
+        "name": "바위 멧돼지",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "beetle": {
+      "id": "beetle",
+      "name_ko": "바위 딱정벌레",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_cave.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            76,
+            315,
+            240
+          ],
+          "content_rect": [
+            35,
+            78,
+            311,
+            236
+          ],
+          "foot": [
+            137.0,
+            237.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            411,
+            67,
+            320,
+            247
+          ],
+          "content_rect": [
+            413,
+            69,
+            316,
+            243
+          ],
+          "foot": [
+            295.0,
+            244.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            763,
+            87,
+            366,
+            238
+          ],
+          "content_rect": [
+            765,
+            89,
+            362,
+            234
+          ],
+          "foot": [
+            77.0,
+            235.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1182,
+            75,
+            320,
+            241
+          ],
+          "content_rect": [
+            1184,
+            77,
+            316,
+            237
+          ],
+          "foot": [
+            133.0,
+            238.0
+          ]
+        }
+      ],
+      "body_height": 236,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "beetle",
+        "name": "바위 딱정벌레",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_core_crowned_wraith": {
+      "id": "boss_core_crowned_wraith",
+      "name_ko": "마력왕 카이르",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_b.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            77,
+            705,
+            217,
+            237
+          ],
+          "content_rect": [
+            79,
+            707,
+            213,
+            233
+          ],
+          "foot": [
+            115.0,
+            295.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            480,
+            705,
+            198,
+            233
+          ],
+          "content_rect": [
+            482,
+            707,
+            194,
+            229
+          ],
+          "foot": [
+            96.0,
+            295.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            813,
+            710,
+            271,
+            229
+          ],
+          "content_rect": [
+            815,
+            712,
+            267,
+            225
+          ],
+          "foot": [
+            147.0,
+            290.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1244,
+            705,
+            222,
+            234
+          ],
+          "content_rect": [
+            1246,
+            707,
+            218,
+            230
+          ],
+          "foot": [
+            100.0,
+            295.0
+          ]
+        }
+      ],
+      "body_height": 233,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_core_crowned_wraith",
+        "name": "마력왕 카이르",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_flood_anchor_admiral": {
+      "id": "boss_flood_anchor_admiral",
+      "name_ko": "침몰 제독 네레온",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_a.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            93,
+            93,
+            222,
+            199
+          ],
+          "content_rect": [
+            95,
+            95,
+            218,
+            195
+          ],
+          "foot": [
+            155.0,
+            196.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            470,
+            65,
+            218,
+            227
+          ],
+          "content_rect": [
+            472,
+            67,
+            214,
+            223
+          ],
+          "foot": [
+            152.0,
+            224.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            801,
+            129,
+            284,
+            167
+          ],
+          "content_rect": [
+            803,
+            131,
+            280,
+            163
+          ],
+          "foot": [
+            56.0,
+            164.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1209,
+            105,
+            252,
+            187
+          ],
+          "content_rect": [
+            1211,
+            107,
+            248,
+            183
+          ],
+          "foot": [
+            200.0,
+            184.0
+          ]
+        }
+      ],
+      "body_height": 195,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_flood_anchor_admiral",
+        "name": "침몰 제독 네레온",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_lava_caldera_drake": {
+      "id": "boss_lava_caldera_drake",
+      "name_ko": "화구군주 바르칸",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_a.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            78,
+            693,
+            247,
+            229
+          ],
+          "content_rect": [
+            80,
+            695,
+            243,
+            225
+          ],
+          "foot": [
+            158.0,
+            226.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            445,
+            677,
+            275,
+            246
+          ],
+          "content_rect": [
+            447,
+            679,
+            271,
+            242
+          ],
+          "foot": [
+            181.5,
+            243.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            811,
+            716,
+            295,
+            204
+          ],
+          "content_rect": [
+            813,
+            718,
+            291,
+            200
+          ],
+          "foot": [
+            234.0,
+            201.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1221,
+            687,
+            246,
+            235
+          ],
+          "content_rect": [
+            1223,
+            689,
+            242,
+            231
+          ],
+          "foot": [
+            169.0,
+            232.0
+          ]
+        }
+      ],
+      "body_height": 225,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_lava_caldera_drake",
+        "name": "화구군주 바르칸",
+        "size_class": "colossal",
+        "ratio": 10,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_machine_siege_engine": {
+      "id": "boss_machine_siege_engine",
+      "name_ko": "철도살자 헤카톤",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_b.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            95,
+            106,
+            186,
+            183
+          ],
+          "content_rect": [
+            97,
+            108,
+            182,
+            179
+          ],
+          "foot": [
+            122.0,
+            180.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            485,
+            64,
+            179,
+            225
+          ],
+          "content_rect": [
+            487,
+            66,
+            175,
+            221
+          ],
+          "foot": [
+            116.0,
+            222.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            817,
+            156,
+            250,
+            140
+          ],
+          "content_rect": [
+            819,
+            158,
+            246,
+            136
+          ],
+          "foot": [
+            53.5,
+            137.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1251,
+            94,
+            206,
+            195
+          ],
+          "content_rect": [
+            1253,
+            96,
+            202,
+            191
+          ],
+          "foot": [
+            143.0,
+            192.0
+          ]
+        }
+      ],
+      "body_height": 179,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_machine_siege_engine",
+        "name": "철도살자 헤카톤",
+        "size_class": "colossal",
+        "ratio": 10,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_nebula_starwhale": {
+      "id": "boss_nebula_starwhale",
+      "name_ko": "별을 삼키는 고래 오르비온",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_b.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            74,
+            413,
+            221,
+            203
+          ],
+          "content_rect": [
+            76,
+            415,
+            217,
+            199
+          ],
+          "foot": [
+            118.0,
+            245.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            465,
+            396,
+            229,
+            212
+          ],
+          "content_rect": [
+            467,
+            398,
+            225,
+            208
+          ],
+          "foot": [
+            111.0,
+            262.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            824,
+            416,
+            253,
+            199
+          ],
+          "content_rect": [
+            826,
+            418,
+            249,
+            195
+          ],
+          "foot": [
+            136.0,
+            242.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1237,
+            424,
+            238,
+            178
+          ],
+          "content_rect": [
+            1239,
+            426,
+            234,
+            174
+          ],
+          "foot": [
+            107.0,
+            234.67
+          ]
+        }
+      ],
+      "body_height": 199,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_nebula_starwhale",
+        "name": "별을 삼키는 고래 오르비온",
+        "size_class": "colossal",
+        "ratio": 10,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "boss_spore_threefold_hydra": {
+      "id": "boss_spore_threefold_hydra",
+      "name_ko": "균관의 삼두왕 미코라",
+      "sheet": "res://assets/monster_motions_v06/sheets/dungeon_bosses_a.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            70,
+            389,
+            255,
+            212
+          ],
+          "content_rect": [
+            72,
+            391,
+            251,
+            208
+          ],
+          "foot": [
+            141.0,
+            209.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            453,
+            401,
+            261,
+            200
+          ],
+          "content_rect": [
+            455,
+            403,
+            257,
+            196
+          ],
+          "foot": [
+            136.0,
+            197.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            793,
+            403,
+            317,
+            198
+          ],
+          "content_rect": [
+            795,
+            405,
+            313,
+            194
+          ],
+          "foot": [
+            258.0,
+            195.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1219,
+            397,
+            259,
+            204
+          ],
+          "content_rect": [
+            1221,
+            399,
+            255,
+            200
+          ],
+          "foot": [
+            140.0,
+            201.0
+          ]
+        }
+      ],
+      "body_height": 208,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "boss_spore_threefold_hydra",
+        "name": "균관의 삼두왕 미코라",
+        "size_class": "colossal",
+        "ratio": 10,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "cave_bat": {
+      "id": "cave_bat",
+      "name_ko": "동굴 박쥐",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elements.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            735,
+            332,
+            192
+          ],
+          "content_rect": [
+            35,
+            737,
+            328,
+            188
+          ],
+          "foot": [
+            159.0,
+            265.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            416,
+            692,
+            303,
+            249
+          ],
+          "content_rect": [
+            418,
+            694,
+            299,
+            245
+          ],
+          "foot": [
+            160.0,
+            308.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            780,
+            742,
+            355,
+            183
+          ],
+          "content_rect": [
+            782,
+            744,
+            351,
+            179
+          ],
+          "foot": [
+            180.0,
+            258.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1184,
+            713,
+            320,
+            213
+          ],
+          "content_rect": [
+            1186,
+            715,
+            316,
+            209
+          ],
+          "foot": [
+            160.0,
+            287.0
+          ]
+        }
+      ],
+      "body_height": 188,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "cave_bat",
+        "name": "동굴 박쥐",
+        "size_class": "small",
+        "ratio": 0.5,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "centurion": {
+      "id": "centurion",
+      "name_ko": "기계 백인대장",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elites.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            78,
+            705,
+            244,
+            228
+          ],
+          "content_rect": [
+            80,
+            707,
+            240,
+            224
+          ],
+          "foot": [
+            172.0,
+            225.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            422,
+            717,
+            266,
+            214
+          ],
+          "content_rect": [
+            424,
+            719,
+            262,
+            210
+          ],
+          "foot": [
+            214.0,
+            211.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            766,
+            730,
+            364,
+            202
+          ],
+          "content_rect": [
+            768,
+            732,
+            360,
+            198
+          ],
+          "foot": [
+            336.0,
+            199.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1243,
+            703,
+            234,
+            232
+          ],
+          "content_rect": [
+            1245,
+            705,
+            230,
+            228
+          ],
+          "foot": [
+            172.0,
+            229.0
+          ]
+        }
+      ],
+      "body_height": 224,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "centurion",
+        "name": "기계 백인대장",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "clockwork": {
+      "id": "clockwork",
+      "name_ko": "태엽 경비병",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_ruins.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            73,
+            75,
+            264,
+            257
+          ],
+          "content_rect": [
+            75,
+            77,
+            260,
+            253
+          ],
+          "foot": [
+            180.0,
+            254.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            415,
+            51,
+            277,
+            282
+          ],
+          "content_rect": [
+            417,
+            53,
+            273,
+            278
+          ],
+          "foot": [
+            238.0,
+            279.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            725,
+            120,
+            384,
+            215
+          ],
+          "content_rect": [
+            727,
+            122,
+            380,
+            211
+          ],
+          "foot": [
+            340.0,
+            212.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1217,
+            70,
+            271,
+            266
+          ],
+          "content_rect": [
+            1219,
+            72,
+            267,
+            262
+          ],
+          "foot": [
+            203.0,
+            263.0
+          ]
+        }
+      ],
+      "body_height": 253,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "clockwork",
+        "name": "태엽 경비병",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "core_bound_grimoire": {
+      "id": "core_bound_grimoire",
+      "name_ko": "봉인 파쇄마도서",
+      "sheet": "res://assets/monster_motions_v06/sheets/core.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            112,
+            414,
+            158,
+            189
+          ],
+          "content_rect": [
+            114,
+            416,
+            154,
+            185
+          ],
+          "foot": [
+            80.0,
+            244.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            490,
+            412,
+            161,
+            191
+          ],
+          "content_rect": [
+            492,
+            414,
+            157,
+            187
+          ],
+          "foot": [
+            86.0,
+            246.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            788,
+            413,
+            304,
+            190
+          ],
+          "content_rect": [
+            790,
+            415,
+            300,
+            186
+          ],
+          "foot": [
+            172.0,
+            245.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1263,
+            415,
+            158,
+            188
+          ],
+          "content_rect": [
+            1265,
+            417,
+            154,
+            184
+          ],
+          "foot": [
+            81.0,
+            243.67
+          ]
+        }
+      ],
+      "body_height": 185,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "core_bound_grimoire",
+        "name": "봉인 파쇄마도서",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "core_horned_ram": {
+      "id": "core_horned_ram",
+      "name_ko": "마력핵 뿔산양",
+      "sheet": "res://assets/monster_motions_v06/sheets/core.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            86,
+            722,
+            222,
+            187
+          ],
+          "content_rect": [
+            88,
+            724,
+            218,
+            183
+          ],
+          "foot": [
+            131.0,
+            184.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            463,
+            733,
+            227,
+            173
+          ],
+          "content_rect": [
+            465,
+            735,
+            223,
+            169
+          ],
+          "foot": [
+            134.0,
+            170.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            820,
+            730,
+            281,
+            166
+          ],
+          "content_rect": [
+            822,
+            732,
+            277,
+            162
+          ],
+          "foot": [
+            66.0,
+            163.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1234,
+            722,
+            226,
+            187
+          ],
+          "content_rect": [
+            1236,
+            724,
+            222,
+            183
+          ],
+          "foot": [
+            135.0,
+            184.0
+          ]
+        }
+      ],
+      "body_height": 183,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "core_horned_ram",
+        "name": "마력핵 뿔산양",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "core_rune_leech": {
+      "id": "core_rune_leech",
+      "name_ko": "룬갑 거머리",
+      "sheet": "res://assets/monster_motions_v06/sheets/core.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            89,
+            114,
+            210,
+            156
+          ],
+          "content_rect": [
+            91,
+            116,
+            206,
+            152
+          ],
+          "foot": [
+            105.0,
+            153.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            467,
+            96,
+            207,
+            178
+          ],
+          "content_rect": [
+            469,
+            98,
+            203,
+            174
+          ],
+          "foot": [
+            103.0,
+            175.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            800,
+            122,
+            288,
+            150
+          ],
+          "content_rect": [
+            802,
+            124,
+            284,
+            146
+          ],
+          "foot": [
+            202.0,
+            147.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1237,
+            114,
+            211,
+            156
+          ],
+          "content_rect": [
+            1239,
+            116,
+            207,
+            152
+          ],
+          "foot": [
+            106.0,
+            153.0
+          ]
+        }
+      ],
+      "body_height": 152,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "core_rune_leech",
+        "name": "룬갑 거머리",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "ember_slime": {
+      "id": "ember_slime",
+      "name_ko": "잿불 슬라임",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elements.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            57,
+            108,
+            267,
+            211
+          ],
+          "content_rect": [
+            59,
+            110,
+            263,
+            207
+          ],
+          "foot": [
+            139.0,
+            208.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            436,
+            116,
+            270,
+            201
+          ],
+          "content_rect": [
+            438,
+            118,
+            266,
+            197
+          ],
+          "foot": [
+            144.0,
+            198.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            771,
+            98,
+            362,
+            224
+          ],
+          "content_rect": [
+            773,
+            100,
+            358,
+            220
+          ],
+          "foot": [
+            276.0,
+            221.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1220,
+            123,
+            261,
+            196
+          ],
+          "content_rect": [
+            1222,
+            125,
+            257,
+            192
+          ],
+          "foot": [
+            135.0,
+            193.0
+          ]
+        }
+      ],
+      "body_height": 207,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "ember_slime",
+        "name": "잿불 슬라임",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "fairy": {
+      "id": "fairy",
+      "name_ko": "독침 벌",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_forest.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            28,
+            653,
+            327,
+            306
+          ],
+          "content_rect": [
+            30,
+            655,
+            323,
+            302
+          ],
+          "foot": [
+            164.0,
+            347.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            406,
+            652,
+            325,
+            298
+          ],
+          "content_rect": [
+            408,
+            654,
+            321,
+            294
+          ],
+          "foot": [
+            170.0,
+            348.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            760,
+            695,
+            392,
+            237
+          ],
+          "content_rect": [
+            762,
+            697,
+            388,
+            233
+          ],
+          "foot": [
+            200.0,
+            305.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1164,
+            650,
+            345,
+            305
+          ],
+          "content_rect": [
+            1166,
+            652,
+            341,
+            301
+          ],
+          "foot": [
+            180.0,
+            350.0
+          ]
+        }
+      ],
+      "body_height": 302,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "fairy",
+        "name": "독침 벌",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "flood_bastion_tortoise": {
+      "id": "flood_bastion_tortoise",
+      "name_ko": "성채등 거북",
+      "sheet": "res://assets/monster_motions_v06/sheets/flood.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            16,
+            639,
+            355,
+            315
+          ],
+          "content_rect": [
+            18,
+            641,
+            351,
+            311
+          ],
+          "foot": [
+            188.0,
+            312.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            391,
+            636,
+            365,
+            322
+          ],
+          "content_rect": [
+            393,
+            638,
+            361,
+            318
+          ],
+          "foot": [
+            196.5,
+            319.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            766,
+            643,
+            399,
+            318
+          ],
+          "content_rect": [
+            768,
+            645,
+            395,
+            314
+          ],
+          "foot": [
+            225.0,
+            315.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1168,
+            640,
+            358,
+            317
+          ],
+          "content_rect": [
+            1170,
+            642,
+            354,
+            313
+          ],
+          "foot": [
+            195.0,
+            314.0
+          ]
+        }
+      ],
+      "body_height": 311,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "flood_bastion_tortoise",
+        "name": "성채등 거북",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "flood_bell_nautilus": {
+      "id": "flood_bell_nautilus",
+      "name_ko": "종껍질 앵무조개",
+      "sheet": "res://assets/monster_motions_v06/sheets/flood.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            352,
+            275,
+            272
+          ],
+          "content_rect": [
+            35,
+            354,
+            271,
+            268
+          ],
+          "foot": [
+            159.0,
+            306.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            424,
+            353,
+            246,
+            264
+          ],
+          "content_rect": [
+            426,
+            355,
+            242,
+            260
+          ],
+          "foot": [
+            152.0,
+            305.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            702,
+            354,
+            417,
+            265
+          ],
+          "content_rect": [
+            704,
+            356,
+            413,
+            261
+          ],
+          "foot": [
+            258.0,
+            304.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1205,
+            351,
+            270,
+            271
+          ],
+          "content_rect": [
+            1207,
+            353,
+            266,
+            267
+          ],
+          "foot": [
+            139.0,
+            307.67
+          ]
+        }
+      ],
+      "body_height": 268,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "flood_bell_nautilus",
+        "name": "종껍질 앵무조개",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "flood_rustclaw_crab": {
+      "id": "flood_rustclaw_crab",
+      "name_ko": "녹갑옷 집게게",
+      "sheet": "res://assets/monster_motions_v06/sheets/flood.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            15,
+            108,
+            335,
+            228
+          ],
+          "content_rect": [
+            17,
+            110,
+            331,
+            224
+          ],
+          "foot": [
+            192.0,
+            225.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            383,
+            22,
+            356,
+            313
+          ],
+          "content_rect": [
+            385,
+            24,
+            352,
+            309
+          ],
+          "foot": [
+            221.0,
+            310.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            763,
+            108,
+            360,
+            237
+          ],
+          "content_rect": [
+            765,
+            110,
+            356,
+            233
+          ],
+          "foot": [
+            75.0,
+            234.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1163,
+            108,
+            347,
+            228
+          ],
+          "content_rect": [
+            1165,
+            110,
+            343,
+            224
+          ],
+          "foot": [
+            203.0,
+            225.0
+          ]
+        }
+      ],
+      "body_height": 224,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "flood_rustclaw_crab",
+        "name": "녹갑옷 집게게",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "fox": {
+      "id": "fox",
+      "name_ko": "황토 늑대",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_ruins.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            48,
+            708,
+            293,
+            228
+          ],
+          "content_rect": [
+            50,
+            710,
+            289,
+            224
+          ],
+          "foot": [
+            105.0,
+            225.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            416,
+            724,
+            290,
+            210
+          ],
+          "content_rect": [
+            418,
+            726,
+            286,
+            206
+          ],
+          "foot": [
+            114.0,
+            207.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            758,
+            686,
+            367,
+            220
+          ],
+          "content_rect": [
+            760,
+            688,
+            363,
+            216
+          ],
+          "foot": [
+            324.0,
+            217.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1184,
+            724,
+            320,
+            220
+          ],
+          "content_rect": [
+            1186,
+            726,
+            316,
+            216
+          ],
+          "foot": [
+            109.0,
+            217.0
+          ]
+        }
+      ],
+      "body_height": 224,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "fox",
+        "name": "황토 늑대",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "frost_slime": {
+      "id": "frost_slime",
+      "name_ko": "서리 슬라임",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elements.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            48,
+            441,
+            275,
+            192
+          ],
+          "content_rect": [
+            50,
+            443,
+            271,
+            188
+          ],
+          "foot": [
+            142.0,
+            189.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            423,
+            449,
+            277,
+            183
+          ],
+          "content_rect": [
+            425,
+            451,
+            273,
+            179
+          ],
+          "foot": [
+            144.0,
+            180.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            759,
+            441,
+            378,
+            196
+          ],
+          "content_rect": [
+            761,
+            443,
+            374,
+            192
+          ],
+          "foot": [
+            302.0,
+            193.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1216,
+            448,
+            276,
+            189
+          ],
+          "content_rect": [
+            1218,
+            450,
+            272,
+            185
+          ],
+          "foot": [
+            138.0,
+            186.0
+          ]
+        }
+      ],
+      "body_height": 188,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "frost_slime",
+        "name": "서리 슬라임",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "goblin_archer": {
+      "id": "goblin_archer",
+      "name_ko": "고블린 궁수",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_hunters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            53,
+            701,
+            256,
+            231
+          ],
+          "content_rect": [
+            55,
+            703,
+            252,
+            227
+          ],
+          "foot": [
+            198.0,
+            228.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            435,
+            673,
+            225,
+            259
+          ],
+          "content_rect": [
+            437,
+            675,
+            221,
+            255
+          ],
+          "foot": [
+            73.0,
+            256.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            775,
+            680,
+            346,
+            252
+          ],
+          "content_rect": [
+            777,
+            682,
+            342,
+            248
+          ],
+          "foot": [
+            281.0,
+            249.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1236,
+            699,
+            239,
+            234
+          ],
+          "content_rect": [
+            1238,
+            701,
+            235,
+            230
+          ],
+          "foot": [
+            73.0,
+            231.0
+          ]
+        }
+      ],
+      "body_height": 227,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "goblin_archer",
+        "name": "고블린 궁수",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "goblin_captain": {
+      "id": "goblin_captain",
+      "name_ko": "고블린 대장",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elites.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            74,
+            90,
+            253,
+            218
+          ],
+          "content_rect": [
+            76,
+            92,
+            249,
+            214
+          ],
+          "foot": [
+            186.0,
+            215.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            434,
+            56,
+            258,
+            252
+          ],
+          "content_rect": [
+            436,
+            58,
+            254,
+            248
+          ],
+          "foot": [
+            196.0,
+            249.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            780,
+            84,
+            331,
+            224
+          ],
+          "content_rect": [
+            782,
+            86,
+            327,
+            220
+          ],
+          "foot": [
+            285.0,
+            221.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1212,
+            93,
+            254,
+            215
+          ],
+          "content_rect": [
+            1214,
+            95,
+            250,
+            211
+          ],
+          "foot": [
+            193.0,
+            212.0
+          ]
+        }
+      ],
+      "body_height": 214,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "goblin_captain",
+        "name": "고블린 대장",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "goblin_shaman": {
+      "id": "goblin_shaman",
+      "name_ko": "고블린 주술사",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_fighters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            68,
+            53,
+            268,
+            265
+          ],
+          "content_rect": [
+            70,
+            55,
+            264,
+            261
+          ],
+          "foot": [
+            197.0,
+            262.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            422,
+            14,
+            297,
+            304
+          ],
+          "content_rect": [
+            424,
+            16,
+            293,
+            300
+          ],
+          "foot": [
+            194.0,
+            301.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            781,
+            93,
+            381,
+            226
+          ],
+          "content_rect": [
+            783,
+            95,
+            377,
+            222
+          ],
+          "foot": [
+            239.0,
+            223.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1237,
+            65,
+            255,
+            254
+          ],
+          "content_rect": [
+            1239,
+            67,
+            251,
+            250
+          ],
+          "foot": [
+            197.0,
+            251.0
+          ]
+        }
+      ],
+      "body_height": 261,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "goblin_shaman",
+        "name": "고블린 주술사",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "golem": {
+      "id": "golem",
+      "name_ko": "푸른 심장 골렘",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_bosses.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            67,
+            404,
+            243,
+            214
+          ],
+          "content_rect": [
+            69,
+            406,
+            239,
+            210
+          ],
+          "foot": [
+            153.0,
+            211.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            458,
+            388,
+            234,
+            231
+          ],
+          "content_rect": [
+            460,
+            390,
+            230,
+            227
+          ],
+          "foot": [
+            141.0,
+            228.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            797,
+            431,
+            299,
+            198
+          ],
+          "content_rect": [
+            799,
+            433,
+            295,
+            194
+          ],
+          "foot": [
+            98.0,
+            195.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1222,
+            405,
+            249,
+            214
+          ],
+          "content_rect": [
+            1224,
+            407,
+            245,
+            210
+          ],
+          "foot": [
+            150.5,
+            211.0
+          ]
+        }
+      ],
+      "body_height": 210,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "golem",
+        "name": "푸른 심장 골렘",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "imp": {
+      "id": "imp",
+      "name_ko": "숲 고블린",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_forest.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            52,
+            364,
+            289,
+            258
+          ],
+          "content_rect": [
+            54,
+            366,
+            285,
+            254
+          ],
+          "foot": [
+            215.0,
+            255.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            444,
+            331,
+            269,
+            290
+          ],
+          "content_rect": [
+            446,
+            333,
+            265,
+            286
+          ],
+          "foot": [
+            176.0,
+            287.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            744,
+            385,
+            408,
+            236
+          ],
+          "content_rect": [
+            746,
+            387,
+            404,
+            232
+          ],
+          "foot": [
+            327.5,
+            233.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1211,
+            374,
+            283,
+            248
+          ],
+          "content_rect": [
+            1213,
+            376,
+            279,
+            244
+          ],
+          "foot": [
+            210.0,
+            245.0
+          ]
+        }
+      ],
+      "body_height": 254,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "imp",
+        "name": "숲 고블린",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "lava_coal_salamander": {
+      "id": "lava_coal_salamander",
+      "name_ko": "석탄등 도롱뇽",
+      "sheet": "res://assets/monster_motions_v06/sheets/lava.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            85,
+            132,
+            234,
+            147
+          ],
+          "content_rect": [
+            87,
+            134,
+            230,
+            143
+          ],
+          "foot": [
+            97.0,
+            144.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            460,
+            137,
+            241,
+            142
+          ],
+          "content_rect": [
+            462,
+            139,
+            237,
+            138
+          ],
+          "foot": [
+            100.0,
+            139.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            803,
+            142,
+            290,
+            137
+          ],
+          "content_rect": [
+            805,
+            144,
+            286,
+            133
+          ],
+          "foot": [
+            197.0,
+            134.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1220,
+            132,
+            232,
+            147
+          ],
+          "content_rect": [
+            1222,
+            134,
+            228,
+            143
+          ],
+          "foot": [
+            103.0,
+            144.0
+          ]
+        }
+      ],
+      "body_height": 143,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "lava_coal_salamander",
+        "name": "석탄등 도롱뇽",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "lava_obsidian_rhino": {
+      "id": "lava_obsidian_rhino",
+      "name_ko": "흑요각 코뿔소",
+      "sheet": "res://assets/monster_motions_v06/sheets/lava.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            74,
+            713,
+            248,
+            185
+          ],
+          "content_rect": [
+            76,
+            715,
+            244,
+            181
+          ],
+          "foot": [
+            123.0,
+            182.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            444,
+            725,
+            256,
+            173
+          ],
+          "content_rect": [
+            446,
+            727,
+            252,
+            169
+          ],
+          "foot": [
+            127.5,
+            170.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            796,
+            726,
+            306,
+            170
+          ],
+          "content_rect": [
+            798,
+            728,
+            302,
+            166
+          ],
+          "foot": [
+            168.5,
+            167.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1221,
+            713,
+            240,
+            185
+          ],
+          "content_rect": [
+            1223,
+            715,
+            236,
+            181
+          ],
+          "foot": [
+            124.0,
+            182.0
+          ]
+        }
+      ],
+      "body_height": 181,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "lava_obsidian_rhino",
+        "name": "흑요각 코뿔소",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "lava_vent_snail": {
+      "id": "lava_vent_snail",
+      "name_ko": "분화구 달팽이",
+      "sheet": "res://assets/monster_motions_v06/sheets/lava.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            89,
+            411,
+            221,
+            184
+          ],
+          "content_rect": [
+            91,
+            413,
+            217,
+            180
+          ],
+          "foot": [
+            124.0,
+            181.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            475,
+            421,
+            212,
+            174
+          ],
+          "content_rect": [
+            477,
+            423,
+            208,
+            170
+          ],
+          "foot": [
+            106.5,
+            171.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            791,
+            389,
+            292,
+            207
+          ],
+          "content_rect": [
+            793,
+            391,
+            288,
+            203
+          ],
+          "foot": [
+            200.0,
+            204.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1231,
+            415,
+            217,
+            180
+          ],
+          "content_rect": [
+            1233,
+            417,
+            213,
+            176
+          ],
+          "foot": [
+            123.0,
+            177.0
+          ]
+        }
+      ],
+      "body_height": 180,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "lava_vent_snail",
+        "name": "분화구 달팽이",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "machine_foundry_ogre": {
+      "id": "machine_foundry_ogre",
+      "name_ko": "주조장 철거수",
+      "sheet": "res://assets/monster_motions_v06/sheets/machine.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            25,
+            661,
+            365,
+            296
+          ],
+          "content_rect": [
+            27,
+            663,
+            361,
+            292
+          ],
+          "foot": [
+            265.0,
+            293.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            411,
+            625,
+            348,
+            331
+          ],
+          "content_rect": [
+            413,
+            627,
+            344,
+            327
+          ],
+          "foot": [
+            267.0,
+            328.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            767,
+            689,
+            388,
+            270
+          ],
+          "content_rect": [
+            769,
+            691,
+            384,
+            266
+          ],
+          "foot": [
+            105.0,
+            267.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1168,
+            672,
+            355,
+            286
+          ],
+          "content_rect": [
+            1170,
+            674,
+            351,
+            282
+          ],
+          "foot": [
+            264.0,
+            283.0
+          ]
+        }
+      ],
+      "body_height": 292,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "machine_foundry_ogre",
+        "name": "주조장 철거수",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "machine_mortar_tripod": {
+      "id": "machine_mortar_tripod",
+      "name_ko": "삼각포대 감시기",
+      "sheet": "res://assets/monster_motions_v06/sheets/machine.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            42,
+            372,
+            335,
+            249
+          ],
+          "content_rect": [
+            44,
+            374,
+            331,
+            245
+          ],
+          "foot": [
+            252.0,
+            246.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            408,
+            335,
+            353,
+            287
+          ],
+          "content_rect": [
+            410,
+            337,
+            349,
+            283
+          ],
+          "foot": [
+            285.0,
+            284.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            782,
+            335,
+            360,
+            287
+          ],
+          "content_rect": [
+            784,
+            337,
+            356,
+            283
+          ],
+          "foot": [
+            283.0,
+            284.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1167,
+            376,
+            333,
+            246
+          ],
+          "content_rect": [
+            1169,
+            378,
+            329,
+            242
+          ],
+          "foot": [
+            255.0,
+            243.0
+          ]
+        }
+      ],
+      "body_height": 245,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "machine_mortar_tripod",
+        "name": "삼각포대 감시기",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "machine_saw_wheel": {
+      "id": "machine_saw_wheel",
+      "name_ko": "톱니바퀴 추격자",
+      "sheet": "res://assets/monster_motions_v06/sheets/machine.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            55,
+            74,
+            286,
+            233
+          ],
+          "content_rect": [
+            57,
+            76,
+            282,
+            229
+          ],
+          "foot": [
+            151.0,
+            230.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            412,
+            90,
+            333,
+            221
+          ],
+          "content_rect": [
+            414,
+            92,
+            329,
+            217
+          ],
+          "foot": [
+            156.0,
+            218.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            775,
+            89,
+            339,
+            218
+          ],
+          "content_rect": [
+            777,
+            91,
+            335,
+            214
+          ],
+          "foot": [
+            276.0,
+            215.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1170,
+            75,
+            283,
+            232
+          ],
+          "content_rect": [
+            1172,
+            77,
+            279,
+            228
+          ],
+          "foot": [
+            171.0,
+            229.0
+          ]
+        }
+      ],
+      "body_height": 229,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "machine_saw_wheel",
+        "name": "톱니바퀴 추격자",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "mole": {
+      "id": "mole",
+      "name_ko": "동굴 오크",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_cave.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            22,
+            692,
+            336,
+            283
+          ],
+          "content_rect": [
+            24,
+            694,
+            332,
+            279
+          ],
+          "foot": [
+            269.5,
+            280.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            428,
+            622,
+            267,
+            353
+          ],
+          "content_rect": [
+            430,
+            624,
+            263,
+            349
+          ],
+          "foot": [
+            218.0,
+            350.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            731,
+            707,
+            406,
+            276
+          ],
+          "content_rect": [
+            733,
+            709,
+            402,
+            272
+          ],
+          "foot": [
+            104.0,
+            273.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1194,
+            652,
+            311,
+            324
+          ],
+          "content_rect": [
+            1196,
+            654,
+            307,
+            320
+          ],
+          "foot": [
+            249.0,
+            321.0
+          ]
+        }
+      ],
+      "body_height": 279,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "mole",
+        "name": "동굴 오크",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "nebula_comet_cuttlefish": {
+      "id": "nebula_comet_cuttlefish",
+      "name_ko": "혜성 갑오징어",
+      "sheet": "res://assets/monster_motions_v06/sheets/nebula.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            42,
+            366,
+            302,
+            291
+          ],
+          "content_rect": [
+            44,
+            368,
+            298,
+            287
+          ],
+          "foot": [
+            150.0,
+            292.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            405,
+            360,
+            300,
+            287
+          ],
+          "content_rect": [
+            407,
+            362,
+            296,
+            283
+          ],
+          "foot": [
+            171.0,
+            298.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            708,
+            378,
+            435,
+            261
+          ],
+          "content_rect": [
+            710,
+            380,
+            431,
+            257
+          ],
+          "foot": [
+            252.0,
+            280.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1199,
+            367,
+            294,
+            280
+          ],
+          "content_rect": [
+            1201,
+            369,
+            290,
+            276
+          ],
+          "foot": [
+            145.0,
+            291.67
+          ]
+        }
+      ],
+      "body_height": 287,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "nebula_comet_cuttlefish",
+        "name": "혜성 갑오징어",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "nebula_crown_manta": {
+      "id": "nebula_crown_manta",
+      "name_ko": "성관 만타",
+      "sheet": "res://assets/monster_motions_v06/sheets/nebula.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            44,
+            688,
+            331,
+            252
+          ],
+          "content_rect": [
+            46,
+            690,
+            327,
+            248
+          ],
+          "foot": [
+            148.0,
+            312.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            401,
+            658,
+            333,
+            313
+          ],
+          "content_rect": [
+            403,
+            660,
+            329,
+            309
+          ],
+          "foot": [
+            175.0,
+            342.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            744,
+            702,
+            409,
+            253
+          ],
+          "content_rect": [
+            746,
+            704,
+            405,
+            249
+          ],
+          "foot": [
+            216.0,
+            298.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1185,
+            686,
+            320,
+            254
+          ],
+          "content_rect": [
+            1187,
+            688,
+            316,
+            250
+          ],
+          "foot": [
+            159.0,
+            314.0
+          ]
+        }
+      ],
+      "body_height": 248,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "nebula_crown_manta",
+        "name": "성관 만타",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "nebula_quartz_scorpion": {
+      "id": "nebula_quartz_scorpion",
+      "name_ko": "석영꼬리 전갈",
+      "sheet": "res://assets/monster_motions_v06/sheets/nebula.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            47,
+            330,
+            303
+          ],
+          "content_rect": [
+            35,
+            49,
+            326,
+            299
+          ],
+          "foot": [
+            153.0,
+            300.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            405,
+            17,
+            339,
+            331
+          ],
+          "content_rect": [
+            407,
+            19,
+            335,
+            327
+          ],
+          "foot": [
+            192.0,
+            328.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            742,
+            53,
+            387,
+            292
+          ],
+          "content_rect": [
+            744,
+            55,
+            383,
+            288
+          ],
+          "foot": [
+            212.0,
+            289.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1159,
+            47,
+            316,
+            303
+          ],
+          "content_rect": [
+            1161,
+            49,
+            312,
+            299
+          ],
+          "foot": [
+            140.0,
+            300.0
+          ]
+        }
+      ],
+      "body_height": 299,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "nebula_quartz_scorpion",
+        "name": "석영꼬리 전갈",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "orc_axeman": {
+      "id": "orc_axeman",
+      "name_ko": "오크 도끼병",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_fighters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            25,
+            383,
+            347,
+            271
+          ],
+          "content_rect": [
+            27,
+            385,
+            343,
+            267
+          ],
+          "foot": [
+            299.0,
+            268.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            457,
+            318,
+            273,
+            336
+          ],
+          "content_rect": [
+            459,
+            320,
+            269,
+            332
+          ],
+          "foot": [
+            224.0,
+            333.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            777,
+            398,
+            360,
+            255
+          ],
+          "content_rect": [
+            779,
+            400,
+            356,
+            251
+          ],
+          "foot": [
+            195.0,
+            252.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1177,
+            386,
+            343,
+            269
+          ],
+          "content_rect": [
+            1179,
+            388,
+            339,
+            265
+          ],
+          "foot": [
+            292.0,
+            266.0
+          ]
+        }
+      ],
+      "body_height": 267,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "orc_axeman",
+        "name": "오크 도끼병",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "orc_champion": {
+      "id": "orc_champion",
+      "name_ko": "오크 투사",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_elites.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            57,
+            412,
+            277,
+            217
+          ],
+          "content_rect": [
+            59,
+            414,
+            273,
+            213
+          ],
+          "foot": [
+            236.0,
+            214.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            464,
+            368,
+            224,
+            261
+          ],
+          "content_rect": [
+            466,
+            370,
+            220,
+            257
+          ],
+          "foot": [
+            184.0,
+            258.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            798,
+            417,
+            327,
+            228
+          ],
+          "content_rect": [
+            800,
+            419,
+            323,
+            224
+          ],
+          "foot": [
+            84.0,
+            225.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1228,
+            375,
+            263,
+            255
+          ],
+          "content_rect": [
+            1230,
+            377,
+            259,
+            251
+          ],
+          "foot": [
+            228.0,
+            252.0
+          ]
+        }
+      ],
+      "body_height": 213,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "orc_champion",
+        "name": "오크 투사",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "rat": {
+      "id": "rat",
+      "name_ko": "들쥐",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_hunters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            57,
+            117,
+            257,
+            183
+          ],
+          "content_rect": [
+            59,
+            119,
+            253,
+            179
+          ],
+          "foot": [
+            115.0,
+            180.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            446,
+            119,
+            252,
+            182
+          ],
+          "content_rect": [
+            448,
+            121,
+            248,
+            178
+          ],
+          "foot": [
+            116.0,
+            179.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            796,
+            91,
+            307,
+            180
+          ],
+          "content_rect": [
+            798,
+            93,
+            303,
+            176
+          ],
+          "foot": [
+            82.0,
+            177.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1203,
+            114,
+            254,
+            187
+          ],
+          "content_rect": [
+            1205,
+            116,
+            250,
+            183
+          ],
+          "foot": [
+            115.0,
+            184.0
+          ]
+        }
+      ],
+      "body_height": 179,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "rat",
+        "name": "들쥐",
+        "size_class": "small",
+        "ratio": 0.5,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "sentinel": {
+      "id": "sentinel",
+      "name_ko": "햇무리 수호기사",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_bosses.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            85,
+            702,
+            220,
+            209
+          ],
+          "content_rect": [
+            87,
+            704,
+            216,
+            205
+          ],
+          "foot": [
+            141.0,
+            206.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            448,
+            691,
+            233,
+            222
+          ],
+          "content_rect": [
+            450,
+            693,
+            229,
+            218
+          ],
+          "foot": [
+            173.0,
+            219.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            785,
+            727,
+            310,
+            196
+          ],
+          "content_rect": [
+            787,
+            729,
+            306,
+            192
+          ],
+          "foot": [
+            57.0,
+            193.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1218,
+            691,
+            243,
+            223
+          ],
+          "content_rect": [
+            1220,
+            693,
+            239,
+            219
+          ],
+          "foot": [
+            171.0,
+            220.0
+          ]
+        }
+      ],
+      "body_height": 205,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "sentinel",
+        "name": "햇무리 수호기사",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "shade": {
+      "id": "shade",
+      "name_ko": "풀빛 슬라임",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_forest.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            65,
+            108,
+            264,
+            188
+          ],
+          "content_rect": [
+            67,
+            110,
+            260,
+            184
+          ],
+          "foot": [
+            137.0,
+            185.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            440,
+            154,
+            277,
+            143
+          ],
+          "content_rect": [
+            442,
+            156,
+            273,
+            139
+          ],
+          "foot": [
+            151.0,
+            140.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            761,
+            121,
+            366,
+            174
+          ],
+          "content_rect": [
+            763,
+            123,
+            362,
+            170
+          ],
+          "foot": [
+            184.0,
+            171.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1189,
+            159,
+            292,
+            143
+          ],
+          "content_rect": [
+            1191,
+            161,
+            288,
+            139
+          ],
+          "foot": [
+            134.0,
+            140.0
+          ]
+        }
+      ],
+      "body_height": 184,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "shade",
+        "name": "풀빛 슬라임",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "skeleton": {
+      "id": "skeleton",
+      "name_ko": "해골 병사",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_fighters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            51,
+            692,
+            298,
+            280
+          ],
+          "content_rect": [
+            53,
+            694,
+            294,
+            276
+          ],
+          "foot": [
+            238.0,
+            277.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            417,
+            682,
+            304,
+            289
+          ],
+          "content_rect": [
+            419,
+            684,
+            300,
+            285
+          ],
+          "foot": [
+            269.5,
+            286.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            726,
+            710,
+            416,
+            261
+          ],
+          "content_rect": [
+            728,
+            712,
+            412,
+            257
+          ],
+          "foot": [
+            378.0,
+            258.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1215,
+            692,
+            288,
+            280
+          ],
+          "content_rect": [
+            1217,
+            694,
+            284,
+            276
+          ],
+          "foot": [
+            241.0,
+            277.0
+          ]
+        }
+      ],
+      "body_height": 276,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "skeleton",
+        "name": "해골 병사",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "spellbook": {
+      "id": "spellbook",
+      "name_ko": "정찰 드론",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_ruins.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            57,
+            422,
+            287,
+            198
+          ],
+          "content_rect": [
+            59,
+            424,
+            283,
+            194
+          ],
+          "foot": [
+            135.0,
+            236.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            464,
+            407,
+            258,
+            214
+          ],
+          "content_rect": [
+            466,
+            409,
+            254,
+            210
+          ],
+          "foot": [
+            112.0,
+            251.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            767,
+            421,
+            350,
+            194
+          ],
+          "content_rect": [
+            769,
+            423,
+            346,
+            190
+          ],
+          "foot": [
+            193.0,
+            237.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1192,
+            422,
+            296,
+            199
+          ],
+          "content_rect": [
+            1194,
+            424,
+            292,
+            195
+          ],
+          "foot": [
+            152.0,
+            236.67
+          ]
+        }
+      ],
+      "body_height": 194,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "spellbook",
+        "name": "정찰 드론",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "spider": {
+      "id": "spider",
+      "name_ko": "동굴 거미",
+      "sheet": "res://assets/monster_motions_v06/sheets/reinforcement_hunters.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            56,
+            410,
+            278,
+            189
+          ],
+          "content_rect": [
+            58,
+            412,
+            274,
+            185
+          ],
+          "foot": [
+            185.0,
+            186.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            448,
+            406,
+            270,
+            192
+          ],
+          "content_rect": [
+            450,
+            408,
+            266,
+            188
+          ],
+          "foot": [
+            129.0,
+            189.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            783,
+            427,
+            324,
+            174
+          ],
+          "content_rect": [
+            785,
+            429,
+            320,
+            170
+          ],
+          "foot": [
+            160.5,
+            171.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1212,
+            410,
+            267,
+            190
+          ],
+          "content_rect": [
+            1214,
+            412,
+            263,
+            186
+          ],
+          "foot": [
+            172.0,
+            187.0
+          ]
+        }
+      ],
+      "body_height": 185,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "spider",
+        "name": "동굴 거미",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "spore_blade_cricket": {
+      "id": "spore_blade_cricket",
+      "name_ko": "칼턱 동굴귀뚜라미",
+      "sheet": "res://assets/monster_motions_v06/sheets/spore.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            56,
+            110,
+            299,
+            205
+          ],
+          "content_rect": [
+            58,
+            112,
+            295,
+            201
+          ],
+          "foot": [
+            104.0,
+            202.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            441,
+            115,
+            265,
+            196
+          ],
+          "content_rect": [
+            443,
+            117,
+            261,
+            192
+          ],
+          "foot": [
+            106.5,
+            193.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            762,
+            86,
+            366,
+            215
+          ],
+          "content_rect": [
+            764,
+            88,
+            362,
+            211
+          ],
+          "foot": [
+            256.0,
+            212.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1201,
+            109,
+            286,
+            206
+          ],
+          "content_rect": [
+            1203,
+            111,
+            282,
+            202
+          ],
+          "foot": [
+            108.0,
+            203.0
+          ]
+        }
+      ],
+      "body_height": 201,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "spore_blade_cricket",
+        "name": "칼턱 동굴귀뚜라미",
+        "size_class": "medium",
+        "ratio": 2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "spore_crown_toad": {
+      "id": "spore_crown_toad",
+      "name_ko": "균관 두꺼비",
+      "sheet": "res://assets/monster_motions_v06/sheets/spore.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            46,
+            705,
+            293,
+            227
+          ],
+          "content_rect": [
+            48,
+            707,
+            289,
+            223
+          ],
+          "foot": [
+            150.0,
+            224.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            422,
+            705,
+            286,
+            226
+          ],
+          "content_rect": [
+            424,
+            707,
+            282,
+            222
+          ],
+          "foot": [
+            151.0,
+            223.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            747,
+            705,
+            376,
+            227
+          ],
+          "content_rect": [
+            749,
+            707,
+            372,
+            223
+          ],
+          "foot": [
+            227.0,
+            224.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1198,
+            705,
+            293,
+            227
+          ],
+          "content_rect": [
+            1200,
+            707,
+            289,
+            223
+          ],
+          "foot": [
+            152.0,
+            224.0
+          ]
+        }
+      ],
+      "body_height": 223,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "spore_crown_toad",
+        "name": "균관 두꺼비",
+        "size_class": "medium_large",
+        "ratio": 3,
+        "scope": "art_only_candidate",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "spore_lantern_moth": {
+      "id": "spore_lantern_moth",
+      "name_ko": "포자등 나방",
+      "sheet": "res://assets/monster_motions_v06/sheets/spore.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            67,
+            398,
+            254,
+            241
+          ],
+          "content_rect": [
+            69,
+            400,
+            250,
+            237
+          ],
+          "foot": [
+            125.0,
+            260.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            447,
+            376,
+            228,
+            263
+          ],
+          "content_rect": [
+            449,
+            378,
+            224,
+            259
+          ],
+          "foot": [
+            129.0,
+            282.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            765,
+            393,
+            370,
+            247
+          ],
+          "content_rect": [
+            767,
+            395,
+            366,
+            243
+          ],
+          "foot": [
+            195.0,
+            265.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1229,
+            397,
+            244,
+            242
+          ],
+          "content_rect": [
+            1231,
+            399,
+            240,
+            238
+          ],
+          "foot": [
+            115.0,
+            261.67
+          ]
+        }
+      ],
+      "body_height": 237,
+      "source_facing": -1.0,
+      "hovering": true,
+      "boss": false,
+      "legacy_recommended_display_height": 96,
+      "size_policy": {
+        "monster_id": "spore_lantern_moth",
+        "name": "포자등 나방",
+        "size_class": "medium_small",
+        "ratio": 1.2,
+        "scope": "expansion_proposal",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    },
+    "warden": {
+      "id": "warden",
+      "name_ko": "꽃숲의 파수목",
+      "sheet": "res://assets/monster_motions_v06/sheets/classic_bosses.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            84,
+            100,
+            224,
+            216
+          ],
+          "content_rect": [
+            86,
+            102,
+            220,
+            212
+          ],
+          "foot": [
+            132.0,
+            213.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            463,
+            86,
+            215,
+            231
+          ],
+          "content_rect": [
+            465,
+            88,
+            211,
+            227
+          ],
+          "foot": [
+            144.0,
+            228.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            806,
+            127,
+            301,
+            203
+          ],
+          "content_rect": [
+            808,
+            129,
+            297,
+            199
+          ],
+          "foot": [
+            134.0,
+            200.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1212,
+            105,
+            248,
+            213
+          ],
+          "content_rect": [
+            1214,
+            107,
+            244,
+            209
+          ],
+          "foot": [
+            171.0,
+            210.0
+          ]
+        }
+      ],
+      "body_height": 212,
+      "source_facing": -1.0,
+      "hovering": false,
+      "boss": true,
+      "legacy_recommended_display_height": 335,
+      "size_policy": {
+        "monster_id": "warden",
+        "name": "꽃숲의 파수목",
+        "size_class": "large",
+        "ratio": 6,
+        "scope": "existing_species",
+        "runtime_status": "not_applied",
+        "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+      }
+    }
+  },
+  "sheets": {
+    "res://assets/monster_motions_v06/sheets/classic_cave.png": {
+      "sha256": "b0fbe938ca7b653ea320c76833c226146dc4ee0001e07f4cac1844ee21034f4c",
+      "source": "sheets/classic_cave.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/dungeon_bosses_b.png": {
+      "sha256": "4e92f1247e5db3f902514bf3455e9ab982e5faf9421978d6f89e014e1ab3891c",
+      "source": "sheets/dungeon_bosses_b.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/dungeon_bosses_a.png": {
+      "sha256": "6415b591dfa5deb644b3a36b4e28f6eee75962a34a98e876d9faeb91351c3375",
+      "source": "sheets/dungeon_bosses_a.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/reinforcement_elements.png": {
+      "sha256": "8dac102378fc2d6b5ba53a5b1b6a46f098e24339bfdb4d49210f32041cafca37",
+      "source": "sheets/reinforcement_elements.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/reinforcement_elites.png": {
+      "sha256": "34dd01ac5918a2862b7b23911909c8b4c1ffb4cc6167f6688104bf4c4b4a492e",
+      "source": "sheets/reinforcement_elites.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/classic_ruins.png": {
+      "sha256": "413a5d8027840a548455522a51eff4f601c861e7406369e8de20f9806fd0b088",
+      "source": "sheets/classic_ruins.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/core.png": {
+      "sha256": "a86375957ec5c0131e68f71a42a29114492f03c1afb96804a9da2c6d0465c2cf",
+      "source": "sheets/core.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/classic_forest.png": {
+      "sha256": "8846fd0d72d647565037141589b147de317cfb79495b0a526917380c3bb732ac",
+      "source": "sheets/classic_forest.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/flood.png": {
+      "sha256": "f91ef1fbd5ba6cbb6d11b43e2a4543b01aaef30f7bc6ce38b894e755135f4ad0",
+      "source": "sheets/flood.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/reinforcement_hunters.png": {
+      "sha256": "af1edcfd0b478916a6d096d92a135a8b20d142733d946017e7f627e9fb52642f",
+      "source": "sheets/reinforcement_hunters.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/reinforcement_fighters.png": {
+      "sha256": "dff370cb03ed252850d056e82ce50b5d153e23837ed6bd42d45a93f65355f939",
+      "source": "sheets/reinforcement_fighters.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/classic_bosses.png": {
+      "sha256": "d5809d41c6489d2e4422880f486aab57b662f2d67a96a39e386db8ccfa52f0ac",
+      "source": "sheets/classic_bosses.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/lava.png": {
+      "sha256": "025b61060dd2023dec77ef8e63e8e921c05a9ac8b0bb4faea988bf666deab815",
+      "source": "sheets/lava.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/machine.png": {
+      "sha256": "e5c6d56354535774b934cf94405365889638dceab13a565dbca774df324dbc2e",
+      "source": "sheets/machine.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/nebula.png": {
+      "sha256": "0ab711b1b6c9178dd078998a6a351e4c3f7fea39c0cc9fc2016a7bcb5917be58",
+      "source": "sheets/nebula.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    },
+    "res://assets/monster_motions_v06/sheets/spore.png": {
+      "sha256": "6dca1eaca7719860fcf2c3a0cccde2a2b9fd5d9c8d9b0ed5bab095189f029cf7",
+      "source": "sheets/spore.png",
+      "key": "magenta_narrow",
+      "source_pixels": "unchanged"
+    }
+  },
+  "provenance": {
+    "source_catalog": "RPG2/art/monsters/attack-motion-20260910/catalog.json",
+    "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+    "size_assignments_sha256": "4458740491ec2256b550b6fc0b6891d845116a2f95294a519e195916270189c8",
+    "legacy_variants_sha256": "21437698e6edcf689a129f5381c8bbf671957d8811ed779c9decb66f141e4195",
+    "excluded": [
+      "new_20_ecology_species",
+      "incomplete_boss_pattern_pack",
+      "third_job_advancement"
+    ]
+  }
+}

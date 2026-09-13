@@ -93,18 +93,18 @@ func attack_multiplier(p:Dictionary,heavy:bool)->float:
 	var s=p.job_state;var mult=float(Balance.role(p.class_id)[2])
 	if s.dice_time>0 and s.dice==1:mult+=.2
 	if p.class_id=="breaker":mult*=1+s.get("heavy_grit",0)/70.0 if heavy else (1.35 if s.get("punch",0)==1 else .85)
-	if heavy:s.current_heavy=true
+	if heavy:s.current_heavy=true;mult*=preload("res://scripts/stat_specialization.gd").heavy_factor(p)
 	if p.class_id=="reaper" and heavy:mult*=1+passive(p,2)*.05
 	return mult
 func after_heavy(p:Dictionary):p.job_state["heavy_grit"]=0.0;p.job_state.current_heavy=false
 func attack_power(p:Dictionary,base:int)->int:
 	return roundi(base*(1+value(p,"attack"))*(1+value(p,"potion_attack")))
-func outgoing(p:Dictionary,e:Dictionary,amount:int,hit_details:Dictionary={})->int:
+func outgoing(p:Dictionary,e:Dictionary,amount:int,_hit_details:Dictionary={})->int:
 	if not p.has("job_state"):return amount
 	var states=e.get("job_status",{})
-	amount=attack_power(p,amount)
-	if states.has("break_armor"):amount=roundi(amount*1.15)
-	if states.has("vulnerable"):amount=roundi(amount*1.2)
+	amount=roundi(attack_power(p,amount)*preload("res://scripts/stat_specialization.gd").rush_factor(p))
+	if states.has("break_armor"):amount=roundi(amount*(1.+float(states.break_armor.get("value",.15))))
+	if states.has("vulnerable"):amount=roundi(amount*(1.+float(states.vulnerable.get("value",.20))))
 	if p.class_id=="swordsman" and (e.get("boss",false) or e.get("elite",false)):amount=roundi(amount*(1+passive(p,1)*.05))
 	if p.class_id=="sniper" and e.get("boss",false):amount=roundi(amount*(1+passive(p,2)*.05))
 	if p.class_id=="hunter":
@@ -117,9 +117,6 @@ func outgoing(p:Dictionary,e:Dictionary,amount:int,hit_details:Dictionary={})->i
 			if p.job_state.hit_count>=8:p.hp=mini(p.max_hp,p.hp+passive(p,5)*2);p.job_state.hit_count=0;p.job_state.recovery_cd=1.
 	if p.class_id=="thief" and p.pos.distance_to(e.pos)<2:amount=roundi(amount*(1+mini(6,states.size())*passive(p,3)*.015))
 	if p.class_id=="explorer" and (states.has("root") or states.has("stun")):amount=roundi(amount*(1+passive(p,3)*.05))
-	var critical=value(p,"crit")+(passive(p,4)*.02 if p.class_id=="swordsman" else 0)+(.15 if p.job_state.dice_time>0 and p.job_state.dice==3 else 0)
-	if critical>0 and sim.rng.randf()<critical:
-		amount=roundi(amount*(1.5+value(p,"crit_damage")+(passive(p,5)*.08 if p.class_id=="swordsman" else 0)));hit_details["critical"]=true
 	if p.class_id=="reaper" and p.job_state.get("current_heavy",false) and p.job_state.get("heavy_proc_cd",0)<=0:
 		p.hp=mini(p.max_hp,p.hp+passive(p,4)*2);p.job_state.heavy_proc_cd=1.
 		if p.job_state.get("natural_heavy",false):reduce_cd(p,"reaper_a01",passive(p,5)*.2)
@@ -158,7 +155,7 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 		if earned>0:s.grit.append({"amount":earned,"remaining":2.0})
 	if amount>0:
 		var resist=p.class_id=="elementalist" and passive(p,3)>0 and sim.rng.randf()<minf(.85,.25+passive(p,3)*.12)
-		if not resist and value(p,"guard")<=0:s.casting={};p.charge_time=-1.;s.heavy_grit=0.
+		if not resist and not (value(p,"guard")>0 and facing):s.casting={};p.charge_time=-1.;s.heavy_grit=0.
 		s.meditate=0.
 		s.channel=0.
 	return maxi(0,amount)
@@ -258,6 +255,7 @@ func act(p:Dictionary,kind:String)->bool:
 	p.motion="cast_high" if cast.time>0 else "cleave";p.motion_time=maxf(.4,cast.time);p.motion_duration=p.motion_time
 	if cast.time>0:
 		s.casting=cast
+		preload("res://scripts/skill_motion_art_v06.gd").start(p,n,true)
 		var visual=cast_visual(p,cast);visual["skill_phase"]="windup";visual["duration"]=cast.time;visual["follow_owner"]=true;visual["follow_offset"]=0.0
 		fx(p,p.class_id+":0",p.pos,1.5,visual)
 	else:execute(p,cast)
@@ -271,14 +269,16 @@ func status(p:Dictionary,e:Dictionary,key:String,duration:float,attribution:Vari
 	if p.class_id=="explorer" and key in ["root","stun"]:
 		duration+=passive(p,2)*.15
 		if e.get("boss",false):e.job_status["vulnerable"]={"time":duration,"owner":p.id,"tick":0.}
+	duration=preload("res://scripts/stat_specialization.gd").control_duration(p,e,key,duration)
 	e.job_status[key]={"time":duration,"owner":p.id,"tick":0.0}
+	if key in ["break_armor","vulnerable"]:e.job_status[key]["value"]=preload("res://scripts/stat_specialization.gd").debuff_value(p,key,.15 if key=="break_armor" else .20)
 	if key=="bleed":
 		var source=combat.stagger_context if attribution==null else attribution
 		var budget=source.get("budget",{})
 		e.job_status[key]["stagger"]=combat.constellation.periodic_context(source,maxi(1,floori(duration))) if budget.get("dot",false) else {}
 		e.job_status[key]["damage_multiplier"]=float(source.get("build",{}).get("dot_damage_multiplier",1.))
 	if key=="slow":e.slow_time=maxf(e.get("slow_time",0),duration)
-	if key in ["root","stun"] and not e.get("boss",false):e.stun_time=maxf(e.get("stun_time",0),minf(duration,1.5))
+	if key in ["root","stun"] and not e.get("boss",false):e.stun_time=maxf(e.get("stun_time",0),minf(duration,preload("res://scripts/stat_specialization.gd").control_duration(p,e,key,1.5)))
 	if p.class_id=="thief":
 		if key in p.job_state.get("support_sent",[]):return
 		p.job_state.get_or_add("support_sent",[]).append(key)
@@ -287,6 +287,8 @@ func status(p:Dictionary,e:Dictionary,key:String,duration:float,attribution:Vari
 		if mapping.has(key):
 			for a in allies(p):buff(a,mapping[key],.15,5.);fx(a,"thief:5",a.pos)
 func execute(p:Dictionary,cast:Dictionary):
+	var failure=preload("res://scripts/skill_conditions.gd").target_failure(sim,p,cast)
+	if not failure.is_empty():sim.notice(p.id,failure);return
 	var previous=combat.stagger_context
 	combat.stagger_context=cast.get("stagger",{})
 	if cast.node.mode in ["pet_command","pet_burst","pet_pull"] and not combat.stagger_context.is_empty():
@@ -304,6 +306,7 @@ func _execute(p:Dictionary,cast:Dictionary):
 	if not t.is_empty():point=t.pos
 	p.motion="slam" if mode.begins_with("charge") or mode.begins_with("heavy") or mode=="finisher" else "cleave"
 	p.motion_time=.6 if p.motion=="slam" else .35;p.motion_duration=p.motion_time
+	preload("res://scripts/skill_motion_art_v06.gd").start(p,n)
 	s.lock=.6 if p.motion=="slam" else .16
 	s["current_index"]=int(n.index)
 	s["current_heavy"]=mode.begins_with("charge") or mode.begins_with("heavy")
@@ -341,7 +344,7 @@ func _execute(p:Dictionary,cast:Dictionary):
 		return
 	if mode in ["heal","regen","field_heal"]:
 		for a in allies(p) if p.class_id=="healer" else [p]:
-			var healing=roundi(cast.heal*float(a.max_hp)/p.max_hp)
+			var healing=roundi(cast.heal*float(a.max_hp)/p.max_hp*preload("res://scripts/progression.gd").received_healing(a))
 			var effective=mini(a.max_hp-a.hp,healing);a.hp+=effective
 			if p.class_id=="healer" and effective>0:p.stamina=minf(p.max_stamina,p.stamina+passive(p,1))
 			if cast.regen>0:buff(a,"regen",cast.regen*float(a.max_hp)/p.max_hp,duration)
@@ -443,6 +446,7 @@ func _execute(p:Dictionary,cast:Dictionary):
 		var amount=damage
 		# 근접 연쇄의 연결선은 실제 피해가 적용된 표적까지만 그린다.
 		if mode in ["execute","heavy_execute","charge_execute"]:amount=roundi(amount*(1+(1-float(e.hp)/e.max_hp)))
+		amount=roundi(amount*preload("res://scripts/stat_specialization.gd").execute_factor(p,n,e))
 		if not combat.hit(p,e,amount):continue
 		any_hit=true
 		if mode=="chain":effect["end"]=e.pos
@@ -498,7 +502,7 @@ func tick(p:Dictionary,delta:float):
 		s.casting.time-=delta
 		if s.casting.time<=0:var cast=s.casting;s.casting={};execute(p,cast)
 	if value(p,"regen")>0:
-		s["regen"]=s.get("regen",0)+delta*value(p,"regen")
+		s["regen"]=s.get("regen",0)+delta*value(p,"regen")*preload("res://scripts/progression.gd").received_healing(p)
 		if s.regen>=1:p.hp=mini(p.max_hp,p.hp+int(s.regen));s.regen=fposmod(s.regen,1.)
 	if p.class_id=="hunter" and s.pets.is_empty():
 		s.hound_respawn=maxf(0,s.get("hound_respawn",0)-delta)
@@ -526,7 +530,7 @@ func tick(p:Dictionary,delta:float):
 			if st.is_empty():continue
 			if st.owner!=p.id:continue
 			st.time-=delta;st.tick+=delta
-			if key=="bleed" and st.tick>=1 and e.hp>0:st.tick=0.;combat.hit(p,e,roundi(sim.damage_for(p)*.25*(1+passive(p,0)*.08 if p.class_id=="hunter" else 1)*float(st.get("damage_multiplier",1.))),e.pos,st.get("stagger",{}))
+			if key=="bleed" and st.tick>=1 and e.hp>0:st.tick=0.;combat.hit(p,e,roundi(sim.damage_for(p)*.25*(1+passive(p,0)*.08 if p.class_id=="hunter" else 1)*float(st.get("damage_multiplier",1.))*preload("res://scripts/stat_specialization.gd").periodic_factor(p,"bleed")),e.pos,st.get("stagger",{}))
 			if st.time<=0:e.job_status.erase(key)
 func resource_text(p:Dictionary)->String:
 	var s=p.job_state

@@ -96,7 +96,7 @@ func verify_export_fixture(db:Dictionary,catalog:Dictionary):
 	for slot in C.SLOTS:equipment[slot]=""
 	var sim=Sim.new(123,"town");sim.add_player(1,"장비 저장 검사")
 	var fixture=sim.persistent(1).duplicate(true)
-	fixture.merge({"world_seed":123,"level":100,"class_id":"warrior","costume":"none","avatar":"auto","inventory":items,"equipment":equipment,"equipped":"","bag_positions":placements,"materials":{},"potions":0,"skill_ranks":{},"skill_loadout":{},"constellation_allocations":{},"tutorial_done":true,"quest_done":true,"stats":{"strength":11,"endurance":7,"technique":9,"agility":5,"magic":3},"gold":4321,"creation_points":10},true)
+	fixture.merge({"world_seed":123,"level":100,"class_id":"warrior","costume":"none","avatar":"auto","inventory":items,"equipment":equipment,"equipped":"","bag_positions":placements,"materials":{},"potions":0,"skill_ranks":{},"skill_loadout":{},"constellation_allocations":{},"tutorial_done":true,"quest_done":true,"stats":{"power":11,"vitality":3,"fortitude":7,"specialization":9,"swiftness":5,"precision":0},"gold":4321,"creation_points":10},true)
 	var local=preload("res://scripts/local_session.gd").new()
 	local.slot=3;local.save_directory=ProjectSettings.globalize_path("res://../runtime/equipment-export-fixture-"+str(Time.get_ticks_usec()))
 	check(local.write_save(fixture,local.save_path()),"write isolated six-atlas portable fixture")

@@ -9,6 +9,7 @@ var heading:Label
 var subtitle:Label
 var health:Label
 var shapes:Label
+var defense:Label
 var status_row:Control
 var target={}
 var target_id=0
@@ -21,18 +22,19 @@ var codex_button:Button
 var drops_button:Button
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
-	card=Art.panel(self,Vector2(1079,403),Vector2(324,240),"paper",12)
+	card=Art.panel(self,Vector2(1079,403),Vector2(324,272),"paper",12)
 	card.mouse_filter=Control.MOUSE_FILTER_STOP
 	heading=game.label(card,"",Vector2(20,14),Vector2(284,33),22)
 	subtitle=game.label(card,"",Vector2(20,50),Vector2(284,29),16)
 	health=game.label(card,"",Vector2(52,83),Vector2(248,29),17)
 	Icons.picture(card,"health",Vector2(20,84),Vector2(24,24))
 	shapes=game.label(card,"",Vector2(20,115),Vector2(284,31),17)
-	status_row=Control.new();status_row.position=Vector2(20,150);status_row.size=Vector2(284,28);status_row.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(status_row)
-	for label in [heading,subtitle,health,shapes]:
+	defense=game.label(card,"",Vector2(20,147),Vector2(284,31),16)
+	status_row=Control.new();status_row.position=Vector2(20,182);status_row.size=Vector2(284,28);status_row.mouse_filter=Control.MOUSE_FILTER_IGNORE;card.add_child(status_row)
+	for label in [heading,subtitle,health,shapes,defense]:
 		label.clip_text=true;label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS;label.mouse_filter=Control.MOUSE_FILTER_PASS
-	codex_button=game.button(card,"도감",Vector2(18,188),Vector2(140,36),func():open_codex(false));Icons.attach(codex_button,"codex",22)
-	drops_button=game.button(card,"드랍",Vector2(166,188),Vector2(140,36),func():open_codex(true));Icons.attach(drops_button,"pickup",22)
+	codex_button=game.button(card,"도감",Vector2(18,220),Vector2(140,36),func():open_codex(false));Icons.attach(codex_button,"codex",22)
+	drops_button=game.button(card,"드랍",Vector2(166,220),Vector2(140,36),func():open_codex(true));Icons.attach(drops_button,"pickup",22)
 	hide()
 func reset():
 	target={};target_id=0;grace=0.;context=[];corpse_frames.clear();hide()
@@ -72,6 +74,8 @@ func present(enemy:Dictionary):
 	heading.text=info.name;heading.tooltip_text=info.name
 	subtitle.text=info.subtitle;subtitle.tooltip_text=info.subtitle
 	health.text=info.health
+	defense.text=("방어 노출" if info.defense.get("exposed",false) else info.defense.get("name",""))+" · "+info.defense.get("counter","") if not info.defense.is_empty() else ""
+	defense.tooltip_text=defense.text
 	shapes.text="공격 · "+info.shapes;shapes.tooltip_text=shapes.text
 	for child in status_row.get_children():status_row.remove_child(child);child.queue_free()
 	for i in range(mini(8,info.statuses.size())):

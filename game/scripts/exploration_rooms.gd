@@ -25,7 +25,8 @@ static func draw_site(game,site:Dictionary):
 		return
 	var art_id=SITE_ART[site.material if site.kind=="gather" else site.kind]
 	if not site.get("event","").is_empty():art_id=site.event_art
-	var data=preload("res://scripts/environment_art.gd").frame(art_id)
+	var data=preload("res://scripts/exploration_object_art_v06.gd").frame(site,game.dungeon.zone,game.dungeon.floor_number)
+	if data.is_empty():data=preload("res://scripts/environment_art.gd").frame(art_id)
 	var scale_value=100.0/float(data.height);var at=game.world_point(site.pos)
 	var dimensions=data.texture.get_size()*scale_value
 	game.draw_texture_rect(data.texture,Rect2(at-data.foot*scale_value,dimensions),false,Color(.7,.7,.7,.65) if site.claimed else Color.WHITE)

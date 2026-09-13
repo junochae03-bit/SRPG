@@ -61,8 +61,8 @@ func run():
 			elif node.get("mode","")=="haste":check(p.haste_time>0,"haste skill "+cls)
 	var sim=Sim.new(321);var p=sim.add_player(1,"성장");p.level=10
 	check(Progression.available(p)==27,"retroactive stats 3 per level")
-	var old_damage=sim.damage_for(p);check(sim.action(1,"stat","strength") and sim.damage_for(p)==old_damage+2,"strength changes melee damage")
-	sim.recalculate(p);var hp=p.max_hp;check(sim.action(1,"stat","endurance") and p.defense==2 and p.magic_defense==2 and p.max_hp==hp,"endurance boosts both defenses")
+	var old_damage=sim.damage_for(p);check(sim.action(1,"stat","power") and sim.damage_for(p)==old_damage+2,"strength changes melee damage")
+	sim.recalculate(p);var hp=p.max_hp;check(sim.action(1,"stat","fortitude") and p.defense==2 and p.magic_defense==2 and p.max_hp==hp,"endurance boosts both defenses")
 	check(sim.action(1,"reset_stats") and Progression.available(p)==27,"town stats reset")
 	check(not sim.action(1,"stat","forged"),"invalid stat rejected")
 	check(Progression.xp_required(1)>60 and Progression.xp_required(10)>600 and Progression.xp_required(20)>Progression.xp_required(10)*2,"slower progressive XP")
@@ -102,7 +102,7 @@ func run():
 		check(not service(sim,p,"shop","sell",{"item":id}) and sim.persistent(1)==before,"virtual stack cannot duplicate sale gold "+id)
 	var battle=Sim.new(321,"forest");var fighter=battle.add_player(1,"행운 검증")
 	var fortune=Gear.make("accessory",0,1,"fortune-test","fortune");Inventory.add_gear(fighter,fortune);Inventory.equip(fighter,fortune.id)
-	fortune.upgrade=2;battle.recalculate(fighter);check(fighter.gear_stats.magic==3,"magic option applies after enhancement")
+	fortune.upgrade=2;battle.recalculate(fighter);check(fighter.gear_stats.power==3,"magic option applies after enhancement")
 	var previous_gold=fighter.gold;var target=battle.enemies.values().back()
 	battle.kill(1,target);check(fighter.gold-previous_gold==90,"stat option does not multiply currency")
 	var names={}
@@ -116,8 +116,8 @@ func run():
 	check(session.travel("cave") and session.sim.map.zone=="cave","travel to selected dungeon")
 	p=session.sim.players[1];p.pos=Vector2(session.sim.map.rooms[1]);check(not session.travel("ruins"),"cannot change dungeon in combat field")
 	check(session.act("return") and session.sim.map.zone=="town","R returns to town")
-	p=session.sim.players[1];p.level=10;session.act("stat","endurance");session.save_game();var loaded=session.parse_save(session.save_path())
-	check(loaded!=null and loaded.schema_version==7 and loaded.stats.endurance==1,"v5 stats saved and validated")
+	p=session.sim.players[1];p.level=10;session.act("stat","fortitude");session.save_game();var loaded=session.parse_save(session.save_path())
+	check(loaded!=null and loaded.schema_version==7 and loaded.stats.fortitude==1,"v5 stats saved and validated")
 	session.disconnect_game();session.queue_free();await process_frame
 	print("V05_TESTS checks=",checks," failures=",failed.size())
 	quit(0 if failed.is_empty() else 1)

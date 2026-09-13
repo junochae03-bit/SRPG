@@ -17,12 +17,15 @@ static func silhouette(enemy:Dictionary)->Rect2:
 	if silhouettes.has(key):return silhouettes[key]
 	var bounds=Rect2()
 	var first=true
-	for index in 3:
+	for index in 4:
+		var sample=enemy.duplicate(true);sample.hp=1;sample.stun_time=0.;sample.support_cast=0.;sample.attack_motion_kind="attack";sample.stagger={};sample.windup=1. if index==1 else 0.;sample.attack_motion=.35 if index==2 else .05 if index==3 else 0.
+		var authored=preload("res://scripts/monster_motion_art_v06.gd").frame(sample)
 		var frame=Art.variant_frame(enemy.kind,int(enemy.get("floor",0)),enemy.get("raid",false),index>0)
 		var scale=1.0
-		if frame.is_empty():
+		if not authored.is_empty():frame=authored;scale=335.0/frame.height
+		elif frame.is_empty():
 			var boss_index=["warden","golem","sentinel"].find(enemy.kind)
-			frame=Art.frame("bosses",maxi(0,boss_index)*3+index)
+			frame=Art.frame("bosses",maxi(0,boss_index)*3+mini(index,2))
 			scale=335.0/Art.frame("bosses",maxi(0,boss_index)*3).height
 		else:scale=335.0/frame.height
 		# Both facings and every pose share one camera envelope, avoiding zoom pulses.

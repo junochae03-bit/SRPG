@@ -19,7 +19,7 @@ func run():
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/ui-v02/"+str(Time.get_ticks_usec()));game.join_game();local.set_physics_process(false);game.set_physics_process(false)
 	var p=local.sim.players[1];p.tutorial_done=true;p.level=100;p.highest_floor=100;p.cleared_floor=99;local.travel("town");p=local.sim.players[1]
-	p.class_id="breaker";p.stats={"strength":100,"endurance":77,"technique":60,"agility":60,"magic":0};local.sim.combat.jobs.reset(p)
+	p.class_id="breaker";p.stats={"power":100,"vitality":0,"fortitude":77,"specialization":60,"swiftness":60,"precision":0};local.sim.combat.jobs.reset(p)
 	var actives=C.SKILLS.breaker.filter(func(n):return n.effect=="active")
 	for i in range(6):p.skill_ranks[actives[i].id]=5;p.skill_loadout[C.ACTIONS[i]]=actives[i].id
 	p.gold=24986;p.materials={"seed":25,"ore":50,"essence":5}
@@ -40,7 +40,7 @@ func run():
 		check(not labels.any(func(label):return removed in label.text),"removed redundant bag instruction: "+removed)
 	check(not buttons.any(func(button):return "입문 장비" in button.text or "연습 무기" in button.text),"starter claim button removed from inventory")
 	await capture("inventory");game.toggle_bag()
-	game.toggle_skills();game.skill_tree.mode="stats";game.skill_tree.refresh(true);check(game.skill_tree.stat_buttons.size()==5,"five stats in UI");await capture("stats");game.skill_tree.mode="skills";game.skill_tree.choice=actives[4].id;game.skill_tree.refresh(true);await capture("skills");game.toggle_skills()
+	game.toggle_skills();game.skill_tree.mode="stats";game.skill_tree.refresh(true);check(game.skill_tree.stat_buttons.size()==6,"six stats in UI");await capture("stats");game.skill_tree.mode="skills";game.skill_tree.choice=actives[4].id;game.skill_tree.refresh(true);await capture("skills");game.toggle_skills()
 	game.town_panel.open("portal");await capture("portal");check(game.town_panel.products.size()==10,"ten floors visible per biome");game.town_panel.close()
 	p.pos=preload("res://scripts/world_catalog.gd").FACILITIES.smith.pos;game.town_panel.open("smith");game.town_panel.choose("upgrade",{"item":"grade-2"});await capture("smith");game.town_panel.close()
 	for floor_number in [1,11,21,31,41,51,61,71,81,91,100]:

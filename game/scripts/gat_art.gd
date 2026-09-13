@@ -21,6 +21,11 @@ static func texture(key:String,index:int)->AtlasTexture:
 		var atlas=AtlasTexture.new();atlas.atlas=load(entry.sheet);atlas.region=Rect2(r[0],r[1],r[2],r[3]);atlas.filter_clip=true;textures[cache_key]=atlas
 	return textures[cache_key]
 static func frame(p:Dictionary,time:float)->Dictionary:
+	var authored=preload("res://scripts/skill_motion_art_v06.gd").frame(p,time)
+	if not authored.is_empty():return authored
+	var expanded=preload("res://scripts/costume_expanded_v06.gd").frame(p,time)
+	if not expanded.is_empty():
+		expanded.presentation_id="costume_v06:"+str(expanded.costume_id);return expanded
 	var raw=_frame(p,time)
 	var id=presentation_id(p)
 	raw=preload("res://scripts/sprite_frame_regions.gd").apply(raw,id)

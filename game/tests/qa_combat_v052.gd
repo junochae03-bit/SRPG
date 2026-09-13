@@ -157,13 +157,13 @@ func training_and_damage():
 	# 30레벨 성장분 43을 포함한 기본 공격력은 61이다.
 	# 두 번째 사례는 힘 7 / 마력 11, 공격력 4의 일반 무기를 실제 장착한다.
 	# 검사 79, 궁수 79×0.92→73, 마법사 87×1.08→94를 유지해야 한다.
-	for spec in [["warrior",61,false],["ranger",56,false],["mage",66,false],["warrior",79,true],["ranger",73,true],["mage",94,true]]:
+	for spec in [["warrior",61,false],["ranger",56,false],["mage",66,false],["warrior",87,true],["ranger",80,true],["mage",94,true]]:
 		var f=fixture(spec[0]);f.e.pos=f.p.pos+Vector2(1,0)
 		if spec[2]:
-			f.p.stats.strength=7;f.p.stats.magic=11
+			f.p.stats.power=11;f.p.stats.fortitude=7
 			var weapon=Equipment.make(Content.CLASSES[spec[0]].weapon,0,0,"qa-damage-"+spec[0],"none",spec[0])
 			check(weapon.bonus==4 and Inventory.add_gear(f.p,weapon) and f.sim.action(1,"equip",weapon.id),"공격력 4 일반 무기 실제 장착 "+spec[0])
-		check(f.p.level==30 and f.p.stats.strength==(7 if spec[2] else 0) and f.p.stats.magic==(11 if spec[2] else 0) and f.p.inventory.size()==(1 if spec[2] else 0) and f.p.skill_ranks.is_empty(),"피해 검증의 레벨·능력치·장비·스킬 상태 확인 "+str(spec))
+		check(f.p.level==30 and f.p.stats.fortitude==(7 if spec[2] else 0) and f.p.stats.power==(11 if spec[2] else 0) and f.p.inventory.size()==(1 if spec[2] else 0) and f.p.skill_ranks.is_empty(),"피해 검증의 레벨·능력치·장비·스킬 상태 확인 "+str(spec))
 		check(f.sim.action(1,"attack"),"기본 공격 실행 "+str(spec));fly(f)
 		check(damages(f).size()==1 and damages(f)[0].amount==spec[1] and f.e.hp==10000-spec[1],"기본 무기 피해 보존: 기대 %s, 실제 %s"%[spec,damages(f)])
 func run():

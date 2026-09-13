@@ -29,7 +29,7 @@ func run():
 	for schema in [3,7]:
 		for removed in ["traveler","witch","starlight","celestial"]:
 			var saved=sim.persistent(1);saved.world_seed=452;saved.schema_version=schema;saved.costume=removed;saved.owned_appearances=[valid,"costume:"+removed]
-			if schema==3:saved.stats={"strength":0,"dexterity":0,"intelligence":0,"vitality":0}
+			if schema==3:saved.erase("stat_schema_version");saved.stats={"strength":0,"dexterity":0,"intelligence":0,"vitality":0}
 			var path=local.save_directory.path_join("input.json");var f=FileAccess.open(path,FileAccess.WRITE);f.store_string(JSON.stringify(saved));f.close()
 			var parsed=local.parse_save(path);check(parsed!=null,"actual old save parses")
 			if parsed==null:continue
