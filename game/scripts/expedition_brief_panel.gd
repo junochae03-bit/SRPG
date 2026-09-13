@@ -49,11 +49,12 @@ func refresh():
 	if p.is_empty():return
 	var pack=Brief.supplies(p);var online=session.get("network_role")!="offline"
 	var rows=Brief.party_status(session.state.players,session.ready_players,town.selected_floor) if online else []
-	var next=JSON.stringify([pack,rows,session.get("leaving"),p.level,p.highest_floor])
+	var next=JSON.stringify([pack,rows,session.get("leaving"),p.level,p.highest_floor,p.get("revival_weakness",false),p.get("revival_injury",false)])
 	if next==stamp:return
 	stamp=next
 	summary.text="물약 %d · 탐사 도구 %d · 가방 여유 %d칸\n무기 %s · 액티브 %d / 6"%[pack.potions,pack.tools,pack.free,"착용" if pack.weapon else "미착용",pack.skills]
-	summary.tooltip_text="탐사 도구는 선택 보관실을 열 때만 필요합니다."
+	summary.tooltip_text=preload("res://scripts/revival_aftereffects.gd").summary(p)
+	if not summary.tooltip_text.is_empty():summary.text+=" · "+("쇠약 " if p.get("revival_weakness",false) else "")+("부상" if p.get("revival_injury",false) else "")
 	var reason=Brief.floor_info(p,town.selected_floor,session.world_seed+7919).reason
 	for i in range(party_rows.size()):
 		var controls=party_rows[i];var exists=i<rows.size()

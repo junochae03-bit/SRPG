@@ -90,6 +90,7 @@ func run():
 	check(click_confirm() and panel.selected_item=="" and panel.confirm_button.disabled,"sale requires fresh item selection")
 	check(panel.review_labels.result.text==panel.last_receipt.replace(" · ","\n") and panel.last_receipt.contains("완료"),"sale receipt survives now-invalid quote")
 	await capture("shop-sold")
+	p.materials[preload("res://scripts/exploration_crafting_data.gd").enhancement_material(Inventory.find_item(p,"clarity-gear-0"),5)]=99
 	open_service("smith");panel.choose("upgrade",{"item":"clarity-gear-0"})
 	check(panel.products["clarity-gear-0"].get_meta("selected"),"selected equipment marked")
 	await capture("smith-before")

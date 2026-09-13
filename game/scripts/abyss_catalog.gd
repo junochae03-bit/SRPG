@@ -17,6 +17,9 @@ static func config(floor_number:int)->Dictionary:
 	c["name"]="B%d · %s"%[f,c.name];return c
 static func expected_attack(level:int)->float:return 18.+4.5*(level-1)+6.*int(level/10)
 static func enemy_stats(kind:String,floor_number:int,raid:bool=false,guardian:bool=false)->Dictionary:
+	if not raid and not guardian:
+		var authored=preload("res://scripts/monster_ecology_v071.gd").stats(kind,floor_number)
+		if not authored.is_empty():return authored
 	var f=clampi(floor_number,1,100);var level=maxi(3,f);var base=World.ENEMIES[kind]
 	var bulk=clampf(float(base.health)/130.,.68,1.55);var elite=base.get("elite",false) or guardian
 	var hp=expected_attack(level)*(2.6+f*.01)*bulk*(6.3 if elite else 1.7)

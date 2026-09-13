@@ -3,10 +3,11 @@ extends RefCounted
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Consumables=preload("res://scripts/consumables.gd")
 const Equipment=preload("res://scripts/equipment_catalog.gd")
-const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약","tool":"탐사 도구","mana_potion":"마나 물약","power_potion":"공격 강화 물약","lure_stone":"유인 돌","snare_trap":"올가미 덫","fire_bottle":"화염병"}
+const Revival=preload("res://scripts/revival_aftereffects.gd")
+const LABELS={"seed":"별씨앗","ore":"광석","essence":"정수","potion":"회복 물약","tool":"탐사 도구","mana_potion":"기력 물약","power_potion":"공격 강화 물약","lure_stone":"유인 돌","snare_trap":"올가미 덫","fire_bottle":"화염병"}
 const DEFAULT_INN_OPERATION="resupply_small"
 const INN_RESUPPLY_TARGETS={"resupply_small":5,"resupply":Inventory.MAX_POTIONS}
-const OPERATIONS=["smith:salvage","shop:potion","shop:mana_potion","shop:power_potion","shop:lure_stone","shop:snare_trap","shop:fire_bottle","shop:tool","alchemy:potion","alchemy:mana_potion","alchemy:power_potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply"]
+const OPERATIONS=["smith:salvage","shop:potion","shop:mana_potion","shop:power_potion","shop:lure_stone","shop:snare_trap","shop:fire_bottle","shop:tool","alchemy:potion","alchemy:mana_potion","alchemy:power_potion","alchemy:essence","alchemy:ore","guild:supply","guild:cancel","inn:resupply_small","inn:resupply","inn:rest","church:treat"]
 static func handles(facility:String,operation:String)->bool:return facility+":"+operation in OPERATIONS
 static func describe(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:
 	var q={"title":"선택한 작업","cost":0,"materials":{},"outputs":{},"result":"","reason":"","icon":facility,"item":{},"operation":operation,"extra":extra.duplicate(true)}
@@ -30,6 +31,12 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 		if q.final_quantity>Inventory.stack_limit(operation):q.reason="%d개 단위 제작 시 재고 %d개가 보관 상한 %d개를 넘습니다."%[batch,q.final_quantity,Inventory.stack_limit(operation)];return q
 	elif quantity not in ([1,5,10] if facility=="shop" else [1,3,5] if facility=="alchemy" else [1]):q.reason="수량을 확인하세요.";return q
 	match facility+":"+operation:
+		"church:treat":
+			q.title="성당 쇠약 치료";q.cost=Revival.CHURCH_COST;q.icon="guild";q.result="공격력·방어력 감소 제거\n부상과 현재 생명력은 유지"
+			if not p.get("revival_weakness",false):q.reason="치료할 쇠약이 없습니다."
+		"inn:rest":
+			q.title="초승달 여관 숙박";q.cost=10;q.icon="inn"
+			q.result="생명력 %d → %d\n기력 %d → %d"%[p.hp,Revival.normal_max_hp(p),p.stamina,p.max_stamina]
 		"smith:salvage":
 			q.item=Inventory.find_item(p,str(extra.get("item","")))
 			if q.item.is_empty() or q.item.get("category","") not in ["weapon","armor","accessory"]:q.reason="분해할 장비를 선택하세요.";return q
@@ -56,7 +63,8 @@ static func describe(p:Dictionary,facility:String,operation:String,extra:Diction
 			q.title="소규모 보급" if operation==DEFAULT_INN_OPERATION else "원정 준비"
 			q.cost=10+15*missing;q.icon="inn";q.target_potions=target
 			if missing>0:q.outputs.potion=missing
-			q.result="생명력 %d → %d\n기력 %d → %d\n물약 %d → %d"%[p.hp,p.max_hp,p.stamina,p.max_stamina,p.potions,int(p.potions)+missing]
+			q.result="생명력 %d → %d\n기력 %d → %d\n물약 %d → %d"%[p.hp,Revival.normal_max_hp(p),p.stamina,p.max_stamina,p.potions,int(p.potions)+missing]
+	if facility=="inn" and p.get("revival_injury",false):q.result+="\n부상 제거 · 최대 생명력 회복"
 	if operation not in INN_RESUPPLY_TARGETS:
 		for key in q.outputs:q.result+=("\n" if not q.result.is_empty() and not q.result.ends_with("\n") else "")+LABELS[key]+" +"+str(q.outputs[key])
 	if q.reason.is_empty() and p.gold<q.cost:q.reason="금화 %d G 부족"%(q.cost-p.gold)
@@ -77,6 +85,7 @@ static func stage(p:Dictionary,facility:String,operation:String,extra:Dictionary
 			q.reason=Inventory.stack_failure_reason(staged,key,q.outputs[key])
 			return {"quote":q,"player":{}}
 	if facility=="guild" and operation=="cancel":staged.guild_contract={}
-	if facility=="inn":staged.hp=staged.max_hp;staged.stamina=staged.max_stamina
+	if facility=="inn":Revival.rest(staged)
+	if facility=="church":staged.revival_weakness=false
 	return {"quote":q,"player":staged}
 static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary={})->Dictionary:return stage(p,facility,operation,extra).quote

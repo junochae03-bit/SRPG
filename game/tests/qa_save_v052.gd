@@ -27,12 +27,12 @@ func run():
 	session.start_game("저장 검증",1);var p=session.sim.players[1]
 	check_write_boundaries(session,folder)
 	var messages=[];session.status_changed.connect(func(message):messages.append(message))
-	var original=session.parse_save(session.save_path());check(original!=null,"initial save reads")
+	var original_path=session.save_path();var original=session.parse_save(original_path);check(original!=null,"initial save reads")
 	p.gold+=7;session.sim.dirty[1]=true;session.save_directory=blocker.path_join("saves")
 	session.flush_events();check(session.save_failed and session.sim.dirty.has(1),"failed auto-save retains dirty state")
 	check(not session.disconnect_game() and session.connected and session.sim.players[1]==p,"failed disconnect keeps live character")
 	check(not messages.any(func(message):return message.begins_with("저장했습니다")),"no false success message")
-	check(session.parse_save(folder.path_join("slot-1.json")).gold==original.gold,"failed save preserves previous disk record")
+	check(session.parse_save(original_path).gold==original.gold,"failed save preserves previous disk record")
 	session.paused=true;session.save_directory=folder;session._physics_process(1.1)
 	check(not session.save_failed and session.sim.dirty.is_empty() and session.connected and session.paused,"paused auto-retry succeeds without closing session")
 	check(session.parse_save(session.save_path()).gold==p.gold,"recovered disk includes unsaved change")
@@ -56,6 +56,6 @@ func run():
 	game.settings_panel.close();check(not session.paused and session.connected,"종료 실패 설정을 닫으면 기존 플레이로 복귀")
 	game.settings_panel.open()
 	session.save_directory=folder;game.settings_panel.return_to_title()
-	check(not session.connected and not game.settings_panel.visible and session.parse_save(folder.path_join("slot-1.json")).gold==p.gold,"same title action completes after recovery")
+	check(not session.connected and not game.settings_panel.visible and session.parse_save(session.save_path()).gold==p.gold,"same title action completes after recovery")
 	game.stop_audio();game.queue_free();await process_frame;await process_frame
 	print("QA_SAVE_V052 checks=%d failures=%d"%[checks,failures.size()]);quit(0 if failures.is_empty() else 1)

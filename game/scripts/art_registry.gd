@@ -64,6 +64,7 @@ func collect(db:Dictionary):
 	for zone in ["town","forest"]:
 		for key in Env.ids(zone,0):environment(key,"runtime",zone,Env.theme(zone,0))
 	for a in db.appearances:
+		if ecology_monster(a.monster_id,"appearances",a.id):continue
 		monster_motion(a.monster_id,int(a.floor_id),a.role=="raid","appearances",a.id)
 		var variant=World.variant(a.monster_id,a.floor_id,a.role=="raid")
 		if not variant.is_empty():
@@ -74,6 +75,7 @@ func collect(db:Dictionary):
 		else:legacy_monster(a.monster_id,"appearances",a.id,{"floor":a.floor_id,"role":a.role})
 	# Base monsters still appear in the codex and tutorial independently of variants.
 	for m in db.monsters:
+		if ecology_monster(m.id,"monsters",m.id):continue
 		legacy_monster(m.id,"monsters",m.id,{"base_catalog":true})
 		monster_motion(m.id,0,false,"monsters",m.id)
 	for key in Creatures.FACILITIES:
@@ -81,12 +83,15 @@ func collect(db:Dictionary):
 		var facility=Creatures.FACILITIES[key];var i=int(facility.art);var entry=World.catalog.town;var f=entry.frames[i]
 		var id=add("art:town:"+str(i),"environment","마을 건물 원화 "+str(i),entry.sheet,f.rect,"docs/ASSET_SOURCES.md","res://assets/world/catalog.json",{"foot":f.foot},i,"building")
 		use(id,"facilities",key,"game/scripts/main.gd:draw_building",{"facility_name":facility.name})
+	environment("cave_mine_arch","runtime","cave_explorer_support","cave")
+	environment("cave_ore_boulders","runtime","cave_solid_rim","cave")
 	training_art()
 	exploration_trace_art()
 	cave_remains_art()
 	characters(db)
 	companions()
 	ui_icons()
+	projectile_art()
 	var title_path="res://assets/ui/title-storybook-v04.png";var title=load(title_path) as Texture2D
 	var title_id=add("art:ui:title_storybook","ui","동화책 숲 타이틀",title_path,[0,0,title.get_width(),title.get_height()],"docs/TITLE_ART_V04.md","res://scripts/title_screen.gd")
 	use(title_id,"runtime","title","game/scripts/title_screen.gd:setup")
@@ -107,7 +112,7 @@ func render_cache_metadata():
 		var chroma=""
 		if a.metadata.has("equipment_key"):chroma="magenta"
 		elif a.id.begins_with("art:character:skill_v06:") or a.id.begins_with("art:character:costume_v06:"):chroma="green"
-		elif a.id.begins_with("art:monster:motion_v06:") or a.id.begins_with("art:environment:exploration_v06:"):chroma="magenta_narrow"
+		elif a.id.begins_with("art:monster:ecology_v071:") or a.id.begins_with("art:monster:motion_v06:") or a.id.begins_with("art:environment:exploration_v06:"):chroma="magenta_narrow"
 		elif a.id.begins_with("art:character:costume:"):
 			var costume_id=str(a.id).split(":")[3]
 			var e=Costumes.catalog()[costume_id]
@@ -244,7 +249,7 @@ func ui_icons():
 	var statuses=preload("res://scripts/status_markers.gd")
 	for key in statuses.STATUSES.values()+statuses.BUFFS.values()+["invulnerable","shield","haste","guard","counter","taunt","mark"]:icon(key,"runtime","actor_status","game/scripts/status_markers.gd:keys_for")
 	for key in ["quest","quest_complete","trophy","boss"]:icon(key,"runtime","quest_state","game/scripts/combat_hud.gd:refresh")
-	for key in Creatures.FACILITIES:icon(key,"runtime","town:"+key,"game/scripts/town_panel.gd:refresh")
+	for key in Creatures.FACILITIES:icon("guild" if key=="church" else key,"runtime","town:"+key,"game/scripts/town_panel.gd:refresh")
 	for cls in Content.CLASSES:icon("class_"+cls,"classes",cls,"game/scripts/codex_panel.gd:configure_filters")
 	for slot in Content.SLOTS:icon(slot,"runtime","equipment_slot:"+slot,"game/scripts/inventory_item_ui.gd:_draw")
 	for key in preload("res://scripts/progression.gd").NAMES:icon(Library.canonical(preload("res://scripts/progression.gd").ICONS[key]),"runtime","stat:"+key,"game/scripts/character_sheet_ui.gd:setup")
@@ -346,3 +351,23 @@ func exploration_objects():
 					var f=entry.frames[state]
 					var id=add("art:environment:exploration_v06:"+key+":"+state,"environment",key,entry.sheet,f.rect,"docs/AGENT_ART_INTEGRATION.ko.md",art.CATALOG_PATH,{"foot":f.foot,"body_height":entry.body_height},-1,state)
 					use(id,"runtime","exploration:"+category,"game/scripts/exploration_rooms.gd:draw_site",{"biome":biome,"category":category,"personal_claim_state":state})
+
+func ecology_monster(kind:String,table:String,target:String)->bool:
+	const EcologyArt=preload("res://scripts/monster_ecology_art_v071.gd")
+	var entry=EcologyArt.data().get("species",{}).get(kind,{})
+	if entry.is_empty():return false
+	for i in range(entry.frames.size()):
+		var f=entry.frames[i]
+		var id=add("art:monster:ecology_v071:"+kind+":"+str(i),"monster",entry.name_ko,entry.sheet,f.rect,"game/assets/monster_ecology_v071/README.ko.md",EcologyArt.CATALOG_PATH,{"foot":f.foot,"body_height":entry.body_height,"display_height":entry.body_pixels,"species":kind},i,f.phase)
+		use(id,table,target,"game/scripts/monster_ecology_art_v071.gd:frame",{"monster_id":kind,"phase":f.phase})
+	return true
+
+func projectile_art():
+	const Path="res://assets/projectiles_v071/catalog.json"
+	var catalog=JSON.parse_string(FileAccess.get_file_as_string(Path))
+	for family in catalog.families:
+		var row=catalog.families[family]
+		for i in range(row.frames.size()):
+			var f=row.frames[i]
+			var id=add("art:vfx:projectile_v071:"+family+":"+str(i),"vfx",family+" · 투사체 "+str(i),row.sheet,f.rect,"docs/projectiles_v071/README.ko.md",Path,{"family":family,"chroma_key":row.key},i,"projectile")
+			use(id,"runtime","projectile:"+family,"game/scripts/projectile_visual_v071.gd",{"family":family,"stage":i})

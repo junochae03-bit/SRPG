@@ -7,6 +7,7 @@ const Progression=preload("res://scripts/progression.gd")
 const BossStagger=preload("res://scripts/boss_stagger.gd")
 const Goals=preload("res://scripts/expedition_goals.gd")
 const Party=preload("res://scripts/party_rules.gd")
+const Revival=preload("res://scripts/revival_aftereffects.gd")
 const Risk=preload("res://scripts/expedition_risk.gd")
 const Support=preload("res://scripts/enemy_support.gd")
 const Defense=preload("res://scripts/enemy_defense.gd")
@@ -27,6 +28,8 @@ var combat
 var awareness
 var tactical
 var inspection=preload("res://scripts/enemy_inspection.gd").new()
+const Ecology=preload("res://scripts/monster_ecology_v071.gd")
+var monster_ecology
 var monster_attacks
 var loot_tables=preload("res://scripts/loot_tables.gd").new()
 
@@ -34,6 +37,7 @@ func _init(seed_value: int = 20260908,zone:String="forest",floor_number:int=0,ri
 	Content.initialize_jobs()
 	combat=preload("res://scripts/player_combat.gd").new(self)
 	monster_attacks=preload("res://scripts/monster_attacks.gd").new(self)
+	monster_ecology=Ecology.new(self)
 	map = Dungeon.new(seed_value,zone,floor_number,risk)
 	awareness=preload("res://scripts/enemy_awareness.gd").new(self)
 	tactical=preload("res://scripts/tactical_tools.gd").new(self)
@@ -70,9 +74,10 @@ func spawn_enemy(kind:String,pos:Vector2,level:int,boss:bool=false)->Dictionary:
 	var config=balance.enemies[kind];var id=enemies.size()+1
 	var e={"id":id,"kind":kind,"name":config.name,"pos":pos,"home":pos,"hp":config.health,"max_hp":config.health,"cooldown":0.0,"windup":0.0,"target":0,"attack_pos":pos,"respawn":0.0,"level":level,"boss":boss,"elite":config.get("elite",false),"phase":1,"pattern":0,"ability_cd":4.0,"attack_motion":0.0}
 	if map.floor_number>0:
-		var scaled=preload("res://scripts/abyss_catalog.gd").enemy_stats(kind,map.floor_number,boss)
+		var scaled=Ecology.stats(kind,map.floor_number)
+		if scaled.is_empty():scaled=preload("res://scripts/abyss_catalog.gd").enemy_stats(kind,map.floor_number,boss)
 		e.merge(scaled,true);e.hp=scaled.health;e.max_hp=scaled.health;e["floor"]=map.floor_number;e["raid"]=boss
-		if not boss:e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
+		if not boss and not Ecology.recognizes(kind):e.name=preload("res://scripts/world_art.gd").appearance_name(kind,map.floor_number,e.name)
 	BossStagger.initialize(e,clock)
 	Defense.initialize(e)
 	Risk.scale_enemy(e,map.risk_level)
@@ -84,6 +89,8 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 		"equipment":{},"bag_positions":{},"materials":{},"class_id":"warrior","skill_ranks":{},"costume":"none","avatar":"auto","legacy_costume":"","training_given":false,
 		"tutorial_done":false,"tutorial_kills":0,"highest_floor":1,"cleared_floor":0,"raid_clears":{},"stats":{},"skill_loadout":{},"guild_contract":{},"dungeon_clears":{},"kills":0,"boss_kills":0,"quest_done":false,"attack_cd":0.0,"nova_cd":0.0,"potion_cd":0.0,"return_cd":0.0,"swing":0.0,"input_age":0.0}
 	p["guild_reputation"]=int(saved.get("guild_reputation",0))
+	Revival.restore(p,saved)
+	p["production"]=preload("res://scripts/production_queue.gd").restore(saved.get("production",{}))
 	p["town_research"]=preload("res://scripts/town_research.gd").restore(saved.get("town_research",{}))
 	p["expedition_goal"]=Goals.restore(saved.get("expedition_goal",{}))
 	Goals.reset_map_progress(p)
@@ -113,10 +120,12 @@ func add_player(id: int, player_name: String, saved: Dictionary = {}) -> Diction
 	return p
 
 func persistent(id: int) -> Dictionary:
-	var result = {"schema_version":7}
+	var result = {"schema_version":8}
+	Revival.persist(players[id],result)
 	result["stat_schema_version"]=Progression.STAT_SCHEMA_VERSION
 	if players[id].has("stat_migration"):result["stat_migration"]=players[id].stat_migration.duplicate(true)
 	result["guild_reputation"]=int(players[id].get("guild_reputation",0))
+	result["production"]=players[id].get("production",{}).duplicate(true)
 	result["town_research"]=players[id].get("town_research",{}).duplicate(true)
 	result["expedition_goal"]=players[id].get("expedition_goal",{}).duplicate(true)
 	result["owned_appearances"]=players[id].get("owned_appearances",[]).duplicate()
@@ -125,11 +134,11 @@ func persistent(id: int) -> Dictionary:
 		result[key] = players[id][key]
 	return result
 
-func set_input(id: int, direction: Vector2, aim: Vector2, sprint: bool = false):
+func set_input(id: int, direction: Vector2, aim: Vector2, sprint: bool = false, interact_held:bool=false):
 	if not players.has(id) or not direction.is_finite() or not aim.is_finite():
 		return
+	Revival.input(self,players[id],interact_held,direction.length_squared()>.01)
 	if players[id].get("down_time",0)>0:return
-	if direction.length_squared()>.01:players[id].erase("revive_target");players[id].erase("revive_progress")
 	players[id].dir = direction.limit_length(1.0)
 	players[id].aim = aim.limit_length(1.0)
 	players[id].input_age = 0.0
@@ -142,11 +151,12 @@ func damage_for(p: Dictionary,kind:String="") -> int:
 	for item in p.inventory:
 		if (item.id == p.equipped or item.id==p.equipment.get("accessory","")) and preload("res://scripts/equipment_catalog.gd").reason(p,item).is_empty():
 			damage += int(item.bonus)
-	return damage
+	return Revival.attack(p,damage)
 
 func recalculate(p: Dictionary):
 	var old_max=int(p.get("max_hp",120))
 	p["gear_stats"]=preload("res://scripts/equipment_catalog.gd").stat_values(p)
+	p["equipment_special_points"]=preload("res://scripts/equipment_special_stats.gd").totals(preload("res://scripts/equipment_catalog.gd").equipped(p))
 	p.max_hp=120+(int(p.level)-1)*18+int(Content.skill_bonus(p,"health"))+Progression.health(p)
 	p["defense"]=int(Content.skill_bonus(p,"defense"))+Progression.defense(p)
 	for item in p.inventory:
@@ -158,7 +168,8 @@ func recalculate(p: Dictionary):
 	p.defense+=int(preload("res://scripts/equipment_catalog.gd").bonus(p,"defense"))
 	p.max_stamina+=preload("res://scripts/equipment_catalog.gd").bonus(p,"stamina")
 	p["magic_defense"]=p.defense
-	p.hp=clampi(int(p.hp)+p.max_hp-old_max,1,p.max_hp)
+	Revival.apply_stats(p)
+	p.hp=0 if p.get("down_time",0)>0 or p.hp<=0 else clampi(int(p.hp)+p.max_hp-old_max,1,p.max_hp)
 	p["stamina"]=minf(float(p.get("stamina",p.max_stamina)),p.max_stamina)
 
 func gear_changed(p: Dictionary):
@@ -186,10 +197,9 @@ func action(id: int, kind: String, argument: String = "") -> bool:
 		return false
 	var p = players[id]
 	if p.get("down_time",0)>0 or p.get("network_leaving",false):return false
-	if kind=="interact":
-		var downed=players.values().filter(func(other):return other.id!=id and other.get("down_time",0)>0 and p.pos.distance_to(other.pos)<=Party.RESCUE_RADIUS and map.line_clear(p.pos,other.pos))
-		if not downed.is_empty():p.revive_target=downed[0].id;p.revive_progress=0.;p.dir=Vector2.ZERO;notice(id,"구조 중… 움직이거나 공격하면 취소됩니다.");return true
-	if kind!="cancel_charge":p.erase("revive_target");p.erase("revive_progress")
+	# Only the ordered held-input stream starts rescue; a delayed action cannot.
+	if kind=="interact" and Revival.consumes(self,p):return true
+	Revival.cancel(p)
 	if kind=="training_reset":return preload("res://scripts/training_ground.gd").reset(self,p)
 	if kind=="apply_build":return preload("res://scripts/build_presets.gd").apply(self,p,argument)
 	if kind=="select_goal":return Goals.select(self,p,argument)
@@ -398,6 +408,7 @@ func kill(id: int, enemy: Dictionary):
 	var config = balance.enemies[enemy.kind].duplicate(true)
 	for key in ["xp","gold"]:config[key]=enemy.get(key,config[key])
 	enemy.hp = 0
+	monster_ecology.cancel(enemy) if Ecology.recognizes(enemy.kind) else null
 	inspection.record(enemy,clock)
 	enemy.respawn = 999999. if map.floor_number>0 else config.respawn
 	enemy.windup = 0.0
@@ -429,7 +440,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 		p.quest_done = true
 		p.gold += 100
 		notice(id, "의뢰 완료 · 정원의 소란 · 금화 +100")
-	for entry in loot_tables.roll(enemy.kind,rng,map.risk_level*Risk.DROP_PER_RANK+(combat.jobs.passive(p,4)*.03 if p.class_id=="hunter" and not p.job_state.pets.is_empty() else 0.0)):
+	for entry in loot_tables.roll(enemy.kind,rng,map.risk_level*Risk.DROP_PER_RANK+(combat.jobs.passive(p,4)*.03 if p.class_id=="hunter" and not p.job_state.pets.is_empty() else 0.0),map.floor_number):
 		serial += 1
 		var item_id = str(Time.get_unix_time_from_system()).replace(".", "") + "-" + str(serial)
 		var item=loot_tables.item(entry,item_id,rng,balance)
@@ -443,6 +454,7 @@ func reward_kill(id:int,enemy:Dictionary,config:Dictionary):
 		var offset=Vector2.from_angle(serial*2.399)*rng.randf_range(.15,.8)
 		drops[item_id] = {"item":item,"pos":map.move(enemy.pos,offset),"owner":id,"expires":clock + 90.0}
 	Risk.guardian_drop(self,id,enemy)
+	preload("res://scripts/exploration_material_rewards.gd").enemy(self,p,enemy)
 	if enemy.get("raid",false):
 		serial+=1
 		var raid_id="raid-"+str(Time.get_ticks_usec())+"-"+str(serial)
@@ -456,6 +468,7 @@ func tick(delta: float):
 	if delta<=0:return
 	clock += delta
 	preload("res://scripts/town_research.gd").tick(self,delta)
+	preload("res://scripts/production_queue.gd").tick(self,delta)
 	preload("res://scripts/hidden_rooms.gd").discover(self)
 	Goals.observe(self)
 	for p in players.values():
@@ -464,15 +477,9 @@ func tick(delta: float):
 			p.hp=0;p.down_time=maxf(0.,p.down_time-delta);p.dir=Vector2.ZERO
 			if p.down_time<=0 or not players.values().any(func(other):return other.id!=p.id and other.hp>0):respawn_player(p)
 			continue
-		if p.has("revive_target"):
-			var target=players.get(p.revive_target,{})
-			if target.get("down_time",0)<=0 or p.pos.distance_to(target.pos)>Party.RESCUE_RADIUS or not map.line_clear(p.pos,target.pos):p.erase("revive_target");p.erase("revive_progress")
-			else:
-				p.revive_progress=float(p.get("revive_progress",0))+delta;p.dir=Vector2.ZERO
-				if p.revive_progress>=Party.RESCUE_SECONDS:
-					target.down_time=0.;target.hp=maxi(1,roundi(target.max_hp*Party.RESCUE_HEALTH));target.invulnerable=Party.RESCUE_INVULNERABLE;dirty[target.id]=true;p.erase("revive_target");p.erase("revive_progress");notice(target.id,"동료의 도움으로 일어났습니다.")
 		p.input_age += delta
-		if p.input_age > 0.35: p.dir = Vector2.ZERO;p.sprint=false
+		if p.input_age > Party.RESCUE_INPUT_TIMEOUT: p.dir = Vector2.ZERO;p.sprint=false
+		Revival.tick(self,p,delta)
 		for key in ["attack_cd","nova_cd","potion_cd","tool_cd","return_cd","swing"]:
 			p[key] = maxf(0, p.get(key,0.) - delta)
 		var before=p.pos
@@ -482,6 +489,7 @@ func tick(delta: float):
 	combat.skills.tick(delta)
 	tactical.tick()
 	monster_attacks.tick(delta)
+	monster_ecology.tick(delta)
 	var previous_enemy_positions={}
 	for id in enemies:previous_enemy_positions[id]=enemies[id].pos
 	for e in enemies.values():
@@ -510,13 +518,16 @@ func tick(delta: float):
 		e["stun_time"]=maxf(0,e.get("stun_time",0)-delta)
 		if e.get("raid",false):e.stun_time=0.
 		if was_stunned or e.stun_time>0:
-			e.windup=0;e.erase("attack_areas");Support.cancel(e,true);continue
+			e.windup=0;e.erase("attack_areas");Support.cancel(e,true)
+			if Ecology.recognizes(e.kind):monster_ecology.cancel(e)
+			continue
 		var movement_origin=e.pos
 		var move_speed=e.get("speed",config.speed)*(0.45 if e.slow_time>0 else 1.0)
 		if config.ai=="charger" and e.ability_cd<1.0:move_speed*=2.2
 		if e.windup > 0:
 			e.windup -= delta
 			if e.windup <= 0:
+				if monster_ecology.release(e):continue
 				e.attack_motion=.35;e["attack_motion_kind"]="attack"
 				if not e.get("boss",false) or e.get("raid",false):
 					monster_attacks.release(e);e.cooldown=1.7 if e.get("elite",false) else 1.25;continue
@@ -534,12 +545,13 @@ func tick(delta: float):
 						received=combat.jobs.receive(p,e,received,config.ai not in ["ranged","healer","spore"])
 						p.erase("revive_target");p.erase("revive_progress")
 						p.hp -= received
-						p.hurt_time=.16*Progression.hurt_duration_factor(p)
+						p.hurt_time=preload("res://scripts/equipment_special_stats.gd").hurt_duration(p,.16,Progression.hurt_duration_factor(p))
 						if config.ai=="spore":p.stamina=maxf(0,p.stamina-12)
 						events.append({"type":"damage","pos":p.pos,"amount":received,"enemy":false,"owner":p.id})
 						if p.hp <= 0:player_defeated(p)
 				e.cooldown = 1.8 if e.get("boss",false) else 1.2
 			continue
+		if Ecology.recovering(e):continue
 		var was_taunted=float(e.get("taunt_time",0))>0
 		e["taunt_time"]=maxf(0,e.get("taunt_time",0)-delta)
 		if was_taunted:Support.cancel(e,true)
@@ -560,7 +572,8 @@ func tick(delta: float):
 		if target.is_empty():
 			if awareness.investigate(e,move_speed,delta):continue
 			e.pos = map.move(e.pos, (e.home - e.pos).limit_length(move_speed * delta))
-		elif best <= config.range and e.cooldown <= 0:
+		elif best <= e.get("range",config.range) and e.cooldown <= 0:
+			if monster_ecology.begin(e,target.pos):e.pattern=int(e.get("pattern",0))+1;continue
 			e.windup = 1.0 if e.get("boss",false) else .65 if config.ai in ["ranged","spore"] else .5
 			e.attack_pos = target.pos
 			if not e.get("boss",false) or e.get("raid",false):
@@ -618,9 +631,9 @@ func snapshot(for_id: int) -> Dictionary:
 		if id != for_id:
 			p.erase("inventory")
 			p.erase("gold")
-			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal","town_research","guild_reputation","guild_contract"]:p.erase(private_key)
+			for private_key in ["materials","potions","consumables","bag_positions","expedition_journal","expedition_report","expedition_goal","town_research","production","production_retry","guild_reputation","guild_contract"]:p.erase(private_key)
 		visible_players[id] = p
 	var visible_drops = {}
 	for id in drops:
 		if drops[id].owner == for_id: visible_drops[id] = drops[id].duplicate(true)
-	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"tactical_tools":tactical.snapshot(),"risk_level":map.risk_level,"departure_plan":departure_plan.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}
+	return {"players":visible_players,"enemies":enemies.duplicate(true),"corpses":inspection.snapshot(map,players),"noise":awareness.snapshot(for_id),"tactical_tools":tactical.snapshot(),"risk_level":map.risk_level,"departure_plan":departure_plan.duplicate(true),"drops":visible_drops,"clock":clock,"projectiles":combat.projectiles.duplicate(true),"enemy_attacks":monster_attacks.zones.duplicate(true)+monster_ecology.telegraphs(),"enemy_projectiles":monster_ecology.projectile_snapshots(),"exploration_sites":preload("res://scripts/exploration_rooms.gd").snapshot(self,for_id),"opened_regions":map.opened_regions.keys(),"revealed_regions":map.revealed_regions.keys()}

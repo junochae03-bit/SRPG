@@ -24,7 +24,7 @@ func _initialize():
 				var group=map.encounters.filter(func(entry):return entry.room==room)
 				check(group.filter(func(entry):return Roles.role(entry.kind)=="support").size()<=1,"one healer including reinforcement")
 				for entry in group:
-					check(entry.kind in pool or entry.kind==Abyss.config(depth).elite,"biome species preserved")
+					check(entry.kind in pool or entry.kind==Abyss.config(depth).elite or not preload("res://scripts/monster_ecology_v071.gd").stats(entry.kind,depth).is_empty(),"biome species preserved")
 					check(map.walkable(entry.pos) and distances.has(Vector2i(entry.pos.round())),"slot reachable")
 					for other in group:
 						if entry==other:continue

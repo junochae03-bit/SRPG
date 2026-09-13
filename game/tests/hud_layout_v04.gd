@@ -13,7 +13,7 @@ func capture(name:String):
 	check(root.get_texture().get_image().save_png(path)==OK,"actual framebuffer "+name)
 func check_resource_interior(resource,job:String):
 	var inner=resource.content_bounds()
-	check(inner.position.x>=36 and inner.position.y>=40,"ornament inset contract "+job)
+	check(inner.position.x>=2 and inner.position.y>=2 and Rect2(Vector2.ZERO,resource.size).encloses(inner),"compact identity content inset "+job)
 	for control in [resource.emblem,resource.heading,resource.hint_icon,resource.hint]:
 		if control.visible:check(inner.encloses(control.get_rect()),"child fits inside decorative frame "+job+" "+str(control.get_rect()))
 	check(not resource.content_draw_rects.is_empty(),"resource draw geometry recorded "+job)
@@ -23,7 +23,7 @@ func run():
 	root.borderless=true;root.size=Vector2i(1920,1080)
 	var game=load("res://main.tscn").instantiate();game.options.mute=true;root.add_child(game);await process_frame
 	var local=game.session;local.save_directory=ProjectSettings.globalize_path("res://../runtime/hud-layout-v04/"+str(Time.get_ticks_usec()))
-	game.join_game();local.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false)
+	game.join_game();local.set_physics_process(false);game.set_physics_process(false);game.set_process_unhandled_input(false);game.set_process_input(false)
 	var p=local.sim.players[1];p.name="별빛을따라걷는아주긴모험가이름";p.tutorial_done=true;p.level=100;p.highest_floor=100;p.cleared_floor=99
 	local.travel("town");p=local.sim.players[1];local.sim.action(1,"class","runesword");p=local.sim.players[1]
 	var actives=C.SKILLS.runesword.filter(func(n):return n.effect=="active")
@@ -84,8 +84,8 @@ func run():
 	p.skill_cooldowns[actives[0].id]=12.3;local.refresh();hud.refresh();check(hud.circles.skill_q.cooldown_text()=="13","long cooldown uses readable whole seconds")
 	p.skill_cooldowns[actives[0].id]=.35;local.refresh();hud.refresh();check(hud.circles.skill_q.cooldown_text()=="0.3" or hud.circles.skill_q.cooldown_text()=="0.4","last cooldown second keeps decimal precision")
 	p.skill_cooldowns[actives[0].id]=12.3;p.job_state.runes=4;local.refresh();hud.refresh()
-	check(hud.job_resource.visible and hud.job_resource.size.y==200,"rune class keeps readable resource display with ornament inset")
-	check(hud.job_resource.get_rect().end.x<hud.circles.potion.position.x,"resource panel leaves utilities clear")
+	check(hud.job_resource.visible and hud.job_resource.size.y==112,"rune class keeps compact readable resource display")
+	check(hud.expedition.consumables.slots.all(func(slot):return not hud.job_resource.get_global_rect().intersects(slot.get_global_rect())),"resource panel leaves actual consumable slots clear")
 	await capture("runesword")
 	check_resource_interior(hud.job_resource,"runesword")
 	p.pos=preload("res://scripts/world_catalog.gd").FACILITIES.smith.pos;local.refresh();hud.refresh();check(hud.circles.interact.caption=="대화","interaction label follows nearby town NPC")
@@ -112,7 +112,7 @@ func run():
 		advanced_count+=1
 	check(advanced_count==15,"all fifteen advanced class resource interiors captured")
 	local.sim.action(1,"class","warrior");p=local.sim.players[1];local.refresh();hud.refresh();check(hud.job_resource.visible and not hud.job_resource.heading.text.is_empty(),"basic job exposes actual combat attributes")
-	p.charge_time=.5;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(game.combat_feedback.charge_visible and is_equal_approx(game.combat_feedback.charge_ratio,.5/.9) and not hud.charge_label.visible,"실제 충전량은 캐릭터 우측 게이지로 표시")
+	p.charge_time=.5;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(game.combat_feedback.charge_visible and is_equal_approx(game.combat_feedback.charge_ratio,.5/.9) and not hud.charge_label.visible,"실제 충전량은 캐릭터 우측 게이지로 표시: "+str({"visible":game.combat_feedback.charge_visible,"ratio":game.combat_feedback.charge_ratio,"paused":local.paused,"hp":p.hp,"modal":game.combat_feedback.modal_open(),"old_label":hud.charge_label.visible}))
 	p.charge_time=-1.;local.refresh();hud.refresh();game.combat_feedback.refresh(0.);check(not game.combat_feedback.charge_visible and not hud.charge_label.visible,"충전 종료 후 게이지와 기존 문구 모두 숨김")
 	var labels=hud.find_children("*","Label",true,false)
 	check(not labels.any(func(label):return label.text.contains("별빛을 따라 걷는 모험가")),"removed persistent HUD slogan")

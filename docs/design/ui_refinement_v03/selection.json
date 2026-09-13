@@ -1,0 +1,10 @@
+{
+  "status": "user_confirmed_apply_requested",
+  "selected": "H2",
+  "reference": "H2-field-journal.png",
+  "authority": "SELECTED-H2.ko.md",
+  "consumables": {"anchor": "screen_bottom_right", "logical_margin_px": 24, "picker": "above_right_aligned", "implementation": "expedition_hud_chrome.gd::align_consumables", "precedence": "later_user_instruction_overrides_image", "validation": "main_reports_140_pass; source_verified_here; no_engine_rerun"},
+  "preserve": ["C HUD layout", "20 class identities", "existing damage font", "M1", "M2", "G1 mixed", "G2 mixed", "G3 B"],
+  "unselected": ["H1", "E1", "E2", "cursor-adjacent inspection layout"],
+  "runtime_status": "pending_main_implementation"
+}

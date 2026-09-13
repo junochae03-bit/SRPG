@@ -31,7 +31,7 @@ static func quote(p:Dictionary,facility:String,operation:String,extra:Dictionary
 				q.reason="최대 강화 +5에 도달했습니다.";q.result="강화 +5 · 완성\n"+Equipment.option_text(q.item);return q
 			if not upgrade and q.item.rarity==0:
 				q.reason="레어 이상 장비만 재련할 수 있습니다.";q.result="일반 장비 · 추가 옵션 없음";return q
-			q.cost=(level+1)*50 if upgrade else 80;q.materials={"ore":level+1} if upgrade else {"essence":1}
+			q.cost=(level+1)*50 if upgrade else 80;q.materials={preload("res://scripts/exploration_crafting_data.gd").enhancement_material(q.item,level+1):level+1} if upgrade else {"essence":1}
 			if upgrade:
 				q.result="강화 +%d → +%d\n기본 능력 +%d → +%d\n확정 성공" % [level,level+1,q.item.bonus,q.item.bonus+(2 if q.item.slot=="weapon" else 1)]
 				if level>=5:q.reason="최대 강화 +5에 도달했습니다."

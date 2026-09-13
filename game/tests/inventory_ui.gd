@@ -81,7 +81,7 @@ func run():
 	await process_frame
 	session.save_game()
 	var saved=session.parse_save(session.save_path())
-	check(saved!=null and saved.schema_version==7 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
+	check(saved!=null and saved.schema_version==8 and saved.bag_positions==p.bag_positions,"v5 one-cell grid persists to disk")
 	var cls=p.class_id
 	var content=preload("res://scripts/content.gd")
 	for class_id in ["warrior","ranger","mage","rogue","fighter"]:
@@ -136,10 +136,10 @@ func run():
 	click.double_click=false;click.position=stats_button.get_global_transform_with_canvas()*(stats_button.size*.5)
 	surface.push_input(click,true);release.position=click.position;surface.push_input(release,true);await process_frame
 	check(bag.stats_overlay.visible,"real inventory ability button opens detail sheet")
-	check(bag.stats_values.size()==17,"detail sheet exposes all combat and primary stats")
+	check(bag.stats_values.size()==20,"detail sheet exposes all combat and primary stats")
 	for pair in bag.stats_values:
 		for label in pair:
-			check(label.get_theme_font("font").get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,label.get_theme_font_size("font_size")).x<=label.size.x,"stat caption and value fit full width "+label.text)
+			check(label.autowrap_mode==TextServer.AUTOWRAP_WORD_SMART or label.get_theme_font("font").get_string_size(label.text,HORIZONTAL_ALIGNMENT_LEFT,-1,label.get_theme_font_size("font_size")).x<=label.size.x,"stat caption and value fit full width "+label.text)
 		check(not pair[0].get_rect().intersects(pair[1].get_rect()),"stat title and value do not overlap")
 	await capture("inventory-v054-statistics")
 	bag.hide();check(not bag.stats_overlay.visible,"closing inventory also closes statistics")

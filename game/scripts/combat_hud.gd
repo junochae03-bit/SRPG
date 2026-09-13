@@ -72,6 +72,7 @@ func setup(owner_game):
 	growth_button.setup(game,book,"성장","K",game.toggle_skills);growth_button.position=Vector2(1052,20);add_child(growth_button)
 	codex_button=preload("res://scripts/hud_sprite_button.gd").new()
 	codex_button.setup(game,Icons.texture("codex"),"도감","B",game.toggle_codex);codex_button.position=Vector2(1150,20);add_child(codex_button)
+	codex_button.hide();codex_button.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	var definitions=[
 		["skill_q","기술","Q",Vector2(1028,618),96],
 		["skill_f","기술","F",Vector2(1152,618),96],
@@ -93,7 +94,7 @@ func setup(owner_game):
 		game.action_buttons[action]=control
 		var badge=Label.new();badge.hide();control.add_child(badge);game.action_badges[action]=badge
 	charge_label=white_label("",Vector2(982,575),Vector2(416,30),19,Color("ffe09d"));charge_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;charge_label.hide()
-	job_resource=preload("res://scripts/job_resource_hud.gd").new();job_resource.setup(game);job_resource.position=Vector2(28,675);add_child(job_resource)
+	job_resource=preload("res://scripts/job_identity_strip.gd").new();job_resource.setup(game);add_child(job_resource)
 	toast=white_label("",Vector2(427,173),Vector2(612,54),20,Color("fff5cd"));toast.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;toast.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	game.region_label=region;game.quest_label=quest;game.hud_stats=money_label;game.health_label=hp_label;game.toast=toast
 	game.connection_label=white_label("",Vector2(44,874),Vector2(660,20),12,Color("e6f0dc"))

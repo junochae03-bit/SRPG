@@ -1,0 +1,974 @@
+{
+  "status": "assigned_design_runtime_pending",
+  "measurement": "visible_sprite_outer_height_relative_to_reference_character",
+  "character_reference": "동일한 기준 캐릭터의 외곽 표시 높이 1.0; 캐릭터 코스튬/공격 포즈마다 재계산하지 않음",
+  "collision_policy": "표시 크기만 배정. 충돌·히트박스·사거리·스탯·스폰 수 변경 없음",
+  "precedence": "레이드 ID 지정값 > 종별 지정값; 정예라는 이유만으로 추가 확대하지 않음",
+  "classes": [
+    {
+      "id": "small",
+      "name": "소형",
+      "ratio": 0.5,
+      "ratio_status": "retained_comparison_value"
+    },
+    {
+      "id": "medium_small",
+      "name": "중소형",
+      "ratio": 1.2,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "medium",
+      "name": "중형",
+      "ratio": 2,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "medium_large",
+      "name": "중대형",
+      "ratio": 3,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "large",
+      "name": "대형",
+      "ratio": 6,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "colossal",
+      "name": "초대형",
+      "ratio": 10,
+      "ratio_status": "user_defined"
+    }
+  ],
+  "assignments": [
+    {
+      "monster_id": "rat",
+      "name": "들쥐",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "cave_bat",
+      "name": "동굴 박쥐",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "forest_root_shrew",
+      "name": "뿌리코 땃쥐",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "crystal_salt_mite",
+      "name": "소금수정 진드기",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "lava_ash_hopper",
+      "name": "재도약 메뚜기",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "ice_moss_hare",
+      "name": "빙이끼 눈토끼",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "machine_oil_tick",
+      "name": "폐유 진드기",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "twilight_sap_bat",
+      "name": "밤수액 과일박쥐",
+      "size_class": "small",
+      "ratio": 0.5,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "shade",
+      "name": "풀빛 슬라임",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "imp",
+      "name": "숲 고블린",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "fairy",
+      "name": "독침 벌",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "beetle",
+      "name": "바위 딱정벌레",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spellbook",
+      "name": "정찰 드론",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "ember_slime",
+      "name": "잿불 슬라임",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "frost_slime",
+      "name": "서리 슬라임",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spider",
+      "name": "동굴 거미",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "goblin_archer",
+      "name": "고블린 궁수",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "goblin_shaman",
+      "name": "고블린 주술사",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spore_lantern_moth",
+      "name": "포자등 나방",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "core_rune_leech",
+      "name": "룬갑 거머리",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "core_bound_grimoire",
+      "name": "봉인 파쇄마도서",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "acorn_slinger",
+      "name": "도토리 투척꾼",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "grave_lantern",
+      "name": "묘지 등불령",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "frost_penguin",
+      "name": "서리 투척 펭귄",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "snow_wisp",
+      "name": "눈보라 정령",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "abyss_urchin",
+      "name": "흑침 성게",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "magnetic_orb",
+      "name": "자력 집게구",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "forest_spore_millipede",
+      "name": "낙엽등 노래기",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "crystal_echo_gecko",
+      "name": "반향 도마뱀",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "flood_silt_skater",
+      "name": "진흙발 소금쟁이",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spore_compost_slug",
+      "name": "퇴비등 민달팽이",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "ice_frost_louse",
+      "name": "서리껍질 쥐며느리",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "machine_copper_crow",
+      "name": "동선까마귀",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "twilight_bark_isopod",
+      "name": "고목껍질 공벌레",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "nebula_prism_worm",
+      "name": "프리즘 관벌레",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "core_seal_beetle",
+      "name": "봉랍 딱정벌레",
+      "size_class": "medium_small",
+      "ratio": 1.2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "bat",
+      "name": "바위 멧돼지",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "clockwork",
+      "name": "태엽 경비병",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "fox",
+      "name": "황토 늑대",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "skeleton",
+      "name": "해골 병사",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "goblin_captain",
+      "name": "고블린 대장",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "flood_rustclaw_crab",
+      "name": "녹갑옷 집게게",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "flood_bell_nautilus",
+      "name": "종껍질 앵무조개",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spore_blade_cricket",
+      "name": "칼턱 동굴귀뚜라미",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "lava_coal_salamander",
+      "name": "석탄등 도롱뇽",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "lava_vent_snail",
+      "name": "분화구 달팽이",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "machine_saw_wheel",
+      "name": "톱니바퀴 추격자",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "machine_mortar_tripod",
+      "name": "삼각포대 감시기",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "nebula_quartz_scorpion",
+      "name": "석영꼬리 전갈",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "nebula_comet_cuttlefish",
+      "name": "혜성 갑오징어",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "thorn_maw",
+      "name": "가시턱 포식초",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "bone_serpent",
+      "name": "백골 뱀",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "coffin_mimic",
+      "name": "관짝 아귀",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "sand_mummy",
+      "name": "모래 칼잡이",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "glass_cobra",
+      "name": "유리비늘 코브라",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "abyss_angler",
+      "name": "심해 등불아귀",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "coral_mantis",
+      "name": "산호 권투새우",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "bronze_centipede",
+      "name": "청동 백각충",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "steam_scarecrow",
+      "name": "증기 허수기사",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "rime_lynx",
+      "name": "서리송곳니 스라소니",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "flood_reed_eel",
+      "name": "갈대수염 뱀장어",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spore_hook_mantis",
+      "name": "갈고리 균사마귀",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "lava_slag_mole",
+      "name": "광재발 두더지",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "nebula_dust_ray",
+      "name": "별가루 가오리",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "core_ink_hound",
+      "name": "먹물 사냥개",
+      "size_class": "medium",
+      "ratio": 2,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "mole",
+      "name": "동굴 오크",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "orc_axeman",
+      "name": "오크 도끼병",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "orc_champion",
+      "name": "오크 투사",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "centurion",
+      "name": "기계 백인대장",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "sentinel",
+      "name": "햇무리 수호기사",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "spore_crown_toad",
+      "name": "균관 두꺼비",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "core_horned_ram",
+      "name": "마력핵 뿔산양",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "briar_stag",
+      "name": "가시넝쿨 사슴",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "glacier_walrus",
+      "name": "빙하 엄니해수",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "moss_owlbear",
+      "name": "이끼깃 올빼미곰",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "geode_pangolin",
+      "name": "정동석 천산갑",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "expansion_proposal",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "chain_jailer",
+      "name": "사슬 감옥지기",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "cinder_bison",
+      "name": "잿불 들소",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "dune_djinn",
+      "name": "모래항아리 정령",
+      "size_class": "medium_large",
+      "ratio": 3,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "warden",
+      "name": "꽃숲의 파수목",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "golem",
+      "name": "푸른 심장 골렘",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "existing_species",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "flood_bastion_tortoise",
+      "name": "성채등 거북",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "lava_obsidian_rhino",
+      "name": "흑요각 코뿔소",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "machine_foundry_ogre",
+      "name": "주조장 철거수",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "nebula_crown_manta",
+      "name": "성관 만타",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "dune_sphinx",
+      "name": "사구 스핑크스",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_flood_anchor_admiral",
+      "name": "침몰 제독 네레온",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_core_crowned_wraith",
+      "name": "마력왕 카이르",
+      "size_class": "large",
+      "ratio": 6,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_spore_threefold_hydra",
+      "name": "균관의 삼두왕 미코라",
+      "size_class": "colossal",
+      "ratio": 10,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_lava_caldera_drake",
+      "name": "화구군주 바르칸",
+      "size_class": "colossal",
+      "ratio": 10,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_machine_siege_engine",
+      "name": "철도살자 헤카톤",
+      "size_class": "colossal",
+      "ratio": 10,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    },
+    {
+      "monster_id": "boss_nebula_starwhale",
+      "name": "별을 삼키는 고래 오르비온",
+      "size_class": "colossal",
+      "ratio": 10,
+      "scope": "art_only_candidate",
+      "runtime_status": "not_applied",
+      "basis": "체형·생태 역할·공격 실루엣 기준 배정; 사용자 시각 조정 가능"
+    }
+  ],
+  "raid_overrides": [
+    {
+      "raid_id": "raid:010",
+      "name": "뿌리의 문지기",
+      "base_monster_id": "warden",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:020",
+      "name": "광맥의 심장",
+      "base_monster_id": "golem",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:030",
+      "name": "침수 성채의 파수기사",
+      "base_monster_id": "sentinel",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:040",
+      "name": "균사의 군주",
+      "base_monster_id": "warden",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:050",
+      "name": "용암 심장 거인",
+      "base_monster_id": "golem",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:060",
+      "name": "영구빙의 지배자",
+      "base_monster_id": "golem",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:070",
+      "name": "철의 지휘관",
+      "base_monster_id": "sentinel",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:080",
+      "name": "황혼의 고목왕",
+      "base_monster_id": "warden",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:090",
+      "name": "별을 삼킨 거상",
+      "base_monster_id": "golem",
+      "size_class": "colossal",
+      "ratio": 10,
+      "runtime_status": "not_applied"
+    },
+    {
+      "raid_id": "raid:100",
+      "name": "심연의 왕 · 아스트라",
+      "base_monster_id": "sentinel",
+      "size_class": "large",
+      "ratio": 6,
+      "runtime_status": "not_applied"
+    }
+  ],
+  "counts": {
+    "species": 92,
+    "by_size": {
+      "small": 8,
+      "medium_small": 28,
+      "medium": 29,
+      "medium_large": 14,
+      "large": 9,
+      "colossal": 4
+    },
+    "by_scope": {
+      "existing_species": 24,
+      "expansion_proposal": 40,
+      "art_only_candidate": 28
+    },
+    "raid_overrides": 10
+  }
+}

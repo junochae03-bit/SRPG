@@ -10,6 +10,7 @@ static func texture(kind:String)->Texture2D:
 		atlas.region=Rect2(r[0],r[1],r[2],r[3]);atlas.filter_clip=true;cache[kind]=atlas
 	return cache[kind]
 static func facility(key:String)->Texture2D:
+	if key=="church":return facility("guild")
 	init();var id="facility_"+key
 	if not cache.has(id):
 		var index=["smith","shop","alchemy","guild","inn","portal"].find(key)

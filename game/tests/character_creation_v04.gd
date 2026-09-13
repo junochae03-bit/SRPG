@@ -28,7 +28,7 @@ func run():
 		check(p.inventory.size()==4 and p.equipment.values().filter(func(id):return id!="").size()==4 and p.training_given,"new character begins with four equipped starter pieces")
 		check(local.sim.combat.weapon_type(p)==Content.CLASSES[cls].weapon and p.inventory[0].job_lock==cls,"starter weapon belongs to chosen class")
 		check(not local.sim.action(1,"claim_starters"),"automatic starter kit cannot be claimed twice")
-		var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==7,"V7 creation save accepted")
+		var saved=local.parse_save(local.save_path());check(saved!=null and saved.schema_version==8,"V7 creation save accepted")
 		var before=FileAccess.get_file_as_string(local.save_path());local.disconnect_game()
 		check(not local.create_character(sheet,1),"existing slot cannot be replaced")
 		check(FileAccess.get_file_as_string(local.save_path())==before,"rejected creation leaves original bytes unchanged")
@@ -53,7 +53,7 @@ func run():
 	check(parsed!=null and parsed.gold==817 and parsed.stats.is_empty() and parsed.stat_migration.old_stats.strength==11 and parsed.skill_ranks.blade==2,"V6 refunds old stats while retaining property and skills")
 	check(parsed.creation_points==0 and parsed.constellation_allocations.is_empty(),"old schema cannot inject new free points or traits")
 	local.connected=false;local.start_game("무시",1);local.set_physics_process(false);local.save_game()
-	var current=local.parse_save(local.save_path());check(current.schema_version==7 and current.name=="옛 모험" and current.skill_build_version==2,"old character upgraded once")
+	var current=local.parse_save(local.save_path());check(current.schema_version==8 and current.name=="옛 모험" and current.skill_build_version==2,"old character upgraded once")
 	var stable=FileAccess.get_file_as_string(local.save_path());local.start_game("무시",1);local.save_game()
 	var reloaded=FileAccess.get_file_as_string(local.save_path())
 	if reloaded!=stable:

@@ -21,11 +21,13 @@ files={name:source/name for name in ['stelrpg.sqlite','stelrpg-database.json','s
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as package:
     guides=['GAME_DATABASE.ko.md','ASSET_REGISTRY_V05.ko.md','DB_MANAGEMENT.ko.md','DB_CONTRACT_V052.ko.md','DB_WORLD_RULES_IMPLEMENTATION_V052.ko.md','DB_CONTRACT_V053.ko.md','CHARACTER_BALANCE.ko.md','CHARACTER_STATS_V2.ko.md','AGENT_ART_INTEGRATION.ko.md']
     for name in guides:package.write(ROOT/'docs'/name,prefix+'/'+name)
+    integration_guides=['INTEGRATION_V071.ko.md','PRODUCTION_QUEUE.ko.md','design/EQUIPMENT_SPECIAL_STATS.ko.md']
+    for name in integration_guides:package.write(ROOT/'docs'/name,prefix+'/'+name)
     for name,path in files.items():package.write(path,prefix+'/database/'+name)
 with zipfile.ZipFile(archive) as package:
-    assert len(package.namelist())==len(guides)+len(files) and package.testzip() is None
+    assert len(package.namelist())==len(guides)+len(integration_guides)+len(files) and package.testzip() is None
 digest=hashlib.sha256(archive.read_bytes()).hexdigest()
 (out/(prefix+'-SHA256.txt')).write_text(digest+'  '+archive.name+'\n','utf8')
-report={'status':'PASS','version':VERSION,'filename':archive.name,'bytes':archive.stat().st_size,'sha256':digest,'entries':len(guides)+len(files),'counts':manifest['counts']}
+report={'status':'PASS','version':VERSION,'filename':archive.name,'bytes':archive.stat().st_size,'sha256':digest,'entries':len(guides)+len(integration_guides)+len(files),'counts':manifest['counts']}
 (ROOT/'artifacts'/('database-package-'+KEY+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
 print('DATABASE_PACKAGE PASS',json.dumps(report,ensure_ascii=False))

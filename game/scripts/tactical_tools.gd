@@ -4,6 +4,7 @@ const Items=preload("res://scripts/consumables.gd")
 const Geometry=preload("res://scripts/enemy_hit_geometry.gd")
 const Vision=preload("res://scripts/dungeon_vision.gd")
 const Stagger=preload("res://scripts/boss_stagger.gd")
+const Special=preload("res://scripts/equipment_special_stats.gd")
 const OWNER_LIMIT=2
 const PARTY_LIMIT=8
 const EFFECT_SECONDS=.6
@@ -31,7 +32,7 @@ func place(p:Dictionary,item:String)->bool:
 	var failure=reason(p,item)
 	if not failure.is_empty():sim.notice(p.id,failure);return false
 	var data=Items.ITEMS[item];serial+=1
-	records.append({"id":serial,"owner":p.id,"item":item,"pos":destination(p,item),"from":p.pos,"radius":data.radius,"created":sim.clock,"ready":sim.clock+data.delay,"expires":sim.clock+data.delay+data.duration,"state":"arming"})
+	records.append({"id":serial,"owner":p.id,"item":item,"pos":destination(p,item),"from":p.pos,"radius":data.radius,"stagger":Special.stagger(p,float(data.get("stagger",0))),"created":sim.clock,"ready":sim.clock+data.delay,"expires":sim.clock+data.delay+data.duration,"state":"arming"})
 	# Spent flashes do not reserve gameplay slots, but are also memory bounded.
 	while records.size()>PARTY_LIMIT*2:records.pop_front()
 	p.charge_time=-1.
@@ -55,7 +56,7 @@ func activate(record:Dictionary):
 	sim.awareness.emit(p.id,record.pos,int(data.noise))
 	if record.item=="lure_stone":return
 	var amount=roundi(float(data.damage)+sim.damage_for(p)*float(data.attack_factor))
-	var budget={"value":float(data.stagger),"count":1,"spent":{},"created":record.created,"dot":false,"source":record.item,"kind":"tool"}
+	var budget={"value":float(record.stagger),"count":1,"spent":{},"created":record.created,"dot":false,"source":record.item,"kind":"tool"}
 	var context=Stagger.context(budget)
 	for enemy in sim.enemies.values():
 		if not Geometry.circle(enemy,record.pos,record.radius):continue

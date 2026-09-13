@@ -50,6 +50,7 @@ func run():
 		for key in environment.ids(floor_row.terrain,floor_row.id):expected_live["art:environment:"+key]=true
 	for zone in ["town","forest"]:
 		for key in environment.ids(zone,0):expected_live["art:environment:"+key]=true
+	expected_live["art:environment:cave_mine_arch"]=true
 	var registered_environment=0
 	var applied_environment=0
 	var available_environment=0
@@ -60,7 +61,7 @@ func run():
 		else:available_environment+=1
 		check((asset.status=="applied")==expected_live.has(asset.id),"배경 적용 상태와 실제 배치 목록 일치: "+asset.id)
 	check(registered_environment==108 and registered_environment==environment.catalog.objects.size(),"배경 원화 108개 전체 등록")
-	check(applied_environment==41 and available_environment==67,"배경 적용 41개 및 준비 67개 구분")
+	check(applied_environment==42 and available_environment==66,"배경 적용 42개 및 준비 66개 구분")
 	for use_row in art.art_uses:
 		if use_row.art_id.begins_with("art:environment:") and not use_row.art_id.begins_with("art:environment:exploration_v06:") and not expected_live.has(use_row.art_id):
 			check(use_row.target_table=="catalog" and use_row.usage_kind=="catalog_available","미배치 배경은 준비 목록에만 연결")

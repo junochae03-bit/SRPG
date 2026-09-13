@@ -31,6 +31,7 @@ var actor_visibility=preload("res://scripts/actor_visibility.gd").new()
 var playtest_driver
 var effects: Array = []
 var skill_atlas
+var projectile_visual
 var menu: Control
 var title_backdrop:TextureRect
 var coop_panel:Control
@@ -154,6 +155,7 @@ func _ready():
 	fog=ColorRect.new();fog.position=Vector2(-800,-450);fog.size=Vector2(3200,1800);fog.z_index=-5;fog.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	fog_material=ShaderMaterial.new();fog_material.shader=preload("res://shaders/dungeon_fog.gdshader");fog.material=fog_material;fog.hide();add_child(fog)
 	skill_atlas=preload("res://scripts/skill_atlas_v06.gd").new();skill_atlas.z_index=-2;add_child(skill_atlas)
+	projectile_visual=preload("res://scripts/projectile_visual_v071.gd").new();add_child(projectile_visual)
 	visible_telegraphs=preload("res://scripts/visible_telegraphs.gd").new();add_child(visible_telegraphs);visible_telegraphs.setup(self)
 	audio_director=preload("res://scripts/audio_director.gd").new()
 	add_child(audio_director)
@@ -289,8 +291,8 @@ func button(parent: Node, text_value: String, pos: Vector2, dimensions: Vector2,
 	var frame=preload("res://scripts/ui_art.gd").decorate(control,"paper",12)
 	control.set_meta("rpg_frame",frame)
 	if accent:frame.modulate=Color(1.05,.98,.80)
-	control.mouse_entered.connect(func():frame.modulate=Color(1.12,1.06,.9))
-	control.mouse_exited.connect(func():frame.modulate=Color(1.05,.98,.80) if accent else Color.WHITE)
+	control.mouse_entered.connect(func():frame.modulate=control.get_meta("rpg_hover_tint",Color(1.12,1.06,.9)))
+	control.mouse_exited.connect(func():frame.modulate=control.get_meta("rpg_normal_tint",Color(1.05,.98,.80) if accent else Color.WHITE))
 	if not icon_key.is_empty():SemanticIcons.attach(control,icon_key)
 	return control
 
@@ -547,7 +549,7 @@ func _physics_process(delta: float):
 	input_timer = 0.0
 	var p = session.state.players[session.local_id]
 	var direction = Vector2.ZERO
-	var can_act=not session.paused and not text_input_focused()
+	var can_act=not session.paused and not text_input_focused() and get_window().has_focus()
 	if can_act:
 		direction = Vector2(float(keybindings.is_pressed("move_right"))-float(keybindings.is_pressed("move_left")),float(keybindings.is_pressed("move_down"))-float(keybindings.is_pressed("move_up")))
 		# Keyboard axes follow screen directions; convert to logical isometric coordinates.
@@ -556,7 +558,7 @@ func _physics_process(delta: float):
 	var aimed=preload("res://scripts/monster_aim.gd").target_at(aim_mouse_position(),session.state.enemies,monster_aim_frames,p.pos,session.sim.map) if can_act else {}
 	hover_enemy_id=int(aimed.get("id",0))
 	var aim=p.pos.direction_to(aimed.pos if not aimed.is_empty() else logical_mouse)
-	session.send_input(direction, aim, can_act and keybindings.is_pressed("sprint"))
+	session.send_input(direction, aim, can_act and keybindings.is_pressed("sprint"),can_act and keybindings.is_pressed("interact"))
 	if can_act:
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and get_viewport().gui_get_hovered_control() == null:
 			session.act("attack")
@@ -680,6 +682,7 @@ func text_at(point: Vector2, value: String, font_size: int, color: Color, center
 
 func _draw():
 	if skill_atlas!=null:skill_atlas.begin_frame()
+	if projectile_visual!=null:projectile_visual.begin_frame(self)
 	actor_visibility.begin_frame()
 	monster_aim_frames.clear()
 	hidden_world_labels.clear();visible_world_labels.clear();refresh_world_label_regions()
@@ -687,6 +690,7 @@ func _draw():
 	if not session.connected:
 		draw_rect(Rect2(0,0,1600,900),Color("c3dfbc"))
 		return
+	forest.cave_dressing.draw(self)
 	var actors = forest.visible_props().filter(func(actor):return vision.scenery_brightness(actor.data.pos)>0.)
 	preload("res://scripts/cave_remains.gd").draw(self,forest.remains)
 	if noise_feedback!=null:noise_feedback.draw_world()
@@ -752,6 +756,8 @@ func _draw():
 			continue
 		elif e.type=="monster_attack":
 			continue # Rendered with per-pixel sight clipping by visible_telegraphs.
+		elif e.type in ["projectile_launch","projectile_impact"]:
+			if projectile_visual!=null:projectile_visual.render_event(self,e,float(e.max_life)-float(e.life),float(e.max_life))
 		elif e.type in ["nova","skill_fx"]:
 			preload("res://scripts/skill_effects.gd").render(self,e)
 		elif e.type == "attack" or e.type == "heavy":
@@ -764,6 +770,12 @@ func _draw():
 	for shot in session.state.get("projectiles",[]):
 		if not vision.sees(shot.pos):continue
 		preload("res://scripts/skill_effects.gd").projectile(self,shot)
+	for shot in session.state.get("enemy_projectiles",[]):
+		if not vision.sees(shot.pos):continue
+		var point=world_point(shot.pos)+Vector2(0,-22)
+		var direction=Dungeon.iso(shot.dir).normalized()
+		draw_line(point-direction*12,point,Color("daab70"),4,true)
+		draw_circle(point,4,Color("ffefd0"))
 	if session.connected:
 		pass
 	else:
@@ -795,7 +807,10 @@ func draw_actor(actor: Dictionary):
 	draw_set_transform(point,0,Vector2(1,0.42))
 	draw_circle(Vector2.ZERO,66 if boss else 37 if p.get("elite",false) else 24,Color("32574a40"))
 	if not is_hero and int(p.id)==hover_enemy_id:draw_arc(Vector2.ZERO,72 if boss else 42 if p.get("elite",false) else 32,0,TAU,48,Color("ffda73"),3,true)
-	if is_self: draw_arc(Vector2.ZERO,30,0,TAU,40,GOLD,2,true)
+	if is_self:
+		draw_arc(Vector2.ZERO,30,0,TAU,40,GOLD,2,true)
+		var direction=Dungeon.iso(p.aim).normalized();var tip=direction*40
+		draw_colored_polygon(PackedVector2Array([tip,tip-direction*9+direction.orthogonal()*5,tip-direction*9-direction.orthogonal()*5]),GOLD)
 	draw_set_transform(Vector2.ZERO)
 	var base_actor=is_hero
 	var rendered_costume={};var rendered_monster=""
@@ -812,7 +827,8 @@ func draw_actor(actor: Dictionary):
 	if not is_hero:
 		var config=preload("res://scripts/world_catalog.gd").ENEMIES[role]
 		var data:Dictionary
-		var authored=preload("res://scripts/monster_motion_art_v06.gd").frame(p,visual_time)
+		var authored=preload("res://scripts/monster_ecology_art_v071.gd").frame(p,visual_time)
+		if authored.is_empty():authored=preload("res://scripts/monster_motion_art_v06.gd").frame(p,visual_time)
 		var themed=preload("res://scripts/world_art.gd").variant_frame(role,int(p.get("floor",0)),p.get("raid",false),p.get("attack_motion",0)>0 or p.windup>0 or p.get("support_cast",0)>0)
 		if not authored.is_empty():
 			data=authored;rendered_monster=authored.art_id;facing=authored.facing
@@ -853,9 +869,11 @@ func draw_actor(actor: Dictionary):
 	if is_hero and p.get("invulnerable",0)>0:tint=Color(0.6,0.9,1,0.6)
 	var actor_transform=Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset)
 	if is_self:actor_visibility.player(actor_transform*rect)
-	elif not is_hero:tint.a*=actor_visibility.opacity(int(p.id),actor_transform*rect)
+	else:tint.a*=actor_visibility.opacity(-int(p.id) if is_hero else int(p.id),actor_transform*rect)
 	draw_set_transform(point+pose.offset,pose.angle,pose.scale*Vector2(facing,1))
 	if not is_hero:preload("res://scripts/monster_aim.gd").register(monster_aim_frames,p,rect,Transform2D(pose.angle,pose.scale*Vector2(facing,1),0.,point+pose.offset))
+	if is_self and p.hp>0:
+		for direction in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:draw_texture_rect(frame,Rect2(rect.position+direction*1.5,rect.size),false,Color(1.15,1.05,.72,.5))
 	draw_texture_rect(frame,rect,false,tint)
 	draw_set_transform(Vector2.ZERO)
 	if not is_hero and p.get("support_cast",0)>0:
@@ -879,8 +897,12 @@ func draw_actor(actor: Dictionary):
 			draw_rect(Rect2(point+Vector2(-width/2,-dimensions.y-15),Vector2(width*float(p.hp)/p.max_hp,5)),Color("d8787d"))
 			if role=="warden" and preferences.values.enemy_names:text_at(point+Vector2(0,-dimensions.y-28),p.name,18,GOLD,true)
 		elif is_hero:
-			if p.get("down_time",0)>0:text_at(point+Vector2(0,-35),"구조 E · %d초"%ceili(p.down_time),20,Color("ffd780"),true)
-			elif p.has("revive_target"):text_at(point+Vector2(0,-35),"구조 중 %.1f / 3초"%float(p.get("revive_progress",0)),18,Color("9ce3cf"),true)
+			if p.get("down_time",0)>0:text_at(point+Vector2(0,-35),"%s 길게 눌러 구조 · %d초"%[keybindings.label("interact"),ceili(p.down_time)],18,Color("ffd780"),true)
+			elif p.has("revive_target"):
+				var ratio=clampf(float(p.get("revive_progress",0))/3.,0.,1.)
+				text_at(point+Vector2(0,-35),"구조 중 %.1f / 3초"%float(p.get("revive_progress",0)),18,Color("9ce3cf"),true)
+				draw_rect(Rect2(point+Vector2(-48,-20),Vector2(96,5)),Color("334b4b"))
+				draw_rect(Rect2(point+Vector2(-48,-20),Vector2(96*ratio,5)),Color("9ce3cf"))
 			text_at(point+Vector2(0,-dimensions.y-13),p.name,15,Color("fff4d0") if is_self else Color("8dd9d8"),true)
 
 func draw_building(data:Dictionary):

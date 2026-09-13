@@ -11,6 +11,7 @@ var terrain:ColorRect
 var material:ShaderMaterial
 var props:Array=[]
 var remains:Array=[]
+var cave_dressing=preload("res://scripts/cave_dressing_v071.gd").new()
 # Decoration geometry is immutable for the lifetime of a generated map. Keep
 # it separate from the public prop records, whose alpha changes during play.
 var _geometry:Array=[]
@@ -61,6 +62,9 @@ func rebuild(dungeon):
 			if art_id not in allowed:continue
 			props.append({"pos":pos,"art_id":art_id,"size":size_value,"flip":flipped,"render_id":props.size(),"alpha":1.0})
 	thin_props()
+	cave_dressing.rebuild(map)
+	for prop in cave_dressing.supports(map,func(pos):return clear_for_prop(pos) and props.all(func(existing):return existing.pos.distance_to(pos)>=3.)):
+		prop.render_id=props.size();props.append(prop)
 	var frames:Dictionary={}
 	for prop in props:
 		if not frames.has(prop.art_id):frames[prop.art_id]=Art.frame(prop.art_id)
@@ -172,6 +176,8 @@ func draw_prop(prop:Dictionary,light:float=1.0):
 	var alpha=prop.get("alpha",1.)
 	game.draw_set_transform(point,0,Vector2(1,.44))
 	game.draw_circle(Vector2.ZERO,geometry.shadow_radius,Color(.17,.25,.10,.15*alpha))
+	if (prop.art_id.contains("crystal") or prop.art_id.contains("geode")) and game.vision.sees(prop.pos):
+		for radius in [42.,28.,15.]:game.draw_circle(Vector2.ZERO,radius,Color(.23,.65,.76,.035*alpha))
 	game.draw_set_transform(point,0,Vector2(-1 if prop.flip else 1,1))
 	game.draw_texture_rect(geometry.texture,geometry.local_rect,false,Color(light,light,light,alpha))
 	if game.has_method("record_art_usage"):game.record_art_usage("environment",prop.art_id)

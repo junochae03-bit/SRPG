@@ -50,7 +50,7 @@ func run():
 			check(not session.act("avatar",blocked[0]) and p.avatar==before_avatar,"hidden base appearance also rejected by session "+class_id)
 	var avatar=p.avatar
 	session.act("costume","none");session.save_game();var saved=session.parse_save(session.save_path())
-	check(saved.avatar==avatar and saved.costume=="none" and saved.schema_version==7,"base selection persisted in v5")
+	check(saved.avatar==avatar and saved.costume=="none" and saved.schema_version==8,"base selection persisted in v5")
 	session.disconnect_game();session.start_game("복원",1);check(session.sim.players[1].avatar==avatar,"base selection restored")
 	var old=saved.duplicate(true);old.schema_version=3;old.costume="witch";old.erase("avatar");old.erase("legacy_costume")
 	var migrated=session.sim.add_player(2,"이행",old)

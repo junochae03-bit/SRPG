@@ -156,8 +156,9 @@ func tutorial_loot():
 		check(not enemies.is_empty(),"drop boundary enemy exists "+str(entry))
 		if enemies.is_empty():continue
 		sim.kill(1,enemies[0])
-		check(sim.drops.size()==(4 if enemies[0].get("raid",false) else 3),"existing independent and extra raid drops retained")
-		for drop in sim.drops.values():check(drop.item.tier>=entry[3] and drop.item.tier<=entry[4],"elite, boss, other terrain and abyss tiers unchanged "+str(entry))
+		var gear_drops=sim.drops.values().filter(func(drop):return drop.item.category in ["weapon","armor","accessory"])
+		check(gear_drops.size()==(4 if enemies[0].get("raid",false) else 3),"existing independent and extra raid drops retained")
+		for drop in gear_drops:check(drop.item.tier>=entry[3] and drop.item.tier<=entry[4],"elite, boss, other terrain and abyss tiers unchanged "+str(entry))
 
 func inn_action(sim,operation:String,extra:Dictionary={})->bool:
 	var request=extra.duplicate(true);request.merge({"facility":"inn","operation":operation},true)

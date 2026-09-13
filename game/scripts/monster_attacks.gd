@@ -7,6 +7,7 @@ func _init(owner_sim):sim_ref=weakref(owner_sim)
 static func area(shape:String,origin:Vector2,target:Vector2,radius:float,delay=0.0,multiplier=1.0)->Dictionary:
 	return {"shape":shape,"from":origin,"pos":target,"radius":radius,"delay":delay,"multiplier":multiplier,"drain":0.0,"slow":0.0,"knock":0.0,"sound":"hit_sword"}
 static func pattern(kind:String,origin:Vector2,target:Vector2,sequence:int=0)->Array:
+	if preload("res://scripts/monster_ecology_v071.gd").recognizes(kind):return preload("res://scripts/monster_ecology_v071.gd").pattern(kind,origin,target)
 	var direction=origin.direction_to(target)
 	if direction==Vector2.ZERO:direction=Vector2.RIGHT
 	var a=[]
@@ -120,9 +121,9 @@ func damage(e:Dictionary,p:Dictionary,zone:Dictionary):
 	if p.barrier_time>0:amount=maxi(1,roundi(amount*(1-p.barrier_strength)))
 	amount=sim.combat.jobs.receive(p,e,amount,zone.get("shape","circle")!="ring")
 	if amount<=0:return
-	p.erase("revive_target");p.erase("revive_progress")
-	p.combat_time=4;p.hp-=amount;p.hurt_time=.16*preload("res://scripts/progression.gd").hurt_duration_factor(p);p.stamina=maxf(0,p.stamina-zone.drain)
-	p.enemy_slow_time=maxf(p.enemy_slow_time,zone.slow)
+	preload("res://scripts/revival_aftereffects.gd").cancel(p)
+	p.combat_time=4;p.hp-=amount;p.hurt_time=preload("res://scripts/equipment_special_stats.gd").hurt_duration(p,.16,preload("res://scripts/progression.gd").hurt_duration_factor(p));p.stamina=maxf(0,p.stamina-zone.drain)
+	p.enemy_slow_time=maxf(p.enemy_slow_time,preload("res://scripts/equipment_special_stats.gd").slow_duration(p,zone.slow))
 	if zone.knock>0:p.pos=sim.map.move(p.pos,zone.from.direction_to(p.pos)*zone.knock*(1-sim.combat.jobs.passive(p,1)*.12 if p.class_id=="breaker" and (p.charge_time>=0 or not p.job_state.casting.is_empty()) else 1))
 	var reflected=int(Content.skill_bonus(p,"thorns"))
 	if reflected>0 and e.hp>0 and e.pos.distance_to(p.pos)<2:sim.combat.hit(p,e,reflected,null,{})
@@ -159,7 +160,8 @@ static func draw_area(canvas,zone:Dictionary,color:Color,fill_alpha:float=.23,li
 		canvas.draw_polyline(points,color,line_width,true)
 
 static func raid_pattern(e:Dictionary,target:Vector2)->Array:
-	var origin:Vector2=e.pos;var direction=origin.direction_to(target)
+	var origin:Vector2=e.pos
+	var direction=origin.direction_to(target)
 	if direction==Vector2.ZERO:direction=Vector2.RIGHT
 	var chapter=int((int(e.get("floor",10))-1)/10);var sequence=(int(e.pattern)+chapter)%3;var result=[]
 	if sequence==0:

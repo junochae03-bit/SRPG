@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "scope": "independent module, source mapping, attack delivery contract; main integration required",
+  "species": 29,
+  "appearances": 261,
+  "dedicated_drops": 87,
+  "python_generator_check": "PASS",
+  "python_independent_source_mapping": "PASS",
+  "godot": {
+    "version": "4.6.stable.official.89cea1439",
+    "exit_code": 0,
+    "checks": 6515,
+    "failures": 0,
+    "log": "D:\\SSRPG\\publish\\SRPG-v04\\docs\\design\\monster_ecology_runtime_v071.engine.log"
+  },
+  "verified": [
+    "exact authored floor stats",
+    "transactional definition injection",
+    "deterministic density-preserving constrained replacement",
+    "fixed independent dedicated drops",
+    "windup target lock and cooldown/recovery metadata",
+    "two-bite delay and cancellation tokens",
+    "projectile travel, wall collision, cancellation, no tunneling",
+    "dash swept wall stop and actual endpoint",
+    "existing MonsterAttacks.contains geometry contract"
+  ],
+  "not_verified": [
+    "main Simulation hooks and actual player HP changes",
+    "network telegraph/projectile snapshot rendering"
+  ],
+  "not_applied": [
+    "elemental damage",
+    "resistance and weakness",
+    "new status effects",
+    "size-dependent physical collision and receiving hit radius"
+  ],
+  "sha256": {
+    "game/scripts/monster_ecology_v071.gd": "1ed46096f9e1c3c9f7cdd05d336531ba97b4b8629a8bab75e4124a213a432588",
+    "game/data/monster_ecology_v071.json": "b0b019500f70de78c512ee07e70ae5051505889c89b637a378a7ad322fb00b89",
+    "game/tests/monster_ecology_v071.gd": "11f478660d916c8ef00cc5b62d7c228f829dee0c50480361d6647db402c8471f",
+    "tools/build_monster_ecology_data_v071.py": "380d9ef01dcc75d68458e7d41e5e86607fe38c3077d61701f690f846feb676fe",
+    "tools/validate_monster_ecology_data_v071.py": "07844a6c9a4fb9a0d0c30316adda937d64541394fff4db1c447f39bdd9ae5259",
+    "docs/design/monster_ecology_runtime_v071.ko.md": "7b874689d94186493a86c752081b277af258648b6bbd9765acf303f7e8a6644f"
+  }
+}

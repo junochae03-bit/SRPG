@@ -1,0 +1,17 @@
+{
+  "tool": "builtin image_gen",
+  "sheets": [
+    {
+      "name": "physical",
+      "key": "projectileBodyResult",
+      "prompt": "Create a NEW 1024x1024 production sprite atlas, exactly 4 columns x4 rows, 16 isolated sprites on solid pure magenta #ff00ff background for color key. This is for a bright woodland 2D RPG with small chibi pixel-art characters. Crisp pixel-art style, chunky pixel clusters, limited palette, dark brown outlines, no antialias soft glow. Not icons, no frames, no scenery. Each row is four subtle flight-loop variations of the SAME projectile, always perfectly horizontal pointing RIGHT, identical stable centered pivot and silhouette size. Row1 a long wooden arrow with unmistakable pointed silver arrowhead at right and mint feather fletching at left. Row2 a SHORT thick crossbow bolt with broad steel head and two stout brown fletchings. Row3 a small throwing dagger with silver blade tip RIGHT and leather grip LEFT, clear asymmetric silhouette. Row4 a compact magical rune dart: lavender faceted diamond head RIGHT with three small gold rune chips trailing LEFT. Keep total sprite footprint under180x96 pixels centered in each256x256cell, at least35px clear magenta gutter. These will display at 40-64 game pixels: emphasize readable head/shaft/tail. All four columns in a row must remain the same projectile (no impact bursts, no transformations, no double weapons). Restrained colors compatible with green forest and cream/tan ground. No labels, numbers, UI, watermark. Pixel art sprites only.",
+      "source": "C:\\Users\\junoc\\.codex\\generated_images\\01a0856d-d202-7433-b35a-22ae5130b60c\\exec-aa86f820-e003-4e9a-9964-939b3cde42fb.png"
+    },
+    {
+      "name": "elements",
+      "key": "projectileElementResult",
+      "prompt": "Create a NEW pixel-art projectile sprite atlas matching a bright woodland chibi fantasy RPG. Exactly4 columns x4 rows, square canvas, solid pure magenta #ff00ff background. Four subtle looping flight frames per row of SAME object. Every projectile points RIGHT, bright head on right, short tail on left, stable pivot and size. Row1 compact orange fireball with clear dark red outer flame and cream small core, irregular chunky flame tongues. Row2 elongated icy-blue crystal shard with dark blue outline and three tiny icy flecks trailing left. Row3 violet lightning dart with jagged solid lavender central bolt and gold spark at right. Row4 dark purple shadow orb with dark indigo crescent shell and magenta-violet interior (do NOT use background pure magenta inside), pale lilac small eye-like center, trailing two dark purple wisps left. Readable dark outlines and pixel clusters; these display at32-56px next to112px character. No large explosions or screen-filling glow. No antialiasing, smooth blur, photorealism, labels, numbers, border or UI. All sprites centered individually with generous blank gutters: under65% cell width and45% height. 16 isolated flight sprites, no character. Preserve distinctions of fire/ice/lightning/shadow.",
+      "source": "C:\\Users\\junoc\\.codex\\generated_images\\01a0856d-d202-7433-b35a-22ae5130b60c\\exec-559697b3-dddd-4c89-be64-fdc81ca6d03e.png"
+    }
+  ]
+}

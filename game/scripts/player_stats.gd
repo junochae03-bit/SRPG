@@ -9,7 +9,7 @@ static func rows(sim,p:Dictionary)->Array:
 		["기본 마법 공격력",str(sim.damage_for(p,"magic"))],
 		["물리 방어력",str(p.defense)],
 		["마법 방어력",str(p.get("magic_defense",0))],
-		["최대 생명력",str(p.max_hp)],
+		["최대 생명력","%d (정상 %d)"%[p.max_hp,preload("res://scripts/revival_aftereffects.gd").normal_max_hp(p)] if p.get("revival_injury",false) else str(p.max_hp)],
 		["최대 기력","%d"%p.max_stamina],
 		["기본 공격 간격","%.2f초"%sim.combat.attack_interval(p)],
 		["신속 이동 속도","+%.1f%%"%((Progression.move_speed(p)-1.)*100.)],

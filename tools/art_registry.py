@@ -219,7 +219,10 @@ def validate(data, root):
     assert floors == owners["floors"], "Missing live floor material mapping"
     assert len([a for a in assets.values() if a["category"] == "floor_tile"]) == 6
     assert len([a for a in assets.values() if a["id"].startswith("art:environment:") and not a["id"].startswith("art:environment:exploration_v06:")]) == 108
-    assert len([a for a in assets.values() if a["id"].startswith("art:monster:") and not a["id"].startswith(("art:monster:legacy:", "art:monster:motion_v06:"))]) == 48
+    assert len([a for a in assets.values() if a["id"].startswith("art:monster:") and not a["id"].startswith(("art:monster:legacy:", "art:monster:motion_v06:", "art:monster:ecology_v071:"))]) == 48
+    ecology=json.loads((root/"game/assets/monster_ecology_v071/catalog.json").read_text("utf8"))
+    expected={f"art:monster:ecology_v071:{kind}:{i}" for kind,row in ecology["species"].items() for i in range(len(row["frames"]))}
+    assert {a for a in assets if a.startswith("art:monster:ecology_v071:")} == expected
     for table in ("skills", "constellations"):
         covered = {u["target_id"] for u in data["art_uses"] if u["target_table"] == table and assets[u["art_id"]]["category"] == "icon"}
         assert covered == owners[table], f"Missing actual skill icon mapping: {table}"

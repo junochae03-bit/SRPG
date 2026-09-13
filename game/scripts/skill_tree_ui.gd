@@ -167,10 +167,29 @@ func style_tree(control:Node):
 		control.texture=Art.plain_paper();control.modulate=Color("343039")
 	if control is Label:
 		control.add_theme_color_override("font_color",Color("eee1c9"))
-	if control is Button or control is LineEdit:
-		for key in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:control.add_theme_color_override(key,Color("eee1c9"))
+	if control is Button:
+		# The shared button's hover signal reads these tints; it must not
+		# restore bright parchment behind the tree's ivory text.
+		control.set_meta("rpg_normal_tint",Color("343039"))
+		control.set_meta("rpg_hover_tint",Color("514653"))
+		control.add_theme_color_override("font_disabled_color",Color("aaa4a0"))
+	if control is Button or control is LineEdit or control is PopupMenu:
+		for key in ["font_color","font_hover_color","font_pressed_color","font_hover_pressed_color","font_focus_color"]:control.add_theme_color_override(key,Color("eee1c9"))
+	if control is LineEdit:
+		control.add_theme_color_override("font_placeholder_color",Color("b7adaa"))
+		control.add_theme_color_override("caret_color",Color("eee1c9"))
+		control.add_theme_color_override("selection_color",Color("655869"))
+		control.add_theme_color_override("font_selected_color",Color("fff3da"))
 	if control is RichTextLabel:control.add_theme_color_override("default_color",Color("eee1c9"))
+	if control is PopupMenu:
+		control.add_theme_color_override("font_disabled_color",Color("aaa4a0"))
+		var hover=StyleBoxFlat.new();hover.bg_color=Color("514653")
+		control.add_theme_stylebox_override("hover",hover)
+	# OptionButton keeps its popup as an internal child, outside get_children().
+	if control is OptionButton:style_tree(control.get_popup())
 	for child in control.get_children():style_tree(child)
+	if control is Button and control.has_meta("rpg_frame"):
+		control.get_meta("rpg_frame").modulate=control.get_meta("rpg_hover_tint") if control.is_hovered() else control.get_meta("rpg_normal_tint")
 
 func key_label(action:String)->String:
 	return game.keybindings.label(action) if game.get("keybindings")!=null else preload("res://scripts/key_bindings.gd").key_name(preload("res://scripts/key_bindings.gd").DEFAULTS[action])
@@ -216,6 +235,7 @@ func show_recommendations():
 		menu.set_item_disabled(i,str(state.get("reason","")).begins_with("배타"))
 	menu.id_pressed.connect(func(index):search.text="";tag_filter="";filter_index=0;select_node(targets[index].id);show_path();graph.focus_node(choice))
 	menu.popup_hide.connect(func():menu.queue_free())
+	Art.style_popup(menu);style_tree(menu)
 	menu.position=Vector2i(get_viewport().get_mouse_position());menu.popup()
 func show_branch(cluster:int):
 	graph.set_scope(cluster);refund_mode=false

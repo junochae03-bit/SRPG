@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "runtime_modified": false,
+  "counts": {
+    "loot": 60,
+    "acquisition": 130,
+    "equipment": 500,
+    "recipes": 500,
+    "ingredients": 2410
+  },
+  "checks": [
+    "SQLite 무결성",
+    "외래 키",
+    "고유 ID",
+    "기존 장비 참조",
+    "확률 범위",
+    "모든 제작 재료 사용",
+    "정본 DB 및 캐시 변경 없음"
+  ]
+}

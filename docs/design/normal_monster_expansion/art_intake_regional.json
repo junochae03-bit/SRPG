@@ -1,0 +1,25 @@
+{
+  "pack_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913",
+  "zip_sha256": "1c07fbe1abc5d5e49e4a259207302a42c0436e44ef240672433c7f1332d1cb19",
+  "zip_bytes": 30275369,
+  "status": "keyed_art_ready_rgba_pending",
+  "runtime_integrated": false,
+  "species_count": 16,
+  "frame_count": 64,
+  "manifest_files_verified": 122,
+  "verified": [
+    "ZIP SHA256",
+    "ZIP CRC",
+    "manifest hashes",
+    "size assignments",
+    "4 phases per species",
+    "20 unique species across two packs"
+  ],
+  "producer_reported": [
+    "Godot playback",
+    "384 grounding combinations",
+    "hare impact faces right while kicking left"
+  ],
+  "rgba_original_delivered": false,
+  "reuse_review_counted_once": true
+}

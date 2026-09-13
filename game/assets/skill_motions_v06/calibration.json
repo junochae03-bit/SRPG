@@ -271,7 +271,24 @@
         ],
         "decision": "common source scale; preserve authored crouch, leaning, kicks and airborne compression; no confirmed density-only outlier"
       },
-      "frame_overrides": {},
+      "frame_overrides": {
+        "0": {
+          "source_facing": -1,
+          "reason": "Visually inspected row 0: face and dagger thrust point left; other rows retain their existing facing"
+        },
+        "1": {
+          "source_facing": -1,
+          "reason": "Visually inspected row 0: face and dagger thrust point left; other rows retain their existing facing"
+        },
+        "2": {
+          "source_facing": -1,
+          "reason": "Visually inspected row 0: face and dagger thrust point left; other rows retain their existing facing"
+        },
+        "3": {
+          "source_facing": -1,
+          "reason": "Visually inspected row 0: face and dagger thrust point left; other rows retain their existing facing"
+        }
+      },
       "previous_height": 253.0,
       "scale_change": 1.0285,
       "foot_status": "reference measurement only; full action foot trajectory not calibrated here"

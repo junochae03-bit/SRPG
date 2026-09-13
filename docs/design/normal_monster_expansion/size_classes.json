@@ -1,0 +1,43 @@
+{
+  "status": "assigned_design_runtime_pending",
+  "measurement": "visible_sprite_outer_height_relative_to_reference_character",
+  "collision_policy": "표시 크기만 배정. 충돌·히트박스·사거리·스탯·스폰 수 변경 없음",
+  "classes": [
+    {
+      "id": "small",
+      "name": "소형",
+      "ratio": 0.5,
+      "ratio_status": "retained_comparison_value"
+    },
+    {
+      "id": "medium_small",
+      "name": "중소형",
+      "ratio": 1.2,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "medium",
+      "name": "중형",
+      "ratio": 2,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "medium_large",
+      "name": "중대형",
+      "ratio": 3,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "large",
+      "name": "대형",
+      "ratio": 6,
+      "ratio_status": "user_defined"
+    },
+    {
+      "id": "colossal",
+      "name": "초대형",
+      "ratio": 10,
+      "ratio_status": "user_defined"
+    }
+  ]
+}

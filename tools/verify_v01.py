@@ -89,6 +89,19 @@ run('exploration_shortcuts_visual',graphics=True)
 run('build_presets')
 run('build_presets_visual',graphics=True)
 run('expedition_brief',graphics=True)
+run('save_generation')
+run('revival_aftereffects')
+run('exploration_crafting_v071')
+run('equipment_special_stats')
+run('monster_ecology_v071')
+run('monster_integration_v071')
+run('monster_ecology_art_v071')
+run('projectile_visual_v071')
+run('projectile_combat_v071')
+run('projectile_live_visual_v071',graphics=True)
+run('integration_visual_v071',graphics=True)
+run('production_queue')
+run('production_visual',graphics=True)
 run('town_research')
 run('town_research_visual',graphics=True)
 run('research_journey')
@@ -110,6 +123,8 @@ run('character_presentation_v054')
 run('character_stats_v2')
 run('costume_expanded_v06')
 run('skill_motions_v06')
+run('skill_motion_facing_v071')
+run('skill_motion_facing_visual_v071',graphics=True)
 run('skill_motions_visual_v06',graphics=True)
 run('skill_atlas_v06')
 run('monster_motion_art_v06')
@@ -129,8 +144,9 @@ if user_save.is_file() and (started or options.start_at=='legacy_save'):
 if started or options.start_at=='legacy_save':
     old={'schema_version':2,'name':'이전 저장 검증','level':5,'xp':13,'gold':57,'potions':4,'inventory':[],'equipped':'','kills':2,'boss_kills':0,'quest_done':False,'world_seed':20260908,'class_id':'warrior','skill_ranks':{'blade':1,'combo':3},'costume':'witch'}
     legacy=RUN/'legacy-combo';legacy.mkdir();(legacy/'slot-1.json').write_text(json.dumps(old,ensure_ascii=False),'utf8');run('legacy_save',['--save-dir='+str(legacy)])
-    upgraded=json.loads((legacy/'slot-1.json').read_text('utf8'))
-    assert upgraded['schema_version']==7 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
+    upgraded=json.loads((legacy/'v071/slot-1.json').read_text('utf8'))
+    assert upgraded['schema_version']==8 and upgraded['skill_ranks']=={'blade':1,'heavy_training':3} and upgraded['costume']=='none'
+    assert json.loads((legacy/'slot-1.json').read_text('utf8'))==old,'Legacy source must remain unchanged'
 else:save_integrity='not tested in remaining-groups run'
 rows=inventory();assert all(x['bytes']<100*1024*1024 for x in rows)
 for file in ['world/catalog.json','motions/catalog.json','gat/catalog.json','icons/catalog.json']:

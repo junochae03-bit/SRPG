@@ -167,7 +167,8 @@ func run():
 		check(Progression.available(p)==earned_points and p.creation_points==10,id+" costume gives no extra creation stat points")
 		session.disconnect_game();session.start_game("불러오기 이름",1);p=session.sim.players[1]
 		check(p.costume==id and p.avatar=="auto" and p.name==sheet.name,id+" save reload preserves appearance and name")
-		check(identity_except_costume(p,session.sim)==saved_identity,id+" save reload preserves all gear progression and combat stats")
+		var reloaded_identity=identity_except_costume(p,session.sim)
+		check(reloaded_identity==saved_identity,id+" save reload preserves all gear progression and combat stats")
 		check(Gat.frame(p,0.).costume_id==id and Gat.portrait(p)==Costumes.portrait(p),id+" loaded character still routes through custom frame and portrait")
 		session.disconnect_game();root.remove_child(session);session.free()
 	var invalid=final_sheet.duplicate(true);invalid.costume="missing-costume";check(not Creation.reason(invalid).is_empty() and Creation.player_data(invalid).is_empty(),"invalid creator costume never produces save data")

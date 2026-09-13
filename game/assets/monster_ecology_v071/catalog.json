@@ -1,0 +1,4366 @@
+{
+  "version": 1,
+  "pack_id": "monster_ecology_v071",
+  "species_count": 29,
+  "frame_count": 116,
+  "phases": [
+    "idle",
+    "windup",
+    "impact",
+    "recover"
+  ],
+  "key": "magenta_narrow",
+  "combat_runtime_registration": "main_owned_not_performed_by_importer",
+  "species": {
+    "forest_spore_millipede": {
+      "id": "forest_spore_millipede",
+      "name_ko": "낙엽등 노래기",
+      "sheet": "res://assets/monster_ecology_v071/sheets/forest_spore_millipede.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            29,
+            247,
+            604,
+            261
+          ],
+          "foot": [
+            161.0,
+            258.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            600,
+            257
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -161.0,
+            -258.0,
+            604,
+            261
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            731,
+            157,
+            451,
+            356
+          ],
+          "foot": [
+            291.0,
+            353.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            447,
+            352
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -291.0,
+            -353.0,
+            451,
+            356
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            27,
+            708,
+            559,
+            428
+          ],
+          "foot": [
+            193.5,
+            425.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            555,
+            424
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -193.5,
+            -425.0,
+            559,
+            428
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            656,
+            827,
+            571,
+            309
+          ],
+          "foot": [
+            160.0,
+            306.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            567,
+            305
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -160.0,
+            -306.0,
+            571,
+            309
+          ]
+        }
+      ],
+      "body_height": 257,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "forest_spore_millipede:primary",
+        "description": "몸을 둥글게 말았다가 옆으로 꼬리치기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\catalog.json",
+        "source_catalog_sha256": "2ee0d0f548c8956c252f25e196ea748a631e68f4353697349bde029b3f3b56f5",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\forest_spore_millipede.png",
+        "source_sha256": "437508427da4f3c2feed2ea9c191f02aa2352a02d07f46e9c9cbfbceab346555",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "forest_root_shrew": {
+      "id": "forest_root_shrew",
+      "name_ko": "뿌리코 땃쥐",
+      "sheet": "res://assets/monster_ecology_v071/sheets/forest_root_shrew.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            53,
+            178,
+            550,
+            431
+          ],
+          "foot": [
+            297.0,
+            428.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            546,
+            427
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -297.0,
+            -428.0,
+            550,
+            431
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            657,
+            135,
+            576,
+            482
+          ],
+          "foot": [
+            283.0,
+            479.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            572,
+            478
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -283.0,
+            -479.0,
+            576,
+            482
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            12,
+            683,
+            634,
+            439
+          ],
+          "foot": [
+            550.5,
+            436.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            630,
+            435
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -550.5,
+            -436.0,
+            634,
+            439
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            666,
+            762,
+            559,
+            401
+          ],
+          "foot": [
+            271.0,
+            398.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            555,
+            397
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -271.0,
+            -398.0,
+            559,
+            401
+          ]
+        }
+      ],
+      "body_height": 427,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "forest_root_shrew:primary",
+        "description": "코를 들고 두 번 짧게 물기",
+        "shape": "two_bites",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 0.5,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "시전당 최대2타, 타격 간격0.25초, 총계수1.0",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\catalog.json",
+        "source_catalog_sha256": "2ee0d0f548c8956c252f25e196ea748a631e68f4353697349bde029b3f3b56f5",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\forest_root_shrew.png",
+        "source_sha256": "352214174bb678d1a256b64c527da754f18117ae72a57eb9995926e4efbf200f",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "bone_serpent": {
+      "id": "bone_serpent",
+      "name_ko": "백골 뱀",
+      "sheet": "res://assets/monster_ecology_v071/sheets/bone_serpent.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            83,
+            78,
+            226,
+            235
+          ],
+          "foot": [
+            85.0,
+            232.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            450,
+            58,
+            263,
+            260
+          ],
+          "foot": [
+            119.0,
+            257.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            770,
+            113,
+            391,
+            203
+          ],
+          "foot": [
+            271.0,
+            200.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1250,
+            87,
+            224,
+            229
+          ],
+          "foot": [
+            88.5,
+            226.0
+          ]
+        }
+      ],
+      "body_height": 231,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "bone_serpent:primary",
+        "description": "몸을 S자로 접은 뒤 정면 물기",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\monster-variety-20260910\\catalog.json",
+        "source_catalog_sha256": "26350c06842bcf84130b9c3e77a3911e64ca3649b28d379827c0f609cba9aff3",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\monster-variety-20260910\\sheets\\crypt.png",
+        "source_sha256": "6529b15b0bc1676178ec7d589a489d9aa79ef7a0dd40959abafdaccf92b7723e",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "crystal_salt_mite": {
+      "id": "crystal_salt_mite",
+      "name_ko": "소금수정 진드기",
+      "sheet": "res://assets/monster_ecology_v071/sheets/crystal_salt_mite.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            45,
+            148,
+            556,
+            401
+          ],
+          "foot": [
+            238.0,
+            398.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            552,
+            397
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -238.0,
+            -398.0,
+            556,
+            401
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            722,
+            219,
+            444,
+            308
+          ],
+          "foot": [
+            181.5,
+            305.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            440,
+            304
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -181.5,
+            -305.0,
+            444,
+            308
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            65,
+            738,
+            543,
+            400
+          ],
+          "foot": [
+            175.0,
+            397.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            539,
+            396
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -175.0,
+            -397.0,
+            543,
+            400
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            665,
+            783,
+            571,
+            369
+          ],
+          "foot": [
+            231.0,
+            366.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            567,
+            365
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -231.0,
+            -366.0,
+            571,
+            369
+          ]
+        }
+      ],
+      "body_height": 397,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "crystal_salt_mite:primary",
+        "description": "수정 다리를 모은 뒤 짧게 뛰어찍기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\catalog.json",
+        "source_catalog_sha256": "2ee0d0f548c8956c252f25e196ea748a631e68f4353697349bde029b3f3b56f5",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\crystal_salt_mite.png",
+        "source_sha256": "1711079748f7d0a3301cf7fbe484fd69b06359266da1e95c1cb2d1726cc7b3e5",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "crystal_echo_gecko": {
+      "id": "crystal_echo_gecko",
+      "name_ko": "반향 도마뱀",
+      "sheet": "res://assets/monster_ecology_v071/sheets/crystal_echo_gecko.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            56,
+            199,
+            542,
+            364
+          ],
+          "foot": [
+            251.0,
+            361.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            538,
+            360
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -251.0,
+            -361.0,
+            542,
+            364
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            687,
+            133,
+            522,
+            445
+          ],
+          "foot": [
+            263.0,
+            442.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            518,
+            441
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -263.0,
+            -442.0,
+            522,
+            445
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            25,
+            741,
+            575,
+            388
+          ],
+          "foot": [
+            383.0,
+            385.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            571,
+            384
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -383.0,
+            -385.0,
+            575,
+            388
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            661,
+            770,
+            556,
+            373
+          ],
+          "foot": [
+            274.0,
+            370.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            552,
+            369
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -274.0,
+            -370.0,
+            556,
+            373
+          ]
+        }
+      ],
+      "body_height": 360,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "crystal_echo_gecko:primary",
+        "description": "목주머니를 부풀린 뒤 좁은 음파 부채꼴",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\catalog.json",
+        "source_catalog_sha256": "2ee0d0f548c8956c252f25e196ea748a631e68f4353697349bde029b3f3b56f5",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\crystal_echo_gecko.png",
+        "source_sha256": "d71cd5f0047a56848773b2be59da2595e8044c63e89bf8fccac35048568f395f",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "flood_rustclaw_crab": {
+      "id": "flood_rustclaw_crab",
+      "name_ko": "녹갑옷 집게게",
+      "sheet": "res://assets/monster_motions_v06/sheets/flood.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            15,
+            108,
+            335,
+            228
+          ],
+          "foot": [
+            192.0,
+            225.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            383,
+            22,
+            356,
+            313
+          ],
+          "foot": [
+            221.0,
+            310.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            763,
+            108,
+            360,
+            237
+          ],
+          "foot": [
+            75.0,
+            234.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1163,
+            108,
+            347,
+            228
+          ],
+          "foot": [
+            203.0,
+            225.0
+          ]
+        }
+      ],
+      "body_height": 224,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "flood_rustclaw_crab:primary",
+        "description": "큰 집게를 뒤로 당겨 전방 내려찍기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\flood.png",
+        "source_sha256": "f91ef1fbd5ba6cbb6d11b43e2a4543b01aaef30f7bc6ce38b894e755135f4ad0",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "flood_bell_nautilus": {
+      "id": "flood_bell_nautilus",
+      "name_ko": "종껍질 앵무조개",
+      "sheet": "res://assets/monster_motions_v06/sheets/flood.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            352,
+            275,
+            272
+          ],
+          "foot": [
+            159.0,
+            306.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            424,
+            353,
+            246,
+            264
+          ],
+          "foot": [
+            152.0,
+            305.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            702,
+            354,
+            417,
+            265
+          ],
+          "foot": [
+            258.0,
+            304.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1205,
+            351,
+            270,
+            271
+          ],
+          "foot": [
+            139.0,
+            307.67
+          ]
+        }
+      ],
+      "body_height": 268,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "flood_bell_nautilus:primary",
+        "description": "촉수를 모았다가 전방 물줄기 발사",
+        "shape": "projectile",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\flood.png",
+        "source_sha256": "f91ef1fbd5ba6cbb6d11b43e2a4543b01aaef30f7bc6ce38b894e755135f4ad0",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "flood_silt_skater": {
+      "id": "flood_silt_skater",
+      "name_ko": "진흙발 소금쟁이",
+      "sheet": "res://assets/monster_ecology_v071/sheets/flood_silt_skater.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            58,
+            129,
+            548,
+            393
+          ],
+          "foot": [
+            329.0,
+            390.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            544,
+            389
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -329.0,
+            -390.0,
+            548,
+            393
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            684,
+            110,
+            523,
+            423
+          ],
+          "foot": [
+            297.0,
+            420.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            519,
+            419
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -297.0,
+            -420.0,
+            523,
+            423
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            45,
+            736,
+            568,
+            358
+          ],
+          "foot": [
+            348.0,
+            355.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            564,
+            354
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -348.0,
+            -355.0,
+            568,
+            358
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            692,
+            735,
+            506,
+            374
+          ],
+          "foot": [
+            311.0,
+            371.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            502,
+            370
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -311.0,
+            -371.0,
+            506,
+            374
+          ]
+        }
+      ],
+      "body_height": 389,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "flood_silt_skater:primary",
+        "description": "긴 앞다리를 든 뒤 일직선 찌르기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\flood_silt_skater.png",
+        "source_sha256": "cf4bd44bf6667cd25d1ba25238a7ddaa80db774eaa40d4f8606e6186e3e7f3f7",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "flood_reed_eel": {
+      "id": "flood_reed_eel",
+      "name_ko": "갈대수염 뱀장어",
+      "sheet": "res://assets/monster_ecology_v071/sheets/flood_reed_eel.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            66,
+            81,
+            541,
+            465
+          ],
+          "foot": [
+            283.0,
+            462.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            537,
+            461
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -283.0,
+            -462.0,
+            541,
+            465
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            691,
+            77,
+            498,
+            484
+          ],
+          "foot": [
+            316.0,
+            481.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            494,
+            480
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -316.0,
+            -481.0,
+            498,
+            484
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            59,
+            662,
+            611,
+            466
+          ],
+          "foot": [
+            49.0,
+            463.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            607,
+            462
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -49.0,
+            -463.0,
+            611,
+            466
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            703,
+            660,
+            503,
+            447
+          ],
+          "foot": [
+            352.0,
+            444.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            499,
+            443
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -352.0,
+            -444.0,
+            503,
+            447
+          ]
+        }
+      ],
+      "body_height": 461,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "flood_reed_eel:primary",
+        "description": "수염을 떨고 몸을 내밀어 한 번 물기",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\flood_reed_eel.png",
+        "source_sha256": "323019679207715c301c2aed12b29d41812a326e92562c46961ab77b62d80f1d",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "spore_blade_cricket": {
+      "id": "spore_blade_cricket",
+      "name_ko": "칼턱 동굴귀뚜라미",
+      "sheet": "res://assets/monster_motions_v06/sheets/spore.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            56,
+            110,
+            299,
+            205
+          ],
+          "foot": [
+            104.0,
+            202.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            441,
+            115,
+            265,
+            196
+          ],
+          "foot": [
+            106.5,
+            193.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            762,
+            86,
+            366,
+            215
+          ],
+          "foot": [
+            256.0,
+            212.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1201,
+            109,
+            286,
+            206
+          ],
+          "foot": [
+            108.0,
+            203.0
+          ]
+        }
+      ],
+      "body_height": 201,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "spore_blade_cricket:primary",
+        "description": "뒷다리를 접고 짧은 도약 베기",
+        "shape": "short_dash",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 2.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\spore.png",
+        "source_sha256": "6dca1eaca7719860fcf2c3a0cccde2a2b9fd5d9c8d9b0ed5bab095189f029cf7",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "spore_lantern_moth": {
+      "id": "spore_lantern_moth",
+      "name_ko": "포자등 나방",
+      "sheet": "res://assets/monster_motions_v06/sheets/spore.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            67,
+            398,
+            254,
+            241
+          ],
+          "foot": [
+            125.0,
+            260.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            447,
+            376,
+            228,
+            263
+          ],
+          "foot": [
+            129.0,
+            282.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            765,
+            393,
+            370,
+            247
+          ],
+          "foot": [
+            195.0,
+            265.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1229,
+            397,
+            244,
+            242
+          ],
+          "foot": [
+            115.0,
+            261.67
+          ]
+        }
+      ],
+      "body_height": 237,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "spore_lantern_moth:primary",
+        "description": "배의 포자등을 밝힌 뒤 작은 포자탄",
+        "shape": "projectile",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\spore.png",
+        "source_sha256": "6dca1eaca7719860fcf2c3a0cccde2a2b9fd5d9c8d9b0ed5bab095189f029cf7",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "spore_compost_slug": {
+      "id": "spore_compost_slug",
+      "name_ko": "퇴비등 민달팽이",
+      "sheet": "res://assets/monster_ecology_v071/sheets/spore_compost_slug.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            83,
+            127,
+            500,
+            413
+          ],
+          "foot": [
+            277.0,
+            410.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            496,
+            409
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -277.0,
+            -410.0,
+            500,
+            413
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            667,
+            138,
+            541,
+            402
+          ],
+          "foot": [
+            276.0,
+            399.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            537,
+            398
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -276.0,
+            -399.0,
+            541,
+            402
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            61,
+            750,
+            532,
+            354
+          ],
+          "foot": [
+            341.0,
+            351.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            528,
+            350
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -341.0,
+            -351.0,
+            532,
+            354
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            685,
+            773,
+            521,
+            344
+          ],
+          "foot": [
+            280.0,
+            341.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            517,
+            340
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -280.0,
+            -341.0,
+            521,
+            344
+          ]
+        }
+      ],
+      "body_height": 409,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "spore_compost_slug:primary",
+        "description": "몸을 부풀린 뒤 느린 점액 한 덩이 발사",
+        "shape": "projectile",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\spore_compost_slug.png",
+        "source_sha256": "be047060b2534dbb212d8f1145adc9bfd3429253af968b7117b1511cdb3d03d1",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "spore_hook_mantis": {
+      "id": "spore_hook_mantis",
+      "name_ko": "갈고리 균사마귀",
+      "sheet": "res://assets/monster_ecology_v071/sheets/spore_hook_mantis.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            128,
+            60,
+            454,
+            536
+          ],
+          "foot": [
+            291.0,
+            533.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            450,
+            532
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -291.0,
+            -533.0,
+            454,
+            536
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            657,
+            85,
+            549,
+            526
+          ],
+          "foot": [
+            380.0,
+            523.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            545,
+            522
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -380.0,
+            -523.0,
+            549,
+            526
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            66,
+            693,
+            523,
+            478
+          ],
+          "foot": [
+            363.5,
+            475.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            519,
+            474
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -363.5,
+            -475.0,
+            523,
+            478
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            696,
+            719,
+            508,
+            453
+          ],
+          "foot": [
+            347.0,
+            450.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            504,
+            449
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -347.0,
+            -450.0,
+            508,
+            453
+          ]
+        }
+      ],
+      "body_height": 532,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "spore_hook_mantis:primary",
+        "description": "갈고리 앞다리를 벌리고 한 번 교차 베기",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\spore_hook_mantis.png",
+        "source_sha256": "5ef448d37c59aded8b70b0c57362fc8baa96835bf7811bab4c3a9e7347afcc0c",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "lava_coal_salamander": {
+      "id": "lava_coal_salamander",
+      "name_ko": "석탄등 도롱뇽",
+      "sheet": "res://assets/monster_motions_v06/sheets/lava.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            85,
+            132,
+            234,
+            147
+          ],
+          "foot": [
+            97.0,
+            144.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            460,
+            137,
+            241,
+            142
+          ],
+          "foot": [
+            100.0,
+            139.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            803,
+            142,
+            290,
+            137
+          ],
+          "foot": [
+            197.0,
+            134.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1220,
+            132,
+            232,
+            147
+          ],
+          "foot": [
+            103.0,
+            144.0
+          ]
+        }
+      ],
+      "body_height": 143,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "lava_coal_salamander:primary",
+        "description": "목의 열빛을 켠 뒤 짧은 불숨",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\lava.png",
+        "source_sha256": "025b61060dd2023dec77ef8e63e8e921c05a9ac8b0bb4faea988bf666deab815",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "lava_ash_hopper": {
+      "id": "lava_ash_hopper",
+      "name_ko": "재도약 메뚜기",
+      "sheet": "res://assets/monster_ecology_v071/sheets/lava_ash_hopper.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            65,
+            144,
+            524,
+            376
+          ],
+          "foot": [
+            202.0,
+            373.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            520,
+            372
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -202.0,
+            -373.0,
+            524,
+            376
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            676,
+            153,
+            487,
+            367
+          ],
+          "foot": [
+            245.0,
+            364.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            483,
+            363
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -245.0,
+            -364.0,
+            487,
+            367
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            30,
+            701,
+            613,
+            409
+          ],
+          "foot": [
+            149.0,
+            406.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            609,
+            405
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -149.0,
+            -406.0,
+            613,
+            409
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            658,
+            772,
+            564,
+            339
+          ],
+          "foot": [
+            238.0,
+            336.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            560,
+            335
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -238.0,
+            -336.0,
+            564,
+            339
+          ]
+        }
+      ],
+      "body_height": 372,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "lava_ash_hopper:primary",
+        "description": "붉은 뒷다리를 접었다가 착지 찍기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\lava_ash_hopper.png",
+        "source_sha256": "28867c029b38ef2e37641e5e5c838d809f36bec86a7db027715972dd373d8500",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "lava_slag_mole": {
+      "id": "lava_slag_mole",
+      "name_ko": "광재발 두더지",
+      "sheet": "res://assets/monster_ecology_v071/sheets/lava_slag_mole.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            64,
+            212,
+            540,
+            354
+          ],
+          "foot": [
+            294.0,
+            351.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            536,
+            350
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -294.0,
+            -351.0,
+            540,
+            354
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            691,
+            81,
+            499,
+            506
+          ],
+          "foot": [
+            180.0,
+            503.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            495,
+            502
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -180.0,
+            -503.0,
+            499,
+            506
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            49,
+            748,
+            570,
+            345
+          ],
+          "foot": [
+            351.0,
+            342.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            566,
+            341
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -351.0,
+            -342.0,
+            570,
+            345
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            699,
+            757,
+            499,
+            350
+          ],
+          "foot": [
+            235.0,
+            347.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            495,
+            346
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -235.0,
+            -347.0,
+            499,
+            350
+          ]
+        }
+      ],
+      "body_height": 350,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "lava_slag_mole:primary",
+        "description": "앞발을 크게 들어 부채꼴 흙치기",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\lava_slag_mole.png",
+        "source_sha256": "299b6f8b5b600db84618113e4c70a0aa7e92749995b328d7baf0d32bce625641",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "ice_moss_hare": {
+      "id": "ice_moss_hare",
+      "name_ko": "빙이끼 눈토끼",
+      "sheet": "res://assets/monster_ecology_v071/sheets/ice_moss_hare.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            153,
+            55,
+            459,
+            538
+          ],
+          "foot": [
+            138.0,
+            535.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            455,
+            534
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -138.0,
+            -535.0,
+            459,
+            538
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            694,
+            137,
+            490,
+            451
+          ],
+          "foot": [
+            255.0,
+            448.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            486,
+            447
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -255.0,
+            -448.0,
+            490,
+            451
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            70,
+            697,
+            526,
+            455
+          ],
+          "foot": [
+            250.0,
+            452.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            522,
+            451
+          ],
+          "body_facing": "screen_right",
+          "local_render_bounds": [
+            -250.0,
+            -452.0,
+            526,
+            455
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            761,
+            686,
+            455,
+            465
+          ],
+          "foot": [
+            171.0,
+            462.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            451,
+            461
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -171.0,
+            -462.0,
+            455,
+            465
+          ]
+        }
+      ],
+      "body_height": 534,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "ice_moss_hare:primary",
+        "description": "귀를 세우고 뒷발로 한 번 차기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\ice_moss_hare.png",
+        "source_sha256": "02dc584ca165c5125e78f683e72bf6f8837230d9209645771a696be54afec4ee",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "ice_frost_louse": {
+      "id": "ice_frost_louse",
+      "name_ko": "서리껍질 쥐며느리",
+      "sheet": "res://assets/monster_ecology_v071/sheets/ice_frost_louse.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            52,
+            199,
+            543,
+            346
+          ],
+          "foot": [
+            290.0,
+            343.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            539,
+            342
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -290.0,
+            -343.0,
+            543,
+            346
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            756,
+            194,
+            384,
+            331
+          ],
+          "foot": [
+            171.0,
+            328.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            380,
+            327
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -171.0,
+            -328.0,
+            384,
+            331
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            158,
+            730,
+            359,
+            354
+          ],
+          "foot": [
+            174.0,
+            351.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            355,
+            350
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -174.0,
+            -351.0,
+            359,
+            354
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            653,
+            744,
+            494,
+            348
+          ],
+          "foot": [
+            266.0,
+            345.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            490,
+            344
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -266.0,
+            -345.0,
+            494,
+            348
+          ]
+        }
+      ],
+      "body_height": 342,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "ice_frost_louse:primary",
+        "description": "얼음 등판을 접고 짧은 구르기",
+        "shape": "short_dash",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 2.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\ice_frost_louse.png",
+        "source_sha256": "7620424ff68ba2d1db6faf539eb8b02ccb54bdb632c4ce76518890200d82a7bf",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "machine_mortar_tripod": {
+      "id": "machine_mortar_tripod",
+      "name_ko": "삼각포대 감시기",
+      "sheet": "res://assets/monster_motions_v06/sheets/machine.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            42,
+            372,
+            335,
+            249
+          ],
+          "foot": [
+            252.0,
+            246.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            408,
+            335,
+            353,
+            287
+          ],
+          "foot": [
+            285.0,
+            284.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            782,
+            335,
+            360,
+            287
+          ],
+          "foot": [
+            283.0,
+            284.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1167,
+            376,
+            333,
+            246
+          ],
+          "foot": [
+            255.0,
+            243.0
+          ]
+        }
+      ],
+      "body_height": 245,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "machine_mortar_tripod:primary",
+        "description": "포신을 세우고 지면 표식에 탄 한 발",
+        "shape": "projectile",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\machine.png",
+        "source_sha256": "e5c6d56354535774b934cf94405365889638dceab13a565dbca774df324dbc2e",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "machine_oil_tick": {
+      "id": "machine_oil_tick",
+      "name_ko": "폐유 진드기",
+      "sheet": "res://assets/monster_ecology_v071/sheets/machine_oil_tick.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            68,
+            144,
+            511,
+            398
+          ],
+          "foot": [
+            329.0,
+            395.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            507,
+            394
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -329.0,
+            -395.0,
+            511,
+            398
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            676,
+            119,
+            523,
+            427
+          ],
+          "foot": [
+            337.0,
+            424.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            519,
+            423
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -337.0,
+            -424.0,
+            523,
+            427
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            43,
+            709,
+            546,
+            412
+          ],
+          "foot": [
+            407.5,
+            409.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            542,
+            408
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -407.5,
+            -409.0,
+            546,
+            412
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            681,
+            714,
+            520,
+            408
+          ],
+          "foot": [
+            333.0,
+            405.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            516,
+            404
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -333.0,
+            -405.0,
+            520,
+            408
+          ]
+        }
+      ],
+      "body_height": 394,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "machine_oil_tick:primary",
+        "description": "흡입관을 빼고 짧은 전방 분사",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\machine_oil_tick.png",
+        "source_sha256": "c23921ff31b3b94db9f2c444a5b6100bbd0f9e176e9c0d5aa2ea37eaaf670f61",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "machine_copper_crow": {
+      "id": "machine_copper_crow",
+      "name_ko": "동선까마귀",
+      "sheet": "res://assets/monster_ecology_v071/sheets/machine_copper_crow.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            46,
+            69,
+            569,
+            500
+          ],
+          "foot": [
+            308.0,
+            497.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            565,
+            496
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -308.0,
+            -497.0,
+            569,
+            500
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            686,
+            138,
+            509,
+            414
+          ],
+          "foot": [
+            255.0,
+            411.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            505,
+            410
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -255.0,
+            -411.0,
+            509,
+            414
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            45,
+            792,
+            563,
+            247
+          ],
+          "foot": [
+            433.0,
+            244.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            559,
+            243
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -433.0,
+            -244.0,
+            563,
+            247
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            666,
+            671,
+            566,
+            508
+          ],
+          "foot": [
+            265.0,
+            505.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            562,
+            504
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -265.0,
+            -505.0,
+            566,
+            508
+          ]
+        }
+      ],
+      "body_height": 496,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "machine_copper_crow:primary",
+        "description": "날개를 접고 짧게 활강 찌르기",
+        "shape": "short_dash",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 2.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\machine_copper_crow.png",
+        "source_sha256": "f8a5906fce9c6e5e2c16bddf75546b6edcf6c56228bd9e26fca6862bb0516cc5",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "twilight_sap_bat": {
+      "id": "twilight_sap_bat",
+      "name_ko": "밤수액 과일박쥐",
+      "sheet": "res://assets/monster_ecology_v071/sheets/twilight_sap_bat.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            29,
+            90,
+            633,
+            450
+          ],
+          "foot": [
+            376.0,
+            447.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            629,
+            446
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -376.0,
+            -447.0,
+            633,
+            450
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            766,
+            49,
+            439,
+            507
+          ],
+          "foot": [
+            252.0,
+            504.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            435,
+            503
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -252.0,
+            -504.0,
+            439,
+            507
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            83,
+            673,
+            547,
+            414
+          ],
+          "foot": [
+            194.0,
+            411.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            543,
+            410
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -194.0,
+            -411.0,
+            547,
+            414
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            640,
+            675,
+            591,
+            438
+          ],
+          "foot": [
+            328.0,
+            435.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            587,
+            434
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -328.0,
+            -435.0,
+            591,
+            438
+          ]
+        }
+      ],
+      "body_height": 446,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "small",
+      "display_ratio": 0.5,
+      "reference_character_height": 112.0,
+      "body_pixels": 56.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "twilight_sap_bat:primary",
+        "description": "날개를 접어 짧은 급강하 긁기",
+        "shape": "short_dash",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 2.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\twilight_sap_bat.png",
+        "source_sha256": "fb7a3ae5e196a7ff850b76c539ced741763e41a9e9681af22f55716cad5145d7",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "twilight_bark_isopod": {
+      "id": "twilight_bark_isopod",
+      "name_ko": "고목껍질 공벌레",
+      "sheet": "res://assets/monster_ecology_v071/sheets/twilight_bark_isopod.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            35,
+            141,
+            577,
+            376
+          ],
+          "foot": [
+            292.0,
+            373.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            573,
+            372
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -292.0,
+            -373.0,
+            577,
+            376
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            737,
+            152,
+            428,
+            363
+          ],
+          "foot": [
+            240.0,
+            360.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            424,
+            359
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -240.0,
+            -360.0,
+            428,
+            363
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            36,
+            738,
+            592,
+            368
+          ],
+          "foot": [
+            417.0,
+            365.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            588,
+            364
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -417.0,
+            -365.0,
+            592,
+            368
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            634,
+            728,
+            577,
+            379
+          ],
+          "foot": [
+            285.0,
+            376.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            573,
+            375
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -285.0,
+            -376.0,
+            577,
+            379
+          ]
+        }
+      ],
+      "body_height": 372,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "twilight_bark_isopod:primary",
+        "description": "나무 등판을 웅크린 뒤 옆으로 밀치기",
+        "shape": "circle",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 3.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\twilight_bark_isopod.png",
+        "source_sha256": "0bce1669218494a132b5c638b5a5f948e13969e6f3d00f611e6911b826055556",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "nebula_quartz_scorpion": {
+      "id": "nebula_quartz_scorpion",
+      "name_ko": "석영꼬리 전갈",
+      "sheet": "res://assets/monster_motions_v06/sheets/nebula.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            33,
+            47,
+            330,
+            303
+          ],
+          "foot": [
+            153.0,
+            300.0
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            405,
+            17,
+            339,
+            331
+          ],
+          "foot": [
+            192.0,
+            328.0
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            742,
+            53,
+            387,
+            292
+          ],
+          "foot": [
+            212.0,
+            289.0
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1159,
+            47,
+            316,
+            303
+          ],
+          "foot": [
+            140.0,
+            300.0
+          ]
+        }
+      ],
+      "body_height": 299,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "nebula_quartz_scorpion:primary",
+        "description": "석영 꼬리를 들고 전방 한 점 찌르기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\nebula.png",
+        "source_sha256": "0ab711b1b6c9178dd078998a6a351e4c3f7fea39c0cc9fc2016a7bcb5917be58",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "nebula_comet_cuttlefish": {
+      "id": "nebula_comet_cuttlefish",
+      "name_ko": "혜성 갑오징어",
+      "sheet": "res://assets/monster_motions_v06/sheets/nebula.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            42,
+            366,
+            302,
+            291
+          ],
+          "foot": [
+            150.0,
+            292.67
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            405,
+            360,
+            300,
+            287
+          ],
+          "foot": [
+            171.0,
+            298.67
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            708,
+            378,
+            435,
+            261
+          ],
+          "foot": [
+            252.0,
+            280.67
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            1199,
+            367,
+            294,
+            280
+          ],
+          "foot": [
+            145.0,
+            291.67
+          ]
+        }
+      ],
+      "body_height": 287,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "nebula_comet_cuttlefish:primary",
+        "description": "촉수를 모으고 직선 마력탄 발사",
+        "shape": "projectile",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 4.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\catalog.json",
+        "source_catalog_sha256": "5d9dca3a3e1e8837d01006fea5c642a78ddfb20f49fcbbbcda124de5bb25c08e",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\nebula.png",
+        "source_sha256": "0ab711b1b6c9178dd078998a6a351e4c3f7fea39c0cc9fc2016a7bcb5917be58",
+        "new20": false,
+        "pose_review": "reuse_suitable",
+        "reused_v07_appearance": true,
+        "original_pixels": "unchanged"
+      }
+    },
+    "nebula_dust_ray": {
+      "id": "nebula_dust_ray",
+      "name_ko": "별가루 가오리",
+      "sheet": "res://assets/monster_ecology_v071/sheets/nebula_dust_ray.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            29,
+            142,
+            600,
+            330
+          ],
+          "foot": [
+            388.0,
+            327.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            596,
+            326
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -388.0,
+            -327.0,
+            600,
+            330
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            742,
+            96,
+            421,
+            404
+          ],
+          "foot": [
+            214.0,
+            401.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            417,
+            400
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -214.0,
+            -401.0,
+            421,
+            404
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            29,
+            738,
+            557,
+            352
+          ],
+          "foot": [
+            542.0,
+            349.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            553,
+            348
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -542.0,
+            -349.0,
+            557,
+            352
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            642,
+            750,
+            583,
+            311
+          ],
+          "foot": [
+            400.0,
+            308.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            579,
+            307
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -400.0,
+            -308.0,
+            583,
+            311
+          ]
+        }
+      ],
+      "body_height": 326,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": true,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "nebula_dust_ray:primary",
+        "description": "날개를 말고 전방 먼지 부채꼴",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\nebula_dust_ray.png",
+        "source_sha256": "04d11caba35264d05e33fc676c8a9b59785aadf253e2f5ed1fd089a938e75b46",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "nebula_prism_worm": {
+      "id": "nebula_prism_worm",
+      "name_ko": "프리즘 관벌레",
+      "sheet": "res://assets/monster_ecology_v071/sheets/nebula_prism_worm.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            129,
+            97,
+            428,
+            471
+          ],
+          "foot": [
+            313.0,
+            468.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            424,
+            467
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -313.0,
+            -468.0,
+            428,
+            471
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            834,
+            210,
+            282,
+            359
+          ],
+          "foot": [
+            168.0,
+            356.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            278,
+            355
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -168.0,
+            -356.0,
+            282,
+            359
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            26,
+            678,
+            544,
+            478
+          ],
+          "foot": [
+            425.0,
+            475.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            540,
+            474
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -425.0,
+            -475.0,
+            544,
+            478
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            707,
+            736,
+            424,
+            420
+          ],
+          "foot": [
+            303.0,
+            417.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            420,
+            416
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -303.0,
+            -417.0,
+            424,
+            420
+          ]
+        }
+      ],
+      "body_height": 467,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "nebula_prism_worm:primary",
+        "description": "관에서 몸을 내밀어 반짝이는 침 한 발",
+        "shape": "projectile",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 5.0,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음",
+        "projectile_speed_tiles": 4.0
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\nebula_prism_worm.png",
+        "source_sha256": "9f64dc4b4979fbe6fb30f0159ff782abc122113e854eada82cd9307b3c32d71c",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "core_seal_beetle": {
+      "id": "core_seal_beetle",
+      "name_ko": "봉랍 딱정벌레",
+      "sheet": "res://assets/monster_ecology_v071/sheets/core_seal_beetle.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            61,
+            149,
+            515,
+            383
+          ],
+          "foot": [
+            145.0,
+            380.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            511,
+            379
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -145.0,
+            -380.0,
+            515,
+            383
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            683,
+            179,
+            514,
+            351
+          ],
+          "foot": [
+            193.0,
+            348.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            510,
+            347
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -193.0,
+            -348.0,
+            514,
+            351
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            21,
+            773,
+            595,
+            337
+          ],
+          "foot": [
+            210.0,
+            334.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            591,
+            333
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -210.0,
+            -334.0,
+            595,
+            337
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            674,
+            738,
+            529,
+            383
+          ],
+          "foot": [
+            147.5,
+            380.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            525,
+            379
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -147.5,
+            -380.0,
+            529,
+            383
+          ]
+        }
+      ],
+      "body_height": 379,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium_small",
+      "display_ratio": 1.2,
+      "reference_character_height": 112.0,
+      "body_pixels": 134.4,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "core_seal_beetle:primary",
+        "description": "봉랍 뿔을 낮추고 짧은 몸통 박치기",
+        "shape": "cone",
+        "windup_seconds": 0.9,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 1.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 0.9,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\core_seal_beetle.png",
+        "source_sha256": "fe748dfafaf66b0b00b62d5d192e5ca8e51c34cd40b32a9807d53f840501b5d5",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    },
+    "core_ink_hound": {
+      "id": "core_ink_hound",
+      "name_ko": "먹물 사냥개",
+      "sheet": "res://assets/monster_ecology_v071/sheets/core_ink_hound.png",
+      "frames": [
+        {
+          "phase": "idle",
+          "rect": [
+            62,
+            96,
+            518,
+            460
+          ],
+          "foot": [
+            205.0,
+            457.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            514,
+            456
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -205.0,
+            -457.0,
+            518,
+            460
+          ]
+        },
+        {
+          "phase": "windup",
+          "rect": [
+            686,
+            167,
+            520,
+            380
+          ],
+          "foot": [
+            210.0,
+            377.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            516,
+            376
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -210.0,
+            -377.0,
+            520,
+            380
+          ]
+        },
+        {
+          "phase": "impact",
+          "rect": [
+            22,
+            739,
+            591,
+            368
+          ],
+          "foot": [
+            560.0,
+            365.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            587,
+            364
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -560.0,
+            -365.0,
+            591,
+            368
+          ]
+        },
+        {
+          "phase": "recover",
+          "rect": [
+            692,
+            773,
+            514,
+            381
+          ],
+          "foot": [
+            203.0,
+            378.0
+          ],
+          "body_bounds": [
+            2,
+            2,
+            510,
+            377
+          ],
+          "body_facing": "screen_left_or_curled",
+          "local_render_bounds": [
+            -203.0,
+            -378.0,
+            514,
+            381
+          ]
+        }
+      ],
+      "body_height": 456,
+      "source_facing": -1.0,
+      "attack_direction": "screen_left",
+      "hovering": false,
+      "size_class": "medium",
+      "display_ratio": 2,
+      "reference_character_height": 112.0,
+      "body_pixels": 224.0,
+      "scale_formula": "112 * display_ratio / fixed_idle_body_height",
+      "pattern": {
+        "id": "core_ink_hound:primary",
+        "description": "몸의 글자가 모인 뒤 짧은 도약 물기",
+        "shape": "short_dash",
+        "windup_seconds": 1.1,
+        "damage_multiplier": 1.0,
+        "cooldown_seconds": 3.5,
+        "recovery_seconds": 0.65,
+        "range_tiles": 2.5,
+        "tracking": "windup_start_lock",
+        "dodge": "예고 방향 옆으로 이동; 후딜 동안 반격",
+        "hit_rule": "1회 시전당 대상별 1회, 지형 시선 검사",
+        "status": null,
+        "animation_authority": "스프라이트 프레임 수가 피해·시전 시간을 결정하지 않음"
+      },
+      "timing": {
+        "windup_seconds": 1.1,
+        "recovery_seconds": 0.65,
+        "impact_visual_seconds": 0.12,
+        "impact_is_visual_only": true,
+        "release_motion_duration_default": 0.65
+      },
+      "provenance": {
+        "source_catalog": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\catalog.json",
+        "source_catalog_sha256": "18b207cfeab1a282205645a9fbccf368690dd6ecff4c01ef252564a449004d5b",
+        "source_sheet": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\core_ink_hound.png",
+        "source_sha256": "b3824633d0a81133fcf6546499851b5a58d985a8b33ed90b909993d8b6832d03",
+        "new20": true,
+        "pose_review": "four_requested_poses_delivered",
+        "reused_v07_appearance": false,
+        "original_pixels": "unchanged"
+      }
+    }
+  },
+  "sheets": {
+    "res://assets/monster_ecology_v071/sheets/forest_spore_millipede.png": {
+      "sha256": "437508427da4f3c2feed2ea9c191f02aa2352a02d07f46e9c9cbfbceab346555",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\forest_spore_millipede.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/forest_root_shrew.png": {
+      "sha256": "352214174bb678d1a256b64c527da754f18117ae72a57eb9995926e4efbf200f",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\forest_root_shrew.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/bone_serpent.png": {
+      "sha256": "6529b15b0bc1676178ec7d589a489d9aa79ef7a0dd40959abafdaccf92b7723e",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\monster-variety-20260910\\sheets\\crypt.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/crystal_salt_mite.png": {
+      "sha256": "1711079748f7d0a3301cf7fbe484fd69b06359266da1e95c1cb2d1726cc7b3e5",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\crystal_salt_mite.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/crystal_echo_gecko.png": {
+      "sha256": "d71cd5f0047a56848773b2be59da2595e8044c63e89bf8fccac35048568f395f",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-priority-20260913\\sheets\\crystal_echo_gecko.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_motions_v06/sheets/flood.png": {
+      "sha256": "f91ef1fbd5ba6cbb6d11b43e2a4543b01aaef30f7bc6ce38b894e755135f4ad0",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\flood.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": true
+    },
+    "res://assets/monster_ecology_v071/sheets/flood_silt_skater.png": {
+      "sha256": "cf4bd44bf6667cd25d1ba25238a7ddaa80db774eaa40d4f8606e6186e3e7f3f7",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\flood_silt_skater.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/flood_reed_eel.png": {
+      "sha256": "323019679207715c301c2aed12b29d41812a326e92562c46961ab77b62d80f1d",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\flood_reed_eel.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_motions_v06/sheets/spore.png": {
+      "sha256": "6dca1eaca7719860fcf2c3a0cccde2a2b9fd5d9c8d9b0ed5bab095189f029cf7",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\spore.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": true
+    },
+    "res://assets/monster_ecology_v071/sheets/spore_compost_slug.png": {
+      "sha256": "be047060b2534dbb212d8f1145adc9bfd3429253af968b7117b1511cdb3d03d1",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\spore_compost_slug.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/spore_hook_mantis.png": {
+      "sha256": "5ef448d37c59aded8b70b0c57362fc8baa96835bf7811bab4c3a9e7347afcc0c",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\spore_hook_mantis.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_motions_v06/sheets/lava.png": {
+      "sha256": "025b61060dd2023dec77ef8e63e8e921c05a9ac8b0bb4faea988bf666deab815",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\lava.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": true
+    },
+    "res://assets/monster_ecology_v071/sheets/lava_ash_hopper.png": {
+      "sha256": "28867c029b38ef2e37641e5e5c838d809f36bec86a7db027715972dd373d8500",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\lava_ash_hopper.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/lava_slag_mole.png": {
+      "sha256": "299b6f8b5b600db84618113e4c70a0aa7e92749995b328d7baf0d32bce625641",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\lava_slag_mole.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/ice_moss_hare.png": {
+      "sha256": "02dc584ca165c5125e78f683e72bf6f8837230d9209645771a696be54afec4ee",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\ice_moss_hare.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/ice_frost_louse.png": {
+      "sha256": "7620424ff68ba2d1db6faf539eb8b02ccb54bdb632c4ce76518890200d82a7bf",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\ice_frost_louse.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_motions_v06/sheets/machine.png": {
+      "sha256": "e5c6d56354535774b934cf94405365889638dceab13a565dbca774df324dbc2e",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\machine.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": true
+    },
+    "res://assets/monster_ecology_v071/sheets/machine_oil_tick.png": {
+      "sha256": "c23921ff31b3b94db9f2c444a5b6100bbd0f9e176e9c0d5aa2ea37eaaf670f61",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\machine_oil_tick.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/machine_copper_crow.png": {
+      "sha256": "f8a5906fce9c6e5e2c16bddf75546b6edcf6c56228bd9e26fca6862bb0516cc5",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\machine_copper_crow.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/twilight_sap_bat.png": {
+      "sha256": "fb7a3ae5e196a7ff850b76c539ced741763e41a9e9681af22f55716cad5145d7",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\twilight_sap_bat.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/twilight_bark_isopod.png": {
+      "sha256": "0bce1669218494a132b5c638b5a5f948e13969e6f3d00f611e6911b826055556",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\twilight_bark_isopod.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_motions_v06/sheets/nebula.png": {
+      "sha256": "0ab711b1b6c9178dd078998a6a351e4c3f7fea39c0cc9fc2016a7bcb5917be58",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\attack-motion-20260910\\sheets\\nebula.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": true
+    },
+    "res://assets/monster_ecology_v071/sheets/nebula_dust_ray.png": {
+      "sha256": "04d11caba35264d05e33fc676c8a9b59785aadf253e2f5ed1fd089a938e75b46",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\nebula_dust_ray.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/nebula_prism_worm.png": {
+      "sha256": "9f64dc4b4979fbe6fb30f0159ff782abc122113e854eada82cd9307b3c32d71c",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\nebula_prism_worm.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/core_seal_beetle.png": {
+      "sha256": "fe748dfafaf66b0b00b62d5d192e5ca8e51c34cd40b32a9807d53f840501b5d5",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\core_seal_beetle.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    },
+    "res://assets/monster_ecology_v071/sheets/core_ink_hound.png": {
+      "sha256": "b3824633d0a81133fcf6546499851b5a58d985a8b33ed90b909993d8b6832d03",
+      "source_path": "D:\\SSRPG\\RPG2\\art\\monsters\\normal-ecology-regional-20260913\\sheets\\core_ink_hound.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "original_mode": "RGB",
+      "key": "magenta_narrow",
+      "reused_v07_sheet": false
+    }
+  },
+  "deferred": [
+    {
+      "id": "thorn_maw",
+      "missing_requested_phases": [
+        "windup",
+        "impact"
+      ],
+      "reason": "현재 닫힌 턱 예고와 점액 발사가 보인다. 요청한 벌린 턱 예고/근접 물기로 교체 필요.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "briar_stag",
+      "missing_requested_phases": [
+        "windup"
+      ],
+      "reason": "기존 뿔 돌진 타격은 재사용 가능. 앞발로 땅을 긁는 예고는 없고 뿔을 낮추는 포즈다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "geode_pangolin",
+      "missing_requested_phases": [
+        "windup",
+        "impact"
+      ],
+      "reason": "기존 예고/타격은 꼬리 감기/꼬리 휘두르기. 새 몸통 밀치기와 공격 부위가 다르다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "lava_vent_snail",
+      "missing_requested_phases": [
+        "impact"
+      ],
+      "reason": "기존 입의 불꽃/증기와 위쪽 분기공 연기가 함께 있다. 앞쪽 껍질 분기공 증기 분사 전용 포즈 필요.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "frost_penguin",
+      "missing_requested_phases": [
+        "windup",
+        "impact"
+      ],
+      "reason": "한쪽 날개로 얼음 조각을 들고 던지는 기존 포즈. 양 날개로 눈덩이를 모아 던지는 요청과 다르다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "rime_lynx",
+      "missing_requested_phases": [
+        "impact"
+      ],
+      "reason": "기존은 접지한 앞발 베기이며 도약 타격 전용 그림은 없다. 지상 베기를 허용하면 기존 타격도 사용 가능.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "machine_saw_wheel",
+      "missing_requested_phases": [
+        "windup",
+        "impact"
+      ],
+      "reason": "기존은 단일 바퀴 로봇의 집게팔 찌르기다. 큰 톱날 돌진과 다르며, 톱날 실루엣 자체도 먼저 DB 디자인과 합의가 필요하다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "moss_owlbear",
+      "missing_requested_phases": [
+        "impact"
+      ],
+      "reason": "높이 든 앞발 예고는 재사용 가능. 현재 타격은 낮은 가로 쓸기이며 요청한 아래로 내려찍기와 방향이 다르다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "grave_lantern",
+      "missing_requested_phases": [
+        "windup",
+        "impact"
+      ],
+      "reason": "기존은 등불 들어올리기/파란 불길 발사. 등불 수축/구체 방출 전용 포즈가 필요하다.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "core_rune_leech",
+      "missing_requested_phases": [
+        "impact"
+      ],
+      "reason": "기존 타격에 파란 결정형 발사체가 그려져 있다. 근접 물기로 읽히도록 해당 포즈 교체 필요.",
+      "additional_art_produced": false
+    },
+    {
+      "id": "core_bound_grimoire",
+      "missing_requested_phases": [
+        "impact"
+      ],
+      "reason": "현재 종이 칼날 대신 파란 마법진/결정 방출이 그려져 있다. 타격 포즈만 교체 필요.",
+      "additional_art_produced": false
+    }
+  ],
+  "provenance": {
+    "design_catalog_sha256": "a12445ab0913124d67668e001bc2905b5a200587a9a7ad7aa849db6cc8bf6be4",
+    "size_assignments_sha256": "4458740491ec2256b550b6fc0b6891d845116a2f95294a519e195916270189c8",
+    "reuse_review_sha256": "71346f072f499794cdc371cc1b15e5f336557ff0d33b551ea70d0c01cff3f2a1"
+  },
+  "counts": {
+    "new20": 20,
+    "reuse_suitable": 9,
+    "copied_original_sheets": 21,
+    "referenced_v07_sheets": 5,
+    "reused_v07_appearances": 8,
+    "deferred_species": 11,
+    "deferred_poses": 16
+  },
+  "notes": [
+    "RGB originals plus existing shared magenta_narrow RGBA cache policy",
+    "Hare impact body faces right but kick remains screen-left; do not flip only this frame",
+    "Shrew second impact needs authoritative attack_impact_time refresh; reader schedules no hits",
+    "Whole source sheets can contain unlisted species; only the 29 explicit IDs are bound",
+    "No extra16 art-only species, bosses or background placements included"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "primary": 6,
+  "equipment_special": 18,
+  "classes": 20,
+  "checks": [
+    "고유 ID",
+    "세부 스탯 합산 상한 계산",
+    "SQLite 무결성",
+    "정본 DB·캐시 미변경"
+  ],
+  "runtime_tested": false
+}

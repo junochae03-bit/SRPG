@@ -127,6 +127,9 @@ static func use(sim,p:Dictionary,argument:String)->bool:
 			var amount=2+int(site.tier)
 			if not Inventory.add_stack(staged,"essence",amount):sim.notice(p.id,Inventory.stack_failure_reason(staged,"essence",amount));return false
 			message="물약 −1 · 정수 +%d"%amount
+	if parts[2] in ["gather","salvage"]:
+		var material_reason=preload("res://scripts/exploration_material_rewards.gd").stage_site(sim,staged,site,"gather" if parts[2]=="gather" else "cache_salvage")
+		if not material_reason.is_empty():sim.notice(p.id,material_reason);return false
 	for key in ["hp","stamina","potions","materials","bag_positions"]:p[key]=staged[key]
 	if not sim.exploration_claims.has(p.id):sim.exploration_claims[p.id]={}
 	sim.exploration_claims[p.id][site.id]=parts[2]

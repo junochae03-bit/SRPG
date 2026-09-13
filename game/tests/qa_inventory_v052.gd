@@ -34,12 +34,14 @@ func cap_and_quantity():
 	check(local.connected,"real local session starts")
 	var p=local.sim.players[1];blank(p)
 	for kind in C.MATERIALS:
-		check(I.add_stack(p,kind,I.MAX_MATERIALS),"exact material cap accepted "+kind)
+		blank(p) # Quantity caps are independent of filling the finite bag with every catalog row.
+		var limit=I.stack_limit(kind)
+		check(I.add_stack(p,kind,limit),"exact material cap accepted "+kind)
 		check(local.save_game() and local.parse_save(local.save_path())!=null,"material cap survives real save/load "+kind)
 		var before=var_to_bytes(p)
 		check(not I.can_add_stack(p,kind,1) and var_to_bytes(p)==before,"read-only cap check rejects +1 "+kind)
 		check(not I.add_stack(p,kind,1) and var_to_bytes(p)==before,"rejected +1 preserves complete player "+kind)
-		check(I.stack_failure_reason(p,kind,1).contains(str(I.MAX_MATERIALS)),"material limit reason reports actual cap "+kind)
+		check(I.stack_failure_reason(p,kind,1).contains(str(limit)),"material limit reason reports actual cap "+kind)
 		check(local.save_game() and local.parse_save(local.save_path())!=null,"failed overflow cannot poison subsequent save "+kind)
 	var probe=p.duplicate(true);probe.materials.ore=I.MAX_MATERIALS-1
 	var before=var_to_bytes(probe)

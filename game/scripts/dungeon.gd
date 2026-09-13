@@ -189,7 +189,10 @@ func generate_floor():
 	path_cells=floor_cells
 	build_encounters(layout_rng)
 	preload("res://scripts/expedition_risk.gd").add_encounters(self)
-	preload("res://scripts/encounter_roles.gd").apply(self)
+	var ingress=preload("res://scripts/encounter_roles.gd").ingress_distances(self)
+	preload("res://scripts/encounter_roles.gd").apply(self,ingress)
+	encounters=preload("res://scripts/monster_ecology_v071.gd").replace_candidates(encounters,floor_number,seed_value,preload("res://scripts/world_catalog.gd").ENEMIES)
+	preload("res://scripts/encounter_roles.gd").apply(self,ingress)
 	exploration_sites=preload("res://scripts/exploration_rooms.gd").generate(self)
 	exploration_cues=preload("res://scripts/exploration_cues.gd").generate(self)
 	hidden_regions=preload("res://scripts/hidden_rooms.gd").generate(self)

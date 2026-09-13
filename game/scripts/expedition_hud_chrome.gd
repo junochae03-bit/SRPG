@@ -1,5 +1,5 @@
 extends Control
-## Personal profile at top left; consumables above skills and class detail below.
+## Personal profile at top left; consumables anchored at the bottom right.
 const Art=preload("res://scripts/ui_art.gd")
 const Content=preload("res://scripts/content.gd")
 const PROFILE=Rect2(20,711,370,172)
@@ -20,15 +20,12 @@ func setup(owner_hud):
 	hud.name_label.mouse_filter=Control.MOUSE_FILTER_STOP
 	hud.bag_button.hide();hud.growth_button.hide()
 	hud.status_strip.position=Vector2(28,505)
-	hud.job_resource.position=Vector2(20,711);hud.job_resource.scale=Vector2.ONE*.86
-	for child in hud.job_resource.get_children():
-		if child is NinePatchRect:child.hide()
-	Art.decorate(hud.job_resource,"magic",5)
+	hud.job_resource.position=Vector2(490,674);hud.job_resource.scale=Vector2.ONE
 	for i in range(Content.ACTIONS.size()):
 		var control=hud.circles[Content.ACTIONS[i]];control.position=Vector2(500+i*90,803);control.size=Vector2(74,74);control.show_caption=false
 	for action in ["potion","interact","return"]:hud.circles[action].hide()
 	for i in range(3):
-		var button=Button.new();button.position=Vector2(20+i*125,679);button.size=Vector2(120,26)
+		var button=Button.new();button.position=Vector2(20+i*125,846);button.size=Vector2(120,32)
 		button.text=["능력치","스킬","가방"][i];button.focus_mode=Control.FOCUS_NONE;button.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
 		button.add_theme_font_override("font",hud.game.fonts);button.add_theme_font_size_override("font_size",17)
 		for state in ["normal","hover","pressed","focus"]:button.add_theme_stylebox_override(state,StyleBoxEmpty.new())
@@ -49,19 +46,32 @@ func align_personal():
 	party.position=Vector2(20,170)+offset
 	personal_surface.position=PERSONAL.position+offset
 func open_tab(index:int):
-	selected_tab=index;hud.job_resource.display_mode=index
+	selected_tab=index
 	consumables.picker.hide()
-	consumables.position=Vector2(106,802) if index==2 else Vector2(665,744)
-	hud.job_resource.refresh(hud.p);queue_redraw()
+	if index==2:hud.game.toggle_bag()
+	else:
+		hud.game.toggle_skills();hud.game.skill_tree.change_mode("stats" if index==0 else "skills")
+	queue_redraw()
+func _process(_delta):
+	if hud==null:return
+	hud.job_resource.position=Vector2(490,786-hud.job_resource.size.y)
+	align_consumables()
+func align_consumables():
+	var edge=hud.chrome.get_global_transform_with_canvas().affine_inverse()*get_viewport_rect().end
+	consumables.position=edge-consumables.size-Vector2(24,24)
+	# Registration opens upward, with its right edge aligned to the slots.
+	consumables.picker.position=Vector2(consumables.size.x-consumables.picker.size.x,-consumables.picker.size.y-12)
 func refresh():
 	visible=not hud.chrome_hidden
 	if hud.chrome_hidden:consumables.picker.hide()
 	var p=hud.p
 	if p.is_empty():return
-	align_personal();party.refresh()
-	hud.status_strip.position.y=maxf(505,party.position.y+party.size.y+8)
+	align_personal();align_consumables();party.refresh()
+	hud.status_strip.position.y=party.position.y+party.size.y+8
 	var required=preload("res://scripts/progression.gd").xp_required(p.level)
 	hud.hp_label.tooltip_text="Lv.%d · 생명력 %d / %d\n기력 %d / %d\n금화 %d · 경험치 %.1f%%"%[p.level,p.hp,p.max_hp,p.stamina,p.max_stamina,p.gold,100.*p.xp/maxf(1,required)]
+	var aftereffects=preload("res://scripts/revival_aftereffects.gd").summary(p)
+	if not aftereffects.is_empty():hud.hp_label.tooltip_text+="\n"+aftereffects+"\n정상 최대 생명력 %d"%preload("res://scripts/revival_aftereffects.gd").normal_max_hp(p)
 	consumables.refresh()
 func world_regions()->Array[Rect2]:
 	var result:Array[Rect2]=[]

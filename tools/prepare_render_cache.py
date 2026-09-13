@@ -37,6 +37,9 @@ def sources():
     objects=json.loads((GAME/"assets/exploration_objects_v06/catalog.json").read_text("utf8"))
     for path in objects["sheets"]:
         entries[path+"|magenta_narrow"]=(path,"magenta_narrow")
+    ecology=json.loads((GAME/"assets/monster_ecology_v071/catalog.json").read_text("utf8"))
+    for row in ecology["species"].values():
+        path=row["sheet"];entries[path+"|magenta_narrow"]=(path,"magenta_narrow")
     return entries
 
 def prepared_bytes(path,key):

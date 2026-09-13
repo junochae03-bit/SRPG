@@ -126,6 +126,7 @@ func run():
 		check(session.state.players[session.local_id].expedition_goal.kind=="advance","crafted players can choose next expedition")
 		session.act("select_goal",JSON.stringify({"id":"secret","floor":test_floor}))
 		await create_timer(.4).timeout
+		await extra_town_check(host)
 		await guild_settlement_check(session,host)
 		check(session.state.departure_plan.floor==test_floor and session.state.departure_plan.risk==(1 if test_floor>10 else 0),"all peers see authoritative departure conditions")
 		session.act("ready","true:0")
@@ -384,3 +385,5 @@ func guild_settlement_check(session,host:bool):
 	check(session.state.players.values().filter(func(other):return other.id!=session.local_id).all(func(other):return not other.has("guild_reputation") and not other.has("guild_contract")),"guild choices remain private in snapshots")
 	var saved=session.save_game();var loaded=session.parse_save(session.save_path())
 	check(saved and loaded!=null and loaded.guild_reputation==p.guild_reputation and loaded.guild_contract.is_empty(),"actual network save persists settlement and reputation")
+
+func extra_town_check(_host:bool):pass

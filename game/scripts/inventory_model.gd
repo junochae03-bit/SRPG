@@ -18,7 +18,7 @@ static func all_items(p: Dictionary) -> Array:
 	for key in Consumables.ITEMS:
 		if Consumables.count(p,key)>0:result.append({"id":Consumables.bag_id(key),"name":Consumables.ITEMS[key].name,"category":"consumable","consumable":key,"bonus":60 if key=="potion" else 0,"rarity":0,"count":Consumables.count(p,key)})
 	for key in p.get("materials",{}):
-		if p.materials[key]>0:result.append({"id":"@mat:"+key,"name":Content.MATERIALS.get(key,key),"category":"material","bonus":0,"rarity":0,"count":p.materials[key]})
+		if p.materials[key]>0:result.append({"id":"@mat:"+key,"name":Content.MATERIALS.get(key,key),"category":"material","bonus":0,"rarity":int(preload("res://scripts/exploration_crafting_data.gd").materials().get(key,{}).get("rarity",0)),"count":p.materials[key]})
 	return result
 
 static func is_equipped(p: Dictionary, id: String) -> bool:
@@ -92,6 +92,7 @@ static func move_item(p: Dictionary, id: String, at: Vector2i, rotated: bool) ->
 	return true
 
 static func add_gear(p: Dictionary, item: Dictionary) -> bool:
+	if not preload("res://scripts/equipment_special_stats.gd").valid_item(item,true):return false
 	preload("res://scripts/equipment_catalog.gd").normalize(item,p)
 	p.inventory.append(item)
 	var place=first_fit(p,item.id)
@@ -133,6 +134,7 @@ static func unequip(p: Dictionary, slot: String) -> bool:
 	return true
 
 static func stack_limit(kind:String)->int:
+	if preload("res://scripts/exploration_crafting_data.gd").materials().has(kind):return preload("res://scripts/exploration_crafting_data.gd").limit(kind)
 	return MAX_POTIONS if Consumables.ITEMS.has(kind) else MAX_MATERIALS if Content.MATERIALS.has(kind) else 0
 
 static func whole_count(value:Variant,maximum:int)->bool:

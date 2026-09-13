@@ -18,7 +18,7 @@ try:
             else:raise RuntimeError('Six players never became ready for the capacity probe')
         folder=run/str(i);folder.mkdir();log=(folder/'run.log').open('w',encoding='utf8');logs.append(log)
         role='host' if i==0 else 'late' if closing_race and i==2 else 'overflow' if i==6 else 'guest'
-        script='coop_exit_race' if closing_race else 'combat_lifecycle_network' if '--lifecycle' in sys.argv else 'coop_network'
+        script='production_network' if '--production' in sys.argv else 'coop_exit_race' if closing_race else 'combat_lifecycle_network' if '--lifecycle' in sys.argv else 'coop_network'
         command=[engine(),'--headless','--path',str(ROOT/'game'),'--script','res://tests/'+script+'.gd','--','--role='+role,'--directory='+str(folder),'--port='+str(port)]
         if '--host-exit' in sys.argv:command+=['--exit-mode=host']
         for arg in sys.argv[1:]:
@@ -38,7 +38,7 @@ try:
                 output=result.stdout+result.stderr;(legacy/'run.log').write_text(output,'utf8')
                 if result.returncode or 'COOP_OLD_VERSION failures=0' not in output or any(token in output for token in ['SCRIPT ERROR','ERROR:','WARNING:']):raise RuntimeError(output)
                 print('COOP_OLD_VERSION PASS with five free host slots',flush=True)
-    for process in processes:process.wait(timeout=60)
+    for process in processes:process.wait(timeout=90 if '--production' in sys.argv else 60)
     for log in logs:log.flush()
     failures=[]
     for i,process in enumerate(processes):

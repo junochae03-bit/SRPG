@@ -1,0 +1,51 @@
+{
+  "asset_checks": 32,
+  "families": 8,
+  "source_hashes": "PASS",
+  "frame_bounds": "PASS",
+  "engine_tests": {
+    "checks": 292,
+    "failures": 0,
+    "engine": "Godot 4.6 headless"
+  },
+  "live_combat": {
+    "checks": 76,
+    "failures": 0
+  },
+  "render_fixture": {
+    "checks": 24,
+    "failures": 0,
+    "renderer": "OpenGL compatibility RTX 4070 SUPER",
+    "live_collision": false
+  },
+  "existing_combat": {
+    "checks": 51,
+    "failures": 0
+  },
+  "existing_qa_combat": {
+    "checks": 143,
+    "failures": 0
+  },
+  "live_gpu": {
+    "checks": 65,
+    "failures": 0,
+    "captures": 25,
+    "renderer": "OpenGL compatibility RTX 4070 SUPER",
+    "scope": "main scene + real simulation launch/accepted collision + sight/wall clipping"
+  },
+  "multiclient_enet": "not rerun here; main full integration owner",
+  "reviewed_live_images": [
+    "arrow-flight",
+    "fire-impact",
+    "arrow-impact",
+    "shadow-impact",
+    "wall-hidden-contact"
+  ],
+  "verified_file_sha256": {
+    "game/scripts/projectile_visual_v071.gd": "67213f513306fa582cbb94741fb578e5c0b7b8d1559184f053f19bd6ae962570",
+    "game/shaders/projectile_visual_v071.gdshader": "beae567c875f4af6d00c6debd0a87bc2c510c53714df0525fcfd3a48316eb68c",
+    "game/scripts/main.gd": "a7b10708664ec756e38c6ea41762f239b6a579eb3efb25210c6365d82dd069bb",
+    "game/scripts/player_combat.gd": "aab38542eb426bdf5546f75f8b2af4cbd7ec2f08dfde65654b15257ae296d079",
+    "game/scripts/skill_effects.gd": "e97a025256f02b2c2b00d36b31a5ee51033a4d00e2c61cf0f869187812674da7"
+  }
+}

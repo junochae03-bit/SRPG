@@ -1,5 +1,6 @@
 extends RefCounted
 const Content=preload("res://scripts/content.gd")
+const Special=preload("res://scripts/equipment_special_stats.gd")
 const BASES={
 	"sword":["여행자의 검","청동 장검","수정 세이버","여명의 은검","별자리 성검"],
 	"axe":["나무꾼 도끼","강철 전투도끼","수정 양날도끼","사자의 도끼","태양 분쇄자"],
@@ -19,7 +20,7 @@ const FAMILY_NAMES={"warrior":"전사","mage":"마법사","ranger":"궁수","rog
 const WEAPON_NAMES={"warrior":"장검","mage":"지팡이","ranger":"사냥활","rogue":"단검","fighter":"너클","tank":"수호검","swordsman":"결투검","runesword":"룬블레이드","summoner":"소환의 홀","elementalist":"원소 지팡이","healer":"치유의 성물","sniper":"저격궁","hunter":"사냥꾼 활","explorer":"탐사궁","thief":"쌍단검","reaper":"사슬낫","gambler":"마력 카드","infighter":"전투 건틀릿","breaker":"파쇄권","martialist":"연무권"}
 const AFFIXES={"none":{"name":"","stat":"none","value":0},"vigor":{"name":"인내의 ","stat":"fortitude","value":3},"focus":{"name":"완력의 ","stat":"power","value":3},"guard":{"name":"숙련의 ","stat":"specialization","value":3},"breath":{"name":"신속의 ","stat":"swiftness","value":3},"fortune":{"name":"마력의 ","stat":"power","value":3}}
 const RESONANCE={"force":"스킬 위력·회복·보호막","reach":"스킬 사거리·범위","echo":"스킬 지속시간·지원 효과"}
-static func make(type:String,tier:int,rarity:int,id:String,affix:String="none",job_id:String="warrior")->Dictionary:
+static func make(type:String,tier:int,rarity:int,id:String,affix:String="none",job_id:String="warrior",special_options:bool=true)->Dictionary:
 	Content.initialize_jobs();tier=clampi(tier,0,9);rarity=clampi(rarity,0,4)
 	var weapon=type in Content.WEAPONS;var family=Content.base_class(job_id)
 	if weapon:type=Content.CLASSES[job_id].weapon
@@ -27,6 +28,8 @@ static func make(type:String,tier:int,rarity:int,id:String,affix:String="none",j
 	var name=prefix+" "+WEAPON_NAMES[job_id] if weapon else prefix+" "+FAMILY_NAMES[family]+"의 "+BASES[type][mini(4,tier/2)]
 	name=preload("res://scripts/content_names.gd").equipment("weapon" if weapon else type,job_id if weapon else family,tier,name)
 	var item={"id":id,"name":name,"base_name":name,"category":"weapon" if weapon else "accessory" if type=="accessory" else "armor","slot":"weapon" if weapon else type,"weapon_type":type if weapon else "sword","bonus":(tier*6+rarity*4+4) if weapon else tier*3+rarity*2+2,"rarity":rarity,"tier":tier,"affix":"none" if rarity==0 else (affix if affix!="none" else "focus"),"upgrade":0,"family":family,"job_lock":job_id if weapon else "","required_level":maxi(1,tier*10),"resonance":["force","reach","echo"][absi(id.hash())%3] if rarity>=3 else ""}
+	if special_options and not id.begins_with("@"):Special.generate(item,id)
+	else:Special.preview(item)
 	return item
 static func normalize(item:Dictionary,p:Dictionary):
 	Content.normalize_item(item)
@@ -75,6 +78,8 @@ static func option_text(item:Dictionary)->String:
 	else:
 		var key=item.get("resonance","force");text+=RESONANCE.get(key,RESONANCE.force)+(" +8%" if grade==3 else " +12%")
 		if key=="reach":text+=" (범위 계수)"
+	var details=Special.option_text(item)
+	if not details.is_empty():text+="\n세부 옵션 · 착용 즉시 적용\n"+details
 	return text
 static func restriction_text(item:Dictionary)->String:
 	return (Content.CLASSES.get(item.get("job_lock",""),{}).get("name","모험가")+" 전용" if item.get("category","")=="weapon" else FAMILY_NAMES.get(item.get("family","warrior"),"전사")+" 계열 공용")+" · LV."+str(item.get("required_level",1))

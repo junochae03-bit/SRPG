@@ -3,6 +3,7 @@ const Abyss=preload("res://scripts/abyss_catalog.gd")
 const Inventory=preload("res://scripts/inventory_model.gd")
 const Content=preload("res://scripts/content.gd")
 const Quote=preload("res://scripts/service_quote.gd")
+const Materials=preload("res://scripts/exploration_crafting_data.gd")
 const Journey=preload("res://scripts/research_journey.gd")
 const KINDS=["materials","secret","challenge","advance","research"]
 const DEFINITIONS={
@@ -23,16 +24,16 @@ static func valid(value)->bool:
 	for key in ["floor","target","stage"]:
 		if (not value[key] is int and not value[key] is float) or not is_finite(float(value[key])) or value[key]!=floor(value[key]):return false
 	if value.kind not in KINDS or value.floor<1 or value.floor>100 or value.target<1 or value.target>999999 or value.stage<0 or value.stage>3:return false
-	if value.material not in ["","seed","ore","essence"] or value.facility not in ["portal","smith","alchemy","inn"] or value.operation not in ["","upgrade","potion","ore","essence","research_craft"]:return false
+	if (value.material!="" and not Content.MATERIALS.has(value.material)) or value.facility not in ["portal","smith","alchemy","inn"] or value.operation not in ["","upgrade","potion","ore","essence","research_craft"]:return false
 	if not value.item is String or value.item.length()>128:return false
 	if not value.requirements is Dictionary:return false
 	for material in value.requirements:
 		var amount=value.requirements[material]
-		if material not in ["seed","ore","essence"] or (not amount is int and not amount is float) or not is_finite(float(amount)) or amount!=floor(amount) or amount<1 or amount>999999:return false
+		if not Content.MATERIALS.has(material) or (not amount is int and not amount is float) or not is_finite(float(amount)) or amount!=floor(amount) or amount<1 or amount>999999:return false
 	if value.kind=="research":return Journey.valid(value)
 	if value.kind=="materials":
 		if int(value.stage) not in [0,3] or value.requirements.get(value.material,0)!=value.target:return false
-		if value.facility=="smith":return value.operation=="upgrade" and value.item!="" and value.material=="ore" and value.requirements.size()==1 and value.target<=5
+		if value.facility=="smith":return value.operation=="upgrade" and value.item!="" and (value.material=="ore" or Materials.catalog().enhancement_materials.bands.any(func(band):return value.material in band.material_by_tier.values())) and value.requirements.size()==1 and value.target<=5
 		if value.facility!="alchemy" or value.item!="":return false
 		if value.operation in ["potion","ore"]:return value.material=="seed" and value.requirements.size()==1
 		return value.operation=="essence" and value.material in ["seed","ore"] and value.requirements.size()==2 and value.requirements.has("seed") and value.requirements.has("ore")
@@ -53,6 +54,7 @@ static func material_floor(p:Dictionary,material:String,preferred:int)->int:
 	var found=0;var distance=101
 	for depth in range(1,mini(100,int(p.highest_floor))+1):
 		if depth%10==0:continue
+		if Materials.materials().has(material) and not Materials.catalog().acquisition.any(func(row):return row.material_id==material and depth>=int(row.floor_min) and depth<=int(row.floor_max) and row.event!="raid_clear"):continue
 		var terrain=Abyss.config(depth).terrain
 		if material=="seed" and terrain!="forest":continue
 		if material=="ore" and terrain=="forest":continue
@@ -78,7 +80,7 @@ static func material_offer(p:Dictionary,preferred:int)->Dictionary:
 			if depth==0 or int(p.materials.get(material,0))>=required:continue
 			var data=goal("materials",depth)
 			data.merge({"material":material,"target":required,"facility":task.facility,"operation":task.operation,"item":task.item,"requirements":quote.materials.duplicate(true)},true)
-			return {"id":"materials","goal":data,"title":quote.title+" 재료","detail":"%s %d / %d · B%d"%[Content.MATERIALS[material],int(p.materials.get(material,0)),required,depth],"clue":"떨어진 씨앗을 따라가세요." if material=="seed" else "광석 조각이 이어지는 곁굴을 찾으세요." if material=="ore" else "마력이 흐르는 제단과 정예의 은닉품을 찾으세요.","icon":material}
+			return {"id":"materials","goal":data,"title":quote.title+" 재료","detail":"%s %d / %d · B%d"%[Content.MATERIALS[material],int(p.materials.get(material,0)),required,depth],"clue":"떨어진 씨앗을 따라가세요." if material=="seed" else "광석 조각이 이어지는 곁굴을 찾으세요." if material=="ore" else "지역의 채집물과 몬스터 전리품을 살펴보세요." if Materials.materials().has(material) else "마력이 흐르는 제단과 정예의 은닉품을 찾으세요.","icon":Materials.icon(material) if Materials.materials().has(material) else material}
 	return {}
 
 static func offers(p:Dictionary,preferred:int)->Array:
@@ -163,7 +165,7 @@ static func describe(p:Dictionary)->Dictionary:
 	var ready=false;var detail="";var title="";var icon="quest"
 	match data.kind:
 		"materials":
-			ready=data.requirements.keys().all(func(key):return int(p.materials.get(key,0))>=int(data.requirements[key]));icon=data.material
+			ready=data.requirements.keys().all(func(key):return int(p.materials.get(key,0))>=int(data.requirements[key]));icon=Materials.icon(data.material) if Materials.materials().has(data.material) else data.material
 			title={"upgrade":"강화 재료","potion":"물약 조제 재료","ore":"광석 정제 재료","essence":"정수 합성 재료"}[data.operation]
 			detail="%s %d / %d"%[Content.MATERIALS[data.material],int(p.materials.get(data.material,0)),int(data.target)]
 			if not ready and int(p.materials.get(data.material,0))>=int(data.target):

@@ -1,0 +1,631 @@
+{
+  "schema_version": 1,
+  "version": "V0.7.1",
+  "status": "visual_asset_references_registered_producer_live_verified_main_final_pending",
+  "recorded_at": "2026-09-13T19:16:57+09:00",
+  "source_catalog": "game/assets/projectiles_v071/catalog.json",
+  "source_catalog_sha256": "6b0018a3a92430b0462794327a6826502d79cc2705e1486b4bf53e6a7636efdc",
+  "source_catalog_status": "V071 source assets; runtime verification pending",
+  "source_files": {
+    "physical.png": {
+      "path": "game/assets/projectiles_v071/physical.png",
+      "sha256": "7ac0de7a9d991647cabb36c04aebea23b250396e22426a44249bb6b23e0525d7",
+      "width": 1254,
+      "height": 1254
+    },
+    "elements.png": {
+      "path": "game/assets/projectiles_v071/elements.png",
+      "sha256": "be6d8268fc3065219f7155b189389990d506b5a98c215ac838abc8f5bb79e065",
+      "width": 1254,
+      "height": 1254
+    }
+  },
+  "families": [
+    {
+      "id": "visual:projectile:v071:arrow",
+      "family_id": "arrow",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/physical.png",
+        "key": "magenta",
+        "frames": [
+          {
+            "rect": [
+              40,
+              131,
+              245,
+              67
+            ],
+            "tip": [
+              243,
+              33.5
+            ]
+          },
+          {
+            "rect": [
+              352,
+              126,
+              246,
+              72
+            ],
+            "tip": [
+              244,
+              36.0
+            ]
+          },
+          {
+            "rect": [
+              662,
+              131,
+              250,
+              67
+            ],
+            "tip": [
+              248,
+              33.5
+            ]
+          },
+          {
+            "rect": [
+              977,
+              139,
+              248,
+              63
+            ],
+            "tip": [
+              246,
+              31.5
+            ]
+          }
+        ],
+        "scale": 0.24390243902439024,
+        "loop_fps": 12,
+        "trail_color": "aecda4",
+        "impact_id": "heavy_impact"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:bolt",
+      "family_id": "bolt",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/physical.png",
+        "key": "magenta",
+        "frames": [
+          {
+            "rect": [
+              56,
+              423,
+              215,
+              84
+            ],
+            "tip": [
+              213,
+              42.0
+            ]
+          },
+          {
+            "rect": [
+              371,
+              416,
+              213,
+              91
+            ],
+            "tip": [
+              211,
+              45.5
+            ]
+          },
+          {
+            "rect": [
+              682,
+              424,
+              216,
+              83
+            ],
+            "tip": [
+              214,
+              41.5
+            ]
+          },
+          {
+            "rect": [
+              996,
+              429,
+              215,
+              77
+            ],
+            "tip": [
+              213,
+              38.5
+            ]
+          }
+        ],
+        "scale": 0.21226415094339623,
+        "loop_fps": 12,
+        "trail_color": "deb987",
+        "impact_id": "heavy_impact"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:dagger",
+      "family_id": "dagger",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/physical.png",
+        "key": "magenta",
+        "frames": [
+          {
+            "rect": [
+              40,
+              737,
+              233,
+              76
+            ],
+            "tip": [
+              231,
+              38.0
+            ]
+          },
+          {
+            "rect": [
+              353,
+              736,
+              233,
+              77
+            ],
+            "tip": [
+              231,
+              38.5
+            ]
+          },
+          {
+            "rect": [
+              666,
+              737,
+              234,
+              76
+            ],
+            "tip": [
+              232,
+              38.0
+            ]
+          },
+          {
+            "rect": [
+              981,
+              737,
+              233,
+              76
+            ],
+            "tip": [
+              231,
+              38.0
+            ]
+          }
+        ],
+        "scale": 0.20869565217391303,
+        "loop_fps": 12,
+        "trail_color": "c8d9e6",
+        "impact_id": "cross_slash"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:arcane",
+      "family_id": "arcane",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/physical.png",
+        "key": "magenta",
+        "frames": [
+          {
+            "rect": [
+              56,
+              1044,
+              218,
+              83
+            ],
+            "tip": [
+              216,
+              41.5
+            ]
+          },
+          {
+            "rect": [
+              366,
+              1043,
+              221,
+              84
+            ],
+            "tip": [
+              219,
+              42.0
+            ]
+          },
+          {
+            "rect": [
+              678,
+              1044,
+              223,
+              83
+            ],
+            "tip": [
+              221,
+              41.5
+            ]
+          },
+          {
+            "rect": [
+              992,
+              1044,
+              222,
+              83
+            ],
+            "tip": [
+              220,
+              41.5
+            ]
+          }
+        ],
+        "scale": 0.1917808219178082,
+        "loop_fps": 12,
+        "trail_color": "cfacff",
+        "impact_id": "holy_judgment"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:fire",
+      "family_id": "fire",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/elements.png",
+        "key": "alpha",
+        "frames": [
+          {
+            "rect": [
+              88,
+              160,
+              177,
+              96
+            ],
+            "tip": [
+              175,
+              48.0
+            ]
+          },
+          {
+            "rect": [
+              364,
+              151,
+              206,
+              110
+            ],
+            "tip": [
+              204,
+              55.0
+            ]
+          },
+          {
+            "rect": [
+              652,
+              146,
+              216,
+              124
+            ],
+            "tip": [
+              214,
+              62.0
+            ]
+          },
+          {
+            "rect": [
+              960,
+              151,
+              199,
+              121
+            ],
+            "tip": [
+              197,
+              60.5
+            ]
+          }
+        ],
+        "scale": 0.22641509433962265,
+        "loop_fps": 12,
+        "trail_color": "ff9b45",
+        "impact_id": "fire_burst"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:frost",
+      "family_id": "frost",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/elements.png",
+        "key": "alpha",
+        "frames": [
+          {
+            "rect": [
+              76,
+              448,
+              204,
+              77
+            ],
+            "tip": [
+              202,
+              38.5
+            ]
+          },
+          {
+            "rect": [
+              356,
+              438,
+              233,
+              87
+            ],
+            "tip": [
+              231,
+              43.5
+            ]
+          },
+          {
+            "rect": [
+              657,
+              431,
+              245,
+              95
+            ],
+            "tip": [
+              243,
+              47.5
+            ]
+          },
+          {
+            "rect": [
+              959,
+              443,
+              216,
+              78
+            ],
+            "tip": [
+              214,
+              39.0
+            ]
+          }
+        ],
+        "scale": 0.2157676348547718,
+        "loop_fps": 12,
+        "trail_color": "8ae4ff",
+        "impact_id": "ice_shatter"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:thunder",
+      "family_id": "thunder",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/elements.png",
+        "key": "alpha",
+        "frames": [
+          {
+            "rect": [
+              76,
+              714,
+              209,
+              87
+            ],
+            "tip": [
+              207,
+              43.5
+            ]
+          },
+          {
+            "rect": [
+              349,
+              708,
+              246,
+              104
+            ],
+            "tip": [
+              244,
+              52.0
+            ]
+          },
+          {
+            "rect": [
+              652,
+              693,
+              250,
+              124
+            ],
+            "tip": [
+              248,
+              62.0
+            ]
+          },
+          {
+            "rect": [
+              966,
+              714,
+              215,
+              94
+            ],
+            "tip": [
+              213,
+              47.0
+            ]
+          }
+        ],
+        "scale": 0.22764227642276422,
+        "loop_fps": 12,
+        "trail_color": "c4a1ff",
+        "impact_id": "chain_lightning"
+      },
+      "gameplay_definition": false
+    },
+    {
+      "id": "visual:projectile:v071:shadow",
+      "family_id": "shadow",
+      "asset_reference": {
+        "sheet": "res://assets/projectiles_v071/elements.png",
+        "key": "alpha",
+        "frames": [
+          {
+            "rect": [
+              76,
+              982,
+              194,
+              129
+            ],
+            "tip": [
+              192,
+              64.5
+            ]
+          },
+          {
+            "rect": [
+              348,
+              971,
+              233,
+              149
+            ],
+            "tip": [
+              231,
+              74.5
+            ]
+          },
+          {
+            "rect": [
+              652,
+              967,
+              242,
+              158
+            ],
+            "tip": [
+              240,
+              79.0
+            ]
+          },
+          {
+            "rect": [
+              966,
+              977,
+              212,
+              136
+            ],
+            "tip": [
+              210,
+              68.0
+            ]
+          }
+        ],
+        "scale": 0.19327731092436976,
+        "loop_fps": 12,
+        "trail_color": "9576d8",
+        "impact_id": "void_rend"
+      },
+      "gameplay_definition": false
+    }
+  ],
+  "db_review": {
+    "family_count": 8,
+    "frame_count": 32,
+    "source_hashes": "PASS",
+    "png_dimensions_frame_bounds_and_tips": "PASS",
+    "existing_impact_ids": "PASS",
+    "engine_run_by_db": false
+  },
+  "producer_verification": {
+    "path": "docs/projectiles_v071/verification.json",
+    "sha256": "b31e958e732428bd8f927d3048b59d6491bf35fee80ee7bed6bed86199970970",
+    "reported": {
+      "asset_checks": 32,
+      "families": 8,
+      "source_hashes": "PASS",
+      "frame_bounds": "PASS",
+      "engine_tests": {
+        "checks": 292,
+        "failures": 0,
+        "engine": "Godot 4.6 headless"
+      },
+      "live_combat": {
+        "checks": 76,
+        "failures": 0
+      },
+      "render_fixture": {
+        "checks": 24,
+        "failures": 0,
+        "renderer": "OpenGL compatibility RTX 4070 SUPER",
+        "live_collision": false
+      },
+      "existing_combat": {
+        "checks": 51,
+        "failures": 0
+      },
+      "existing_qa_combat": {
+        "checks": 143,
+        "failures": 0
+      },
+      "live_gpu": {
+        "checks": 65,
+        "failures": 0,
+        "captures": 25,
+        "renderer": "OpenGL compatibility RTX 4070 SUPER",
+        "scope": "main scene + real simulation launch/accepted collision + sight/wall clipping"
+      },
+      "multiclient_enet": "not rerun here; main full integration owner",
+      "reviewed_live_images": [
+        "arrow-flight",
+        "fire-impact",
+        "arrow-impact",
+        "shadow-impact",
+        "wall-hidden-contact"
+      ],
+      "verified_file_sha256": {
+        "game/scripts/projectile_visual_v071.gd": "67213f513306fa582cbb94741fb578e5c0b7b8d1559184f053f19bd6ae962570",
+        "game/shaders/projectile_visual_v071.gdshader": "beae567c875f4af6d00c6debd0a87bc2c510c53714df0525fcfd3a48316eb68c",
+        "game/scripts/main.gd": "a7b10708664ec756e38c6ea41762f239b6a579eb3efb25210c6365d82dd069bb",
+        "game/scripts/player_combat.gd": "aab38542eb426bdf5546f75f8b2af4cbd7ec2f08dfde65654b15257ae296d079",
+        "game/scripts/skill_effects.gd": "e97a025256f02b2c2b00d36b31a5ee51033a4d00e2c61cf0f869187812674da7"
+      }
+    },
+    "note": "제작팀실행보고. DB담당은파일/ZIP SHA·CRC·기록만대조,엔진/GPU재실행없음."
+  },
+  "resolution_contract": {
+    "hunter_bow": "bolt",
+    "default_staff": "arcane",
+    "dagger": "explicit type=dagger or visual_family=dagger only",
+    "wave_card_unsupported": "existing fallback",
+    "skill_style": "reader가 skill_id 또는 skill_mode/vfx/fx 입력에서 VfxCatalog.profile을 조회하도록 소스 보완 확인. mode-only burst/fire, slow/frost, vfx-only thunder 회귀검사3개 추가. 기본 staff는 arcane 유지."
+  },
+  "application_status": {
+    "live_combat": "producer_reports_live_integration_verified_snapshot",
+    "operational_db_regeneration_by_db_team": false,
+    "new_skills": 0,
+    "combat_stats_changed": false,
+    "immutable_release_baseline": "V0.7 / d33a4c03cd8dadbddbf30984eb3e1573d7dc07ae",
+    "main_final_pending": [
+      "multiclient_ENet",
+      "commit",
+      "release_build"
+    ]
+  },
+  "scope": "8개 ID는 시각참조이며 아이템·스킬·속성 피해·능력치 정의가 아님. 기존 운영 DB 및 V0.7 정본은 변경하지 않음.",
+  "reader_revision": {
+    "status": "producer_reports_regressions_passed",
+    "source": "game/scripts/projectile_visual_v071.gd",
+    "source_sha256": "67213f513306fa582cbb94741fb578e5c0b7b8d1559184f053f19bd6ae962570",
+    "test": "game/tests/projectile_visual_v071.gd",
+    "test_sha256": "723a738462c43d4fde642f9f4503994af8b0f67b26b525f897bc6fb0b170e5a6",
+    "new_regression_checks": 3,
+    "engine_run_by_db": false,
+    "zip_and_producer_verification": "updated_and_received"
+  },
+  "delivery_zip": {
+    "path": "artifacts/projectile-v071-delivery.zip",
+    "sha256": "7389bdaf5750240b5e01e56559b92629a5fa892a51715d123eee6e5a243b902a",
+    "bytes": 52535785,
+    "entries": 50,
+    "crc": "PASS"
+  },
+  "current_source_differences_from_producer_snapshot": []
+}

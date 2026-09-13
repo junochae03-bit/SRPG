@@ -15,6 +15,10 @@ static func foot_for(id:String,index:int)->Array:
 	body_height(id)
 	return measurements.sprites[id].get("frame_overrides",{}).get(str(index),{}).get("foot",catalog().sprites[id].frames[index].foot_estimate)
 
+static func source_facing_for(id:String,index:int)->float:
+	body_height(id)
+	return float(measurements.sprites[id].get("frame_overrides",{}).get(str(index),{}).get("source_facing",1.))
+
 static func catalog()->Dictionary:
 	if data.is_empty():data=JSON.parse_string(FileAccess.get_file_as_string(PATH))
 	return data
@@ -67,4 +71,4 @@ static func frame(p:Dictionary,_time:float)->Dictionary:
 		var t=AtlasTexture.new();t.atlas=sheet;t.region=Rect2(f.rect[0],f.rect[1],f.rect[2],f.rect[3]);t.filter_clip=true;textures[key]=t
 	var height=body_height(selected.id)
 	var foot=foot_for(selected.id,selected.index)
-	return {"texture":textures[key],"foot":Vector2(foot[0],foot[1]),"height":height,"body_pixels":112.,"index":selected.index,"animated":true,"source_facing":1.,"presentation_id":"skill_motion_v06:"+selected.id,"skill_phase":selected.phase}
+	return {"texture":textures[key],"foot":Vector2(foot[0],foot[1]),"height":height,"body_pixels":112.,"index":selected.index,"animated":true,"source_facing":source_facing_for(selected.id,selected.index),"presentation_id":"skill_motion_v06:"+selected.id,"skill_phase":selected.phase}

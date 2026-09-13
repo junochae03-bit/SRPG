@@ -178,6 +178,45 @@ class ClientInstallTests(unittest.TestCase):
             self.install()
         self.assertFalse(self.target.exists())
 
+    def test_current_and_legacy_generations_preserve_exact_bytes(self):
+        current = self.source / "v071"
+        current.mkdir()
+        state = {**self.save, "schema_version": 8, "level": 20, "gold": 810,
+                 "production": {"next_id": 2, "queue": [{"id": 1, "recipe": "alchemy:potion",
+                    "mode": "count", "remaining": 2, "target": 0, "reserved": True, "elapsed": 3.0}]}}
+        self.write(current / "slot-1.json", state)
+        self.write(current / "slot-1.json.bak", {**state, "gold": 820})
+        before = self.fingerprints(self.source)
+        installer.check_install(self.install())
+        self.assertEqual(self.fingerprints(self.target / "saves"), before)
+        self.assertEqual(self.fingerprints(self.source), before)
+        self.assertEqual(self.read(self.target / "saves/v071/slot-1.json"), state)
+
+    def test_current_only_slot_can_be_delivered(self):
+        (self.source / "slot-1.json").unlink()
+        (self.source / "v071").mkdir()
+        self.write(self.source / "v071/slot-2.json", {**self.save, "schema_version": 8})
+        installer.check_install(self.install())
+        self.assertEqual(self.fingerprints(self.target / "saves"), self.fingerprints(self.source))
+
+    def test_corrupt_current_never_falls_back_to_healthy_legacy(self):
+        (self.source / "v071").mkdir()
+        (self.source / "v071/slot-1.json").write_text("{}", "utf8")
+        before = self.fingerprints(self.source)
+        with self.assertRaisesRegex(installer.InstallError, "No valid primary/backup"):
+            self.install()
+        self.assertFalse(self.target.exists())
+        self.assertEqual(self.fingerprints(self.source), before)
+
+    def test_current_backup_remains_in_its_generation(self):
+        (self.source / "v071").mkdir()
+        (self.source / "v071/slot-1.json").write_text("{}", "utf8")
+        self.write(self.source / "v071/slot-1.json.bak", {**self.save, "schema_version": 8, "gold": 431})
+        receipt = installer.check_install(self.install())
+        self.assertFalse((self.target / "saves/v071/slot-1.json").exists())
+        self.assertEqual(self.read(self.target / "saves/v071/slot-1.json.bak")["gold"], 431)
+        self.assertEqual(receipt["skipped_invalid_saves"][0]["name"], "v071/slot-1.json")
+
     def test_invalid_settings_and_nonfinite_save_refused(self):
         self.write(self.source / "sprite-names.json", {"costume:example": ""})
         with self.assertRaisesRegex(installer.InstallError, "Invalid personal settings"):

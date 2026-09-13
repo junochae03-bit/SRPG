@@ -1,7 +1,7 @@
 extends "res://scripts/local_session.gd"
 
 # The host owns Simulation. A guest Simulation is a read-only presentation mirror.
-const PROTOCOL=16
+const PROTOCOL=18
 const MAX_PLAYERS=preload("res://scripts/party_rules.gd").MAX_PLAYERS
 const DEFAULT_PORT=24554
 var network_role="offline"
@@ -51,8 +51,9 @@ func peer_ready(id:int)->bool:
 func room_character(slot_number:int)->Dictionary:
 	if not recover_save():return {}
 	if slot_number<1 or slot_number>3:return {}
-	var data=parse_save(save_directory.path_join("slot-%d.json"%slot_number))
-	if data==null:data=parse_save(save_directory.path_join("slot-%d.json.bak"%slot_number))
+	var path=slot_read_path(slot_number)
+	var data=parse_save(path)
+	if data==null:data=parse_save(path+".bak")
 	return data if data!=null and data.get("tutorial_done",false) else {}
 
 func host_room(slot_number:int,port:int=DEFAULT_PORT)->bool:
@@ -130,18 +131,18 @@ func start_game(chosen_name:String,slot_number:int):
 func create_character(sheet:Dictionary,slot_number:int)->bool:
 	return super.create_character(sheet,slot_number) if recover_save() else false
 
-func send_input(direction:Vector2,aim:Vector2,sprint:bool=false):
-	if network_role=="offline":super.send_input(direction,aim,sprint);return
+func send_input(direction:Vector2,aim:Vector2,sprint:bool=false,interact_held:bool=false):
+	if network_role=="offline":super.send_input(direction,aim,sprint,interact_held);return
 	if not connected or leaving:return
-	if paused:direction=Vector2.ZERO;sprint=false
-	if network_role=="host":sim.set_input(local_id,direction,aim,sprint)
-	else:receive_input.rpc_id(1,direction,aim,sprint)
+	if paused:direction=Vector2.ZERO;sprint=false;interact_held=false
+	if network_role=="host":sim.set_input(local_id,direction,aim,sprint,interact_held)
+	else:receive_input.rpc_id(1,direction,aim,sprint,interact_held)
 
 @rpc("any_peer","call_remote","unreliable_ordered",1)
-func receive_input(direction:Vector2,aim:Vector2,sprint:bool):
+func receive_input(direction:Vector2,aim:Vector2,sprint:bool,interact_held:bool):
 	if network_role!="host" or not direction.is_finite() or not aim.is_finite():return
 	var sender=multiplayer.get_remote_sender_id()
-	if sim.players.has(sender) and not departures.has(sender):sim.set_input(sender,direction.limit_length(1),aim.normalized(),sprint)
+	if sim.players.has(sender) and not departures.has(sender):sim.set_input(sender,direction.limit_length(1),aim.normalized(),sprint,interact_held)
 
 func cancel_charge():
 	if network_role=="offline":super.cancel_charge()
@@ -177,7 +178,9 @@ func receive_action(serial_number:int,kind:String,argument:String):
 	action_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)
 
 func receipt_values(p:Dictionary)->Dictionary:
-	return {"gold":p.gold,"potions":p.potions,"consumables":p.get("consumables",{}).duplicate(),"materials":p.materials.duplicate(),"hp":p.hp,"guild_reputation":int(p.get("guild_reputation",0))}
+	var receipt={"gold":p.gold,"potions":p.potions,"consumables":p.get("consumables",{}).duplicate(),"materials":p.materials.duplicate(),"hp":p.hp,"max_hp":p.max_hp,"guild_reputation":int(p.get("guild_reputation",0))}
+	preload("res://scripts/revival_aftereffects.gd").persist(p,receipt)
+	return receipt
 
 @rpc("authority","call_remote","reliable",2)
 func action_result(serial_number:int,kind:String,success:bool,packet:PackedByteArray,receipt:Dictionary):
@@ -194,6 +197,8 @@ func ready_argument(wanted:bool)->String:
 	return ("true" if wanted else "false")+(":"+str(int(plan.get("revision",0))) if int(plan.get("floor",0))>0 else "")
 
 func host_action(id:int,kind:String,argument:String)->bool:
+	if not sim.players.has(id):return false
+	if kind=="interact" and sim.Revival.consumes(sim,sim.players[id]):return sim.action(id,kind,argument)
 	if kind=="ready":
 		var parts=argument.split(":")
 		if parts[0] not in ["true","false"]:return false
@@ -363,6 +368,7 @@ func leave_room()->bool:
 	return exit_result
 
 func start_departure(id:int,token:String):
+	sim.Revival.cancel(sim.players[id])
 	sim.players[id].network_leaving=true
 	departures[id]={"token":token,"ack":false}
 	if not peer_ready(id):return
