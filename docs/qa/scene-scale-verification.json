@@ -233,7 +233,7 @@
   },
   "review": {
     "qa": "Read-only source and framebuffers accepted: species sizing and common/elite/boss hierarchy, larger remains, current B62 player cover addressed by alpha. Comparison is current normal-machine height 188, not the original temporary height 248. No actual motion video or attack AI in the occlusion fixture.",
-    "db": "Final DB was sent to the existing DB manager. Local authoritative build, runtime codex consistency and portable registry checks passed. Independent manager review of the earlier cave-dressing DB passed; final size/opacity revision acceptance remains pending at this record."
+    "db": "Final read-only manager acceptance: 370 source and 399 runtime hashes/sizes and manifest match; JSON/SQLite metadata and row counts agree; integrity OK and no foreign key errors; all 568 appearances have display_height; six remains, one display and three opacity rules match live code and source hashes. Runtime cache file hash checked. Five canonical files unchanged during inspection. New six-tier size assignments remain separate design."
   },
   "limits": [
     "Final follow-up uses focused tests, not a rerun of every baseline full-gate group",
@@ -257,5 +257,12 @@
     "precedence": "raid_id_over_species",
     "automatic_elite_multiplier": false,
     "changes_collision_in_design": false
+  },
+  "publication": {
+    "feature_code_commit": "39d891a",
+    "local_main": "71a4544",
+    "local_main_merge": "blocked_by_automatic_approval_review",
+    "remote_push": "previous_automatic_approval_rejection_still_pending",
+    "reason": "Reviewer did not accept prior general merge instructions as explicit authorization for the main branch. No rejected operation was executed."
   }
 }
