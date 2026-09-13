@@ -33,9 +33,12 @@ func _initialize():
 				check(not used_rooms.has(row.room),"no piles repeated across the same room");used_rooms[row.room]=true
 				check(row.pos.distance_to(map.spawn)>=8. and row.pos.distance_to(map.exit_position)>=8.,"entry and final approach clear")
 				for offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:check(map.walkable(row.pos+offset),"clear walking ring")
-				for site in sites:check(row.pos.distance_to(site.pos)>=4.,"functional site clear")
+				for site in sites:check(row.pos.distance_to(site.pos)>=5.,"functional site clear")
+				var footprint=Remains.footprint(map,row)
+				check(footprint.size()==9,"rotated region has corners and edge samples")
+				for point in footprint:check(map.walkable(point) and map.line_clear(row.pos,point),"enlarged footprint stays on connected floor")
 				for cue in map.exploration_cues:
-					for mark in cue.marks:check(row.pos.distance_to(mark.pos)>=3.,"meaningful route traces remain distinct")
+					for mark in cue.marks:check(row.pos.distance_to(mark.pos)>=4.5,"meaningful route traces remain distinct")
 				for j in range(i):check(row.pos.distance_to(rows[j].pos)>=8.,"sparse clusters")
 			var view=View.new()
 			check(Remains.visible(view,rows).is_empty(),"unknown and remembered cells do not reveal remains")
@@ -45,7 +48,7 @@ func _initialize():
 			for region in map.hidden_regions:
 				for row in rows:
 					for key in ["pos","center","forward_exit"]:
-						if region.has(key):check(row.pos.distance_to(region[key])>=4.,"hidden passage interaction stays clear")
+						if region.has(key):check(row.pos.distance_to(region[key])>=5.,"hidden passage interaction stays clear")
 				preload("res://scripts/hidden_rooms.gd").open(map,region.id)
 			check(map.ground_remains==rows,"opening shortcuts does not shuffle scenery")
 	check(populated>=160,"remains present without forcing filler into invalid locations")

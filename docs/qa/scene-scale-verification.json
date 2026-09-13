@@ -1,0 +1,261 @@
+{
+  "status": "PASS",
+  "scope": "focused_final_scale_and_occlusion_followup",
+  "baseline_commit": "cd8e780",
+  "baseline_full_gate": "docs/qa/natural-cave-dressing-verification.json",
+  "baseline_included_in_checks": false,
+  "groups": 27,
+  "checks": 87620,
+  "results": [
+    {
+      "test": "cave_remains",
+      "checks": 37712,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123225/cave_remains.log",
+      "sha256": "1c940092a434d36c7321fc1b78dded23cdfbf5e03f3c57d4ab2fca6a60e85d0b"
+    },
+    {
+      "test": "exploration_cues",
+      "checks": 5203,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123225/exploration_cues.log",
+      "sha256": "5509d463cb7c4bb4caadbcc5998c157fb9618af12c7619f4c01dd633249cdf74"
+    },
+    {
+      "test": "exploration_cues_journey_visual",
+      "checks": 27,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123514/exploration_cues_journey_visual.log",
+      "sha256": "76a48f823dd02314c5bcd3be677c5dae190266a653a884d78fae13fe8f33b518"
+    },
+    {
+      "test": "monster_scale",
+      "checks": 7407,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/monster_scale.log",
+      "sha256": "407a83c5d77dc7ba403095da9f0217beebc8221fd97c0243c69251ec5c9790a8"
+    },
+    {
+      "test": "exploration_cues_visual",
+      "checks": 32,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/exploration_cues_visual.log",
+      "sha256": "30537b12a5a19090758174aff213a0bb0bf313f99dc95f8ab57377985edc4d09"
+    },
+    {
+      "test": "enemy_hit_geometry_v05",
+      "checks": 236,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/enemy_hit_geometry_v05.log",
+      "sha256": "74ae9ba6ceefb13d86b09506aa69523954278b9959e50c3702c9baa475af14ff"
+    },
+    {
+      "test": "combat_reach_v052",
+      "checks": 1845,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/combat_reach_v052.log",
+      "sha256": "6c3b18bcd99a1b0a830ef088fca4e3b1fbba0a44c08778b80effc00abc9336ad"
+    },
+    {
+      "test": "enemy_defense",
+      "checks": 10,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/enemy_defense.log",
+      "sha256": "4c224df2c80b650c3176f807a6eda23457c56d48999b158bb5b051a7a9f5c4d1"
+    },
+    {
+      "test": "enemy_tactics",
+      "checks": 11,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/enemy_tactics.log",
+      "sha256": "dc791742c09feca26f429a2a38aad705bf789424a152e2852cea1f14f8f2fe88"
+    },
+    {
+      "test": "combat",
+      "checks": 51,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/combat.log",
+      "sha256": "8048948db09eed7cf0530df8851e8ccda677fe4c2f4863c1ed400f24c82e4c1a"
+    },
+    {
+      "test": "qa_combat_v052",
+      "checks": 143,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-123722/qa_combat_v052.log",
+      "sha256": "aeddb929994c3c1f4dddb52a5acf027279750c260457301eac08333d0acff151"
+    },
+    {
+      "test": "qa_inventory_v052",
+      "checks": 238,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124011/qa_inventory_v052.log",
+      "sha256": "4924900f0263054ddc981bf371eccc8eacec9cfd1bfb68993142c3dcb2b5192e"
+    },
+    {
+      "test": "actor_visibility",
+      "checks": 9,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124425/actor_visibility.log",
+      "sha256": "7c79e17211c293736cfd1e6a11d0fe1226629e055b0b75bdb08ac7e04f9d7114"
+    },
+    {
+      "test": "actor_visibility_visual",
+      "checks": 6,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124425/actor_visibility_visual.log",
+      "sha256": "08bd102d561217182668dcc1e9aa5de4540bb7809a37e93cc7f7ba7e678eb644"
+    },
+    {
+      "test": "cave_remains_visual",
+      "checks": 15,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124425/cave_remains_visual.log",
+      "sha256": "d5e21ec9175f839cf170f3ab632366b47f2e11781cb60b68e5fa9a6aca711924"
+    },
+    {
+      "test": "monster_scale_visual",
+      "checks": 14,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124425/monster_scale_visual.log",
+      "sha256": "d1ded263281723d9c19661257b2d68497e2ba72839c1d3a3d2d728d689e68022"
+    },
+    {
+      "test": "combat_reach_visual_v052",
+      "checks": 111,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124620/combat_reach_visual_v052.log",
+      "sha256": "0a82597dd970f38850b91ec3100469dcd5a13b761c0a3e4bcae5d5a5b0856584"
+    },
+    {
+      "test": "hud_world_labels_v052",
+      "checks": 97,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124620/hud_world_labels_v052.log",
+      "sha256": "148093e3c8abba293ec5ae3c99ec206fe4b2ac637e42c3f0b49b26c321d486e1"
+    },
+    {
+      "test": "performance_ui_v05",
+      "checks": 912,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124620/performance_ui_v05.log",
+      "sha256": "262f116478bd50b6b3c452365aec89d2240dc37841e09a56f3f43c9fe007bfbd"
+    },
+    {
+      "test": "telegraph_priority_visual",
+      "checks": 13,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124620/telegraph_priority_visual.log",
+      "sha256": "78f3baf7875c80a04c5fad35392fdc0e36a6f43ab32f48c275412cc0c00fd312"
+    },
+    {
+      "test": "dungeon_vision_visual",
+      "checks": 12,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124620/dungeon_vision_visual.log",
+      "sha256": "8aa3cc2682b2942abbf154426b39466e0db8db06fc89354f80d2831031103790"
+    },
+    {
+      "test": "database_world_rules_v052",
+      "checks": 0,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124745/database_world_rules_v052.log",
+      "sha256": "fcade8477566bd6a8a63d137aa0c908e009d6f0d31eadc9582334fc91a92cc32"
+    },
+    {
+      "test": "codex_cache_v053",
+      "checks": 909,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124745/codex_cache_v053.log",
+      "sha256": "e5bb9d4dc5ae37c7bb376458f7bccba63895ec1a1106ef53288fa50006ff3993"
+    },
+    {
+      "test": "art_registry_v05",
+      "checks": 30658,
+      "status": "PASS",
+      "log": "runtime/combat-information-checks/20260913-124745/art_registry_v05.log",
+      "sha256": "89622193a9861408b39586f23fb202c8ee7c2687ee077d1da4e95f889071e297"
+    },
+    {
+      "test": "art_registry_portable",
+      "checks": 1940,
+      "status": "PASS",
+      "log": "runtime/scene-scale-art_registry_portable.log",
+      "sha256": "d184fdd234685d3a22844adcda662fd72ae10799db74214a33f2b6aaef72f7c6"
+    },
+    {
+      "test": "godot_completion",
+      "checks": 9,
+      "status": "PASS",
+      "log": "runtime/scene-scale-godot_completion.log",
+      "sha256": "dc68d1d84476ec719883b4f5d1ae95ef311b67a57d1b504a58ad4334c11aa2db"
+    },
+    {
+      "test": "encoding",
+      "checks": null,
+      "status": "PASS",
+      "log": "runtime/scene-scale-encoding.log",
+      "sha256": "2e82b1b87b8815b34f5b54d3ada902231e2f97ce7c45f7a5ca9952c38f8c7484"
+    }
+  ],
+  "runtime_files": 399,
+  "runtime_manifest_sha256": "9cc9b0ee674dd1b8ff260d94e2643d98aaf2185b200d89e7e0b59380aa1464ad",
+  "database": {
+    "json": "a6157bb72c84b03c93c8c13575d726c87efa1fc4907c647704019bd187a4725e",
+    "sqlite": "7f3a386de9322175d7eece6e43e919246b41ea7558a73a30d7049913ce3ebf27",
+    "manifest": "805e10b8bb965af4e002b4844a8c03c778052938eb4581de2e9eacf52e86cfc3",
+    "codex_cache": "0f6082ec02b7cccf56b31dc0f56f2cc9bd088ce943db8d2f3c59cf7a7d80c6cb"
+  },
+  "screenshots": {
+    "cave-remains-B12.png": "36acc7583e514fa5423e03d898d745a2feff676c2a781dedefb68f69f9a3839c",
+    "cave-remains-B42.png": "c348182b3fd247839b0e8e9b7dd8663f1950467364d157919d427eea769fdbfd",
+    "cave-remains-B62.png": "6e58915e849c89cc2afd5f99e1d5bc1f7e882bf2d8bf5822f2f6076e5b1e6149",
+    "cave-remains-scale-before-B12.png": "b5d1adeda7fe55b7f0d0d9bbf6563215b83c21ecdfe4f4b6ccb9e300c3284aeb",
+    "cave-remains-scale-before-B42.png": "8f9f22ded1a3572cb53eff64406268bb93bbd7a02cf457df0ea4011e2d11e967",
+    "cave-remains-scale-before-B62.png": "f29849296a92b60e99d0b354b3eef5462ffbd39442748f0c28fea072bf8fd974",
+    "exploration-cues-ore.png": "2cca8eec756d623ddafc844c320d121b70dfd10969c844b25f62e82dc6ea0dc2",
+    "exploration-cues-herbs.png": "d1884c6f60de65c99add24d0919d2b1a141f74e51b7549639a4d758df0ec41be",
+    "exploration-cues-tracks.png": "eb45fc2b0a73d7e93940975ae97539e4570ffaa9cc0abe14cb8316febbe178ae",
+    "exploration-cues-scale-before-ore.png": "761b9dc4efd585e8dbd8dab78ec4b69f2800efe82c8181d7b3ac56ae5faa312a",
+    "exploration-cues-scale-before-herbs.png": "714749b8d0cea28d9c79ac6af1b7eea4520cdc5d1d1f0afd6839d24b2eb318b1",
+    "exploration-cues-scale-before-tracks.png": "14de2aa552d16ae754cbf3bee8a1a4fdffe7395d7d4b014f463f668a01a4655a",
+    "monster-scale-B12.png": "58cb605d557d03ece585269ea42ea52e1e53fa844943fb6c18b84e7ca44a3783",
+    "monster-scale-B62.png": "09de3398eaec0680024fdfad8e69d43bde47d8d5988154d98b99bbe743ac4f0b",
+    "player-occlusion-before-B62.png": "c449049bd798709ce59e2b6cd8166dbca60d91cc4296b06aada5d2ddd0d1a1ca",
+    "player-occlusion-after-B62.png": "6e58915e849c89cc2afd5f99e1d5bc1f7e882bf2d8bf5822f2f6076e5b1e6149",
+    "player-occlusion-telegraph-B62.png": "ee0a3b5820b09efa208f15b30c751447c5426c9ce5a11cf07e7d5280bd1d6d26"
+  },
+  "remains_distribution": {
+    "normal_maps": 180,
+    "raid_maps": 20,
+    "populated_normal": 180,
+    "clusters": 772,
+    "maximum": 5
+  },
+  "review": {
+    "qa": "Read-only source and framebuffers accepted: species sizing and common/elite/boss hierarchy, larger remains, current B62 player cover addressed by alpha. Comparison is current normal-machine height 188, not the original temporary height 248. No actual motion video or attack AI in the occlusion fixture.",
+    "db": "Final DB was sent to the existing DB manager. Local authoritative build, runtime codex consistency and portable registry checks passed. Independent manager review of the earlier cave-dressing DB passed; final size/opacity revision acceptance remains pending at this record."
+  },
+  "limits": [
+    "Final follow-up uses focused tests, not a rerun of every baseline full-gate group",
+    "No long multiplayer session or extreme 6-grade size comparison validated",
+    "No new Windows executable or GitHub release",
+    "New six-size-tier assignment and 40-species expansion remain separate unimplemented design",
+    "Remote push still blocked by previous automatic approval rejection"
+  ],
+  "separate_size_design": {
+    "status": "assigned_in_design_not_applied_to_runtime",
+    "ratios": [
+      0.5,
+      1.2,
+      2,
+      3,
+      6,
+      10
+    ],
+    "species": 92,
+    "raid_ids": 10,
+    "precedence": "raid_id_over_species",
+    "automatic_elite_multiplier": false,
+    "changes_collision_in_design": false
+  }
+}

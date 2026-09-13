@@ -191,8 +191,8 @@
   },
   {
     "path": "game/assets/cave_remains_v06/catalog.json",
-    "bytes": 699,
-    "sha256": "a0ab37905826eee36dff0f87da0888fb1f50f54e6fa7afd64cb99b09f5516a49"
+    "bytes": 947,
+    "sha256": "53a7a1f1b8c9acf7cb1707bcb18ffd3460a527a83b3bf1fe6c350453a20f2bbf"
   },
   {
     "path": "game/assets/cave_remains_v06/remains.png",
@@ -516,8 +516,8 @@
   },
   {
     "path": "game/assets/exploration_traces_v06/catalog.json",
-    "bytes": 1044,
-    "sha256": "8ae63d0e6bf20caa7e04c1c8aa81d5e1786f0012a1782879688882dca14a146b"
+    "bytes": 1404,
+    "sha256": "80134ea98017dfc37aed8279eaafc0cc892a5863ed8d15cbd73fe396711c1e2b"
   },
   {
     "path": "game/assets/exploration_traces_v06/ground-traces.png",
@@ -1236,8 +1236,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 469562,
-    "sha256": "b401f9bbad02a549073d5864e91bdc90a2b3e3d1e153a504aacce43c4304de73"
+    "bytes": 470130,
+    "sha256": "0f6082ec02b7cccf56b31dc0f56f2cc9bd088ce943db8d2f3c59cf7a7d80c6cb"
   },
   {
     "path": "game/data/content_names.json",
@@ -1285,14 +1285,19 @@
     "sha256": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2"
   },
   {
+    "path": "game/scripts/actor_visibility.gd",
+    "bytes": 972,
+    "sha256": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b"
+  },
+  {
     "path": "game/scripts/appearance_rules.gd",
     "bytes": 1350,
     "sha256": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac"
   },
   {
     "path": "game/scripts/art_registry.gd",
-    "bytes": 20244,
-    "sha256": "c5d0a28fdccec04fc514218d179b4039dbc5af6e563eba40388952f9976e34a3"
+    "bytes": 20312,
+    "sha256": "11449777997608ea262ac970b49b27d7f641a1ce2f2312aef8be91864b67e854"
   },
   {
     "path": "game/scripts/audio_director.gd",
@@ -1326,8 +1331,8 @@
   },
   {
     "path": "game/scripts/cave_remains.gd",
-    "bytes": 3509,
-    "sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e"
+    "bytes": 4280,
+    "sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72"
   },
   {
     "path": "game/scripts/character_creation.gd",
@@ -1461,8 +1466,8 @@
   },
   {
     "path": "game/scripts/enemy_hit_geometry.gd",
-    "bytes": 2004,
-    "sha256": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2"
+    "bytes": 2028,
+    "sha256": "646114cc56a50eacf2e2b011b8ebf5488051493fcec179a007c531de41713442"
   },
   {
     "path": "game/scripts/enemy_inspection.gd",
@@ -1546,8 +1551,8 @@
   },
   {
     "path": "game/scripts/exploration_cues.gd",
-    "bytes": 4039,
-    "sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb"
+    "bytes": 4231,
+    "sha256": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de"
   },
   {
     "path": "game/scripts/exploration_events.gd",
@@ -1591,8 +1596,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 35680,
-    "sha256": "e94bc7c848f8ff2a91e19e36d2a839d32b9f4327266d24aff15f659ca175bdbf"
+    "bytes": 36005,
+    "sha256": "39f7a8126efc1bb8bd53ce7f2d848f69ab3645edd67bdd1151c66217664e0f99"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1711,8 +1716,8 @@
   },
   {
     "path": "game/scripts/main.gd",
-    "bytes": 51115,
-    "sha256": "789f2b4e1e0599aa9a0d89e49c9127ee264ba08ca108529f82e1c2edbae4b2bb"
+    "bytes": 51562,
+    "sha256": "5f20b42ae301b9c8e0e8a8de4723981fbdaa0bc641365f7fa4bd2ac3649d1f3b"
   },
   {
     "path": "game/scripts/minimap.gd",
@@ -1961,8 +1966,8 @@
   },
   {
     "path": "game/scripts/world_catalog.gd",
-    "bytes": 9342,
-    "sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2"
+    "bytes": 10006,
+    "sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068"
   },
   {
     "path": "game/shaders/damage_gradient.gdshader",

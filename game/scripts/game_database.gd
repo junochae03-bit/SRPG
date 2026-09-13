@@ -59,6 +59,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	var class_ids=Content.CLASSES.keys();class_ids.sort()
 	db["build_concepts"]=[]
 	db.metadata["node_role_version"]=1
+	db.metadata["monster_display"]={"hero_body_pixels":112.,"heavy_body_heights":World.HEAVY_BODY_HEIGHTS,"heavy_species_heights":World.HEAVY_SPECIES_HEIGHTS,"boss_body_pixels":335.,"scope":"species_specific_visual_scale_and_receiving_radius"}
 	db.metadata["cave_remains"]=preload("res://scripts/cave_remains.gd").configuration()
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
@@ -206,6 +207,7 @@ static func _option_summary(item:Dictionary)->String:
 static func _appearance(db:Dictionary,f:Dictionary,kind:String,role:String):
 	var a=Abyss.enemy_stats(kind,f.floor,role=="raid",role in ["guardian","raid"])
 	a["asset"]=_monster_asset(kind,f.floor,role=="raid")
+	a["display_height"]=335. if role=="raid" else World.display_height(kind,f.floor)
 	a["name"]=f.title if role=="raid" else WorldArt.appearance_name(kind,f.floor,World.ENEMIES[kind].name)
 	a.merge({"id":"appearance:%03d:%s:%s"%[f.floor,kind,role],"floor_id":f.floor,"monster_id":kind,"role":role,"level":f.level+(3 if role=="elite" else 0),"raid_id":f.raid_id if role=="raid" else ""},true);db.appearances.append(a)
 

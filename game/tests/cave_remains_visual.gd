@@ -29,7 +29,16 @@ func run():
 		var row=rows[0];p.pos=Vector2(sim.map.rooms[row.room]).lerp(row.pos,.6).round()
 		if not sim.map.walkable(p.pos):p.pos=row.pos+Vector2.LEFT
 		game.session.sim=sim;game.session.refresh();game.on_entered();game.update_battle_camera(p,1.,true);game.forest.update_camera(1.)
-		game.hud.refresh();game.queue_redraw();await process_frame;await process_frame;await RenderingServer.frame_post_draw
+		game.hud.refresh()
+		var final_rows=game.forest.remains
+		game.forest.remains=final_rows.duplicate(true)
+		for small in game.forest.remains:
+			var limits=Remains.catalog().sprites[small.kind].width_pixels
+			small.width=lerpf(72.,96.,inverse_lerp(float(limits[0]),float(limits[1]),small.width))
+		game.queue_redraw();await process_frame;await process_frame;await RenderingServer.frame_post_draw
+		check(root.get_texture().get_image().save_png("res://../artifacts/cave-remains-scale-before-B%d.png"%depth)==OK,"old width comparison at identical final position and zoom")
+		game.forest.remains=final_rows
+		game.queue_redraw();await process_frame;await process_frame;await RenderingServer.frame_post_draw
 		check(Remains.visible(game,game.forest.remains).has(row),"generated remains visible in actual scene")
 		var path="res://../artifacts/cave-remains-B%d.png"%depth
 		check(root.get_texture().get_image().save_png(path)==OK,"actual framebuffer saved")

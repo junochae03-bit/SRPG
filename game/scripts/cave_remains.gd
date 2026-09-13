@@ -24,13 +24,13 @@ static func suitable(map,pos:Vector2,placed:Array)->bool:
 		if not map.walkable(pos+offset*3.):edge=true
 	if not edge:return false
 	for site in map.exploration_sites:
-		if pos.distance_to(site.pos)<4.:return false
+		if pos.distance_to(site.pos)<5.:return false
 	for region in map.hidden_regions:
 		for key in ["pos","center","forward_exit"]:
-			if region.has(key) and pos.distance_to(region[key])<4.:return false
+			if region.has(key) and pos.distance_to(region[key])<5.:return false
 	for cue in map.exploration_cues:
 		for mark in cue.marks:
-			if pos.distance_to(mark.pos)<3.:return false
+			if pos.distance_to(mark.pos)<4.5:return false
 	for row in placed:
 		if pos.distance_to(row.pos)<SEPARATION:return false
 	return true
@@ -50,9 +50,19 @@ static func generate(map)->Array:
 		for attempt in range(32):
 			var pos=(center+Vector2.from_angle(rng.randf()*TAU)*radius*rng.randf_range(.65,1.)).round()
 			if not suitable(map,pos,result):continue
-			result.append({"pos":pos,"kind":keys[rng.randi_range(0,keys.size()-1)],"width":rng.randf_range(72.,96.),"rotation":rng.randf_range(-.45,.45),"room":room.index})
+			var kind=keys[rng.randi_range(0,keys.size()-1)];var widths=catalog().sprites[kind].width_pixels
+			var row={"pos":pos,"kind":kind,"width":rng.randf_range(widths[0],widths[1]),"rotation":rng.randf_range(-.45,.45),"room":room.index}
+			if not footprint(map,row).all(func(point):return map.walkable(point) and map.line_clear(pos,point)):continue
+			result.append(row)
 			break
 	return result
+static func footprint(map,row:Dictionary)->Array:
+	var r=catalog().sprites[row.kind].rect
+	var half=Vector2(row.width,row.width*float(r[3])/float(r[2]))*.5
+	var points=[]
+	for unit in [Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(-1,0),Vector2.ZERO,Vector2(1,0),Vector2(-1,1),Vector2(0,1),Vector2(1,1)]:
+		points.append(row.pos+map.from_iso((unit*half).rotated(row.rotation)))
+	return points
 static func visible(game,rows:Array)->Array:
 	return rows.filter(func(row):return game.vision.sees(row.pos) and game.world_point(row.pos).distance_to(game.screen_center())<1100.)
 static func draw(game,rows:Array):
@@ -62,4 +72,4 @@ static func draw(game,rows:Array):
 		game.draw_texture_rect(art,Rect2(-size*.5,size),false,Color(.87,.86,.82,.9))
 		game.draw_set_transform(Vector2.ZERO)
 static func configuration()->Dictionary:
-	return {"maximum_per_floor":MAX_REMAINS,"minimum_separation_tiles":SEPARATION,"placement":"room_edges_with_clear_walking_ring","visibility":"current_sight_only","collision":false,"loot":false,"tutorial_and_raid":false,"art_catalog":CATALOG}
+	return {"maximum_per_floor":MAX_REMAINS,"minimum_separation_tiles":SEPARATION,"placement":"room_edges_with_clear_walking_ring","visibility":"current_sight_only","collision":false,"loot":false,"tutorial_and_raid":false,"art_catalog":CATALOG,"size_policy":"catalog_per_species_width","footprint":"rotated_region_corners_and_edges_on_walkable_floor","site_clearance_tiles":5.,"trace_clearance_tiles":4.5}

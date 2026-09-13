@@ -1226,7 +1226,7 @@
       "clusters": 5,
       "floor": 12,
       "kind": "lizard",
-      "path": "artifacts/cave-remains-B12.png",
+      "path": "artifacts/cave-remains-before-B12.png",
       "pos": [
         36.0,
         34.0
@@ -1239,7 +1239,7 @@
       "clusters": 4,
       "floor": 42,
       "kind": "skull",
-      "path": "artifacts/cave-remains-B42.png",
+      "path": "artifacts/cave-remains-before-B42.png",
       "pos": [
         39.0,
         23.0
@@ -1252,7 +1252,7 @@
       "clusters": 5,
       "floor": 62,
       "kind": "skull",
-      "path": "artifacts/cave-remains-B62.png",
+      "path": "artifacts/cave-remains-before-B62.png",
       "pos": [
         41.0,
         63.0

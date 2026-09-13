@@ -17,6 +17,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 93.6,
       "floor_id": 1,
       "gold": 8,
       "health": 81,
@@ -46,6 +47,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 111.8,
       "floor_id": 1,
       "gold": 8,
       "health": 81,
@@ -75,6 +77,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 1,
       "gold": 10,
       "health": 688,
@@ -104,6 +107,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 1,
       "gold": 10,
       "health": 688,
@@ -133,6 +137,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "display_height": 111.8,
       "floor_id": 1,
       "gold": 8,
       "health": 81,
@@ -162,6 +167,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 1,
       "gold": 8,
       "health": 81,
@@ -191,6 +197,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 1,
       "gold": 8,
       "health": 81,
@@ -220,6 +227,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 93.6,
       "floor_id": 2,
       "gold": 10,
       "health": 82,
@@ -249,6 +257,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 111.8,
       "floor_id": 2,
       "gold": 10,
       "health": 82,
@@ -278,6 +287,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 2,
       "gold": 14,
       "health": 691,
@@ -307,6 +317,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 2,
       "gold": 14,
       "health": 691,
@@ -336,6 +347,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "display_height": 111.8,
       "floor_id": 2,
       "gold": 10,
       "health": 82,
@@ -365,6 +377,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 2,
       "gold": 10,
       "health": 82,
@@ -394,6 +407,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 2,
       "gold": 10,
       "health": 82,
@@ -423,6 +437,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 93.6,
       "floor_id": 3,
       "gold": 12,
       "health": 82,
@@ -452,6 +467,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 111.8,
       "floor_id": 3,
       "gold": 12,
       "health": 82,
@@ -481,6 +497,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 3,
       "gold": 18,
       "health": 693,
@@ -510,6 +527,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 179.2,
       "floor_id": 3,
       "gold": 18,
       "health": 693,
@@ -539,6 +557,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "display_height": 111.8,
       "floor_id": 3,
       "gold": 12,
       "health": 82,
@@ -568,6 +587,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 3,
       "gold": 12,
       "health": 82,
@@ -597,6 +617,7 @@
         "sheet_key": "enemies"
       },
       "damage": 9,
+      "display_height": 92,
       "floor_id": 3,
       "gold": 12,
       "health": 82,
@@ -626,6 +647,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "display_height": 93.6,
       "floor_id": 4,
       "gold": 14,
       "health": 96,
@@ -655,6 +677,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 10,
+      "display_height": 111.8,
       "floor_id": 4,
       "gold": 14,
       "health": 96,
@@ -684,6 +707,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 30,
+      "display_height": 179.2,
       "floor_id": 4,
       "gold": 22,
       "health": 812,
@@ -713,6 +737,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 30,
+      "display_height": 179.2,
       "floor_id": 4,
       "gold": 22,
       "health": 812,
@@ -742,6 +767,7 @@
         "sheet_key": "enemies"
       },
       "damage": 11,
+      "display_height": 111.8,
       "floor_id": 4,
       "gold": 14,
       "health": 96,
@@ -771,6 +797,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 10,
+      "display_height": 92,
       "floor_id": 4,
       "gold": 14,
       "health": 96,
@@ -800,6 +827,7 @@
         "sheet_key": "enemies"
       },
       "damage": 10,
+      "display_height": 92,
       "floor_id": 4,
       "gold": 14,
       "health": 96,
@@ -829,6 +857,7 @@
         "sheet_key": "enemies"
       },
       "damage": 11,
+      "display_height": 93.6,
       "floor_id": 5,
       "gold": 16,
       "health": 110,
@@ -858,6 +887,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 11,
+      "display_height": 111.8,
       "floor_id": 5,
       "gold": 16,
       "health": 110,
@@ -887,6 +917,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 33,
+      "display_height": 179.2,
       "floor_id": 5,
       "gold": 26,
       "health": 932,
@@ -916,6 +947,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 33,
+      "display_height": 179.2,
       "floor_id": 5,
       "gold": 26,
       "health": 932,
@@ -945,6 +977,7 @@
         "sheet_key": "enemies"
       },
       "damage": 12,
+      "display_height": 111.8,
       "floor_id": 5,
       "gold": 16,
       "health": 110,
@@ -974,6 +1007,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 11,
+      "display_height": 92,
       "floor_id": 5,
       "gold": 16,
       "health": 110,
@@ -1003,6 +1037,7 @@
         "sheet_key": "enemies"
       },
       "damage": 11,
+      "display_height": 92,
       "floor_id": 5,
       "gold": 16,
       "health": 110,
@@ -1032,6 +1067,7 @@
         "sheet_key": "enemies"
       },
       "damage": 12,
+      "display_height": 93.6,
       "floor_id": 6,
       "gold": 18,
       "health": 125,
@@ -1061,6 +1097,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 12,
+      "display_height": 111.8,
       "floor_id": 6,
       "gold": 18,
       "health": 125,
@@ -1090,6 +1127,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 36,
+      "display_height": 179.2,
       "floor_id": 6,
       "gold": 30,
       "health": 1052,
@@ -1119,6 +1157,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 36,
+      "display_height": 179.2,
       "floor_id": 6,
       "gold": 30,
       "health": 1052,
@@ -1148,6 +1187,7 @@
         "sheet_key": "enemies"
       },
       "damage": 13,
+      "display_height": 111.8,
       "floor_id": 6,
       "gold": 18,
       "health": 125,
@@ -1177,6 +1217,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 12,
+      "display_height": 92,
       "floor_id": 6,
       "gold": 18,
       "health": 125,
@@ -1206,6 +1247,7 @@
         "sheet_key": "enemies"
       },
       "damage": 12,
+      "display_height": 92,
       "floor_id": 6,
       "gold": 18,
       "health": 125,
@@ -1235,6 +1277,7 @@
         "sheet_key": "enemies"
       },
       "damage": 13,
+      "display_height": 93.6,
       "floor_id": 7,
       "gold": 20,
       "health": 139,
@@ -1264,6 +1307,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 13,
+      "display_height": 111.8,
       "floor_id": 7,
       "gold": 20,
       "health": 139,
@@ -1293,6 +1337,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 39,
+      "display_height": 179.2,
       "floor_id": 7,
       "gold": 34,
       "health": 1173,
@@ -1322,6 +1367,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 39,
+      "display_height": 179.2,
       "floor_id": 7,
       "gold": 34,
       "health": 1173,
@@ -1351,6 +1397,7 @@
         "sheet_key": "enemies"
       },
       "damage": 14,
+      "display_height": 111.8,
       "floor_id": 7,
       "gold": 20,
       "health": 139,
@@ -1380,6 +1427,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 13,
+      "display_height": 92,
       "floor_id": 7,
       "gold": 20,
       "health": 139,
@@ -1409,6 +1457,7 @@
         "sheet_key": "enemies"
       },
       "damage": 13,
+      "display_height": 92,
       "floor_id": 7,
       "gold": 20,
       "health": 139,
@@ -1438,6 +1487,7 @@
         "sheet_key": "enemies"
       },
       "damage": 14,
+      "display_height": 93.6,
       "floor_id": 8,
       "gold": 22,
       "health": 153,
@@ -1467,6 +1517,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 14,
+      "display_height": 111.8,
       "floor_id": 8,
       "gold": 22,
       "health": 153,
@@ -1496,6 +1547,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 42,
+      "display_height": 179.2,
       "floor_id": 8,
       "gold": 38,
       "health": 1295,
@@ -1525,6 +1577,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 42,
+      "display_height": 179.2,
       "floor_id": 8,
       "gold": 38,
       "health": 1295,
@@ -1554,6 +1607,7 @@
         "sheet_key": "enemies"
       },
       "damage": 15,
+      "display_height": 111.8,
       "floor_id": 8,
       "gold": 22,
       "health": 153,
@@ -1583,6 +1637,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 14,
+      "display_height": 92,
       "floor_id": 8,
       "gold": 22,
       "health": 153,
@@ -1612,6 +1667,7 @@
         "sheet_key": "enemies"
       },
       "damage": 14,
+      "display_height": 92,
       "floor_id": 8,
       "gold": 22,
       "health": 153,
@@ -1641,6 +1697,7 @@
         "sheet_key": "enemies"
       },
       "damage": 15,
+      "display_height": 93.6,
       "floor_id": 9,
       "gold": 24,
       "health": 168,
@@ -1670,6 +1727,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 15,
+      "display_height": 111.8,
       "floor_id": 9,
       "gold": 24,
       "health": 168,
@@ -1699,6 +1757,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 46,
+      "display_height": 179.2,
       "floor_id": 9,
       "gold": 42,
       "health": 1418,
@@ -1728,6 +1787,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 46,
+      "display_height": 179.2,
       "floor_id": 9,
       "gold": 42,
       "health": 1418,
@@ -1757,6 +1817,7 @@
         "sheet_key": "enemies"
       },
       "damage": 17,
+      "display_height": 111.8,
       "floor_id": 9,
       "gold": 24,
       "health": 168,
@@ -1786,6 +1847,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 15,
+      "display_height": 92,
       "floor_id": 9,
       "gold": 24,
       "health": 168,
@@ -1815,6 +1877,7 @@
         "sheet_key": "enemies"
       },
       "damage": 15,
+      "display_height": 92,
       "floor_id": 9,
       "gold": 24,
       "health": 168,
@@ -1844,6 +1907,7 @@
         "sheet_key": "bosses"
       },
       "damage": 141,
+      "display_height": 335,
       "floor_id": 10,
       "gold": 126,
       "health": 19079,
@@ -1873,6 +1937,7 @@
         "sheet_key": "enemies"
       },
       "damage": 27,
+      "display_height": 101.4,
       "floor_id": 11,
       "gold": 28,
       "health": 440,
@@ -1902,6 +1967,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 20,
+      "display_height": 92,
       "floor_id": 11,
       "gold": 28,
       "health": 257,
@@ -1931,6 +1997,7 @@
         "sheet_key": "enemies"
       },
       "damage": 32,
+      "display_height": 180,
       "floor_id": 11,
       "gold": 28,
       "health": 391,
@@ -1960,6 +2027,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 56,
+      "display_height": 240,
       "floor_id": 11,
       "gold": 50,
       "health": 1826,
@@ -1989,6 +2057,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 56,
+      "display_height": 240,
       "floor_id": 11,
       "gold": 50,
       "health": 1826,
@@ -2018,6 +2087,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 26,
+      "display_height": 93.6,
       "floor_id": 11,
       "gold": 28,
       "health": 330,
@@ -2047,6 +2117,7 @@
         "sheet_key": "enemies"
       },
       "damage": 29,
+      "display_height": 101.4,
       "floor_id": 12,
       "gold": 30,
       "health": 471,
@@ -2076,6 +2147,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 21,
+      "display_height": 92,
       "floor_id": 12,
       "gold": 30,
       "health": 275,
@@ -2105,6 +2177,7 @@
         "sheet_key": "enemies"
       },
       "damage": 34,
+      "display_height": 180,
       "floor_id": 12,
       "gold": 30,
       "health": 418,
@@ -2134,6 +2207,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 60,
+      "display_height": 240,
       "floor_id": 12,
       "gold": 54,
       "health": 1952,
@@ -2163,6 +2237,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 60,
+      "display_height": 240,
       "floor_id": 12,
       "gold": 54,
       "health": 1952,
@@ -2192,6 +2267,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 27,
+      "display_height": 93.6,
       "floor_id": 12,
       "gold": 30,
       "health": 353,
@@ -2221,6 +2297,7 @@
         "sheet_key": "enemies"
       },
       "damage": 30,
+      "display_height": 101.4,
       "floor_id": 13,
       "gold": 32,
       "health": 501,
@@ -2250,6 +2327,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 23,
+      "display_height": 92,
       "floor_id": 13,
       "gold": 32,
       "health": 292,
@@ -2279,6 +2357,7 @@
         "sheet_key": "enemies"
       },
       "damage": 36,
+      "display_height": 180,
       "floor_id": 13,
       "gold": 32,
       "health": 446,
@@ -2308,6 +2387,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 63,
+      "display_height": 240,
       "floor_id": 13,
       "gold": 58,
       "health": 2079,
@@ -2337,6 +2417,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 63,
+      "display_height": 240,
       "floor_id": 13,
       "gold": 58,
       "health": 2079,
@@ -2366,6 +2447,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 29,
+      "display_height": 93.6,
       "floor_id": 13,
       "gold": 32,
       "health": 376,
@@ -2395,6 +2477,7 @@
         "sheet_key": "enemies"
       },
       "damage": 32,
+      "display_height": 101.4,
       "floor_id": 14,
       "gold": 34,
       "health": 532,
@@ -2424,6 +2507,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 24,
+      "display_height": 92,
       "floor_id": 14,
       "gold": 34,
       "health": 310,
@@ -2453,6 +2537,7 @@
         "sheet_key": "enemies"
       },
       "damage": 38,
+      "display_height": 180,
       "floor_id": 14,
       "gold": 34,
       "health": 473,
@@ -2482,6 +2567,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 66,
+      "display_height": 240,
       "floor_id": 14,
       "gold": 62,
       "health": 2207,
@@ -2511,6 +2597,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 66,
+      "display_height": 240,
       "floor_id": 14,
       "gold": 62,
       "health": 2207,
@@ -2540,6 +2627,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 30,
+      "display_height": 93.6,
       "floor_id": 14,
       "gold": 34,
       "health": 399,
@@ -2569,6 +2657,7 @@
         "sheet_key": "enemies"
       },
       "damage": 33,
+      "display_height": 101.4,
       "floor_id": 15,
       "gold": 36,
       "health": 563,
@@ -2598,6 +2687,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 25,
+      "display_height": 92,
       "floor_id": 15,
       "gold": 36,
       "health": 329,
@@ -2627,6 +2717,7 @@
         "sheet_key": "enemies"
       },
       "damage": 40,
+      "display_height": 180,
       "floor_id": 15,
       "gold": 36,
       "health": 501,
@@ -2656,6 +2747,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 70,
+      "display_height": 240,
       "floor_id": 15,
       "gold": 66,
       "health": 2336,
@@ -2685,6 +2777,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 70,
+      "display_height": 240,
       "floor_id": 15,
       "gold": 66,
       "health": 2336,
@@ -2714,6 +2807,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 32,
+      "display_height": 93.6,
       "floor_id": 15,
       "gold": 36,
       "health": 422,
@@ -2743,6 +2837,7 @@
         "sheet_key": "enemies"
       },
       "damage": 35,
+      "display_height": 101.4,
       "floor_id": 16,
       "gold": 38,
       "health": 594,
@@ -2772,6 +2867,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 26,
+      "display_height": 92,
       "floor_id": 16,
       "gold": 38,
       "health": 347,
@@ -2801,6 +2897,7 @@
         "sheet_key": "enemies"
       },
       "damage": 42,
+      "display_height": 180,
       "floor_id": 16,
       "gold": 38,
       "health": 528,
@@ -2830,6 +2927,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 73,
+      "display_height": 240,
       "floor_id": 16,
       "gold": 70,
       "health": 2466,
@@ -2859,6 +2957,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 73,
+      "display_height": 240,
       "floor_id": 16,
       "gold": 70,
       "health": 2466,
@@ -2888,6 +2987,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 33,
+      "display_height": 93.6,
       "floor_id": 16,
       "gold": 38,
       "health": 446,
@@ -2917,6 +3017,7 @@
         "sheet_key": "enemies"
       },
       "damage": 37,
+      "display_height": 101.4,
       "floor_id": 17,
       "gold": 40,
       "health": 626,
@@ -2946,6 +3047,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 28,
+      "display_height": 92,
       "floor_id": 17,
       "gold": 40,
       "health": 365,
@@ -2975,6 +3077,7 @@
         "sheet_key": "enemies"
       },
       "damage": 44,
+      "display_height": 180,
       "floor_id": 17,
       "gold": 40,
       "health": 556,
@@ -3004,6 +3107,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 77,
+      "display_height": 240,
       "floor_id": 17,
       "gold": 74,
       "health": 2597,
@@ -3033,6 +3137,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 77,
+      "display_height": 240,
       "floor_id": 17,
       "gold": 74,
       "health": 2597,
@@ -3062,6 +3167,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 35,
+      "display_height": 93.6,
       "floor_id": 17,
       "gold": 40,
       "health": 469,
@@ -3091,6 +3197,7 @@
         "sheet_key": "enemies"
       },
       "damage": 38,
+      "display_height": 101.4,
       "floor_id": 18,
       "gold": 42,
       "health": 658,
@@ -3120,6 +3227,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 29,
+      "display_height": 92,
       "floor_id": 18,
       "gold": 42,
       "health": 384,
@@ -3149,6 +3257,7 @@
         "sheet_key": "enemies"
       },
       "damage": 46,
+      "display_height": 180,
       "floor_id": 18,
       "gold": 42,
       "health": 585,
@@ -3178,6 +3287,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 80,
+      "display_height": 240,
       "floor_id": 18,
       "gold": 78,
       "health": 2728,
@@ -3207,6 +3317,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 80,
+      "display_height": 240,
       "floor_id": 18,
       "gold": 78,
       "health": 2728,
@@ -3236,6 +3347,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 36,
+      "display_height": 93.6,
       "floor_id": 18,
       "gold": 42,
       "health": 493,
@@ -3265,6 +3377,7 @@
         "sheet_key": "enemies"
       },
       "damage": 40,
+      "display_height": 101.4,
       "floor_id": 19,
       "gold": 44,
       "health": 690,
@@ -3294,6 +3407,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 30,
+      "display_height": 92,
       "floor_id": 19,
       "gold": 44,
       "health": 402,
@@ -3323,6 +3437,7 @@
         "sheet_key": "enemies"
       },
       "damage": 48,
+      "display_height": 180,
       "floor_id": 19,
       "gold": 44,
       "health": 613,
@@ -3352,6 +3467,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 83,
+      "display_height": 240,
       "floor_id": 19,
       "gold": 82,
       "health": 2861,
@@ -3381,6 +3497,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 83,
+      "display_height": 240,
       "floor_id": 19,
       "gold": 82,
       "health": 2861,
@@ -3410,6 +3527,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 38,
+      "display_height": 93.6,
       "floor_id": 19,
       "gold": 44,
       "health": 517,
@@ -3439,6 +3557,7 @@
         "sheet_key": "bosses"
       },
       "damage": 231,
+      "display_height": 335,
       "floor_id": 20,
       "gold": 246,
       "health": 36914,
@@ -3471,6 +3590,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 90,
+      "display_height": 224,
       "floor_id": 21,
       "gold": 90,
       "health": 3293,
@@ -3503,6 +3623,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 90,
+      "display_height": 224,
       "floor_id": 21,
       "gold": 90,
       "health": 3293,
@@ -3535,6 +3656,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 50,
+      "display_height": 92,
       "floor_id": 21,
       "gold": 48,
       "health": 889,
@@ -3567,6 +3689,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 52,
+      "display_height": 117,
       "floor_id": 21,
       "gold": 48,
       "health": 860,
@@ -3599,6 +3722,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 54,
+      "display_height": 180,
       "floor_id": 21,
       "gold": 48,
       "health": 889,
@@ -3631,6 +3755,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 41,
+      "display_height": 93.6,
       "floor_id": 21,
       "gold": 48,
       "health": 595,
@@ -3663,6 +3788,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 93,
+      "display_height": 224,
       "floor_id": 22,
       "gold": 94,
       "health": 3428,
@@ -3695,6 +3821,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 93,
+      "display_height": 224,
       "floor_id": 22,
       "gold": 94,
       "health": 3428,
@@ -3727,6 +3854,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 52,
+      "display_height": 92,
       "floor_id": 22,
       "gold": 50,
       "health": 925,
@@ -3759,6 +3887,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 54,
+      "display_height": 117,
       "floor_id": 22,
       "gold": 50,
       "health": 895,
@@ -3791,6 +3920,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 56,
+      "display_height": 180,
       "floor_id": 22,
       "gold": 50,
       "health": 925,
@@ -3823,6 +3953,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 43,
+      "display_height": 93.6,
       "floor_id": 22,
       "gold": 50,
       "health": 620,
@@ -3855,6 +3986,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 97,
+      "display_height": 224,
       "floor_id": 23,
       "gold": 98,
       "health": 3565,
@@ -3887,6 +4019,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 97,
+      "display_height": 224,
       "floor_id": 23,
       "gold": 98,
       "health": 3565,
@@ -3919,6 +4052,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 53,
+      "display_height": 92,
       "floor_id": 23,
       "gold": 52,
       "health": 962,
@@ -3951,6 +4085,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 56,
+      "display_height": 117,
       "floor_id": 23,
       "gold": 52,
       "health": 931,
@@ -3983,6 +4118,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 58,
+      "display_height": 180,
       "floor_id": 23,
       "gold": 52,
       "health": 962,
@@ -4015,6 +4151,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 44,
+      "display_height": 93.6,
       "floor_id": 23,
       "gold": 52,
       "health": 644,
@@ -4047,6 +4184,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 100,
+      "display_height": 224,
       "floor_id": 24,
       "gold": 102,
       "health": 3702,
@@ -4079,6 +4217,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 100,
+      "display_height": 224,
       "floor_id": 24,
       "gold": 102,
       "health": 3702,
@@ -4111,6 +4250,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 55,
+      "display_height": 92,
       "floor_id": 24,
       "gold": 54,
       "health": 999,
@@ -4143,6 +4283,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 58,
+      "display_height": 117,
       "floor_id": 24,
       "gold": 54,
       "health": 967,
@@ -4175,6 +4316,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 60,
+      "display_height": 180,
       "floor_id": 24,
       "gold": 54,
       "health": 999,
@@ -4207,6 +4349,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 46,
+      "display_height": 93.6,
       "floor_id": 24,
       "gold": 54,
       "health": 669,
@@ -4239,6 +4382,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 104,
+      "display_height": 224,
       "floor_id": 25,
       "gold": 106,
       "health": 3841,
@@ -4271,6 +4415,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 104,
+      "display_height": 224,
       "floor_id": 25,
       "gold": 106,
       "health": 3841,
@@ -4303,6 +4448,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 57,
+      "display_height": 92,
       "floor_id": 25,
       "gold": 56,
       "health": 1036,
@@ -4335,6 +4481,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 60,
+      "display_height": 117,
       "floor_id": 25,
       "gold": 56,
       "health": 1003,
@@ -4367,6 +4514,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 62,
+      "display_height": 180,
       "floor_id": 25,
       "gold": 56,
       "health": 1036,
@@ -4399,6 +4547,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 47,
+      "display_height": 93.6,
       "floor_id": 25,
       "gold": 56,
       "health": 694,
@@ -4431,6 +4580,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 107,
+      "display_height": 224,
       "floor_id": 26,
       "gold": 110,
       "health": 3980,
@@ -4463,6 +4613,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 107,
+      "display_height": 224,
       "floor_id": 26,
       "gold": 110,
       "health": 3980,
@@ -4495,6 +4646,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 59,
+      "display_height": 92,
       "floor_id": 26,
       "gold": 58,
       "health": 1074,
@@ -4527,6 +4679,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 62,
+      "display_height": 117,
       "floor_id": 26,
       "gold": 58,
       "health": 1039,
@@ -4559,6 +4712,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 64,
+      "display_height": 180,
       "floor_id": 26,
       "gold": 58,
       "health": 1074,
@@ -4591,6 +4745,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 49,
+      "display_height": 93.6,
       "floor_id": 26,
       "gold": 58,
       "health": 719,
@@ -4623,6 +4778,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 110,
+      "display_height": 224,
       "floor_id": 27,
       "gold": 114,
       "health": 4120,
@@ -4655,6 +4811,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 110,
+      "display_height": 224,
       "floor_id": 27,
       "gold": 114,
       "health": 4120,
@@ -4687,6 +4844,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 61,
+      "display_height": 92,
       "floor_id": 27,
       "gold": 60,
       "health": 1112,
@@ -4719,6 +4877,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 64,
+      "display_height": 117,
       "floor_id": 27,
       "gold": 60,
       "health": 1076,
@@ -4751,6 +4910,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 66,
+      "display_height": 180,
       "floor_id": 27,
       "gold": 60,
       "health": 1112,
@@ -4783,6 +4943,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 50,
+      "display_height": 93.6,
       "floor_id": 27,
       "gold": 60,
       "health": 745,
@@ -4815,6 +4976,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 114,
+      "display_height": 224,
       "floor_id": 28,
       "gold": 118,
       "health": 4261,
@@ -4847,6 +5009,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 114,
+      "display_height": 224,
       "floor_id": 28,
       "gold": 118,
       "health": 4261,
@@ -4879,6 +5042,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 63,
+      "display_height": 92,
       "floor_id": 28,
       "gold": 62,
       "health": 1150,
@@ -4911,6 +5075,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 65,
+      "display_height": 117,
       "floor_id": 28,
       "gold": 62,
       "health": 1113,
@@ -4943,6 +5108,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 68,
+      "display_height": 180,
       "floor_id": 28,
       "gold": 62,
       "health": 1150,
@@ -4975,6 +5141,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 52,
+      "display_height": 93.6,
       "floor_id": 28,
       "gold": 62,
       "health": 770,
@@ -5007,6 +5174,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 117,
+      "display_height": 224,
       "floor_id": 29,
       "gold": 122,
       "health": 4402,
@@ -5039,6 +5207,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 117,
+      "display_height": 224,
       "floor_id": 29,
       "gold": 122,
       "health": 4402,
@@ -5071,6 +5240,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 65,
+      "display_height": 92,
       "floor_id": 29,
       "gold": 64,
       "health": 1188,
@@ -5103,6 +5273,7 @@
         "species": "flood_bell_nautilus"
       },
       "damage": 67,
+      "display_height": 117,
       "floor_id": 29,
       "gold": 64,
       "health": 1150,
@@ -5135,6 +5306,7 @@
         "species": "flood_bastion_tortoise"
       },
       "damage": 70,
+      "display_height": 180,
       "floor_id": 29,
       "gold": 64,
       "health": 1188,
@@ -5167,6 +5339,7 @@
         "species": "flood_rustclaw_crab"
       },
       "damage": 53,
+      "display_height": 93.6,
       "floor_id": 29,
       "gold": 64,
       "health": 796,
@@ -5199,6 +5372,7 @@
         "species": "boss_flood_anchor_admiral"
       },
       "damage": 321,
+      "display_height": 335,
       "floor_id": 30,
       "gold": 366,
       "health": 57176,
@@ -5231,6 +5405,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 50,
+      "display_height": 92,
       "floor_id": 31,
       "gold": 68,
       "health": 846,
@@ -5263,6 +5438,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 39,
+      "display_height": 93.6,
       "floor_id": 31,
       "gold": 68,
       "health": 575,
@@ -5295,6 +5471,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 114,
+      "display_height": 216,
       "floor_id": 31,
       "gold": 130,
       "health": 4859,
@@ -5327,6 +5504,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 114,
+      "display_height": 216,
       "floor_id": 31,
       "gold": 130,
       "health": 4859,
@@ -5359,6 +5537,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 71,
+      "display_height": 152,
       "floor_id": 31,
       "gold": 68,
       "health": 1269,
@@ -5391,6 +5570,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 56,
+      "display_height": 93.6,
       "floor_id": 31,
       "gold": 68,
       "health": 878,
@@ -5423,6 +5603,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 52,
+      "display_height": 92,
       "floor_id": 32,
       "gold": 70,
       "health": 871,
@@ -5455,6 +5636,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 40,
+      "display_height": 93.6,
       "floor_id": 32,
       "gold": 70,
       "health": 592,
@@ -5487,6 +5669,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 117,
+      "display_height": 216,
       "floor_id": 32,
       "gold": 134,
       "health": 5004,
@@ -5519,6 +5702,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 117,
+      "display_height": 216,
       "floor_id": 32,
       "gold": 134,
       "health": 5004,
@@ -5551,6 +5735,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 73,
+      "display_height": 152,
       "floor_id": 32,
       "gold": 70,
       "health": 1307,
@@ -5583,6 +5768,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 58,
+      "display_height": 93.6,
       "floor_id": 32,
       "gold": 70,
       "health": 905,
@@ -5615,6 +5801,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 53,
+      "display_height": 92,
       "floor_id": 33,
       "gold": 72,
       "health": 897,
@@ -5647,6 +5834,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 41,
+      "display_height": 93.6,
       "floor_id": 33,
       "gold": 72,
       "health": 610,
@@ -5679,6 +5867,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 120,
+      "display_height": 216,
       "floor_id": 33,
       "gold": 138,
       "health": 5150,
@@ -5711,6 +5900,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 120,
+      "display_height": 216,
       "floor_id": 33,
       "gold": 138,
       "health": 5150,
@@ -5743,6 +5933,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 75,
+      "display_height": 152,
       "floor_id": 33,
       "gold": 72,
       "health": 1345,
@@ -5775,6 +5966,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 60,
+      "display_height": 93.6,
       "floor_id": 33,
       "gold": 72,
       "health": 931,
@@ -5807,6 +5999,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 55,
+      "display_height": 92,
       "floor_id": 34,
       "gold": 74,
       "health": 922,
@@ -5839,6 +6032,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 42,
+      "display_height": 93.6,
       "floor_id": 34,
       "gold": 74,
       "health": 627,
@@ -5871,6 +6065,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 123,
+      "display_height": 216,
       "floor_id": 34,
       "gold": 142,
       "health": 5297,
@@ -5903,6 +6098,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 123,
+      "display_height": 216,
       "floor_id": 34,
       "gold": 142,
       "health": 5297,
@@ -5935,6 +6131,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 77,
+      "display_height": 152,
       "floor_id": 34,
       "gold": 74,
       "health": 1383,
@@ -5967,6 +6164,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 61,
+      "display_height": 93.6,
       "floor_id": 34,
       "gold": 74,
       "health": 958,
@@ -5999,6 +6197,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 56,
+      "display_height": 92,
       "floor_id": 35,
       "gold": 76,
       "health": 948,
@@ -6031,6 +6230,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 43,
+      "display_height": 93.6,
       "floor_id": 35,
       "gold": 76,
       "health": 645,
@@ -6063,6 +6263,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 126,
+      "display_height": 216,
       "floor_id": 35,
       "gold": 146,
       "health": 5444,
@@ -6095,6 +6296,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 126,
+      "display_height": 216,
       "floor_id": 35,
       "gold": 146,
       "health": 5444,
@@ -6127,6 +6329,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 79,
+      "display_height": 152,
       "floor_id": 35,
       "gold": 76,
       "health": 1422,
@@ -6159,6 +6362,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 63,
+      "display_height": 93.6,
       "floor_id": 35,
       "gold": 76,
       "health": 984,
@@ -6191,6 +6395,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 57,
+      "display_height": 92,
       "floor_id": 36,
       "gold": 78,
       "health": 974,
@@ -6223,6 +6428,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 44,
+      "display_height": 93.6,
       "floor_id": 36,
       "gold": 78,
       "health": 662,
@@ -6255,6 +6461,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 129,
+      "display_height": 216,
       "floor_id": 36,
       "gold": 150,
       "health": 5593,
@@ -6287,6 +6494,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 129,
+      "display_height": 216,
       "floor_id": 36,
       "gold": 150,
       "health": 5593,
@@ -6319,6 +6527,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 81,
+      "display_height": 152,
       "floor_id": 36,
       "gold": 78,
       "health": 1461,
@@ -6351,6 +6560,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 64,
+      "display_height": 93.6,
       "floor_id": 36,
       "gold": 78,
       "health": 1011,
@@ -6383,6 +6593,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 59,
+      "display_height": 92,
       "floor_id": 37,
       "gold": 80,
       "health": 1000,
@@ -6415,6 +6626,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 45,
+      "display_height": 93.6,
       "floor_id": 37,
       "gold": 80,
       "health": 680,
@@ -6447,6 +6659,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 132,
+      "display_height": 216,
       "floor_id": 37,
       "gold": 154,
       "health": 5742,
@@ -6479,6 +6692,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 132,
+      "display_height": 216,
       "floor_id": 37,
       "gold": 154,
       "health": 5742,
@@ -6511,6 +6725,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 83,
+      "display_height": 152,
       "floor_id": 37,
       "gold": 80,
       "health": 1500,
@@ -6543,6 +6758,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 66,
+      "display_height": 93.6,
       "floor_id": 37,
       "gold": 80,
       "health": 1038,
@@ -6575,6 +6791,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 60,
+      "display_height": 92,
       "floor_id": 38,
       "gold": 82,
       "health": 1026,
@@ -6607,6 +6824,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 46,
+      "display_height": 93.6,
       "floor_id": 38,
       "gold": 82,
       "health": 698,
@@ -6639,6 +6857,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 136,
+      "display_height": 216,
       "floor_id": 38,
       "gold": 158,
       "health": 5893,
@@ -6671,6 +6890,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 136,
+      "display_height": 216,
       "floor_id": 38,
       "gold": 158,
       "health": 5893,
@@ -6703,6 +6923,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 85,
+      "display_height": 152,
       "floor_id": 38,
       "gold": 82,
       "health": 1539,
@@ -6735,6 +6956,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 67,
+      "display_height": 93.6,
       "floor_id": 38,
       "gold": 82,
       "health": 1065,
@@ -6767,6 +6989,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 62,
+      "display_height": 92,
       "floor_id": 39,
       "gold": 84,
       "health": 1052,
@@ -6799,6 +7022,7 @@
         "species": "spore_lantern_moth"
       },
       "damage": 47,
+      "display_height": 93.6,
       "floor_id": 39,
       "gold": 84,
       "health": 715,
@@ -6831,6 +7055,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 139,
+      "display_height": 216,
       "floor_id": 39,
       "gold": 162,
       "health": 6044,
@@ -6863,6 +7088,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 139,
+      "display_height": 216,
       "floor_id": 39,
       "gold": 162,
       "health": 6044,
@@ -6895,6 +7121,7 @@
         "species": "spore_crown_toad"
       },
       "damage": 87,
+      "display_height": 152,
       "floor_id": 39,
       "gold": 84,
       "health": 1578,
@@ -6927,6 +7154,7 @@
         "species": "spore_blade_cricket"
       },
       "damage": 69,
+      "display_height": 93.6,
       "floor_id": 39,
       "gold": 84,
       "health": 1093,
@@ -6959,6 +7187,7 @@
         "species": "boss_spore_threefold_hydra"
       },
       "damage": 411,
+      "display_height": 335,
       "floor_id": 40,
       "gold": 486,
       "health": 79866,
@@ -6991,6 +7220,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 60,
+      "display_height": 109.2,
       "floor_id": 41,
       "gold": 88,
       "health": 1005,
@@ -7023,6 +7253,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 76,
+      "display_height": 184,
       "floor_id": 41,
       "gold": 88,
       "health": 1573,
@@ -7055,6 +7286,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 64,
+      "display_height": 92,
       "floor_id": 41,
       "gold": 88,
       "health": 1136,
@@ -7087,6 +7319,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 95,
+      "display_height": 184,
       "floor_id": 41,
       "gold": 88,
       "health": 1761,
@@ -7119,6 +7352,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 158,
+      "display_height": 236,
       "floor_id": 41,
       "gold": 170,
       "health": 6525,
@@ -7151,6 +7385,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 158,
+      "display_height": 236,
       "floor_id": 41,
       "gold": 170,
       "health": 6525,
@@ -7183,6 +7418,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 62,
+      "display_height": 109.2,
       "floor_id": 42,
       "gold": 90,
       "health": 1029,
@@ -7215,6 +7451,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 77,
+      "display_height": 184,
       "floor_id": 42,
       "gold": 90,
       "health": 1610,
@@ -7247,6 +7484,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 66,
+      "display_height": 92,
       "floor_id": 42,
       "gold": 90,
       "health": 1163,
@@ -7279,6 +7517,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 97,
+      "display_height": 184,
       "floor_id": 42,
       "gold": 90,
       "health": 1802,
@@ -7311,6 +7550,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 161,
+      "display_height": 236,
       "floor_id": 42,
       "gold": 174,
       "health": 6680,
@@ -7343,6 +7583,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 161,
+      "display_height": 236,
       "floor_id": 42,
       "gold": 174,
       "health": 6680,
@@ -7375,6 +7616,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 63,
+      "display_height": 109.2,
       "floor_id": 43,
       "gold": 92,
       "health": 1053,
@@ -7407,6 +7649,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 79,
+      "display_height": 184,
       "floor_id": 43,
       "gold": 92,
       "health": 1648,
@@ -7439,6 +7682,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 67,
+      "display_height": 92,
       "floor_id": 43,
       "gold": 92,
       "health": 1190,
@@ -7471,6 +7715,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 99,
+      "display_height": 184,
       "floor_id": 43,
       "gold": 92,
       "health": 1844,
@@ -7503,6 +7748,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 164,
+      "display_height": 236,
       "floor_id": 43,
       "gold": 178,
       "health": 6835,
@@ -7535,6 +7781,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 164,
+      "display_height": 236,
       "floor_id": 43,
       "gold": 178,
       "health": 6835,
@@ -7567,6 +7814,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 64,
+      "display_height": 109.2,
       "floor_id": 44,
       "gold": 94,
       "health": 1077,
@@ -7599,6 +7847,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 80,
+      "display_height": 184,
       "floor_id": 44,
       "gold": 94,
       "health": 1685,
@@ -7631,6 +7880,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 68,
+      "display_height": 92,
       "floor_id": 44,
       "gold": 94,
       "health": 1217,
@@ -7663,6 +7913,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 101,
+      "display_height": 184,
       "floor_id": 44,
       "gold": 94,
       "health": 1886,
@@ -7695,6 +7946,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 168,
+      "display_height": 236,
       "floor_id": 44,
       "gold": 182,
       "health": 6991,
@@ -7727,6 +7979,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 168,
+      "display_height": 236,
       "floor_id": 44,
       "gold": 182,
       "health": 6991,
@@ -7759,6 +8012,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 66,
+      "display_height": 109.2,
       "floor_id": 45,
       "gold": 96,
       "health": 1101,
@@ -7791,6 +8045,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 82,
+      "display_height": 184,
       "floor_id": 45,
       "gold": 96,
       "health": 1723,
@@ -7823,6 +8078,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 70,
+      "display_height": 92,
       "floor_id": 45,
       "gold": 96,
       "health": 1244,
@@ -7855,6 +8111,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 103,
+      "display_height": 184,
       "floor_id": 45,
       "gold": 96,
       "health": 1929,
@@ -7887,6 +8144,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 171,
+      "display_height": 236,
       "floor_id": 45,
       "gold": 186,
       "health": 7148,
@@ -7919,6 +8177,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 171,
+      "display_height": 236,
       "floor_id": 45,
       "gold": 186,
       "health": 7148,
@@ -7951,6 +8210,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 67,
+      "display_height": 109.2,
       "floor_id": 46,
       "gold": 98,
       "health": 1125,
@@ -7983,6 +8243,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 84,
+      "display_height": 184,
       "floor_id": 46,
       "gold": 98,
       "health": 1761,
@@ -8015,6 +8276,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 71,
+      "display_height": 92,
       "floor_id": 46,
       "gold": 98,
       "health": 1272,
@@ -8047,6 +8309,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 105,
+      "display_height": 184,
       "floor_id": 46,
       "gold": 98,
       "health": 1971,
@@ -8079,6 +8342,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 174,
+      "display_height": 236,
       "floor_id": 46,
       "gold": 190,
       "health": 7306,
@@ -8111,6 +8375,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 174,
+      "display_height": 236,
       "floor_id": 46,
       "gold": 190,
       "health": 7306,
@@ -8143,6 +8408,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 68,
+      "display_height": 109.2,
       "floor_id": 47,
       "gold": 100,
       "health": 1150,
@@ -8175,6 +8441,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 85,
+      "display_height": 184,
       "floor_id": 47,
       "gold": 100,
       "health": 1799,
@@ -8207,6 +8474,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 73,
+      "display_height": 92,
       "floor_id": 47,
       "gold": 100,
       "health": 1300,
@@ -8239,6 +8507,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 107,
+      "display_height": 184,
       "floor_id": 47,
       "gold": 100,
       "health": 2014,
@@ -8271,6 +8540,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 178,
+      "display_height": 236,
       "floor_id": 47,
       "gold": 194,
       "health": 7465,
@@ -8303,6 +8573,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 178,
+      "display_height": 236,
       "floor_id": 47,
       "gold": 194,
       "health": 7465,
@@ -8335,6 +8606,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 70,
+      "display_height": 109.2,
       "floor_id": 48,
       "gold": 102,
       "health": 1174,
@@ -8367,6 +8639,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 87,
+      "display_height": 184,
       "floor_id": 48,
       "gold": 102,
       "health": 1838,
@@ -8399,6 +8672,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 74,
+      "display_height": 92,
       "floor_id": 48,
       "gold": 102,
       "health": 1327,
@@ -8431,6 +8705,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 109,
+      "display_height": 184,
       "floor_id": 48,
       "gold": 102,
       "health": 2057,
@@ -8463,6 +8738,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 181,
+      "display_height": 236,
       "floor_id": 48,
       "gold": 198,
       "health": 7624,
@@ -8495,6 +8771,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 181,
+      "display_height": 236,
       "floor_id": 48,
       "gold": 198,
       "health": 7624,
@@ -8527,6 +8804,7 @@
         "species": "lava_vent_snail"
       },
       "damage": 71,
+      "display_height": 109.2,
       "floor_id": 49,
       "gold": 104,
       "health": 1199,
@@ -8559,6 +8837,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 89,
+      "display_height": 184,
       "floor_id": 49,
       "gold": 104,
       "health": 1877,
@@ -8591,6 +8870,7 @@
         "species": "lava_coal_salamander"
       },
       "damage": 75,
+      "display_height": 92,
       "floor_id": 49,
       "gold": 104,
       "health": 1355,
@@ -8623,6 +8903,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 111,
+      "display_height": 184,
       "floor_id": 49,
       "gold": 104,
       "health": 2101,
@@ -8655,6 +8936,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 185,
+      "display_height": 236,
       "floor_id": 49,
       "gold": 202,
       "health": 7785,
@@ -8687,6 +8969,7 @@
         "species": "lava_obsidian_rhino"
       },
       "damage": 185,
+      "display_height": 236,
       "floor_id": 49,
       "gold": 202,
       "health": 7785,
@@ -8719,6 +9002,7 @@
         "species": "boss_lava_caldera_drake"
       },
       "damage": 501,
+      "display_height": 335,
       "floor_id": 50,
       "gold": 606,
       "health": 104984,
@@ -8748,6 +9032,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 69,
+      "display_height": 92,
       "floor_id": 51,
       "gold": 108,
       "health": 1166,
@@ -8777,6 +9062,7 @@
         "sheet_key": "enemies"
       },
       "damage": 110,
+      "display_height": 111.8,
       "floor_id": 51,
       "gold": 108,
       "health": 2237,
@@ -8806,6 +9092,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 106,
+      "display_height": 92,
       "floor_id": 51,
       "gold": 108,
       "health": 2237,
@@ -8835,6 +9122,7 @@
         "sheet_key": "enemies"
       },
       "damage": 110,
+      "display_height": 180,
       "floor_id": 51,
       "gold": 108,
       "health": 1776,
@@ -8864,6 +9152,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 191,
+      "display_height": 240,
       "floor_id": 51,
       "gold": 210,
       "health": 8291,
@@ -8893,6 +9182,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 191,
+      "display_height": 240,
       "floor_id": 51,
       "gold": 210,
       "health": 8291,
@@ -8922,6 +9212,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 70,
+      "display_height": 92,
       "floor_id": 52,
       "gold": 110,
       "health": 1189,
@@ -8951,6 +9242,7 @@
         "sheet_key": "enemies"
       },
       "damage": 112,
+      "display_height": 111.8,
       "floor_id": 52,
       "gold": 110,
       "health": 2281,
@@ -8980,6 +9272,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 107,
+      "display_height": 92,
       "floor_id": 52,
       "gold": 110,
       "health": 2281,
@@ -9009,6 +9302,7 @@
         "sheet_key": "enemies"
       },
       "damage": 112,
+      "display_height": 180,
       "floor_id": 52,
       "gold": 110,
       "health": 1812,
@@ -9038,6 +9332,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 195,
+      "display_height": 240,
       "floor_id": 52,
       "gold": 214,
       "health": 8455,
@@ -9067,6 +9362,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 195,
+      "display_height": 240,
       "floor_id": 52,
       "gold": 214,
       "health": 8455,
@@ -9096,6 +9392,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 71,
+      "display_height": 92,
       "floor_id": 53,
       "gold": 112,
       "health": 1212,
@@ -9125,6 +9422,7 @@
         "sheet_key": "enemies"
       },
       "damage": 114,
+      "display_height": 111.8,
       "floor_id": 53,
       "gold": 112,
       "health": 2326,
@@ -9154,6 +9452,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 109,
+      "display_height": 92,
       "floor_id": 53,
       "gold": 112,
       "health": 2326,
@@ -9183,6 +9482,7 @@
         "sheet_key": "enemies"
       },
       "damage": 114,
+      "display_height": 180,
       "floor_id": 53,
       "gold": 112,
       "health": 1847,
@@ -9212,6 +9512,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 198,
+      "display_height": 240,
       "floor_id": 53,
       "gold": 218,
       "health": 8619,
@@ -9241,6 +9542,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 198,
+      "display_height": 240,
       "floor_id": 53,
       "gold": 218,
       "health": 8619,
@@ -9270,6 +9572,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 72,
+      "display_height": 92,
       "floor_id": 54,
       "gold": 114,
       "health": 1235,
@@ -9299,6 +9602,7 @@
         "sheet_key": "enemies"
       },
       "damage": 116,
+      "display_height": 111.8,
       "floor_id": 54,
       "gold": 114,
       "health": 2370,
@@ -9328,6 +9632,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 111,
+      "display_height": 92,
       "floor_id": 54,
       "gold": 114,
       "health": 2370,
@@ -9357,6 +9662,7 @@
         "sheet_key": "enemies"
       },
       "damage": 116,
+      "display_height": 180,
       "floor_id": 54,
       "gold": 114,
       "health": 1882,
@@ -9386,6 +9692,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 201,
+      "display_height": 240,
       "floor_id": 54,
       "gold": 222,
       "health": 8785,
@@ -9415,6 +9722,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 201,
+      "display_height": 240,
       "floor_id": 54,
       "gold": 222,
       "health": 8785,
@@ -9444,6 +9752,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 74,
+      "display_height": 92,
       "floor_id": 55,
       "gold": 116,
       "health": 1259,
@@ -9473,6 +9782,7 @@
         "sheet_key": "enemies"
       },
       "damage": 118,
+      "display_height": 111.8,
       "floor_id": 55,
       "gold": 116,
       "health": 2415,
@@ -9502,6 +9812,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 113,
+      "display_height": 92,
       "floor_id": 55,
       "gold": 116,
       "health": 2415,
@@ -9531,6 +9842,7 @@
         "sheet_key": "enemies"
       },
       "damage": 118,
+      "display_height": 180,
       "floor_id": 55,
       "gold": 116,
       "health": 1918,
@@ -9560,6 +9872,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 205,
+      "display_height": 240,
       "floor_id": 55,
       "gold": 226,
       "health": 8951,
@@ -9589,6 +9902,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 205,
+      "display_height": 240,
       "floor_id": 55,
       "gold": 226,
       "health": 8951,
@@ -9618,6 +9932,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 75,
+      "display_height": 92,
       "floor_id": 56,
       "gold": 118,
       "health": 1282,
@@ -9647,6 +9962,7 @@
         "sheet_key": "enemies"
       },
       "damage": 120,
+      "display_height": 111.8,
       "floor_id": 56,
       "gold": 118,
       "health": 2461,
@@ -9676,6 +9992,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 115,
+      "display_height": 92,
       "floor_id": 56,
       "gold": 118,
       "health": 2461,
@@ -9705,6 +10022,7 @@
         "sheet_key": "enemies"
       },
       "damage": 120,
+      "display_height": 180,
       "floor_id": 56,
       "gold": 118,
       "health": 1954,
@@ -9734,6 +10052,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 208,
+      "display_height": 240,
       "floor_id": 56,
       "gold": 230,
       "health": 9118,
@@ -9763,6 +10082,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 208,
+      "display_height": 240,
       "floor_id": 56,
       "gold": 230,
       "health": 9118,
@@ -9792,6 +10112,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 76,
+      "display_height": 92,
       "floor_id": 57,
       "gold": 120,
       "health": 1306,
@@ -9821,6 +10142,7 @@
         "sheet_key": "enemies"
       },
       "damage": 122,
+      "display_height": 111.8,
       "floor_id": 57,
       "gold": 120,
       "health": 2506,
@@ -9850,6 +10172,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 117,
+      "display_height": 92,
       "floor_id": 57,
       "gold": 120,
       "health": 2506,
@@ -9879,6 +10202,7 @@
         "sheet_key": "enemies"
       },
       "damage": 122,
+      "display_height": 180,
       "floor_id": 57,
       "gold": 120,
       "health": 1990,
@@ -9908,6 +10232,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 212,
+      "display_height": 240,
       "floor_id": 57,
       "gold": 234,
       "health": 9287,
@@ -9937,6 +10262,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 212,
+      "display_height": 240,
       "floor_id": 57,
       "gold": 234,
       "health": 9287,
@@ -9966,6 +10292,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 77,
+      "display_height": 92,
       "floor_id": 58,
       "gold": 122,
       "health": 1330,
@@ -9995,6 +10322,7 @@
         "sheet_key": "enemies"
       },
       "damage": 124,
+      "display_height": 111.8,
       "floor_id": 58,
       "gold": 122,
       "health": 2551,
@@ -10024,6 +10352,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 119,
+      "display_height": 92,
       "floor_id": 58,
       "gold": 122,
       "health": 2551,
@@ -10053,6 +10382,7 @@
         "sheet_key": "enemies"
       },
       "damage": 124,
+      "display_height": 180,
       "floor_id": 58,
       "gold": 122,
       "health": 2026,
@@ -10082,6 +10412,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 215,
+      "display_height": 240,
       "floor_id": 58,
       "gold": 238,
       "health": 9456,
@@ -10111,6 +10442,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 215,
+      "display_height": 240,
       "floor_id": 58,
       "gold": 238,
       "health": 9456,
@@ -10140,6 +10472,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 79,
+      "display_height": 92,
       "floor_id": 59,
       "gold": 124,
       "health": 1353,
@@ -10169,6 +10502,7 @@
         "sheet_key": "enemies"
       },
       "damage": 126,
+      "display_height": 111.8,
       "floor_id": 59,
       "gold": 124,
       "health": 2597,
@@ -10198,6 +10532,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 120,
+      "display_height": 92,
       "floor_id": 59,
       "gold": 124,
       "health": 2597,
@@ -10227,6 +10562,7 @@
         "sheet_key": "enemies"
       },
       "damage": 126,
+      "display_height": 180,
       "floor_id": 59,
       "gold": 124,
       "health": 2062,
@@ -10256,6 +10592,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 218,
+      "display_height": 240,
       "floor_id": 59,
       "gold": 242,
       "health": 9625,
@@ -10285,6 +10622,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 218,
+      "display_height": 240,
       "floor_id": 59,
       "gold": 242,
       "health": 9625,
@@ -10314,6 +10652,7 @@
         "sheet_key": "bosses"
       },
       "damage": 591,
+      "display_height": 335,
       "floor_id": 60,
       "gold": 726,
       "health": 132529,
@@ -10346,6 +10685,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 108,
+      "display_height": 101.4,
       "floor_id": 61,
       "gold": 128,
       "health": 2448,
@@ -10378,6 +10718,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 225,
+      "display_height": 248,
       "floor_id": 61,
       "gold": 250,
       "health": 10156,
@@ -10410,6 +10751,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 225,
+      "display_height": 248,
       "floor_id": 61,
       "gold": 250,
       "health": 10156,
@@ -10442,6 +10784,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 135,
+      "display_height": 124.8,
       "floor_id": 61,
       "gold": 128,
       "health": 2741,
@@ -10474,6 +10817,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 135,
+      "display_height": 188,
       "floor_id": 61,
       "gold": 128,
       "health": 2741,
@@ -10506,6 +10850,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 135,
+      "display_height": 168,
       "floor_id": 61,
       "gold": 128,
       "health": 2516,
@@ -10538,6 +10883,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 110,
+      "display_height": 101.4,
       "floor_id": 62,
       "gold": 130,
       "health": 2490,
@@ -10570,6 +10916,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 228,
+      "display_height": 248,
       "floor_id": 62,
       "gold": 254,
       "health": 10329,
@@ -10602,6 +10949,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 228,
+      "display_height": 248,
       "floor_id": 62,
       "gold": 254,
       "health": 10329,
@@ -10634,6 +10982,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 137,
+      "display_height": 124.8,
       "floor_id": 62,
       "gold": 130,
       "health": 2787,
@@ -10666,6 +11015,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 137,
+      "display_height": 188,
       "floor_id": 62,
       "gold": 130,
       "health": 2787,
@@ -10698,6 +11048,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 137,
+      "display_height": 168,
       "floor_id": 62,
       "gold": 130,
       "health": 2559,
@@ -10730,6 +11081,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 111,
+      "display_height": 101.4,
       "floor_id": 63,
       "gold": 132,
       "health": 2532,
@@ -10762,6 +11114,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 232,
+      "display_height": 248,
       "floor_id": 63,
       "gold": 258,
       "health": 10503,
@@ -10794,6 +11147,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 232,
+      "display_height": 248,
       "floor_id": 63,
       "gold": 258,
       "health": 10503,
@@ -10826,6 +11180,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 139,
+      "display_height": 124.8,
       "floor_id": 63,
       "gold": 132,
       "health": 2834,
@@ -10858,6 +11213,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 139,
+      "display_height": 188,
       "floor_id": 63,
       "gold": 132,
       "health": 2834,
@@ -10890,6 +11246,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 139,
+      "display_height": 168,
       "floor_id": 63,
       "gold": 132,
       "health": 2602,
@@ -10922,6 +11279,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 113,
+      "display_height": 101.4,
       "floor_id": 64,
       "gold": 134,
       "health": 2574,
@@ -10954,6 +11312,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 235,
+      "display_height": 248,
       "floor_id": 64,
       "gold": 262,
       "health": 10678,
@@ -10986,6 +11345,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 235,
+      "display_height": 248,
       "floor_id": 64,
       "gold": 262,
       "health": 10678,
@@ -11018,6 +11378,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 141,
+      "display_height": 124.8,
       "floor_id": 64,
       "gold": 134,
       "health": 2881,
@@ -11050,6 +11411,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 141,
+      "display_height": 188,
       "floor_id": 64,
       "gold": 134,
       "health": 2881,
@@ -11082,6 +11444,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 141,
+      "display_height": 168,
       "floor_id": 64,
       "gold": 134,
       "health": 2645,
@@ -11114,6 +11477,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 114,
+      "display_height": 101.4,
       "floor_id": 65,
       "gold": 136,
       "health": 2616,
@@ -11146,6 +11510,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 238,
+      "display_height": 248,
       "floor_id": 65,
       "gold": 266,
       "health": 10854,
@@ -11178,6 +11543,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 238,
+      "display_height": 248,
       "floor_id": 65,
       "gold": 266,
       "health": 10854,
@@ -11210,6 +11576,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 143,
+      "display_height": 124.8,
       "floor_id": 65,
       "gold": 136,
       "health": 2929,
@@ -11242,6 +11609,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 143,
+      "display_height": 188,
       "floor_id": 65,
       "gold": 136,
       "health": 2929,
@@ -11274,6 +11642,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 143,
+      "display_height": 168,
       "floor_id": 65,
       "gold": 136,
       "health": 2689,
@@ -11306,6 +11675,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 116,
+      "display_height": 101.4,
       "floor_id": 66,
       "gold": 138,
       "health": 2659,
@@ -11338,6 +11708,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 242,
+      "display_height": 248,
       "floor_id": 66,
       "gold": 270,
       "health": 11030,
@@ -11370,6 +11741,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 242,
+      "display_height": 248,
       "floor_id": 66,
       "gold": 270,
       "health": 11030,
@@ -11402,6 +11774,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 145,
+      "display_height": 124.8,
       "floor_id": 66,
       "gold": 138,
       "health": 2976,
@@ -11434,6 +11807,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 145,
+      "display_height": 188,
       "floor_id": 66,
       "gold": 138,
       "health": 2976,
@@ -11466,6 +11840,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 145,
+      "display_height": 168,
       "floor_id": 66,
       "gold": 138,
       "health": 2733,
@@ -11498,6 +11873,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 118,
+      "display_height": 101.4,
       "floor_id": 67,
       "gold": 140,
       "health": 2702,
@@ -11530,6 +11906,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 245,
+      "display_height": 248,
       "floor_id": 67,
       "gold": 274,
       "health": 11208,
@@ -11562,6 +11939,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 245,
+      "display_height": 248,
       "floor_id": 67,
       "gold": 274,
       "health": 11208,
@@ -11594,6 +11972,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 147,
+      "display_height": 124.8,
       "floor_id": 67,
       "gold": 140,
       "health": 3024,
@@ -11626,6 +12005,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 147,
+      "display_height": 188,
       "floor_id": 67,
       "gold": 140,
       "health": 3024,
@@ -11658,6 +12038,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 147,
+      "display_height": 168,
       "floor_id": 67,
       "gold": 140,
       "health": 2777,
@@ -11690,6 +12071,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 119,
+      "display_height": 101.4,
       "floor_id": 68,
       "gold": 142,
       "health": 2745,
@@ -11722,6 +12104,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 249,
+      "display_height": 248,
       "floor_id": 68,
       "gold": 278,
       "health": 11386,
@@ -11754,6 +12137,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 249,
+      "display_height": 248,
       "floor_id": 68,
       "gold": 278,
       "health": 11386,
@@ -11786,6 +12170,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 149,
+      "display_height": 124.8,
       "floor_id": 68,
       "gold": 142,
       "health": 3073,
@@ -11818,6 +12203,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 149,
+      "display_height": 188,
       "floor_id": 68,
       "gold": 142,
       "health": 3073,
@@ -11850,6 +12236,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 149,
+      "display_height": 168,
       "floor_id": 68,
       "gold": 142,
       "health": 2821,
@@ -11882,6 +12269,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 121,
+      "display_height": 101.4,
       "floor_id": 69,
       "gold": 144,
       "health": 2788,
@@ -11914,6 +12302,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 252,
+      "display_height": 248,
       "floor_id": 69,
       "gold": 282,
       "health": 11566,
@@ -11946,6 +12335,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 252,
+      "display_height": 248,
       "floor_id": 69,
       "gold": 282,
       "health": 11566,
@@ -11978,6 +12368,7 @@
         "species": "machine_saw_wheel"
       },
       "damage": 151,
+      "display_height": 124.8,
       "floor_id": 69,
       "gold": 144,
       "health": 3121,
@@ -12010,6 +12401,7 @@
         "species": "machine_foundry_ogre"
       },
       "damage": 151,
+      "display_height": 188,
       "floor_id": 69,
       "gold": 144,
       "health": 3121,
@@ -12042,6 +12434,7 @@
         "species": "machine_mortar_tripod"
       },
       "damage": 151,
+      "display_height": 168,
       "floor_id": 69,
       "gold": 144,
       "health": 2865,
@@ -12074,6 +12467,7 @@
         "species": "boss_machine_siege_engine"
       },
       "damage": 681,
+      "display_height": 335,
       "floor_id": 70,
       "gold": 846,
       "health": 162501,
@@ -12103,6 +12497,7 @@
         "sheet_key": "enemies"
       },
       "damage": 149,
+      "display_height": 111.8,
       "floor_id": 71,
       "gold": 148,
       "health": 3271,
@@ -12132,6 +12527,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 238,
+      "display_height": 179.2,
       "floor_id": 71,
       "gold": 290,
       "health": 12121,
@@ -12161,6 +12557,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 238,
+      "display_height": 179.2,
       "floor_id": 71,
       "gold": 290,
       "health": 12121,
@@ -12190,6 +12587,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 149,
+      "display_height": 117,
       "floor_id": 71,
       "gold": 148,
       "health": 3165,
@@ -12219,6 +12617,7 @@
         "sheet_key": "enemies"
       },
       "damage": 87,
+      "display_height": 111.8,
       "floor_id": 71,
       "gold": 148,
       "health": 1435,
@@ -12248,6 +12647,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 155,
+      "display_height": 184,
       "floor_id": 71,
       "gold": 148,
       "health": 3271,
@@ -12277,6 +12677,7 @@
         "sheet_key": "enemies"
       },
       "damage": 151,
+      "display_height": 111.8,
       "floor_id": 72,
       "gold": 150,
       "health": 3320,
@@ -12306,6 +12707,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 241,
+      "display_height": 179.2,
       "floor_id": 72,
       "gold": 294,
       "health": 12303,
@@ -12335,6 +12737,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 241,
+      "display_height": 179.2,
       "floor_id": 72,
       "gold": 294,
       "health": 12303,
@@ -12364,6 +12767,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 151,
+      "display_height": 117,
       "floor_id": 72,
       "gold": 150,
       "health": 3213,
@@ -12393,6 +12797,7 @@
         "sheet_key": "enemies"
       },
       "damage": 88,
+      "display_height": 111.8,
       "floor_id": 72,
       "gold": 150,
       "health": 1456,
@@ -12422,6 +12827,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 157,
+      "display_height": 184,
       "floor_id": 72,
       "gold": 150,
       "health": 3320,
@@ -12451,6 +12857,7 @@
         "sheet_key": "enemies"
       },
       "damage": 153,
+      "display_height": 111.8,
       "floor_id": 73,
       "gold": 152,
       "health": 3369,
@@ -12480,6 +12887,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 244,
+      "display_height": 179.2,
       "floor_id": 73,
       "gold": 298,
       "health": 12487,
@@ -12509,6 +12917,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 244,
+      "display_height": 179.2,
       "floor_id": 73,
       "gold": 298,
       "health": 12487,
@@ -12538,6 +12947,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 153,
+      "display_height": 117,
       "floor_id": 73,
       "gold": 152,
       "health": 3261,
@@ -12567,6 +12977,7 @@
         "sheet_key": "enemies"
       },
       "damage": 89,
+      "display_height": 111.8,
       "floor_id": 73,
       "gold": 152,
       "health": 1478,
@@ -12596,6 +13007,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 159,
+      "display_height": 184,
       "floor_id": 73,
       "gold": 152,
       "health": 3369,
@@ -12625,6 +13037,7 @@
         "sheet_key": "enemies"
       },
       "damage": 155,
+      "display_height": 111.8,
       "floor_id": 74,
       "gold": 154,
       "health": 3419,
@@ -12654,6 +13067,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 247,
+      "display_height": 179.2,
       "floor_id": 74,
       "gold": 302,
       "health": 12671,
@@ -12683,6 +13097,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 247,
+      "display_height": 179.2,
       "floor_id": 74,
       "gold": 302,
       "health": 12671,
@@ -12712,6 +13127,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 155,
+      "display_height": 117,
       "floor_id": 74,
       "gold": 154,
       "health": 3309,
@@ -12741,6 +13157,7 @@
         "sheet_key": "enemies"
       },
       "damage": 90,
+      "display_height": 111.8,
       "floor_id": 74,
       "gold": 154,
       "health": 1500,
@@ -12770,6 +13187,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 161,
+      "display_height": 184,
       "floor_id": 74,
       "gold": 154,
       "health": 3419,
@@ -12799,6 +13217,7 @@
         "sheet_key": "enemies"
       },
       "damage": 157,
+      "display_height": 111.8,
       "floor_id": 75,
       "gold": 156,
       "health": 3469,
@@ -12828,6 +13247,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 250,
+      "display_height": 179.2,
       "floor_id": 75,
       "gold": 306,
       "health": 12856,
@@ -12857,6 +13277,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 250,
+      "display_height": 179.2,
       "floor_id": 75,
       "gold": 306,
       "health": 12856,
@@ -12886,6 +13307,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 157,
+      "display_height": 117,
       "floor_id": 75,
       "gold": 156,
       "health": 3357,
@@ -12915,6 +13337,7 @@
         "sheet_key": "enemies"
       },
       "damage": 91,
+      "display_height": 111.8,
       "floor_id": 75,
       "gold": 156,
       "health": 1522,
@@ -12944,6 +13367,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 163,
+      "display_height": 184,
       "floor_id": 75,
       "gold": 156,
       "health": 3469,
@@ -12973,6 +13397,7 @@
         "sheet_key": "enemies"
       },
       "damage": 159,
+      "display_height": 111.8,
       "floor_id": 76,
       "gold": 158,
       "health": 3519,
@@ -13002,6 +13427,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 254,
+      "display_height": 179.2,
       "floor_id": 76,
       "gold": 310,
       "health": 13042,
@@ -13031,6 +13457,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 254,
+      "display_height": 179.2,
       "floor_id": 76,
       "gold": 310,
       "health": 13042,
@@ -13060,6 +13487,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 159,
+      "display_height": 117,
       "floor_id": 76,
       "gold": 158,
       "health": 3406,
@@ -13089,6 +13517,7 @@
         "sheet_key": "enemies"
       },
       "damage": 93,
+      "display_height": 111.8,
       "floor_id": 76,
       "gold": 158,
       "health": 1544,
@@ -13118,6 +13547,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 165,
+      "display_height": 184,
       "floor_id": 76,
       "gold": 158,
       "health": 3519,
@@ -13147,6 +13577,7 @@
         "sheet_key": "enemies"
       },
       "damage": 161,
+      "display_height": 111.8,
       "floor_id": 77,
       "gold": 160,
       "health": 3570,
@@ -13176,6 +13607,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 257,
+      "display_height": 179.2,
       "floor_id": 77,
       "gold": 314,
       "health": 13229,
@@ -13205,6 +13637,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 257,
+      "display_height": 179.2,
       "floor_id": 77,
       "gold": 314,
       "health": 13229,
@@ -13234,6 +13667,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 161,
+      "display_height": 117,
       "floor_id": 77,
       "gold": 160,
       "health": 3455,
@@ -13263,6 +13697,7 @@
         "sheet_key": "enemies"
       },
       "damage": 94,
+      "display_height": 111.8,
       "floor_id": 77,
       "gold": 160,
       "health": 1566,
@@ -13292,6 +13727,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 167,
+      "display_height": 184,
       "floor_id": 77,
       "gold": 160,
       "health": 3570,
@@ -13321,6 +13757,7 @@
         "sheet_key": "enemies"
       },
       "damage": 163,
+      "display_height": 111.8,
       "floor_id": 78,
       "gold": 162,
       "health": 3620,
@@ -13350,6 +13787,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 260,
+      "display_height": 179.2,
       "floor_id": 78,
       "gold": 318,
       "health": 13417,
@@ -13379,6 +13817,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 260,
+      "display_height": 179.2,
       "floor_id": 78,
       "gold": 318,
       "health": 13417,
@@ -13408,6 +13847,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 163,
+      "display_height": 117,
       "floor_id": 78,
       "gold": 162,
       "health": 3504,
@@ -13437,6 +13877,7 @@
         "sheet_key": "enemies"
       },
       "damage": 95,
+      "display_height": 111.8,
       "floor_id": 78,
       "gold": 162,
       "health": 1588,
@@ -13466,6 +13907,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 169,
+      "display_height": 184,
       "floor_id": 78,
       "gold": 162,
       "health": 3620,
@@ -13495,6 +13937,7 @@
         "sheet_key": "enemies"
       },
       "damage": 165,
+      "display_height": 111.8,
       "floor_id": 79,
       "gold": 164,
       "health": 3671,
@@ -13524,6 +13967,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 263,
+      "display_height": 179.2,
       "floor_id": 79,
       "gold": 322,
       "health": 13605,
@@ -13553,6 +13997,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 263,
+      "display_height": 179.2,
       "floor_id": 79,
       "gold": 322,
       "health": 13605,
@@ -13582,6 +14027,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 165,
+      "display_height": 117,
       "floor_id": 79,
       "gold": 164,
       "health": 3553,
@@ -13611,6 +14057,7 @@
         "sheet_key": "enemies"
       },
       "damage": 96,
+      "display_height": 111.8,
       "floor_id": 79,
       "gold": 164,
       "health": 1611,
@@ -13640,6 +14087,7 @@
         "sheet_key": "reinforcements"
       },
       "damage": 171,
+      "display_height": 184,
       "floor_id": 79,
       "gold": 164,
       "health": 3671,
@@ -13669,6 +14117,7 @@
         "sheet_key": "bosses"
       },
       "damage": 771,
+      "display_height": 335,
       "floor_id": 80,
       "gold": 966,
       "health": 194902,
@@ -13701,6 +14150,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 293,
+      "display_height": 196,
       "floor_id": 81,
       "gold": 330,
       "health": 14185,
@@ -13733,6 +14183,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 293,
+      "display_height": 196,
       "floor_id": 81,
       "gold": 330,
       "health": 14185,
@@ -13765,6 +14216,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 176,
+      "display_height": 124.8,
       "floor_id": 81,
       "gold": 168,
       "health": 3828,
@@ -13797,6 +14249,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 161,
+      "display_height": 92,
       "floor_id": 81,
       "gold": 168,
       "health": 3828,
@@ -13829,6 +14282,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 176,
+      "display_height": 98.8,
       "floor_id": 81,
       "gold": 168,
       "health": 3514,
@@ -13861,6 +14315,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 133,
+      "display_height": 93.6,
       "floor_id": 81,
       "gold": 168,
       "health": 2565,
@@ -13893,6 +14348,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 296,
+      "display_height": 196,
       "floor_id": 82,
       "gold": 334,
       "health": 14377,
@@ -13925,6 +14381,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 296,
+      "display_height": 196,
       "floor_id": 82,
       "gold": 334,
       "health": 14377,
@@ -13957,6 +14414,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 178,
+      "display_height": 124.8,
       "floor_id": 82,
       "gold": 170,
       "health": 3880,
@@ -13989,6 +14447,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 163,
+      "display_height": 92,
       "floor_id": 82,
       "gold": 170,
       "health": 3880,
@@ -14021,6 +14480,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 178,
+      "display_height": 98.8,
       "floor_id": 82,
       "gold": 170,
       "health": 3562,
@@ -14053,6 +14513,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 135,
+      "display_height": 93.6,
       "floor_id": 82,
       "gold": 170,
       "health": 2599,
@@ -14085,6 +14546,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 299,
+      "display_height": 196,
       "floor_id": 83,
       "gold": 338,
       "health": 14570,
@@ -14117,6 +14579,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 299,
+      "display_height": 196,
       "floor_id": 83,
       "gold": 338,
       "health": 14570,
@@ -14149,6 +14612,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 180,
+      "display_height": 124.8,
       "floor_id": 83,
       "gold": 172,
       "health": 3932,
@@ -14181,6 +14645,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 165,
+      "display_height": 92,
       "floor_id": 83,
       "gold": 172,
       "health": 3932,
@@ -14213,6 +14678,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 180,
+      "display_height": 98.8,
       "floor_id": 83,
       "gold": 172,
       "health": 3610,
@@ -14245,6 +14711,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 136,
+      "display_height": 93.6,
       "floor_id": 83,
       "gold": 172,
       "health": 2634,
@@ -14277,6 +14744,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 303,
+      "display_height": 196,
       "floor_id": 84,
       "gold": 342,
       "health": 14764,
@@ -14309,6 +14777,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 303,
+      "display_height": 196,
       "floor_id": 84,
       "gold": 342,
       "health": 14764,
@@ -14341,6 +14810,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 182,
+      "display_height": 124.8,
       "floor_id": 84,
       "gold": 174,
       "health": 3984,
@@ -14373,6 +14843,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 167,
+      "display_height": 92,
       "floor_id": 84,
       "gold": 174,
       "health": 3984,
@@ -14405,6 +14876,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 182,
+      "display_height": 98.8,
       "floor_id": 84,
       "gold": 174,
       "health": 3658,
@@ -14437,6 +14909,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 138,
+      "display_height": 93.6,
       "floor_id": 84,
       "gold": 174,
       "health": 2669,
@@ -14469,6 +14942,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 306,
+      "display_height": 196,
       "floor_id": 85,
       "gold": 346,
       "health": 14958,
@@ -14501,6 +14975,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 306,
+      "display_height": 196,
       "floor_id": 85,
       "gold": 346,
       "health": 14958,
@@ -14533,6 +15008,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 184,
+      "display_height": 124.8,
       "floor_id": 85,
       "gold": 176,
       "health": 4036,
@@ -14565,6 +15041,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 169,
+      "display_height": 92,
       "floor_id": 85,
       "gold": 176,
       "health": 4036,
@@ -14597,6 +15074,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 184,
+      "display_height": 98.8,
       "floor_id": 85,
       "gold": 176,
       "health": 3706,
@@ -14629,6 +15107,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 140,
+      "display_height": 93.6,
       "floor_id": 85,
       "gold": 176,
       "health": 2704,
@@ -14661,6 +15140,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 309,
+      "display_height": 196,
       "floor_id": 86,
       "gold": 350,
       "health": 15153,
@@ -14693,6 +15173,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 309,
+      "display_height": 196,
       "floor_id": 86,
       "gold": 350,
       "health": 15153,
@@ -14725,6 +15206,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 186,
+      "display_height": 124.8,
       "floor_id": 86,
       "gold": 178,
       "health": 4089,
@@ -14757,6 +15239,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 171,
+      "display_height": 92,
       "floor_id": 86,
       "gold": 178,
       "health": 4089,
@@ -14789,6 +15272,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 186,
+      "display_height": 98.8,
       "floor_id": 86,
       "gold": 178,
       "health": 3754,
@@ -14821,6 +15305,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 141,
+      "display_height": 93.6,
       "floor_id": 86,
       "gold": 178,
       "health": 2740,
@@ -14853,6 +15338,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 313,
+      "display_height": 196,
       "floor_id": 87,
       "gold": 354,
       "health": 15350,
@@ -14885,6 +15371,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 313,
+      "display_height": 196,
       "floor_id": 87,
       "gold": 354,
       "health": 15350,
@@ -14917,6 +15404,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 188,
+      "display_height": 124.8,
       "floor_id": 87,
       "gold": 180,
       "health": 4142,
@@ -14949,6 +15437,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 173,
+      "display_height": 92,
       "floor_id": 87,
       "gold": 180,
       "health": 4142,
@@ -14981,6 +15470,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 188,
+      "display_height": 98.8,
       "floor_id": 87,
       "gold": 180,
       "health": 3803,
@@ -15013,6 +15503,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 143,
+      "display_height": 93.6,
       "floor_id": 87,
       "gold": 180,
       "health": 2775,
@@ -15045,6 +15536,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 316,
+      "display_height": 196,
       "floor_id": 88,
       "gold": 358,
       "health": 15547,
@@ -15077,6 +15569,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 316,
+      "display_height": 196,
       "floor_id": 88,
       "gold": 358,
       "health": 15547,
@@ -15109,6 +15602,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 190,
+      "display_height": 124.8,
       "floor_id": 88,
       "gold": 182,
       "health": 4195,
@@ -15141,6 +15635,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 175,
+      "display_height": 92,
       "floor_id": 88,
       "gold": 182,
       "health": 4195,
@@ -15173,6 +15668,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 190,
+      "display_height": 98.8,
       "floor_id": 88,
       "gold": 182,
       "health": 3852,
@@ -15205,6 +15701,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 144,
+      "display_height": 93.6,
       "floor_id": 88,
       "gold": 182,
       "health": 2811,
@@ -15237,6 +15734,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 320,
+      "display_height": 196,
       "floor_id": 89,
       "gold": 362,
       "health": 15745,
@@ -15269,6 +15767,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 320,
+      "display_height": 196,
       "floor_id": 89,
       "gold": 362,
       "health": 15745,
@@ -15301,6 +15800,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 192,
+      "display_height": 124.8,
       "floor_id": 89,
       "gold": 184,
       "health": 4249,
@@ -15333,6 +15833,7 @@
         "species": "nebula_crown_manta"
       },
       "damage": 176,
+      "display_height": 92,
       "floor_id": 89,
       "gold": 184,
       "health": 4249,
@@ -15365,6 +15866,7 @@
         "species": "nebula_comet_cuttlefish"
       },
       "damage": 192,
+      "display_height": 98.8,
       "floor_id": 89,
       "gold": 184,
       "health": 3901,
@@ -15397,6 +15899,7 @@
         "species": "nebula_quartz_scorpion"
       },
       "damage": 146,
+      "display_height": 93.6,
       "floor_id": 89,
       "gold": 184,
       "health": 2846,
@@ -15429,6 +15932,7 @@
         "species": "boss_nebula_starwhale"
       },
       "damage": 861,
+      "display_height": 335,
       "floor_id": 90,
       "gold": 1086,
       "health": 229730,
@@ -15461,6 +15965,7 @@
         "species": "core_horned_ram"
       },
       "damage": 326,
+      "display_height": 228,
       "floor_id": 91,
       "gold": 370,
       "health": 16349,
@@ -15493,6 +15998,7 @@
         "species": "core_horned_ram"
       },
       "damage": 326,
+      "display_height": 228,
       "floor_id": 91,
       "gold": 370,
       "health": 16349,
@@ -15525,6 +16031,7 @@
         "species": "core_rune_leech"
       },
       "damage": 196,
+      "display_height": 124.8,
       "floor_id": 91,
       "gold": 188,
       "health": 4412,
@@ -15557,6 +16064,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 188,
+      "display_height": 117,
       "floor_id": 91,
       "gold": 188,
       "health": 4269,
@@ -15589,6 +16097,7 @@
         "species": "core_horned_ram"
       },
       "damage": 196,
+      "display_height": 180,
       "floor_id": 91,
       "gold": 188,
       "health": 4412,
@@ -15621,6 +16130,7 @@
         "species": "core_rune_leech"
       },
       "damage": 196,
+      "display_height": 119.6,
       "floor_id": 91,
       "gold": 188,
       "health": 4412,
@@ -15653,6 +16163,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 196,
+      "display_height": 98.8,
       "floor_id": 91,
       "gold": 188,
       "health": 4050,
@@ -15685,6 +16196,7 @@
         "species": "core_horned_ram"
       },
       "damage": 330,
+      "display_height": 228,
       "floor_id": 92,
       "gold": 374,
       "health": 16551,
@@ -15717,6 +16229,7 @@
         "species": "core_horned_ram"
       },
       "damage": 330,
+      "display_height": 228,
       "floor_id": 92,
       "gold": 374,
       "health": 16551,
@@ -15749,6 +16262,7 @@
         "species": "core_rune_leech"
       },
       "damage": 198,
+      "display_height": 124.8,
       "floor_id": 92,
       "gold": 190,
       "health": 4466,
@@ -15781,6 +16295,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 190,
+      "display_height": 117,
       "floor_id": 92,
       "gold": 190,
       "health": 4322,
@@ -15813,6 +16328,7 @@
         "species": "core_horned_ram"
       },
       "damage": 198,
+      "display_height": 180,
       "floor_id": 92,
       "gold": 190,
       "health": 4466,
@@ -15845,6 +16361,7 @@
         "species": "core_rune_leech"
       },
       "damage": 198,
+      "display_height": 119.6,
       "floor_id": 92,
       "gold": 190,
       "health": 4466,
@@ -15877,6 +16394,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 198,
+      "display_height": 98.8,
       "floor_id": 92,
       "gold": 190,
       "health": 4100,
@@ -15909,6 +16427,7 @@
         "species": "core_horned_ram"
       },
       "damage": 333,
+      "display_height": 228,
       "floor_id": 93,
       "gold": 378,
       "health": 16753,
@@ -15941,6 +16460,7 @@
         "species": "core_horned_ram"
       },
       "damage": 333,
+      "display_height": 228,
       "floor_id": 93,
       "gold": 378,
       "health": 16753,
@@ -15973,6 +16493,7 @@
         "species": "core_rune_leech"
       },
       "damage": 200,
+      "display_height": 124.8,
       "floor_id": 93,
       "gold": 192,
       "health": 4521,
@@ -16005,6 +16526,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 192,
+      "display_height": 117,
       "floor_id": 93,
       "gold": 192,
       "health": 4375,
@@ -16037,6 +16559,7 @@
         "species": "core_horned_ram"
       },
       "damage": 200,
+      "display_height": 180,
       "floor_id": 93,
       "gold": 192,
       "health": 4521,
@@ -16069,6 +16592,7 @@
         "species": "core_rune_leech"
       },
       "damage": 200,
+      "display_height": 119.6,
       "floor_id": 93,
       "gold": 192,
       "health": 4521,
@@ -16101,6 +16625,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 200,
+      "display_height": 98.8,
       "floor_id": 93,
       "gold": 192,
       "health": 4150,
@@ -16133,6 +16658,7 @@
         "species": "core_horned_ram"
       },
       "damage": 336,
+      "display_height": 228,
       "floor_id": 94,
       "gold": 382,
       "health": 16956,
@@ -16165,6 +16691,7 @@
         "species": "core_horned_ram"
       },
       "damage": 336,
+      "display_height": 228,
       "floor_id": 94,
       "gold": 382,
       "health": 16956,
@@ -16197,6 +16724,7 @@
         "species": "core_rune_leech"
       },
       "damage": 202,
+      "display_height": 124.8,
       "floor_id": 94,
       "gold": 194,
       "health": 4575,
@@ -16229,6 +16757,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 194,
+      "display_height": 117,
       "floor_id": 94,
       "gold": 194,
       "health": 4428,
@@ -16261,6 +16790,7 @@
         "species": "core_horned_ram"
       },
       "damage": 202,
+      "display_height": 180,
       "floor_id": 94,
       "gold": 194,
       "health": 4575,
@@ -16293,6 +16823,7 @@
         "species": "core_rune_leech"
       },
       "damage": 202,
+      "display_height": 119.6,
       "floor_id": 94,
       "gold": 194,
       "health": 4575,
@@ -16325,6 +16856,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 202,
+      "display_height": 98.8,
       "floor_id": 94,
       "gold": 194,
       "health": 4201,
@@ -16357,6 +16889,7 @@
         "species": "core_horned_ram"
       },
       "damage": 340,
+      "display_height": 228,
       "floor_id": 95,
       "gold": 386,
       "health": 17160,
@@ -16389,6 +16922,7 @@
         "species": "core_horned_ram"
       },
       "damage": 340,
+      "display_height": 228,
       "floor_id": 95,
       "gold": 386,
       "health": 17160,
@@ -16421,6 +16955,7 @@
         "species": "core_rune_leech"
       },
       "damage": 204,
+      "display_height": 124.8,
       "floor_id": 95,
       "gold": 196,
       "health": 4630,
@@ -16453,6 +16988,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 196,
+      "display_height": 117,
       "floor_id": 95,
       "gold": 196,
       "health": 4481,
@@ -16485,6 +17021,7 @@
         "species": "core_horned_ram"
       },
       "damage": 204,
+      "display_height": 180,
       "floor_id": 95,
       "gold": 196,
       "health": 4630,
@@ -16517,6 +17054,7 @@
         "species": "core_rune_leech"
       },
       "damage": 204,
+      "display_height": 119.6,
       "floor_id": 95,
       "gold": 196,
       "health": 4630,
@@ -16549,6 +17087,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 204,
+      "display_height": 98.8,
       "floor_id": 95,
       "gold": 196,
       "health": 4251,
@@ -16581,6 +17120,7 @@
         "species": "core_horned_ram"
       },
       "damage": 343,
+      "display_height": 228,
       "floor_id": 96,
       "gold": 390,
       "health": 17364,
@@ -16613,6 +17153,7 @@
         "species": "core_horned_ram"
       },
       "damage": 343,
+      "display_height": 228,
       "floor_id": 96,
       "gold": 390,
       "health": 17364,
@@ -16645,6 +17186,7 @@
         "species": "core_rune_leech"
       },
       "damage": 206,
+      "display_height": 124.8,
       "floor_id": 96,
       "gold": 198,
       "health": 4686,
@@ -16677,6 +17219,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 198,
+      "display_height": 117,
       "floor_id": 96,
       "gold": 198,
       "health": 4534,
@@ -16709,6 +17252,7 @@
         "species": "core_horned_ram"
       },
       "damage": 206,
+      "display_height": 180,
       "floor_id": 96,
       "gold": 198,
       "health": 4686,
@@ -16741,6 +17285,7 @@
         "species": "core_rune_leech"
       },
       "damage": 206,
+      "display_height": 119.6,
       "floor_id": 96,
       "gold": 198,
       "health": 4686,
@@ -16773,6 +17318,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 206,
+      "display_height": 98.8,
       "floor_id": 96,
       "gold": 198,
       "health": 4302,
@@ -16805,6 +17351,7 @@
         "species": "core_horned_ram"
       },
       "damage": 347,
+      "display_height": 228,
       "floor_id": 97,
       "gold": 394,
       "health": 17570,
@@ -16837,6 +17384,7 @@
         "species": "core_horned_ram"
       },
       "damage": 347,
+      "display_height": 228,
       "floor_id": 97,
       "gold": 394,
       "health": 17570,
@@ -16869,6 +17417,7 @@
         "species": "core_rune_leech"
       },
       "damage": 208,
+      "display_height": 124.8,
       "floor_id": 97,
       "gold": 200,
       "health": 4741,
@@ -16901,6 +17450,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 200,
+      "display_height": 117,
       "floor_id": 97,
       "gold": 200,
       "health": 4588,
@@ -16933,6 +17483,7 @@
         "species": "core_horned_ram"
       },
       "damage": 208,
+      "display_height": 180,
       "floor_id": 97,
       "gold": 200,
       "health": 4741,
@@ -16965,6 +17516,7 @@
         "species": "core_rune_leech"
       },
       "damage": 208,
+      "display_height": 119.6,
       "floor_id": 97,
       "gold": 200,
       "health": 4741,
@@ -16997,6 +17549,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 208,
+      "display_height": 98.8,
       "floor_id": 97,
       "gold": 200,
       "health": 4353,
@@ -17029,6 +17582,7 @@
         "species": "core_horned_ram"
       },
       "damage": 350,
+      "display_height": 228,
       "floor_id": 98,
       "gold": 398,
       "health": 17776,
@@ -17061,6 +17615,7 @@
         "species": "core_horned_ram"
       },
       "damage": 350,
+      "display_height": 228,
       "floor_id": 98,
       "gold": 398,
       "health": 17776,
@@ -17093,6 +17648,7 @@
         "species": "core_rune_leech"
       },
       "damage": 210,
+      "display_height": 124.8,
       "floor_id": 98,
       "gold": 202,
       "health": 4797,
@@ -17125,6 +17681,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 202,
+      "display_height": 117,
       "floor_id": 98,
       "gold": 202,
       "health": 4642,
@@ -17157,6 +17714,7 @@
         "species": "core_horned_ram"
       },
       "damage": 210,
+      "display_height": 180,
       "floor_id": 98,
       "gold": 202,
       "health": 4797,
@@ -17189,6 +17747,7 @@
         "species": "core_rune_leech"
       },
       "damage": 210,
+      "display_height": 119.6,
       "floor_id": 98,
       "gold": 202,
       "health": 4797,
@@ -17221,6 +17780,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 210,
+      "display_height": 98.8,
       "floor_id": 98,
       "gold": 202,
       "health": 4404,
@@ -17253,6 +17813,7 @@
         "species": "core_horned_ram"
       },
       "damage": 353,
+      "display_height": 228,
       "floor_id": 99,
       "gold": 402,
       "health": 17984,
@@ -17285,6 +17846,7 @@
         "species": "core_horned_ram"
       },
       "damage": 353,
+      "display_height": 228,
       "floor_id": 99,
       "gold": 402,
       "health": 17984,
@@ -17317,6 +17879,7 @@
         "species": "core_rune_leech"
       },
       "damage": 212,
+      "display_height": 124.8,
       "floor_id": 99,
       "gold": 204,
       "health": 4853,
@@ -17349,6 +17912,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 203,
+      "display_height": 117,
       "floor_id": 99,
       "gold": 204,
       "health": 4696,
@@ -17381,6 +17945,7 @@
         "species": "core_horned_ram"
       },
       "damage": 212,
+      "display_height": 180,
       "floor_id": 99,
       "gold": 204,
       "health": 4853,
@@ -17413,6 +17978,7 @@
         "species": "core_rune_leech"
       },
       "damage": 212,
+      "display_height": 119.6,
       "floor_id": 99,
       "gold": 204,
       "health": 4853,
@@ -17445,6 +18011,7 @@
         "species": "core_bound_grimoire"
       },
       "damage": 212,
+      "display_height": 98.8,
       "floor_id": 99,
       "gold": 204,
       "health": 4455,
@@ -17477,6 +18044,7 @@
         "species": "boss_core_crowned_wraith"
       },
       "damage": 1236,
+      "display_height": 335,
       "floor_id": 100,
       "gold": 1206,
       "health": 400478,
@@ -17500,7 +18068,11 @@
       "id": "art:cave_remains:carapace",
       "metadata": {
         "alpha": "original_preserved",
-        "role": "aged_ground_remains"
+        "role": "aged_ground_remains",
+        "width_pixels": [
+          136,
+          160
+        ]
       },
       "name": "부서진 딱정벌레 껍질",
       "path": "res://assets/cave_remains_v06/remains.png",
@@ -17523,7 +18095,11 @@
       "id": "art:cave_remains:lizard",
       "metadata": {
         "alpha": "original_preserved",
-        "role": "aged_ground_remains"
+        "role": "aged_ground_remains",
+        "width_pixels": [
+          148,
+          172
+        ]
       },
       "name": "말라붙은 동굴 도마뱀 유해",
       "path": "res://assets/cave_remains_v06/remains.png",
@@ -17546,7 +18122,11 @@
       "id": "art:cave_remains:ribcage",
       "metadata": {
         "alpha": "original_preserved",
-        "role": "aged_ground_remains"
+        "role": "aged_ground_remains",
+        "width_pixels": [
+          156,
+          180
+        ]
       },
       "name": "흩어진 몬스터 갈비뼈",
       "path": "res://assets/cave_remains_v06/remains.png",
@@ -17569,7 +18149,11 @@
       "id": "art:cave_remains:skull",
       "metadata": {
         "alpha": "original_preserved",
-        "role": "aged_ground_remains"
+        "role": "aged_ground_remains",
+        "width_pixels": [
+          100,
+          116
+        ]
       },
       "name": "풍화된 짐승 해골",
       "path": "res://assets/cave_remains_v06/remains.png",
@@ -55336,7 +55920,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "blood"
+        "trace": "blood",
+        "width_pixels": [
+          52,
+          68
+        ]
       },
       "name": "마른 얼룩과 긁힌 자국",
       "path": "res://assets/exploration_traces_v06/ground-traces.png",
@@ -55360,7 +55948,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "herbs"
+        "trace": "herbs",
+        "width_pixels": [
+          50,
+          64
+        ]
       },
       "name": "낙엽과 씨앗",
       "path": "res://assets/exploration_traces_v06/ground-traces.png",
@@ -55384,7 +55976,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "magic"
+        "trace": "magic",
+        "width_pixels": [
+          60,
+          76
+        ]
       },
       "name": "깨진 보라색 룬",
       "path": "res://assets/exploration_traces_v06/purple-rune-fragments.png",
@@ -55408,7 +56004,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "ore"
+        "trace": "ore",
+        "width_pixels": [
+          48,
+          60
+        ]
       },
       "name": "광석 파편",
       "path": "res://assets/exploration_traces_v06/ground-traces.png",
@@ -55432,7 +56032,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "supplies"
+        "trace": "supplies",
+        "width_pixels": [
+          56,
+          72
+        ]
       },
       "name": "부서진 나무 조각",
       "path": "res://assets/exploration_traces_v06/ground-traces.png",
@@ -55456,7 +56060,11 @@
       "metadata": {
         "alpha": "original_preserved",
         "role": "ground_debris",
-        "trace": "tracks"
+        "trace": "tracks",
+        "width_pixels": [
+          56,
+          72
+        ]
       },
       "name": "커다란 발자국",
       "path": "res://assets/exploration_traces_v06/ground-traces.png",
@@ -365684,7 +366292,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 2,
@@ -365705,7 +366313,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 1,
@@ -365727,7 +366335,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 3,
@@ -365748,7 +366356,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 4,
@@ -365769,7 +366377,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 5,
@@ -365786,7 +366394,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 1,
@@ -365807,7 +366415,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 0,
@@ -365828,7 +366436,7 @@
       "access_rule": {
         "source_code": "static func nearest(pos:Vector2)->String:\r\n\tvar best=\"\";var distance=2.7\r\n\tfor key in FACILITIES:\r\n\t\tvar d=pos.distance_to(FACILITIES[key].pos)\r\n\t\tif RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))\r\n\t\tif d<distance:distance=d;best=key\r\n\treturn best",
         "source_path": "game/scripts/world_catalog.gd",
-        "source_sha256": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
         "source_symbol": "nearest"
       },
       "art": 5,
@@ -369049,6 +369657,26 @@
     }
   ],
   "metadata": {
+    "actor_visibility_source_rules": [
+      {
+        "source_code": "func player(bounds:Rect2):\n\t# Ignore hair/weapon corners; keep torso and feet readable in a crowd.\n\tplayer_body=Rect2(bounds.position+bounds.size*Vector2(.2,.1),bounds.size*Vector2(.6,.88))",
+        "source_path": "game/scripts/actor_visibility.gd",
+        "source_sha256": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b",
+        "source_symbol": "player"
+      },
+      {
+        "source_code": "func opacity(id:int,bounds:Rect2)->float:\n\tvar covered=player_body.has_area() and bounds.intersection(player_body).get_area()>player_body.get_area()*.12\n\ttargets[id]=COVER_ALPHA if covered else 1.\n\tif not alphas.has(id):alphas[id]=targets[id]\n\treturn alphas[id]",
+        "source_path": "game/scripts/actor_visibility.gd",
+        "source_sha256": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b",
+        "source_symbol": "opacity"
+      },
+      {
+        "source_code": "func tick(delta:float):\n\tfor id in alphas.keys():\n\t\tif not targets.has(id):alphas.erase(id)\n\t\telse:alphas[id]=move_toward(alphas[id],targets[id],maxf(0.,delta)*TRANSITION_SPEED)",
+        "source_path": "game/scripts/actor_visibility.gd",
+        "source_sha256": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b",
+        "source_symbol": "tick"
+      }
+    ],
     "art_registry": {
       "availability": "Applied regions have runtime_mapping consumers. Finished icon/costume regions without current gameplay use are available_catalog with catalog_available consumers only.",
       "excluded": "Unfinished theme equipment, source extraction archives, unused wall/TileSet assets and procedurally replaced job FX rows.",
@@ -369131,42 +369759,52 @@
     "cave_remains": {
       "art_catalog": "res://assets/cave_remains_v06/catalog.json",
       "collision": false,
+      "footprint": "rotated_region_corners_and_edges_on_walkable_floor",
       "loot": false,
       "maximum_per_floor": 5,
       "minimum_separation_tiles": 8,
       "placement": "room_edges_with_clear_walking_ring",
+      "site_clearance_tiles": 5,
+      "size_policy": "catalog_per_species_width",
+      "trace_clearance_tiles": 4.5,
       "tutorial_and_raid": false,
       "visibility": "current_sight_only"
     },
     "cave_remains_source_rules": [
       {
-        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+120531\n\tvar result=[];var rooms=[]\n\tfor index in range(1,map.rooms.size()-1):rooms.append({\"index\":index,\"rank\":rng.randf()})\n\trooms.sort_custom(func(a,b):return a.rank<b.rank)\n\tvar keys=[\"skull\",\"ribcage\",\"lizard\",\"carapace\"]\n\tvar theme=preload(\"res://scripts/environment_art.gd\").theme(map.zone,map.floor_number)\n\tif theme in [\"lava\",\"machine\",\"core\"]:keys=[\"skull\",\"ribcage\",\"carapace\"]\n\tfor room in rooms:\n\t\tif result.size()>=MAX_REMAINS:break\n\t\tif rng.randf()<.25:continue\n\t\tvar center=Vector2(map.rooms[room.index]);var radius=float(map.room_radii[room.index])\n\t\tfor attempt in range(32):\n\t\t\tvar pos=(center+Vector2.from_angle(rng.randf()*TAU)*radius*rng.randf_range(.65,1.)).round()\n\t\t\tif not suitable(map,pos,result):continue\n\t\t\tresult.append({\"pos\":pos,\"kind\":keys[rng.randi_range(0,keys.size()-1)],\"width\":rng.randf_range(72.,96.),\"rotation\":rng.randf_range(-.45,.45),\"room\":room.index})\n\t\t\tbreak\n\treturn result",
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+120531\n\tvar result=[];var rooms=[]\n\tfor index in range(1,map.rooms.size()-1):rooms.append({\"index\":index,\"rank\":rng.randf()})\n\trooms.sort_custom(func(a,b):return a.rank<b.rank)\n\tvar keys=[\"skull\",\"ribcage\",\"lizard\",\"carapace\"]\n\tvar theme=preload(\"res://scripts/environment_art.gd\").theme(map.zone,map.floor_number)\n\tif theme in [\"lava\",\"machine\",\"core\"]:keys=[\"skull\",\"ribcage\",\"carapace\"]\n\tfor room in rooms:\n\t\tif result.size()>=MAX_REMAINS:break\n\t\tif rng.randf()<.25:continue\n\t\tvar center=Vector2(map.rooms[room.index]);var radius=float(map.room_radii[room.index])\n\t\tfor attempt in range(32):\n\t\t\tvar pos=(center+Vector2.from_angle(rng.randf()*TAU)*radius*rng.randf_range(.65,1.)).round()\n\t\t\tif not suitable(map,pos,result):continue\n\t\t\tvar kind=keys[rng.randi_range(0,keys.size()-1)];var widths=catalog().sprites[kind].width_pixels\n\t\t\tvar row={\"pos\":pos,\"kind\":kind,\"width\":rng.randf_range(widths[0],widths[1]),\"rotation\":rng.randf_range(-.45,.45),\"room\":room.index}\n\t\t\tif not footprint(map,row).all(func(point):return map.walkable(point) and map.line_clear(pos,point)):continue\n\t\t\tresult.append(row)\n\t\t\tbreak\n\treturn result",
         "source_path": "game/scripts/cave_remains.gd",
-        "source_sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
         "source_symbol": "generate"
       },
       {
-        "source_code": "static func suitable(map,pos:Vector2,placed:Array)->bool:\n\tif not map.walkable(pos) or pos.distance_to(map.spawn)<8. or pos.distance_to(map.exit_position)<8.:return false\n\t# Keep a full walking tile around the cluster; select an edge, not a doorway.\n\tfor offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:\n\t\tif not map.walkable(pos+offset):return false\n\tvar edge=false\n\tfor offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:\n\t\tif not map.walkable(pos+offset*3.):edge=true\n\tif not edge:return false\n\tfor site in map.exploration_sites:\n\t\tif pos.distance_to(site.pos)<4.:return false\n\tfor region in map.hidden_regions:\n\t\tfor key in [\"pos\",\"center\",\"forward_exit\"]:\n\t\t\tif region.has(key) and pos.distance_to(region[key])<4.:return false\n\tfor cue in map.exploration_cues:\n\t\tfor mark in cue.marks:\n\t\t\tif pos.distance_to(mark.pos)<3.:return false\n\tfor row in placed:\n\t\tif pos.distance_to(row.pos)<SEPARATION:return false\n\treturn true",
+        "source_code": "static func suitable(map,pos:Vector2,placed:Array)->bool:\n\tif not map.walkable(pos) or pos.distance_to(map.spawn)<8. or pos.distance_to(map.exit_position)<8.:return false\n\t# Keep a full walking tile around the cluster; select an edge, not a doorway.\n\tfor offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:\n\t\tif not map.walkable(pos+offset):return false\n\tvar edge=false\n\tfor offset in [Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]:\n\t\tif not map.walkable(pos+offset*3.):edge=true\n\tif not edge:return false\n\tfor site in map.exploration_sites:\n\t\tif pos.distance_to(site.pos)<5.:return false\n\tfor region in map.hidden_regions:\n\t\tfor key in [\"pos\",\"center\",\"forward_exit\"]:\n\t\t\tif region.has(key) and pos.distance_to(region[key])<5.:return false\n\tfor cue in map.exploration_cues:\n\t\tfor mark in cue.marks:\n\t\t\tif pos.distance_to(mark.pos)<4.5:return false\n\tfor row in placed:\n\t\tif pos.distance_to(row.pos)<SEPARATION:return false\n\treturn true",
         "source_path": "game/scripts/cave_remains.gd",
-        "source_sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
         "source_symbol": "suitable"
+      },
+      {
+        "source_code": "static func footprint(map,row:Dictionary)->Array:\r\n\tvar r=catalog().sprites[row.kind].rect\r\n\tvar half=Vector2(row.width,row.width*float(r[3])/float(r[2]))*.5\r\n\tvar points=[]\r\n\tfor unit in [Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(-1,0),Vector2.ZERO,Vector2(1,0),Vector2(-1,1),Vector2(0,1),Vector2(1,1)]:\r\n\t\tpoints.append(row.pos+map.from_iso((unit*half).rotated(row.rotation)))\r\n\treturn points",
+        "source_path": "game/scripts/cave_remains.gd",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
+        "source_symbol": "footprint"
       },
       {
         "source_code": "static func visible(game,rows:Array)->Array:\n\treturn rows.filter(func(row):return game.vision.sees(row.pos) and game.world_point(row.pos).distance_to(game.screen_center())<1100.)",
         "source_path": "game/scripts/cave_remains.gd",
-        "source_sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
         "source_symbol": "visible"
       },
       {
         "source_code": "static func draw(game,rows:Array):\n\tfor row in visible(game,rows):\n\t\tvar art=texture(row.kind);var size=art.get_size()*(float(row.width)/art.get_width())\n\t\tgame.draw_set_transform(game.world_point(row.pos),row.rotation)\n\t\tgame.draw_texture_rect(art,Rect2(-size*.5,size),false,Color(.87,.86,.82,.9))\n\t\tgame.draw_set_transform(Vector2.ZERO)",
         "source_path": "game/scripts/cave_remains.gd",
-        "source_sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
         "source_symbol": "draw"
       },
       {
-        "source_code": "static func configuration()->Dictionary:\n\treturn {\"maximum_per_floor\":MAX_REMAINS,\"minimum_separation_tiles\":SEPARATION,\"placement\":\"room_edges_with_clear_walking_ring\",\"visibility\":\"current_sight_only\",\"collision\":false,\"loot\":false,\"tutorial_and_raid\":false,\"art_catalog\":CATALOG}",
+        "source_code": "static func configuration()->Dictionary:\n\treturn {\"maximum_per_floor\":MAX_REMAINS,\"minimum_separation_tiles\":SEPARATION,\"placement\":\"room_edges_with_clear_walking_ring\",\"visibility\":\"current_sight_only\",\"collision\":false,\"loot\":false,\"tutorial_and_raid\":false,\"art_catalog\":CATALOG,\"size_policy\":\"catalog_per_species_width\",\"footprint\":\"rotated_region_corners_and_edges_on_walkable_floor\",\"site_clearance_tiles\":5.,\"trace_clearance_tiles\":4.5}",
         "source_path": "game/scripts/cave_remains.gd",
-        "source_sha256": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+        "source_sha256": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
         "source_symbol": "configuration"
       }
     ],
@@ -371369,25 +372007,25 @@
       {
         "source_code": "static func signature(site:Dictionary)->Dictionary:\n\tvar profile={\"kind\":str(site.get(\"kind\",\"danger\")),\"trace\":\"tracks\"}\n\tmatch profile.kind:\n\t\t\"gather\":profile.trace=\"herbs\" if site.material==\"seed\" else \"ore\"\n\t\t\"shrine\":profile.trace=\"magic\"\n\t\t\"cache\":profile.trace=\"supplies\"\n\tmatch site.get(\"event\",\"\"):\n\t\t\"herbalist\":profile.trace=\"herbs\"\n\t\t\"sealed_supplies\":profile.trace=\"supplies\"\n\t\t\"blood_altar\":profile.trace=\"blood\"\n\t\t\"echo_shrine\":profile.trace=\"magic\"\n\treturn profile",
         "source_path": "game/scripts/exploration_cues.gd",
-        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_sha256": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
         "source_symbol": "signature"
       },
       {
-        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar cues=[];var graph=Navigation.navigation(map)\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+902731\n\tfor wing in [2,3,5,6]:\n\t\tvar junction=1 if wing<4 else 4\n\t\tvar path=graph.get_point_path(map.rooms[junction],map.rooms[wing])\n\t\tvar sites=map.exploration_sites.filter(func(site):return site.room==wing)\n\t\tvar cue=signature({} if sites.is_empty() else sites[0])\n\t\tvar length=0.\n\t\tfor index in range(1,path.size()):length+=path[index-1].distance_to(path[index])\n\t\tvar marks=[];var travelled=0.\n\t\tvar next=minf(maxf(3.,float(map.room_radii[junction])-2.),maxf(2.,length-9.))\n\t\tfor index in range(1,path.size()):\n\t\t\ttravelled+=path[index-1].distance_to(path[index])\n\t\t\tif Vector2(path[index]).distance_to(Vector2(map.rooms[wing]))<4.5:continue\n\t\t\tvar before_turn=not marks.is_empty() and index+1<path.size() and not map.line_clear(marks[-1].pos,Vector2(path[index+1]))\n\t\t\tif travelled<next and not before_turn:continue\n\t\t\tvar direction=Vector2(path[index]-path[index-1]).normalized()\n\t\t\tvar position=Vector2(path[index])+direction.orthogonal()*rng.randf_range(-.45,.45)\n\t\t\tif not map.walkable(position) or not map.line_clear(Vector2(path[index]),position):position=Vector2(path[index])\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):position=Vector2(path[index])\n\t\t\t# End a local trace before a blind turn instead of bridging its wall.\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):break\n\t\t\tmarks.append({\"pos\":position,\"direction\":direction,\"index\":marks.size(),\"width\":rng.randf_range(36.,48.),\"rotation\":rng.randf_range(-.45,.45)})\n\t\t\tnext=travelled+SPACING*rng.randf_range(.75,1.4)\n\t\t\tif marks.size()==MARKS:break\n\t\tif marks.is_empty():continue\n\t\tcue.merge({\"pos\":marks[0].pos,\"direction\":marks[0].direction,\"room\":wing,\"marks\":marks})\n\t\tcues.append(cue)\n\treturn cues",
+        "source_code": "static func generate(map)->Array:\n\tif map.floor_number<=0 or map.raid_arena:return []\n\tvar cues=[];var graph=Navigation.navigation(map)\n\tvar rng=RandomNumberGenerator.new();rng.seed=map.seed_value+902731\n\tfor wing in [2,3,5,6]:\n\t\tvar junction=1 if wing<4 else 4\n\t\tvar path=graph.get_point_path(map.rooms[junction],map.rooms[wing])\n\t\tvar sites=map.exploration_sites.filter(func(site):return site.room==wing)\n\t\tvar cue=signature({} if sites.is_empty() else sites[0])\n\t\tvar length=0.\n\t\tfor index in range(1,path.size()):length+=path[index-1].distance_to(path[index])\n\t\tvar marks=[];var travelled=0.\n\t\tvar next=minf(maxf(3.,float(map.room_radii[junction])-2.),maxf(2.,length-9.))\n\t\tfor index in range(1,path.size()):\n\t\t\ttravelled+=path[index-1].distance_to(path[index])\n\t\t\tif Vector2(path[index]).distance_to(Vector2(map.rooms[wing]))<4.5:continue\n\t\t\tvar before_turn=not marks.is_empty() and index+1<path.size() and not map.line_clear(marks[-1].pos,Vector2(path[index+1]))\n\t\t\tif travelled<next and not before_turn:continue\n\t\t\tvar direction=Vector2(path[index]-path[index-1]).normalized()\n\t\t\tvar position=Vector2(path[index])+direction.orthogonal()*rng.randf_range(-.45,.45)\n\t\t\tif not map.walkable(position) or not map.line_clear(Vector2(path[index]),position):position=Vector2(path[index])\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):position=Vector2(path[index])\n\t\t\t# End a local trace before a blind turn instead of bridging its wall.\n\t\t\tif not marks.is_empty() and not map.line_clear(marks[-1].pos,position):break\n\t\t\tmarks.append({\"pos\":position,\"direction\":direction,\"index\":marks.size(),\"width\":rng.randf_range(Art.catalog().sprites[cue.trace].width_pixels[0],Art.catalog().sprites[cue.trace].width_pixels[1]),\"rotation\":rng.randf_range(-.45,.45)})\n\t\t\tnext=travelled+SPACING*rng.randf_range(.75,1.4)\n\t\t\tif marks.size()==MARKS:break\n\t\tif marks.is_empty():continue\n\t\tcue.merge({\"pos\":marks[0].pos,\"direction\":marks[0].direction,\"room\":wing,\"marks\":marks})\n\t\tcues.append(cue)\n\treturn cues",
         "source_path": "game/scripts/exploration_cues.gd",
-        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_sha256": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
         "source_symbol": "generate"
       },
       {
         "source_code": "static func visible_marks(game,cue:Dictionary)->Array:\n\treturn cue.marks.filter(func(mark):return game.vision.sees(mark.pos))",
         "source_path": "game/scripts/exploration_cues.gd",
-        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_sha256": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
         "source_symbol": "visible_marks"
       },
       {
         "source_code": "static func draw(game,cue:Dictionary):\n\tfor mark in visible_marks(game,cue):\n\t\tvar at=game.world_point(mark.pos)\n\t\tif at.distance_to(game.screen_center())>1100:continue\n\t\tvar facing=(game.world_point(mark.pos+mark.direction)-at).angle()\n\t\tvar texture=Art.texture(cue.trace)\n\t\tvar dimensions=texture.get_size()*(float(mark.width)/texture.get_width())\n\t\t# Rotate debris clusters, not full-size bushes, crates or destination props.\n\t\tvar rotation=float(mark.rotation)\n\t\tif cue.trace==\"tracks\":rotation+=facing+PI*.75\n\t\tgame.draw_set_transform(at,rotation)\n\t\tgame.draw_texture_rect(texture,Rect2(-dimensions*.5,dimensions),false,Color(1,1,1,.92))\n\t\tgame.draw_set_transform(Vector2.ZERO)",
         "source_path": "game/scripts/exploration_cues.gd",
-        "source_sha256": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+        "source_sha256": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
         "source_symbol": "draw"
       },
       {
@@ -371410,10 +372048,32 @@
       "collision": "none",
       "destination_mapping": "stable_material_event_or_elite_trace",
       "enemy_or_reward_reveal": false,
-      "fragment_width_pixels": [
-        36,
-        48
-      ],
+      "fragment_width_pixels": {
+        "blood": [
+          52,
+          68
+        ],
+        "herbs": [
+          50,
+          64
+        ],
+        "magic": [
+          60,
+          76
+        ],
+        "ore": [
+          48,
+          60
+        ],
+        "supplies": [
+          56,
+          72
+        ],
+        "tracks": [
+          56,
+          72
+        ]
+      },
       "lateral_variation_tiles": 0.45,
       "maximum_branches": 4,
       "maximum_marks_per_branch": 5,
@@ -371950,6 +372610,52 @@
         "source_symbol": "use"
       }
     ],
+    "monster_display": {
+      "boss_body_pixels": 335,
+      "heavy_body_heights": {
+        "centurion": 236,
+        "clockwork": 172,
+        "mole": 180,
+        "orc_axeman": 184,
+        "orc_champion": 240
+      },
+      "heavy_species_heights": {
+        "core_horned_ram": [
+          180,
+          228
+        ],
+        "flood_bastion_tortoise": [
+          180,
+          224
+        ],
+        "lava_obsidian_rhino": [
+          184,
+          236
+        ],
+        "machine_foundry_ogre": [
+          188,
+          248
+        ],
+        "machine_mortar_tripod": [
+          168,
+          220
+        ],
+        "spore_crown_toad": [
+          152,
+          216
+        ]
+      },
+      "hero_body_pixels": 112,
+      "scope": "species_specific_visual_scale_and_receiving_radius"
+    },
+    "monster_display_source_rules": [
+      {
+        "source_code": "static func display_height(kind:String,floor_number:int=0)->float:\r\n\tvar c=ENEMIES[kind]\r\n\tif c.ai==\"boss\":return 335.\r\n\tvar base=float(c.get(\"height\",160))*1.12 if c.get(\"elite\",false) else maxf(92.,float(c.get(\"height\",86))*1.3)\r\n\t# Read species metadata only; hit tests must not decode a sprite texture.\r\n\tvar appearance=preload(\"res://scripts/world_art.gd\").variant(kind,floor_number)\r\n\tif not appearance.is_empty():\r\n\t\tvar heights=HEAVY_SPECIES_HEIGHTS.get(appearance.species,[base,base])\r\n\t\treturn maxf(base,float(heights[1 if c.get(\"elite\",false) else 0]))\r\n\treturn maxf(base,float(HEAVY_BODY_HEIGHTS.get(kind,base)))",
+        "source_path": "game/scripts/world_catalog.gd",
+        "source_sha256": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
+        "source_symbol": "display_height"
+      }
+    ],
     "node_role_version": 1,
     "portrait_level_source_rules": [
       {
@@ -372098,7 +372804,7 @@
       "docs/costume_v04/PROVENANCE.json": "def384e88a0877f21b456f49cad127fd0eb114d3977440dc52ea9253bc234557",
       "game/assets/audio/mapping.json": "d06fc05d0737e8bd2c85f0b78ac5678fcb160e02b89f5fe1b4020d0add1c4852",
       "game/assets/cave_remains_v06/PROVENANCE.json": "3ce302ad62f112e960e7b528501b8c58f866353ca8e63fe05ba25f427636cbb7",
-      "game/assets/cave_remains_v06/catalog.json": "a0ab37905826eee36dff0f87da0888fb1f50f54e6fa7afd64cb99b09f5516a49",
+      "game/assets/cave_remains_v06/catalog.json": "53a7a1f1b8c9acf7cb1707bcb18ffd3460a527a83b3bf1fe6c350453a20f2bbf",
       "game/assets/cave_remains_v06/remains.png": "7e43ccc25b82861cdd0304724f23d669304fbd94a7a5e7f8aaaa23028d89922d",
       "game/assets/costume_v04/amethyst-purple-dress-sheet.png": "56711de113bfe0f32a12a2a842b88e44de9237928826a72b22f9534f0b3be9a8",
       "game/assets/costume_v04/amethyst-summer-shawl-sheet.png": "c27173dbd4f9c24b5cf6895d77bf0b5370de9aa212ee8d6114095d951e968ee2",
@@ -372164,7 +372870,7 @@
       "game/assets/equipment/weapons-relic.png": "54ead574f44c956d980400e568a1b8c79cc2c4fbbbd908d60332dc1f35fb3523",
       "game/assets/equipment/weapons-trail.png": "87678e385f542965f90d832411fe66fd0d9f843f0cd9850bd026c85fc681eac2",
       "game/assets/exploration_traces_v06/PROVENANCE.json": "ed684dc6a0ad2350aa14c07c9f94f3cdd9acf0de510c7c5bf36091a8ae51c528",
-      "game/assets/exploration_traces_v06/catalog.json": "8ae63d0e6bf20caa7e04c1c8aa81d5e1786f0012a1782879688882dca14a146b",
+      "game/assets/exploration_traces_v06/catalog.json": "80134ea98017dfc37aed8279eaafc0cc892a5863ed8d15cbd73fe396711c1e2b",
       "game/assets/exploration_traces_v06/ground-traces.png": "11146a1614286d83a5a8a2cf320c9b570904e1fc97290e585d795f0c64d36c8a",
       "game/assets/exploration_traces_v06/purple-rune-fragments.png": "1292493288fd3a39c63bc08d1ac2c14e65a0307d16b82354e4fd769cbbfed977",
       "game/assets/floor_tiles_v04/catalog.json": "11839c3c8396b08c1745add842556804360dd5f7c765e7d4ceba37c25bc215e9",
@@ -372314,15 +373020,16 @@
       "game/scripts/abyss_catalog.gd": "f2b54a71d1c3dafa0deed49a569123700f443d9dae4a1dce9dbb9d1ba9a282b6",
       "game/scripts/action_circle.gd": "556529bb8e3c667f04e8e6c2fdcfd4020648acdc9cc7e01a275feb0f9790f7b7",
       "game/scripts/active_skills.gd": "342370a13b582000ac2151c8f917946f1896c65f023e4bc9cee94aae2c9b37f2",
+      "game/scripts/actor_visibility.gd": "84cef56711e20eeb3167504068067d79b4ab74630a099ff2b207b2eda55e417b",
       "game/scripts/appearance_rules.gd": "a864dbc328b081b79204bfc10529ac734c30023dd21e757b48423ffb7dc2b2ac",
-      "game/scripts/art_registry.gd": "c5d0a28fdccec04fc514218d179b4039dbc5af6e563eba40388952f9976e34a3",
+      "game/scripts/art_registry.gd": "11449777997608ea262ac970b49b27d7f641a1ce2f2312aef8be91864b67e854",
       "game/scripts/audio_director.gd": "7084677f584a1ace359e92a26f958d58ef89db5bb8a547a03a71cfa5affbdf36",
       "game/scripts/battle_camera.gd": "aa7b516f8835a1893919be2b4dcd65e74c5b3353ec6004a56487689f90e2adce",
       "game/scripts/boss_hud.gd": "29e3ee4924628600ce3cc4273fd1fa78a7130938386fe4cd130a3907093fa191",
       "game/scripts/boss_stagger.gd": "e1c8c7b9c65ba357d8c34b179e7441b7ac58fc8a1f23fd75283d973e8b1e2d38",
       "game/scripts/build_preset_panel.gd": "82541c86e0d644b5282a0f824c140da3cdf27deb441978f69227e06de55f3943",
       "game/scripts/build_presets.gd": "e9c358f852aeb8ee854cd944c605829b184603b2f163ad67389effa464d9c802",
-      "game/scripts/cave_remains.gd": "16155936635d7d86e42b8b282fcf5ff03a98753cca096cf1a368aeb1cafcba8e",
+      "game/scripts/cave_remains.gd": "743267973220d0fb7a2773b6a680544cf1cc594702bc8c42f9130589303caf72",
       "game/scripts/character_creation.gd": "4670975b0a781984cb084cc49254b4f3f450a353bd0f1677ec5b7e2d4d690ff6",
       "game/scripts/character_motion.gd": "8c424545f767509dd6e06cc6024b90a8dd89a8252d14867739a6fe7b95b5228b",
       "game/scripts/character_presentation.gd": "9b9354753f7f6f08b7abeba657b6dbd69b9eed428c2e2f92e35f70a885a7033a",
@@ -372349,7 +373056,7 @@
       "game/scripts/dungeon_vision.gd": "3307958dd06922bb16543b7aa16e29a0eca3e05f504807546c46a32b08980f29",
       "game/scripts/enemy_awareness.gd": "f161c6453eca390d2aa33ec2851be1eb13c17b48012073ebb45ef19b2485bbc3",
       "game/scripts/enemy_defense.gd": "43ce269c32f9dc149e73811dd6ced9eca6a0ca3f7979ae27424b659982bd1838",
-      "game/scripts/enemy_hit_geometry.gd": "eaacf945ed08093ef57b12de28d829811b55576788611646e600fdbe5e97a8d2",
+      "game/scripts/enemy_hit_geometry.gd": "646114cc56a50eacf2e2b011b8ebf5488051493fcec179a007c531de41713442",
       "game/scripts/enemy_inspection.gd": "141ac60c0ad2cebdaf293b7ddee00113c1a5af5d4e8e755fa7cdb00dd7d0d5c3",
       "game/scripts/enemy_inspection_panel.gd": "d6dcfb4804b5506bb9f075710b323121666be4a15354eb018c354cd0bd289e7c",
       "game/scripts/enemy_tactics.gd": "9f24c28b979c7a726ff85289a2f45c4f1ed79284ba97707b82ce8794dd449747",
@@ -372366,7 +373073,7 @@
       "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
       "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
       "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
-      "game/scripts/exploration_cues.gd": "18c3f07549f72d7c6db040208ccd8d183dde85aa9180694246a2e269da4d92bb",
+      "game/scripts/exploration_cues.gd": "d34c7587d0f800aaba83f71fd1cf913488b30c66c4c640722d78b7184a5ee7de",
       "game/scripts/exploration_events.gd": "e57a4bbe74c6ad2755615e42d64d68e175c78aaf312126ee5f6c64bff1365f88",
       "game/scripts/exploration_panel.gd": "5bb9a8fc3f49652820f7f9d23ebcf70f130d9a7382c5b51ed75907e6957c9d19",
       "game/scripts/exploration_rooms.gd": "49676f9ea053e990a4d70fdc47eed61098629ff6e997e56126ff54f2389b8069",
@@ -372375,7 +373082,7 @@
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af",
-      "game/scripts/game_database.gd": "e94bc7c848f8ff2a91e19e36d2a839d32b9f4327266d24aff15f659ca175bdbf",
+      "game/scripts/game_database.gd": "39f7a8126efc1bb8bd53ce7f2d848f69ab3645edd67bdd1151c66217664e0f99",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -372399,7 +373106,7 @@
       "game/scripts/keyboard_panel.gd": "1c2a2c7e747ab0fed2a2ce3111d3e9eed67497f302a4032fdb0dc300fe21ced8",
       "game/scripts/local_session.gd": "f8e27ba05c407debe1b396bdf39197bec03aec0146297d36f7f210131b3af620",
       "game/scripts/loot_tables.gd": "f28d4ce8e4337724a32fe649c1ebea06f5ed47d8548f7fcf3d04fae50aa0b1f6",
-      "game/scripts/main.gd": "789f2b4e1e0599aa9a0d89e49c9127ee264ba08ca108529f82e1c2edbae4b2bb",
+      "game/scripts/main.gd": "5f20b42ae301b9c8e0e8a8de4723981fbdaa0bc641365f7fa4bd2ac3649d1f3b",
       "game/scripts/minimap.gd": "17f53a8a04c944f0d14d0b608cabdaa659511de02ccbb3bcc5b77dae6bba0493",
       "game/scripts/monster_aim.gd": "af26c6d595e3085b711d0fbe692c2d64d4a705ffa09383949fc0582878b590e9",
       "game/scripts/monster_attacks.gd": "884ad894cc4fecca29434a592a4b14020fb007b1a7ac8bf4290fa243c3494130",
@@ -372448,7 +373155,7 @@
       "game/scripts/wardrobe.gd": "3cbeccd2e524a1c44f1a2781e15faf50d64d3d41140e7c44c3d2724d0ec51230",
       "game/scripts/wardrobe_shop.gd": "5f12550d1db03a0078db8bad262d16069f5607dc3b2900f819917d36708385a1",
       "game/scripts/world_art.gd": "055830af9f741a29b6ba198c706d9251b0ded9dd679decdf0e674f7afdaaa085",
-      "game/scripts/world_catalog.gd": "ba90820f12af248a384c828f8a6b5191354a3be78e5a8d03ee8360f933a77eb2",
+      "game/scripts/world_catalog.gd": "509cc648cc1441bf34928ad78011809344f9de7b37f1b444bbd8d9e60f60b068",
       "game/shaders/damage_gradient.gdshader": "e11eddba754d1260105eec08c2386243236bc04121d3d665431bac58cdb4fb1d",
       "game/shaders/dungeon_fog.gdshader": "7bfeb3a702feefccdbcf4a16b0f24502dc859848e0e7eac6151eac2d5bf1d494",
       "game/shaders/forest_ground.gdshader": "52e5ea98ec32b3cbb06d15334def4f609977c3dadc9d8259a7c543a93d411d35",
@@ -372456,7 +373163,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "d68760240415560bfda426e3219567d58ce8a0a386459ec59223bf3fac7e7049",
+      "tools/game_db_rules.py": "9984fcc6bd978655c85fb0ef8fa69bd710a5bc2621f0acb71a5f40d5a838cb2a",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [
@@ -373022,7 +373729,7 @@
       },
       "damage": 45,
       "description": "직선 공격 / 원형 공격",
-      "display_height": 196,
+      "display_height": 236,
       "elite": true,
       "floors": [
         21,
@@ -373284,7 +373991,7 @@
       },
       "damage": 26,
       "description": "직선 공격 / 원형 공격",
-      "display_height": 124.8,
+      "display_height": 172,
       "floors": [
         61,
         62,
@@ -374652,7 +375359,7 @@
       },
       "damage": 24,
       "description": "부채꼴 공격",
-      "display_height": 143,
+      "display_height": 180,
       "floors": [
         11,
         12,
@@ -374753,7 +375460,7 @@
       },
       "damage": 35,
       "description": "부채꼴 공격",
-      "display_height": 149.5,
+      "display_height": 184,
       "elite": false,
       "floors": [
         41,
@@ -374902,7 +375609,7 @@
       },
       "damage": 38,
       "description": "고리 공격 / 부채꼴 공격",
-      "display_height": 201.6,
+      "display_height": 240,
       "elite": true,
       "floors": [
         11,

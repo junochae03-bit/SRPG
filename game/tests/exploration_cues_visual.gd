@@ -24,6 +24,14 @@ func run():
 		p.pos=cue.pos-cue.direction*2.+cue.direction.orthogonal()*1.8
 		if not sim.map.walkable(p.pos):p.pos=cue.pos-cue.direction
 		game.session.sim=sim;game.session.refresh();game.on_entered();game.update_battle_camera(p,1.,true);game.forest.update_camera(1.)
+		var widths=[]
+		for mark in cue.marks:
+			widths.append(mark.width)
+			var limits=Cues.Art.catalog().sprites[cue.trace].width_pixels
+			mark.width=lerpf(36.,48.,inverse_lerp(float(limits[0]),float(limits[1]),mark.width))
+		await frame()
+		check(root.get_texture().get_image().save_png("res://../artifacts/exploration-cues-scale-before-"+trace+".png")==OK,"old width at identical position and zoom")
+		for i in range(cue.marks.size()):cue.marks[i].width=widths[i]
 		await frame()
 		check(Cues.visible_marks(game,cue).size()>=2,"several ground marks visible at branch "+trace)
 		for old in ["광석 조각","떨어진 씨앗","깊게 패인 발자국"]:check(not game.visible_world_labels.has(old),"no explanatory caption "+old)

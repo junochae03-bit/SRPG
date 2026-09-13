@@ -29,6 +29,7 @@ SOURCES = {
     "exploration_cues": "game/scripts/exploration_cues.gd",
     "exploration_trace_art": "game/scripts/exploration_trace_art.gd",
     "cave_remains": "game/scripts/cave_remains.gd",
+    "actor_visibility": "game/scripts/actor_visibility.gd",
     "hidden_rooms": "game/scripts/hidden_rooms.gd",
     "build_presets": "game/scripts/build_presets.gd",
     "expedition_brief": "game/scripts/expedition_brief.gd",
@@ -63,7 +64,9 @@ def source_rule(root, source, symbol):
 
 
 def enrich(data, root):
-    data["metadata"]["cave_remains_source_rules"] = [source_rule(root, "cave_remains", fn) for fn in ("generate", "suitable", "visible", "draw", "configuration")]
+    data["metadata"]["actor_visibility_source_rules"] = [source_rule(root, "actor_visibility", fn) for fn in ("player", "opacity", "tick")]
+    data["metadata"]["monster_display_source_rules"] = [source_rule(root, "world", "display_height")]
+    data["metadata"]["cave_remains_source_rules"] = [source_rule(root, "cave_remains", fn) for fn in ("generate", "suitable", "footprint", "visible", "draw", "configuration")]
     data["metadata"]["exploration_cue_source_rules"] = [source_rule(root, "exploration_cues", fn) for fn in ("signature", "generate", "visible_marks", "draw")] + [source_rule(root, "exploration_trace_art", fn) for fn in ("catalog", "texture")]
     data["metadata"]["guild_progression_source_rules"] = [source_rule(root, "guild_progression", fn) for fn in ("valid_reputation", "valid_contract", "rank", "benefits", "stage", "use", "progress")]
     data["metadata"]["research_journey_source_rules"] = [source_rule(root, "research_journey", fn) for fn in ("valid", "eligible", "requirements", "destination", "need", "offer", "recommendation", "work_status", "describe")]

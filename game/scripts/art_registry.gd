@@ -114,7 +114,7 @@ func cave_remains_art():
 	var catalog=Remains.catalog()
 	for key in catalog.sprites:
 		var entry=catalog.sprites[key]
-		var id=add("art:cave_remains:"+key,"environment",entry.name,catalog.sheet,entry.rect,"game/assets/cave_remains_v06/PROVENANCE.json",Remains.CATALOG,{"role":"aged_ground_remains","alpha":"original_preserved"})
+		var id=add("art:cave_remains:"+key,"environment",entry.name,catalog.sheet,entry.rect,"game/assets/cave_remains_v06/PROVENANCE.json",Remains.CATALOG,{"role":"aged_ground_remains","alpha":"original_preserved","width_pixels":entry.width_pixels})
 		use(id,"runtime","cave_remains:"+key,"game/scripts/cave_remains.gd:draw",{"visibility":"current_sight","collision":false,"maximum_per_floor":Remains.MAX_REMAINS})
 
 func exploration_trace_art():
@@ -122,7 +122,7 @@ func exploration_trace_art():
 	var catalog=Trace.catalog()
 	for key in catalog.sprites:
 		var entry=catalog.sprites[key]
-		var id=add("art:exploration_trace:"+key,"environment",entry.name,entry.get("sheet",catalog.sheet),entry.rect,"game/assets/exploration_traces_v06/PROVENANCE.json",Trace.CATALOG,{"trace":key,"alpha":"original_preserved","role":"ground_debris"})
+		var id=add("art:exploration_trace:"+key,"environment",entry.name,entry.get("sheet",catalog.sheet),entry.rect,"game/assets/exploration_traces_v06/PROVENANCE.json",Trace.CATALOG,{"trace":key,"alpha":"original_preserved","role":"ground_debris","width_pixels":entry.width_pixels})
 		use(id,"runtime","exploration_trace:"+key,"game/scripts/exploration_cues.gd:draw",{"visibility":"individual_current_sight","collision":false})
 
 func training_art():

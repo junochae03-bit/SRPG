@@ -40,7 +40,7 @@ static func generate(map)->Array:
 			if not marks.is_empty() and not map.line_clear(marks[-1].pos,position):position=Vector2(path[index])
 			# End a local trace before a blind turn instead of bridging its wall.
 			if not marks.is_empty() and not map.line_clear(marks[-1].pos,position):break
-			marks.append({"pos":position,"direction":direction,"index":marks.size(),"width":rng.randf_range(36.,48.),"rotation":rng.randf_range(-.45,.45)})
+			marks.append({"pos":position,"direction":direction,"index":marks.size(),"width":rng.randf_range(Art.catalog().sprites[cue.trace].width_pixels[0],Art.catalog().sprites[cue.trace].width_pixels[1]),"rotation":rng.randf_range(-.45,.45)})
 			next=travelled+SPACING*rng.randf_range(.75,1.4)
 			if marks.size()==MARKS:break
 		if marks.is_empty():continue
@@ -63,4 +63,6 @@ static func draw(game,cue:Dictionary):
 		game.draw_texture_rect(texture,Rect2(-dimensions*.5,dimensions),false,Color(1,1,1,.92))
 		game.draw_set_transform(Vector2.ZERO)
 static func configuration()->Dictionary:
-	return {"maximum_branches":4,"maximum_marks_per_branch":MARKS,"spacing_tiles":SPACING,"spacing_variation":[.75,1.4],"lateral_variation_tiles":.45,"art_catalog":Art.CATALOG,"fragment_width_pixels":[36,48],"art_variation":"seeded_scale_rotation_and_walkable_offset","placement":"short_actual_walkable_route_at_junction","destination_mapping":"stable_material_event_or_elite_trace","captions":false,"visibility":"each_mark_current_sight_only","collision":"none","enemy_or_reward_reveal":false,"tutorial_and_raid":false}
+	var widths={}
+	for key in Art.catalog().sprites:widths[key]=Art.catalog().sprites[key].width_pixels
+	return {"maximum_branches":4,"maximum_marks_per_branch":MARKS,"spacing_tiles":SPACING,"spacing_variation":[.75,1.4],"lateral_variation_tiles":.45,"art_catalog":Art.CATALOG,"fragment_width_pixels":widths,"art_variation":"seeded_scale_rotation_and_walkable_offset","placement":"short_actual_walkable_route_at_junction","destination_mapping":"stable_material_event_or_elite_trace","captions":false,"visibility":"each_mark_current_sight_only","collision":"none","enemy_or_reward_reveal":false,"tutorial_and_raid":false}

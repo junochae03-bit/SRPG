@@ -7,11 +7,11 @@ static func radius(enemy:Dictionary)->float:
 	var kind:String=enemy.get("kind","")
 	var config:Dictionary=World.ENEMIES.get(kind,{})
 	if enemy.get("boss",false) or config.get("ai","")=="boss":return 2.15
-	var height=World.display_height(kind) if not config.is_empty() else 112.
-	if enemy.get("elite",config.get("elite",false)):return clampf(height/130.,1.4,1.65)
+	var height=World.display_height(kind,int(enemy.get("floor",0))) if not config.is_empty() else 112.
+	if enemy.get("elite",config.get("elite",false)):return clampf(height/130.,1.4,2.0)
 	# Low monsters (slimes, boars, beetles) are broad even when their measured
 	# sprite height is small. Body targeting separately handles their screen Y.
-	return clampf(height/120.,1.0,1.35)
+	return clampf(height/120.,1.0,1.7)
 
 static func edge_distance(enemy:Dictionary,origin:Vector2)->float:
 	return maxf(0.,origin.distance_to(enemy.pos)-radius(enemy))

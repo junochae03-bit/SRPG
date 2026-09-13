@@ -372,9 +372,15 @@ static func nearest(pos:Vector2)->String:
 		if RESIDENTS.has(key):d=minf(d,pos.distance_to(resident_pos(key)))
 		if d<distance:distance=d;best=key
 	return best
-static func display_height(kind:String)->float:
+const HEAVY_BODY_HEIGHTS={"mole":180.,"orc_axeman":184.,"clockwork":172.,"orc_champion":240.,"centurion":236.}
+const HEAVY_SPECIES_HEIGHTS={"flood_bastion_tortoise":[180.,224.],"lava_obsidian_rhino":[184.,236.],"machine_foundry_ogre":[188.,248.],"machine_mortar_tripod":[168.,220.],"core_horned_ram":[180.,228.],"spore_crown_toad":[152.,216.]}
+static func display_height(kind:String,floor_number:int=0)->float:
 	var c=ENEMIES[kind]
 	if c.ai=="boss":return 335.
-	if c.get("elite",false):return float(c.get("height",160))*1.12
-	# Preserve silhouettes: low creatures have broad bodies; humanoids stand near hero height.
-	return maxf(92.,float(c.get("height",86))*1.3)
+	var base=float(c.get("height",160))*1.12 if c.get("elite",false) else maxf(92.,float(c.get("height",86))*1.3)
+	# Read species metadata only; hit tests must not decode a sprite texture.
+	var appearance=preload("res://scripts/world_art.gd").variant(kind,floor_number)
+	if not appearance.is_empty():
+		var heights=HEAVY_SPECIES_HEIGHTS.get(appearance.species,[base,base])
+		return maxf(base,float(heights[1 if c.get("elite",false) else 0]))
+	return maxf(base,float(HEAVY_BODY_HEIGHTS.get(kind,base)))
