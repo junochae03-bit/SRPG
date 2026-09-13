@@ -6,7 +6,7 @@
 
 실행·인계 기록: [탐사 개선](EXPLORATION_REWORK.ko.md), [협동 기반](COOP_FOUNDATION.ko.md), `docs/qa/`의 검증 JSON. 표의 코드명은 `game/scripts/`, 테스트명은 `game/tests/` 기준이다. 표의 항목을 그대로 전체 완료 증거로 사용하지 않고 실제 코드·결과와 대조한다.
 
-기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 13으로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
+기반 N1/N2/N3: 최대 6인 방장 권위·직접 주소 연결·개인 메뉴/인벤토리·저장 ACK·공유 층 이동은 로컬 검증했다. 원정 재접속·분리 귀환·지연/손실/외부 장시간·직업 조합 밸런스가 남아 있다. 현재 변경은 협동 프로토콜 14로 구분한다. 이전 규칙의 클라이언트는 버전 검사에서 참가를 거절한다. 자동 매칭·아군 AI 동료·턴제·미선택 항목은 추가하지 않는다.
 
 ## Dungeon Settlers
 
@@ -15,7 +15,7 @@
 | C01 벽 충돌을 유도하는 보스 | 구현·로컬 검증 | monster_attacks.gd / raid_engagement | 외부 6인 장시간 패턴 체감 검증 |
 | C02 역할이 다른 적 조합 | 부분 | encounter_roles.gd·enemy_support.gd·enemy_tactics.gd / 초기 접근 방향 역할 편성·치유 시전/중단·공유 회복 상한; [상세](ENEMY_ROLE_SUPPORT.ko.md) | 여러 무리 직접 조우 시 합류 밀도·직업 조합별 공략 시간·외부 6인 실전 검증 |
 | C03 대응법이 다른 적 방어 | 구현·로컬 검증 | 갑피·겹 보호막·방어 자세, 20직업 기본/강공격 단독120경로·실제 연타/출혈/무력화·상태 표시; [상세](ENEMY_DEFENSE_COUNTERS.ko.md) | 상호 공격·회피 플레이의 최종 난도·직업 조합·외부 혼전 가독성 |
-| C04 위치와 대가가 있는 스킬 | 부분 | player_combat.gd·job_combat.gd·tactical_tools.gd / combat·tactical_tools | 스킬의 거리·자세 조건/대가 전달; 직접 설치 함정·투척물은 SC08에서 연결 |
+| C04 위치와 대가가 있는 스킬 | 부분 | 발동 시 표적 생존·몸체 사거리·벽 재검사, 정면 방어의 시전 보호 수정, 소모·이동 조건 표시; [상세](SKILL_POSITION_CONDITIONS.ko.md) | 직업별 위치 선택·자세 유지의 실전 손익과 조합 밸런스; 직접 설치 함정·투척물은 SC08에서 연결 |
 | C05 적·시체 조사와 도감 연결 | 구현·로컬 검증 | enemy_inspection.gd·enemy_inspection_panel.gd / combat_information·combat_information_visual·6인 ENet | 실제 연속 조작/혼잡도 체감 검증; 시체 그림 대신 소형 조사 표식 사용 |
 | C06 공격 방향·범위와 시야 밖 위협 안내 | 구현·로컬 검증 | telegraph_priority.gd·danger_hud.gd·visible_telegraphs.gd / telegraph_priority·telegraph_priority_visual·dungeon_vision_visual | 외부 6인 장기 전투의 예고 체감/성능 검증; 합성 카메라/배치 검사와 구분 |
 | C08 위치 선점과 도발 역할 | 부분 | 기존 taunt_owner·taunt_time 전투 상태 | 플레이어 간 도발·위치 선점과 솔로 방어의 조합별 밸런스 |

@@ -62,6 +62,7 @@ static func _snapshot_live(include_art:bool=false)->Dictionary:
 	db.metadata["monster_display"]={"hero_body_pixels":112.,"heavy_body_heights":World.HEAVY_BODY_HEIGHTS,"heavy_species_heights":World.HEAVY_SPECIES_HEIGHTS,"boss_body_pixels":335.,"scope":"species_specific_visual_scale_and_receiving_radius"}
 	db.metadata["cave_remains"]=preload("res://scripts/cave_remains.gd").configuration()
 	db.metadata["coop_rules"]=preload("res://scripts/party_rules.gd").configuration()
+	db.metadata["skill_conditions"]=preload("res://scripts/skill_conditions.gd").configuration()
 	db.metadata["enemy_defense"]=preload("res://scripts/enemy_defense.gd").configuration()
 	db.metadata["enemy_tactics"]=preload("res://scripts/enemy_tactics.gd").configuration()
 	db.metadata["enemy_support"]=preload("res://scripts/enemy_support.gd").configuration()

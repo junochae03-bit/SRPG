@@ -424,7 +424,10 @@ func show_details(skill:Dictionary,p:Dictionary):
 		current.append_array(Presentation.shape_rows(p,skill,rank,game.session.sim.damage_for(p),p.max_hp));upgraded.append_array(Presentation.shape_rows(p,skill,mini(maximum,rank+1),game.session.sim.damage_for(p),p.max_hp))
 		if skill.effect=="active":current.append(["시전당 무력화","%.1f"%Stagger.skill_profile(combat_skill,rank,p).value]);upgraded.append(["시전당 무력화","%.1f"%Stagger.skill_profile(combat_skill,mini(maximum,rank+1),p).value])
 		var rows=PackedStringArray()
-		for i in range(current.size()):comparison_rows.append([current[i][0],current[i][1],upgraded[i][1]]);rows.append("%s\n%s  →  %s"%[current[i][0],current[i][1],upgraded[i][1]])
+		for i in range(current.size()):
+			comparison_rows.append([current[i][0],current[i][1],upgraded[i][1]])
+			var change=str(current[i][1]) if current[i][1]==upgraded[i][1] else "%s  →  %s"%[current[i][1],upgraded[i][1]]
+			rows.append("%s\n%s"%[current[i][0],change])
 		text+=paragraph("전체 수치","\n".join(rows))+paragraph("기술 효과",str(skill.get("description","")))+paragraph("함께 쓰는 방식",str(skill.get("synergy","")))
 	var tags=PackedStringArray()
 	for tag in skill.get("tags",[]):tags.append(localized_tag(str(tag)))

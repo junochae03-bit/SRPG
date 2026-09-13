@@ -128,6 +128,7 @@ static func metrics(p:Dictionary,node:Dictionary,rank:int,damage:float,max_hp:fl
 	if BUFF_KEYS.has(mode) or mode in ["shield","ally_dash","wall","regen","field_heal","cleanse","distribute","dice","reroll","pet_buff","pet_haste","pet_heal","pet_guard","pet_sacrifice","slow","stun","root","bleed","blind","vulnerable","weaken","break_armor"]:rows.append(["지속시간","%.1f초"%s.node.duration])
 	if s.time>0:rows.append(["시전 시간","%.2f초"%s.time])
 	rows.append(["재사용 시간","%.2f초"%s.cooldown]);rows.append(["소모 기력","%.0f"%s.cost])
+	rows.append_array(preload("res://scripts/skill_conditions.gd").rows(p,s))
 	rows.append_array(preload("res://scripts/constellation_effects.gd").metrics(s))
 	if node.get("rune_cost",0)>0:rows.append(["소모 룬",str(node.rune_cost)])
 	if rank==0:

@@ -33,6 +33,7 @@ SOURCES = {
     "enemy_support": "game/scripts/enemy_support.gd",
     "enemy_defense": "game/scripts/enemy_defense.gd",
     "enemy_defense_feedback": "game/scripts/enemy_defense_feedback.gd",
+    "skill_conditions": "game/scripts/skill_conditions.gd",
     "encounter_roles": "game/scripts/encounter_roles.gd",
     "hidden_rooms": "game/scripts/hidden_rooms.gd",
     "build_presets": "game/scripts/build_presets.gd",
@@ -69,6 +70,7 @@ def source_rule(root, source, symbol):
 
 def enrich(data, root):
     data["metadata"]["actor_visibility_source_rules"] = [source_rule(root, "actor_visibility", fn) for fn in ("player", "opacity", "tick")]
+    data["metadata"]["skill_condition_source_rules"] = [source_rule(root, "skill_conditions", fn) for fn in ("target_failure", "casting_speed", "rows", "configuration")]
     data["metadata"]["enemy_defense_source_rules"] = [source_rule(root, "enemy_defense", fn) for fn in ("type_for", "initialize", "tick", "factor", "layer_factor", "break_guard", "description", "configuration")] + [source_rule(root, "enemy_defense_feedback", "draw")]
     data["metadata"]["enemy_support_source_rules"] = [source_rule(root, "enemy_support", fn) for fn in ("cancel", "eligible", "step", "configuration")]
     data["metadata"]["encounter_role_source_rules"] = [source_rule(root, "encounter_roles", fn) for fn in ("role", "apply", "ingress_distances", "configuration")]

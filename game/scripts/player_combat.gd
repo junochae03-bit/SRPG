@@ -49,7 +49,7 @@ func tick_player(p:Dictionary,delta:float):
 	if p.enemy_slow_time>0:speed*=.65
 	if p.has("job_state"):
 		speed*=1+jobs.value(p,"speed")
-		if not p.job_state.casting.is_empty():speed*=.2+(jobs.passive(p,4)*.04 if p.class_id=="sniper" else 0)
+		if not p.job_state.casting.is_empty():speed*=preload("res://scripts/skill_conditions.gd").casting_speed(p)
 		if p.job_state.get("channel",0)>0:speed*=.25 if p.skill_ranks.get("infighter_a01_upgrade",0)>0 and p.job_state.rush>=10 else 0.
 		if jobs.value(p,"stand")>0:speed=0.
 		if p.job_state.get("lock",0)>0 and p.job_state.get("channel",0)<=0:speed*=.35

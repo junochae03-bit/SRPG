@@ -371245,7 +371245,7 @@
       {
         "source_code": "func attack_power(p:Dictionary,base:int)->int:\n\treturn roundi(base*(1+value(p,\"attack\"))*(1+value(p,\"potion_attack\")))",
         "source_path": "game/scripts/job_combat.gd",
-        "source_sha256": "c59061729a4c5588deaea1cfba9dc3471b8d75e72d60db305e627e670b6681ba",
+        "source_sha256": "e54181afc54a5049062c617ff5a5258029f2e9d7d62202907cbc19384eb9d5ac",
         "source_symbol": "attack_power"
       },
       {
@@ -371408,19 +371408,19 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "receive_checkpoint"
       },
       {
@@ -371450,19 +371450,19 @@
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+        "source_sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
         "source_symbol": "exit_ack"
       }
     ],
@@ -372977,6 +372977,62 @@
       }
     ],
     "schema_version": 5,
+    "skill_condition_source_rules": [
+      {
+        "source_code": "static func target_failure(sim,p:Dictionary,cast:Dictionary)->String:\n\tif cast.node.mode not in TARGETED:\n\t\tif cast.node.mode not in GROUND or int(cast.get(\"target\",-1))<0:return \"\"\n\tvar enemy:Dictionary=sim.enemies.get(cast.get(\"target\",-1),{})\n\tif enemy.is_empty() or enemy.get(\"hp\",0)<=0:return \"대상이 사라졌습니다.\"\n\tif not Geometry.circle(enemy,p.pos,float(cast.node.range)):return \"대상이 사거리를 벗어났습니다.\"\n\tif not sim.map.line_clear(p.pos,enemy.pos):return \"대상까지의 경로가 막혔습니다.\"\n\treturn \"\"",
+        "source_path": "game/scripts/skill_conditions.gd",
+        "source_sha256": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
+        "source_symbol": "target_failure"
+      },
+      {
+        "source_code": "static func casting_speed(p:Dictionary)->float:\n\treturn .2+(int(p.get(\"skill_ranks\",{}).get(\"sniper_p05\",0))*.04 if p.class_id==\"sniper\" else 0.)",
+        "source_path": "game/scripts/skill_conditions.gd",
+        "source_sha256": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
+        "source_symbol": "casting_speed"
+      },
+      {
+        "source_code": "static func rows(p:Dictionary,cast:Dictionary)->Array:\n\tvar result=[]\n\tif cast.node.mode in TARGETED:result.append([\"발동 조건\",\"표적 · 사거리 · 시야\"])\n\telif cast.node.mode in GROUND:result.append([\"표적 추적\",\"사거리·시야 안에서만\"])\n\tif cast.time>0:\n\t\tresult.append([\"시전 중 이동\",\"%.0f%%\"%(casting_speed(p)*100.)])\n\t\tresult.append([\"시전 취소\",\"기력·재사용 소모 유지\"])\n\tif cast.node.mode==\"guard\":result.append([\"방어·시전 보호\",\"정면 피격\"])\n\treturn result",
+        "source_path": "game/scripts/skill_conditions.gd",
+        "source_sha256": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
+        "source_symbol": "rows"
+      },
+      {
+        "source_code": "static func configuration()->Dictionary:\n\treturn {\"targeted_modes\":TARGETED,\"ground_modes\":GROUND,\"empty_ground_allowed\":true,\"release_checks\":[\"alive\",\"body_range\",\"line_clear\"],\"cancel_refund\":false,\"casting_move_factor\":.2,\"sniper_passive_move_per_rank\":.04,\"guard_interrupt_protection\":\"front_only\"}",
+        "source_path": "game/scripts/skill_conditions.gd",
+        "source_sha256": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
+        "source_symbol": "configuration"
+      }
+    ],
+    "skill_conditions": {
+      "cancel_refund": false,
+      "casting_move_factor": 0.2,
+      "empty_ground_allowed": true,
+      "ground_modes": [
+        "field",
+        "trap",
+        "trap_bleed",
+        "burst",
+        "root",
+        "slow",
+        "pull",
+        "wall"
+      ],
+      "guard_interrupt_protection": "front_only",
+      "release_checks": [
+        "alive",
+        "body_range",
+        "line_clear"
+      ],
+      "sniper_passive_move_per_rank": 0.04,
+      "targeted_modes": [
+        "teleport",
+        "teleport_chain",
+        "chain_pull",
+        "chain_dash",
+        "chain_retreat",
+        "chain_group"
+      ]
+    },
     "source_sha256": {
       "docs/ASSET_SOURCES.md": "db8862dba4ae0ee89c8488fc74f0b424179074bc8c5ef0957d91a09cc48a6f0d",
       "docs/ENVIRONMENT_V04_PROVENANCE.json": "6e425d26e0943f50674f5827e86f8cc97611654a308ccf75ebf6adaf4cd8d94e",
@@ -373230,7 +373286,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f",
+      "game/scripts/coop_session.gd": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -373268,7 +373324,7 @@
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "d2be3f60709e2d85efb9cb9936ecd5e5b757590b33878650e363e5807e0119af",
-      "game/scripts/game_database.gd": "af02c6a64a34f097ae9ad8832c7e9731c9722c192ad287b815a3a02393c24443",
+      "game/scripts/game_database.gd": "537437fcb56f8b2a7b60cab0dc4e0823ba8131de5819f705c64dc9e26281f56d",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -373284,8 +373340,8 @@
       "game/scripts/inventory_panel.gd": "8e9fff2a524fec71b9db3228572ac59f0f2a64935accdfd9dd6a799233ccf569",
       "game/scripts/item_art.gd": "823bfb3b19bb88f4c86c19c94a368ba87c755d1bf24f1c8ce8410653b246b04d",
       "game/scripts/job_art.gd": "2a91b2c133ede4b90a7fab45084bbb298b1b62df2cb6e71b6cdefc4cdbeef020",
-      "game/scripts/job_balance.gd": "9b43b521ad554f6f78c75d0395754667677df36d3401da403512110a078c3163",
-      "game/scripts/job_combat.gd": "c59061729a4c5588deaea1cfba9dc3471b8d75e72d60db305e627e670b6681ba",
+      "game/scripts/job_balance.gd": "02fb1a0b4b17ea230ee80bc3e1a2e037c60493c173078fedda9d55543326b5b8",
+      "game/scripts/job_combat.gd": "e54181afc54a5049062c617ff5a5258029f2e9d7d62202907cbc19384eb9d5ac",
       "game/scripts/job_item_art.gd": "726c113f113b932610d28c1daa9c18825e4cfd5eaf72e8825b59b2b2494d7fc8",
       "game/scripts/job_resource_hud.gd": "72ca7986f59a903226d31740002a5c5f884b7ece9d44eace7d84a2e06cb00fc4",
       "game/scripts/key_bindings.gd": "62c70dbffe3f1ff029b3214a290bccfa6419a8e737e23756c483a271bce15077",
@@ -373300,7 +373356,7 @@
       "game/scripts/npc_dialogue.gd": "dffd059e5b1e9a28064f6e2a225219c44a3b10b3431970ef72acf058dc9e231d",
       "game/scripts/party_hud.gd": "13edb3b5afe9b49b7fda6e427a62caa464f629ae0c079f54940337508b94954f",
       "game/scripts/party_rules.gd": "6f871e022ef3ed8e9e698be31836855a5496714888ca41058161dd03c446bbba",
-      "game/scripts/player_combat.gd": "8f03539fe1838937f5900d333590e83cd05005912192d0ba4079bf305b5770b6",
+      "game/scripts/player_combat.gd": "ae6c7baebe07d7bb91df584a9c9b86c31a6d9d67856f0fb170d5dcd47fdfd596",
       "game/scripts/player_stats.gd": "b0f0a5624e7d2bafcf3be7f7fc0b7dec4030a0708bc673a6ae312277c7193ede",
       "game/scripts/playtest_driver.gd": "0c5ab2431e7faaeb5c974e5a24c21a1f5aec8762a27566222a75d9f3e51905bd",
       "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
@@ -373312,13 +373368,14 @@
       "game/scripts/simulation.gd": "c0af489ac1e6663c10ca0c4283733be1313b5d47aad379dcb01eec0397988460",
       "game/scripts/skill_build.gd": "438f007a42349ebeaa8c84d247241aece0ec0d188ac7e0cf989a3a3ec5e3454a",
       "game/scripts/skill_catalog.gd": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b",
+      "game/scripts/skill_conditions.gd": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f",
       "game/scripts/skill_effects.gd": "0e6baf8aee459098228598414aed0b0ace63485a10288448e9a1e8ceed857fb4",
       "game/scripts/skill_graph_view.gd": "a323ced58e3e1672ef195e36037814318ea137d93bbe9f0b277fc515c3214567",
       "game/scripts/skill_node_roles.gd": "87609bf62ef3610555bc8a9be830c63840742328a99794ac0a76ffad043c5bbf",
       "game/scripts/skill_presentation.gd": "746027daa898d6030775130006e0437725171df4e004174435084f41410f5560",
       "game/scripts/skill_reach.gd": "6c8fa2ead0c200a5f83a591110f3b58455eb5c6dcb9c05e37a4fd9a7cc6d28fd",
       "game/scripts/skill_scaling.gd": "0339dff31a34f871b50e4ca6b69052831634ee33560929cb0fd97fa8131b3232",
-      "game/scripts/skill_tree_ui.gd": "6da3c2c012847618aac7d2968658859d00beb5b3134f740c68eb9e92ceb22f35",
+      "game/scripts/skill_tree_ui.gd": "646e0669f88cc6e7f90e39d9471ab351d1b09f57a726d89e5895d26fc727d147",
       "game/scripts/skill_vfx.gd": "29f66f899d247d20cd743462e2f5ebbc7c5658b6a42992e4c23b8a1efd251bcd",
       "game/scripts/skill_vfx_catalog.gd": "6917afdcc6b37a87ff2d1a1bb35032218943eadeab3bf2538322bf542f55074c",
       "game/scripts/sprite_frame_regions.gd": "bcddbb3fcef687d111f2a2272bcf460db600550ece39527daa5ebf444bb0cccc",
@@ -373349,7 +373406,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "163f56bc8736b3ca096bb30e8beb64e58cddbe426b0d30da2d34a2987f0d491d",
+      "tools/game_db_rules.py": "3b079e43fcae5bfcaa723de21e2c8c61194ee9e921af0decca6e6143f5d6b92f",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [
@@ -389945,6 +390002,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390012,6 +390077,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390079,6 +390152,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390146,6 +390227,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390213,6 +390302,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390284,6 +390381,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390352,6 +390457,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390419,6 +390532,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390486,6 +390607,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390553,6 +390682,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390620,6 +390757,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390691,6 +390836,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390759,6 +390912,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390826,6 +390987,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390893,6 +391062,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -390960,6 +391137,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391027,6 +391212,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391098,6 +391291,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391166,6 +391367,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391233,6 +391442,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391300,6 +391517,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391367,6 +391592,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391434,6 +391667,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -391505,6 +391746,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -393484,6 +393733,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -393547,6 +393800,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -393610,6 +393867,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -393673,6 +393934,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -393736,6 +394001,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -393803,6 +394072,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -395810,6 +396083,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -395877,6 +396158,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -395944,6 +396233,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396011,6 +396308,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396078,6 +396383,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396149,6 +396462,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396217,6 +396538,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396284,6 +396617,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396351,6 +396696,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396418,6 +396775,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396485,6 +396854,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396556,6 +396937,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396624,6 +397017,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396691,6 +397096,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396758,6 +397175,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396825,6 +397254,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396892,6 +397333,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -396963,6 +397416,18 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397031,6 +397496,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397098,6 +397575,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397165,6 +397654,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397232,6 +397733,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397299,6 +397812,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397370,6 +397895,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397442,6 +397979,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397513,6 +398062,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397584,6 +398145,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397655,6 +398228,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397726,6 +398311,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397801,6 +398398,18 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397865,6 +398474,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397928,6 +398549,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -397991,6 +398624,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398054,6 +398699,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398117,6 +398774,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398184,6 +398853,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398248,6 +398929,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398311,6 +398996,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398374,6 +399063,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398437,6 +399130,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398500,6 +399197,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398567,6 +399268,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -398635,6 +399340,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398702,6 +399419,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398769,6 +399498,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398836,6 +399577,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398903,6 +399656,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -398974,6 +399739,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399042,6 +399819,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399109,6 +399894,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399176,6 +399969,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399243,6 +400044,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399310,6 +400119,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399381,6 +400198,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399449,6 +400274,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399516,6 +400353,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399583,6 +400432,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399650,6 +400511,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399717,6 +400590,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399788,6 +400673,18 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399856,6 +400753,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399923,6 +400828,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -399990,6 +400903,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400057,6 +400978,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400124,6 +401053,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400195,6 +401132,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400263,6 +401208,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400330,6 +401287,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400397,6 +401366,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400464,6 +401445,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400531,6 +401524,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -400602,6 +401607,18 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -402598,6 +403615,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402661,6 +403682,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402724,6 +403749,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402787,6 +403816,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402850,6 +403883,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402917,6 +403954,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -402985,6 +404026,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403052,6 +404097,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403119,6 +404168,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403186,6 +404239,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403253,6 +404310,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403324,6 +404385,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403388,6 +404453,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403451,6 +404520,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403514,6 +404587,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403577,6 +404654,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403640,6 +404721,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403707,6 +404792,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403775,6 +404864,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403842,6 +404935,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403909,6 +405006,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -403976,6 +405077,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -404043,6 +405148,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -404114,6 +405223,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -405734,6 +406847,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -405797,6 +406914,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -405860,6 +406981,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -405923,6 +407048,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -405986,6 +407115,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -406053,6 +407186,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -407752,6 +408889,10 @@
         [
           "소모 기력",
           "16"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -407815,6 +408956,10 @@
         [
           "소모 기력",
           "16"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -407878,6 +409023,10 @@
         [
           "소모 기력",
           "16"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -407941,6 +409090,10 @@
         [
           "소모 기력",
           "16"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -408004,6 +409157,10 @@
         [
           "소모 기력",
           "16"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -420646,6 +421803,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -420709,6 +421870,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -420772,6 +421937,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -420835,6 +422004,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -420898,6 +422071,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -420965,6 +422142,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421029,6 +422210,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421092,6 +422277,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421155,6 +422344,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421218,6 +422411,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421281,6 +422478,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421348,6 +422549,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421795,6 +423000,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421858,6 +423067,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421921,6 +423134,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -421984,6 +423201,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -422047,6 +423268,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -422114,6 +423339,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -436370,6 +437599,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -436433,6 +437666,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -436496,6 +437733,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -436559,6 +437800,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -436622,6 +437867,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -436689,6 +437938,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -441920,6 +443173,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -441983,6 +443240,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442046,6 +443307,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442109,6 +443374,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442172,6 +443441,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442239,6 +443512,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442303,6 +443580,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442366,6 +443647,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442429,6 +443714,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442492,6 +443781,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442555,6 +443848,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442622,6 +443919,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442686,6 +443987,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442749,6 +444054,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442812,6 +444121,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442875,6 +444188,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -442938,6 +444255,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443005,6 +444326,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443069,6 +444394,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443132,6 +444461,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443195,6 +444528,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443258,6 +444595,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443321,6 +444662,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443388,6 +444733,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -443456,6 +444805,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443523,6 +444880,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443590,6 +444955,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443657,6 +445030,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443724,6 +445105,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443795,6 +445184,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443863,6 +445260,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443930,6 +445335,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -443997,6 +445410,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444064,6 +445485,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444131,6 +445560,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444202,6 +445639,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444270,6 +445715,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444337,6 +445790,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444404,6 +445865,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444471,6 +445940,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444538,6 +446015,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444609,6 +446094,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444677,6 +446170,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444744,6 +446245,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444811,6 +446320,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444878,6 +446395,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -444945,6 +446470,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -445016,6 +446549,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -445463,6 +447004,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -445526,6 +447071,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -445589,6 +447138,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -445652,6 +447205,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -445715,6 +447272,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -445782,6 +447343,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -450752,6 +452317,10 @@
           "12"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -450818,6 +452387,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -450888,6 +452461,10 @@
           "12"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -450956,6 +452533,10 @@
           "12"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451022,6 +452603,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451094,6 +452679,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451169,6 +452758,10 @@
           "15"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451239,6 +452832,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451313,6 +452910,10 @@
           "15"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451385,6 +452986,10 @@
           "15"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451455,6 +453060,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451533,6 +453142,10 @@
           "15"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451600,6 +453213,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451670,6 +453287,10 @@
           "18"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451736,6 +453357,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451806,6 +453431,10 @@
           "18"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -451872,6 +453501,10 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -451946,6 +453579,10 @@
           "18"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -452013,6 +453650,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -452083,6 +453724,10 @@
           "21"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -452149,6 +453794,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -452219,6 +453868,10 @@
           "21"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -452285,6 +453938,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -452357,6 +454014,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -453667,6 +455328,10 @@
           "21"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -453733,6 +455398,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -453803,6 +455472,10 @@
           "21"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -453871,6 +455544,10 @@
           "21"
         ],
         [
+          "표적 추적",
+          "사거리·시야 안에서만"
+        ],
+        [
           "소모 룬",
           "2.0"
         ]
@@ -453937,6 +455614,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -454009,6 +455690,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ],
         [
           "소모 룬",
@@ -455003,6 +456688,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455070,6 +456763,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455137,6 +456838,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455204,6 +456913,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455271,6 +456988,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455342,6 +457067,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455410,6 +457143,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455477,6 +457218,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455544,6 +457293,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455611,6 +457368,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455678,6 +457443,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455749,6 +457522,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455817,6 +457598,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455884,6 +457673,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -455951,6 +457748,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456018,6 +457823,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456085,6 +457898,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456156,6 +457977,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456224,6 +458053,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456291,6 +458128,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456358,6 +458203,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456425,6 +458278,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456492,6 +458353,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -456563,6 +458432,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457014,6 +458891,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457081,6 +458966,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457148,6 +459041,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457215,6 +459116,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457282,6 +459191,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457353,6 +459270,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457804,6 +459729,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457871,6 +459804,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -457938,6 +459879,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458005,6 +459954,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458072,6 +460029,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458143,6 +460108,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458211,6 +460184,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458278,6 +460259,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458345,6 +460334,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458412,6 +460409,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458479,6 +460484,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458550,6 +460563,14 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458618,6 +460639,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458685,6 +460714,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458752,6 +460789,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458819,6 +460864,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458886,6 +460939,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -458957,6 +461018,14 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459025,6 +461094,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459092,6 +461169,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459159,6 +461244,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459226,6 +461319,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459293,6 +461394,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459364,6 +461473,14 @@
         [
           "소모 기력",
           "18"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459432,6 +461549,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459499,6 +461624,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459566,6 +461699,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459633,6 +461774,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459700,6 +461849,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -459771,6 +461928,14 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "시전 중 이동",
+          "20%"
+        ],
+        [
+          "시전 취소",
+          "기력·재사용 소모 유지"
         ]
       ],
       "profile": {
@@ -472969,6 +475134,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473032,6 +475201,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473095,6 +475268,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473158,6 +475335,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473221,6 +475402,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473288,6 +475473,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "방어·시전 보호",
+          "정면 피격"
         ]
       ],
       "profile": {
@@ -473348,6 +475537,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -473407,6 +475600,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -473466,6 +475663,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -473525,6 +475726,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -473584,6 +475789,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -473647,6 +475856,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474481,6 +476694,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474548,6 +476765,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474615,6 +476836,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474682,6 +476907,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474749,6 +476978,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -474820,6 +477053,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475674,6 +477911,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475737,6 +477978,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475800,6 +478045,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475863,6 +478112,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475926,6 +478179,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -475993,6 +478250,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -477130,6 +479391,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477193,6 +479458,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477256,6 +479525,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477319,6 +479592,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477382,6 +479659,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477449,6 +479730,10 @@
         [
           "소모 기력",
           "15"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477872,6 +480157,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477935,6 +480224,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -477998,6 +480291,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -478061,6 +480358,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -478124,6 +480425,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -478191,6 +480496,10 @@
         [
           "소모 기력",
           "21"
+        ],
+        [
+          "발동 조건",
+          "표적 · 사거리 · 시야"
         ]
       ],
       "profile": {
@@ -478259,6 +480568,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -478326,6 +480639,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -478393,6 +480710,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -478460,6 +480781,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -478527,6 +480852,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {
@@ -478598,6 +480927,10 @@
         [
           "소모 기력",
           "12"
+        ],
+        [
+          "표적 추적",
+          "사거리·시야 안에서만"
         ]
       ],
       "profile": {

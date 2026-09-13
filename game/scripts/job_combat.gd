@@ -158,7 +158,7 @@ func receive(p:Dictionary,e:Dictionary,amount:int,parryable:bool)->int:
 		if earned>0:s.grit.append({"amount":earned,"remaining":2.0})
 	if amount>0:
 		var resist=p.class_id=="elementalist" and passive(p,3)>0 and sim.rng.randf()<minf(.85,.25+passive(p,3)*.12)
-		if not resist and value(p,"guard")<=0:s.casting={};p.charge_time=-1.;s.heavy_grit=0.
+		if not resist and not (value(p,"guard")>0 and facing):s.casting={};p.charge_time=-1.;s.heavy_grit=0.
 		s.meditate=0.
 		s.channel=0.
 	return maxi(0,amount)
@@ -287,6 +287,8 @@ func status(p:Dictionary,e:Dictionary,key:String,duration:float,attribution:Vari
 		if mapping.has(key):
 			for a in allies(p):buff(a,mapping[key],.15,5.);fx(a,"thief:5",a.pos)
 func execute(p:Dictionary,cast:Dictionary):
+	var failure=preload("res://scripts/skill_conditions.gd").target_failure(sim,p,cast)
+	if not failure.is_empty():sim.notice(p.id,failure);return
 	var previous=combat.stagger_context
 	combat.stagger_context=cast.get("stagger",{})
 	if cast.node.mode in ["pet_command","pet_burst","pet_pull"] and not combat.stagger_context.is_empty():

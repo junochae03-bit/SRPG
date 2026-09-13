@@ -1236,8 +1236,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 471112,
-    "sha256": "5dbe0706034f9fa965d67b311150526b0529604a606945aacd373c43014036da"
+    "bytes": 472241,
+    "sha256": "56d6b4914c48613c91f11eb4fe0ed25e1033ef670e55d4153fff02d62835b56b"
   },
   {
     "path": "game/data/content_names.json",
@@ -1422,7 +1422,7 @@
   {
     "path": "game/scripts/coop_session.gd",
     "bytes": 22773,
-    "sha256": "d75c5f6c810dace1b45eef2c299259558a6ed8f8cd405a47e249ccad0fbe0e6f"
+    "sha256": "2c7cc722ff7fc95e827f2158fca579cf134a8de4752c6432d29c877c8de37ecd"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1611,8 +1611,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 36401,
-    "sha256": "af02c6a64a34f097ae9ad8832c7e9731c9722c192ad287b815a3a02393c24443"
+    "bytes": 36495,
+    "sha256": "537437fcb56f8b2a7b60cab0dc4e0823ba8131de5819f705c64dc9e26281f56d"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1691,13 +1691,13 @@
   },
   {
     "path": "game/scripts/job_balance.gd",
-    "bytes": 15617,
-    "sha256": "9b43b521ad554f6f78c75d0395754667677df36d3401da403512110a078c3163"
+    "bytes": 15692,
+    "sha256": "02fb1a0b4b17ea230ee80bc3e1a2e037c60493c173078fedda9d55543326b5b8"
   },
   {
     "path": "game/scripts/job_combat.gd",
-    "bytes": 35680,
-    "sha256": "c59061729a4c5588deaea1cfba9dc3471b8d75e72d60db305e627e670b6681ba"
+    "bytes": 35840,
+    "sha256": "e54181afc54a5049062c617ff5a5258029f2e9d7d62202907cbc19384eb9d5ac"
   },
   {
     "path": "game/scripts/job_item_art.gd",
@@ -1771,8 +1771,8 @@
   },
   {
     "path": "game/scripts/player_combat.gd",
-    "bytes": 14219,
-    "sha256": "8f03539fe1838937f5900d333590e83cd05005912192d0ba4079bf305b5770b6"
+    "bytes": 14223,
+    "sha256": "ae6c7baebe07d7bb91df584a9c9b86c31a6d9d67856f0fb170d5dcd47fdfd596"
   },
   {
     "path": "game/scripts/player_stats.gd",
@@ -1830,6 +1830,11 @@
     "sha256": "ad995739659731937578f4bfda612ffe26c5a9e60dbe4ff9f6e008cd0b4aae3b"
   },
   {
+    "path": "game/scripts/skill_conditions.gd",
+    "bytes": 1785,
+    "sha256": "c83e297a8a3a953cf28c04ff1867f9dd09f6ab44ff03362e4057887383d60d6f"
+  },
+  {
     "path": "game/scripts/skill_effects.gd",
     "bytes": 9374,
     "sha256": "0e6baf8aee459098228598414aed0b0ace63485a10288448e9a1e8ceed857fb4"
@@ -1861,8 +1866,8 @@
   },
   {
     "path": "game/scripts/skill_tree_ui.gd",
-    "bytes": 38801,
-    "sha256": "6da3c2c012847618aac7d2968658859d00beb5b3134f740c68eb9e92ceb22f35"
+    "bytes": 38893,
+    "sha256": "646e0669f88cc6e7f90e39d9471ab351d1b09f57a726d89e5895d26fc727d147"
   },
   {
     "path": "game/scripts/skill_vfx.gd",
