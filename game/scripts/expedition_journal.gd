@@ -37,6 +37,8 @@ static func recommendations(p:Dictionary)->Array:
 	if not objective.is_empty() and objective.ready and objective.facility!="portal" and int(p.expedition_goal.stage)<3:
 		var work=preload("res://scripts/expedition_goals.gd").work_status(p)
 		rows.append({"facility":objective.facility,"title":objective.title+" 확보","detail":"모은 재료로 작업하기" if work.ready else work.reason})
+	if not objective.is_empty() and int(p.expedition_goal.stage)==3:
+		rows.append({"facility":"portal","title":"준비 완료 · B%d 다음 도전"%int(p.highest_floor),"detail":"새 장비와 보급으로 다음 탐사 선택"})
 	var contract=p.get("guild_contract",{})
 	if not contract.is_empty() and int(contract.progress)>=int(contract.target):
 		rows.append({"facility":"guild","title":"완료한 의뢰","detail":"길드에서 토벌 보상 받기"})

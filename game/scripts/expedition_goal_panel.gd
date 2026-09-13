@@ -11,15 +11,17 @@ var feedback=""
 func setup(owner_town):
 	town=owner_town;position=Vector2(0,76);size=Vector2(724,610)
 	var offers=Goals.offers(town.player(),town.selected_floor)
+	var scroll=ScrollContainer.new();scroll.size=Vector2(724,538);scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;add_child(scroll)
+	var list=Control.new();list.custom_minimum_size=Vector2(701,offers.size()*135);scroll.add_child(list)
 	for index in range(offers.size()):
 		var offer=offers[index];var at=Vector2(0,index*135)
-		var button=town.game.button(self,"",at,Vector2(718,124),func():choose(offer))
+		var button=town.game.button(list,"",at,Vector2(701,124),func():choose(offer))
 		town.Library.picture(button,offer.icon,Vector2(19,21),Vector2(56,56))
 		town.wrapped(button,offer.title,Vector2(91,7),Vector2(526,42),22,1)
 		town.wrapped(button,offer.detail,Vector2(92,48),Vector2(582,27),17,1)
 		var hint=town.wrapped(button,offer.clue,Vector2(92,78),Vector2(582,31),16,1);hint.tooltip_text=offer.clue
 		button.tooltip_text=offer.clue
-		var selected=town.Library.picture(button,"selected",Vector2(668,17),Vector2(25,25));selected.hide()
+		var selected=town.Library.picture(button,"selected",Vector2(656,17),Vector2(25,25));selected.hide()
 		rows.append({"offer":offer,"button":button,"selected":selected})
 	status=town.wrapped(self,"",Vector2(8,550),Vector2(542,53),18,2)
 	clear_button=town.game.button(self,"목표 해제",Vector2(565,550),Vector2(146,43),func():choose({"id":"clear","goal":{"floor":town.selected_floor}}))

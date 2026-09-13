@@ -3,6 +3,7 @@ const Research=preload("res://scripts/town_research.gd")
 const Content=preload("res://scripts/content.gd")
 const Items=preload("res://scripts/consumables.gd")
 const Icons=preload("res://scripts/icon_library.gd")
+const Journey=preload("res://scripts/research_journey.gd")
 var town
 var game
 var search:LineEdit
@@ -14,16 +15,39 @@ var countdowns={}
 var start_button:Button
 var craft_button:Button
 var labels=[]
+var goal_button:Button
+var next_destination=""
 func setup(owner_town):
 	town=owner_town;game=town.game;size=town.body.size
 	search=LineEdit.new();search.position=Vector2(16,10);search.size=Vector2(550,46);search.placeholder_text="연구 · 제작물 검색";search.add_theme_font_size_override("font_size",21);add_child(search)
 	search.text_changed.connect(func(_value):rebuild())
 	content=Control.new();content.position=Vector2(0,68);content.size=Vector2(1258,622);add_child(content)
 	selected=Research.matches(town.facility,"")[0]
+	var goal=town.player().get("expedition_goal",{})
+	if goal.get("kind","")=="research" and goal.facility==town.facility:selected=goal.item
+	goal_button=game.button(self,"재료 찾기",Vector2(590,10),Vector2(648,46),choose_goal)
 	if game.session.has_signal("request_completed"):game.session.request_completed.connect(completed)
 	rebuild()
 func completed(kind:String,_success:bool):
-	if kind=="facility" and game.session.completed_sequence==pending:pending=0;stamp=[]
+	if kind in ["facility","select_goal"] and game.session.completed_sequence==pending:
+		pending=0;stamp=[]
+		if kind=="select_goal" and _success:guide_goal()
+func choose_goal():
+	if pending>0 or selected.is_empty():return
+	var p=town.player();var goal=p.get("expedition_goal",{})
+	var finished=goal.get("kind","")=="research" and goal.item==selected and int(goal.stage)==3
+	var id="advance" if finished else "research:"+selected
+	next_destination="portal"
+	if game.session.get("network_role")=="client":pending=game.session.sequence+1
+	var success=game.session.act("select_goal",JSON.stringify({"id":id,"floor":int(p.highest_floor)}))
+	if not success:pending=0;next_destination="";stamp=[];return
+	if game.session.get("network_role")!="client":guide_goal()
+func guide_goal():
+	var goal=town.player().get("expedition_goal",{})
+	if goal.get("kind","")=="research":
+		var work=Journey.work_status(town.player(),goal)
+		if work.ready:next_destination=work.facility
+	if not next_destination.is_empty():town.close();game.guide_to_facility(next_destination);next_destination=""
 func text(parent,value,at,dimensions,font_size=20):
 	var label=town.wrapped(parent,value,at,dimensions,font_size,3);labels.append(label);return label
 func cost_text(cost:Dictionary,gold:int)->String:
@@ -47,6 +71,10 @@ func rebuild():
 	town.money.text="보유 금화  %d G"%p.gold
 	for material in town.resource_labels:town.resource_labels[material].text=Content.MATERIALS[material]+"  "+str(p.materials.get(material,0))
 	if selected not in rows:selected="" if rows.is_empty() else rows[0]
+	var goal=p.get("expedition_goal",{});var active=goal.get("kind","")=="research" and goal.get("item","")==selected
+	goal_button.text="다음 탐사 선택" if active and int(goal.stage)==3 else "등록된 탐사 목표" if active else "탐사 목표로 등록"
+	goal_button.disabled=pending>0 or selected.is_empty() or (active and int(goal.stage)<3) or not Journey.eligible(p,selected) or (active and int(goal.stage)==3 and p.cleared_floor>=100)
+	goal_button.tooltip_text="등록한 목표에 따라 필요한 재료와 다음 작업을 표시합니다."
 	var list=preload("res://scripts/ui_art.gd").panel(content,Vector2(8,0),Vector2(567,356),"paper",4)
 	if rows.is_empty():text(list,"검색 결과가 없습니다.",Vector2(25,30),Vector2(510,45))
 	for index in range(rows.size()):
@@ -100,6 +128,6 @@ func refresh_clock(state:Dictionary):
 func _process(_delta):
 	if not is_instance_valid(town) or not town.visible or not game.session.connected:return
 	var p=town.player();var state=p.get("town_research",Research.empty())
-	var next=[state.completed,state.queue.map(func(row):return row.id),p.gold,p.materials.hash(),p.potions,p.get("consumables",{}).hash(),p.bag_positions.hash(),pending]
+	var next=[state.completed,state.queue.map(func(row):return row.id),p.gold,p.materials.hash(),p.potions,p.get("consumables",{}).hash(),p.bag_positions.hash(),p.get("expedition_goal",{}).hash(),pending]
 	if next!=stamp:stamp=next.duplicate(true);rebuild()
 	refresh_clock(state)

@@ -374150,19 +374150,19 @@
       {
         "source_code": "func can_party_travel(floor_number:int)->bool:\r\n\tfor id in sim.players:\r\n\t\tif sim.players[id].get(\"down_time\",0)>0:status_changed.emit(\"쓰러진 동료를 먼저 구조하세요.\");return false\r\n\t\tif sim.players.size()>1 and not ready_players.get(id,false):status_changed.emit(\"모든 모험가의 준비가 필요합니다.\");return false\r\n\t\tif floor_number>0 and not preload(\"res://scripts/abyss_catalog.gd\").locked_reason(sim.players[id],floor_number).is_empty():status_changed.emit(\"아직 이 층을 열지 못한 모험가가 있습니다.\");return false\r\n\treturn true",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "can_party_travel"
       },
       {
         "source_code": "func receive_action(serial_number:int,kind:String,argument:String):\r\n\tif network_role!=\"host\":return\r\n\tvar sender=multiplayer.get_remote_sender_id()\r\n\tif not sim.players.has(sender) or serial_number<=int(last_sequence.get(sender,0)):return\r\n\tlast_sequence[sender]=serial_number\r\n\tvar budget=action_budget.get(sender,{\"second\":-1,\"count\":0})\r\n\tif budget.second!=int(sim.clock):budget={\"second\":int(sim.clock),\"count\":0}\r\n\tbudget.count+=1;action_budget[sender]=budget\r\n\tif budget.count>40 or kind.length()>40 or argument.length()>8192:\r\n\t\tif kind.length()<=40 and kind not in COMBAT_ACTIONS:action_result.rpc_id(sender,serial_number,kind,false,PackedByteArray(),{})\r\n\t\treturn\r\n\tvar before=receipt_values(sim.players[sender]) if kind in [\"facility\",\"buy_appearance\",\"wear_appearance\"] else {}\r\n\tvar result=host_action(sender,kind,argument) if not departures.has(sender) else false\r\n\tif not peer_ready(sender):return\r\n\tvar receipt={\"before\":before,\"after\":receipt_values(sim.players[sender])} if not before.is_empty() else {}\r\n\t# Combat already uses the world stream. Do not resend the entire world for held attacks.\r\n\taction_result.rpc_id(sender,serial_number,kind,result,PackedByteArray() if kind in COMBAT_ACTIONS else snapshot_packet(sender),receipt)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "receive_action"
       },
       {
         "source_code": "func receive_checkpoint(data:Dictionary,revision:int):\r\n\tif network_role!=\"client\" or revision<=accepted_checkpoint_revision or exit_saved:return\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tif valid!=null:latest_checkpoint=valid;accepted_checkpoint_revision=revision;save_game()",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "receive_checkpoint"
       },
       {
@@ -374192,19 +374192,19 @@
       {
         "source_code": "func leave_room()->bool:\r\n\tif network_role==\"offline\":return super.disconnect_game()\r\n\tif leaving:return false\r\n\tleaving=true;exit_saved=false;exit_result=false\r\n\texit_token=(\"host:\" if network_role==\"host\" else \"guest:\")+str(Time.get_ticks_usec())\r\n\troom_status=\"최신 기록 저장 중…\";status_changed.emit(room_status)\r\n\tvar token=exit_token\r\n\tif network_role==\"host\":\r\n\t\tsim.players[local_id].network_leaving=true\r\n\t\tif not save_game():cancel_departure(token);return false\r\n\t\tfor id in sim.players:\r\n\t\t\tif id!=local_id:start_departure(id,token)\r\n\telse:request_leave.rpc_id(1,token,sequence)\r\n\tvar deadline=Time.get_ticks_msec()+15000\r\n\twhile connected and leaving and Time.get_ticks_msec()<deadline:\r\n\t\tif network_role==\"host\" and departures.values().all(func(entry):return entry.get(\"ack\",false)) and sim.players.keys().all(func(id):return id==local_id or departures.get(id,{}).get(\"ack\",false)):\r\n\t\t\texit_result=true;close_network(\"모두의 최신 기록을 저장하고 방을 닫았습니다.\");return true\r\n\t\tawait get_tree().process_frame\r\n\tif connected and leaving:\r\n\t\tif network_role==\"client\":cancel_leave.rpc_id(1,token)\r\n\t\tcancel_departure(token)\r\n\treturn exit_result",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "leave_room"
       },
       {
         "source_code": "func exit_checkpoint(token:String,data:Dictionary,revision:int,last_serial:int):\r\n\tif network_role!=\"client\" or (not token.begins_with(\"host:\") and token!=exit_token):return\r\n\tleaving=true;exit_token=token;exit_saved=false\r\n\tvar valid=validate_save(JSON.parse_string(JSON.stringify(data)))\r\n\tvar success=valid!=null and revision>=accepted_checkpoint_revision and last_serial>=sequence\r\n\tif success:\r\n\t\tlatest_checkpoint=valid;accepted_checkpoint_revision=revision;success=save_game()\r\n\texit_saved=success;exit_ack.rpc_id(1,token,success)\r\n\tif not success:cancel_departure(token)\r\n\r\n@rpc(\"any_peer\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "exit_checkpoint"
       },
       {
         "source_code": "func exit_ack(token:String,success:bool):\r\n\tif network_role!=\"host\":return\r\n\tvar id=multiplayer.get_remote_sender_id()\r\n\tif departures.get(id,{}).get(\"token\",\"\")!=token:return\r\n\tif not success:\r\n\t\tif leaving:cancel_departure(token)\r\n\t\telse:sim.players[id].erase(\"network_leaving\");departures.erase(id)\r\n\t\treturn\r\n\tdepartures[id].ack=true\r\n\tif not leaving and peer_ready(id):commit_exit.rpc_id(id,token)\r\n\r\n@rpc(\"authority\",\"call_remote\",\"reliable\",2)",
         "source_path": "game/scripts/coop_session.gd",
-        "source_sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+        "source_sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
         "source_symbol": "exit_ack"
       }
     ],
@@ -374645,7 +374645,8 @@
         "materials",
         "secret",
         "challenge",
-        "advance"
+        "advance",
+        "research"
       ],
       "material_cost": "live_service_quote",
       "persistence": "optional_save_v7_expedition_goal",
@@ -375215,6 +375216,70 @@
       "note": "공격력 100 / 최대 HP 1000 / 기술 0 / 장비·별자리·다른 패시브·직업 자원 보정 없음. 강화 노드는 원기술 3랭크 기준. 실전 피해·쿨타임은 캐릭터와 적 상태에 따라 달라집니다.",
       "technique": 0
     },
+    "research_journey": {
+      "completion": "successful_matching_research_craft_only",
+      "costs": "live_research_or_unlocked_recipe",
+      "early_ore": "gather_seed_then_existing_refinement_without_losing_research_target",
+      "next_step": "explicit_next_expedition_selection_no_forced_travel",
+      "scope": "personal_research_to_first_craft_to_next_expedition",
+      "selection": "host_recomputes_current_research_offer"
+    },
+    "research_journey_source_rules": [
+      {
+        "source_code": "static func valid(data:Dictionary)->bool:\n\tif not Research.DEFINITIONS.has(data.item):return false\n\tvar definition=Research.DEFINITIONS[data.item]\n\tif data.requirements.size()!=definition.cost.size():return false\n\tfor material in definition.cost:\n\t\tif not data.requirements.has(material) or int(data.requirements[material])!=int(definition.cost[material]):return false\n\treturn data.facility==definition.facility and data.operation==\"research_craft\" and int(data.stage) in [0,3] and data.material in definition.cost and data.target==int(definition.cost[data.material]) and int(data.floor)%10!=0",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "valid"
+      },
+      {
+        "source_code": "static func eligible(p:Dictionary,key:String)->bool:\n\tif not Research.DEFINITIONS.has(key):return false\n\tvar definition=Research.DEFINITIONS[key];var state=p.get(\"town_research\",Research.empty())\n\treturn definition.parent.is_empty() or definition.parent in state.completed or state.queue.any(func(row):return row.id==definition.parent)",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "eligible"
+      },
+      {
+        "source_code": "static func requirements(p:Dictionary,key:String)->Dictionary:\n\tvar definition=Research.DEFINITIONS[key]\n\treturn definition.recipe if Research.completed(p,key) else definition.cost",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "requirements"
+      },
+      {
+        "source_code": "static func destination(p:Dictionary,material:String,preferred:int)->int:\n\tvar found=0;var distance=101\n\tfor depth in range(1,mini(100,int(p.highest_floor))+1):\n\t\tif depth%10==0:continue\n\t\tvar forest=Abyss.config(depth).terrain==\"forest\"\n\t\tif material==\"seed\" and not forest or material==\"ore\" and forest:continue\n\t\tif absi(depth-preferred)<distance:found=depth;distance=absi(depth-preferred)\n\treturn found",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "destination"
+      },
+      {
+        "source_code": "static func need(p:Dictionary,key:String,preferred:int)->Dictionary:\n\tvar cost=requirements(p,key);var selected=\"\"\n\tfor material in cost:\n\t\tif int(p.materials.get(material,0))<int(cost[material]):selected=material;break\n\tif selected.is_empty():return {\"material\":\"\",\"target\":0,\"floor\":maxi(1,preferred),\"refine\":false}\n\tvar depth=destination(p,selected,preferred);var amount=int(cost[selected]);var refine=false\n\tif selected==\"ore\" and depth==0:\n\t\tvar quote=Quote.quote(p,\"alchemy\",\"ore\")\n\t\tvar batches=ceili(float(amount-int(p.materials.get(\"ore\",0)))/float(quote.outputs.ore))\n\t\tamount=int(cost.get(\"seed\",0))+batches*int(quote.materials.seed)\n\t\tselected=\"seed\";depth=destination(p,\"seed\",preferred);refine=true\n\treturn {\"material\":selected,\"target\":amount,\"floor\":maxi(1,depth),\"refine\":refine}",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "need"
+      },
+      {
+        "source_code": "static func offer(p:Dictionary,key:String,preferred:int)->Dictionary:\n\tif not eligible(p,key):return {}\n\tvar definition=Research.DEFINITIONS[key];var shortage=need(p,key,preferred)\n\tvar depth=shortage.floor\n\tif depth%10==0:depth-=1\n\tvar material=definition.cost.keys()[0]\n\tvar data={\"kind\":\"research\",\"floor\":depth,\"material\":material,\"target\":int(definition.cost[material]),\"facility\":definition.facility,\"operation\":\"research_craft\",\"item\":key,\"stage\":0,\"requirements\":definition.cost.duplicate(true)}\n\tvar summary=describe(p,data)\n\treturn {\"id\":\"research:\"+key,\"goal\":data,\"title\":definition.output+\" 준비\",\"detail\":summary.detail,\"clue\":\"씨앗 채집 → 광석 정제 → \"+definition.output if shortage.refine else \"씨앗이 떨어진 곁굴을 찾으세요.\" if shortage.material==\"seed\" else \"광석 조각이 이어지는 곁굴을 찾으세요.\" if shortage.material==\"ore\" else \"제단과 정예 은닉품에서 정수를 찾으세요.\" if shortage.material==\"essence\" else \"모은 재료로 연구와 제작을 이어가세요.\",\"icon\":definition.icon}",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "offer"
+      },
+      {
+        "source_code": "static func recommendation(p:Dictionary,preferred:int)->Dictionary:\n\tvar active=p.get(\"expedition_goal\",{})\n\tif active.get(\"kind\",\"\")==\"research\" and int(active.stage)<3:return offer(p,active.item,preferred)\n\tvar state=p.get(\"town_research\",Research.empty())\n\tfor key in Research.DEFINITIONS:\n\t\tif key not in state.completed and eligible(p,key) and not state.queue.any(func(row):return row.id==key):return offer(p,key,preferred)\n\treturn {}",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "recommendation"
+      },
+      {
+        "source_code": "static func work_status(p:Dictionary,data:Dictionary)->Dictionary:\n\tvar key=data.item;var state=p.get(\"town_research\",Research.empty())\n\tif int(data.stage)==3:return {\"ready\":false,\"reason\":\"제작 완료 · 다음 탐사를 선택하세요.\",\"cost\":0,\"facility\":\"portal\",\"operation\":\"\"}\n\tif state.queue.any(func(row):return row.id==key):return {\"ready\":false,\"reason\":\"연구 진행 중 · 완료 후 제작\",\"cost\":0,\"facility\":data.facility,\"operation\":\"\"}\n\tvar operation=\"research_craft\" if Research.completed(p,key) else \"research_start\"\n\tvar shortage=need(p,key,int(data.floor))\n\tif shortage.refine and int(p.materials.get(\"seed\",0))>=int(shortage.target):\n\t\tvar quote=Quote.quote(p,\"alchemy\",\"ore\")\n\t\treturn {\"ready\":quote.reason.is_empty(),\"reason\":quote.reason,\"cost\":int(quote.cost),\"facility\":\"alchemy\",\"operation\":\"ore\"}\n\tvar quote=Research.stage(p,key,operation)\n\treturn {\"ready\":quote.reason.is_empty(),\"reason\":quote.reason,\"cost\":int(quote.gold),\"facility\":data.facility,\"operation\":operation}",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "work_status"
+      },
+      {
+        "source_code": "static func describe(p:Dictionary,data:Dictionary)->Dictionary:\n\tvar definition=Research.DEFINITIONS[data.item];var state=p.get(\"town_research\",Research.empty());var work=work_status(p,data)\n\tvar detail=\"\";var ready=work.ready;var shortage=need(p,data.item,int(data.floor))\n\tif int(data.stage)==3:detail=\"제작 완료 → B%d 다음 도전\"%int(p.highest_floor);ready=true\n\telif state.queue.any(func(row):return row.id==data.item):detail=\"연구 진행 중 → \"+definition.output\n\telif work.operation==\"ore\":detail=\"광석 정제 → \"+definition.output\n\telif not shortage.material.is_empty():detail=\"%s %d / %d%s\"%[Content.MATERIALS[shortage.material],int(p.materials.get(shortage.material,0)),shortage.target,\" · 광석 정제용\" if shortage.refine else \"\"]\n\telif ready:detail=\"제작하기 · \"+definition.output if Research.completed(p,data.item) else \"연구 시작 · \"+definition.name\n\telse:detail=work.reason\n\treturn {\"title\":definition.output+\" 준비\",\"detail\":detail,\"ready\":ready,\"floor\":int(p.highest_floor) if int(data.stage)==3 else int(shortage.floor),\"icon\":definition.icon,\"facility\":work.facility}",
+        "source_path": "game/scripts/research_journey.gd",
+        "source_sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
+        "source_symbol": "describe"
+      }
+    ],
     "schema_version": 5,
     "source_sha256": {
       "docs/ASSET_SOURCES.md": "db8862dba4ae0ee89c8488fc74f0b424179074bc8c5ef0957d91a09cc48a6f0d",
@@ -375460,7 +375525,7 @@
       "game/scripts/content.gd": "afeabcbfafa4196c9fd78bcae79ffe2161277ec570cf0dc178350cbd888f6090",
       "game/scripts/content_names.gd": "0c619b6f210cd1e56bfb47e04b738750610c2a3dcc775d00fa8ecb740c26a8d0",
       "game/scripts/coop_panel.gd": "783facf44fffafe71bf5b1c3c94fe6419a8ffd46c540c800fbf23755d7b854fb",
-      "game/scripts/coop_session.gd": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28",
+      "game/scripts/coop_session.gd": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c",
       "game/scripts/costume_art_v04.gd": "c7fb26dd58cbdeb98d091017231638093f610c3bd16aeccfcd8ab92776a799f5",
       "game/scripts/damage_numbers.gd": "c29bccbecf485f5cd93137b6836e5c7d965ff5fc43f5c6fe3736a249f730bada",
       "game/scripts/danger_hud.gd": "ddf8ab535b9e1e7fc99882e38b723313bdb585a7c4d09f4adc616bb09c120a4e",
@@ -375479,10 +375544,10 @@
       "game/scripts/expedition_brief.gd": "a327c71f56b45eef45ee3a48c9e5bfc9890bc6ac1b7dafba3f8183c4d814b44d",
       "game/scripts/expedition_brief_panel.gd": "ed6d8543728c206a82d2609473e76b0b5813f2a20b037e1dfaa791db26440261",
       "game/scripts/expedition_environment.gd": "d6496a86b43854afb2dfe4d2e5865927a11b933c305ee481cb6e203cc4e59a60",
-      "game/scripts/expedition_goal_panel.gd": "43acb3cf93360416f19236fbf5b7cde816788ce8b7db453b44d3097027fafbdd",
-      "game/scripts/expedition_goals.gd": "f12167d535f8a7ea525a8131a6b7f7e565a8a535a3d67d0865031f4c8c506d6e",
+      "game/scripts/expedition_goal_panel.gd": "37d408c6dd112c49b591694ca4aa85ab428b3ec465a571a14674a5b57951acbb",
+      "game/scripts/expedition_goals.gd": "e4fa26a025ece167cff5ff6531208e25a8a486be3f72d93c75d618c7bb9c6dac",
       "game/scripts/expedition_hud_chrome.gd": "5c5b3cd98c8ff9699a14ca01ddd3496ab437fedfe59c7a3dbed42b4a42342b98",
-      "game/scripts/expedition_journal.gd": "92eb4f012159891a4e1b43728d48296606b96c6d16450ec8273b1c770fd2e36c",
+      "game/scripts/expedition_journal.gd": "ae0dfe6fc081dd4a60b56f9ba18e267372721135131a99538d2fd074e9afc343",
       "game/scripts/expedition_report.gd": "239e158dd25f84a7b1ce55793b9f470b6a96d17080b9a66568badfe67bdf6b7c",
       "game/scripts/expedition_risk.gd": "0d6b14f91de60981b5fa60c65648ea92b84957719df15b77185150076422701e",
       "game/scripts/exploration_challenge.gd": "adfc3b2c93066a5aaa5c1ed7d979d6145e97a027dc64165d1ce40e3bf815fda1",
@@ -375494,7 +375559,7 @@
       "game/scripts/export_capture_v052.gd": "bc00f39a0e1bab26bb0216473066c686bed7e2dc3396ca1a2f8efd37d2788595",
       "game/scripts/floor_tile_art_v04.gd": "7887397b556f154681880d6cb16ad056ed8a5e8df31972fe14ce011e57597f40",
       "game/scripts/forest_environment.gd": "6d38522a0d7c3fb4f7a884150c1e5d4ab4dc3db8a5b4e3a82aa78991b0aea283",
-      "game/scripts/game_database.gd": "ac8fa655dd1ed26e9660752c44c9ed75fea81a694fcf85b274faf4a83d7cd1f3",
+      "game/scripts/game_database.gd": "37270a76c1d1e87776cda15504a3a344920fb060fd72ce853ed9ce256cecf7c3",
       "game/scripts/game_options.gd": "a720e36acc747477f1a76d28d4b76b6736057cef19cfc69fac1d67ae36b4e641",
       "game/scripts/gat_art.gd": "bbe9d36c960e12bfb78f001adb24b0735df7ee2ff95d8cf19938bdde1be8e936",
       "game/scripts/gat_catalog.gd": "1db12000c252f0b750f4ba49f6158a69264fc4a963f06e63aa3d0316fac9f1ee",
@@ -375530,6 +375595,7 @@
       "game/scripts/portrait_frame.gd": "4bcfc5d6a0185f3b29aa5c27c13090a544a33d5b9833c8be3224b0579ae4807b",
       "game/scripts/prepared_art_v05.gd": "b2b55ed83be9f0f4b781153d4d3272864d4ff12a7e69b400ef216529785fe79c",
       "game/scripts/progression.gd": "57f842deae7215cb3eefce8fe8f20938769da9c38d853012c7f4be2c52db2219",
+      "game/scripts/research_journey.gd": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8",
       "game/scripts/service_quote.gd": "89471e72c80e679e954396768a148e18dba036f4bf633406fbb5d1f988b46739",
       "game/scripts/settings_panel.gd": "d442097b2e1beda0b2448960fe6ad9fb63416c22984b352d554f01b3edc83f09",
       "game/scripts/simulation.gd": "0ae70ab911dd9b4e171e4db32e196c7dabfbd7d282ac9928f2c1ec223a3e1e91",
@@ -375552,9 +375618,9 @@
       "game/scripts/telegraph_priority.gd": "be1e22cbc69b4610932c01187ca96355c135f85ef12326929271b6dc6ae8d6ab",
       "game/scripts/title_screen.gd": "fa13b3f9724eef0d50b0f8ec63563a602b4c15691ff1606bc68cb3aa1e1f15dd",
       "game/scripts/town_operations.gd": "02f134a53fa3ff71c66b477871c431b31f166541b7f95ea7a4d03d16b94a27f8",
-      "game/scripts/town_panel.gd": "43093b3f5caff72a13d081bc8d19530f41d747f184f084a71541cb32eaaa6790",
+      "game/scripts/town_panel.gd": "2d49f1d94bb65b19f0472d1a3c73dbe9ab699ab6c7ff6dab1f532375ad2bfc7d",
       "game/scripts/town_research.gd": "d013a0bd705f469cb3f384b7d42ab6186f2522c4956f66a0b58cee1be33984ba",
-      "game/scripts/town_research_panel.gd": "dc1e3763dce4ff6e8dc1ff19598b9dcf0af511ea438c7254846a0f7e13748fcf",
+      "game/scripts/town_research_panel.gd": "ab0a27c62d108c4d22a486de12ec7b822a45f3a3851175654e070c21390faa83",
       "game/scripts/town_services.gd": "7759102023e91b2be35c652120a8f91d8594cf165e0c2bec1a4a96b769913f81",
       "game/scripts/town_visitors.gd": "ee7b7f7185783504ae5597da3dde1838e90ddf319d2c5be0733e6ecc47536f13",
       "game/scripts/training_art.gd": "aa70f36f97e8868db842853e0df811e0098a773aadcc89adb63c8728343f5741",
@@ -375572,7 +375638,7 @@
       "game/shaders/visible_ground.gdshader": "20f6418fa568242061969cf26af4a4037378176b36ab1942c333a9168e5e08c5",
       "tools/art_registry.py": "30cb1eb8ac1b0fbb9251f3e7c9f316d5164a47d9dd2c1da6f2de84d67ff245b8",
       "tools/build_database.py": "fd025c4756e771af4967872913972d2086ba12139030e5f8866284ba138ed68c",
-      "tools/game_db_rules.py": "4b601a42e85d8e4fdf1905c5ee85fa07a4759e755a51420f67c69d71fc9bcb98",
+      "tools/game_db_rules.py": "c8c77508be0eebd13087933356d439c1962f3e74ebebc28fd2496709b1411b2a",
       "tools/prepare_render_cache.py": "021d772952dc811c487dad30b2047e94e8c234038a210ffcc3cd317a1c9cd224"
     },
     "tactical_tool_source_rules": [

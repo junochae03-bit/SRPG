@@ -1211,8 +1211,8 @@
   },
   {
     "path": "game/data/codex-v053.bin",
-    "bytes": 467312,
-    "sha256": "6ab661f673922ba36be0fe08ad322b6c6e87c6feaa8e6a792f7902381e035f11"
+    "bytes": 468083,
+    "sha256": "7d5967e269b6f390c1e01e440c3fa1445f58e6a3e10258089c55e5e11c24dc7c"
   },
   {
     "path": "game/data/content_names.json",
@@ -1387,7 +1387,7 @@
   {
     "path": "game/scripts/coop_session.gd",
     "bytes": 22722,
-    "sha256": "84cb7bd444b11c0c9171c63e34da2b53510d0201ca886cae9d62ff2178e94d28"
+    "sha256": "3ec1660e297a3541808e749c57e666403c1329766081daac70dee417cb17358c"
   },
   {
     "path": "game/scripts/costume_art_v04.gd",
@@ -1481,13 +1481,13 @@
   },
   {
     "path": "game/scripts/expedition_goal_panel.gd",
-    "bytes": 3230,
-    "sha256": "43acb3cf93360416f19236fbf5b7cde816788ce8b7db453b44d3097027fafbdd"
+    "bytes": 3481,
+    "sha256": "37d408c6dd112c49b591694ca4aa85ab428b3ec465a571a14674a5b57951acbb"
   },
   {
     "path": "game/scripts/expedition_goals.gd",
-    "bytes": 12100,
-    "sha256": "f12167d535f8a7ea525a8131a6b7f7e565a8a535a3d67d0865031f4c8c506d6e"
+    "bytes": 12891,
+    "sha256": "e4fa26a025ece167cff5ff6531208e25a8a486be3f72d93c75d618c7bb9c6dac"
   },
   {
     "path": "game/scripts/expedition_hud_chrome.gd",
@@ -1496,8 +1496,8 @@
   },
   {
     "path": "game/scripts/expedition_journal.gd",
-    "bytes": 3825,
-    "sha256": "92eb4f012159891a4e1b43728d48296606b96c6d16450ec8273b1c770fd2e36c"
+    "bytes": 4053,
+    "sha256": "ae0dfe6fc081dd4a60b56f9ba18e267372721135131a99538d2fd074e9afc343"
   },
   {
     "path": "game/scripts/expedition_report.gd",
@@ -1556,8 +1556,8 @@
   },
   {
     "path": "game/scripts/game_database.gd",
-    "bytes": 32966,
-    "sha256": "ac8fa655dd1ed26e9660752c44c9ed75fea81a694fcf85b274faf4a83d7cd1f3"
+    "bytes": 33060,
+    "sha256": "37270a76c1d1e87776cda15504a3a344920fb060fd72ce853ed9ce256cecf7c3"
   },
   {
     "path": "game/scripts/game_options.gd",
@@ -1735,6 +1735,11 @@
     "sha256": "57f842deae7215cb3eefce8fe8f20938769da9c38d853012c7f4be2c52db2219"
   },
   {
+    "path": "game/scripts/research_journey.gd",
+    "bytes": 6612,
+    "sha256": "c53e0d53ea0266da00a199fa36c9ca96b09b000eb745fd34b279a625b879b1a8"
+  },
+  {
     "path": "game/scripts/service_quote.gd",
     "bytes": 5251,
     "sha256": "89471e72c80e679e954396768a148e18dba036f4bf633406fbb5d1f988b46739"
@@ -1846,8 +1851,8 @@
   },
   {
     "path": "game/scripts/town_panel.gd",
-    "bytes": 32271,
-    "sha256": "43093b3f5caff72a13d081bc8d19530f41d747f184f084a71541cb32eaaa6790"
+    "bytes": 32837,
+    "sha256": "2d49f1d94bb65b19f0472d1a3c73dbe9ab699ab6c7ff6dab1f532375ad2bfc7d"
   },
   {
     "path": "game/scripts/town_research.gd",
@@ -1856,8 +1861,8 @@
   },
   {
     "path": "game/scripts/town_research_panel.gd",
-    "bytes": 7193,
-    "sha256": "dc1e3763dce4ff6e8dc1ff19598b9dcf0af511ea438c7254846a0f7e13748fcf"
+    "bytes": 9103,
+    "sha256": "ab0a27c62d108c4d22a486de12ec7b822a45f3a3851175654e070c21390faa83"
   },
   {
     "path": "game/scripts/town_services.gd",

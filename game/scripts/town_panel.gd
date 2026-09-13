@@ -96,8 +96,16 @@ func open(key:String):
 	facility=key;selected_item="";selected_index=0;shop_mode="buy";selected_zone="forest";last_receipt="";receipt_success=false;quantity=1;product_scroll_value=0
 	target_quantity=0
 	selected_floor=int(player().get("highest_floor",1));chapter=int((selected_floor-1)/10)
+	if key=="portal":
+		var goal=preload("res://scripts/expedition_goals.gd").describe(player())
+		if not goal.is_empty():selected_floor=clampi(int(goal.floor),1,int(player().highest_floor));chapter=int((selected_floor-1)/10)
 	operation={"smith":"upgrade","shop":"buy","alchemy":"potion","guild":"accept","inn":"rest","portal":"travel","costume":"buy","training":"training_reset"}[key]
 	if key=="inn":operation=TownOperations.DEFAULT_INN_OPERATION
+	var personal_goal=player().get("expedition_goal",{})
+	if personal_goal.get("kind","")=="research" and int(personal_goal.stage)<3:
+		var work=preload("res://scripts/research_journey.gd").work_status(player(),personal_goal)
+		if work.facility==key and work.operation=="ore":operation="ore"
+		elif personal_goal.facility==key:research_mode=true
 	if key=="costume":shop_mode="costume"
 	if key=="smith":
 		var items=smith_items(player(),operation)
